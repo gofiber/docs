@@ -85,7 +85,7 @@ app.Post("/:value", func(c *fiber.Ctx) {
 app.Get("/:value?", func(c *fiber.Ctx) {
   if c.Params("value") != "" {
     c.Send("Get request with value: " + c.Params("Value"))
-    return // => Post request with value: hello world
+    return // => Get request with value: hello world
   }
   c.Send("Get request without value")
 })
