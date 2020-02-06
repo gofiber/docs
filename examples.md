@@ -137,4 +137,4 @@ func main() {
 }
 ```
 
-_Caught a mistake? [Edit this page on GitHub!](https://github.com/gofiber/fiber/blob/master/docs/examples.md)_
+_Caught a mistake? [Edit this page on GitHub!](https://github.com/gofiber/docs/blob/master/examples.md)_

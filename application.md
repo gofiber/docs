@@ -223,4 +223,4 @@ if err != nil {
 fmt.Println(body)
 ```
 
-_Caught a mistake? [Edit this page on GitHub!](https://github.com/gofiber/fiber/blob/master/docs/application.md)_
+_Caught a mistake? [Edit this page on GitHub!](https://github.com/gofiber/docs/blob/master/application.md)_
