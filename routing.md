@@ -82,7 +82,7 @@ Functions that are designed to make changes to the request or response are calle
 
 Here is a simple example of a middleware function that sets some response headers when a request to the app passes through it.
 
-If you are not sure when to use **All()** vs **Use()**, read about the [Methods API here](/application/#methods)
+If you are not sure when to use **All()** vs **Use()**, read about the [Methods API here](/application?id=methods)
 
 ```go
 app := fiber.New()

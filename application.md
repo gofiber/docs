@@ -202,44 +202,32 @@ app.Listen(443, "server.crt", "server.key")
 
 #### Test
 
-FakeRequest is used for testing your application and package internals. You can send a http request locally without listening on a port. This is super handy to write simple and automated tests for your app.
+Test is used for testing your application and package internals. You can send a http request locally without listening on a port. This is super handy to write simple and automated tests for your app.
 
 ```go
 // Function signature
-app.Test(req string) (string, error)
-app.Test(req *http.Request) (string, error)
+app.Test(req *http.Request) (*http.Response, error)
 
-// Example
-app := New()
-app.Get("/", func(c *Ctx) {
-  fmt.Println(c.BaseURL()) // => http://google.com
-})
-// app.Listen(8080) // Disable if testing
 
-// Send fake request
-body, err := app.Test("GET / HTTP/1.1\r\nHost: google.com\r\n\r\n")
-if err != nil {
-  panic(err)
-}
-fmt.Println(body)
-```
-
-```go
 // Build req string with http.Request
 app := New()
 app.Get("/", func(c *Ctx) {
   fmt.Println(c.BaseURL()) // => http://google.com
+  fmt.Println(c.Get("X-Custom-Header")) // => hi
 })
 // app.Listen(8080) // Disable if testing
 
 req, _ := http.NewRequest("GET", "http://google.com", nil)
 req.Header.Set("X-Custom-Header", "hi")
 
-body, err := app.Test(req)
+resp, err := app.Test(req)
 if err != nil {
   panic(err)
 }
-fmt.Println(body)
+if resp.StatusCode == 200 {
+  body, _ := ioutil.ReadAll(resp.Body)
+  fmt.Println(string(body))
+}
 ```
 
 _Caught a mistake? [Edit this page on GitHub!](https://github.com/gofiber/docs/blob/master/application.md)_

@@ -193,6 +193,7 @@ The following example shows how to use the body function.
 // Function signature
 c.Body() string
 c.Body(key string) string
+c.Body(key []byte) string
 c.Body(func(key value string)) func(string, string)
 
 // Example
