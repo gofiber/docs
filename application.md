@@ -200,13 +200,14 @@ app.Listen("127.0.0.1:8080")
 app.Listen(443, "server.crt", "server.key")
 ```
 
-#### FakeRequest
+#### Test
 
 FakeRequest is used for testing your application and package internals. You can send a http request locally without listening on a port. This is super handy to write simple and automated tests for your app.
 
 ```go
 // Function signature
-app.FakeRequest(rawHTTP string) (string, error)
+app.Test(req string) (string, error)
+app.Test(req *http.Request) (string, error)
 
 // Example
 app := New()
@@ -216,7 +217,25 @@ app.Get("/", func(c *Ctx) {
 // app.Listen(8080) // Disable if testing
 
 // Send fake request
-body, err := app.FakeRequest("GET / HTTP/1.1\r\nHost: google.com\r\n\r\n")
+body, err := app.Test("GET / HTTP/1.1\r\nHost: google.com\r\n\r\n")
+if err != nil {
+  panic(err)
+}
+fmt.Println(body)
+```
+
+```go
+// Build req string with http.Request
+app := New()
+app.Get("/", func(c *Ctx) {
+  fmt.Println(c.BaseURL()) // => http://google.com
+})
+// app.Listen(8080) // Disable if testing
+
+req, _ := http.NewRequest("GET", "http://google.com", nil)
+req.Header.Set("X-Custom-Header", "hi")
+
+body, err := app.Test(req)
 if err != nil {
   panic(err)
 }
