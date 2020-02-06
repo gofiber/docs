@@ -208,22 +208,19 @@ Test is used for testing your application and package internals. You can send a 
 // Function signature
 app.Test(req *http.Request) (*http.Response, error)
 
-
-// Build req string with http.Request
+// Example
 app := New()
 app.Get("/", func(c *Ctx) {
   fmt.Println(c.BaseURL()) // => http://google.com
   fmt.Println(c.Get("X-Custom-Header")) // => hi
 })
-// app.Listen(8080) // Disable if testing
 
+// http.Request
 req, _ := http.NewRequest("GET", "http://google.com", nil)
 req.Header.Set("X-Custom-Header", "hi")
-
-resp, err := app.Test(req)
-if err != nil {
-  panic(err)
-}
+// http.Response
+resp, _ := app.Test(req)
+// Do something with results
 if resp.StatusCode == 200 {
   body, _ := ioutil.ReadAll(resp.Body)
   fmt.Println(string(body))
