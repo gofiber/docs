@@ -657,7 +657,7 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Next()
 })
 app.Get("/", func(c *fiber.Ctx) {
-  if c.Locals("user") != "admin" {
+  if c.Locals("user") == "admin" {
     c.Status(200).Send("Welcome admin!")
   } else {
     c.SendStatus(403)
