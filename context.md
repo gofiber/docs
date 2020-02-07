@@ -1070,7 +1070,7 @@ c.Subdomains() []string
 // Example
 // Host: "tobi.ferrets.example.com"
 app.Get("/", func(c *fiber.Ctx) {
-  c.Subdomains(200)
+  c.Subdomains()
   // => ["ferrets", "tobi"]
 })
 ```
