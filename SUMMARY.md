@@ -1,8 +1,8 @@
 # Table of contents
 
 * [📖  Getting started](README.md)
-* [📝  Application](documentation/application.md)
-* [🎯  Context](documentation/context.md)
+* [🚀  Application](application.md)
+* [🧠  Context](context.md)
 * [🔌  Routing](documentation/routing.md)
 * [🤖  Benchmarks](extra/benchmarks.md)
 
