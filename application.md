@@ -4,7 +4,7 @@ description: The app instance conventionally denotes the Fiber application.
 
 # 🚀  Application
 
-### New
+## New
 
 Creates an new Fiber instance named "**app**".
 
@@ -16,7 +16,7 @@ app := fiber.New()
 app.Listen(8080)
 ```
 
-### Listen
+## Listen
 
 Binds and listens for connections on the specified address. This can be a `int` for port or `string` for address.
 
@@ -73,7 +73,7 @@ app.All(...)
 app.Use(...)
 ```
 
-## Settings & Options
+## Settings
 
 ### Engine
 
