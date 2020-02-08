@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Getting startedd](README.md)
+* [Getting started](README.md)
 * [Application](application.md)
 * [Context](context.md)
 * [Routing](routing.md)
