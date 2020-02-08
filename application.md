@@ -1,8 +1,6 @@
----
-description: The app instance conventionally denotes the Fiber application.
----
-
 # Application
+
+The app instance conventionally denotes the Fiber application.
 
 ## New
 
