@@ -940,8 +940,8 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-Fiber also provides raw Send methods like `SendBytes` & `SendString` .  
-Use this if you do not want type assertion, it is recommended for better performance.
+Fiber also provides raw `Send` methods like `SendBytes` & `SendString` .  
+Use this if you do not need type assertion, it is recommended for better performance.
 
 ```go
 // Function signature
@@ -1135,7 +1135,8 @@ app.Get("/", func(c *fiber.Ctx) {
 
   c.Write(123)
   // => "Hello, World! 123"
-  // Send sets the body, and does not append
+  
+  // Send sets the body, and does not append like Write
   c.Send("My name is Jeff")
   // => "My name is Jeff"
 })
