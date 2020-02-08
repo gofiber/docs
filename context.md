@@ -479,7 +479,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## IP
 
-Contains the remote IP address of the request.
+Returns the remote IP address of the request.
 
 ```go
 // Function signature
@@ -494,7 +494,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## IPs
 
-contains an array of IP addresses specified in the X-Forwarded-For request header.
+Returns an array of IP addresses specified in the X-Forwarded-For request header.
 
 ```go
 // Function signature
@@ -510,7 +510,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Is
 
-Returns the matching content type if the incoming request’s “Content-Type” HTTP header field matches the MIME type specified by the type parameter. If the request has no body, returns false.
+Returns the matching content type if the incoming request’s `Content-Type` HTTP header field matches the MIME type specified by the type parameter. If the request has no body, it returns false.
 
 ```go
 // Function signature
@@ -532,10 +532,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## JSON
 
-Converts any interface or string to json using [Jsoniter](https://github.com/json-iterator/go), this function also sets the content header to application/json.
+Converts any interface or string to json using [Jsoniter](https://github.com/json-iterator/go), this method also sets the content header to `application/json`.
 
 ```go
-// Function signature
+// Method signature
 c.JSON(v interface{}) error
 
 // Example
