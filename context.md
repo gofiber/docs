@@ -297,16 +297,12 @@ Sets cookie with **name** and **value**.
 
 #### Method signature
 
-{% hint style="danger" %}
- Third parameter \(`options`\) is **not** implemented yet.
-{% endhint %}
-
 ```go
 c.Cookie(name, value string)
 c.Cookie(name, value string, options *Cookie{})
 ```
 
-#### Method options
+#### Cookie struct
 
 {% hint style="warning" %}
 `Expire` option will **not** be used, if `MaxAge` is set.
@@ -324,7 +320,7 @@ c.Cookie(name, value string, options *Cookie{})
 }
 ```
 
-#### Example usage
+#### Example
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
