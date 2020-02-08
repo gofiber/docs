@@ -324,21 +324,17 @@ c.Cookie(name, value string, options *Cookie{})
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  // Set cookie without options:
-  c.Cookie("name", "john") // => Cookie: name=john;
+  c.Cookie("name", "john") 
+  // => Cookie: name=john;
 
-  // Set cookie options:
-  options := &fiber.Cookie{
+  c.Cookie("name", "john", &fiber.Cookie{
     MaxAge:   60,
     Domain:   "example.com",
     Path:     "/",
     HttpOnly: true,
     Secure:   true,
     SameSite: "lax",
-  }
-  
-  // Create cookie with options:
-  c.Cookie("name", "john", options)
+  })
   // => name=john; max-age=60; domain=example.com; path=/; HttpOnly; secure; SameSite=Lax
 
 })
