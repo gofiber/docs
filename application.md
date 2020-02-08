@@ -4,125 +4,67 @@ description: The app instance conventionally denotes the Fiber application.
 
 # 🚀  Application
 
-## New
+## App structure
 
-Creates an new Fiber instance that we named `app`.
-
-```go
-// Create new Fiber instance
-app := fiber.New()
-
-// Application logic here...
-
-// Start server on http://localhost:8080
-app.Listen(8080)
-```
-
-## Server
-
-Fiber by default does not send a [Server header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Server), but you can enable this by changing the server value.
+There is a simple **Fiber** app structure:
 
 ```go
-app := fiber.New()
+package main
 
-app.Server = "Windows 95" // => Server: Windows 95
-
-app.Listen(8080)
+func main() {
+    // START => Create new Fiber instance
+    app := fiber.New()
+    
+    // CONTINUE => Place here your application logic, routes,
+    // middlewares, settings, options and overrites...
+    
+    // END => Start server on localhost port 8080
+    app.Listen(8080)
+}
 ```
 
-## Banner
+### New
 
-When you launch your Fiber application, the console will print a banner containing the package version and listening port. This is enabled by default, disable it by setting `Banner` to `false`.
-
-![](https://i.imgur.com/96l7g9l.png)
+Create a new **Fiber** instance with name `app`:
 
 ```go
 app := fiber.New()
-
-app.Banner = false // Hide banner
-
-app.Listen(8080)
 ```
 
-## Engine
+### Listen
 
-You can change the `Fasthttp` [server settings](https://github.com/valyala/fasthttp/blob/master/server.go#L150) via the Fiber instance. These settings need to be set before you start the [Listen](application.md#listen) method.
-
-{% hint style="warning" %}
-Only change these settings, if you know **what** __your are doing.
-{% endhint %}
-
-```go
-// Create Fiber instance
-app := fiber.New()
-
-// These are the default Fasthttp settings
-app.Engine.Concurrency = 256 * 1024
-app.Engine.DisableKeepAlive = false
-app.Engine.ReadBufferSize = 4096
-app.Engine.WriteBufferSize = 4096
-app.Engine.ReadTimeout = 0
-app.Engine.WriteTimeout = 0
-app.Engine.IdleTimeout = 0
-app.Engine.MaxConnsPerIP = 0
-app.Engine.MaxRequestsPerConn = 0
-app.Engine.TCPKeepalive = false
-app.Engine.TCPKeepalivePeriod = 0
-app.Engine.MaxRequestBodySize = 4 * 1024 * 1024
-app.Engine.ReduceMemoryUsage = false
-app.Engine.GetOnly = false
-app.Engine.DisableHeaderNamesNormalizing = false
-app.Engine.SleepWhenConcurrencyLimitsExceeded = 0
-app.Engine.NoDefaultContentType = false
-app.Engine.KeepHijackedConns = false
-
-// Start your app
-app.Listen(8080)
-```
-
-## Prefork
-
-The `Prefork` option enables use of the [**SO\_REUSEPORT**](https://lwn.net/Articles/542629/) socket option, which is available in newer versions of many operating systems, including **DragonFly BSD** and **Linux** \(kernel version **3.9** and later\). This will spawn multiple Go processes listening on the same port.
-
-**NGINX** has a great article about [Socket Sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/), these pictures are taken from the same article.  
-
-
-![Schema, when Prefork disabled \(by default\)](https://cdn.wp.nginx.com/wp-content/uploads/2015/05/Slack-for-iOS-Upload-1-e1432652484191.png)
-
-![Schema, when Prefork enabled](https://cdn.wp.nginx.com/wp-content/uploads/2015/05/Slack-for-iOS-Upload-e1432652376641.png)
-
-You can enable the `Prefork` feature by adding the `-prefork` flag.
-
-```bash
-./server -prefork
-```
-
-Or set the `Prefork` option  to `true`.
-
-```go
-app := fiber.New()
-
-app.Prefork = true // Prefork enabled
-
-app.Get("/", func(c *fiber.Ctx) {
-  c.Send(fmt.Sprintf("Hi, I'm worker #%v", os.Getpid()))
-  // => Hi, I'm worker #16858
-  // => Hi, I'm worker #16877
-  // => Hi, I'm worker #16895
-})
-
-app.Listen(8080)
-```
-
-## Methods
-
-Routes an HTTP request, where METHOD is the [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) of the request, such as GET, PUT, POST, and so on capitalized. Thus, the actual methods are `app.Get()`, `app.Post()`, `app.Put()` and so on.
+Binds and listens for connections on the specified address. This can be a **INT** for port or **STRING** for address.
 
 #### Function signature
 
 ```go
-app.METHOD(handler func(*Ctx))
-app.METHOD(path string, handler func(*Ctx))
+app.Listen(address interface{}, tls ...string)
+```
+
+#### Example usage
+
+```go
+app.Listen(8080)
+app.Listen("8080")
+app.Listen(":8080")
+app.Listen("127.0.0.1:8080")
+```
+
+To enable **TLS/HTTPS** you can append your **cert** and **key** path:
+
+```go
+app.Listen(443, "server.crt", "server.key")
+```
+
+## HTTP Methods
+
+Routes an **HTTP** request, where **METHOD** is the [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) of the request.
+
+#### Function signature
+
+```go
+app.METHOD(handler func(*Ctx)) // without path
+app.METHOD(path string, handler func(*Ctx)) // with path
 ```
 
 #### Example usage
@@ -146,10 +88,95 @@ app.All(...)
 app.Use(...)
 ```
 
-## Static
+## Settings & Options
 
-To serve static files such as images, CSS files, and JavaScript files, you can use the `Static` method.  
-By default this method will send `index.html` files in response to a request on a directory.
+### Engine
+
+You can change the default `Fasthttp` [server settings](https://github.com/valyala/fasthttp/blob/master/server.go#L150) via the **Fiber** instance. These settings need to be set **before** [Listen](application.md#listen) method.
+
+{% hint style="warning" %}
+Only change these settings, if you know **what** __your are doing.
+{% endhint %}
+
+```go
+// These are the default Fasthttp settings
+app.Engine.Concurrency = 256 * 1024
+app.Engine.DisableKeepAlive = false
+app.Engine.ReadBufferSize = 4096
+app.Engine.WriteBufferSize = 4096
+app.Engine.ReadTimeout = 0
+app.Engine.WriteTimeout = 0
+app.Engine.IdleTimeout = 0
+app.Engine.MaxConnsPerIP = 0
+app.Engine.MaxRequestsPerConn = 0
+app.Engine.TCPKeepalive = false
+app.Engine.TCPKeepalivePeriod = 0
+app.Engine.MaxRequestBodySize = 4 * 1024 * 1024
+app.Engine.ReduceMemoryUsage = false
+app.Engine.GetOnly = false
+app.Engine.DisableHeaderNamesNormalizing = false
+app.Engine.SleepWhenConcurrencyLimitsExceeded = 0
+app.Engine.NoDefaultContentType = false
+app.Engine.KeepHijackedConns = false
+```
+
+### Prefork
+
+The `Prefork` option enables use of the [**SO\_REUSEPORT**](https://lwn.net/Articles/542629/) socket option, which is available in newer versions of many operating systems, including **DragonFly BSD** and **Linux** \(kernel version **3.9** and later\). This will spawn multiple Go processes listening on the same port.
+
+**NGINX** has a great article about [Socket Sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/), these pictures are taken from the same article.  
+
+
+![Schema, when Prefork disabled \(by default\)](https://cdn.wp.nginx.com/wp-content/uploads/2015/05/Slack-for-iOS-Upload-1-e1432652484191.png)
+
+![Schema, when Prefork enabled](https://cdn.wp.nginx.com/wp-content/uploads/2015/05/Slack-for-iOS-Upload-e1432652376641.png)
+
+You can enable the `Prefork` feature by adding the `-prefork` flag:
+
+```bash
+./server -prefork
+```
+
+Or set the `Prefork` option  to `true`:
+
+```go
+app.Prefork = true // Prefork enabled
+
+app.Get("/", func(c *fiber.Ctx) {
+  c.Send(fmt.Sprintf("Hi, I'm worker #%v", os.Getpid()))
+  // => Hi, I'm worker #16858
+  // => Hi, I'm worker #16877
+  // => Hi, I'm worker #16895
+})
+```
+
+### Server
+
+Fiber by default does not send a [Server header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Server), but you can enable this by changing the server value.
+
+```go
+app.Server = "Windows 95" // => Server: Windows 95
+```
+
+### Banner
+
+When you launch your Fiber application, console will print a banner containing package version and listening port. _This is enabled by default._
+
+![](.gitbook/assets/screenshot-2020-02-08-at-13.18.27.png)
+
+To disable it, set `Banner` option to `false`:
+
+```go
+app.Banner = false // Hide banner
+```
+
+## Serve static files
+
+To serve static files such as images, CSS and JavaScript files, you can use the `Static` method.
+
+### Static
+
+By default, this method will send `index.html` files in response to a request on a directory.
 
 #### Function signature
 
@@ -195,31 +222,6 @@ app.Static("/static", "./public")
 
 Now, you can load the files that are in the public directory from the `/static` path prefix.
 
-## Listen
-
-Binds and listens for connections on the specified address. This can be a **INT** for port or **STRING** for address. To enable **TLS/HTTPS** you can append your **cert** and **key** path.
-
-#### Function signature
-
-```go
-app.Listen(address interface{}, tls ...string)
-```
-
-#### Example usage
-
-```go
-app.Listen(8080)
-app.Listen("8080")
-app.Listen(":8080")
-app.Listen("127.0.0.1:8080")
-```
-
-Enable TLS/HTTPS:
-
-```go
-app.Listen(443, "server.crt", "server.key")
-```
-
 ## Test
 
 Test is used for testing your application and package internals. You can send a HTTP request locally.  
@@ -234,9 +236,6 @@ app.Test(req *http.Request) (*http.Response, error)
 #### Example usage
 
 ```go
-// Create new Fiber instance
-app := fiber.New()
-
 // Create route with GET method for test
 app.Get("/", func(c *Ctx) {
   fmt.Println(c.BaseURL()) // => http://google.com
