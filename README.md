@@ -4,7 +4,7 @@
 
 [**Fiber**](https://github.com/gofiber/fiber) is an [Express.js](https://expressjs.com/en/4x/api.html) styled HTTP web framework implementation running on [Fasthttp](https://github.com/valyala/fasthttp), the **fastest** HTTP engine for Go \(Golang\). The package make use of **similar framework convention** as they are in Express.
 
-People switching from [Node.js](https://nodejs.org/en/about/) to [Go](https://golang.org/doc/) often end up in a bad learning curve to start building their webapps, this project is meant to **ease** things up for **fast** development, but with **zero memory allocation** and **performance** in mind.
+People switching from [Node.js](https://nodejs.org/en/about/) to [Go](https://golang.org/doc/)**ease** things up for **fast** development, but with **zero memory allocation** and **performance** in mind.
 
 ## Installing
 
@@ -61,7 +61,7 @@ app.Method(path string, func(*fiber.Ctx))
 * `app` is an instance of Fiber
 * `Method` is an [HTTP request method](https://github.com/gofiber/docs/tree/34729974f7d6c1d8363076e7e88cd71edc34a2ac/application?id=methods/README.md), in capitalization: `Get`, `Put`, `Post` etc
 * `path` is a path on the server.
-* `func(*fiber.Ctx)` is a callback function containing the [Context](https://fiber.wiki/context) executed when the route is matched.
+* `func(*fiber.Ctx)` is a callback function containing the [Context](https://fiber.wiki/context) executed when the route is matched. often end up in a bad learning curve to start building their web apps, this project is meant to 
 
 This tutorial assumes that an instance of fiber named app is created and the server is running. If you are not familiar with creating an app and starting it, see the [Hello world]() example.
 
