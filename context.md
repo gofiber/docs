@@ -9,23 +9,15 @@ description: >-
 
 ## Accepts
 
-Checks if the specified content types are acceptable.
+Checks if the specified extensions or content types are acceptable, based on the request’s `Accept` HTTP header.
 
-{% hint style="info" %}
-Based on **Accept** HTTP header ****field of request.
-{% endhint %}
-
-#### Method signature
+#### Signature
 
 ```go
 c.Accepts(types ...string) string
 ```
 
-#### Example usage
-
-{% hint style="success" %}
-You can use file **extension** or **Content-Type** format.
-{% endhint %}
+#### Example
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -46,113 +38,99 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## AcceptsCharsets
 
-Returns the **first accepted** char set of the specified character sets.
+Checks if the specified charset is acceptable, based on the request’s `Accept-Charset` HTTP header.
 
-{% hint style="info" %}
-Based on **Accept-Charset** HTTP header field of request.
-{% endhint %}
-
-#### Method signature
+#### Signature
 
 ```go
 c.AcceptsCharsets(charsets ...string) string
 ```
 
-#### Example usage
+#### Example
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  // Single accept:
-  c.AcceptsCharsets("utf-8") // => "utf-8"
-  
-  // Multiple accepts:
-  c.AcceptsCharsets("utf-16", "iso-8859-1") // => "utf-16", "iso-8859-1"
+  // Accept-Charset: utf-8, iso-8859-1;q=0.2, utf-7;q=0.5
+  c.AcceptsCharsets("utf-8")
+  // => "utf-8"
+
+  c.AcceptsCharsets("utf-16", "iso-8859-1")
+  // => "iso-8859-1"
+
+  c.AcceptsCharsets("utf-16")
+  // => ""
 })
 ```
 
 ## AcceptsEncodings
 
-Returns the **first accepted** encoding of the specified encodings.
+Checks if the specified encoding is acceptable, based on the request’s `Accept-Encoding` HTTP header.
 
-{% hint style="info" %}
-Based on **Accept-Encoding** HTTP header field of request.
-{% endhint %}
-
-#### Method signature
+#### Signature
 
 ```go
 c.AcceptsEncodings(encodings ...string) string
 ```
 
-#### Example usage
+#### Example
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  // Single accept:
-  c.AcceptsEncodings("gzip") // => "gzip"
-  
-  // Multiple accepts:
-  c.AcceptsEncodings("compress", "br") // => "compress", "br"
+  // Accept-Encoding: gzip, compress;q=0.2
+  c.AcceptsEncodings("gzip")
+  // => "gzip"
+
+  c.AcceptsEncodings("compress", "br")
+  // => "compress"
+
+  c.AcceptsEncodings("deflate")
+  // => ""
 })
 ```
 
 ## AcceptsLanguages
 
-Returns the **first accepted** language of the specified languages.
+Checks if the specified language is acceptable, based on the request’s `Accept-Language` HTTP header.
 
-{% hint style="info" %}
-Based on **Accept-Language** HTTP header field of request.
-{% endhint %}
-
-#### Method signature
+#### Signature
 
 ```go
 c.AcceptsLanguages(languages ...string) string
 ```
 
-#### Example usage
+#### Example
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  // Single accept:
-  c.AcceptsLanguages("en") // => "en"
-  
-  // Multiple accept:
-  c.AcceptsLanguages("nl", "ru") // => "nl", "ru"
+  // Accept-Language: en;q=0.8, es, pt
+  c.AcceptsLanguages("en")
+  // => "en"
+
+  c.AcceptsLanguages("pt", "nl")
+  // => "pt"
+
+  c.AcceptsLanguages("fr")
+  // => ""
 })
 ```
 
 ## Append
 
-Appends the specified value to the **HTTP response** header field.
+Appends the specified value to the HTTP response header field. If the header is not already set, it creates the header with the specified value.
 
-{% hint style="info" %}
-If header is **not** already set, it creates with the specified value.
-{% endhint %}
-
-#### Method signature
-
-{% hint style="danger" %}
-The `values` parameter must be a **string**.
-{% endhint %}
+#### Signature
 
 ```go
 c.Append(field, values ...string)
 ```
 
-#### Example usage
+#### Example
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  // Let's check, if the Link header exist:
-  c.Get("Link") 
-  // => "", no it's not exist!
-  
-  // Append Link header with URLs:
   c.Append("Link", "http://google.com", "http://localhost")
   // => Link: http://localhost, http://google.com
   
-  // Append to exists Link header another string:
   c.Append("Link", "Test")
   // => Link: http://localhost, http://google.com, Test
 })
