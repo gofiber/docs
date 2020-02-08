@@ -9,15 +9,23 @@ description: >-
 
 ## Accepts
 
-Checks if the specified extensions or content types are acceptable, based on the request’s `Accept` HTTP header.
+Checks if the specified content types are acceptable.
 
-#### Signature
+{% hint style="info" %}
+Based on **Accept** HTTP header ****field of request.
+{% endhint %}
+
+#### Method signature
 
 ```go
 c.Accepts(types ...string) string
 ```
 
-#### Example
+#### Example usage
+
+{% hint style="success" %}
+You can use file **extension** or **Content-Type** format.
+{% endhint %}
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -38,99 +46,113 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## AcceptsCharsets
 
-Checks if the specified charset is acceptable, based on the request’s `Accept-Charset` HTTP header.
+Returns the **first accepted** char set of the specified character sets.
 
-#### Signature
+{% hint style="info" %}
+Based on **Accept-Charset** HTTP header field of request.
+{% endhint %}
+
+#### Method signature
 
 ```go
 c.AcceptsCharsets(charsets ...string) string
 ```
 
-#### Example
+#### Example usage
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  // Accept-Charset: utf-8, iso-8859-1;q=0.2, utf-7;q=0.5
-  c.AcceptsCharsets("utf-8")
-  // => "utf-8"
-
-  c.AcceptsCharsets("utf-16", "iso-8859-1")
-  // => "iso-8859-1"
-
-  c.AcceptsCharsets("utf-16")
-  // => ""
+  // Single accept:
+  c.AcceptsCharsets("utf-8") // => "utf-8"
+  
+  // Multiple accepts:
+  c.AcceptsCharsets("utf-16", "iso-8859-1") // => "utf-16", "iso-8859-1"
 })
 ```
 
 ## AcceptsEncodings
 
-Checks if the specified encoding is acceptable, based on the request’s `Accept-Encoding` HTTP header.
+Returns the **first accepted** encoding of the specified encodings.
 
-#### Signature
+{% hint style="info" %}
+Based on **Accept-Encoding** HTTP header field of request.
+{% endhint %}
+
+#### Method signature
 
 ```go
 c.AcceptsEncodings(encodings ...string) string
 ```
 
-#### Example
+#### Example usage
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  // Accept-Encoding: gzip, compress;q=0.2
-  c.AcceptsEncodings("gzip")
-  // => "gzip"
-
-  c.AcceptsEncodings("compress", "br")
-  // => "compress"
-
-  c.AcceptsEncodings("deflate")
-  // => ""
+  // Single accept:
+  c.AcceptsEncodings("gzip") // => "gzip"
+  
+  // Multiple accepts:
+  c.AcceptsEncodings("compress", "br") // => "compress", "br"
 })
 ```
 
 ## AcceptsLanguages
 
-Checks if the specified language is acceptable, based on the request’s `Accept-Language` HTTP header.
+Returns the **first accepted** language of the specified languages.
 
-#### Signature
+{% hint style="info" %}
+Based on **Accept-Language** HTTP header field of request.
+{% endhint %}
+
+#### Method signature
 
 ```go
 c.AcceptsLanguages(languages ...string) string
 ```
 
-#### Example
+#### Example usage
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  // Accept-Language: en;q=0.8, es, pt
-  c.AcceptsLanguages("en")
-  // => "en"
-
-  c.AcceptsLanguages("pt", "nl")
-  // => "pt"
-
-  c.AcceptsLanguages("fr")
-  // => ""
+  // Single accept:
+  c.AcceptsLanguages("en") // => "en"
+  
+  // Multiple accept:
+  c.AcceptsLanguages("nl", "ru") // => "nl", "ru"
 })
 ```
 
 ## Append
 
-Appends the specified value to the HTTP response header field. If the header is not already set, it creates the header with the specified value.
+Appends the specified value to the **HTTP response** header field.
 
-#### Signature
+{% hint style="info" %}
+If header is **not** already set, it creates with the specified value.
+{% endhint %}
+
+#### Method signature
+
+{% hint style="danger" %}
+The `values` parameter must be a **string**.
+{% endhint %}
 
 ```go
 c.Append(field, values ...string)
 ```
 
-#### Example
+#### Example usage
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
+  // Let's check, if the Link header exist:
+  c.Get("Link") 
+  // => "", no it's not exist!
+  
+  // Append Link header with URLs:
   c.Append("Link", "http://google.com", "http://localhost")
   // => Link: http://localhost, http://google.com
   
+  // Append to exists Link header another string:
   c.Append("Link", "Test")
   // => Link: http://localhost, http://google.com, Test
 })
@@ -659,11 +681,12 @@ app.Get("/", func(c *fiber.Ctx) {
 
 A method that stores string variables scoped to the request, and therefore available only to the routes that match the request.
 
-This is useful if you want to pass some specific values to the next middle ware.
+This is useful if you want to pass some specific values to the next middleware.
 
 ```go
 // Method signature
-c.Locals(key string, value ...interface{}) interface{}
+c.Locals(key string)
+c.Locals(key string, value interface{}) interface{}
 
 // Example
 app.Get("/", func(c *fiber.Ctx) {
@@ -840,7 +863,7 @@ app.Get("/users", func(c *fiber.Ctx) {
 
 ## Protocol
 
-Contains the request protocol string: either `http` or \(for TLS requests\) `https`.
+Contains the request protocol string: either http or \(for TLS requests\) https.
 
 ```go
 // Method signature
@@ -881,7 +904,7 @@ Planned for v2
 
 ## Redirect
 
-Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code . If not specified, status defaults to `302 Found`.
+Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code . If not specified, status defaults to `302 “Found`.
 
 ```go
 // Method signature
@@ -935,7 +958,7 @@ c.SaveFile(fh *multipart.FileHeader, path string)
 
 ## Secure
 
-A Boolean property that is `true` if a TLS connection is established.
+A Boolean property that is true if a TLS connection is established.
 
 ```go
 // Method signature
@@ -966,8 +989,8 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-Fiber also provides raw methods: `SendBytes` & `SendString` .  
-Use this if you do not need type assertion, it is recommended for faster performance.
+Fiber also provides raw `Send` methods like `SendBytes` & `SendString` .  
+Use this if you do not need type assertion, it is recommended for better performance.
 
 ```go
 // Method signature
@@ -986,7 +1009,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## SendFile
 
-Transfers the file at the given path. Sets the `Content-Type` response HTTP header field based on the filenames extension.
+Transfers the file at the given path. Sets the `Content-Type` response HTTP header field based on the filename’s extension.
 
 ```go
 // Method signature
@@ -1185,7 +1208,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## XML
 
-XML sets the header to `application/xml` and marshals your interface to XML.
+XML sets the header to `application/xml` and marshals your interface to xml.
 
 ```go
 // Method signature
