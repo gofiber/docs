@@ -16,30 +16,54 @@ app := fiber.New()
 app.Listen(8080)
 ```
 
-## Listen
+## Static
 
-Binds and listens for connections on the specified address. This can be a `int` for port or `string` for address.
+Serve static files such as images, CSS and JavaScript files, you can use the `Static` method.
+By default, this method will send `index.html` files in response to a request on a directory.
 
 #### Signature
 
 ```go
-app.Listen(address interface{}, tls ...string)
+app.Static(root string)         // => without prefix
+app.Static(prefix, root string) // => with prefix
 ```
 
 #### Example
 
-```go
-app.Listen(8080)
-app.Listen("8080")
-app.Listen(":8080")
-app.Listen("127.0.0.1:8080")
-```
-
-To enable **TLS/HTTPS** you can append your **cert** and **key** path:
+Use the following code to serve images, CSS and JavaScript files in a directory named `./public`:
 
 ```go
-app.Listen(443, "server.crt", "server.key")
+app.Static("./public")
+
+// => http://localhost:8080/hello.html
+// => http://localhost:8080/js/jquery.js
+// => http://localhost:8080/css/style.css
 ```
+
+Now, you can load the files that are in the `./public` directory.
+
+To use multiple static assets directories, call the **Static** function multiple times:
+
+```go
+app.Static("./public") // => serve files from ./public
+app.Static("./files")  // => serve files from ./files
+```
+
+{% hint style="info" %}
+Use a reverse proxy cache like [NGINX](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) to improve performance of serving static assets.
+{% endhint %}
+
+To create a virtual path prefix \(_where the path does not actually exist in the file system_\) for files that are served by the `Static` method, specify a prefix path for the static directory, as shown below:
+
+```go
+app.Static("/static", "./public")
+
+// => http://localhost:8080/static/hello.html
+// => http://localhost:8080/static/js/jquery.js
+// => http://localhost:8080/static/css/style.css
+```
+
+Now, you can load the files that are in the public directory from the `/static` path prefix.
 
 ## Methods
 
@@ -71,6 +95,31 @@ app.All(...)
 
 // Matches all methods & URLs starting with a specified path
 app.Use(...)
+```
+
+## Listen
+
+Binds and listens for connections on the specified address. This can be a `int` for port or `string` for address.
+
+#### Signature
+
+```go
+app.Listen(address interface{}, tls ...string)
+```
+
+#### Example
+
+```go
+app.Listen(8080)
+app.Listen("8080")
+app.Listen(":8080")
+app.Listen("127.0.0.1:8080")
+```
+
+To enable **TLS/HTTPS** you can append your **cert** and **key** path:
+
+```go
+app.Listen(443, "server.crt", "server.key")
 ```
 
 ## Settings
@@ -154,70 +203,19 @@ To disable it, set `Banner` option to `false`:
 app.Banner = false // Hide banner
 ```
 
-## Serve static files
-
-To serve static files such as images, CSS and JavaScript files, you can use the `Static` method.
-
-### Static
-
-By default, this method will send `index.html` files in response to a request on a directory.
-
-#### Function signature
-
-```go
-app.Static(root string)         // => without prefix
-app.Static(prefix, root string) // => with prefix
-```
-
-#### Example usage
-
-Use the following code to serve images, CSS and JavaScript files in a directory named `./public`:
-
-```go
-app.Static("./public")
-
-// => http://localhost:8080/hello.html
-// => http://localhost:8080/js/jquery.js
-// => http://localhost:8080/css/style.css
-```
-
-Now, you can load the files that are in the `./public` directory.
-
-To use multiple static assets directories, call the **Static** function multiple times:
-
-```go
-app.Static("./public") // => serve files from ./public
-app.Static("./files")  // => serve files from ./files
-```
-
-{% hint style="info" %}
-Use a reverse proxy cache like [NGINX](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) to improve performance of serving static assets.
-{% endhint %}
-
-To create a virtual path prefix \(_where the path does not actually exist in the file system_\) for files that are served by the `Static` method, specify a prefix path for the static directory, as shown below:
-
-```go
-app.Static("/static", "./public")
-
-// => http://localhost:8080/static/hello.html
-// => http://localhost:8080/static/js/jquery.js
-// => http://localhost:8080/static/css/style.css
-```
-
-Now, you can load the files that are in the public directory from the `/static` path prefix.
 
 ## Test
 
 Test is used for testing your application and package internals. You can send a HTTP request locally.  
 This method is mostly used for `_test` files, application debugging and automated tests.
 
-#### Function signature
+#### Signature
 
 ```go
 app.Test(req *http.Request) (*http.Response, error)
 ```
 
-#### Example usage
+#### Example
 
 ```go
 // Create route with GET method for test
