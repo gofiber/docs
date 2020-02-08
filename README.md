@@ -58,10 +58,10 @@ app.Method(func(*fiber.Ctx))
 app.Method(path string, func(*fiber.Ctx))
 ```
 
-* **app** is an instance of [**Fiber**]().
-* **Method** is an [HTTP request method](https://github.com/gofiber/docs/tree/34729974f7d6c1d8363076e7e88cd71edc34a2ac/application?id=methods/README.md), in capitalization: Get, Put, Post etc
-* **path string** is a path on the server.
-* **func\(\*fiber.Ctx\)** is a function containing the [Context](https://github.com/gofiber/docs/tree/34729974f7d6c1d8363076e7e88cd71edc34a2ac/context/README.md) executed when the route is matched.
+* `app` is an instance of Fiber
+* `Method` is an [HTTP request method](https://github.com/gofiber/docs/tree/34729974f7d6c1d8363076e7e88cd71edc34a2ac/application?id=methods/README.md), in capitalization: `Get`, `Put`, `Post` etc
+* `path` is a path on the server.
+* `func(*fiber.Ctx)` is a callback function containing the [Context](https://fiber.wiki/context) executed when the route is matched.
 
 This tutorial assumes that an instance of fiber named app is created and the server is running. If you are not familiar with creating an app and starting it, see the [Hello world]() example.
 
