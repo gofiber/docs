@@ -65,7 +65,7 @@ Routes an **HTTP** request, where **METHOD** is the [HTTP method](https://develo
 #### Function signature
 
 ```go
-app.METHOD(handler func(*Ctx)) // without path
+app.METHOD(handler func(*Ctx))              // without path
 app.METHOD(path string, handler func(*Ctx)) // with path
 ```
 
@@ -101,7 +101,6 @@ Only change these settings, if you know **what** __your are doing.
 {% endhint %}
 
 ```go
-// These are the default Fasthttp settings
 app.Engine.Concurrency = 256 * 1024
 app.Engine.DisableKeepAlive = false
 app.Engine.ReadBufferSize = 4096
@@ -183,7 +182,7 @@ By default, this method will send `index.html` files in response to a request on
 #### Function signature
 
 ```go
-app.Static(root string) // => without prefix
+app.Static(root string)         // => without prefix
 app.Static(prefix, root string) // => with prefix
 ```
 
@@ -204,8 +203,8 @@ Now, you can load the files that are in the `./public` directory.
 To use multiple static assets directories, call the **Static** function multiple times:
 
 ```go
-app.Static("./public")
-app.Static("./files")
+app.Static("./public") // => serve files from ./public
+app.Static("./files")  // => serve files from ./files
 ```
 
 {% hint style="info" %}
@@ -240,7 +239,7 @@ app.Test(req *http.Request) (*http.Response, error)
 ```go
 // Create route with GET method for test
 app.Get("/", func(c *Ctx) {
-  fmt.Println(c.BaseURL()) // => http://google.com
+  fmt.Println(c.BaseURL())              // => http://google.com
   fmt.Println(c.Get("X-Custom-Header")) // => hi
 })
 
