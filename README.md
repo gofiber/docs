@@ -112,11 +112,9 @@ For example, use the following code to serve images, CSS files, and JavaScript f
 
 Now, you can load the files that are in the public directory:
 
-```go
+```bash
 http://localhost:8080/hello.html
 http://localhost:8080/js/jquery.js
 http://localhost:8080/css/style.css
 ```
-
-_Caught a mistake?_ [_Edit this page on GitHub!_]()
 
