@@ -67,7 +67,7 @@ app.Method(path string, func(*fiber.Ctx))
 * `path` is a path on the server.
 * `func(*fiber.Ctx)` is a callback function containing the [Context](https://fiber.wiki/context) executed when the route is matched. often end up in a bad learning curve to start building their web apps, this project is meant to 
 
-This tutorial assumes that an instance of fiber named app is created and the server is running. If you are not familiar with creating an app and starting it, see the [Hello world]() example.
+This tutorial assumes that an instance of fiber named app is created and the server is running. If you are not familiar with creating an app and starting it, see the **Hello world** example above.
 
 The following examples illustrate defining simple routes.
 

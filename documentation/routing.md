@@ -1,8 +1,4 @@
----
-description: '- TODO: Add short description -'
----
-
-# 🔌  Routing
+# Routing
 
 ## Paths
 

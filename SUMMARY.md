@@ -2,8 +2,8 @@
 
 * [📖  Getting started](README.md)
 * [🚀  Application](application.md)
-* [🧠  Context](context.md)
-* [🔌  Routing](routing.md)
+* [🧠  Context](documentation/context.md)
+* [🔌  Routing](documentation/routing.md)
 * [🤖  Benchmarks](benchmarks.md)
 
 ## Links
