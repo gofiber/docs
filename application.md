@@ -45,14 +45,14 @@ app.Listen(443, "server.crt", "server.key")
 
 Routes an **HTTP** request, where **METHOD** is the [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) of the request.
 
-#### Function signature
+#### Signature
 
 ```go
 app.METHOD(handler func(*Ctx))              // without path
 app.METHOD(path string, handler func(*Ctx)) // with path
 ```
 
-#### Example usage
+#### Example
 
 ```go
 // Single method
