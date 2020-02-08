@@ -1,10 +1,12 @@
-# Application
+---
+description: The app instance conventionally denotes the Fiber application.
+---
 
-The app instance conventionally denotes the Fiber application.
+# Application
 
 ## New
 
-Creates an new Fiber instance that we named "**app**".
+Creates an new Fiber instance that we named `app`.
 
 ```go
 app := fiber.New()
@@ -16,7 +18,7 @@ app.Listen(8080)
 
 ## Server
 
-Fiber by default does not send a [server header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Server), but you can enable this by changing the server value.
+Fiber by default does not send a [Server header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Server), but you can enable this by changing the server value.
 
 ```go
 app := fiber.New()
@@ -29,7 +31,7 @@ app.Listen(8080)
 
 ## Banner
 
-When you launch your Fiber application, the console will print a banner containing the package version and listening port. This is enabled by default, disable it by setting the Banner value to false.
+When you launch your Fiber application, the console will print a banner containing the package version and listening port. This is enabled by default, disable it by setting `Banner` to `false`.
 
 ![](https://i.imgur.com/96l7g9l.png)
 
@@ -43,10 +45,12 @@ app.Listen(8080)
 
 ## Engine
 
-You can edit some of the Fasthttp server settings via the Fiber instance.  
-Make sure that you set these settings before calling the [Listen](application.md#listen) method. You can find the description of each value in [Fasthttp server settings](https://github.com/valyala/fasthttp/blob/master/server.go#L150)
+You can change the `Fasthttp` [server settings](https://github.com/valyala/fasthttp/blob/master/server.go#L150) via the Fiber instance.  
+These settings need to be set before you start the [Listen](application.md#listen) method.
 
-**Only change these settings if you know what you are doing.**
+{% hint style="warning" %}
+Only change these settings if you know what your are doing.
+{% endhint %}
 
 ```go
 app := fiber.New()
@@ -77,20 +81,20 @@ app.Listen(8080)
 
 ## Prefork
 
-Prefork enables use of the [**SO\_REUSEPORT**](https://lwn.net/Articles/542629/) socket option, which is available in newer versions of many operating systems, including DragonFly BSD and Linux \(kernel version 3.9 and later\). This will spawn multiple go processes listening on the same port.
+The `Prefork` option enables use of the [**SO\_REUSEPORT**](https://lwn.net/Articles/542629/) socket option, which is available in newer versions of many operating systems, including DragonFly BSD and Linux \(kernel version 3.9 and later\). This will spawn multiple go processes listening on the same port.
 
 NGINX has a great article about [Socket Sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/), these pictures are taken from the same article.
 
 ![](https://cdn.wp.nginx.com/wp-content/uploads/2015/05/Slack-for-iOS-Upload-1-e1432652484191.png)  
 ![](https://cdn.wp.nginx.com/wp-content/uploads/2015/05/Slack-for-iOS-Upload-e1432652376641.png)
 
-You can enable the **prefork** feature by adding the **-prefork** flag.
+You can enable the prefork feature by adding the `-prefork` flag.
 
 ```bash
 ./server -prefork
 ```
 
-Or enable the **Prefork** option in your app.
+Or set the `Prefork` option  to `true`.
 
 ```go
 app := fiber.New()
@@ -109,12 +113,12 @@ app.Listen(8080)
 
 ## Methods
 
-Routes an HTTP request, where METHOD is the [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) of the request, such as GET, PUT, POST, and so on capitalized. Thus, the actual methods are **app.Get\(\)**, **app.Post\(\)**, **app.Put\(\)**, and so on.
+Routes an HTTP request, where METHOD is the [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) of the request, such as GET, PUT, POST, and so on capitalized. Thus, the actual methods are `app.Get()`, `app.Post()`, `app.Put()`, and so on.
 
 ```go
 // Function signature
-app.Get(handler func(*Ctx))
-app.Get(path string, handler func(*Ctx))
+app.METHOD(handler func(*Ctx))
+app.METHOD(path string, handler func(*Ctx))
 
 // Methods
 app.Connect(...)
@@ -127,15 +131,15 @@ app.Post(...)
 app.Put(...)
 app.Trace(...)
 
-// Both All & Use matches all kind of HTTP request
-// But there is a big difference
-app.All(...) // Will match complete path with :params support
-app.Use(...) // Will only see wheter url starts with specified path without :params support
+// Matches all methods & complete path
+app.All(...)
+// Matches all methods & urls starting with a specified path
+app.Use(...)
 ```
 
 ## Static
 
-To serve static files such as images, CSS files, and JavaScript files, replace your function handler with a file or directory string.  
+To serve static files such as images, CSS files, and JavaScript files, you can use the `Static` method.  
 By default this method will send `index.html` files in response to a request on a directory.
 
 ```go
@@ -165,15 +169,17 @@ app.Static("./public")
 app.Static("./files")
 ```
 
-?&gt;For best results, use a reverse proxy cache like [NGINX](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) to improve performance of serving static assets.
+{% hint style="info" %}
+Use a reverse proxy cache like [NGINX](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) to improve performance of serving static assets.
+{% endhint %}
 
-To create a virtual path prefix \(where the path does not actually exist in the file system\) for files that are served by the express.static function, specify a mount path for the static directory, as shown below:
+To create a virtual path prefix \(where the path does not actually exist in the file system\) for files that are served by the `Static` method, specify a prefix path for the static directory, as shown below:
 
 ```go
 app.Static("/static", "./public")
 ```
 
-Now, you can load the files that are in the public directory from the /static path prefix.
+Now, you can load the files that are in the public directory from the `/static` path prefix.
 
 ```text
 http://localhost:8080/static/hello.html
@@ -201,7 +207,8 @@ app.Listen(443, "server.crt", "server.key")
 
 ## Test
 
-Test is used for testing your application and package internals. You can send a http request locally without listening on a port. This is super handy to write simple and automated tests for your app.
+Test is used for testing your application and package internals. You can send a http request locally.  
+This method is mostly used for `_test` files, application debugging and automated tests.
 
 ```go
 // Function signature
@@ -225,6 +232,4 @@ if resp.StatusCode == 200 {
   fmt.Println(string(body))
 }
 ```
-
-_Caught a mistake?_ [_Edit this page on GitHub!_](https://github.com/gofiber/docs/blob/master/application.md)
 

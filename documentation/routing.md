@@ -104,5 +104,3 @@ app.Get("/", func(c *fiber.Ctx) {
 app.Listen(8080)
 ```
 
-_Caught a mistake?_ [_Edit this page on GitHub!_](https://github.com/gofiber/docs/blob/master/routing.md)
-
