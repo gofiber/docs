@@ -293,9 +293,13 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Cookie
 
-Sets cookie name to value, the third options parameter is not implemented yet.
+Sets cookie with **name** and **value**.
 
 #### Method signature
+
+{% hint style="danger" %}
+ Third parameter \(`options`\) is **not** implemented yet.
+{% endhint %}
 
 ```go
 c.Cookie(name, value string)
