@@ -7,8 +7,6 @@ description: >-
 
 # 🧠  Context
 
-In this documentation and by convention, the context is always referred to as `c` but its actual name is determined by the parameters to the callback method in which you’re working.
-
 ## Accepts
 
 Checks if the specified content types are acceptable, based on the request’s `Accept HTTP header` field. You can use an extension or content-type format.
