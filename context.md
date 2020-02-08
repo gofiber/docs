@@ -29,17 +29,18 @@ You can use file **extension** or **Content-Type** format.
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  // Accept by extension:
-  c.Accepts("html") // => "text/html"
-  c.Accepts("png")  // => "image/png"
-  
-  // Accept by Content-Type:
-  c.Accepts("text/html")        // => "text/html"
+  // Accept: text/html
+  c.Accepts("html") // => "html"
+
+  // Accept: text/*, application/json
+  c.Accepts("html") // => "html"
+  c.Accepts("text/html") //=> "text/html"
+  c.Accepts("json", "text") // => "json"
   c.Accepts("application/json") // => "application/json"
-  c.Accepts("image/png")        // => "image/png"
-  
-  // Multiple accepts:
-  c.Accepts("json", "text") // => "application/json", "text/*"
+
+  // Accept: text/*, application/json
+  c.Accepts("image/png") // => "
+  c.Accepts("png") // => ""
 })
 ```
 
