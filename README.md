@@ -10,7 +10,7 @@ People switching from [Node.js](https://nodejs.org/en/about/) to [Go](https://go
 
 Assuming you’ve already installed [Go](https://golang.org/doc/), install the [Fiber](https://github.com/gofiber/fiber) package by calling the following command:
 
-```bash
+```text
 go get -u github.com/gofiber/fiber
 ```
 
@@ -22,7 +22,7 @@ Embedded below is essentially the simplest Fiber app you can create.
 create server.go
 ```
 
-```go
+```text
 package main
 
 import "github.com/gofiber/fiber"
@@ -52,7 +52,7 @@ Each route can have one handler function, that is executed when the route is mat
 
 Route definition takes the following structures:
 
-```go
+```text
 // Function signature
 app.Method(func(*fiber.Ctx))
 app.Method(path string, func(*fiber.Ctx))
@@ -67,7 +67,7 @@ This tutorial assumes that an instance of fiber named app is created and the ser
 
 The following examples illustrate defining simple routes.
 
-```go
+```text
 // Respond with Hello, World! on the homepage:
 app.Get("/", func(c *fiber.Ctx) {
   c.Send("Hello, World!")
@@ -102,7 +102,7 @@ app.Get("/api/*", func(c *fiber.Ctx) {
 
 To serve static files such as images, CSS files, and JavaScript files, replace your function handler with a file or directory string.
 
-```go
+```text
 // Function signature
 app.Static(root string)
 app.Static(prefix, root string)
@@ -112,9 +112,11 @@ For example, use the following code to serve images, CSS files, and JavaScript f
 
 Now, you can load the files that are in the public directory:
 
-```bash
+```text
 http://localhost:8080/hello.html
 http://localhost:8080/js/jquery.js
 http://localhost:8080/css/style.css
 ```
+
+_Caught a mistake?_ [_Edit this page on GitHub!_]()
 
