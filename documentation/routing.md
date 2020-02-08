@@ -1,4 +1,4 @@
-# 🔌  Routing
+# Routing
 
 ## Paths
 
