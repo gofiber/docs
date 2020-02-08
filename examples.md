@@ -137,5 +137,3 @@ func main() {
 }
 ```
 
-_Caught a mistake?_ [_Edit this page on GitHub!_](https://github.com/gofiber/docs/blob/master/examples.md)
-

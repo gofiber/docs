@@ -12,29 +12,23 @@ Below you can see the results of tested go frameworks responding in plaintext.
 To view the list yourself, [Plaintext Go Results](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext&l=zijocf-1r).  
 To see all language frameworks, [Plaintext All Results](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext).
 
-Plaintext
+Plaintext  
+[![](.gitbook/assets/techempower-plaintext.png)](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext&l=zijocf-1r)
 
-![](.gitbook/assets/techempower-plaintext.png)
+Plaintext latency  
+[![](.gitbook/assets/techempower-plaintext-latency.png)](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext&l=zijocf-1r)
 
-Plaintext latency
+JSON serialization  
+[![](.gitbook/assets/techempower-json.png)](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=json&l=zijocf-1r)
 
-![](.gitbook/assets/techempower-plaintext-latency.png)
+Single query  
+[![](.gitbook/assets/techempower-single-query.png)](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=db&l=zijocf-1r)
 
-JSON serialization
+Multiple queries  
+[![](.gitbook/assets/techempower-multiple-queries.png)](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=query&l=zijocf-1r)
 
-![](.gitbook/assets/techempower-json.png)
-
-Single query
-
-![](.gitbook/assets/techempower-single-query.png)
-
-Multiple queries
-
-![](.gitbook/assets/techempower-multiple-queries.png)
-
-Data updates
-
-![](.gitbook/assets/techempower-updates.png)
+Data updates  
+[![](.gitbook/assets/techempower-updates.png)](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=update&l=zijocf-1r)
 
 ## Go-Web
 
@@ -74,4 +68,6 @@ Concurrency test in 30 ms processing time, the test result for 100, 1000, 5000 c
 If we enable http pipelining, test result as below:
 
 ![](.gitbook/assets/concurrency-pipeline.png)
+
+_Caught a mistake?_ [_Edit this page on GitHub!_](https://github.com/gofiber/docs/blob/master/benchmarks.md)
 
