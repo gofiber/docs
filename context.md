@@ -547,35 +547,22 @@ app.Get("/json", func(c *fiber.Ctx) {
 app.Listen(8080)
 ```
 
-Or with error checking
+Fiber also provides raw JSON methods like `JSONBytes` & `JSONString` .  
+Use this if you do not need json serialization, it is recommended when working with raw inputs.
 
 ```go
-app.Get("/json", func(c *fiber.Ctx) {
-  data := SomeStruct{
-    Name: "Grame",
-    Age:  20,
-  }
-  if err := c.JSON(data); err != nil {
-    c.Status(500).Send("Bad Request")
-  }
-  // => "{"Name": "Grame", "Age": 20}"
-})
-```
-
-## JSONBytes
-
-This function accepts a raw `[]byte` body and sets the content header to `application/json`. This function is used if you do not need json serialization.
-
-```go
-// Function signature
-c.JSON(json []byte)
+// Function signatures
+c.JSONBytes(b []byte) error
+c.JSONString(s string) error
 
 // Example
-app := fiber.New()
 app.Get("/json", func(c *fiber.Ctx) {
-  c.JSONBytes([]byte(`"{"hello": "world"}"`))
+  c.JSONBytes([]byte(`{"Name": "Grame", "Age": 20}`))
+  // => "{"Name": "Grame", "Age": 20}"
+  
+  c.JSONString(`{"Name": "Grame", "Age": 20}`)
+  // => "{"Name": "Grame", "Age": 20}"
 })
-app.Listen(8080)
 ```
 
 ## JSONP
@@ -610,25 +597,9 @@ app.Get("/", func(c *fiber.Ctx) {
 app.Listen(8080)
 ```
 
-## JSONString
-
-This function accepts a raw `string` body and sets the content header to `application/json`. This function is used if you do not need json serialization.
-
-```go
-// Function signature
-c.JSONString(json string)
-
-// Example
-app := fiber.New()
-app.Get("/json", func(c *fiber.Ctx) {
-  c.JSONString(`"{"hello": "world"}"`)
-})
-app.Listen(8080)
-```
-
 ## Links
 
-Joins the links followed by the propery to populate the response’s Link HTTP header field.
+Joins the links followed by the property to populate the response’s Link HTTP header field.
 
 ```go
 // Function signature
@@ -649,7 +620,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 A function that stores string variables scoped to the request, and therefore available only to the routes that match the request.
 
-This is usefull if you want to pass some specific values to the next middleware.
+This is useful if you want to pass some specific values to the next middleware.
 
 ```go
 // Function signature
@@ -957,18 +928,21 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## SendBytes
-
-Same as `Send()` but without type assertion.  
-We suggest using this if your body is a `byte slice`.
+Fiber also provides raw Send methods like `SendBytes` & `SendString` .  
+Use this if you do not want type assertion, it is recommended for better performance.
 
 ```go
 // Function signature
-c.SendBytes(body []byte)
+c.SendBytes(b []byte)
+c.SendString(s string)
 
 // Example
 app.Get("/", func(c *fiber.Ctx) {
-  c.SendBytes([]byte("Hello, World!"))
+  c.SendByte([]byte("Hello, World!"))
+  // => "Hello, World!"
+
+  c.SendString("Hello, World!")
+  // => "Hello, World!"
 })
 ```
 
@@ -1011,21 +985,6 @@ app.Get("/not-found", func(c *fiber.Ctx) {
 })
 ```
 
-## SendString
-
-Same as `Send()` but without type assertion.  
-We suggest using this in production when your body is a `string`.
-
-```go
-// Function signature
-c.SendString(body string)
-
-// Example
-app.Get("/", func(c *fiber.Ctx) {
-  c.SendString("Hello, World!")
-})
-```
-
 ## Set
 
 Sets the response’s `HTTP header` field to `value`.
@@ -1055,7 +1014,7 @@ Planned for v2
 
 ## Status
 
-Sets the `HTTP status` for the response, it is a chainable method.
+Sets the `HTTP status` for the response, it is a chain able method.
 
 ```go
 // Function signature
@@ -1209,4 +1168,3 @@ app.Get("/", func(c *fiber.Ctx) {
 app.Listen(8080)
 ```
 
-_Caught a mistake?_ [_Edit this page on GitHub!_](https://github.com/gofiber/docs/blob/master/context.md)
