@@ -86,7 +86,7 @@ app.Trace(...)
 // Matches all methods & complete path
 app.All(...)
 
-// Matches all methods & urls starting with a specified path
+// Matches all methods & URLs starting with a specified path
 app.Use(...)
 ```
 
