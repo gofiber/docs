@@ -1180,4 +1180,3 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 app.Listen(8080)
 ```
-

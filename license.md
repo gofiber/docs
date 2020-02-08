@@ -1,22 +1,15 @@
----
-description: Fiber is licensed under the MIT License
----
+# License & Thanks
 
-# License
+Special thanks to some amazing people and organizations:
 
-Fiber
+[@fenny](https://github.com/fenny) / [Fiber](https://github.com/gofiber/fiber/blob/master/LICENSE)  
+[@valyala](https://github.com/valyala) / [Fasthttp](https://github.com/valyala/fasthttp/blob/master/LICENSE)  
+[@julienschmidt](https://github.com/julienschmidt) / [HttpRouter](https://github.com/julienschmidt/httprouter)  
+[@savsgio](https://github.com/savsgio) / [Atreugo](https://github.com/savsgio/atreugo/blob/master/LICENSE)  
+[@vincentLiuxiang](https://github.com/vincentLiuxiang) / [Lu](https://github.com/vincentLiuxiang/lu/blob/master/LICENSE)  
+[@tj](https://github.com/tj) / [Expressjs](https://github.com/expressjs/express)  
+[@pillarjs](https://github.com/pillarjs) / [Path-to-regexp](https://github.com/pillarjs/path-to-regexp/blob/master/LICENSE)  
+[@techempower](https://github.com/TechEmpower) / [FrameworkBenchmarks](https://github.com/TechEmpower/FrameworkBenchmarks)
 
-* [MIT License](https://github.com/gofiber/fiber/blob/master/LICENSE)
-
-[T](https://github.com/gofiber/fiber/blob/master/LICENSE)hird party licenses
-
-* [Fasthttp](https://github.com/valyala/fasthttp/blob/master/LICENSE)
-* [Json Iterator](https://github.com/json-iterator/go/blob/master/LICENSE)
-
-Team
-
-* [Fenny](https://github.com/fenny) \(Author\)
-* [koddr](https://github.com/koddr) \(Maintainer\)
-
-Sponsors
+_Caught a mistake?_ [_Edit this page on GitHub!_](https://github.com/gofiber/docs/blob/master/license.md)
 
