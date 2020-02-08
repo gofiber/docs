@@ -1,17 +1,15 @@
 # Table of contents
 
 * [Getting started](README.md)
+* [Application](application.md)
+* [Context](context.md)
+* [Routing](routing.md)
+* [Benchmarks](benchmarks.md)
+* [Examples](examples.md)
 
-## Documentation
+## Links
 
-* [Application](documentation/application.md)
-* [Context](documentation/context.md)
-* [Routing](documentation/routing.md)
-
-## Extra
-
-* [Benchmarks](extra/benchmarks.md)
-* [Examples](extra/examples.md)
-* [License](extra/license.md)
+* [Examples](https://github.com/gofiber/recipes)
 * [Github](https://github.com/gofiber/fiber)
+* [License](https://github.com/gofiber/fiber/blob/master/LICENSE)
 
