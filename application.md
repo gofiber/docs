@@ -9,14 +9,13 @@ description: The app instance conventionally denotes the Fiber application.
 There is a simple **Fiber** app structure:
 
 ```go
-// START => Create new Fiber instance
+// Create new Fiber router
 app := fiber.New()
 
-// CONTINUE => Place here your application logic, routes,
-// middlewares, settings, options and overrites...
+// app logic, routes, settings, middlewares etc...
 
-// END => Start server on localhost port 8080
-app.Listen(8080)
+// Start server on localhost port 3000
+app.Listen(3000)
 ```
 
 ### New
