@@ -1,8 +1,10 @@
+---
+description: The app instance conventionally denotes the Fiber application.
+---
+
 # Application
 
-The app instance conventionally denotes the Fiber application.
-
-#### New
+## New
 
 Creates an new Fiber instance that we named "**app**".
 
@@ -14,7 +16,7 @@ app := fiber.New()
 app.Listen(8080)
 ```
 
-#### Server
+## Server
 
 Fiber by default does not send a [server header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Server), but you can enable this by changing the server value.
 
@@ -27,7 +29,7 @@ app.Server = "Windows 95"
 app.Listen(8080)
 ```
 
-#### Banner
+## Banner
 
 When you launch your Fiber application, the console will print a banner containing the package version and listening port. This is enabled by default, disable it by setting the Banner value to false.
 
@@ -41,10 +43,10 @@ app.Banner = false
 app.Listen(8080)
 ```
 
-#### Engine
+## Engine
 
 You can edit some of the Fasthttp server settings via the Fiber instance.  
-Make sure that you set these settings before calling the [Listen](#listen) method. You can find the description of each value in [Fasthttp server settings](https://github.com/valyala/fasthttp/blob/master/server.go#L150)
+Make sure that you set these settings before calling the [Listen](application.md#listen) method. You can find the description of each value in [Fasthttp server settings](https://github.com/valyala/fasthttp/blob/master/server.go#L150)
 
 **Only change these settings if you know what you are doing.**
 
@@ -75,15 +77,14 @@ app.Engine.KeepHijackedConns = false
 app.Listen(8080)
 ```
 
-#### Prefork
+## Prefork
 
-Prefork enables use of the **[SO_REUSEPORT](https://lwn.net/Articles/542629/)** socket option, which is available in newer versions of many operating systems, including DragonFly BSD and Linux (kernel version 3.9 and later). This will spawn multiple go processes listening on the same port.
+Prefork enables use of the [**SO\_REUSEPORT**](https://lwn.net/Articles/542629/) socket option, which is available in newer versions of many operating systems, including DragonFly BSD and Linux \(kernel version 3.9 and later\). This will spawn multiple go processes listening on the same port.
 
 NGINX has a great article about [Socket Sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/), these pictures are taken from the same article.
 
-<img src="https://cdn.wp.nginx.com/wp-content/uploads/2015/05/Slack-for-iOS-Upload-1-e1432652484191.png" style="width: 50%;float: left;"/>  
-<img src="https://cdn.wp.nginx.com/wp-content/uploads/2015/05/Slack-for-iOS-Upload-e1432652376641.png" style="width: 50%;float: left;"/>  
-<div style="clear:both"></div>
+![](https://cdn.wp.nginx.com/wp-content/uploads/2015/05/Slack-for-iOS-Upload-1-e1432652484191.png)  
+![](https://cdn.wp.nginx.com/wp-content/uploads/2015/05/Slack-for-iOS-Upload-e1432652376641.png)
 
 You can enable the **prefork** feature by adding the **-prefork** flag.
 
@@ -108,9 +109,9 @@ app.Get("/", func(c *fiber.Ctx) {
 app.Listen(8080)
 ```
 
-#### Methods
+## Methods
 
-Routes an HTTP request, where METHOD is the [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) of the request, such as GET, PUT, POST, and so on capitalized. Thus, the actual methods are **app.Get()**, **app.Post()**, **app.Put()**, and so on.
+Routes an HTTP request, where METHOD is the [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) of the request, such as GET, PUT, POST, and so on capitalized. Thus, the actual methods are **app.Get\(\)**, **app.Post\(\)**, **app.Put\(\)**, and so on.
 
 ```go
 // Function signature
@@ -134,7 +135,7 @@ app.All(...) // Will match complete path with :params support
 app.Use(...) // Will only see wheter url starts with specified path without :params support
 ```
 
-#### Static
+## Static
 
 To serve static files such as images, CSS files, and JavaScript files, replace your function handler with a file or directory string.  
 By default this method will send `index.html` files in response to a request on a directory.
@@ -153,7 +154,7 @@ app.Static("./public")
 
 Now, you can load the files that are in the public directory:
 
-```shell
+```text
 http://localhost:8080/hello.html
 http://localhost:8080/js/jquery.js
 http://localhost:8080/css/style.css
@@ -166,9 +167,9 @@ app.Static("./public")
 app.Static("./files")
 ```
 
-?>For best results, use a reverse proxy cache like [NGINX](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) to improve performance of serving static assets.
+?&gt;For best results, use a reverse proxy cache like [NGINX](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) to improve performance of serving static assets.
 
-To create a virtual path prefix (where the path does not actually exist in the file system) for files that are served by the express.static function, specify a mount path for the static directory, as shown below:
+To create a virtual path prefix \(where the path does not actually exist in the file system\) for files that are served by the express.static function, specify a mount path for the static directory, as shown below:
 
 ```go
 app.Static("/static", "./public")
@@ -176,13 +177,13 @@ app.Static("/static", "./public")
 
 Now, you can load the files that are in the public directory from the /static path prefix.
 
-```shell
+```text
 http://localhost:8080/static/hello.html
 http://localhost:8080/static/js/jquery.js
 http://localhost:8080/static/css/style.css
 ```
 
-#### Listen
+## Listen
 
 Binds and listens for connections on the specified address. This can be a **INT** for port or **STRING** for address. To enable **TLS/HTTPS** you can append your **cert** and **key** path.
 
@@ -200,7 +201,7 @@ app.Listen("127.0.0.1:8080")
 app.Listen(443, "server.crt", "server.key")
 ```
 
-#### Test
+## Test
 
 Test is used for testing your application and package internals. You can send a http request locally without listening on a port. This is super handy to write simple and automated tests for your app.
 
@@ -227,4 +228,5 @@ if resp.StatusCode == 200 {
 }
 ```
 
-_Caught a mistake? [Edit this page on GitHub!](https://github.com/gofiber/docs/blob/master/application.md)_
+_Caught a mistake?_ [_Edit this page on GitHub!_](https://github.com/gofiber/docs/blob/master/application.md)
+

@@ -1,6 +1,6 @@
 # Examples
 
-#### Multiple File Upload
+## Multiple File Upload
 
 ```go
 package main
@@ -26,7 +26,7 @@ func main() {
 }
 ```
 
-#### 404 Handling
+## 404 Handling
 
 ```go
 package main
@@ -46,7 +46,7 @@ func main() {
 }
 ```
 
-#### Static Caching
+## Static Caching
 
 ```go
 package main
@@ -66,7 +66,7 @@ func main() {
 }
 ```
 
-#### Enable CORS
+## Enable CORS
 
 ```go
 package main
@@ -89,7 +89,7 @@ func main() {
 }
 ```
 
-#### Returning JSON
+## Returning JSON
 
 ```go
 package main
@@ -119,7 +119,7 @@ func main() {
 }
 ```
 
-#### TLS/HTTPS
+## TLS/HTTPS
 
 ```go
 package main
@@ -137,4 +137,5 @@ func main() {
 }
 ```
 
-_Caught a mistake? [Edit this page on GitHub!](https://github.com/gofiber/docs/blob/master/examples.md)_
+_Caught a mistake?_ [_Edit this page on GitHub!_](https://github.com/gofiber/docs/blob/master/examples.md)
+

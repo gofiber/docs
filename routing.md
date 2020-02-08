@@ -1,10 +1,10 @@
 # Routing
 
-#### Paths
+## Paths
 
 Route paths, in combination with a request method, define the endpoints at which requests can be made. Route paths can be strings, string patterns, or regular expressions.
 
-The characters ?, +, "8", and () are subsets of their regular expression counterparts. The hyphen (-) and the dot (.) are interpreted literally by string-based paths.
+The characters ?, +, "8", and \(\) are subsets of their regular expression counterparts. The hyphen \(-\) and the dot \(.\) are interpreted literally by string-based paths.
 
 Here are some examples of route paths based on strings.
 
@@ -49,9 +49,9 @@ app.Get("/ab(cd)?e", func(c *fiber.Ctx) {
 })
 ```
 
-#### Parameters
+## Parameters
 
-Route parameters are named URL segments that are used to capture the values specified at their position in the URL. The captured values can be retrieved using the [Params](context#params) function, with the name of the route parameter specified in the path as their respective keys.
+Route parameters are named URL segments that are used to capture the values specified at their position in the URL. The captured values can be retrieved using the [Params](https://github.com/gofiber/docs/tree/34729974f7d6c1d8363076e7e88cd71edc34a2ac/context/README.md#params) function, with the name of the route parameter specified in the path as their respective keys.
 
 To define routes with route parameters, simply specify the route parameters in the path of the route as shown below.
 
@@ -70,19 +70,19 @@ app.Get("/user/:name?", func(c *fiber.Ctx) {
 })
 ```
 
-?>The name of route parameters must be made up of “word characters” ([A-Za-z0-9_]).
+?&gt;The name of route parameters must be made up of “word characters” \(\[A-Za-z0-9\_\]\).
 
-!> The hyphen (-) and the dot (.) are not interpreted literally yet, planned for V2
+!&gt; The hyphen \(-\) and the dot \(.\) are not interpreted literally yet, planned for V2
 
-#### Middleware
+## Middleware
 
-The [Next](context#next) function is a function in the [Fiber](https://github.com/gofiber/fiber) router which, when called, executes the next function that matches the current route.
+The [Next](https://github.com/gofiber/docs/tree/34729974f7d6c1d8363076e7e88cd71edc34a2ac/context/README.md#next) function is a function in the [Fiber](https://github.com/gofiber/fiber) router which, when called, executes the next function that matches the current route.
 
 Functions that are designed to make changes to the request or response are called middleware functions.
 
 Here is a simple example of a middleware function that sets some response headers when a request to the app passes through it.
 
-If you are not sure when to use **All()** vs **Use()**, read about the [Methods API here](/application?id=methods)
+If you are not sure when to use **All\(\)** vs **Use\(\)**, read about the [Methods API here](https://github.com/gofiber/docs/tree/34729974f7d6c1d8363076e7e88cd71edc34a2ac/application?id=methods/README.md)
 
 ```go
 app := fiber.New()
@@ -104,4 +104,5 @@ app.Get("/", func(c *fiber.Ctx) {
 app.Listen(8080)
 ```
 
-_Caught a mistake? [Edit this page on GitHub!](https://github.com/gofiber/docs/blob/master/routing.md)_
+_Caught a mistake?_ [_Edit this page on GitHub!_](https://github.com/gofiber/docs/blob/master/routing.md)
+
