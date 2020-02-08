@@ -4,7 +4,7 @@ The `Ctx` struct represents the HTTP request and response and has methods for th
 
 ## Accepts
 
-Checks if the specified content types are acceptable, based on the request’s `Accept HTTP header` field. You can use an extention or content-type format
+Checks if the specified content types are acceptable, based on the request’s `Accept HTTP header` field. You can use an extension or content-type format.
 
 ```go
 // Function signature
@@ -35,7 +35,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## AcceptsCharsets
 
-Returns the first accepted charset of the specified character sets, based on the request’s `Accept-Charset HTTP header` field
+Returns the first accepted char set of the specified character sets, based on the request’s `Accept-Charset` HTTP header field.
 
 ```go
 // Function signature
@@ -101,7 +101,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Append
 
-Appends the specified value to the HTTP response header field. If the header is not already set, it creates the header with the specified value. The values parameter must be a `string.`
+Appends the specified value to the HTTP response header field. If the header is not already set, it creates the header with the specified value. The values parameter must be a `string`.
 
 ```go
 // Function signature
@@ -145,7 +145,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## AcceptsLanguages
 
-Returns the base URL, protocol and hostname combined.
+Returns the base URL, protocol and host name combined.
 
 ```go
 // Function signature
@@ -329,9 +329,11 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## !End
+## End
 
-!&gt; Planned for v2.0.0
+{% hint style="danger" %}
+Planned for v2
+{% endhint %}
 
 ## Fasthttp
 

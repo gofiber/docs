@@ -1,4 +1,4 @@
-# Getting startedd
+# Getting started
 
 [![](https://camo.githubusercontent.com/7fefac9c50028ef3a33c1d3b15bc6290c4df50c3/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f72656c656173652f676f66696265722f6669626572)](https://github.com/gofiber/fiber/releases) [![](https://camo.githubusercontent.com/41183f85541d788c8d93353ded748619d2d95c21/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f6c616e6775616765732f746f702f676f66696265722f6669626572)](https://camo.githubusercontent.com/41183f85541d788c8d93353ded748619d2d95c21/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f6c616e6775616765732f746f702f676f66696265722f6669626572) [![](https://camo.githubusercontent.com/fa22b9d46e4fc46b3a39dc24e617c6848b3cf1c3/68747470733a2f2f676f646f632e6f72672f6769746875622e636f6d2f676f66696265722f66696265723f7374617475732e737667)](https://godoc.org/github.com/gofiber/fiber) [![](https://camo.githubusercontent.com/cc2e9485ef6d4febc5d5de35fd8eedd876e51d96/68747470733a2f2f676f7265706f7274636172642e636f6d2f62616467652f6769746875622e636f6d2f676f66696265722f6669626572)](https://camo.githubusercontent.com/cc2e9485ef6d4febc5d5de35fd8eedd876e51d96/68747470733a2f2f676f7265706f7274636172642e636f6d2f62616467652f6769746875622e636f6d2f676f66696265722f6669626572) [![GitHub license](https://camo.githubusercontent.com/cd3cf7095707e17d7b74aed843775b5a2ef8756b/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f6c6963656e73652f676f66696265722f66696265722e737667)](https://github.com/gofiber/fiber/blob/master/LICENSE) [![Join the chat at https://gitter.im/gofiber/community](https://camo.githubusercontent.com/da2edb525cde1455a622c58c0effc3a90b9a181c/68747470733a2f2f6261646765732e6769747465722e696d2f4a6f696e253230436861742e737667)](https://gitter.im/gofiber/community)
 
@@ -10,7 +10,7 @@ People switching from [Node.js](https://nodejs.org/en/about/) to [Go](https://go
 
 Assuming you’ve already installed [Go](https://golang.org/doc/), install the [Fiber](https://github.com/gofiber/fiber) package by calling the following command:
 
-```bash
+```text
 go get -u github.com/gofiber/fiber
 ```
 
@@ -22,7 +22,7 @@ Embedded below is essentially the simplest Fiber app you can create.
 create server.go
 ```
 
-```go
+```text
 package main
 
 import "github.com/gofiber/fiber"
@@ -52,7 +52,7 @@ Each route can have one handler function, that is executed when the route is mat
 
 Route definition takes the following structures:
 
-```go
+```text
 // Function signature
 app.Method(func(*fiber.Ctx))
 app.Method(path string, func(*fiber.Ctx))
@@ -67,7 +67,7 @@ This tutorial assumes that an instance of fiber named app is created and the ser
 
 The following examples illustrate defining simple routes.
 
-```go
+```text
 // Respond with Hello, World! on the homepage:
 app.Get("/", func(c *fiber.Ctx) {
   c.Send("Hello, World!")
@@ -102,7 +102,7 @@ app.Get("/api/*", func(c *fiber.Ctx) {
 
 To serve static files such as images, CSS files, and JavaScript files, replace your function handler with a file or directory string.
 
-```go
+```text
 // Function signature
 app.Static(root string)
 app.Static(prefix, root string)
@@ -112,9 +112,11 @@ For example, use the following code to serve images, CSS files, and JavaScript f
 
 Now, you can load the files that are in the public directory:
 
-```bash
+```text
 http://localhost:8080/hello.html
 http://localhost:8080/js/jquery.js
 http://localhost:8080/css/style.css
 ```
+
+_Caught a mistake?_ [_Edit this page on GitHub!_]()
 
