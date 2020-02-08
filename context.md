@@ -215,41 +215,6 @@ app.Post("/", func(c *fiber.Ctx) {
 })
 ```
 
-#### BodyParser
-
-BodyParser unmarshals the request body into a struct based on the `Content-Type`
-Fiber currently supports `json` and `xml` contentTypes.
-
-```go
-// Function signature
-c.BodyParser(v interface{}) error
-
-
-// Example
-// POST  {"foo": "bar"}
-app.Post("/json", func(c *fiber.Ctx) {
-  type data struct {
-	   Foo string `json:"foo"`
-  }
-  var d data
-  err := c.BodyParser(&d)
-  if err != nil {
-    fmt.Println(err)
-  }
-})
-// POST <person><foo>bar</foo></person>
-app.Post("/xml", func(c *fiber.Ctx) {
-  type data struct {
-	   Foo string `xml:"foo"`
-  }
-  var d data
-  err := c.BodyParser(&d)
-  if err != nil {
-    fmt.Println(err)
-  }
-})
-```
-
 #### ClearCookie
 
 Clears all client cookies or a specific cookie by name by setting the expire date in the past.
@@ -666,7 +631,7 @@ c.Links(link ...string)
 
 // Example
 app.Get("/", func(c *fiber.Ctx) {
-  c.Links(
+  c.Link(
     "http://api.example.com/users?page=2", "next",
     "http://api.example.com/users?page=5", "last",
   )
@@ -692,7 +657,7 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Next()
 })
 app.Get("/", func(c *fiber.Ctx) {
-  if c.Locals("user") == "admin" {
+  if c.Locals("user") != "admin" {
     c.Status(200).Send("Welcome admin!")
   } else {
     c.SendStatus(403)
@@ -1096,7 +1061,7 @@ app.Get("/", func(c *fiber.Ctx) {
 #### Subdomains
 
 An array of subdomains in the domain name of the request.  
-The application property subdomain offset, which defaults to `2`, is used for determining the beginning of the subdomain segments. You can change this by providing a custom offset.
+The application property subdomain offset, which defaults to `2`, is used for determining the beginning of the subdomain segments.
 
 ```go
 // Function signature
@@ -1112,6 +1077,7 @@ app.Get("/", func(c *fiber.Ctx) {
   // => ["tobi"]
 })
 ```
+
 
 #### Type
 
