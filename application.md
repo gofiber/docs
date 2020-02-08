@@ -9,20 +9,14 @@ description: The app instance conventionally denotes the Fiber application.
 There is a simple **Fiber** app structure:
 
 ```go
-package main
+// START => Create new Fiber instance
+app := fiber.New()
 
-import "github.com/gofiber/fiber"
+// CONTINUE => Place here your application logic, routes,
+// middlewares, settings, options and overrites...
 
-func main() {
-    // START => Create new Fiber instance
-    app := fiber.New()
-    
-    // CONTINUE => Place here your application logic, routes,
-    // middlewares, settings, options and overrites...
-    
-    // END => Start server on localhost port 8080
-    app.Listen(8080)
-}
+// END => Start server on localhost port 8080
+app.Listen(8080)
 ```
 
 ### New
