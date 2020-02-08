@@ -57,7 +57,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## AcceptsEncodings
 
-Returns the first accepted encoding of the specified encodings, based on the request’s `Accept-Encoding HTTP header` field.
+Returns the first accepted encoding of the specified encodings, based on the request’s `Accept-Encoding` HTTP header field.
 
 ```go
 // Function signature
@@ -79,7 +79,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## AcceptsLanguages
 
-Returns the first accepted language of the specified languages, based on the request’s `Accept-Language HTTP header` field.
+Returns the first accepted language of the specified languages, based on the request’s `Accept-Language` HTTP header field.
 
 ```go
 // Function signature
@@ -142,6 +142,18 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 
 ## BaseURL
+
+Returns the protocol + hostname as a string
+
+```go
+// Function signature
+c.BaseURL() string
+
+// Example: GET https://fiber.wiki/context#baseurl
+app.Get("/", func(c *fiber.Ctx) {
+  c.BaseURL() // => https://fiber.wiki
+})
+```
 
 ## AcceptsLanguages
 
