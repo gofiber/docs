@@ -4,40 +4,29 @@ description: The app instance conventionally denotes the Fiber application.
 
 # 🚀  Application
 
-## App structure
-
-There is a simple **Fiber** app structure:
-
-```go
-// START => Create new Fiber instance
-app := fiber.New()
-
-// CONTINUE => Place here your application logic, routes,
-// middlewares, settings, options and overrites...
-
-// END => Start server on localhost port 8080
-app.Listen(8080)
-```
-
 ### New
 
-Create a new **Fiber** instance with name `app`:
+Creates an new Fiber instance named "**app**".
 
 ```go
 app := fiber.New()
+// ...
+// Application logic
+// ...
+app.Listen(8080)
 ```
 
 ### Listen
 
-Binds and listens for connections on the specified address. This can be a **INT** for port or **STRING** for address.
+Binds and listens for connections on the specified address. This can be a `int` for port or `string` for address.
 
-#### Function signature
+#### Signature
 
 ```go
 app.Listen(address interface{}, tls ...string)
 ```
 
-#### Example usage
+#### Example
 
 ```go
 app.Listen(8080)
@@ -52,7 +41,7 @@ To enable **TLS/HTTPS** you can append your **cert** and **key** path:
 app.Listen(443, "server.crt", "server.key")
 ```
 
-## HTTP Methods
+## Methods
 
 Routes an **HTTP** request, where **METHOD** is the [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) of the request.
 
