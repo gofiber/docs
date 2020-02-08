@@ -681,12 +681,11 @@ app.Get("/", func(c *fiber.Ctx) {
 
 A method that stores string variables scoped to the request, and therefore available only to the routes that match the request.
 
-This is useful if you want to pass some specific values to the next middleware.
+This is useful if you want to pass some specific values to the next middle ware.
 
 ```go
 // Method signature
-c.Locals(key string)
-c.Locals(key string, value interface{}) interface{}
+c.Locals(key string, value ...interface{}) interface{}
 
 // Example
 app.Get("/", func(c *fiber.Ctx) {
@@ -863,7 +862,7 @@ app.Get("/users", func(c *fiber.Ctx) {
 
 ## Protocol
 
-Contains the request protocol string: either http or \(for TLS requests\) https.
+Contains the request protocol string: either `http` or \(for TLS requests\) `https`.
 
 ```go
 // Method signature
@@ -904,7 +903,7 @@ Planned for v2
 
 ## Redirect
 
-Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code . If not specified, status defaults to `302 “Found`.
+Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code . If not specified, status defaults to `302 Found`.
 
 ```go
 // Method signature
@@ -958,7 +957,7 @@ c.SaveFile(fh *multipart.FileHeader, path string)
 
 ## Secure
 
-A Boolean property that is true if a TLS connection is established.
+A Boolean property that is `true` if a TLS connection is established.
 
 ```go
 // Method signature
@@ -989,8 +988,8 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-Fiber also provides raw `Send` methods like `SendBytes` & `SendString` .  
-Use this if you do not need type assertion, it is recommended for better performance.
+Fiber also provides raw methods: `SendBytes` & `SendString` .  
+Use this if you do not need type assertion, it is recommended for faster performance.
 
 ```go
 // Method signature
@@ -1009,7 +1008,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## SendFile
 
-Transfers the file at the given path. Sets the `Content-Type` response HTTP header field based on the filename’s extension.
+Transfers the file at the given path. Sets the `Content-Type` response HTTP header field based on the filenames extension.
 
 ```go
 // Method signature
@@ -1208,7 +1207,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## XML
 
-XML sets the header to `application/xml` and marshals your interface to xml.
+XML sets the header to `application/xml` and marshals your interface to XML.
 
 ```go
 // Method signature
