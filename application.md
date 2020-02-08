@@ -11,6 +11,8 @@ There is a simple **Fiber** app structure:
 ```go
 package main
 
+import "github.com/gofiber/fiber"
+
 func main() {
     // START => Create new Fiber instance
     app := fiber.New()
