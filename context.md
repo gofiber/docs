@@ -1,4 +1,4 @@
-# Context
+# 🎯 Context
 
 The `Ctx` struct represents the HTTP request and response and has methods for the request query string, parameters, body, HTTP headers, and so on. In this documentation and by convention, the context is always referred to as `c` but its actual name is determined by the parameters to the callback method in which you’re working.
 
