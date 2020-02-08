@@ -1096,17 +1096,20 @@ app.Get("/", func(c *fiber.Ctx) {
 #### Subdomains
 
 An array of subdomains in the domain name of the request.  
-The application property subdomain offset, which defaults to `2`, is used for determining the beginning of the subdomain segments.
+The application property subdomain offset, which defaults to `2`, is used for determining the beginning of the subdomain segments. You can change this by providing a custom offset.
 
 ```go
 // Function signature
-c.Subdomains() []string
+c.Subdomains(offset ...int) []string
 
 // Example
 // Host: "tobi.ferrets.example.com"
 app.Get("/", func(c *fiber.Ctx) {
-  c.Subdomains(200)
+  c.Subdomains()
   // => ["ferrets", "tobi"]
+
+  c.Subdomains(1)
+  // => ["tobi"]
 })
 ```
 
