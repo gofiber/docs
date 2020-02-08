@@ -22,7 +22,7 @@ Embedded below is essentially the simplest Fiber app you can create.
 create server.go
 ```
 
-```text
+```go
 package main
 
 import "github.com/gofiber/fiber"
@@ -52,7 +52,7 @@ Each route can have one handler function, that is executed when the route is mat
 
 Route definition takes the following structures:
 
-```text
+```go
 // Function signature
 app.Method(func(*fiber.Ctx))
 app.Method(path string, func(*fiber.Ctx))
