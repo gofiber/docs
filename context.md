@@ -416,9 +416,11 @@ app.Post("/", func(c *fiber.Ctx) {
 })
 ```
 
-## !Fresh
+## Fresh
 
-!&gt; Planned for v2.0.0
+{% hint style="danger" %}
+Planned for v2
+{% endhint %}
 
 ## Get
 
@@ -441,9 +443,11 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## !HeadersSent
+## HeadersSent
 
-!&gt; Planned for v2.0.0
+{% hint style="danger" %}
+Planned for v2
+{% endhint %}
 
 ## Hostname
 
@@ -860,9 +864,11 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## !Range
+## Range
 
-!&gt; Planned for v2.0.0
+{% hint style="danger" %}
+Planned for v2
+{% endhint %}
 
 ## Redirect
 
@@ -882,9 +888,11 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## !Render
+## Render
 
-!&gt; Planned for v2.0.0
+{% hint style="danger" %}
+Planned for v2
+{% endhint %}
 
 ## Route
 
@@ -1033,13 +1041,17 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## !SignedCookies
+## SignedCookies
 
-!&gt; Planned for v2.0.0
+{% hint style="danger" %}
+Planned for v2
+{% endhint %}
 
-## !Stale
+## Stale
 
-!&gt; Planned for v2.0.0
+{% hint style="danger" %}
+Planned for v2
+{% endhint %}
 
 ## Status
 
@@ -1198,4 +1210,3 @@ app.Listen(8080)
 ```
 
 _Caught a mistake?_ [_Edit this page on GitHub!_](https://github.com/gofiber/docs/blob/master/context.md)
-
