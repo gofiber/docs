@@ -5,7 +5,6 @@
 * [Context](context.md)
 * [Routing](routing.md)
 * [Benchmarks](benchmarks.md)
-* [Examples](examples.md)
 
 ## Links
 
