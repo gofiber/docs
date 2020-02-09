@@ -1,5 +1,5 @@
 ---
-description: A hosted documentation so you can start building web apps right away!
+description: A hosted documentation so you can start building web apps with Fiber.
 ---
 
 # 📖  Getting started
@@ -10,43 +10,52 @@ description: A hosted documentation so you can start building web apps right awa
 
 People switching from [Node.js](https://nodejs.org/en/about/) to [Go](https://golang.org/doc/) often end up in a bad learning curve to start building their web apps, this project is meant to **ease** things up for **fast** development, but with **zero memory allocation** and **performance** in mind.
 
-## Installing
+## Installation
 
-Assuming you’ve already installed [Go](https://golang.org/doc/), install the [Fiber](https://github.com/gofiber/fiber) package by calling the following command:
+First of all, [download](https://golang.org/dl/) and install Go.
+
+{% hint style="info" %}
+Go **1.11** \(with enabled **Go Modules**\) or higher is required.
+{% endhint %}
+
+Installation is done using the [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) command:
 
 ```bash
 go get -u github.com/gofiber/fiber
 ```
 
-## Hello world
+## Hello, World!
 
-Embedded below is essentially the simplest Fiber app you can create.
-
-```text
-create server.go
-```
+Embedded below is most simplest **Fiber** app you can create:
 
 ```go
+// server.go
+
 package main
 
 import "github.com/gofiber/fiber"
 
 func main() {
+  // Create new Fiber instance
   app := fiber.New()
-
+  
+  // Define route for "/" path
   app.Get("/", func(c *fiber.Ctx) {
-    c.Send("Hello, World!")
+    c.Send("Hello, World!") // Send "Hello, World!" text to page
   })
-
+  
+  // Start server on http://localhost:8080
   app.Listen(8080)
 }
 ```
+
+Run your **Fiber** app by command:
 
 ```text
 go run server.go
 ```
 
-Browse to [http://localhost:8080](http://localhost:8080/) and you should see Hello, World! on the page.
+Browse to `http://localhost:8080` and you should see **Hello, World!** on the page.
 
 ## Basic routing
 
