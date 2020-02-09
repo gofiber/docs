@@ -18,8 +18,7 @@ app.Listen(8080)
 
 ## Static
 
-Serve static files such as images, CSS and JavaScript files, you can use the `Static` method.
-By default, this method will send `index.html` files in response to a request on a directory.
+Serve static files such as images, CSS and JavaScript files, you can use the `Static` method. By default, this method will send `index.html` files in response to a request on a directory.
 
 #### Signature
 
@@ -129,7 +128,7 @@ app.Listen(443, "server.crt", "server.key")
 You can change the default `Fasthttp` [server settings](https://github.com/valyala/fasthttp/blob/master/server.go#L150) via the **Fiber** instance. These settings need to be set **before** [Listen](application.md#listen) method.
 
 {% hint style="warning" %}
-Only change these settings, if you know **what** __your are doing.
+Only change these settings, if you know **what** \_\_your are doing.
 {% endhint %}
 
 ```go
@@ -157,8 +156,7 @@ app.Engine.KeepHijackedConns = false
 
 The `Prefork` option enables use of the [**SO\_REUSEPORT**](https://lwn.net/Articles/542629/) socket option, which is available in newer versions of many operating systems, including **DragonFly BSD** and **Linux** \(kernel version **3.9** and later\). This will spawn multiple Go processes listening on the same port.
 
-**NGINX** has a great article about [Socket Sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/), these pictures are taken from the same article.  
-
+**NGINX** has a great article about [Socket Sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/), these pictures are taken from the same article.
 
 ![Schema, when Prefork disabled \(by default\)](https://cdn.wp.nginx.com/wp-content/uploads/2015/05/Slack-for-iOS-Upload-1-e1432652484191.png)
 
@@ -170,7 +168,7 @@ You can enable the `Prefork` feature by adding the `-prefork` flag:
 ./server -prefork
 ```
 
-Or set the `Prefork` option  to `true`:
+Or set the `Prefork` option to `true`:
 
 ```go
 app.Prefork = true // Prefork enabled
@@ -203,7 +201,6 @@ To disable it, set `Banner` option to `false`:
 app.Banner = false // Hide banner
 ```
 
-
 ## Test
 
 Test is used for testing your application and package internals. You can send a HTTP request locally.  
@@ -220,8 +217,11 @@ app.Test(req *http.Request) (*http.Response, error)
 ```go
 // Create route with GET method for test
 app.Get("/", func(c *Ctx) {
-  fmt.Println(c.BaseURL())              // => http://google.com
-  fmt.Println(c.Get("X-Custom-Header")) // => hi
+  fmt.Println(c.BaseURL())
+  // => http://google.com
+  fmt.Println(c.Get("X-Custom-Header"))
+  // => hi
+  c.Send("hello, World!")
 })
 
 // http.Request
@@ -235,6 +235,7 @@ resp, _ := app.Test(req)
 if resp.StatusCode == 200 {
   body, _ := ioutil.ReadAll(resp.Body)
   fmt.Println(string(body))
+  // => Hello, World!
 }
 ```
 
