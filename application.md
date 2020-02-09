@@ -27,25 +27,33 @@ app.Static(root string)         // => without prefix
 app.Static(prefix, root string) // => with prefix
 ```
 
-#### Example
+#### Examples
 
-Use the following code to serve images, CSS and JavaScript files in a directory named `./public`:
+Use the following code to serve files in a directory named `./public`
 
 ```go
+app := fiber.New()
+
 app.Static("./public")
 
-// => http://localhost:8080/hello.html
-// => http://localhost:8080/js/jquery.js
-// => http://localhost:8080/css/style.css
+// => http://localhost:3000/hello.html
+// => http://localhost:3000/js/jquery.js
+// => http://localhost:3000/css/style.css
+
+app.Listen(3000)
 ```
 
-Now, you can load the files that are in the `./public` directory.
-
-To use multiple static assets directories, call the **Static** function multiple times:
+To serve from multiple directories, you can use `Static` multiple times.
 
 ```go
-app.Static("./public") // => serve files from ./public
-app.Static("./files")  // => serve files from ./files
+app := fiber.New()
+
+app.Static("./public") 
+// => serve files from ./public
+app.Static("./files")  
+// => serve files from ./files
+
+app.Listen(3000)
 ```
 
 {% hint style="info" %}
@@ -55,14 +63,15 @@ Use a reverse proxy cache like [NGINX](https://www.nginx.com/resources/wiki/star
 To create a virtual path prefix \(_where the path does not actually exist in the file system_\) for files that are served by the `Static` method, specify a prefix path for the static directory, as shown below:
 
 ```go
+app := fiber.New()
+
 app.Static("/static", "./public")
+// => http://localhost:3000/static/hello.html
+// => http://localhost:3000/static/js/jquery.js
+// => http://localhost:3000/static/css/style.css
 
-// => http://localhost:8080/static/hello.html
-// => http://localhost:8080/static/js/jquery.js
-// => http://localhost:8080/static/css/style.css
+app.Listen(3000)
 ```
-
-Now, you can load the files that are in the public directory from the `/static` path prefix.
 
 ## Methods
 
