@@ -1,5 +1,7 @@
 ---
-description: '- TODO: Add short description -'
+description: >-
+  Routing refers to how an application's endpoints (URIs) respond to client
+  requests.
 ---
 
 # 🔌  Routing
