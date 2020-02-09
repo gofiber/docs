@@ -241,14 +241,14 @@ app.Post("/", func(c *fiber.Ctx) {
 
 Clears **all** client cookies or a specific cookie by **name** \(_by setting expire date in the past_\).
 
-#### Method signature
+#### Signature
 
 ```go
 c.ClearCookie()
 c.ClearCookie(key string)
 ```
 
-#### Example usage
+#### Example
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -267,7 +267,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 Sets cookie with **name** and **value**.
 
-#### Method signature
+#### Signature
 
 ```go
 c.Cookie(name, value string)
@@ -1105,7 +1105,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Vary
 
-Adds the given header field to the Vary response header of res. This can be a single field, or multiple fields.
+Adds the given header field to the Vary response header of res. Multiple fields are allowed.
 
 This will append the header if not already listed, otherwise leaves it listed in the current location.
 
@@ -1115,10 +1115,6 @@ c.Vary(field ...string)
 
 // Example
 app.Get("/", func(c *fiber.Ctx) {
-  // Let's assume there are no values in Vary yet
-  c.Get("Vary")
-  // =>
-
   c.Vary("Origin")
   // => Vary: Origin
 
@@ -1136,9 +1132,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Write
 
-Appends to the HTTP response.
-
-The Write parameter can be any type
+Appends any input to the HTTP body response.
 
 ```go
 // Method signature
@@ -1155,7 +1149,7 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Write(123)
   // => "Hello, World! 123"
 
-  // Send sets the body, and does not append like Write
+  // Send does not append like Write
   c.Send("My name is Jeff")
   // => "My name is Jeff"
 })
@@ -1169,16 +1163,15 @@ A Boolean property that is true if the request’s `X-Requested-With` header fie
 // Method signature
 c.XHR() bool
 
-// Example
+// X-Requested-With: XMLHttpRequest
 app.Get("/", func(c *fiber.Ctx) {
-  c.XHR()
-  // => true
+  c.XHR() // => true
 })
 ```
 
 ## XML
 
-XML sets the header to `application/xml` and marshals your interface to XML.
+XML sets the header to `application/xml` and unmarshals your interface to XML.
 
 ```go
 // Method signature
