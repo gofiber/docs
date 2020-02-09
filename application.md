@@ -6,13 +6,15 @@ description: The app instance conventionally denotes the Fiber application.
 
 ## New
 
-Creates an new Fiber instance named "**app**".
+Creates an new Fiber instance named `app`.
 
 ```go
 app := fiber.New()
+
 // ...
 // Application logic
 // ...
+
 app.Listen(8080)
 ```
 
@@ -35,7 +37,6 @@ Use the following code to serve files in a directory named `./public`
 app := fiber.New()
 
 app.Static("./public")
-
 // => http://localhost:3000/hello.html
 // => http://localhost:3000/js/jquery.js
 // => http://localhost:3000/css/style.css
@@ -75,13 +76,15 @@ app.Listen(3000)
 
 ## Methods
 
-Routes an **HTTP** request, where **METHOD** is the [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) of the request.
+Routes an **HTTP** request, where **Get** is the [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) of the request.
 
 #### Signature
 
 ```go
-app.METHOD(handler func(*Ctx))              // without path
-app.METHOD(path string, handler func(*Ctx)) // with path
+// Match any path
+app.Get(handler func(*Ctx))
+// Match specific path
+app.Get(path string, handler func(*Ctx))
 ```
 
 #### Example
@@ -124,7 +127,7 @@ app.Listen(":8080")
 app.Listen("127.0.0.1:8080")
 ```
 
-To enable **TLS/HTTPS** you can append your **cert** and **key** path:
+To enable **TLS/HTTPS** you can append your **cert** and **key** path.
 
 ```go
 app.Listen(443, "server.crt", "server.key")
@@ -137,7 +140,7 @@ app.Listen(443, "server.crt", "server.key")
 You can change the default `Fasthttp` [server settings](https://github.com/valyala/fasthttp/blob/master/server.go#L150) via the **Fiber** instance. These settings need to be set **before** [Listen](application.md#listen) method.
 
 {% hint style="warning" %}
-Only change these settings, if you know **what** \_\_your are doing.
+Only change these settings, if you know what your are doing.
 {% endhint %}
 
 ```go
@@ -183,10 +186,11 @@ Or set the `Prefork` option to `true`:
 app.Prefork = true // Prefork enabled
 
 app.Get("/", func(c *fiber.Ctx) {
-  c.Send(fmt.Sprintf("Hi, I'm worker #%v", os.Getpid()))
-  // => Hi, I'm worker #16858
-  // => Hi, I'm worker #16877
-  // => Hi, I'm worker #16895
+  msg := fmt.Sprintf("Worker #%v", os.Getpid())
+  c.Send(msg)
+  // => Worker #16858
+  // => Worker #16877
+  // => Worker #16895
 })
 ```
 
@@ -195,7 +199,8 @@ app.Get("/", func(c *fiber.Ctx) {
 Fiber by default does not send a [Server header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Server), but you can enable this by changing the server value.
 
 ```go
-app.Server = "Windows 95" // => Server: Windows 95
+app.Server = "Windows 95" 
+// => Server: Windows 95
 ```
 
 ### Banner
@@ -204,7 +209,7 @@ When you launch your Fiber application, console will print a banner containing p
 
 ![](.gitbook/assets/screenshot-2020-02-08-at-13.18.27.png)
 
-To disable it, set `Banner` option to `false`:
+To disable it, set `Banner` to `false`:
 
 ```go
 app.Banner = false // Hide banner
@@ -212,8 +217,7 @@ app.Banner = false // Hide banner
 
 ## Test
 
-Test is used for testing your application and package internals. You can send a HTTP request locally.  
-This method is mostly used for `_test` files, application debugging and automated tests.
+Testing your application is done with the `Test` method. This function is mostly used for `_test.go` files and application debugging.
 
 #### Signature
 
