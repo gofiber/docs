@@ -1115,7 +1115,11 @@ c.Protocol() == "https"
 
 ## Send
 
-Sends the HTTP response. The **Send** body can be of any type
+Sends the HTTP response. The **Send** body can be of any type.
+
+{% hint style="warning" %}
+Method **doesn't** append like [Write](https://fiber.wiki/context#write) method.
+{% endhint %}
 
 #### Signature
 
@@ -1288,79 +1292,70 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Subdomains
 
-An array of subdomains in the domain name of the request.  
+An array of subdomains in the domain name of the request. 
+
 The application property subdomain offset, which defaults to `2`, is used for determining the beginning of the subdomain segments.
 
-### Signature
+#### Signature
 
 ```go
 c.Subdomains(offset ...int) []string
 ```
 
-### Example
+#### Example
 
 ```go
 // Host: "tobi.ferrets.example.com"
-app.Get("/", func(c *fiber.Ctx) {
-  c.Subdomains()
-  // => ["ferrets", "tobi"]
 
-  c.Subdomains(1)
-  // => ["tobi"]
+app.Get("/", func(c *fiber.Ctx) {
+  c.Subdomains()  // => ["ferrets", "tobi"]
+  c.Subdomains(1) // => ["tobi"]
 })
 ```
 
 ## Type
 
-Sets the Content-Type HTTP header to the MIME type listed [here](https://github.com/nginx/nginx/blob/master/conf/mime.types) specified by the file extension.
+Sets the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP header to the MIME type listed [here](https://github.com/nginx/nginx/blob/master/conf/mime.types) specified by the file **extension**.
 
-### Signature
+#### Signature
 
 ```go
-c.Type(typ string) string
+c.Type(t string) string
 ```
 
-### Example
+#### Example
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  c.Type(".html")
-  // => 'text/html'
-
-  c.Type("html")
-  // => 'text/html'
-
-  c.Type("json")
-  // => 'application/json'
-
-  c.Type("png")
-  // => 'image/png'
+  c.Type(".html") // => "text/html"
+  c.Type("html")  // => "text/html"
+  c.Type("json")  // => "application/json"
+  c.Type("png")   // => "image/png"
 })
 ```
 
 ## Vary
 
-Adds the given header field to the Vary response header of res. Multiple fields are allowed.
+Adds the given header field to the [Vary](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary) response header. This will append the header, if not already listed, otherwise leaves it listed in the current location.
 
-This will append the header if not already listed, otherwise leaves it listed in the current location.
+{% hint style="info" %}
+Multiple fields are **allowed**.
+{% endhint %}
 
-### Signature
+#### Signature
 
 ```go
 c.Vary(field ...string)
 ```
 
-### Example
+#### Example
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  c.Vary("Origin")
-  // => Vary: Origin
+  c.Vary("Origin")     // => Vary: Origin
+  c.Vary("User-Agent") // => Vary: Origin, User-Agent
 
-  c.Vary("User-Agent")
-  // => Vary: Origin, User-Agent
-
-  // It checks for duplicates
+  // Checks for duplicates:
   c.Vary("Origin")
   // => Vary: Origin, User-Agent
 
@@ -1371,47 +1366,39 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Write
 
-Appends any input to the HTTP body response.
+Appends **any** input to the HTTP body response.
 
-### Signature
+#### Signature
 
 ```go
 c.Write(body ...interface{})
 ```
 
-### Example
+#### Example
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  c.Write("Hello, ")
-  // => "Hello, "
-
-  c.Write([]byte("World! "))
-  // => "Hello, World! "
-
-  c.Write(123)
-  // => "Hello, World! 123"
-
-  // Send does not append like Write
-  c.Send("My name is Jeff")
-  // => "My name is Jeff"
+  c.Write("Hello, ")         // => "Hello, "
+  c.Write([]byte("World! ")) // => "Hello, World! "
+  c.Write(123)               // => "Hello, World! 123"
 })
 ```
 
 ## XHR
 
-A Boolean property that is true if the request’s `X-Requested-With` header field is `XMLHttpRequest`, indicating that the request was issued by a client library such as [jQuery](https://api.jquery.com/jQuery.ajax/).
+A Boolean property, that is `true`, if the request’s [X-Requested-With](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers) header field is [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest), indicating that the request was issued by a client library \(such as [jQuery](https://api.jquery.com/jQuery.ajax/)\).
 
-### Signature
+#### Signature
 
 ```go
 c.XHR() bool
 ```
 
-### Example
+#### Example
 
 ```go
 // X-Requested-With: XMLHttpRequest
+
 app.Get("/", func(c *fiber.Ctx) {
   c.XHR() // => true
 })
@@ -1421,27 +1408,30 @@ app.Get("/", func(c *fiber.Ctx) {
 
 XML sets the header to `application/xml` and unmarshals your interface to XML.
 
-### Signature
+#### Signature
 
 ```go
 c.XML(xml interface{}) error
 ```
 
-### Example
+#### Example
 
 ```go
-type person struct {
+type SomeStruct struct {
     Name  string `xml:"name"`
     Stars int    `xml:"stars"`
 }
 
-app := fiber.New()
 app.Get("/", func(c *fiber.Ctx) {
-    c.XML(person{"John", 50})
-    // => Content-Type: application/xml
-    // => <person><name>John</name><stars>50</stars></person>
-
+  // Create data struct:
+  data := SomeStruct{
+    "John", 
+    50,
+  }
+  
+  c.XML(data)
+  // => Content-Type: application/xml
+  // => <person><name>John</name><stars>50</stars></person>
 })
-app.Listen(8080)
 ```
 
