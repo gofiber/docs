@@ -1,47 +1,55 @@
-# Context
+---
+description: >-
+  The Ctx struct represents the Context which hold the HTTP request and
+  response. It has methods for the request query string, parameters, body, HTTP
+  headers and so on.
+---
 
-The `Ctx` struct represents the HTTP request and response and has methods for the request query string, parameters, body, HTTP headers, and so on. In this documentation and by convention, the context is always referred to as `c` but its actual name is determined by the parameters to the callback method in which you’re working.
+# 🧠  Context
 
 ## Accepts
 
-Checks if the specified content types are acceptable, based on the request’s `Accept HTTP header` field. You can use an extension or content-type format.
+Checks if the specified extensions or content types are acceptable, based on the request’s `Accept` HTTP header.
+
+#### Signature
 
 ```go
-// Method signature
 c.Accepts(types ...string) string
+```
 
-// Example
+#### Example
+
+```go
 app.Get("/", func(c *fiber.Ctx) {
   // Accept: text/html
-  c.Accepts("html")
-  // => "html"
+  c.Accepts("html") // => "html"
 
   // Accept: text/*, application/json
-  c.Accepts("html")
-  // => "html"
-  c.Accepts("text/html")
-  //=> "text/html"
-  c.Accepts("json", "text")
-  // => "json"
-  c.Accepts("application/json")
+  c.Accepts("html") // => "html"
+  c.Accepts("text/html") //=> "text/html"
+  c.Accepts("json", "text") // => "json"
+  c.Accepts("application/json") 
   // => "application/json"
 
   // Accept: text/*, application/json
-  c.Accepts("image/png")
-  c.Accepts("png")
-  // => ""
+  c.Accepts("image/png") // => "
+  c.Accepts("png") // => ""
 })
 ```
 
 ## AcceptsCharsets
 
-Returns the first accepted char set of the specified character sets, based on the request’s `Accept-Charset` HTTP header field.
+Checks if the specified char-set is acceptable, based on the request’s `Accept-Charset` HTTP header.
+
+#### Signature
 
 ```go
-// Method signature
 c.AcceptsCharsets(charsets ...string) string
+```
 
-// Example
+#### Example
+
+```go
 app.Get("/", func(c *fiber.Ctx) {
   // Accept-Charset: utf-8, iso-8859-1;q=0.2, utf-7;q=0.5
   c.AcceptsCharsets("utf-8")
@@ -57,13 +65,17 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## AcceptsEncodings
 
-Returns the first accepted encoding of the specified encodings, based on the request’s `Accept-Encoding` HTTP header field.
+Checks if the specified encoding is acceptable, based on the request’s `Accept-Encoding` HTTP header.
+
+#### Signature
 
 ```go
-// Method signature
 c.AcceptsEncodings(encodings ...string) string
+```
 
-// Example
+#### Example
+
+```go
 app.Get("/", func(c *fiber.Ctx) {
   // Accept-Encoding: gzip, compress;q=0.2
   c.AcceptsEncodings("gzip")
@@ -79,13 +91,17 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## AcceptsLanguages
 
-Returns the first accepted language of the specified languages, based on the request’s `Accept-Language` HTTP header field.
+Checks if the specified language is acceptable, based on the request’s `Accept-Language` HTTP header.
+
+#### Signature
 
 ```go
-// Method signature
 c.AcceptsLanguages(languages ...string) string
+```
 
-// Example
+#### Example
+
+```go
 app.Get("/", func(c *fiber.Ctx) {
   // Accept-Language: en;q=0.8, es, pt
   c.AcceptsLanguages("en")
@@ -101,41 +117,44 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Append
 
-Appends the specified value to the HTTP response header field. If the header is not already set, it creates the header with the specified value. The values parameter must be a `string`.
+Appends the specified value to the HTTP response header field. If the header is not already set, it creates the header with the specified value.
+
+#### Signature
 
 ```go
-// Method signature
 c.Append(field, values ...string)
+```
 
-// Example
+#### Example
+
+```go
 app.Get("/", func(c *fiber.Ctx) {
-  // Let's see if the Link header exist
-  c.Get("Link")
-  // => ""
-
   c.Append("Link", "http://google.com", "http://localhost")
   // => Link: http://localhost, http://google.com
-
+  
   c.Append("Link", "Test")
   // => Link: http://localhost, http://google.com, Test
-
 })
 ```
 
 ## Attachment
 
-Sets the HTTP response [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header field to `attachment`. If a filename is given, then it sets the Content-Type based on the extension name via [Type](context.md#type), and sets the `Content-Disposition` `filename=` parameter.
+Sets the HTTP response ****[Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header field to `attachment`. 
+
+#### Signature
 
 ```go
-// Method signature
 c.Attachment(file ...string)
+```
 
-// Example
+#### Example
+
+```go
 app.Get("/", func(c *fiber.Ctx) {
-  c.Attachment()
+  c.Attachment() 
   // => Content-Disposition: attachment
-
-  c.Attachment("./static/img/logo.png")
+  
+  c.Attachment("./upload/images/logo.png")
   // => Content-Disposition: attachment; filename="logo.png"
   // => Content-Type: image/png
 })
@@ -143,150 +162,151 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## BaseURL
 
-Returns the protocol + hostname as a string
+Returns base URL \(**protocol** + **host**\) as a `string`.
+
+#### Signature
 
 ```go
-// Method signature
 c.BaseURL() string
-
-// Example: GET https://fiber.wiki/context#baseurl
-app.Get("/", func(c *fiber.Ctx) {
-  c.BaseURL() // => https://fiber.wiki
-})
 ```
 
-## AcceptsLanguages
-
-Returns the base URL, protocol and host name combined.
+#### Example
 
 ```go
-// Method signature
-c.BaseURL() bool
-
-// Example
+// GET https://example.com/page#chapter-1
 app.Get("/", func(c *fiber.Ctx) {
-  // http://webtech.oregonstate.edu/faq/page/2?sort=date
-  c.BaseURL()
-  // => "http://webtech.oregonstate.edu"
+  c.BaseURL() // => https://example.com
 })
 ```
 
 ## BasicAuth
 
-Returns the username and password provided in the request's `Authorization header`, if the request uses [HTTP Basic Authentication](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication).
+Returns **username** and **password** provided in `Authorization` header of request, if request uses [HTTP Basic Authentication](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication).
+
+#### Signature
 
 ```go
-// Method signature
 c.BasicAuth() (user, pass string, ok bool)
+```
 
-// Example
-// curl --user john:doe http://localhost:8080
-app.Get("/", func(c *fiber.Ctx) {
+#### Example
 
+```go
+// curl --user john:doe http://localhost:8080/auth
+app.Get("/auth", func(c *fiber.Ctx) {
   user, pass, ok := c.BasicAuth()
-
+  
   if !ok || user != "john" || pass != "doe" {
     c.Status(403).Send("Forbidden")
     return
   }
-
+  
   c.Send("Welcome " + user)
 })
 ```
 
 ## Body
 
-Contains the raw post body submitted in the request.  
-Calling a key in body returns a string value if exist or you loop trough the body params using a key value method callback.
+Contains the **raw body** submitted in a **POST** request.
 
-The following example shows how to use the body method.
+#### Signature
 
 ```go
-// Method signature
 c.Body() string
 c.Body(key string) string
 c.Body(key []byte) string
-c.Body(func(key value string)) func(string, string)
+c.Body(func(key, value string)) func(string, string)
+```
 
-// Example
-// curl -X POST http://localhost:8080 -d user=john
+#### Example
+
+```go
+// $ curl -X POST http://localhost:8080 -d user=john
+
 app.Post("/", func(c *fiber.Ctx) {
-  // Get the raw body post
-  c.Body()
-  // => user=john
+  // Get raw body from POST request:
+  c.Body() // => user=john
 
-  // Get the body value using specific key
-  c.Body("user")
-  // => "john"
+  // Get body value by specific key:
+  c.Body("user") // => "john"
 
-  // Loop trough all body params
+  // Loop trough all body params:
   c.Body(func(key string, val string) {
-    fmt.Printl(key, val)
-    // => "user" "john"
+    fmt.Printl(key, val) // => "user" "john"
   })
 })
 ```
 
 ## ClearCookie
 
-Clears all client cookies or a specific cookie by name by setting the expire date in the past.
+Clears **all** client cookies or a specific cookie by **name** \(_by setting expire date in the past_\).
+
+#### Signature
 
 ```go
-// Method signature
 c.ClearCookie()
 c.ClearCookie(key string)
+```
 
-// Example
+#### Example
+
+```go
 app.Get("/", func(c *fiber.Ctx) {
-  // Clears all cookies
+  // Clears all cookies:
   c.ClearCookie()
 
-  // Expire specific cookie
+  // Expire specific cookie by name:
   c.ClearCookie("user")
 
-  // Expire multiple cookies
+  // Expire multiple cookies by names:
   c.ClearCookie("token", "session", "track_id", "version")
 })
 ```
 
 ## Cookie
 
-Sets cookie name to value, the third options parameter is not implemented yet.
+Sets cookie with **name** and **value**.
+
+#### Signature
 
 ```go
-// Method signature
 c.Cookie(name, value string)
 c.Cookie(name, value string, options *Cookie{})
+```
 
-// Cookie options struct
+#### Cookie struct
+
+{% hint style="warning" %}
+`Expire`option will **not** be used, if`MaxAge`is set.
+{% endhint %}
+
+```go
 &fiber.Cookie{
-  Expire int64 // Unix timestamp
-  MaxAge int // Seconds
-  Domain string
-  Path string
+  Expire   int64  // Unix timestamp
+  MaxAge   int    // Seconds
+  Domain   string
+  Path     string
   HttpOnly bool
-  Secure bool
-  SameSite string // "lax", "strict", "none", ""
+  Secure   bool
+  SameSite string
 }
-// Example
+```
+
+#### Example
+
+```go
 app.Get("/", func(c *fiber.Ctx) {
-  // Set cookie
-  c.Cookie("name", "john")
+  c.Cookie("name", "john") 
   // => Cookie: name=john;
 
-  // Set cookie with optionss
-  options := &fiber.Cookie{
-    Expire:   1579033664,
-    // Use MaxAge instead of Expire, its 2019
-    // Expire will not be used if MaxAge is set
+  c.Cookie("name", "john", &fiber.Cookie{
     MaxAge:   60,
     Domain:   "example.com",
     Path:     "/",
     HttpOnly: true,
     Secure:   true,
     SameSite: "lax",
-  }
-  c.Cookie("name", "john", options)
+  })
   // => name=john; max-age=60; domain=example.com; path=/; HttpOnly; secure; SameSite=Lax
 
 })
@@ -632,12 +652,11 @@ app.Get("/", func(c *fiber.Ctx) {
 
 A method that stores string variables scoped to the request, and therefore available only to the routes that match the request.
 
-This is useful if you want to pass some specific values to the next middleware.
+This is useful if you want to pass some specific values to the next middle ware.
 
 ```go
 // Method signature
-c.Locals(key string)
-c.Locals(key string, value interface{}) interface{}
+c.Locals(key string, value ...interface{}) interface{}
 
 // Example
 app.Get("/", func(c *fiber.Ctx) {
@@ -814,7 +833,7 @@ app.Get("/users", func(c *fiber.Ctx) {
 
 ## Protocol
 
-Contains the request protocol string: either http or \(for TLS requests\) https.
+Contains the request protocol string: either `http` or \(for TLS requests\) `https`.
 
 ```go
 // Method signature
@@ -855,7 +874,7 @@ Planned for v2
 
 ## Redirect
 
-Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code . If not specified, status defaults to `302 “Found`.
+Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code . If not specified, status defaults to `302 Found`.
 
 ```go
 // Method signature
@@ -909,7 +928,7 @@ c.SaveFile(fh *multipart.FileHeader, path string)
 
 ## Secure
 
-A Boolean property that is true if a TLS connection is established.
+A Boolean property that is `true` if a TLS connection is established.
 
 ```go
 // Method signature
@@ -940,8 +959,8 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-Fiber also provides raw `Send` methods like `SendBytes` & `SendString` .  
-Use this if you do not need type assertion, it is recommended for better performance.
+Fiber also provides raw methods: `SendBytes` & `SendString` .  
+Use this if you do not need type assertion, it is recommended for faster performance.
 
 ```go
 // Method signature
@@ -960,7 +979,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## SendFile
 
-Transfers the file at the given path. Sets the `Content-Type` response HTTP header field based on the filename’s extension.
+Transfers the file at the given path. Sets the `Content-Type` response HTTP header field based on the filenames extension.
 
 ```go
 // Method signature
@@ -1086,7 +1105,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Vary
 
-Adds the given header field to the Vary response header of res. This can be a single field, or multiple fields.
+Adds the given header field to the Vary response header of res. Multiple fields are allowed.
 
 This will append the header if not already listed, otherwise leaves it listed in the current location.
 
@@ -1096,10 +1115,6 @@ c.Vary(field ...string)
 
 // Example
 app.Get("/", func(c *fiber.Ctx) {
-  // Let's assume there are no values in Vary yet
-  c.Get("Vary")
-  // =>
-
   c.Vary("Origin")
   // => Vary: Origin
 
@@ -1117,9 +1132,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Write
 
-Appends to the HTTP response.
-
-The Write parameter can be any type
+Appends any input to the HTTP body response.
 
 ```go
 // Method signature
@@ -1136,7 +1149,7 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Write(123)
   // => "Hello, World! 123"
 
-  // Send sets the body, and does not append like Write
+  // Send does not append like Write
   c.Send("My name is Jeff")
   // => "My name is Jeff"
 })
@@ -1150,16 +1163,15 @@ A Boolean property that is true if the request’s `X-Requested-With` header fie
 // Method signature
 c.XHR() bool
 
-// Example
+// X-Requested-With: XMLHttpRequest
 app.Get("/", func(c *fiber.Ctx) {
-  c.XHR()
-  // => true
+  c.XHR() // => true
 })
 ```
 
 ## XML
 
-XML sets the header to `application/xml` and marshals your interface to xml.
+XML sets the header to `application/xml` and unmarshals your interface to XML.
 
 ```go
 // Method signature
