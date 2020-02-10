@@ -357,7 +357,11 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Download
 
-Transfers the file from path as an `attachment`. Typically, browsers will prompt the user for download. By default, the [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header `filename=` parameter is path \(_this typically appears in the browser dialog_\). Override this default with the **filename** parameter.
+Transfers the file from path as an `attachment`. 
+
+Typically, browsers will prompt the user for download. By default, the [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header `filename=` parameter is path \(_this typically appears in the browser dialog_\). 
+
+Override this default with the **filename** parameter.
 
 #### Signature
 
@@ -583,7 +587,7 @@ If the request has **no** body, it returns **false**.
 #### Signature
 
 ```go
-c.Is(type string) bool
+c.Is(t string) bool
 ```
 
 #### Example
@@ -683,17 +687,17 @@ app.Get("/json", func(c *fiber.Ctx) {
 
 ## JSONP
 
-Sends a JSON response with JSONP support. This method is identical to [JSON\(\)](context.md#json), except that it opts-in to JSONP callback support.
+Sends a JSON response with JSONP support. This method is identical to [JSON](context.md#json), except that it opts-in to JSONP callback support. By default, the JSONP callback name is simply callback. 
 
-By default, the JSONP callback name is simply callback. Override this by passing a named string in the method.
+Override this by passing a **named string** in the method.
 
-### Signature
+#### Signature
 
 ```go
 c.JSONP(v interface{}, callback ...string) error
 ```
 
-### Example
+#### Example
 
 ```go
 type SomeStruct struct {
@@ -701,32 +705,32 @@ type SomeStruct struct {
   age  uint8
 }
 
-app := fiber.New()
 app.Get("/", func(c *fiber.Ctx) {
+  // Create data struct:
   data := SomeStruct{
     name: "Grame",
     age:  20,
   }
+  
   c.JSONP(data)
   // => callback({"name": "Grame", "age": 20})
 
   c.JSONP(data, "customFunc")
   // => customFunc({"name": "Grame", "age": 20})
 })
-app.Listen(8080)
 ```
 
 ## Links
 
-Joins the links followed by the property to populate the response’s Link HTTP header field.
+Joins the links followed by the property to populate the response’s [Link](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Link) HTTP header field.
 
-### Signature
+#### Signature
 
 ```go
 c.Links(link ...string)
 ```
 
-### Example
+#### Example
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -741,26 +745,29 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Locals
 
-A method that stores string variables scoped to the request, and therefore available only to the routes that match the request.
+Method that stores string variables scoped to the request and therefore available only to the routes that match the request.
 
-This is useful if you want to pass some specific values to the next middle ware.
+{% hint style="success" %}
+This is useful, if you want to pass some **specific values** to the next middleware.
+{% endhint %}
 
-### Signature
+#### Signature
 
 ```go
 c.Locals(key string, value ...interface{}) interface{}
 ```
 
-### Example
+#### Example
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   c.Locals("user", "admin")
   c.Next()
 })
-app.Get("/", func(c *fiber.Ctx) {
-  if c.Locals("user") != "admin" {
-    c.Status(200).Send("Welcome admin!")
+
+app.Get("/admin", func(c *fiber.Ctx) {
+  if c.Locals("user") == "admin" {
+    c.Status(200).Send("Welcome, admin!")
   } else {
     c.SendStatus(403)
     // => 403 Forbidden
@@ -768,37 +775,41 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-You can put any type inside the locals, don't forget to convert it back when you are using the variable
+{% hint style="info" %}
+You can put any type inside the **Locals**, but don't forget to convert it back, when you are using the variable.
+{% endhint %}
 
 ```go
-type JSON struct {
+type SomeStruct struct {
   Message string `json:"message"`
 }
 
-// Example
 app.Get("/", func(c *fiber.Ctx) {
-  c.Locals("user", JSON{"Hello, World!"})
+  c.Locals("user", SomeStruct{"Hello, World!"})
   // => user: {"message":"Hello, World!"}
+  
   c.Next()
 })
+
 app.Get("/", func(c *fiber.Ctx) {
-  if val, ok := c.Locals("user").(JSON); ok {
+  if val, ok := c.Locals("user").(SomeStruct); ok {
     fmt.Println(val.Message)
+    // => "Hello, World!"
   }
 })
 ```
 
 ## Location
 
-Sets the response Location HTTP header to the specified path parameter.
+Sets the response [Location](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Location) HTTP header to the specified path parameter.
 
-### Signature
+#### Signature
 
 ```go
 c.Location(path string)
 ```
 
-### Example
+#### Example
 
 ```go
 app.Post("/", func(c *fiber.Ctx) {
@@ -809,58 +820,55 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Method
 
-Contains a string corresponding to the HTTP method of the request: `GET`, `POST`, `PUT`, and so on.
+Contains a string corresponding to the HTTP method of the request: GET, POST, PUT and so on.
 
-### Signature
+#### Signature
 
 ```go
 c.Method() string
 ```
 
-### Example
+#### Example
 
 ```go
 app.Post("/", func(c *fiber.Ctx) {
-  c.Method()
-  // => "POST"
+  c.Method() // => "POST"
 })
 ```
 
 ## MultipartForm
 
-To access multipart form entries, you can parse the binary with `MultipartForm()`.  
-This returns a `map[string][]string`, so given a key the value will be a string slice.  
-So accepting multiple files or values is easy, as shown below!
+To access multipart form entries, you can parse the binary with `MultipartForm()`. This returns a `map[string][]string`, so given a key the value will be a string slice.
 
-### Signature
+#### Signature
 
 ```go
 c.MultipartForm() (*multipart.Form, error)
 ```
 
-### Example
+#### Example
 
 ```go
 app.Post("/", func(c *fiber.Ctx) {
-  // Parse the multipart form
+  // Parse the multipart form:
   if form, err := c.MultipartForm(); err == nil {
     // => *multipart.Form
 
     if token := form.Value["token"]; len(token) > 0 {
-      // Get key value
+      // Get key value:
       fmt.Println(token[0])
     }
 
-    // Get all files from "documents" key
+    // Get all files from "documents" key:
     files := form.File["documents"]
     // => []*multipart.FileHeader
 
-    // Loop trough files
+    // Loop trough files:
     for _, file := range files {
       fmt.Println(file.Filename, file.Size, file.Header["Content-Type"][0])
       // => "tutorial.pdf" 360641 "application/pdf"
 
-      // Save the files to disk
+      // Save the files to disk:
       c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
     }
   }
@@ -869,25 +877,27 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Next
 
-When `Next()` is called, it executes the next method in the stack that matches the current route.
+When **Next** is called, it executes the next method in the stack that matches the current route.
 
-### Signature
+#### Signature
 
 ```go
 c.Next()
 ```
 
-### Example
+#### Example
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   fmt.Printl("1st route!")
   c.Next()
 })
+
 app.Get("*", func(c *fiber.Ctx) {
   fmt.Printl("2nd route!")
   c.Next()
 })
+
 app.Get("/", func(c *fiber.Ctx) {
   fmt.Printl("3rd route!")
   c.Send("Hello, World!")
@@ -898,36 +908,41 @@ app.Get("/", func(c *fiber.Ctx) {
 
 Contains the original request URL.
 
-### Signature
+#### Signature
 
 ```go
 c.OriginalURL() string
 ```
 
-### Example
+#### Example
 
 ```go
+// GET http://example.com/search?q=something
+
 app.Get("/", func(c *fiber.Ctx) {
-  // GET /search?q=something
-  c.OriginalURL()
-  // => '/search?q=something'
+  c.OriginalURL() // => "/search?q=something"
 })
 ```
 
 ## Params
 
-This method can be used to get the route parameters. For example, if you have the route `/user/:name`, then the `“name”` property is available as `c.Params("name")`. This method defaults to blank `""` if the param does not exist.
+Method can be used to get the route parameters.
 
-### Signature
+{% hint style="info" %}
+Defaults to empty string \(`""`\), if the param **doesn't** exist.
+{% endhint %}
+
+#### Signature
 
 ```go
 c.Params(param string) string
 ```
 
-### Example
+#### Example
 
 ```go
-// GET /user/tj
+// GET http://example.com/user/tj
+
 app.Get("/user/:name", func(c *fiber.Ctx) {
   c.Params("name") // => "tj"
 })
@@ -937,82 +952,88 @@ app.Get("/user/:name", func(c *fiber.Ctx) {
 
 Contains the path part of the request URL.
 
-### Signature
+#### Signature
 
 ```go
 c.Path() string
 ```
 
-### Example
+#### Example
 
 ```go
+// GET http://example.com/users?sort=desc
+
 app.Get("/users", func(c *fiber.Ctx) {
-  // example.com/users?sort=desc
-  c.Path()
-  // => "/users"
+  c.Path() // => "/users"
 })
 ```
 
 ## Protocol
 
-Contains the request protocol string: either `http` or \(for TLS requests\) `https`.
+Contains the request protocol string: `http` or `https` for **TLS** requests.
 
-### Signature
+#### Signature
 
 ```go
 c.Protocol() string
 ```
 
-### Example
+#### Example
 
 ```go
+// GET http://example.com
+
 app.Get("/", func(c *fiber.Ctx) {
-  c.Protocol()
-  // => "http"
+  c.Protocol() // => "http"
 })
 ```
 
 ## Query
 
-This property is an object containing a property for each query string parameter in the route. If there is no query string, it returns an empty string
+This property is an object containing a property for each query string parameter in the route.
 
-### Signature
+{% hint style="info" %}
+If there is **no** query string, it returns an **empty string**.
+{% endhint %}
+
+#### Signature
 
 ```go
 c.Query(parameter string) string
 ```
 
-### Example
+#### Example
 
 ```go
-app.Get("/", func(c *fiber.Ctx) {
-  // GET /search?q=tobi+ferret
-  c.Query("q")
-  // => "tobi ferret"
+// GET http://example.com/shoes?order=desc&brand=nike
 
-  // GET /shoes?order=desc&shoe[color]=blue&shoe[type]=converse
-  c.Query("order")
-  // => "desc"
+app.Get("/", func(c *fiber.Ctx) {
+  c.Query("order") // => "desc"
+  c.Query("brand") // => "nike"
 })
 ```
 
 ## Range
 
 {% hint style="danger" %}
-Planned for v2
+Planned for **Fiber** v2.
 {% endhint %}
 
 ## Redirect
 
-Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code . If not specified, status defaults to `302 Found`.
+Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code.
 
-### Signature
+{% hint style="info" %}
+If **not** specified, status defaults to **302 Found**.
+{% endhint %}
+
+#### Signature
 
 ```go
 c.Redirect(path string, status ...int)
 ```
 
-### Example
+#### Example
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -1026,27 +1047,33 @@ app.Get("/", func(c *fiber.Ctx) {
 ## Render
 
 {% hint style="danger" %}
-Planned for v2
+Planned for **Fiber** v2.
 {% endhint %}
 
 ## Route
 
-Contains the currently-matched route struct, **only use this for debugging**. It returns the [Route struct](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc#Route).
+Contains the currently-matched [Route](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc#Route) struct.
 
-### Signature
+{% hint style="warning" %}
+Use this method **only** for debugging.
+{% endhint %}
+
+#### Signature
 
 ```go
 c.Route() *Route
 ```
 
-### Example
+#### Example
 
 ```go
+// http://localhost:8080/hello
+
 app.Get("/hello", func(c *fiber.Ctx) {
   c.Route()
   // => {GET /hello false false <nil> [] 0x7b4ab0}
 })
-// http://localhost:8080/hello
+
 app.Post("/:api?", func(c *fiber.Ctx) {
   c.Route()
   // => {POST / false false ^(?:/([^/]+?))?/?$ [api] 0x7b49e0}
