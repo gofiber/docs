@@ -1431,7 +1431,7 @@ app.Get("/", func(c *fiber.Ctx) {
   
   c.XML(data)
   // => Content-Type: application/xml
-  // => <person><name>John</name><stars>50</stars></person>
+  // => <some-struct><name>John</name><stars>50</stars></some-struct>
 })
 ```
 
