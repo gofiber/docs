@@ -11,4 +11,5 @@
 * [Github](https://github.com/gofiber/fiber)
 * [Examples](https://github.com/gofiber/recipes)
 * [License](https://github.com/gofiber/fiber/blob/master/LICENSE)
+* [☕ Buy a Coffee](https://www.buymeacoffee.com/fenny)
 
