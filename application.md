@@ -6,7 +6,7 @@ description: The app instance conventionally denotes the Fiber application.
 
 ## New
 
-Creates an new Fiber instance named "**app**".
+Creates a new Fiber instance named "**app**".
 
 ```go
 app := fiber.New()
