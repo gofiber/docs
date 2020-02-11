@@ -1,7 +1,5 @@
 ---
-description: >-
-  This benchmarks aims to compare the performance of Fiber and other Go web
-  frameworks.
+description: '- TODO: Add short description -'
 ---
 
 # 🤖  Benchmarks
@@ -16,8 +14,10 @@ description: >-
 * **OS** Linux
 * **NET** Dedicated Cisco 10-gigabit Ethernet switch.
 
-To see all language frameworks, visit [Plaintext All Results](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext).  
-To view the list yourself, visit [Plaintext Go Results](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext&l=zijocf-1r).
+Below you can see the results of tested go frameworks responding in plaintext.
+
+> To view the list yourself, visit [Plaintext Go Results](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext&l=zijocf-1r).  
+> To see all language frameworks, visit [Plaintext All Results](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext).
 
 #### Plaintext
 
