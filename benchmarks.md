@@ -1,5 +1,7 @@
 ---
-description: '- TODO: Add short description -'
+description: >-
+  This benchmarks aims to compare the performance of Fiber and other Go web
+  frameworks.
 ---
 
 # 🤖  Benchmarks
@@ -14,10 +16,8 @@ description: '- TODO: Add short description -'
 * **OS** Linux
 * **NET** Dedicated Cisco 10-gigabit Ethernet switch.
 
-Below you can see the results of tested go frameworks responding in plaintext.
-
-> To view the list yourself, visit [Plaintext Go Results](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext&l=zijocf-1r).  
-> To see all language frameworks, visit [Plaintext All Results](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext).
+To see all language frameworks, visit [Plaintext All Results](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext).  
+To view the list yourself, visit [Plaintext Go Results](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext&l=zijocf-1r).
 
 #### Plaintext
 
@@ -29,7 +29,7 @@ Below you can see the results of tested go frameworks responding in plaintext.
 
 #### JSON serialization
 
-![](.gitbook/assets/techempower-json.png)
+![](.gitbook/assets/techempower-json%20%281%29.png)
 
 #### Single query
 
@@ -37,11 +37,11 @@ Below you can see the results of tested go frameworks responding in plaintext.
 
 #### Multiple queries
 
-![](.gitbook/assets/techempower-multiple-queries.png)
+![](.gitbook/assets/techempower-multiple-queries%20%281%29.png)
 
 #### Data updates
 
-![](.gitbook/assets/techempower-updates.png)
+![](.gitbook/assets/techempower-updates%20%282%29.png)
 
 ## Go web framework benchmark
 
@@ -54,7 +54,7 @@ Below you can see the results of tested go frameworks responding in plaintext.
 
 The first test case is to mock **0 ms**, **10 ms**, **100 ms**, **500 ms** processing time in handlers.
 
-![](.gitbook/assets/benchmark.png)
+![](.gitbook/assets/benchmark%20%281%29.png)
 
 The concurrency clients are **5000**.
 
@@ -62,7 +62,7 @@ The concurrency clients are **5000**.
 
 Latency is the time of real processing time by web servers. _The smaller is the better._
 
-![](.gitbook/assets/benchmark_alloc.png)
+![](.gitbook/assets/benchmark_alloc%20%282%29.png)
 
 Allocs is the heap allocations by web servers when test is running. The unit is MB. _The smaller is the better._
 
@@ -72,11 +72,11 @@ If we enable **http pipelining**, test result as below:
 
 Concurrency test in **30 ms** processing time, the test result for **100**, **1000**, **5000** clients is:
 
-![](.gitbook/assets/concurrency.png)
+![](.gitbook/assets/concurrency%20%282%29.png)
 
-![](.gitbook/assets/concurrency_latency.png)
+![](.gitbook/assets/concurrency_latency%20%282%29.png)
 
-![](.gitbook/assets/concurrency_alloc.png)
+![](.gitbook/assets/concurrency_alloc%20%282%29.png)
 
 If we enable **http pipelining**, test result as below:
 
