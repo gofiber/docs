@@ -1,14 +1,13 @@
-# Table of contents
+# 目次
 
-* [📖  Getting started](README.md)
-* [🚀  Application](application.md)
-* [🧠  Context](context.md)
-* [🔌  Routing](routing.md)
-* [🤖  Benchmarks](benchmarks.md)
+- [📖はじめに](README.md)
+- [🚀アプリケーション](application.md)
+- [🧠コンテキスト](context.md)
+- [🔌ルーティング](routing.md)
+- [🤖ベンチマーク](benchmarks.md)
 
-## Links
+## リンク集
 
-* [📝 Github](https://github.com/gofiber/fiber)
-* [🍳 Examples](https://github.com/gofiber/recipes)
-* [☕ Buy a Coffee](https://www.buymeacoffee.com/fenny)
-
+- [📝Github](https://github.com/gofiber/fiber)
+- [🍳例](https://github.com/gofiber/recipes)
+- [Coffeeコーヒーを買う](https://www.buymeacoffee.com/fenny)

@@ -1,30 +1,28 @@
 ---
-description: A hosted documentation so you can start building web apps with Fiber.
+description: ホストされたドキュメント。Fiberを使用してWebアプリの構築を開始できます。
 ---
 
-# 📖  Getting started
+# 📖はじめに
 
 [![](https://img.shields.io/github/release/gofiber/fiber?style=flat-square)](https://github.com/gofiber/fiber/releases) [![](https://img.shields.io/badge/api-documentation-blue?style=flat-square)](https://fiber.wiki) ![](https://img.shields.io/badge/goreport-A%2B-brightgreen?style=flat-square) [![](https://img.shields.io/badge/coverage-91%25-brightgreen?style=flat-square)](https://gocover.io/github.com/gofiber/fiber) [![](https://img.shields.io/travis/gofiber/fiber/master.svg?label=linux&style=flat-square)](https://travis-ci.org/gofiber/fiber) [![](https://img.shields.io/travis/gofiber/fiber/master.svg?label=windows&style=flat-square)](https://travis-ci.org/gofiber/fiber)
 
-**Fiber** is an [Expressjs](https://github.com/expressjs/express) inspired **web framework** build on top of [Fasthttp](https://github.com/valyala/fasthttp), the **fastest** HTTP engine for [Go](https://golang.org/doc/). Designed to **ease** things up for **fast** development with **zero memory allocation** and **performance** in mind.
+**Fiber**は、 [Go](https://golang.org/doc/)用の**最速の** HTTPエンジンである[Fasthttpの](https://github.com/valyala/fasthttp)上に構築された[Expressjsに](https://github.com/expressjs/express)ヒントを得た**Webフレームワーク**です。 **ゼロのメモリ割り当て**と**パフォーマンス**を念頭に置いて、開発を**迅速**に**行える**ように設計されてい**ます** 。
 
-## Installing
+## インストール中
 
-First of all, [download](https://golang.org/dl/) and install Go.
+まず、Goを[ダウンロード](https://golang.org/dl/)してインストールします。
 
-{% hint style="success" %}
-Go **1.11** \(with enabled [Go Modules](https://golang.org/doc/go1.11#modules)\) or higher is required.
-{% endhint %}
+{％hint style = "success"％} Go **1.11** （有効な[Goモジュール](https://golang.org/doc/go1.11#modules) ）以上が必要です。 {％endhint％}
 
-Installation is done using the [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) command:
+インストールは[`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them)コマンドを使用して行われ[`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) 。
 
 ```bash
 go get -u github.com/gofiber/fiber
 ```
 
-## Hello, World!
+## こんにちは世界！
 
-Embedded below is essentially simplest **Fiber** app, which you can create.
+以下に埋め込まれているのは、基本的に最も簡単な**Fiber**アプリで、作成できます。
 
 ```text
 touch server.go
@@ -38,13 +36,13 @@ import "github.com/gofiber/fiber"
 func main() {
   // Create new Fiber instance:
   app := fiber.New()
-
+  
   // Create route on root path, "/":
   app.Get("/", func(c *fiber.Ctx) {
     c.Send("Hello, World!")
     // => "Hello, World!"
   })
-
+  
   // Start server on "localhost" with port "8080":
   app.Listen(8080)
 }
@@ -54,17 +52,15 @@ func main() {
 go run server.go
 ```
 
-Browse to `http://localhost:8080` and you should see `Hello, World!` on the page.
+`http://localhost:8080`を参照すると、 `Hello, World!`が表示されます`Hello, World!`ページで。
 
-## Basic routing
+## 基本的なルーティング
 
-Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI \(or path\) and a specific HTTP request method \(GET, PUT, POST and so on\).
+ルーティングとは、アプリケーションが特定のエンドポイントに対するクライアントリクエストに応答する方法を決定することです。クライアントリクエストは、URI（またはパス）および特定のHTTPリクエストメソッド（GET、PUT、POSTなど）です。
 
-{% hint style="info" %}
-Each route can have **one handler function**, that is executed when the route is matched.
-{% endhint %}
+{％hint style = "info"％}各ルートには、ルートが一致したときに実行される**1つのハンドラー関数を含める**ことができます。 {％endhint％}
 
-Route definition takes the following structures:
+ルート定義は次の構造を取ります。
 
 ```go
 // Function signature
@@ -72,12 +68,12 @@ app.Method(func(*fiber.Ctx))
 app.Method(path string, func(*fiber.Ctx))
 ```
 
-* `app` is an instance of **Fiber**.
-* `Method` is an [HTTP request method](https://fiber.wiki/application#methods), in capitalization: `Get`, `Put`, `Post`, etc.
-* `path` is a path on the server.
-* `func(*fiber.Ctx)` is a callback function containing the [Context](https://fiber.wiki/context) executed when the route is matched.
+- `app`は**Fiberの**インスタンスです。
+- `Method`は、大文字の`Get` [要求](https://fiber.wiki/application#methods) 、 `Put` 、 `Post`などの[HTTP要求](https://fiber.wiki/application#methods) `Method`です。
+- `path`はサーバー上の`path`です。
+- `func(*fiber.Ctx)`は、ルートが一致したときに実行される[コンテキスト](https://fiber.wiki/context)を含むコールバック関数です。
 
-### Simple route
+### 簡単なルート
 
 ```go
 // Respond with "Hello, World!" on root path, "/":
@@ -86,7 +82,7 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-### Route with parameter
+### パラメータ付きのルート
 
 ```go
 // GET http://localhost:8080/hello%20world
@@ -97,7 +93,7 @@ app.Get("/:value", func(c *fiber.Ctx) {
 })
 ```
 
-### Route with optional parameter
+### オプションのパラメーターを使用したルート
 
 ```go
 // GET http://localhost:8080/hello%20world
@@ -108,12 +104,12 @@ app.Get("/:value?", func(c *fiber.Ctx) {
     // => Get request with value: hello world
     return
   }
-
+  
   c.Send("Get request without value")
 })
 ```
 
-### Route with wildcard
+### ワイルドカードを使用したルート
 
 ```go
 // GET http://localhost:8080/api/user/john
@@ -124,18 +120,18 @@ app.Get("/api/*", func(c *fiber.Ctx) {
 })
 ```
 
-## Static files
+## 静的ファイル
 
-To serve static files such as **images**, **CSS** and **JavaScript** files, replace your function handler with a file or directory string.
+**画像** 、 **CSS** 、 **JavaScript**ファイルなどの静的ファイルを提供するには、関数ハンドラーをファイルまたはディレクトリの文字列に置き換えます。
 
-Function signature:
+関数シグネチャ：
 
 ```go
 app.Static(root string)         // => without prefix
 app.Static(prefix, root string) // => with prefix
 ```
 
-Use the following code to serve files in a directory named `./public`:
+次のコードを使用して、. `./public`という名前のディレクトリ内のファイルを提供します。
 
 ```go
 app := fiber.New()
@@ -145,11 +141,10 @@ app.Static("./public") // => Serve all files into ./public
 app.Listen(8080)
 ```
 
-Now, you can load the files that are in the `./public` directory:
+これで、。 `./public`ディレクトリにあるファイルをロードできます。
 
 ```bash
 http://localhost:8080/hello.html
 http://localhost:8080/js/jquery.js
 http://localhost:8080/css/style.css
 ```
-

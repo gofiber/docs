@@ -1,27 +1,22 @@
 ---
-description: >-
-  The Ctx struct represents the Context which hold the HTTP request and
-  response. It has methods for the request query string, parameters, body, HTTP
-  headers and so on.
+description: Ctx構造体は、HTTP要求と応答を保持するコンテキストを表します。要求クエリ文字列、パラメーター、ボディ、HTTPヘッダーなどのメソッドがあります。
 ---
 
-# 🧠  Context
+# 🧠コンテキスト
 
-## Accepts
+## 受け入れる
 
-Checks, if the specified **extensions** or **content** **types** are acceptable.
+指定された**拡張子**または**コンテンツ** **タイプ**が受け入れ可能かどうかを確認します。
 
-{% hint style="info" %}
-Based on the request’s [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header.
-{% endhint %}
+{％hint style = "info"％}要求の[Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTPヘッダーに基づきます。 {％endhint％}
 
-**Signature**
+**署名**
 
 ```go
 c.Accepts(types ...string) string
 ```
 
-**Example**
+**例**
 
 ```go
 // Accept: text/*, application/json
@@ -36,21 +31,19 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## AcceptsCharsets
+## 受け入れます
 
-Checks, if the specified **charset** is acceptable.
+指定された**文字セット**が受け入れ可能かどうかをチェックします。
 
-{% hint style="info" %}
-Based on the request’s [Accept-Charset](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Charset) HTTP header.
-{% endhint %}
+{％hint style = "info"％}リクエストの[Accept-Charset](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Charset) HTTPヘッダーに基づきます。 {％endhint％}
 
-**Signature**
+**署名**
 
 ```go
 c.AcceptsCharsets(charsets ...string) string
 ```
 
-**Example**
+**例**
 
 ```go
 // Accept-Charset: utf-8, iso-8859-1;q=0.2, utf-7;q=0.5
@@ -64,19 +57,17 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## AcceptsEncodings
 
-Checks, if the specified **encoding** is acceptable.
+指定された**エンコード**が受け入れ可能かどうかを確認します。
 
-{% hint style="info" %}
-Based on the request’s [Accept-Encoding](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Encoding) HTTP header.
-{% endhint %}
+{％hint style = "info"％}要求の[Accept-Encoding](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Encoding) HTTPヘッダーに基づきます。 {％endhint％}
 
-**Signature**
+**署名**
 
 ```go
 c.AcceptsEncodings(encodings ...string) string
 ```
 
-**Example**
+**例**
 
 ```go
 // Accept-Encoding: gzip, compress;q=0.2
@@ -88,21 +79,19 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## AcceptsLanguages
+## 言語を受け入れる
 
-Checks if the specified **language** is acceptable.
+指定された**言語**が受け入れ可能かどうかを確認します。
 
-{% hint style="info" %}
-Based on the request’s [Accept-Language](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language) HTTP header.
-{% endhint %}
+{％hint style = "info"％}リクエストの[Accept-Language](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language) HTTPヘッダーに基づきます。 {％endhint％}
 
-**Signature**
+**署名**
 
 ```go
 c.AcceptsLanguages(languages ...string) string
 ```
 
-**Example**
+**例**
 
 ```go
 // Accept-Language: en;q=0.8, nl, ru
@@ -114,21 +103,19 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## Append
+## 追記
 
-Appends the specified **value** to the HTTP response header field.
+指定された**値**をHTTP応答ヘッダーフィールドに追加します。
 
-{% hint style="warning" %}
-If the header is **not** already set, it creates the header with the specified value.
-{% endhint %}
+{％hint style = "warning"％}ヘッダーがまだ設定されて**いない**場合、指定された値でヘッダーを作成します。 {％endhint％}
 
-**Signature**
+**署名**
 
 ```go
 c.Append(field, values ...string)
 ```
 
-**Example**
+**例**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -140,21 +127,21 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## Attachment
+## 添付ファイル
 
-Sets the HTTP response [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header field to `attachment`.
+HTTP応答の[Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition)ヘッダーフィールドを`attachment`設定します。
 
-**Signature**
+**署名**
 
 ```go
 c.Attachment(file ...string)
 ```
 
-**Example**
+**例**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  c.Attachment() 
+  c.Attachment()
   // => Content-Disposition: attachment
 
   c.Attachment("./upload/images/logo.png")
@@ -165,15 +152,15 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## BaseURL
 
-Returns base URL \(**protocol** + **host**\) as a `string`.
+ベースURL（ **プロトコル** + **ホスト** ）を`string`として返します。
 
-**Signature**
+**署名**
 
 ```go
 c.BaseURL() string
 ```
 
-**Example**
+**例**
 
 ```go
 // GET https://example.com/page#chapter-1
@@ -185,15 +172,15 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## BasicAuth
 
-Returns **username** and **password** provided in [Authorization](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization) header of request, if request uses [HTTP Basic Authentication](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication).
+リクエストが[HTTP基本認証を](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication)使用[する](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication)場合、リクエストの[Authorization](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization)ヘッダーで提供される**ユーザー名**と**パスワードを**返します。
 
-**Signature**
+**署名**
 
 ```go
 c.BasicAuth() (user, pass string, ok bool)
 ```
 
-**Example**
+**例**
 
 ```go
 // curl --user john:doe http://localhost:8080/auth
@@ -210,11 +197,11 @@ app.Get("/auth", func(c *fiber.Ctx) {
 })
 ```
 
-## Body
+## 体
 
-Contains the **raw body** submitted in a **POST** request.
+**POST**リクエストで送信された**未加工の本文**が含まれます。
 
-**Signature**
+**署名**
 
 ```go
 c.Body() string
@@ -223,23 +210,23 @@ c.Body(key []byte) string
 c.Body(func(key, value string)) func(string, string)
 ```
 
-**Example**
+**例**
 
 ```go
 // curl -X POST http://localhost:8080 -d user=john
 
 app.Post("/", func(c *fiber.Ctx) {
   // Get raw body from POST request:
-  c.Body() 
+  c.Body()
   // => user=john
 
   // Get body value by specific key:
-  c.Body("user") 
+  c.Body("user")
   // => "john"
 
   // Loop trough all body params:
   c.Body(func(key string, val string) {
-    fmt.Printl(key, val) 
+    fmt.Printl(key, val)
     // => "user" "john"
   })
 })
@@ -247,16 +234,16 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## ClearCookie
 
-Clears **all** client cookies or a specific cookie by **name** \(_by setting expire date in the past_\).
+**すべての**クライアントCookieまたは特定のCookieを**名前で**クリア**し**ます（ *過去の有効期限を設定することにより* ）。
 
-**Signature**
+**署名**
 
 ```go
 c.ClearCookie()
 c.ClearCookie(key string)
 ```
 
-**Example**
+**例**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -271,22 +258,20 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## Cookie
+## クッキー
 
-Sets cookie with **name** and **value**.
+Cookieに**名前**と**値を**設定し**ます** 。
 
-**Signature**
+**署名**
 
 ```go
 c.Cookie(name, value string)
 c.Cookie(name, value string, options *Cookie{})
 ```
 
-**Cookie struct**
+**クッキー構造**
 
-{% hint style="warning" %}
-**Expire** option will **not** be used, if **MaxAge** is set.
-{% endhint %}
+{％hint style = "warning"％} **MaxAge**が設定されている場合、 **有効期限**オプションは使用され**ません** 。 {％endhint％}
 
 ```go
 &fiber.Cookie{
@@ -300,11 +285,11 @@ c.Cookie(name, value string, options *Cookie{})
 }
 ```
 
-**Example**
+**例**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  c.Cookie("name", "john") 
+  c.Cookie("name", "john")
   // => Cookie: name=john;
 
   c.Cookie("name", "john", &fiber.Cookie{
@@ -315,17 +300,17 @@ app.Get("/", func(c *fiber.Ctx) {
     Secure:   true,
     SameSite: "lax",
   })
-  // => name=john; max-age=60; domain=example.com; path=/; 
+  // => name=john; max-age=60; domain=example.com; path=/;
   //    HttpOnly; secure; SameSite=Lax
 
 })
 ```
 
-## Cookies
+## クッキー
 
-Gets cookies.
+クッキーを取得します。
 
-**Signature**s
+**署名**
 
 ```go
 c.Cookies() string
@@ -334,7 +319,7 @@ c.Cookies(key []byte) string
 c.Cookies(func(key, value string)) string
 ```
 
-**Example**
+**例**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -355,21 +340,21 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## Download
+## ダウンロード
 
-Transfers the file from path as an `attachment`.
+パスからファイルを`attachment`として転送します。
 
-Typically, browsers will prompt the user for download. By default, the [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header `filename=` parameter is path \(_this typically appears in the browser dialog_\).
+通常、ブラウザはユーザーにダウンロードを促します。デフォルトでは、 [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition)ヘッダーの`filename=`パラメーターはpathです（ *これは通常、ブラウザーダイアログに表示されます* ）。
 
-Override this default with the **filename** parameter.
+**filename**パラメータでこのデフォルトをオーバーライドします。
 
-**Signature**
+**署名**
 
 ```go
 c.Download(path, filename ...string)
 ```
 
-**Example**
+**例**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -381,23 +366,19 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## End
+## 終わり
 
-{% hint style="danger" %}
-Planned for **Fiber** v2.
-{% endhint %}
+{％hint style = "danger"％} **Fiber** v2で計画されています。 {％endhint％}
 
 ## Fasthttp
 
-You can still **access** and use all **Fasthttp** methods and properties.
+すべての**Fasthttp**メソッドおよびプロパティに引き続き**アクセス**して使用できます。
 
-**Signature**
+**署名**
 
-{% hint style="info" %}
-Please read the [Fasthttp Documentation](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) for more information.
-{% endhint %}
+{％hint style = "info"％}詳細については、 [Fasthttpのドキュメント](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc)をご覧ください。 {％endhint％}
 
-**Example**
+**例**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -409,21 +390,19 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## Format
+## フォーマット
 
-Performs content-negotiation on the [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header. It uses [Accepts](context.md#accepts) to select a proper format.
+[Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTPヘッダーでコンテンツネゴシエーションを実行します。 [Accepts](context.md#accepts)を使用して適切な形式を選択します。
 
-{% hint style="info" %}
-If the header is **not** specified or there is **no** proper format, **text/plain** is used.
-{% endhint %}
+{％hint style = "info"％}ヘッダーが指定されて**いない**か**、**適切な形式が**ない**場合、 **text / plain**が使用されます。 {％endhint％}
 
-**Signature**
+**署名**
 
 ```go
 c.Format(body interface{})
 ```
 
-**Example**
+**例**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -443,15 +422,15 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## FormFile
 
-MultipartForm files can be retrieved by name, the **first** file from the given key is returned.
+MultipartFormファイルは名前で取得でき、指定されたキーの**最初の**ファイルが返されます。
 
-**Signature**
+**署名**
 
 ```go
 c.FormFile(name string) (*multipart.FileHeader, error)
 ```
 
-**Example**
+**例**
 
 ```go
 app.Post("/", func(c *fiber.Ctx) {
@@ -468,15 +447,15 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## FormValue
 
-MultipartForm values can be retrieved by name, the **first** value from the given key is returned.
+MultipartFormの値は名前で取得でき、指定されたキーの**最初の**値が返されます。
 
-**Signature**
+**署名**
 
 ```go
 c.FormValue(name string) string
 ```
 
-**Example**
+**例**
 
 ```go
 app.Post("/", func(c *fiber.Ctx) {
@@ -486,23 +465,21 @@ app.Post("/", func(c *fiber.Ctx) {
 })
 ```
 
-## Fresh
+## 新鮮な
 
-{% hint style="danger" %}
-Planned for **Fiber** v2.
-{% endhint %}
+{％hint style = "danger"％} **Fiber** v2で計画されています。 {％endhint％}
 
-## Get
+## 取得する
 
-Returns the HTTP request header specified by field. The match is case-insensitive.
+フィールドで指定されたHTTP要求ヘッダーを返します。一致は大文字と小文字を区別しません。
 
-**Signature**
+**署名**
 
 ```go
 c.Get(field string) string
 ```
 
-**Example**
+**例**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -512,23 +489,21 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## HeadersSent
+## 送信済みヘッダー
 
-{% hint style="danger" %}
-Planned for **Fiber** v2.
-{% endhint %}
+{％hint style = "danger"％} **Fiber** v2で計画されています。 {％endhint％}
 
-## Hostname
+## ホスト名
 
-Contains the hostname derived from the [Host](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host) HTTP header.
+[Host](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host) HTTPヘッダーから派生した[ホスト](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host)名が含まれます。
 
-**Signature**
+**署名**
 
 ```go
 c.Hostname() string
 ```
 
-**Example**
+**例**
 
 ```go
 // GET http://google.com/search
@@ -540,15 +515,15 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## IP
 
-Returns the remote IP address of the request.
+要求のリモートIPアドレスを返します。
 
-**Signature**
+**署名**
 
 ```go
 c.IP() string
 ```
 
-**Example**
+**例**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -556,17 +531,17 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## IPs
+## IP
 
-Returns an array of IP addresses specified in the [X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For) request header.
+[X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For)リクエストヘッダーで指定されたIPアドレスの配列を返します。
 
-**Signature**
+**署名**
 
 ```go
 c.IPs() []string
 ```
 
-**Example**
+**例**
 
 ```go
 // X-Forwarded-For: proxy1, 127.0.0.1", proxy3
@@ -576,21 +551,19 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## Is
+## は
 
-Returns the matching **content type**, if the incoming request’s [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP header field matches the [MIME type](https://developer.mozilla.org/ru/docs/Web/HTTP/Basics_of_HTTP/MIME_types) specified by the type parameter.
+着信要求の[Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTPヘッダーフィールドがtypeパラメーターで指定された[MIMEタイプと](https://developer.mozilla.org/ru/docs/Web/HTTP/Basics_of_HTTP/MIME_types)一致する場合、一致する**コンテンツタイプを**返します。
 
-{% hint style="info" %}
-If the request has **no** body, it returns **false**.
-{% endhint %}
+{％hint style = "info"％}リクエストにボディが**ない**場合、 **falseを**返し**ます** 。 {％endhint％}
 
-**Signature**
+**署名**
 
 ```go
 c.Is(t string) bool
 ```
 
-**Example**
+**例**
 
 ```go
 // Content-Type: text/html; charset=utf-8
@@ -604,19 +577,17 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## JSON
 
-Converts any **interface** or **string** to JSON using [Jsoniter](https://github.com/json-iterator/go).
+[Jsoniter](https://github.com/json-iterator/go)を使用して、 **インターフェイス**または**文字列**をJSONに変換し**ます** 。
 
-{% hint style="info" %}
-Method also sets the content header to **application/json**.
-{% endhint %}
+{％hint style = "info"％}メソッドは、コンテンツヘッダーを**application / jsonに**設定し**ます** 。 {％endhint％}
 
-**Signature**
+**署名**
 
 ```go
 c.JSON(v interface{}) error
 ```
 
-**Example**
+**例**
 
 ```go
 type SomeStruct struct {
@@ -641,19 +612,17 @@ app.Get("/json", func(c *fiber.Ctx) {
 
 ## JSONBytes
 
-Raw JSON method.
+生のJSONメソッド。
 
-{% hint style="success" %}
-Use this, if you **don't need** JSON serialization, recommended when working with **raw** inputs.
-{% endhint %}
+{％のヒントスタイル=「成功」％}使用このあなたはJSONのシリアル化を**必要としない**場合は**、生の**入力を扱う場合、お勧めします。 {％endhint％}
 
-**Signature**
+**署名**
 
 ```go
 c.JSONBytes(b []byte) error
 ```
 
-**Example**
+**例**
 
 ```go
 app.Get("/json", func(c *fiber.Ctx) {
@@ -664,19 +633,17 @@ app.Get("/json", func(c *fiber.Ctx) {
 
 ## JSONString
 
-Raw JSON method.
+生のJSONメソッド。
 
-{% hint style="success" %}
-Use this, if you **don't need** JSON serialization, recommended when working with **raw** inputs.
-{% endhint %}
+{％のヒントスタイル=「成功」％}使用このあなたはJSONのシリアル化を**必要としない**場合は**、生の**入力を扱う場合、お勧めします。 {％endhint％}
 
-**Signature**
+**署名**
 
 ```go
 c.JSONString(s string) error
 ```
 
-**Example**
+**例**
 
 ```go
 app.Get("/json", func(c *fiber.Ctx) {
@@ -687,17 +654,17 @@ app.Get("/json", func(c *fiber.Ctx) {
 
 ## JSONP
 
-Sends a JSON response with JSONP support. This method is identical to [JSON](context.md#json), except that it opts-in to JSONP callback support. By default, the JSONP callback name is simply callback.
+JSONPサポートを使用してJSON応答を送信します。このメソッドは[JSON](context.md#json)と同じですが、JSONPコールバックのサポートをオプトインします。デフォルトでは、JSONPコールバック名は単にコールバックです。
 
-Override this by passing a **named string** in the method.
+メソッドに**名前付き文字列**を渡すことでこれをオーバーライドします。
 
-**Signature**
+**署名**
 
 ```go
 c.JSONP(v interface{}, callback ...string) error
 ```
 
-**Example**
+**例**
 
 ```go
 type SomeStruct struct {
@@ -720,17 +687,17 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## Links
+## リンク集
 
-Joins the links followed by the property to populate the response’s [Link](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Link) HTTP header field.
+プロパティに続くリンクを結合して、応答の[Link](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Link) HTTPヘッダーフィールドに入力します。
 
-**Signature**
+**署名**
 
 ```go
 c.Links(link ...string)
 ```
 
-**Example**
+**例**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -743,21 +710,19 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## Locals
+## 地元の人
 
-Method that stores string variables scoped to the request and therefore available only to the routes that match the request.
+リクエストをスコープとする文字列変数を保存するため、リクエストに一致するルートでのみ使用可能なメソッド。
 
-{% hint style="success" %}
-This is useful, if you want to pass some **specific values** to the next middleware.
-{% endhint %}
+{％hint style = "success"％}これは、 **特定の値**を次のミドルウェアに渡したい場合に便利です。 {％endhint％}
 
-**Signature**
+**署名**
 
 ```go
 c.Locals(key string, value ...interface{}) interface{}
 ```
 
-**Example**
+**例**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -775,9 +740,7 @@ app.Get("/admin", func(c *fiber.Ctx) {
 })
 ```
 
-{% hint style="info" %}
-You can put any type inside the **Locals**, but don't forget to convert it back, when you are using the variable.
-{% endhint %}
+{％hint style = "info"％} **Locals**内に任意の型を入れることができますが、変数を使用している場合は、忘れずに元に戻してください。 {％endhint％}
 
 ```go
 type SomeStruct struct {
@@ -799,17 +762,17 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## Location
+## ロケーション
 
-Sets the response [Location](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Location) HTTP header to the specified path parameter.
+応答の[Location](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Location) HTTPヘッダーを指定されたパスパラメーターに設定します。
 
-**Signature**
+**署名**
 
 ```go
 c.Location(path string)
 ```
 
-**Example**
+**例**
 
 ```go
 app.Post("/", func(c *fiber.Ctx) {
@@ -818,17 +781,17 @@ app.Post("/", func(c *fiber.Ctx) {
 })
 ```
 
-## Method
+## 方法
 
-Contains a string corresponding to the HTTP method of the request: GET, POST, PUT and so on.
+要求のHTTPメソッドに対応する文字列、GET、POST、PUTなどが含まれます。
 
-**Signature**
+**署名**
 
 ```go
 c.Method() string
 ```
 
-**Example**
+**例**
 
 ```go
 app.Post("/", func(c *fiber.Ctx) {
@@ -838,15 +801,15 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## MultipartForm
 
-To access multipart form entries, you can parse the binary with `MultipartForm()`. This returns a `map[string][]string`, so given a key the value will be a string slice.
+マルチパートフォームエントリにアクセスするには、 `MultipartForm()`してバイナリを解析できます。これは`map[string][]string`返すので、キーが与えられると値は文字列スライスになります。
 
-**Signature**
+**署名**
 
 ```go
 c.MultipartForm() (*multipart.Form, error)
 ```
 
-**Example**
+**例**
 
 ```go
 app.Post("/", func(c *fiber.Ctx) {
@@ -875,17 +838,17 @@ app.Post("/", func(c *fiber.Ctx) {
 })
 ```
 
-## Next
+## 次
 
-When **Next** is called, it executes the next method in the stack that matches the current route.
+**Next**が呼び出されると、現在のルートに一致するスタック内のnextメソッドが実行されます。
 
-**Signature**
+**署名**
 
 ```go
 c.Next()
 ```
 
-**Example**
+**例**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -906,15 +869,15 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## OriginalURL
 
-Contains the original request URL.
+元のリクエストURLが含まれます。
 
-**Signature**
+**署名**
 
 ```go
 c.OriginalURL() string
 ```
 
-**Example**
+**例**
 
 ```go
 // GET http://example.com/search?q=something
@@ -924,21 +887,19 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## Params
+## パラメータ
 
-Method can be used to get the route parameters.
+メソッドを使用して、ルートパラメータを取得できます。
 
-{% hint style="info" %}
-Defaults to empty string \(`""`\), if the param **doesn't** exist.
-{% endhint %}
+{％hint style = "info"％}パラメータ**が**存在**しない**場合、デフォルトは空の文字列（ `""` ）です。 {％endhint％}
 
-**Signature**
+**署名**
 
 ```go
 c.Params(param string) string
 ```
 
-**Example**
+**例**
 
 ```go
 // GET http://example.com/user/tj
@@ -948,17 +909,17 @@ app.Get("/user/:name", func(c *fiber.Ctx) {
 })
 ```
 
-## Path
+## 道
 
-Contains the path part of the request URL.
+要求URLのパス部分が含まれます。
 
-**Signature**
+**署名**
 
 ```go
 c.Path() string
 ```
 
-**Example**
+**例**
 
 ```go
 // GET http://example.com/users?sort=desc
@@ -968,17 +929,17 @@ app.Get("/users", func(c *fiber.Ctx) {
 })
 ```
 
-## Protocol
+## プロトコル
 
-Contains the request protocol string: `http` or `https` for **TLS** requests.
+要求プロトコル文字列が含まれます： **TLS**要求の場合は`http`または`https` 。
 
-**Signature**
+**署名**
 
 ```go
 c.Protocol() string
 ```
 
-**Example**
+**例**
 
 ```go
 // GET http://example.com
@@ -988,21 +949,19 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## Query
+## 問い合わせ
 
-This property is an object containing a property for each query string parameter in the route.
+このプロパティは、ルート内の各クエリ文字列パラメーターのプロパティを含むオブジェクトです。
 
-{% hint style="info" %}
-If there is **no** query string, it returns an **empty string**.
-{% endhint %}
+{％hint style = "info"％}クエリ文字列が**ない**場合は、 **空の文字列を**返し**ます** 。 {％endhint％}
 
-**Signature**
+**署名**
 
 ```go
 c.Query(parameter string) string
 ```
 
-**Example**
+**例**
 
 ```go
 // GET http://example.com/shoes?order=desc&brand=nike
@@ -1013,27 +972,23 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## Range
+## 範囲
 
-{% hint style="danger" %}
-Planned for **Fiber** v2.
-{% endhint %}
+{％hint style = "danger"％} **Fiber** v2で計画されています。 {％endhint％}
 
-## Redirect
+## リダイレクト
 
-Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code.
+HTTPステータスコードに対応する正の整数である指定されたステータスで、指定されたパスから派生したURLにリダイレクトします。
 
-{% hint style="info" %}
-If **not** specified, status defaults to **302 Found**.
-{% endhint %}
+{％hint style = "info"％}指定し**ない**場合、ステータスはデフォルトで**302 Foundになり**ます。 {％endhint％}
 
-**Signature**
+**署名**
 
 ```go
 c.Redirect(path string, status ...int)
 ```
 
-**Example**
+**例**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -1044,27 +999,23 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## Render
+## レンダリング
 
-{% hint style="danger" %}
-Planned for **Fiber** v2.
-{% endhint %}
+{％hint style = "danger"％} **Fiber** v2で計画されています。 {％endhint％}
 
-## Route
+## ルート
 
-Contains the currently-matched [Route](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc#Route) struct.
+現在一致する[ルート](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc#Route)構造体が含まれます。
 
-{% hint style="warning" %}
-Use this method **only** for debugging.
-{% endhint %}
+{％hint style = "warning"％}このメソッドはデバッグに**のみ**使用してください。 {％endhint％}
 
-**Signature**
+**署名**
 
 ```go
 c.Route() *Route
 ```
 
-**Example**
+**例**
 
 ```go
 // http://localhost:8080/hello
@@ -1080,54 +1031,50 @@ app.Post("/:api?", func(c *fiber.Ctx) {
 })
 ```
 
-## SaveFile
+## ファイルを保存
 
-Method is used to save **any** multipart file to disk.
+メソッドは**、**マルチパートファイルをディスクに保存するために使用されます。
 
-**Signature**
+**署名**
 
 ```go
 c.SaveFile(fh *multipart.FileHeader, path string)
 ```
 
-**Example**
+**例**
 
-{% hint style="success" %}
-You can see a working example at [MultipartForm](https://fiber.wiki/context#multipartform) method.
-{% endhint %}
+{％hint style = "success"％} [MultipartForm](https://fiber.wiki/context#multipartform)メソッドで実際の例を見ることができます。 {％endhint％}
 
-## Secure
+## 安全な
 
-A boolean property, that is `true` , if a **TLS** connection is established.
+**TLS**接続が確立されている場合は`true`ブールプロパティ。
 
-**Signature**
+**署名**
 
 ```go
 c.Secure() bool
 ```
 
-**Example**
+**例**
 
 ```go
 // Secure() method is equivalent to:
 c.Protocol() == "https"
 ```
 
-## Send
+## 送る
 
-Sends the HTTP response. The **Send** body can be of any type.
+HTTP応答を送信します。 **送信**本文には、任意のタイプを指定できます。
 
-{% hint style="warning" %}
-Method **doesn't** append like [Write](https://fiber.wiki/context#write) method.
-{% endhint %}
+{％hint style = "warning"％}メソッド**は** [Write](https://fiber.wiki/context#write)メソッドのように追加**しません** 。 {％endhint％}
 
-**Signature**
+**署名**
 
 ```go
 c.Send(body ...interface{})
 ```
 
-**Example**
+**例**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -1139,19 +1086,17 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## SendBytes
 
-Raw method.
+生のメソッド。
 
-{% hint style="success" %}
-Use this, if you **don't need** type assertion, recommended for **faster** performance.
-{% endhint %}
+{％hint style = "success"％}これは、タイプアサーション**が不要な**場合に使用します。パフォーマンスを向上させるために推奨され**ます** 。 {％endhint％}
 
-**Signature**
+**署名**
 
 ```go
 c.SendBytes(b []byte)
 ```
 
-**Example**
+**例**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -1162,19 +1107,17 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## SendString
 
-Raw method.
+生のメソッド。
 
-{% hint style="success" %}
-Use this, if you **don't need** type assertion, recommended for **faster** performance.
-{% endhint %}
+{％hint style = "success"％}これは、タイプアサーション**が不要な**場合に使用します。パフォーマンスを向上させるために推奨され**ます** 。 {％endhint％}
 
-**Signature**
+**署名**
 
 ```go
 c.SendString(s string)
 ```
 
-**Example**
+**例**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -1183,21 +1126,19 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## SendFile
+## ファイルを送信
 
-Transfers the file from the given path. Sets the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) response HTTP header field based on the **filenames** extension.
+指定されたパスからファイルを転送します。 **ファイル名**拡張子に基づいて、 [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type)応答のHTTPヘッダーフィールドを設定し**ます** 。
 
-{% hint style="info" %}
-Method use **gzipping** by default, set it to **false** to disable.
-{% endhint %}
+{％hint style = "info"％}メソッドはデフォルトで**gzipping**を使用します。無効にするには**false**に設定します。 {％endhint％}
 
-**Signature**
+**署名**
 
 ```go
 c.SendFile(path string, gzip ...bool)
 ```
 
-**Example**
+**例**
 
 ```go
 app.Get("/not-found", func(c *fiber.Ctx) {
@@ -1210,19 +1151,17 @@ app.Get("/not-found", func(c *fiber.Ctx) {
 
 ## SendStatus
 
-Sets the status code and the correct status message in the body, if the response body is **empty**.
+応答本文が**空の**場合、本文にステータスコードと正しいステータスメッセージを設定します。
 
-{% hint style="success" %}
-You can find all used status codes and messages [here](https://github.com/gofiber/fiber/blob/dffab20bcdf4f3597d2c74633a7705a517d2c8c2/utils.go#L183-L244).
-{% endhint %}
+{％hint style = "success"％}使用されているすべてのステータスコードとメッセージは[こちらで](https://github.com/gofiber/fiber/blob/dffab20bcdf4f3597d2c74633a7705a517d2c8c2/utils.go#L183-L244)確認でき[ます](https://github.com/gofiber/fiber/blob/dffab20bcdf4f3597d2c74633a7705a517d2c8c2/utils.go#L183-L244) 。 {％endhint％}
 
-**Signature**
+**署名**
 
 ```go
 c.SendStatus(status int)
 ```
 
-**Example**
+**例**
 
 ```go
 app.Get("/not-found", func(c *fiber.Ctx) {
@@ -1235,17 +1174,17 @@ app.Get("/not-found", func(c *fiber.Ctx) {
 })
 ```
 
-## Set
+## セットする
 
-Sets the response’s HTTP header field to `value`.
+応答のHTTPヘッダーフィールドを`value`設定し`value` 。
 
-**Signature**
+**署名**
 
 ```go
 c.Set(field, value string)
 ```
 
-**Example**
+**例**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -1256,31 +1195,25 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## SignedCookies
 
-{% hint style="danger" %}
-Planned for **Fiber** v2.
-{% endhint %}
+{％hint style = "danger"％} **Fiber** v2で計画されています。 {％endhint％}
 
-## Stale
+## 古くなった
 
-{% hint style="danger" %}
-Planned for **Fiber** v2.
-{% endhint %}
+{％hint style = "danger"％} **Fiber** v2で計画されています。 {％endhint％}
 
-## Status
+## 状態
 
-Sets the HTTP status for the response.
+応答のHTTPステータスを設定します。
 
-{% hint style="info" %}
-Method is a **chain able**.
-{% endhint %}
+{％hint style = "info"％}メソッドは**チェーン可能**です。 {％endhint％}
 
-**Signature**
+**署名**
 
 ```go
 c.Status(status int)
 ```
 
-**Example**
+**例**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -1290,19 +1223,19 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## Subdomains
+## サブドメイン
 
-An array of subdomains in the domain name of the request.
+リクエストのドメイン名のサブドメインの配列。
 
-The application property subdomain offset, which defaults to `2`, is used for determining the beginning of the subdomain segments.
+アプリケーションプロパティサブドメインオフセット（デフォルトは`2` ）は、サブドメインセグメントの開始を決定するために使用されます。
 
-**Signature**
+**署名**
 
 ```go
 c.Subdomains(offset ...int) []string
 ```
 
-**Example**
+**例**
 
 ```go
 // Host: "tobi.ferrets.example.com"
@@ -1313,17 +1246,17 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## Type
+## タイプ
 
-Sets the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP header to the MIME type listed [here](https://github.com/nginx/nginx/blob/master/conf/mime.types) specified by the file **extension**.
+[Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTPヘッダーを、ファイル**拡張子** [で](https://github.com/nginx/nginx/blob/master/conf/mime.types)指定された[ここに](https://github.com/nginx/nginx/blob/master/conf/mime.types)リストされたMIMEタイプに設定します。
 
-**Signature**
+**署名**
 
 ```go
 c.Type(t string) string
 ```
 
-**Example**
+**例**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -1334,21 +1267,19 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## Vary
+## 変化する
 
-Adds the given header field to the [Vary](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary) response header. This will append the header, if not already listed, otherwise leaves it listed in the current location.
+指定されたヘッダーフィールドを[Vary](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary)応答ヘッダーに追加します。これは、まだリストされていない場合、ヘッダーを追加します。そうでない場合、現在の場所にリストされたままにします。
 
-{% hint style="info" %}
-Multiple fields are **allowed**.
-{% endhint %}
+{％hint style = "info"％}複数のフィールドが**許可され**ます。 {％endhint％}
 
-**Signature**
+**署名**
 
 ```go
 c.Vary(field ...string)
 ```
 
-**Example**
+**例**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -1364,17 +1295,17 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## Write
+## 書く
 
-Appends **any** input to the HTTP body response.
+HTTPボディの応答への**任意の**入力を追加します。
 
-**Signature**
+**署名**
 
 ```go
 c.Write(body ...interface{})
 ```
 
-**Example**
+**例**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -1386,15 +1317,15 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## XHR
 
-A Boolean property, that is `true`, if the request’s [X-Requested-With](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers) header field is [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest), indicating that the request was issued by a client library \(such as [jQuery](https://api.jquery.com/jQuery.ajax/)\).
+リクエストの[X-Requested-With](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers)ヘッダーフィールドが[XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest)である場合、 `true`であるブールプロパティは、リクエストがクライアントライブラリ（ [jQuery](https://api.jquery.com/jQuery.ajax/)など）によって発行されたことを示します。
 
-**Signature**
+**署名**
 
 ```go
 c.XHR() bool
 ```
 
-**Example**
+**例**
 
 ```go
 // X-Requested-With: XMLHttpRequest
@@ -1406,15 +1337,15 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## XML
 
-XML sets the header to `application/xml` and unmarshals your interface to XML.
+XMLはヘッダーを`application/xml`設定し、XMLへのインターフェイスを非整列化します。
 
-**Signature**
+**署名**
 
 ```go
 c.XML(xml interface{}) error
 ```
 
-**Example**
+**例**
 
 ```go
 type SomeStruct struct {
@@ -1425,7 +1356,7 @@ type SomeStruct struct {
 app.Get("/", func(c *fiber.Ctx) {
   // Create data struct:
   data := SomeStruct{
-    "John", 
+    "John",
     50,
   }
 
@@ -1434,4 +1365,3 @@ app.Get("/", func(c *fiber.Ctx) {
   // => <some-struct><name>John</name><stars>50</stars></some-struct>
 })
 ```
-

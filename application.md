@@ -1,35 +1,33 @@
 ---
-description: The app instance conventionally denotes the Fiber application.
+description: アプリインスタンスは通常、Fiberアプリケーションを示します。
 ---
 
-# 🚀  Application
+# 🚀アプリケーション
 
-## New
+## 新着
 
-Method creates a new **Fiber** named instance.
+メソッドは、新しい**Fiber**という名前のインスタンスを作成します。
 
 ```go
 app := fiber.New()
 ```
 
-## Static
+## 静的
 
-Serve static files such as **images**, **CSS** and **JavaScript** files, you can use the **Static** method.
+**画像** 、 **CSS** 、 **JavaScript**ファイルなどの静的ファイルを提供するには、 **Static**メソッドを使用できます。
 
-{% hint style="info" %}
-By default, this method will send `index.html` files in response to a request on a directory.
-{% endhint %}
+{％hint style = "info"％}デフォルトでは、このメソッドはディレクトリのリクエストに応じて`index.html`ファイルを送信します。 {％endhint％}
 
-#### Signature
+#### 署名
 
 ```go
 app.Static(root string)         // => without prefix
 app.Static(prefix, root string) // => with prefix
 ```
 
-#### Examples
+#### 例
 
-Use the following code to serve files in a directory named `./public`
+次のコードを使用して、。 `./public`という名前のディレクトリ内のファイルを提供します
 
 ```go
 app.Static("./public")
@@ -39,21 +37,19 @@ app.Static("./public")
 // => http://localhost:3000/css/style.css
 ```
 
-To serve from multiple directories, you can use **Static** multiple times.
+複数のディレクトリから提供するには、 **Staticを**複数回使用できます。
 
 ```go
 // Serve files from "./public" directory:
-app.Static("./public") 
+app.Static("./public")
 
 // Serve files from "./files" directory:
 app.Static("./files")
 ```
 
-{% hint style="info" %}
-Use a reverse proxy cache like [NGINX](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) to improve performance of serving static assets.
-{% endhint %}
+{％hint style = "info"％} [NGINXの](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/)ようなリバースプロキシキャッシュを使用して、静的アセットを提供するパフォーマンスを改善します。 {％endhint％}
 
-To create a virtual path prefix \(_where the path does not actually exist in the file system_\) for files that are served by the **Static** method, specify a prefix path for the static directory, as shown below:
+**Static**メソッドによって提供されるファイルの仮想パスプレフィックス（ *ファイルシステムに実際にパスが存在しない場所* ）を作成するには、以下に示すように、静的ディレクトリのプレフィックスパスを指定します。
 
 ```go
 app.Static("/static", "./public")
@@ -63,18 +59,18 @@ app.Static("/static", "./public")
 // => http://localhost:3000/static/css/style.css
 ```
 
-## Methods
+## 方法
 
-Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) of the request.
+HTTPリクエストをルーティングします**。METHOD**はリクエストの[HTTPメソッド](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods)です。
 
-#### Signature
+#### 署名
 
 ```go
 app.METHOD(handler func(*Ctx))              // match any path
 app.METHOD(path string, handler func(*Ctx)) // match specific path
 ```
 
-#### Example
+#### 例
 
 ```go
 // Single method
@@ -95,17 +91,17 @@ app.All(...)
 app.Use(...)
 ```
 
-## Listen
+## 聴く
 
-Binds and listens for connections on the specified address. This can be a `int` for port or `string` for address.
+指定されたアドレスで接続をバインドおよびリッスンします。これは、ポートの`int`またはアドレスの`string`することができます。
 
-#### Signature
+#### 署名
 
 ```go
 app.Listen(address interface{}, tls ...string)
 ```
 
-#### Example
+#### 例
 
 ```go
 app.Listen(8080)
@@ -114,21 +110,19 @@ app.Listen(":8080")
 app.Listen("127.0.0.1:8080")
 ```
 
-To enable **TLS/HTTPS** you can append your **cert** and **key** path.
+**TLS / HTTPSを**有効にするには、あなたの**証明書**と**キーの**パスを追加することができます。
 
 ```go
 app.Listen(443, "server.crt", "server.key")
 ```
 
-## Settings
+## 設定
 
-### Engine
+### エンジン
 
-You can change the default **Fasthttp** [server settings](https://github.com/valyala/fasthttp/blob/master/server.go#L150) via the **Fiber** instance. These settings need to be set **before** [Listen](application.md#listen) method.
+**Fiber**インスタンスを介して、デフォルトの**Fasthttp** [サーバー設定](https://github.com/valyala/fasthttp/blob/master/server.go#L150)を変更できます。これらの設定は、 [Listen](application.md#listen)メソッドの**前に**設定する必要があります。
 
-{% hint style="danger" %}
-Only change these settings, if you know **what** your are doing.
-{% endhint %}
+{％hint style = "danger"％}これらの設定は、自分が**何をし**ているかわかって**いる**場合にのみ変更し**て**ください。 {％endhint％}
 
 ```go
 app.Engine.Concurrency = 256 * 1024
@@ -151,23 +145,23 @@ app.Engine.NoDefaultContentType = false
 app.Engine.KeepHijackedConns = false
 ```
 
-### Prefork
+### プリフォーク
 
-The Prefork option enables use of the [**SO\_REUSEPORT**](https://lwn.net/Articles/542629/) socket option, which is available in newer versions of many operating systems, including **DragonFly BSD** and **Linux** \(kernel version **3.9** and later\). This will spawn multiple Go processes listening on the same port.
+Preforkオプションは、 [**SO_REUSEPORT**](https://lwn.net/Articles/542629/)ソケットオプションの使用を有効にします。これは、 **DragonFly BSD**および**Linux** （カーネルバージョン**3.9**以降）を含む多くのオペレーティングシステムの新しいバージョンで利用可能です。これにより、同じポートでリッスンする複数のGoプロセスが生成されます。
 
-**NGINX** has a great article about [Socket Sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/), these pictures are taken from the same article.
+**NGINXに**は[Socket Sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/)に関する素晴らしい記事があります。これらの写真は同じ記事からのものです。
 
-![Schema, when Prefork disabled \(by default\)](https://cdn.wp.nginx.com/wp-content/uploads/2015/05/Slack-for-iOS-Upload-1-e1432652484191.png)
+![Schema, when Prefork disabled (by default)](https://cdn.wp.nginx.com/wp-content/uploads/2015/05/Slack-for-iOS-Upload-1-e1432652484191.png)
 
 ![Schema, when Prefork enabled](https://cdn.wp.nginx.com/wp-content/uploads/2015/05/Slack-for-iOS-Upload-e1432652376641.png)
 
-You can enable the Prefork feature by adding the `-prefork` flag:
+`-prefork`フラグを追加して、Prefork機能を有効にできます。
 
 ```bash
 ./server -prefork
 ```
 
-Or set the `Prefork` option to `true`:
+または、 `Prefork`オプションを`true`設定し`true` 。
 
 ```go
 app.Prefork = true // Prefork enabled
@@ -181,41 +175,39 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-### Server
+### サーバ
 
-Fiber by default does not send a [Server header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Server), but you can enable this by changing the server value.
+デフォルトでは、ファイバーは[サーバーヘッダーを](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Server)送信しませんが、サーバーの値を変更することでこれを有効にできます。
 
 ```go
 app.Server = "Windows 95" // => Server: Windows 95
 ```
 
-### Banner
+### バナー
 
-When you launch your Fiber application, console will print a banner containing package version and listening port. _This is enabled by default._
+Fiberアプリケーションを起動すると、コンソールはパッケージバージョンとリスニングポートを含むバナーを印刷します。 *これはデフォルトで有効になっています。*
 
-![](.gitbook/assets/screenshot-2020-02-08-at-13.18.27.png)
+![](../../.gitbook/assets/screenshot-2020-02-08-at-13.18.27.png)
 
-To disable it, set `Banner` to `false`:
+無効にするには、 `Banner`を`false`に設定し`false` 。
 
 ```go
 app.Banner = false // Hide banner
 ```
 
-## Test
+## テスト
 
-Testing your application is done with the **Test** method.
+アプリケーションの**テスト**は、 **Test**メソッドを使用して行われます。
 
-{% hint style="info" %}
-Method is mostly used for `_test.go` files and application debugging.
-{% endhint %}
+{％hint style = "info"％}メソッドは、主に`_test.go`ファイルとアプリケーションのデバッグに使用されます。 {％endhint％}
 
-#### Signature
+#### 署名
 
 ```go
 app.Test(req *http.Request) (*http.Response, error)
 ```
 
-#### Example
+#### 例
 
 ```go
 // Create route with GET method for test:
@@ -239,4 +231,3 @@ if resp.StatusCode == 200 {
   fmt.Println(string(body)) // => Hello, World!
 }
 ```
-

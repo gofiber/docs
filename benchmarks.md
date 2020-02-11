@@ -1,76 +1,74 @@
 ---
-description: >-
-  This benchmarks aims to compare the performance of Fiber and other Go web
-  frameworks.
+description: このベンチマークの目的は、Fiberと他のGo Webフレームワークのパフォーマンスを比較することです。
 ---
 
-# 🤖  Benchmarks
+# 🤖ベンチマーク
 
 ## TechEmpower
 
-🔗 [https://www.techempower.com/benchmarks/](https://www.techempower.com/benchmarks/)
+🔗https [:](https://www.techempower.com/benchmarks/) //www.techempower.com/benchmarks/
 
-* **CPU** Intel Xeon Gold 5120
-* **MEM** 32GB
-* **GO** go1.13.6 linux/amd64
-* **OS** Linux
-* **NET** Dedicated Cisco 10-gigabit Ethernet switch.
+- **CPU** Intel Xeon Gold 5120
+- **MEM** 32GB
+- **GO** go1.13.6のLinux / AMD64
+- **OS** Linux
+- **NET**専用のCisco 10ギガビットイーサネットスイッチ。
 
-To see all language frameworks, visit [Plaintext All Results](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext).  
-To view the list yourself, visit [Plaintext Go Results](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext&l=zijocf-1r).
+すべての言語フレームワークを表示するには、 [プレーンテキストのすべての結果](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext)にアクセスしてください。
+自分でリストを表示するには、 [Plaintext Go Results](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext&l=zijocf-1r)にアクセスしてください。
 
-### Plaintext
+### 平文
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-plaintext.png)
 
-### Plaintext latency
+### プレーンテキスト遅延
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-plaintext-latency.png)
 
-### JSON serialization
+### JSONシリアル化
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-json.png)
 
-### Single query
+### 単一のクエリ
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-single-query.png)
 
-### Multiple queries
+### 複数のクエリ
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-multiple-queries.png)
 
-### Data updates
+### データ更新
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-updates.png)
 
-## Go web framework benchmark
+## Go Web Frameworkベンチマーク
 
-🔗 [https://github.com/smallnest/go-web-framework-benchmark](https://github.com/smallnest/go-web-framework-benchmark)
+🔗https [://github.com/smallnest/go-web-framework-benchmark](https://github.com/smallnest/go-web-framework-benchmark)
 
-* **CPU** Intel\(R\) Xeon\(R\) Gold 6140 CPU @ 2.30GHz
-* **MEM** 4GB
-* **GO** go1.13.6 linux/amd64
-* **OS** Linux
+- **CPU** Intel（R）Xeon（R）Gold 6140 CPU @ 2.30GHz
+- **MEM** 4GB
+- **GO** go1.13.6のLinux / AMD64
+- **OS** Linux
 
-The first test case is to mock **0 ms**, **10 ms**, **100 ms**, **500 ms** processing time in handlers.
+最初のテストケースは、ハンドラーでの処理時間を**0ミリ秒** 、 **10ミリ秒** 、 **100ミリ秒** 、 **500ミリ秒の**モックにする**ことです** 。
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark.png)
 
-The concurrency clients are **5000**.
+同時実行クライアントは**5000**です。
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark_latency.png)
 
-Latency is the time of real processing time by web servers. _The smaller is the better._
+待機時間は、Webサーバーによる実際の処理時間です。 *小さいほど良いです。*
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark_alloc.png)
 
-Allocs is the heap allocations by web servers when test is running. The unit is MB. _The smaller is the better._
+Allocsは、テスト実行中のWebサーバーによるヒープ割り当てです。単位はMBです。 *小さいほど良いです。*
 
-If we enable **http pipelining**, test result as below:
+**http pipelining**を有効にすると、次のようにテスト結果が得られます。
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark-pipeline.png)
 
-Concurrency test in **30 ms** processing time, the test result for **100**, **1000**, **5000** clients is:
+処理時間が**30ミリ秒**で並行性試験****、100、1000****試験結果**、5000台の**クライアントであります：
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency.png)
 
@@ -78,6 +76,6 @@ Concurrency test in **30 ms** processing time, the test result for **100**, **10
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency_alloc.png)
 
-If we enable **http pipelining**, test result as below:
+**http pipelining**を有効にすると、次のようにテスト結果が得られます。
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency-pipeline.png)
