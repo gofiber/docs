@@ -21,7 +21,7 @@ To view the list yourself, visit [Plaintext Go Results](https://www.techempower.
 
 ### Plaintext
 
-![](.gitbook/assets/techempower-plaintext%20%281%29.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-plaintext.png)
 
 ### Plaintext latency
 
@@ -81,4 +81,3 @@ Concurrency test in **30 ms** processing time, the test result for **100**, **10
 If we enable **http pipelining**, test result as below:
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency-pipeline.png)
-
