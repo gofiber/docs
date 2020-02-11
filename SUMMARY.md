@@ -8,7 +8,7 @@
 
 ## Links
 
-* [👨‍💻 Github](https://github.com/gofiber/fiber)
+* [📝 Github](https://github.com/gofiber/fiber)
 * [🍳 Examples](https://github.com/gofiber/recipes)
 * [☕ Buy a Coffee](https://www.buymeacoffee.com/fenny)
 
