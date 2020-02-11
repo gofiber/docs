@@ -40,13 +40,13 @@ import "github.com/gofiber/fiber"
 func main() {
   // Create new Fiber instance:
   app := fiber.New()
-  
+
   // Create route on root path, "/":
   app.Get("/", func(c *fiber.Ctx) {
     c.Send("Hello, World!")
     // => "Hello, World!"
   })
-  
+
   // Start server on "localhost" with port "8080":
   app.Listen(8080)
 }
@@ -79,7 +79,7 @@ app.Method(path string, func(*fiber.Ctx))
 * `path` is a path on the server.
 * `func(*fiber.Ctx)` is a callback function containing the [Context](https://fiber.wiki/context) executed when the route is matched.
 
-#### Simple route
+### Simple route
 
 ```go
 // Respond with "Hello, World!" on root path, "/":
@@ -88,7 +88,7 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-#### Route with parameter
+### Route with parameter
 
 ```go
 // GET http://localhost:8080/hello%20world
@@ -99,7 +99,7 @@ app.Get("/:value", func(c *fiber.Ctx) {
 })
 ```
 
-#### Route with optional parameter
+### Route with optional parameter
 
 ```go
 // GET http://localhost:8080/hello%20world
@@ -110,12 +110,12 @@ app.Get("/:value?", func(c *fiber.Ctx) {
     // => Get request with value: hello world
     return
   }
-  
+
   c.Send("Get request without value")
 })
 ```
 
-#### Route with wildcard
+### Route with wildcard
 
 ```go
 // GET http://localhost:8080/api/user/john

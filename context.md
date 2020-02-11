@@ -282,7 +282,7 @@ c.Cookie(name, value string)
 c.Cookie(name, value string, options *Cookie{})
 ```
 
-### Cookie struct
+**Cookie struct**
 
 {% hint style="warning" %}
 **Expire** option will **not** be used, if **MaxAge** is set.

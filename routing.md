@@ -10,12 +10,12 @@ description: >-
 
 Route paths, in combination with a request method, define the endpoints at which requests can be made. Route paths can be **strings**, **string patterns** or **regular expressions**.
 
-#### Special characters
+### Special characters
 
 * The characters `?`, `+`, `&` and `()` are subsets of their **regular expression** counterparts. 
 * The hyphen \(`-`\) and the dot \(`.`\) are interpreted literally by **string-based** paths.
 
-#### Examples of route paths based on strings
+### Examples of route paths based on strings
 
 ```go
 // This route path will match requests to the root route, "/":
@@ -34,7 +34,7 @@ app.Get("/random.txt", func(c *fiber.Ctx) {
 })
 ```
 
-#### Examples of route paths based on string patterns
+### Examples of route paths based on string patterns
 
 ```go
 // This route path will match: 
@@ -75,7 +75,7 @@ The hyphen \(`-`\) and the dot \(`.`\) are **not** interpreted literally yet.
 Planned for **Fiber** v2.
 {% endhint %}
 
-#### Example of define routes with route parameters
+### Example of define routes with route parameters
 
 ```go
 app.Get("/user/:name/books/:title", func(c *fiber.Ctx) {
@@ -96,7 +96,7 @@ app.Get("/user/:name?", func(c *fiber.Ctx) {
 
 Functions, that are designed to make changes to the request or response, are called **middleware functions**. The [Next](https://github.com/gofiber/docs/tree/34729974f7d6c1d8363076e7e88cd71edc34a2ac/context/README.md#next) is a **Fiber** router function, when called, executes the **next** function that **matches** the current route.
 
-#### Example of a middleware function
+### Example of a middleware function
 
 ```go
 app.Use(func(c *fiber.Ctx) {
@@ -107,7 +107,7 @@ app.Use(func(c *fiber.Ctx) {
   c.Set("Strict-Transport-Security", "max-age=5184000")
   c.Set("X-Frame-Options", "SAMEORIGIN")
   c.Set("X-DNS-Prefetch-Control", "off")
-  
+
   // Go to next middleware:
   c.Next()
 })
