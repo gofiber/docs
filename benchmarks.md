@@ -19,29 +19,29 @@ description: >-
 To see all language frameworks, visit [Plaintext All Results](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext).  
 To view the list yourself, visit [Plaintext Go Results](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext&l=zijocf-1r).
 
-#### Plaintext
+### Plaintext
 
-![](.gitbook/assets/techempower-plaintext.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-plaintext.png)
 
-#### Plaintext latency
+### Plaintext latency
 
-![](.gitbook/assets/techempower-plaintext-latency.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-plaintext-latency.png)
 
-#### JSON serialization
+### JSON serialization
 
-![](.gitbook/assets/techempower-json%20%281%29.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-json.png)
 
-#### Single query
+### Single query
 
-![](.gitbook/assets/techempower-single-query.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-single-query.png)
 
-#### Multiple queries
+### Multiple queries
 
-![](.gitbook/assets/techempower-multiple-queries%20%281%29.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-multiple-queries.png)
 
-#### Data updates
+### Data updates
 
-![](.gitbook/assets/techempower-updates%20%282%29.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-updates.png)
 
 ## Go web framework benchmark
 
@@ -54,31 +54,30 @@ To view the list yourself, visit [Plaintext Go Results](https://www.techempower.
 
 The first test case is to mock **0 ms**, **10 ms**, **100 ms**, **500 ms** processing time in handlers.
 
-![](.gitbook/assets/benchmark%20%281%29.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark.png)
 
 The concurrency clients are **5000**.
 
-![](.gitbook/assets/benchmark_latency.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark_latency.png)
 
 Latency is the time of real processing time by web servers. _The smaller is the better._
 
-![](.gitbook/assets/benchmark_alloc%20%282%29.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark_alloc.png)
 
 Allocs is the heap allocations by web servers when test is running. The unit is MB. _The smaller is the better._
 
 If we enable **http pipelining**, test result as below:
 
-![](.gitbook/assets/benchmark-pipeline.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark-pipeline.png)
 
 Concurrency test in **30 ms** processing time, the test result for **100**, **1000**, **5000** clients is:
 
-![](.gitbook/assets/concurrency%20%282%29.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency.png)
 
-![](.gitbook/assets/concurrency_latency%20%282%29.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency_latency.png)
 
-![](.gitbook/assets/concurrency_alloc%20%282%29.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency_alloc.png)
 
 If we enable **http pipelining**, test result as below:
 
-![](.gitbook/assets/concurrency-pipeline.png)
-
+![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency-pipeline.png)
