@@ -19,27 +19,27 @@ description: >-
 To see all language frameworks, visit [Plaintext All Results](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext).  
 To view the list yourself, visit [Plaintext Go Results](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext&l=zijocf-1r).
 
-#### Plaintext
+### Plaintext
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-plaintext.png)
 
-#### Plaintext latency
+### Plaintext latency
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-plaintext-latency.png)
 
-#### JSON serialization
+### JSON serialization
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-json.png)
 
-#### Single query
+### Single query
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-single-query.png)
 
-#### Multiple queries
+### Multiple queries
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-multiple-queries.png)
 
-#### Data updates
+### Data updates
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-updates.png)
 
