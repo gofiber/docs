@@ -21,7 +21,7 @@ To view the list yourself, visit [Plaintext Go Results](https://www.techempower.
 
 ### Plaintext
 
-![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-plaintext.png)
+![](.gitbook/assets/techempower-plaintext%20%281%29.png)
 
 ### Plaintext latency
 
