@@ -632,16 +632,16 @@ app.Get("/json", func(c *fiber.Ctx) {
   }
 
   c.JSON(data)
+  // => Content-Type: application/json
   // => "{"Name": "Grame", "Age": 20}"
 
   c.JSON("Hello, World!")
+  // => Content-Type: application/json
   // => "Hello, World!"
 })
 ```
 
-## JSONBytes
-
-Raw JSON method.
+Fiber also provides `JSONBytes` & `JSONString` methods for raw inputs.
 
 {% hint style="success" %}
 Use this, if you **don't need** JSON serialization, recommended when working with **raw** inputs.
@@ -651,28 +651,6 @@ Use this, if you **don't need** JSON serialization, recommended when working wit
 
 ```go
 c.JSONBytes(b []byte) error
-```
-
-**Example**
-
-```go
-app.Get("/json", func(c *fiber.Ctx) {
-  c.JSONBytes([]byte(`{"Name": "Grame", "Age": 20}`))
-  // => "{"Name": "Grame", "Age": 20}"
-})
-```
-
-## JSONString
-
-Raw JSON method.
-
-{% hint style="success" %}
-Use this, if you **don't need** JSON serialization, recommended when working with **raw** inputs.
-{% endhint %}
-
-**Signature**
-
-```go
 c.JSONString(s string) error
 ```
 
@@ -680,7 +658,12 @@ c.JSONString(s string) error
 
 ```go
 app.Get("/json", func(c *fiber.Ctx) {
+  c.JSONBytes([]byte(`{"Name": "Grame", "Age": 20}`))
+  // => Content-Type: application/json
+  // => "{"Name": "Grame", "Age": 20}"
+  
   c.JSONString(`{"Name": "Grame", "Age": 20}`)
+  // => Content-Type: application/json
   // => "{"Name": "Grame", "Age": 20}"
 })
 ```
@@ -1115,10 +1098,10 @@ c.Protocol() == "https"
 
 ## Send
 
-Sends the HTTP response. The **Send** body can be of any type.
+Sets the HTTP response body. The **Send** body can be of any type.
 
 {% hint style="warning" %}
-Method **doesn't** append like [Write](https://fiber.wiki/context#write) method.
+Send **doesn't** append like the [Write](https://fiber.wiki/context#write) method.
 {% endhint %}
 
 **Signature**
@@ -1137,9 +1120,7 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## SendBytes
-
-Raw method.
+Fiber also provides `SendBytes` & `SendString` methods for raw inputs.
 
 {% hint style="success" %}
 Use this, if you **don't need** type assertion, recommended for **faster** performance.
@@ -1149,6 +1130,7 @@ Use this, if you **don't need** type assertion, recommended for **faster** perfo
 
 ```go
 c.SendBytes(b []byte)
+c.SendString(s string)
 ```
 
 **Example**
@@ -1157,27 +1139,7 @@ c.SendBytes(b []byte)
 app.Get("/", func(c *fiber.Ctx) {
   c.SendByte([]byte("Hello, World!"))
   // => "Hello, World!"
-})
-```
-
-## SendString
-
-Raw method.
-
-{% hint style="success" %}
-Use this, if you **don't need** type assertion, recommended for **faster** performance.
-{% endhint %}
-
-**Signature**
-
-```go
-c.SendString(s string)
-```
-
-**Example**
-
-```go
-app.Get("/", func(c *fiber.Ctx) {
+  
   c.SendString("Hello, World!")
   // => "Hello, World!"
 })
