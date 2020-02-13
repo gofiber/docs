@@ -258,37 +258,32 @@ c.BodyParser(v interface{})
 **Example**
 
 ```go
+// curl -X POST -H "Content-Type: application/json" \ 
+// --data '{"name":"john","pass":"doe"}'  localhost:3000
+
+// curl -X POST -H "Content-Type: application/xml" \ 
+// --data '<Login><name>john</name><pass>doe</pass><Login>'  localhost:3000
+
+// curl -X POST -H "Content-Type: application/x-www-form-urlencoded" \
+// --data 'name=john&pass=doe'  localhost:3000
+
+// curl -v -F name=john -F pass=doe http://localhost:3000
+
 type Person struct {
 	Name string `json:"name" xml:"name" form:"name"`
 	Pass string `json:"pass" xml:"pass" form:"pass"`
 }
 
-// curl -X POST -H "Content-Type: application/json"\ 
-// --data '{"name":"john","pass":"doe"}'  localhost:3000
+app.Post("/", func(c *fiber.Ctx) {
+	var person Person
 
-// curl -X POST -H "Content-Type: application/xml"\ 
-// --data '<Login><name>john</name><pass>doe</pass><Login>'  localhost:3000
-
-// curl -X POST -H "Content-Type: application/x-www-form-urlencoded"
-// --data 'name=john&pass=doe'  localhost:3000
-
-// curl -v -F name=john -F pass=doe http://localhost:3000
-
-func main() {
-	app := fiber.New()
-	app.Post("/", func(c *fiber.Ctx) {
-		var person Person
-
-		err := c.BodyParser(&person)
-		if err != nil {
-			// handle error
-		}
-		fmt.Println(person)
-		// Do something with person.Name or person.Pass
-
-	})
-	app.Listen(3000)
-}
+	if err := c.BodyParser(&person); err != nil {
+		// Handle error
+	}
+	
+	// Do something with person.Name or person:
+	fmt.Println(person)
+})
 ```
 
 ## ClearCookie
