@@ -43,7 +43,7 @@ To serve from multiple directories, you can use **Static** multiple times.
 
 ```go
 // Serve files from "./public" directory:
-app.Static("./public") 
+app.Static("./public")
 
 // Serve files from "./files" directory:
 app.Static("./files")
@@ -93,6 +93,39 @@ app.All(...)
 
 // Matches all methods & URLs starting with a specified path
 app.Use(...)
+```
+
+## Recover
+
+You can recover from panic errors in any handler by registering a `Recover` method. You can access the error information with `.Error()`
+
+{% hint style="info" %}
+By default, `Recover` is disabled unless you register a handler.
+{% endhint %}
+
+#### Signature
+
+```go
+app.Recover(handler ...func(*Ctx))
+```
+
+#### Example
+
+```go
+func main() {
+  app := fiber.New()
+
+  app.Get("/", func(c *fiber.Ctx) {
+    panic("Something went wrong!")
+  })
+
+  app.Recover(func(c *fiber.Ctx) {
+    c.Status(500).Send(c.Error())
+    // => 500 "Something went wrong!"
+  })
+
+  app.Listen(3000)
+}
 ```
 
 ## Listen
@@ -222,7 +255,7 @@ app.Test(req *http.Request) (*http.Response, error)
 app.Get("/", func(c *Ctx) {
   fmt.Println(c.BaseURL())              // => http://google.com
   fmt.Println(c.Get("X-Custom-Header")) // => hi
-  
+
   c.Send("hello, World!")
 })
 
@@ -239,4 +272,3 @@ if resp.StatusCode == 200 {
   fmt.Println(string(body)) // => Hello, World!
 }
 ```
-
