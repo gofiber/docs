@@ -413,13 +413,13 @@ app.Get("/", func(c *fiber.Ctx) {
 
 This contains the error information that thrown by a panic or passed via the [`Next(err)`](context#error) method.
 
-#### Signature
+**Signature**
 
 ```go
 c.Error() error
 ```
 
-#### Example
+**Example**
 
 ```go
 func main() {
