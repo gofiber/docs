@@ -81,3 +81,4 @@ Concurrency test in **30 ms** processing time, the test result for **100**, **10
 If we enable **http pipelining**, test result as below:
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency-pipeline.png)
+
