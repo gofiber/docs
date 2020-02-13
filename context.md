@@ -335,7 +335,7 @@ c.Cookie(name, value string, options *Cookie{})
   MaxAge   int    // Seconds
   Domain   string
   Path     string
-  HttpOnly bool
+  HTTPOnly bool
   Secure   bool
   SameSite string
 }
@@ -352,7 +352,7 @@ app.Get("/", func(c *fiber.Ctx) {
     MaxAge:   60,
     Domain:   "example.com",
     Path:     "/",
-    HttpOnly: true,
+    HTTPOnly: true,
     Secure:   true,
     SameSite: "lax",
   })
