@@ -154,7 +154,7 @@ c.Attachment(file ...string)
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  c.Attachment() 
+  c.Attachment()
   // => Content-Disposition: attachment
 
   c.Attachment("./upload/images/logo.png")
@@ -230,16 +230,16 @@ c.Body(func(key, value string)) func(string, string)
 
 app.Post("/", func(c *fiber.Ctx) {
   // Get raw body from POST request:
-  c.Body() 
+  c.Body()
   // => user=john
 
   // Get body value by specific key:
-  c.Body("user") 
+  c.Body("user")
   // => "john"
 
   // Loop trough all body params:
   c.Body(func(key string, val string) {
-    fmt.Printl(key, val) 
+    fmt.Printl(key, val)
     // => "user" "john"
   })
 })
@@ -304,7 +304,7 @@ c.Cookie(name, value string, options *Cookie{})
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  c.Cookie("name", "john") 
+  c.Cookie("name", "john")
   // => Cookie: name=john;
 
   c.Cookie("name", "john", &fiber.Cookie{
@@ -315,7 +315,7 @@ app.Get("/", func(c *fiber.Ctx) {
     Secure:   true,
     SameSite: "lax",
   })
-  // => name=john; max-age=60; domain=example.com; path=/; 
+  // => name=john; max-age=60; domain=example.com; path=/;
   //    HttpOnly; secure; SameSite=Lax
 
 })
@@ -407,6 +407,44 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Fasthttp.Response.Write([]byte("Hello, World!"))
   // => "Hello, World!"
 })
+```
+
+## Error
+
+This contains the error information that thrown by a panic or passed via the `Next(err)` method.
+
+#### Signature
+
+```go
+c.Error() error
+```
+
+#### Example
+
+```go
+func main() {
+  app := fiber.New()
+  app.Post("/api/register", func (c *fiber.Ctx) {
+    if err := c.JSON(&User); err != nil {
+      c.Next(err)
+    }
+  })
+  app.Get("/api/user", func (c *fiber.Ctx) {
+    if err := c.JSON(&User); err != nil {
+      c.Next(err)
+    }
+  })
+  app.Put("/api/update", func (c *fiber.Ctx) {
+    if err := c.JSON(&User); err != nil {
+      c.Next(err)
+    }
+  })
+  app.Use("/api", func(c *fiber.Ctx) {
+    c.Set("Content-Type", "application/json")
+    c.Status(500).Send(c.Error())
+  })
+  app.Listen(1337)
+}
 ```
 
 ## Format
@@ -661,7 +699,7 @@ app.Get("/json", func(c *fiber.Ctx) {
   c.JSONBytes([]byte(`{"Name": "Grame", "Age": 20}`))
   // => Content-Type: application/json
   // => "{"Name": "Grame", "Age": 20}"
-  
+
   c.JSONString(`{"Name": "Grame", "Age": 20}`)
   // => Content-Type: application/json
   // => "{"Name": "Grame", "Age": 20}"
@@ -860,12 +898,12 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Next
 
-When **Next** is called, it executes the next method in the stack that matches the current route.
+When **Next** is called, it executes the next method in the stack that matches the current route. You can pass an error struct within the method for custom error handling.
 
 **Signature**
 
 ```go
-c.Next()
+c.Next(err ...error)
 ```
 
 **Example**
@@ -878,11 +916,12 @@ app.Get("/", func(c *fiber.Ctx) {
 
 app.Get("*", func(c *fiber.Ctx) {
   fmt.Printl("2nd route!")
-  c.Next()
+  c.Next(fmt.Errorf("Some error"))
 })
 
 app.Get("/", func(c *fiber.Ctx) {
-  fmt.Printl("3rd route!")
+  fmt.Println(c.Error()) // => "Some error"
+  fmt.Println("3rd route!")
   c.Send("Hello, World!")
 })
 ```
@@ -1139,7 +1178,7 @@ c.SendString(s string)
 app.Get("/", func(c *fiber.Ctx) {
   c.SendByte([]byte("Hello, World!"))
   // => "Hello, World!"
-  
+
   c.SendString("Hello, World!")
   // => "Hello, World!"
 })
@@ -1387,7 +1426,7 @@ type SomeStruct struct {
 app.Get("/", func(c *fiber.Ctx) {
   // Create data struct:
   data := SomeStruct{
-    "John", 
+    "John",
     50,
   }
 
@@ -1396,4 +1435,3 @@ app.Get("/", func(c *fiber.Ctx) {
   // => <some-struct><name>John</name><stars>50</stars></some-struct>
 })
 ```
-
