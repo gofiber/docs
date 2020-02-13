@@ -245,6 +245,52 @@ app.Post("/", func(c *fiber.Ctx) {
 })
 ```
 
+## BodyParser
+
+Binds the request body into a struct. `BodyParser` supports decoding `application/json`, `application/xml`, `application/x-www-form-urlencoded` and `multipart/form-data`data based on the `Content-Type` header.
+
+**Signature**
+
+```go
+c.BodyParser(v interface{})
+```
+
+**Example**
+
+```go
+type Person struct {
+	Name string `json:"name" xml:"name" form:"name"`
+	Pass string `json:"pass" xml:"pass" form:"pass"`
+}
+
+// curl -X POST -H "Content-Type: application/json"\ 
+// --data '{"name":"john","pass":"doe"}'  localhost:3000
+
+// curl -X POST -H "Content-Type: application/xml"\ 
+// --data '<Login><name>john</name><pass>doe</pass><Login>'  localhost:3000
+
+// curl -X POST -H "Content-Type: application/x-www-form-urlencoded"
+// --data 'name=john&pass=doe'  localhost:3000
+
+// curl -v -F name=john -F pass=doe http://localhost:3000
+
+func main() {
+	app := fiber.New()
+	app.Post("/", func(c *fiber.Ctx) {
+		var person Person
+
+		err := c.BodyParser(&person)
+		if err != nil {
+			// handle error
+		}
+		fmt.Println(person)
+		// Do something with person.Name or person.Pass
+
+	})
+	app.Listen(3000)
+}
+```
+
 ## ClearCookie
 
 Clears **all** client cookies or a specific cookie by **name** \(_by setting expire date in the past_\).
@@ -411,7 +457,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Error
 
-This contains the error information that thrown by a panic or passed via the [`Next(err)`](context#error) method.
+This contains the error information that thrown by a panic or passed via the [`Next(err)`](https://github.com/gofiber/docs/tree/8d965e1e05fb67f965934586c78335ef29f52128/context/README.md#error) method.
 
 **Signature**
 
@@ -1435,3 +1481,4 @@ app.Get("/", func(c *fiber.Ctx) {
   // => <some-struct><name>John</name><stars>50</stars></some-struct>
 })
 ```
+
