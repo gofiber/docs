@@ -411,7 +411,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Error
 
-This contains the error information that thrown by a panic or passed via the `Next(err)` method.
+This contains the error information that thrown by a panic or passed via the [`Next(err)`](https://fiber.wiki/context#error) method.
 
 #### Signature
 

@@ -97,7 +97,7 @@ app.Use(...)
 
 ## Recover
 
-You can recover from panic errors in any handler by registering a `Recover` method. You can access the error information with `.Error()`
+You can recover from panic errors in any handler by registering a `Recover` method. You can access the error information with [`Error()`](https://fiber.wiki/context#error)
 
 {% hint style="info" %}
 By default, `Recover` is disabled unless you register a handler.
