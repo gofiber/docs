@@ -2,7 +2,7 @@
 description: Ctx结构表示保存HTTP请求和响应的上下文。它具有用于请求查询字符串，参数，正文，HTTP标头等的方法。
 ---
 
-# 🧠 Context上下文
+# 🧠 上下文
 
 ## Accepts
 

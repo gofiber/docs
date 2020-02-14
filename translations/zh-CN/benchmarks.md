@@ -6,13 +6,13 @@ description: 该基准测试意在比较Fiber和其他Go Web框架的性能。
 
 ## TechEmpower
 
-🔗https [:](https://www.techempower.com/benchmarks/) //www.techempower.com/benchmarks/
+🔗 [https://www.techempower.com/benchmarks/](https://www.techempower.com/benchmarks/)
 
-- **CPU** Intel Xeon金牌5120
+- **CPU** Intel Xeon Gold 5120
 - **内存** 32GB
-- **Go版本** go1.13.6 linux / amd64
+- **Go版本** go1.13.6 linux/amd64
 - **操作系统** Linux
-- **网路**专用思科10千兆位以太网交换机。
+- **网路** 专用思科10千兆位以太网交换机
 
 要查看所有语言框架，请访问[Plaintext All Results](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext) 。
 要查看列表，请访问[Plaintext Go Results](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext&l=zijocf-1r) 。
@@ -43,14 +43,14 @@ description: 该基准测试意在比较Fiber和其他Go Web框架的性能。
 
 ## Go Web框架基准测试
 
-🔗https [://github.com/smallnest/go-web-framework-benchmark](https://github.com/smallnest/go-web-framework-benchmark)
+🔗 [https://github.com/smallnest/go-web-framework-benchmark](https://github.com/smallnest/go-web-framework-benchmark)
 
-- **CPU** Intel（R）至强（R）Gold 6140 CPU @ 2.30GHz
+- **CPU** Intel\(R\) Xeon\(R\) Gold 6140 CPU @ 2.30GHz
 - **内存** 4GB
-- **Go版本** go1.13.6 linux / amd64
+- **Go版本** go1.13.6 linux/amd64
 - **操作系统** Linux
 
-第一个测试用例是在处理程序中模拟**0 ms** ， **10 ms** ， **100 ms** ， **500 ms的**处理时间。
+第一个测试用例是在处理程序中模拟**0 ms**，**10 ms**，**100 ms**，**500 ms的**处理时间。
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark.png)
 
