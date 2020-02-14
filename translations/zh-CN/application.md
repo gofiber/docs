@@ -95,6 +95,39 @@ app.All(...)
 app.Use(...)
 ```
 
+## Recover
+
+通过注册一个`Recover`方法，您可以从任何程序中的Panic的中恢复。你可以使用`.Error()`访问错误信息。
+
+{% hint style="info" %}
+默认情况下，`Recover`是禁用的，除非您注册了一个处理程序。
+{% endhint %}
+
+### 签名
+
+``` go
+app.Recover(handler ...func(*Ctx))
+```
+
+#### 示例
+
+```go
+func main() {
+  app := fiber.New()
+
+  app.Get("/", func(c *fiber.Ctx) {
+    panic("Something went wrong!")
+  })
+
+  app.Recover(func(c *fiber.Ctx) {
+    c.Status(500).Send(c.Error())
+    // => 500 "Something went wrong!"
+  })
+
+  app.Listen(3000)
+}
+```
+
 ## 监听
 
 绑定并侦听指定地址上的连接。这可以是端口的`int`或地址的`string` 。

@@ -406,6 +406,44 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
+## Error
+
+包含由panic抛出或通过`Next(err)`方法传递的错误信息.
+
+#### 签名
+
+```go
+c.Error() error
+```
+
+#### 示例
+
+```go
+func main() {
+  app := fiber.New()
+  app.Post("/api/register", func (c *fiber.Ctx) {
+    if err := c.JSON(&User); err != nil {
+      c.Next(err)
+    }
+  })
+  app.Get("/api/user", func (c *fiber.Ctx) {
+    if err := c.JSON(&User); err != nil {
+      c.Next(err)
+    }
+  })
+  app.Put("/api/update", func (c *fiber.Ctx) {
+    if err := c.JSON(&User); err != nil {
+      c.Next(err)
+    }
+  })
+  app.Use("/api", func(c *fiber.Ctx) {
+    c.Set("Content-Type", "application/json")
+    c.Status(500).Send(c.Error())
+  })
+  app.Listen(1337)
+}
+```
+
 ## 格式化
 
 在[Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP标头上执行内容协商。它使用[接受](context.md#accepts)来选择适当的格式。
@@ -874,12 +912,12 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Next
 
-调用**Next时** ，它将在堆栈中执行与当前路由匹配的next方法。
+调用**Next时** ，它将在堆栈中执行与当前路由匹配的next方法。您可以在方法中传递一个用于自定义错误处理的错误结构。
 
 **签名**
 
 ```go
-c.Next()
+c.Next(err ...error)
 ```
 
 **示例**
@@ -892,11 +930,12 @@ app.Get("/", func(c *fiber.Ctx) {
 
 app.Get("*", func(c *fiber.Ctx) {
   fmt.Printl("2nd route!")
-  c.Next()
+  c.Next(fmt.Errorf("Some error"))
 })
 
 app.Get("/", func(c *fiber.Ctx) {
-  fmt.Printl("3rd route!")
+  fmt.Println(c.Error()) // => "Some error"
+  fmt.Println("3rd route!")
   c.Send("Hello, World!")
 })
 ```
