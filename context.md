@@ -925,7 +925,7 @@ app.Post("/", func(c *fiber.Ctx) {
     files := form.File["documents"]
     // => []*multipart.FileHeader
 
-    // Loop trough files:
+    // Loop through files:
     for _, file := range files {
       fmt.Println(file.Filename, file.Size, file.Header["Content-Type"][0])
       // => "tutorial.pdf" 360641 "application/pdf"
