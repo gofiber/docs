@@ -27,12 +27,12 @@ c.Accepts(types ...string) string
 // Accept: text/*, application/json
 
 app.Get("/", func(c *fiber.Ctx) {
-  c.Accepts("html")             // => "html"
-  c.Accepts("text/html")        // => "text/html"
-  c.Accepts("json", "text")     // => "json" "text"
-  c.Accepts("application/json") // => "application/json"
-  c.Accepts("image/png")        // => ""
-  c.Accepts("png")              // => ""
+  c.Accepts("html")             // "html"
+  c.Accepts("text/html")        // "text/html"
+  c.Accepts("json", "text")     // "json" "text"
+  c.Accepts("application/json") // "application/json"
+  c.Accepts("image/png")        // ""
+  c.Accepts("png")              // ""
 })
 ```
 
@@ -45,13 +45,13 @@ Fiber provides similar functions for the other accept headers.
 
 app.Get("/", func(c *fiber.Ctx) {
   c.AcceptsCharsets("utf-16", "iso-8859-1") 
-  // => "iso-8859-1"
+  // "iso-8859-1"
   
   c.AcceptsEncodings("compress", "br") 
-  // => "compress"
+  // "compress"
   
   c.AcceptsLanguages("pt", "nl", "ru") 
-  // => "nl" "ru"
+  // "nl" "ru"
 })
 ```
 
@@ -120,7 +120,7 @@ c.BaseURL() string
 // GET https://example.com/page#chapter-1
 
 app.Get("/", func(c *fiber.Ctx) {
-  c.BaseURL() // => https://example.com
+  c.BaseURL() // https://example.com
 })
 ```
 
@@ -145,16 +145,16 @@ c.Body(func(key, value string)) func(string, string)
 app.Post("/", func(c *fiber.Ctx) {
   // Get raw body from POST request:
   c.Body()
-  // => user=john
+  // user=john
 
   // Get body value by specific key:
   c.Body("user")
-  // => "john"
+  // "john"
 
   // Loop trough all body params:
   c.Body(func(key string, val string) {
     fmt.Printl(key, val)
-    // => "user" "john"
+    // "user" "john"
   })
 })
 ```
@@ -200,8 +200,7 @@ app.Post("/", func(c *fiber.Ctx) {
         // Handle error
     }
 
-    // Do something with person.Name or person:
-    fmt.Println(person)
+    // Do something with person.Name or person.Pass
 })
 ```
 
@@ -288,10 +287,7 @@ Gets cookies.
 **Signature**s
 
 ```go
-c.Cookies() string
-c.Cookies(key string) string
-c.Cookies(key []byte) string
-c.Cookies(func(key, value string)) string
+c.Cookies(key ...string) string
 ```
 
 **Example**
@@ -299,19 +295,10 @@ c.Cookies(func(key, value string)) string
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   // Get raw cookie header:
-  c.Cookies()
-  // => name=john;
+  c.Cookies() // name=john;
 
   // Get cookie by key:
-  c.Cookies("name")
-  c.Cookies([]byte("name"))
-  // => "john"
-
-  // Show all cookies:
-  c.Cookies(func(key, val string) {
-    fmt.Println(key, val)
-    // => "name", "john"
-  })
+  c.Cookies("name") // "john"
 })
 ```
 
