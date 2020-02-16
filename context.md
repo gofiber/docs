@@ -226,8 +226,7 @@ Sets cookie with **name** and **value**.
 **Signature**
 
 ```go
-c.Cookie(name, value string)
-c.Cookie(name, value string, options *Cookie{})
+c.Cookie(name, value string, options ...*Cookie{})
 ```
 
 **Cookie struct**
