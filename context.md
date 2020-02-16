@@ -126,33 +126,6 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## BasicAuth
-
-Returns **username** and **password** provided in [Authorization](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization) header of request, if request uses [HTTP Basic Authentication](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication).
-
-**Signature**
-
-```go
-c.BasicAuth() (user, pass string, ok bool)
-```
-
-**Example**
-
-```go
-// curl --user john:doe http://localhost:8080/auth
-
-app.Get("/auth", func(c *fiber.Ctx) {
-  user, pass, ok := c.BasicAuth()
-
-  if !ok || user != "john" || pass != "doe" {
-    c.Status(403).Send("Forbidden")
-    return
-  }
-
-  c.Send("Welcome " + user)
-})
-```
-
 ## Body
 
 Contains the **raw body** submitted in a **POST** request.
@@ -365,12 +338,6 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## End
-
-{% hint style="danger" %}
-Planned for **Fiber** v2.
-{% endhint %}
-
 ## Fasthttp
 
 You can still **access** and use all **Fasthttp** methods and properties.
@@ -533,12 +500,6 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Get("something")    // => ""
 })
 ```
-
-## HeadersSent
-
-{% hint style="danger" %}
-Planned for **Fiber** v2.
-{% endhint %}
 
 ## Hostname
 
