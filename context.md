@@ -474,7 +474,7 @@ c.FormValue(name string) string
 app.Post("/", func(c *fiber.Ctx) {
   // Get first value from form field "name":
   c.FormValue("name")
-  // => "john" or "", if not exist
+  // => "john" or "" if not exist
 })
 ```
 
@@ -486,7 +486,11 @@ Planned for **Fiber** v2.
 
 ## Get
 
-Returns the HTTP request header specified by field. The match is case-insensitive.
+Returns the HTTP request header specified by field. 
+
+{% hint style="success" %}
+The match is **case-insensitive**.
+{% endhint %}
 
 **Signature**
 
@@ -498,9 +502,9 @@ c.Get(field string) string
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  c.Get("Content-Type") // => "text/plain"
-  c.Get("content-type") // => "text/plain"
-  c.Get("something")    // => ""
+  c.Get("Content-Type") // "text/plain"
+  c.Get("CoNtEnT-TypE") // "text/plain"
+  c.Get("something")    // ""
 })
 ```
 
@@ -520,7 +524,7 @@ c.Hostname() string
 // GET http://google.com/search
 
 app.Get("/", func(c *fiber.Ctx) {
-  c.Hostname() // => "google.com"
+  c.Hostname() // "google.com"
 })
 ```
 
@@ -538,7 +542,7 @@ c.IP() string
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  c.IP() // => "127.0.0.1"
+  c.IP() // "127.0.0.1"
 })
 ```
 
@@ -558,7 +562,7 @@ c.IPs() []string
 // X-Forwarded-For: proxy1, 127.0.0.1", proxy3
 
 app.Get("/", func(c *fiber.Ctx) {
-  c.IPs() // => ["proxy1", "127.0.0.1", "proxy3"]
+  c.IPs() // ["proxy1", "127.0.0.1", "proxy3"]
 })
 ```
 
@@ -582,9 +586,9 @@ c.Is(t string) bool
 // Content-Type: text/html; charset=utf-8
 
 app.Get("/", func(c *fiber.Ctx) {
-  c.Is("html")  // => true
-  c.Is(".html") // => true
-  c.Is("json")  // => false
+  c.Is("html")  // true
+  c.Is(".html") // true
+  c.Is("json")  // false
 })
 ```
 
@@ -593,7 +597,7 @@ app.Get("/", func(c *fiber.Ctx) {
 Converts any **interface** or **string** to JSON using [Jsoniter](https://github.com/json-iterator/go).
 
 {% hint style="info" %}
-Method also sets the content header to **application/json**.
+JSON also sets the content header to **application/json**.
 {% endhint %}
 
 **Signature**
@@ -629,7 +633,7 @@ app.Get("/json", func(c *fiber.Ctx) {
 
 ## JSONP
 
-Sends a JSON response with JSONP support. This method is identical to [JSON](context.md#json), except that it opts-in to JSONP callback support. By default, the JSONP callback name is simply callback.
+Sends a JSON response with JSONP support. This method is identical to [JSON](context.md#json), except that it opts-in to JSONP callback support. By default, the callback name is simply callback.
 
 Override this by passing a **named string** in the method.
 
@@ -690,7 +694,7 @@ app.Get("/", func(c *fiber.Ctx) {
 Method that stores string variables scoped to the request and therefore available only to the routes that match the request.
 
 {% hint style="success" %}
-This is useful, if you want to pass some **specific values** to the next middleware.
+This is useful, if you want to pass some **specific** data to the next middleware.
 {% endhint %}
 
 **Signature**
@@ -762,7 +766,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Method
 
-Contains a string corresponding to the HTTP method of the request: GET, POST, PUT and so on.
+Contains a string corresponding to the HTTP method of the request: `GET`, `POST`, `PUT` and so on.
 
 **Signature**
 
@@ -774,7 +778,7 @@ c.Method() string
 
 ```go
 app.Post("/", func(c *fiber.Ctx) {
-  c.Method() // => "POST"
+  c.Method() // "POST"
 })
 ```
 
@@ -863,7 +867,7 @@ c.OriginalURL() string
 // GET http://example.com/search?q=something
 
 app.Get("/", func(c *fiber.Ctx) {
-  c.OriginalURL() // => "/search?q=something"
+  c.OriginalURL() // "/search?q=something"
 })
 ```
 
@@ -884,10 +888,10 @@ c.Params(param string) string
 **Example**
 
 ```go
-// GET http://example.com/user/tj
+// GET http://example.com/user/fenny
 
 app.Get("/user/:name", func(c *fiber.Ctx) {
-  c.Params("name") // => "tj"
+  c.Params("name") // "fenny"
 })
 ```
 
@@ -907,7 +911,7 @@ c.Path() string
 // GET http://example.com/users?sort=desc
 
 app.Get("/users", func(c *fiber.Ctx) {
-  c.Path() // => "/users"
+  c.Path() // "/users"
 })
 ```
 
@@ -927,7 +931,7 @@ c.Protocol() string
 // GET http://example.com
 
 app.Get("/", func(c *fiber.Ctx) {
-  c.Protocol() // => "http"
+  c.Protocol() // "http"
 })
 ```
 
@@ -951,8 +955,8 @@ c.Query(parameter string) string
 // GET http://example.com/shoes?order=desc&brand=nike
 
 app.Get("/", func(c *fiber.Ctx) {
-  c.Query("order") // => "desc"
-  c.Query("brand") // => "nike"
+  c.Query("order") // "desc"
+  c.Query("brand") // "nike"
 })
 ```
 
@@ -995,10 +999,10 @@ Planned for **Fiber** v2.
 
 ## Route
 
-Contains the currently-matched [Route](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc#Route) struct.
+Contains the matched [Route](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc#Route) struct.
 
 {% hint style="warning" %}
-Use this method **only** for debugging.
+We do not recommend using this function in production.
 {% endhint %}
 
 **Signature**
@@ -1035,9 +1039,27 @@ c.SaveFile(fh *multipart.FileHeader, path string)
 
 **Example**
 
-{% hint style="success" %}
-You can see a working example at [MultipartForm](https://fiber.wiki/context#multipartform) method.
-{% endhint %}
+```go
+app.Post("/", func(c *fiber.Ctx) {
+  // Parse the multipart form:
+  if form, err := c.MultipartForm(); err == nil {
+    // => *multipart.Form
+
+    // Get all files from "documents" key:
+    files := form.File["documents"]
+    // => []*multipart.FileHeader
+
+    // Loop through files:
+    for _, file := range files {
+      fmt.Println(file.Filename, file.Size, file.Header["Content-Type"][0])
+      // => "tutorial.pdf" 360641 "application/pdf"
+
+      // Save the files to disk:
+      c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
+    }
+  }
+})
+```
 
 ## Secure
 
@@ -1132,6 +1154,22 @@ app.Get("/not-found", func(c *fiber.Ctx) {
 
 ## SendStatus
 
+```go
+
+```
+
+```go
+
+```
+
+```go
+
+```
+
+```go
+
+```
+
 Sets the status code and the correct status message in the body, if the response body is **empty**.
 
 {% hint style="success" %}
@@ -1149,17 +1187,17 @@ c.SendStatus(status int)
 ```go
 app.Get("/not-found", func(c *fiber.Ctx) {
   c.SendStatus(415)
-  // 415 "Unsupported Media Type"
+  // => 415 "Unsupported Media Type"
 
   c.Send("Hello, World!")
   c.SendStatus(415)
-  // 415 "Hello, World!"
+  // => 415 "Hello, World!"
 })
 ```
 
 ## Set
 
-Sets the response’s HTTP header field to `value`.
+Sets the response’s HTTP header field to the specified `key`, `value`.
 
 **Signature**
 
@@ -1230,8 +1268,8 @@ c.Subdomains(offset ...int) []string
 // Host: "tobi.ferrets.example.com"
 
 app.Get("/", func(c *fiber.Ctx) {
-  c.Subdomains()  // => ["ferrets", "tobi"]
-  c.Subdomains(1) // => ["tobi"]
+  c.Subdomains()  // ["ferrets", "tobi"]
+  c.Subdomains(1) // ["tobi"]
 })
 ```
 
@@ -1276,10 +1314,9 @@ c.Vary(field ...string)
 app.Get("/", func(c *fiber.Ctx) {
   c.Vary("Origin")     // => Vary: Origin
   c.Vary("User-Agent") // => Vary: Origin, User-Agent
-
-  // Checks for duplicates:
-  c.Vary("Origin")
-  // => Vary: Origin, User-Agent
+  
+  // No duplicates
+  c.Vary("Origin") // => Vary: Origin, User-Agent
 
   c.Vary("Accept-Encoding", "Accept")
   // => Vary: Origin, User-Agent, Accept-Encoding, Accept
@@ -1322,7 +1359,7 @@ c.XHR() bool
 // X-Requested-With: XMLHttpRequest
 
 app.Get("/", func(c *fiber.Ctx) {
-  c.XHR() // => true
+  c.XHR() // true
 })
 ```
 
