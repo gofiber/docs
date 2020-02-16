@@ -534,7 +534,7 @@ c.IPs() []string
 **Example**
 
 ```go
-// X-Forwarded-For: proxy1, 127.0.0.1", proxy3
+// X-Forwarded-For: proxy1, 127.0.0.1, proxy3
 
 app.Get("/", func(c *fiber.Ctx) {
   c.IPs() // ["proxy1", "127.0.0.1", "proxy3"]
