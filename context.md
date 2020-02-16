@@ -38,10 +38,8 @@ app.Get("/", func(c *fiber.Ctx) {
 
 Fiber provides similar functions for the other accept headers.
 
-**Example**
-
 ```go
-// Accept-Charset: utf-8, iso-8859-1;q=0.2, utf-7;q=0.5
+// Accept-Charset: utf-8, iso-8859-1;q=0.2
 // Accept-Encoding: gzip, compress;q=0.2
 // Accept-Language: en;q=0.8, nl, ru
 
