@@ -131,10 +131,7 @@ Contains the **raw body** submitted in a **POST** request.
 **Signature**
 
 ```go
-c.Body() string
-c.Body(key string) string
-c.Body(key []byte) string
-c.Body(func(key, value string)) func(string, string)
+c.Body(key ...string) string
 ```
 
 **Example**
@@ -144,18 +141,10 @@ c.Body(func(key, value string)) func(string, string)
 
 app.Post("/", func(c *fiber.Ctx) {
   // Get raw body from POST request:
-  c.Body()
-  // user=john
+  c.Body() // user=john
 
   // Get body value by specific key:
-  c.Body("user")
-  // "john"
-
-  // Loop trough all body params:
-  c.Body(func(key string, val string) {
-    fmt.Printl(key, val)
-    // "user" "john"
-  })
+  c.Body("user") // "john"
 })
 ```
 
