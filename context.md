@@ -319,7 +319,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 Transfers the file from path as an `attachment`.
 
-Typically, browsers will prompt the user for download. By default, the [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header `filename=` parameter is path \(_this typically appears in the browser dialog_\).
+Typically, browsers will prompt the user for download. By default, the [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header `filename=` parameter is the filepath \(_this typically appears in the browser dialog_\).
 
 Override this default with the **filename** parameter.
 
