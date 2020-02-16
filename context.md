@@ -161,7 +161,12 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## BodyParser
 
-Binds the request body into a struct. `BodyParser` supports decoding `application/json`, `application/xml`, `application/x-www-form-urlencoded` and `multipart/form-data`data based on the `Content-Type` header.
+Binds the request body to a struct. `BodyParser` supports decoding the following content types based on the `Content-Type` header:
+
+* `application/json`
+* `application/xml`
+* `application/x-www-form-urlencoded`
+* `multipart/form-data`
 
 **Signature**
 
@@ -202,7 +207,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## ClearCookie
 
-Clears **all** client cookies or a specific cookie by **name** \(_by setting expire date in the past_\).
+Clears **all** client cookies \(_or a single cookie specific by **name**_\) by setting the expire date in the past.
 
 **Signature**
 
