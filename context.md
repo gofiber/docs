@@ -270,19 +270,19 @@ c.BodyParser(v interface{})
 // curl -v -F name=john -F pass=doe http://localhost:3000
 
 type Person struct {
-	Name string `json:"name" xml:"name" form:"name"`
-	Pass string `json:"pass" xml:"pass" form:"pass"`
+    Name string `json:"name" xml:"name" form:"name"`
+    Pass string `json:"pass" xml:"pass" form:"pass"`
 }
 
 app.Post("/", func(c *fiber.Ctx) {
-	var person Person
+    var person Person
 
-	if err := c.BodyParser(&person); err != nil {
-		// Handle error
-	}
-	
-	// Do something with person.Name or person:
-	fmt.Println(person)
+    if err := c.BodyParser(&person); err != nil {
+        // Handle error
+    }
+
+    // Do something with person.Name or person:
+    fmt.Println(person)
 })
 ```
 
@@ -1443,37 +1443,6 @@ c.XHR() bool
 
 app.Get("/", func(c *fiber.Ctx) {
   c.XHR() // => true
-})
-```
-
-## XML
-
-XML sets the header to `application/xml` and unmarshals your interface to XML.
-
-**Signature**
-
-```go
-c.XML(xml interface{}) error
-```
-
-**Example**
-
-```go
-type SomeStruct struct {
-    Name  string `xml:"name"`
-    Stars int    `xml:"stars"`
-}
-
-app.Get("/", func(c *fiber.Ctx) {
-  // Create data struct:
-  data := SomeStruct{
-    "John",
-    50,
-  }
-
-  c.XML(data)
-  // => Content-Type: application/xml
-  // => <some-struct><name>John</name><stars>50</stars></some-struct>
 })
 ```
 
