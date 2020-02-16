@@ -36,81 +36,24 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## AcceptsCharsets
-
-Checks, if the specified **charset** is acceptable.
-
-{% hint style="info" %}
-Based on the request’s [Accept-Charset](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Charset) HTTP header.
-{% endhint %}
-
-**Signature**
-
-```go
-c.AcceptsCharsets(charsets ...string) string
-```
+Fiber provides similar functions for the other accept headers.
 
 **Example**
 
 ```go
 // Accept-Charset: utf-8, iso-8859-1;q=0.2, utf-7;q=0.5
-
-app.Get("/", func(c *fiber.Ctx) {
-  c.AcceptsCharsets("utf-8")                // => "utf-8"
-  c.AcceptsCharsets("utf-16", "iso-8859-1") // => "iso-8859-1"
-  c.AcceptsCharsets("utf-16")               // => ""
-})
-```
-
-## AcceptsEncodings
-
-Checks, if the specified **encoding** is acceptable.
-
-{% hint style="info" %}
-Based on the request’s [Accept-Encoding](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Encoding) HTTP header.
-{% endhint %}
-
-**Signature**
-
-```go
-c.AcceptsEncodings(encodings ...string) string
-```
-
-**Example**
-
-```go
 // Accept-Encoding: gzip, compress;q=0.2
-
-app.Get("/", func(c *fiber.Ctx) {
-  c.AcceptsEncodings("gzip")           // => "gzip"
-  c.AcceptsEncodings("compress", "br") // => "compress"
-  c.AcceptsEncodings("deflate")        // => ""
-})
-```
-
-## AcceptsLanguages
-
-Checks if the specified **language** is acceptable.
-
-{% hint style="info" %}
-Based on the request’s [Accept-Language](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language) HTTP header.
-{% endhint %}
-
-**Signature**
-
-```go
-c.AcceptsLanguages(languages ...string) string
-```
-
-**Example**
-
-```go
 // Accept-Language: en;q=0.8, nl, ru
 
 app.Get("/", func(c *fiber.Ctx) {
-  c.AcceptsLanguages("en")             // => "en"
-  c.AcceptsLanguages("pt", "nl", "ru") // => "nl" "ru"
-  c.AcceptsLanguages("fr")             // => ""
+  c.AcceptsCharsets("utf-16", "iso-8859-1") 
+  // => "iso-8859-1"
+  
+  c.AcceptsEncodings("compress", "br") 
+  // => "compress"
+  
+  c.AcceptsLanguages("pt", "nl", "ru") 
+  // => "nl" "ru"
 })
 ```
 
