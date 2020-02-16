@@ -720,33 +720,6 @@ app.Get("/json", func(c *fiber.Ctx) {
 })
 ```
 
-Fiber also provides `JSONBytes` & `JSONString` methods for raw inputs.
-
-{% hint style="success" %}
-Use this, if you **don't need** JSON serialization, recommended when working with **raw** inputs.
-{% endhint %}
-
-**Signature**
-
-```go
-c.JSONBytes(b []byte) error
-c.JSONString(s string) error
-```
-
-**Example**
-
-```go
-app.Get("/json", func(c *fiber.Ctx) {
-  c.JSONBytes([]byte(`{"Name": "Grame", "Age": 20}`))
-  // => Content-Type: application/json
-  // => "{"Name": "Grame", "Age": 20}"
-
-  c.JSONString(`{"Name": "Grame", "Age": 20}`)
-  // => Content-Type: application/json
-  // => "{"Name": "Grame", "Age": 20}"
-})
-```
-
 ## JSONP
 
 Sends a JSON response with JSONP support. This method is identical to [JSON](context.md#json), except that it opts-in to JSONP callback support. By default, the JSONP callback name is simply callback.
