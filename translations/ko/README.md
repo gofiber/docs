@@ -129,7 +129,7 @@ app.Get("/api/*", func(c *fiber.Ctx) {
 
 **이미지**, **CSS**, 그리고 **JavaScript** 파일과 같은 정적 파일을 사용하려면 파일이나 디렉토리 문자열로 함수 핸들러를 바꿔야 합니다.  
 
-함수 시그내처:
+함수 시그내처 (Function Signature):
 
 ```go
 app.Static(root string)         // => without prefix
