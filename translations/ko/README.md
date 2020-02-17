@@ -3,7 +3,7 @@ description: Fiber를 이용해 웹 어플리케이션 구축을 시작할 수 �
 
 ---
 
-# 📖  Getting started
+# 📖  시작하기
 
 [![](https://img.shields.io/github/release/gofiber/fiber?style=flat-square)](https://github.com/gofiber/fiber/releases) [![](https://img.shields.io/badge/api-documentation-blue?style=flat-square)](https://fiber.wiki) ![](https://img.shields.io/badge/goreport-A%2B-brightgreen?style=flat-square) [![](https://img.shields.io/badge/coverage-91%25-brightgreen?style=flat-square)](https://gocover.io/github.com/gofiber/fiber) [![](https://img.shields.io/travis/gofiber/fiber/master.svg?label=linux&style=flat-square)](https://travis-ci.org/gofiber/fiber) [![](https://img.shields.io/travis/gofiber/fiber/master.svg?label=windows&style=flat-square)](https://travis-ci.org/gofiber/fiber)
 
@@ -129,7 +129,7 @@ app.Get("/api/*", func(c *fiber.Ctx) {
 
 **이미지**, **CSS**, 그리고 **JavaScript** 파일과 같은 정적 파일을 사용하려면 파일이나 디렉토리 문자열로 함수 핸들러를 바꿔야 합니다.  
 
-함수 시그내쳐:
+함수 시그내처:
 
 ```go
 app.Static(root string)         // => without prefix
