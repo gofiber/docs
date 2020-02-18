@@ -1,7 +1,6 @@
 ---
 description: >-
-  This benchmarks aims to compare the performance of Fiber and other Go web
-  frameworks.
+Ce benchmark vise à comparer les performances de Fiber avec d'autres frameworks web Go.
 ---
 
 # 🤖  Benchmarks
@@ -16,8 +15,9 @@ description: >-
 * **OS** Linux
 * **NET** Dedicated Cisco 10-gigabit Ethernet switch.
 
-To see all language frameworks, visit [Plaintext All Results](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext).  
-To view the list yourself, visit [Plaintext Go Results](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext&l=zijocf-1r).
+Pour voir une comparaison incluant de nombreux frameworks rendez vous [ici](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext).
+
+Pour consulter sur le site, la comparaison avec d'autres frameworks Go, rendez vous [ici](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext&l=zijocf-1r).
 
 ### Plaintext
 
@@ -52,25 +52,25 @@ To view the list yourself, visit [Plaintext Go Results](https://www.techempower.
 * **GO** go1.13.6 linux/amd64
 * **OS** Linux
 
-The first test case is to mock **0 ms**, **10 ms**, **100 ms**, **500 ms** processing time in handlers.
+Le premier test case consiste à imiter des temps de traitements de **0 ms**, **10 ms**, **100 ms**, **500 ms** dans les handlers.
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark.png)
 
-The concurrency clients are **5000**.
+Il y a **5000** clients concurrents.
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark_latency.png)
 
-Latency is the time of real processing time by web servers. _The smaller is the better._
+La latence est le temps réel de traitement pris par les serveurs webs.  _Plus la valeur est basse, mieux c'est._
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark_alloc.png)
 
-Allocs is the heap allocations by web servers when test is running. The unit is MB. _The smaller is the better._
+Les allocations désignent les allocations de heap memory effectuées par les serveurs web, lorsque le test tourne. L'unité utilisé est le MB. _Plus la valeur est basse, mieux c'est._
 
-If we enable **http pipelining**, test result as below:
+Si nous activons le **http pipelining**, voici les résultats obtenus:
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark-pipeline.png)
 
-Concurrency test in **30 ms** processing time, the test result for **100**, **1000**, **5000** clients is:
+Test de concurrence avec *30ms* de temps de traitement. Voici les résultats pour **100**, **1000**, **5000** clients concurrents sont:
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency.png)
 
@@ -78,7 +78,7 @@ Concurrency test in **30 ms** processing time, the test result for **100**, **10
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency_alloc.png)
 
-If we enable **http pipelining**, test result as below:
+Si nous activons le **http pipelining**, voici les résultats obtenus:
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency-pipeline.png)
 

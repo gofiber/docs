@@ -1,12 +1,12 @@
 ---
-description: The app instance conventionally denotes the Fiber application.
+description: L'instance app désigne conventionnellement l'application.
 ---
 
 # 🚀  Application
 
 ## New
 
-Cette méthode crée une nouvelle instance nommée **Fiber**
+Cette méthode crée une nouvelle instance nommée **Fiber**.
 
 ```go
 app := fiber.New()
@@ -14,7 +14,7 @@ app := fiber.New()
 
 ## Static
 
-Pour servir des fichiers statiques comme des **images**, du **CSS** ou encore du **JavaScript**, vous pouvez utiliser la méthode **Static**
+Pour servir des fichiers statiques comme des **images**, du **CSS** ou encore du **JavaScript**, vous pouvez utiliser la méthode **Static**.
 
 {% hint style="info" %}
 Par défaut, cette méthode renverra `index.html` en réponse, lors d'une requête sur un dossier.
@@ -29,7 +29,7 @@ app.Static(prefix, root string) // => with prefix
 
 #### Examples
 
-Utilisez le code suivant pour servir des fichiers contenus dans un dossier nommé `./public`
+Utilisez le code suivant pour servir des fichiers contenus dans un dossier nommé `./public`.
 
 ```go
 app.Static("./public")
@@ -96,7 +96,7 @@ app.Use(...)
 
 ## Recover
 
-Vous pouvez vous remettre de panic errors, dans n'importe quel handler, en ayant recours à la méthode `Recover`. Vous pouvez accéder au détail de l'erreur via [`Error()`](context#error)
+Vous pouvez vous remettre de panic errors, dans n'importe quel handler, en ayant recours à la méthode `Recover`. Vous pouvez accéder au détail de l'erreur via [`Error()`](context#error).
 
 {% hint style="info" %}
 A moins que vous enregistrez un handler, `Recover` est désactivé par défaut.
@@ -200,7 +200,7 @@ Vous pouvez activer la feature Prefork, en ajoutant le flag `-prefork`.
 ./server -prefork
 ```
 
-Ou en définissant l'option `Prefork` à `true`
+Ou en définissant l'option `Prefork` à `true`.
 
 ```go
 app.Prefork = true // Prefork enabled
@@ -228,7 +228,7 @@ Quand vous lancez votre application Fiber, la console affiche une bannière cont
 
 ![](.gitbook/assets/screenshot-2020-02-08-at-13.18.27.png)
 
-Pour désactiver la bannière, définissez la valeur de `Banner` à `false`:
+Pour désactiver la bannière, définissez la valeur de `Banner` à `false` :
 
 ```go
 app.Banner = false // Hide banner
@@ -236,7 +236,7 @@ app.Banner = false // Hide banner
 
 ## Test
 
-Vous pouvez tester votre application via la méthode **Test**
+Vous pouvez tester votre application via la méthode **Test**.
 
 {% hint style="info" %}
 Cette méthode est principalement utilisée pour les fichiers `_test.go`, ainsi que le débogage de l'application.

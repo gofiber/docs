@@ -1,22 +1,22 @@
 ---
-description: A hosted documentation so you can start building web apps with Fiber.
+description: Une documentation hébergée pour que vous puissire démarrer la création d'applications webs avec Fiber.
 ---
 
 # 📖  Getting started
 
 [![](https://img.shields.io/github/release/gofiber/fiber?style=flat-square)](https://github.com/gofiber/fiber/releases) [![](https://img.shields.io/badge/api-documentation-blue?style=flat-square)](https://fiber.wiki) ![](https://img.shields.io/badge/goreport-A%2B-brightgreen?style=flat-square) [![](https://img.shields.io/badge/coverage-91%25-brightgreen?style=flat-square)](https://gocover.io/github.com/gofiber/fiber) [![](https://img.shields.io/travis/gofiber/fiber/master.svg?label=linux&style=flat-square)](https://travis-ci.org/gofiber/fiber) [![](https://img.shields.io/travis/gofiber/fiber/master.svg?label=windows&style=flat-square)](https://travis-ci.org/gofiber/fiber)
 
-**Fiber** is an [Expressjs](https://github.com/expressjs/express) inspired **web framework** build on top of [Fasthttp](https://github.com/valyala/fasthttp), the **fastest** HTTP engine for [Go](https://golang.org/doc/). Designed to **ease** things up for **fast** development with **zero memory allocation** and **performance** in mind.
+**Fiber** est un framework web inspiré d' [Expressjs](https://github.com/expressjs/express). Il se base sur [Fasthttp](https://github.com/valyala/fasthttp), l'implémentation HTTP de Go **la plus rapide**. Conçu pour faciliter les choses pour des développements **rapides**, Fiber garde à l'esprit **l'absence d'allocations mémoires**, ainsi que les **performances**.
 
 ## Installing
 
-First of all, [download](https://golang.org/dl/) and install Go.
+Premièrement, [téléchargez](https://golang.org/dl/) et installez Go.
 
 {% hint style="success" %}
-Go **1.11** \(with enabled [Go Modules](https://golang.org/doc/go1.11#modules)\) or higher is required.
+La version **1.11** de Go \(avec les [Go Modules](https://golang.org/doc/go1.11#modules) activés\),ou supérieur, est requise.
 {% endhint %}
 
-Installation is done using the [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) command:
+L'installation est ensuite lancée via la commande go get [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) :
 
 ```bash
 go get -u github.com/gofiber/fiber
@@ -24,7 +24,7 @@ go get -u github.com/gofiber/fiber
 
 ## Hello, World!
 
-Embedded below is essentially simplest **Fiber** app, which you can create.
+Voici l'application **Fiber** la plus simple que vous pouvez créer.
 
 ```text
 touch server.go
@@ -53,8 +53,7 @@ func main() {
 ```text
 go run server.go
 ```
-
-Browse to `http://localhost:8080` and you should see `Hello, World!` on the page.
+Rendez vous sur `http://localhost:8080`, vous devriez voir `Hello, World!` affiché sur la page.
 
 ## Basic routing
 

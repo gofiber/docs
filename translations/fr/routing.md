@@ -1,21 +1,21 @@
 ---
 description: >-
-  Routing refers to how an application's endpoints (URIs) respond to client
-  requests.
+  Le routing désigne la manière avec laquelle les endpoints d'une application (URIs) répondent aux requêtes du client.
 ---
 
 # 🔌  Routing
 
 ## Paths
 
-Route paths, in combination with a request method, define the endpoints at which requests can be made. Route paths can be **strings**, **string patterns** or **regular expressions**.
+Les route paths, combinés avec une request method, définissent les endpoints sur lesquels les requêtes peuvent être effectués. Ces route paths peuvent être des **strings**, **string patterns** ou **regular expressions**.
 
-**Special characters**
+**Caractères spéciaux**
 
-* The characters `?`, `+`, `&` and `()` are subsets of their **regular expression** counterparts. 
-* The hyphen \(`-`\) and the dot \(`.`\) are interpreted literally by **string-based** paths.
+* Les caractères `?`, `+`, `&` et `()` sont des sous-ensembles de leurs homologues en **regular expressions**.
 
-**Examples of route paths based on strings**
+* Le trait d'union \(`-`\) et le point \(`.`\) sont interprétés littéralement dans des chemins "**string-based**".
+
+**Exemples de route paths basés sur des strings**
 
 ```go
 // This route path will match requests to the root route, "/":
@@ -34,7 +34,7 @@ app.Get("/random.txt", func(c *fiber.Ctx) {
 })
 ```
 
-**Examples of route paths based on string patterns**
+**Exemples de route paths basés sur des string patterns**
 
 ```go
 // This route path will match: 
@@ -64,18 +64,18 @@ app.Get("/ab(cd)?e", func(c *fiber.Ctx) {
 
 ## Parameters
 
-Route parameters are **named URL segments** that are used to capture the values specified at their position in the URL. The captured values can be retrieved using the [Params](https://fiber.wiki/context#params) function, with the name of the route parameter specified in the path as their respective keys.
+Les route parameters sont des **segments d'URL nommés** qui sont utilisés pour capturer les valeurs spécifiées dans l'URL. Les valeurs capturées peuvent être récupérées via la fonction [Params](https://fiber.wiki/context#params), avec le nom du route parameter spécifié dans le chemin comme étant leurs clés respectives.
 
 {% hint style="info" %}
-Name of the route parameter must be made up of **word characters** \(`[A-Za-z0-9_]`\).
+Le nom du route parameter doit être constitué de **caractères alphanumériques** \(`[A-Za-z0-9_]`\).
 {% endhint %}
 
 {% hint style="danger" %}
-The hyphen \(`-`\) and the dot \(`.`\) are **not** interpreted literally yet.  
-Planned for **Fiber** v2.
+Le trait d'union \(`-`\) et le point \(`.`\) ne sont pas encore littéralement interprétés.
+Prévu pour **Fiber** v2.
 {% endhint %}
 
-**Example of define routes with route parameters**
+**Exemple de route définie avec des route parameters**
 
 ```go
 app.Get("/user/:name/books/:title", func(c *fiber.Ctx) {
@@ -94,7 +94,9 @@ app.Get("/user/:name?", func(c *fiber.Ctx) {
 
 ## Middleware
 
-Functions, that are designed to make changes to the request or response, are called **middleware functions**. The [Next](https://github.com/gofiber/docs/tree/34729974f7d6c1d8363076e7e88cd71edc34a2ac/context/README.md#next) is a **Fiber** router function, when called, executes the **next** function that **matches** the current route.
+Les fonctions qui sont mises en place pour altérer la requête ou la réponse, sont appelés **middleware functions**.
+
+[Next](https://github.com/gofiber/docs/tree/34729974f7d6c1d8363076e7e88cd71edc34a2ac/context/README.md#next) est une router function de **Fiber** qui, quand appelée, execute la **next** fonction qui **match** la route actuelle.
 
 **Example of a middleware function**
 
@@ -117,9 +119,8 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-`Use` method path is a **mount** or **prefix** path and limits middleware to only apply to any paths requested that begin with it. This means you cannot use `:params` on the `Use` method.
+Le method path `Use` est un "**mount** or **prefix**" path. Il limite les middleware à tout path qui commence avec. Cela veut donc dire, que vous ne pouvez pas utiliser `:params` dans la méthode `Use`.
 
 {% hint style="info" %}
-If you are **not sure** when to use **All** or **Use**: read about the [Methods API here](https://fiber.wiki/application#methods).
+Si vous ne savez pas quand il faut utiliser **All** ou **Use**: jetez un coup d'oeil aux [API Methods](https://fiber.wiki/application#methods).
 {% endhint %}
-
