@@ -119,7 +119,7 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-Le method path `Use` est un "**mount** or **prefix**" path. Il limite les middleware à tout path qui commence avec. Cela veut donc dire, que vous ne pouvez pas utiliser `:params` dans la méthode `Use`.
+Le method path `Use` est un "**mount** or **prefix**" path. Il limite l'application d'un middleware à tout les path demandés qui commence avec `Use`. Cela signifie que vous ne pouvez pas utiliser `:params` dans la méthode `Use`.
 
 {% hint style="info" %}
 Si vous ne savez pas quand il faut utiliser **All** ou **Use**: jetez un coup d'oeil aux [API Methods](https://fiber.wiki/application#methods).
