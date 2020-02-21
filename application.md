@@ -337,7 +337,8 @@ func main() {
       <td style="text-align:left"><code>bool</code>
       </td>
       <td style="text-align:left">Enables use of the<a href="https://lwn.net/Articles/542629/"><code>SO_REUSEPORT</code></a>socket
-        option. This will spawn multiple Go processes listening on the same port.</td>
+        option. This will spawn multiple Go processes listening on the same port.
+        learn more about <a href="https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/">socket sharding</a>.</td>
       <td
       style="text-align:left"><code>false</code>
         </td>
@@ -411,7 +412,7 @@ func main() {
       <td style="text-align:left">If you preset the template file extension, you do not need to provide
         the full filename in the Render function: <code>c.Render(&quot;home&quot;, d) -&gt; home.pug</code> 
       </td>
-      <td style="text-align:left"><code>&quot;&quot;</code>
+      <td style="text-align:left"><code>&quot;html&quot;</code>
       </td>
     </tr>
   </tbody>
