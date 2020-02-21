@@ -167,7 +167,7 @@ func main() {
 
 ```
 
-## Groups
+## Group
 
 You can group routes by creating a `*Group` struct.
 
@@ -320,9 +320,7 @@ func main() {
 }
 ```
 
-**Common Settings**
-
-The following list are the most common settings for fiber. Simple but flexible.
+**Routing options**
 
 <table>
   <thead>
@@ -417,9 +415,7 @@ The following list are the most common settings for fiber. Simple but flexible.
       </td>
     </tr>
   </tbody>
-</table>**Expert Settings**
-
-The following settings are for the underlying HTTP engine \(Fasthttp\).
+</table>**Server settings**
 
 {% hint style="warning" %}
 Only change these settings, if you know **what** your are doing.
