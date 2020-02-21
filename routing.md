@@ -34,59 +34,31 @@ app.Get("/random.txt", func(c *fiber.Ctx) {
 })
 ```
 
-**Examples of route paths based on string patterns**
-
-```go
-// This route path will match: 
-// only "/acd" and "/abcd"
-app.Get("/ab?cd", func(c *fiber.Ctx) {
-  c.Send("/ab?cd")
-})
-
-// This route path will match:
-// "/abcd", "/abbcd", "/abbbcd" and so on
-app.Get("/ab+cd", func(c *fiber.Ctx) {
-  c.Send("ab+cd")
-})
-
-// This route path will match:
-// "/abcd", "/abxcd", "/abRANDOMcd", "/ab123cd" and so on
-app.Get("/ab*cd", func(c *fiber.Ctx) {
-  c.Send("ab*cd")
-})
-
-// This route path will match:
-// only "/abe" and "/abcde"
-app.Get("/ab(cd)?e", func(c *fiber.Ctx) {
-  c.Send("ab(cd)?e")
-})
-```
-
 ## Parameters
 
 Route parameters are **named URL segments** that are used to capture the values specified at their position in the URL. The captured values can be retrieved using the [Params](https://fiber.wiki/context#params) function, with the name of the route parameter specified in the path as their respective keys.
 
 {% hint style="info" %}
-Name of the route parameter must be made up of **word characters** \(`[A-Za-z0-9_]`\).
+Name of the route parameter must be made up of **characters** \(`[A-Za-z0-9_]`\).
 {% endhint %}
 
 {% hint style="danger" %}
-The hyphen \(`-`\) and the dot \(`.`\) are **not** interpreted literally yet.  
-Planned for **Fiber** v2.
+The hyphen \(`-`\) are **not** interpreted literally yet. Planned for **Fiber** v3.
 {% endhint %}
 
 **Example of define routes with route parameters**
 
 ```go
+// Parameters
 app.Get("/user/:name/books/:title", func(c *fiber.Ctx) {
   c.Write(c.Params("name"))
   c.Write(c.Params("title"))
 })
-
+// Wildcard
 app.Get("/user/*", func(c *fiber.Ctx) {
   c.Send(c.Params("*"))
 })
-
+// Optional parameter
 app.Get("/user/:name?", func(c *fiber.Ctx) {
   c.Send(c.Params("name"))
 })
@@ -119,7 +91,25 @@ app.Get("/", func(c *fiber.Ctx) {
 
 `Use` method path is a **mount** or **prefix** path and limits middleware to only apply to any paths requested that begin with it. This means you cannot use `:params` on the `Use` method.
 
-{% hint style="info" %}
-If you are **not sure** when to use **All** or **Use**: read about the [Methods API here](https://fiber.wiki/application#methods).
-{% endhint %}
+## Grouping
+
+If you have many endpoints, you can organize your routes using `Group`
+
+```go
+func main() {
+  app := fiber.New()
+  
+  api := app.Group("/api", cors())  // /api
+
+  v1 := api.Group("/v1", mysql())   // /api/v1
+  v1.Get("/list", handler)          // /api/v1/list
+  v1.Get("/user", handler)          // /api/v1/user
+
+  v2 := api.Group("/v2", mongodb()) // /api/v2
+  v2.Get("/list", handler)          // /api/v2/list
+  v2.Get("/user", handler)          // /api/v2/user
+  
+  app.Listen(3000)
+}
+```
 

@@ -6,10 +6,28 @@ description: The app instance conventionally denotes the Fiber application.
 
 ## New
 
-Method creates a new **Fiber** named instance.
+This method creates a new **Fiber** named instance. You can pass optional [settings ](application.md#settings)when creating a new instance.
+
+**Signature**
 
 ```go
-app := fiber.New()
+fiber.New(settings ...*Settings)
+```
+
+**Example**
+
+```go
+package main
+
+import "github.com/gofiber/fiber"
+
+func main() {
+    app := fiber.New()
+    
+    app.Static("/assets")
+    
+    app.Listen(3000)
+}
 ```
 
 ## Static
@@ -63,15 +81,15 @@ app.Static("/static", "./public")
 // => http://localhost:3000/static/css/style.css
 ```
 
-## Methods
+## HTTP Methods
 
 Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) of the request.
 
 #### Signature
 
 ```go
-app.METHOD(handler func(*Ctx))              // match any path
-app.METHOD(path string, handler func(*Ctx)) // match specific path
+app.METHOD(handlers ...func(*Ctx))              // match any path
+app.METHOD(path string, handlers ...func(*Ctx)) // match specific path
 ```
 
 #### Example
@@ -95,12 +113,96 @@ app.All(...)
 app.Use(...)
 ```
 
+## WebSocket
+
+Fiber supports a [Gorilla WebSocket](https://pkg.go.dev/github.com/fasthttp/websocket?tab=doc#pkg-index) implementation for fasthttp. The `*Conn` struct has all the functionality from the gorilla/websocket library, you can find all methods [here](https://pkg.go.dev/github.com/fasthttp/websocket?tab=doc#pkg-index).
+
+ **Signature**
+
+```go
+app.WebSocket(handler func(*Conn))              // match any path
+app.WebSocket(path string, handler func(*Conn)) // match specific path
+```
+
+**Example**
+
+```go
+package main
+
+import (
+	"log"
+	"github.com/gofiber/fiber"
+)
+
+func main() {
+	app := fiber.New()
+	// Optional middleware
+	app.Use("/ws", func(c *fiber.Ctx) {
+		if c.Get("host") == "localhost" {
+			c.Status(403).Send("Request origin not allowed")
+		} else {
+			c.Next()
+		}
+	})
+	// Upgraded websocket request
+	app.WebSocket("/ws/:id", func(c *fiber.Conn) {
+	  log.Println(c.Params("id")) // 123
+		for {
+			mt, msg, err := c.ReadMessage()
+      if err != nil {
+      	log.Println("read:", err)
+        break
+      }
+      log.Printf("recv: %s", msg)
+      err = c.WriteMessage(mt, msg)
+      if err != nil {
+      	log.Println("write:", err)
+        break
+      }
+		}
+	})
+  // ws://localhost:3000/ws/123
+	app.Listen(3000)
+}
+
+```
+
+## Groups
+
+You can group routes by creating a `*Group` struct.
+
+**Signature**
+
+```go
+app.Group(prefix string, handlers ...func(*Ctx)) *Group
+```
+
+**Example**
+
+```go
+func main() {
+  app := fiber.New()
+  
+  api := app.Group("/api", cors())  // /api
+
+  v1 := api.Group("/v1", mysql())   // /api/v1
+  v1.Get("/list", handler)          // /api/v1/list
+  v1.Get("/user", handler)          // /api/v1/user
+
+  v2 := api.Group("/v2", mongodb()) // /api/v2
+  v2.Get("/list", handler)          // /api/v2/list
+  v2.Get("/user", handler)          // /api/v2/user
+  
+  app.Listen(3000)
+}
+```
+
 ## Recover
 
-You can recover from panic errors in any handler by registering a `Recover` method. You can access the error information with [`Error()`](context#error)
+You can recover from panic errors in any handler by registering a `Recover` method. You can access the panic error by calling [`Error()`](https://github.com/gofiber/docs/tree/2f0839895190c02779e91237531b27445d4427c6/context/README.md#error)
 
 {% hint style="info" %}
-By default, `Recover` is disabled unless you register a handler.
+Recover is disabled by default unless you register a handler.
 {% endhint %}
 
 #### Signature
@@ -153,87 +255,6 @@ To enable **TLS/HTTPS** you can append your **cert** and **key** path.
 app.Listen(443, "server.crt", "server.key")
 ```
 
-## Settings
-
-### Engine
-
-You can change the default **Fasthttp** [server settings](https://github.com/valyala/fasthttp/blob/master/server.go#L150) via the **Fiber** instance. These settings need to be set **before** [Listen](application.md#listen) method.
-
-{% hint style="danger" %}
-Only change these settings, if you know **what** your are doing.
-{% endhint %}
-
-```go
-app.Engine.Concurrency = 256 * 1024
-app.Engine.DisableKeepAlive = false
-app.Engine.ReadBufferSize = 4096
-app.Engine.WriteBufferSize = 4096
-app.Engine.ReadTimeout = 0
-app.Engine.WriteTimeout = 0
-app.Engine.IdleTimeout = 0
-app.Engine.MaxConnsPerIP = 0
-app.Engine.MaxRequestsPerConn = 0
-app.Engine.TCPKeepalive = false
-app.Engine.TCPKeepalivePeriod = 0
-app.Engine.MaxRequestBodySize = 4 * 1024 * 1024
-app.Engine.ReduceMemoryUsage = false
-app.Engine.GetOnly = false
-app.Engine.DisableHeaderNamesNormalizing = false
-app.Engine.SleepWhenConcurrencyLimitsExceeded = 0
-app.Engine.NoDefaultContentType = false
-app.Engine.KeepHijackedConns = false
-```
-
-### Prefork
-
-The Prefork option enables use of the [**SO\_REUSEPORT**](https://lwn.net/Articles/542629/) socket option, which is available in newer versions of many operating systems, including **DragonFly BSD** and **Linux** \(kernel version **3.9** and later\). This will spawn multiple Go processes listening on the same port.
-
-**NGINX** has a great article about [Socket Sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/), these pictures are taken from the same article.
-
-![Schema, when Prefork disabled \(by default\)](https://cdn.wp.nginx.com/wp-content/uploads/2015/05/Slack-for-iOS-Upload-1-e1432652484191.png)
-
-![Schema, when Prefork enabled](https://cdn.wp.nginx.com/wp-content/uploads/2015/05/Slack-for-iOS-Upload-e1432652376641.png)
-
-You can enable the Prefork feature by adding the `-prefork` flag:
-
-```bash
-./server -prefork
-```
-
-Or set the `Prefork` option to `true`:
-
-```go
-app.Prefork = true // Prefork enabled
-
-app.Get("/", func(c *fiber.Ctx) {
-  msg := fmt.Sprintf("Worker #%v", os.Getpid())
-  c.Send(msg)
-  // => Worker #16858
-  // => Worker #16877
-  // => Worker #16895
-})
-```
-
-### Server
-
-Fiber by default does not send a [Server header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Server), but you can enable this by changing the server value.
-
-```go
-app.Server = "Windows 95" // => Server: Windows 95
-```
-
-### Banner
-
-When you launch your Fiber application, console will print a banner containing package version and listening port. _This is enabled by default._
-
-![](.gitbook/assets/screenshot-2020-02-08-at-13.18.27.png)
-
-To disable it, set `Banner` to `false`:
-
-```go
-app.Banner = false // Hide banner
-```
-
 ## Test
 
 Testing your application is done with the **Test** method.
@@ -272,3 +293,155 @@ if resp.StatusCode == 200 {
   fmt.Println(string(body)) // => Hello, World!
 }
 ```
+
+## Settings
+
+**Example**
+
+```go
+func main() {
+    // Pass Settings creating a new app
+		app := fiber.New(&fiber.Settings{
+				Prefork:       true,
+				CaseSensitive: true,
+				StrictRouting: true,
+				ServerHeader:  "Go",
+				// etc...
+		})
+		
+		// Or change Settings after initiating app
+		app.Settings.Prefork = true
+		app.Settings.CaseSensitive = true
+		app.Settings.StrictRouting = true
+		app.Settings.ServerHeader = true
+		// etc...
+		
+		app.Listen(3000)
+}
+```
+
+**Common Settings**
+
+The following list are the most common settings for fiber. Simple but flexible.
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Property</th>
+      <th style="text-align:left">Type</th>
+      <th style="text-align:left">Description</th>
+      <th style="text-align:left">Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">Prefork</td>
+      <td style="text-align:left"><code>bool</code>
+      </td>
+      <td style="text-align:left">Enables use of the<a href="https://lwn.net/Articles/542629/"><code>SO_REUSEPORT</code></a>socket
+        option. This will spawn multiple Go processes listening on the same port.</td>
+      <td
+      style="text-align:left"><code>false</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">ServerHeader</td>
+      <td style="text-align:left"><code>string</code>
+      </td>
+      <td style="text-align:left">Enables the <code>Server</code> HTTP header with the given value.</td>
+      <td
+      style="text-align:left"><code>&quot;&quot;</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">StrictRouting</td>
+      <td style="text-align:left"><code>bool</code>
+      </td>
+      <td style="text-align:left">When enabled, the router treats <code>/foo</code> and <code>/foo/</code> as
+        different. Otherwise, the router treats <code>/foo</code> and <code>/foo/</code> as
+        the same.</td>
+      <td style="text-align:left"><code>false</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">CaseSensitive</td>
+      <td style="text-align:left"><code>bool</code>
+      </td>
+      <td style="text-align:left">When enabled, <code>/Foo</code> and <code>/foo</code> are different routes.
+        When disabled, <code>/Foo</code>and <code>/foo</code> are treated the same.</td>
+      <td
+      style="text-align:left"><code>false</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">ViewFolder</td>
+      <td style="text-align:left"><code>string</code>
+      </td>
+      <td style="text-align:left">
+        <p>A directory for the application&apos;s views. If a directory is set, this
+          will be the prefix for all template paths.</p>
+        <p><code>c.Render(&quot;home.pug&quot;, d) -&gt; /views/home.pug</code>
+        </p>
+      </td>
+      <td style="text-align:left"><code>&quot;&quot;</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">ViewCache</td>
+      <td style="text-align:left"><code>bool</code>
+      </td>
+      <td style="text-align:left">Enables view template compilation caching.</td>
+      <td style="text-align:left"><code>false</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">ViewEngine</td>
+      <td style="text-align:left"><code>string</code>
+      </td>
+      <td style="text-align:left">The template engine to use: <code>html</code>, <a href="https://github.com/eknkc/amber"><code>amber</code></a>,
+        <a
+        href="ttps://github.com/aymerick/raymond"><code>handlebars</code>
+          </a>, <code>mustache</code> or <a href="https://github.com/Joker/jade"><code>pug</code></a>.</td>
+      <td
+      style="text-align:left"><code>&quot;&quot;</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">ViewExtension</td>
+      <td style="text-align:left"><code>string</code>
+      </td>
+      <td style="text-align:left">If you preset the template file extension, you do not need to provide
+        the full filename in the Render function: <code>c.Render(&quot;home&quot;, d) -&gt; home.pug</code> 
+      </td>
+      <td style="text-align:left"><code>&quot;&quot;</code>
+      </td>
+    </tr>
+  </tbody>
+</table>**Expert Settings**
+
+The following settings are for the underlying HTTP engine \(Fasthttp\).
+
+{% hint style="warning" %}
+Only change these settings, if you know **what** your are doing.
+{% endhint %}
+
+| Property | Type | Description | Default |
+| :--- | :--- | :--- | :--- |
+| GetOnly | `bool` | Rejects all non-GET requests if set to `true`. This option is useful as anti-DoS protection for servers accepting only GET requests. The request size is limited by `ReadBufferSize` if `GetOnly` is set. | `false` |
+| IdleTimeout | `time.Duration` | IdleTimeout is the maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is `0`, the value of `ReadTimeout` is used. | `0` |
+| Concurrency | `int` | The maximum number of concurrent connections the server may serve. | `0` |
+| ReadTimeout | `time.Duration` | The amount of time allowed to read the full request including body. The connection's read deadline is reset when the connection opens, or for keep-alive connections after the first byte has been read. | `0` |
+| WriteTimeout | `time.Duration` | The maximum duration before timing out writes of the response. It is reset after the request handler has returned. | `0` |
+| TCPKeepalive | `bool` | Whether to enable tcp keep-alive connections and the operating system should send tcp keep-alive messages on the tcp connection. | `false` |
+| MaxConnsPerIP | `int` | Maximum number of concurrent client connections allowed per IP. By default `unlimited`number of concurrent connections may be established to the server from a single IP address. | `0` |
+| ReadBufferSize | `int` | Per-connection buffer size for requests reading. This also limits the maximum header size. Increase this buffer if your clients send multi-KB RequestURIs and/or multi-KB headers \(for example, BIG cookies\). | `4096` |
+| WriteBufferSize | `int` | Per-connection buffer size for responses writing. | `4096` |
+| ConcurrencySleep | `time.Duration` | A duration to be slept of if the `concurrency` limit in exceeded, default is `0`: don't sleep and accept new connections immidiatelly. | `0` |
+| DisableKeepAlive | `bool` | Whether to disable keep-alive connections. The server will close all the incoming connections after sending the first response to client if this option is set to `true`. | `false` |
+| ReduceMemoryUsage | `bool` | Aggressively reduces memory usage at the cost of higher CPU usage if set to `true`. Try enabling this option only if the server consumes too much memory serving mostly idle keep-alive connections. This may reduce memory usage by more than `50%`. | `false` |
+| MaxRequestsPerConn | `int` | Maximum number of requests served per connection. The server closes connection after the last request. `Connection: close` header is added to the last response. | `0` |
+| TCPKeepalivePeriod | `time.Duration` | Period between tcp keep-alive messages. TCP keep-alive period is determined by operation system by default. | `0` |
+| MaxRequestBodySize | `int` | Maximum request body size. The server rejects requests with bodies exceeding this limit. | `0` |
+| NoHeaderNormalizing | `bool` | By default request and response header names are normalized, for example:_`HOST -> Host`_ ,`cONTENT-lenGTH -> Content-Length` | `false` |
+| NoDefaultContentType | `bool` | When set to `true`, causes the default Content-Type header to be excluded from the Response. | `false` |
+

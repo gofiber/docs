@@ -19,6 +19,9 @@ Based on the request’s [Accept](https://developer.mozilla.org/en-US/docs/Web/H
 
 ```go
 c.Accepts(types ...string) string
+c.AcceptsCharsets(charsets ...string) string
+c.AcceptsEncodings(encodings ...string) string
+c.AcceptsLanguages(langs ...string) string
 ```
 
 **Example**
@@ -455,8 +458,10 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Fresh
 
-{% hint style="danger" %}
-Planned for **Fiber** v2.
+[https://expressjs.com/en/4x/api.html\#req.fresh](https://expressjs.com/en/4x/api.html#req.fresh)
+
+{% hint style="info" %}
+Not implemented yet, pull requests are welcome!
 {% endhint %}
 
 ## Get
@@ -600,9 +605,12 @@ app.Get("/json", func(c *fiber.Ctx) {
   // => Content-Type: application/json
   // => "{"Name": "Grame", "Age": 20}"
 
-  c.JSON("Hello, World!")
+  c.JSON(fiber.Map{
+    "name": "Grame",
+    "age": 20,
+  })
   // => Content-Type: application/json
-  // => "Hello, World!"
+  // => "{"name": "Grame", "age": 20}"
 })
 ```
 
@@ -937,8 +945,8 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Range
 
-{% hint style="danger" %}
-Planned for **Fiber** v2.
+{% hint style="info" %}
+Coming soon! Feel free to create a PR!
 {% endhint %}
 
 ## Redirect
@@ -968,17 +976,72 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Render
 
-{% hint style="danger" %}
-Planned for **Fiber** v2.
+Renders a template with data and sends a `text/html` response. We support the following template engines:
+
+| Keyword | Engine |
+| :--- | :--- |
+| `html` | [golang.org/pkg/html/template/](https://golang.org/pkg/html/template/) |
+| `amber` | [github.com/eknkc/amber](https://github.com/eknkc/amber) |
+| `handlebars` | [github.com/aymerick/raymond](https://github.com/aymerick/raymond) |
+| `mustache` | [github.com/cbroglie/mustache](https://github.com/cbroglie/mustache) |
+| `pug` | [github.com/Joker/jade](https://github.com/Joker/jade) |
+
+**Signature**
+
+```go
+c.Render(view string, data interface{}, engine ...string) error
+```
+
+A simple template file with the ****`mustache` ****syntax.
+
+{% code title="/views/home.tmpl" %}
+```go
+<html>
+    <head>
+        <title>{{title}}</title>
+    </head>
+<body>
+    I wish it was {{year}}
+</body>
+</html>
+```
+{% endcode %}
+
+**Example**
+
+```go
+app.Get("/", func(c *fiber.Ctx) {
+  // fiber.Map == map[string]interface{}
+  data := fiber.Map{
+    "title": "Homepage",
+    "year":  1999,
+  }
+  c.Render("./views/home.tmpl", data, "mustache")
+})
+```
+
+{% hint style="success" %}
+It's even easier if you set your template settings globally!
 {% endhint %}
+
+```go
+app := fiber.New()
+
+app.Settings.ViewEngine = "mustache"
+app.Settings.ViewFolder = "./views"
+app.Settings.ViewExtension = ".tmpl"
+
+app.Get("/", func(c *fiber.Ctx) {
+  c.Render("home", fiber.Map{
+    "title": "Homepage",
+    "year":  1999,
+  })
+})
+```
 
 ## Route
 
 Contains the matched [Route](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc#Route) struct.
-
-{% hint style="warning" %}
-We do not recommend using this function in production.
-{% endhint %}
 
 **Signature**
 
@@ -992,13 +1055,13 @@ c.Route() *Route
 // http://localhost:8080/hello
 
 app.Get("/hello", func(c *fiber.Ctx) {
-  c.Route()
-  // => {GET /hello false false <nil> [] 0x7b4ab0}
+  r := c.Route()
+  fmt.Println(r.Method, r.Path, r.Prefix, r.Regex, r.Params, r.HandlerCtx)
 })
 
 app.Post("/:api?", func(c *fiber.Ctx) {
   c.Route()
-  // => {POST / false false ^(?:/([^/]+?))?/?$ [api] 0x7b49e0}
+  // => {POST /:api?  ^(?:/([^/]+?))?/?$ [api] 0x7b49e0}
 })
 ```
 
@@ -1189,16 +1252,12 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## SignedCookies
-
-{% hint style="danger" %}
-Planned for **Fiber** v2.
-{% endhint %}
-
 ## Stale
 
-{% hint style="danger" %}
-Planned for **Fiber** v2.
+[https://expressjs.com/en/4x/api.html\#req.fresh](https://expressjs.com/en/4x/api.html#req.fresh)
+
+{% hint style="info" %}
+Not implemented yet, pull requests are welcome!
 {% endhint %}
 
 ## Status
@@ -1206,7 +1265,7 @@ Planned for **Fiber** v2.
 Sets the HTTP status for the response.
 
 {% hint style="info" %}
-Method is a **chain able**.
+Method is a **chainable**.
 {% endhint %}
 
 **Signature**
