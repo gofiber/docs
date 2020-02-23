@@ -1025,11 +1025,11 @@ It's even easier if you set your template settings globally!
 {% endhint %}
 
 ```go
-app := fiber.New()
-
-app.Settings.ViewEngine = "mustache"
-app.Settings.ViewFolder = "./views"
-app.Settings.ViewExtension = ".tmpl"
+app := fiber.New(&fiber.Settings{
+  ViewEngine:    "mustache",
+  ViewFolder:    "./views",
+  ViewExtension: ".tmpl",
+})
 
 app.Get("/", func(c *fiber.Ctx) {
   c.Render("home", fiber.Map{
