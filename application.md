@@ -24,7 +24,7 @@ import "github.com/gofiber/fiber"
 func main() {
     app := fiber.New()
     
-    app.Static("/assets")
+    // Your app logic here ...
     
     app.Listen(3000)
 }
