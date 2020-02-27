@@ -163,7 +163,7 @@ Binds the request body to a struct. `BodyParser` supports decoding the following
 **Signature**
 
 ```go
-c.BodyParser(v interface{})
+c.BodyParser(out interface{})
 ```
 
 **Example**
@@ -198,13 +198,12 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## ClearCookie
 
-Clears **all** client cookies \(_or a single cookie specific by **name**_\) by setting the expire date in the past.
+Expire a client cookie \(_or all cookies if left empty\)_
 
 **Signature**
 
 ```go
-c.ClearCookie()
-c.ClearCookie(key string)
+c.ClearCookie(key ...string)
 ```
 
 **Example**
@@ -224,29 +223,23 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Cookie
 
-Sets cookie with **name** and **value**.
+Set cookies
 
 **Signature**
 
 ```go
-c.Cookie(name, value string, options ...*Cookie{})
+c.Cookie(*Cookie)
 ```
 
-**Cookie struct**
-
-{% hint style="warning" %}
-**Expire** option will **not** be used, if **MaxAge** is set.
-{% endhint %}
-
 ```go
-&fiber.Cookie{
-  Expire   int64  // Unix timestamp
-  MaxAge   int    // Seconds
-  Domain   string
-  Path     string
-  HTTPOnly bool
-  Secure   bool
-  SameSite string
+type Cookie struct {
+	Name     string
+	Value    string
+	Path     string
+	Domain   string
+	Expires  time.Time
+	Secure   bool
+	HTTPOnly bool
 }
 ```
 
@@ -254,26 +247,19 @@ c.Cookie(name, value string, options ...*Cookie{})
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  c.Cookie("name", "john")
-  // => Cookie: name=john;
-
-  c.Cookie("name", "john", &fiber.Cookie{
-    MaxAge:   60,
-    Domain:   "example.com",
-    Path:     "/",
-    HTTPOnly: true,
-    Secure:   true,
-    SameSite: "lax",
-  })
-  // => name=john; max-age=60; domain=example.com; path=/;
-  //    HttpOnly; secure; SameSite=Lax
-
+  // Create cookie
+  cookie := new(fiber.Cookie)
+	cookie.Name = "john"
+	cookie.Value = "doe"
+	cookie.Expires = time.Now().Add(24 * time.Hour)
+	// Set cookie
+	c.Cookie(cookie)
 })
 ```
 
 ## Cookies
 
-Gets cookies.
+Get cookies.
 
 **Signature**s
 
@@ -989,7 +975,7 @@ Renders a template with data and sends a `text/html` response. We support the fo
 **Signature**
 
 ```go
-c.Render(view string, data interface{}, engine ...string) error
+c.Render(file string, data interface{}, engine ...string) error
 ```
 
 A simple template file with the ****`mustache` ****syntax.
@@ -1026,9 +1012,9 @@ It's even easier if you set your template settings globally!
 
 ```go
 app := fiber.New(&fiber.Settings{
-  ViewEngine:    "mustache",
-  ViewFolder:    "./views",
-  ViewExtension: ".tmpl",
+  TemplateEngine:    "mustache",
+  TemplateFolder:    "./views",
+  TemplateExtension: ".tmpl",
 })
 
 app.Get("/", func(c *fiber.Ctx) {
@@ -1191,22 +1177,6 @@ app.Get("/not-found", func(c *fiber.Ctx) {
 ```
 
 ## SendStatus
-
-```go
-
-```
-
-```go
-
-```
-
-```go
-
-```
-
-```go
-
-```
 
 Sets the status code and the correct status message in the body, if the response body is **empty**.
 

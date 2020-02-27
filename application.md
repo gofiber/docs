@@ -88,41 +88,44 @@ Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.
 #### Signature
 
 ```go
-app.METHOD(handlers ...func(*Ctx))              // match any path
-app.METHOD(path string, handlers ...func(*Ctx)) // match specific path
+// All, Get, Put, Post, Head, Patch
+// Trace, Delete, Connect, Options
+app.Get(path string, handlers ...func(*Ctx))
+
+// Matches any HTTP method
+// Matches path starting with prefix
+app.Use(handlers ...func(*Ctx))
+app.Use(prefix string, handlers ...func(*Ctx))
 ```
 
 #### Example
 
 ```go
-// Single method
-app.Connect(...)
-app.Delete(...)
-app.Get(...)
-app.Head(...)
-app.Options(...)
-app.Patch(...)
-app.Post(...)
-app.Put(...)
-app.Trace(...)
-
-// Matches all methods & complete path
-app.All(...)
-
-// Matches all methods & URLs starting with a specified path
-app.Use(...)
+app.Use(func(c *fiber.Ctx) {
+  c.Send(c.Method())
+  c.Next()
+})
+app.Get("/", func(c *fiber.Ctx) {
+  c.Send("I'm a GET request!")
+})
+app.Post("/", func(c *fiber.Ctx) {
+  c.Send("I'm a POST request!")
+})
 ```
 
 ## WebSocket
 
-Fiber supports a [Gorilla WebSocket](https://pkg.go.dev/github.com/fasthttp/websocket?tab=doc#pkg-index) implementation for fasthttp. The `*Conn` struct has all the functionality from the gorilla/websocket library, you can find all methods [here](https://pkg.go.dev/github.com/fasthttp/websocket?tab=doc#pkg-index).
+Fiber supports a websocket upgrade implementation for fasthttp. The `*Conn` struct has all the functionality from the [gorilla/websocket ](https://pkg.go.dev/github.com/fasthttp/websocket?tab=doc#pkg-index)library.
 
  **Signature**
 
 ```go
-app.WebSocket(handler func(*Conn))              // match any path
-app.WebSocket(path string, handler func(*Conn)) // match specific path
+app.WebSocket(path string, handler func(*Conn))
 ```
+
+{% hint style="warning" %}
+WebSocket does not support path parameters and wildcards.
+{% endhint %}
 
 **Example**
 
@@ -138,15 +141,14 @@ func main() {
 	app := fiber.New()
 	// Optional middleware
 	app.Use("/ws", func(c *fiber.Ctx) {
-		if c.Get("host") == "localhost" {
+		if c.Get("host") == "localhost:3000" {
 			c.Status(403).Send("Request origin not allowed")
 		} else {
 			c.Next()
 		}
 	})
 	// Upgraded websocket request
-	app.WebSocket("/ws/:id", func(c *fiber.Conn) {
-	  log.Println(c.Params("id")) // 123
+	app.WebSocket("/ws", func(c *fiber.Conn) {
 		for {
 			mt, msg, err := c.ReadMessage()
       if err != nil {
@@ -161,7 +163,7 @@ func main() {
       }
 		}
 	})
-  // ws://localhost:3000/ws/123
+  // ws://localhost:3000/ws
 	app.Listen(3000)
 }
 
@@ -208,7 +210,7 @@ Recover is disabled by default unless you register a handler.
 #### Signature
 
 ```go
-app.Recover(handler ...func(*Ctx))
+app.Recover(handler func(*Ctx))
 ```
 
 #### Example
@@ -320,7 +322,7 @@ func main() {
 }
 ```
 
-**Routing options**
+ **Common options**
 
 <table>
   <thead>
@@ -373,7 +375,17 @@ func main() {
         </td>
     </tr>
     <tr>
-      <td style="text-align:left">ViewFolder</td>
+      <td style="text-align:left">Immutable</td>
+      <td style="text-align:left"><code>bool</code>
+      </td>
+      <td style="text-align:left">When enabled, all values returned by context methods are immutable. By
+        default they are valid until you return from the handler, see issue <a href="https://github.com/gofiber/fiber/issues/185">#185</a>.</td>
+      <td
+      style="text-align:left"><code>false</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">TemplateFolder</td>
       <td style="text-align:left"><code>string</code>
       </td>
       <td style="text-align:left">
@@ -386,15 +398,7 @@ func main() {
       </td>
     </tr>
     <tr>
-      <td style="text-align:left">ViewCache</td>
-      <td style="text-align:left"><code>bool</code>
-      </td>
-      <td style="text-align:left">Enables view template compilation caching.</td>
-      <td style="text-align:left"><code>false</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">ViewEngine</td>
+      <td style="text-align:left">TemplateEngine</td>
       <td style="text-align:left"><code>string</code>
       </td>
       <td style="text-align:left">The template engine to use: <code>html</code>, <a href="https://github.com/eknkc/amber"><code>amber</code></a>,
@@ -406,7 +410,7 @@ func main() {
         </td>
     </tr>
     <tr>
-      <td style="text-align:left">ViewExtension</td>
+      <td style="text-align:left">TemplateExtension</td>
       <td style="text-align:left"><code>string</code>
       </td>
       <td style="text-align:left">If you preset the template file extension, you do not need to provide
