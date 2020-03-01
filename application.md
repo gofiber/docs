@@ -295,16 +295,16 @@ func main() {
     app.WebSocket("/ws", func(c *fiber.Conn) {
         for {
             mt, msg, err := c.ReadMessage()
-      if err != nil {
-          log.Println("read:", err)
-        break
-      }
-      log.Printf("recv: %s", msg)
-      err = c.WriteMessage(mt, msg)
-      if err != nil {
-          log.Println("write:", err)
-        break
-      }
+            if err != nil {
+                log.Println("read:", err)
+                break
+            }
+            log.Printf("recv: %s", msg)
+            err = c.WriteMessage(mt, msg)
+            if err != nil {
+                log.Println("write:", err)
+                break
+            }
         }
     })
   // ws://localhost:3000/ws
