@@ -133,10 +133,10 @@ func main() {
       <td style="text-align:left"><code>int</code>
       </td>
       <td style="text-align:left">Sets the maximum allowed size for a request body, if the size exceeds
-        the configured limit, it sends &#x201C;413 - Request Entity Too Large&#x201D;
-        response.</td>
-      <td style="text-align:left"><code>4 * 1024 * 1024</code>
-      </td>
+        the configured limit, it sends <code>413 - Request Entity Too Large</code> response.</td>
+      <td
+      style="text-align:left"><code>4 * 1024 * 1024</code>
+        </td>
     </tr>
     <tr>
       <td style="text-align:left">TemplateFolder</td>
