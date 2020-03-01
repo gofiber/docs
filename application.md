@@ -37,22 +37,22 @@ func main() {
 ```go
 func main() {
     // Pass Settings creating a new app
-        app := fiber.New(&fiber.Settings{
-                Prefork:       true,
-                CaseSensitive: true,
-                StrictRouting: true,
-                ServerHeader:  "Go",
-                // etc...
-        })
-
-        // Or change Settings after initiating app
-        app.Settings.Prefork = true
-        app.Settings.CaseSensitive = true
-        app.Settings.StrictRouting = true
-        app.Settings.ServerHeader = true
+    app := fiber.New(&fiber.Settings{
+        Prefork:       true,
+        CaseSensitive: true,
+        StrictRouting: true,
+        ServerHeader:  "Go",
         // etc...
+    })
 
-        app.Listen(3000)
+    // Or change Settings after initiating app
+    app.Settings.Prefork = true
+    app.Settings.CaseSensitive = true
+    app.Settings.StrictRouting = true
+    app.Settings.ServerHeader = true
+    // etc...
+
+    app.Listen(3000)
 }
 ```
 
