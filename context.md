@@ -985,9 +985,40 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Range
 
-{% hint style="info" %}
-Coming soon! Feel free to create a PR!
-{% endhint %}
+An struct containg the type and a slice of ranges will be returned.
+
+**Signature**
+
+```go
+c.Range(int size)
+```
+
+**Range struct**
+
+```go
+type Range struct {
+	Type   string
+	Ranges []struct {
+		Start int64
+		End   int64
+	}
+}
+```
+
+**Example**
+
+```go
+// Range: bytes=500-700, 700-900
+app.Get("/", func(c *fiber.Ctx) {
+  b := c.Range(1000)
+  if b.Type == "bytes" {
+  	for r := range r.Ranges {
+      fmt.Println(r)
+      // [500, 700]
+    }
+  }
+})
+```
 
 ## Redirect
 
