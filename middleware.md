@@ -204,7 +204,7 @@ func main() {
 }
 ```
 
-## Request ID
+## RequestID
 
 RequestID adds an indentifier to the request using the `X-Request-ID` header
 
