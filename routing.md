@@ -38,7 +38,7 @@ Name of the route parameter must be made up of **characters** \(`[A-Za-z0-9_]`\)
 {% endhint %}
 
 {% hint style="danger" %}
-The hyphen \(`-`\) are **not** interpreted literally yet. Planned for **Fiber** v3.
+The hyphen \(`-`\) are **not** interpreted literally yet. Planned for **Fiber** v1.9.
 {% endhint %}
 
 **Example of define routes with route parameters**
