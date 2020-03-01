@@ -232,12 +232,22 @@ Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.
 **Signature**
 
 ```go
-// All, Get, Put, Post, Head, Patch
-// Trace, Delete, Connect, Options
-app.Get(path string, handlers ...func(*Ctx))
+/* These methods support :param & :optional? in path
+   You are required to pass a path to each method    */
+app.All(path string, handlers ...func(*Ctx))
+app.Get(...
+app.Put(...
+app.Post(...
+app.Head(...
+app.Patch(...
+app.Trace(...
+app.Delete(...
+app.Connect(...
+app.Options(...
 
-// Matches any HTTP method
-// Matches path starting with prefix
+/* Use will only match the prefix of each path
+   i.e. "/john" will match "/john/doe", "/johnnnn"
+   Use does not support :param & :optional? in path   */
 app.Use(handlers ...func(*Ctx))
 app.Use(prefix string, handlers ...func(*Ctx))
 ```
@@ -245,14 +255,14 @@ app.Use(prefix string, handlers ...func(*Ctx))
 **Example**
 
 ```go
-app.Use(func(c *fiber.Ctx) {
-  c.Send(c.Method())
+app.Use("/api", func(c *fiber.Ctx) {
+  c.Set("X-Custom-Header", random.String(32))
   c.Next()
 })
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/api/list", func(c *fiber.Ctx) {
   c.Send("I'm a GET request!")
 })
-app.Post("/", func(c *fiber.Ctx) {
+app.Post("/api/register", func(c *fiber.Ctx) {
   c.Send("I'm a POST request!")
 })
 ```
