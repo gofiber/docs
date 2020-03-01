@@ -95,7 +95,7 @@ func main() {
     app := fiber.New()
 
     // Middleware
-    app.Use(middleware.Cors())
+    app.Use(middleware.CORS())
 
     // Application
     app.Get("/", func(c *fiber.Ctx) {
