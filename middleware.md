@@ -45,10 +45,10 @@ func main() {
             "admin": "123456",
         },
     }
-    
+
     // Middleware
     app.Use(middleware.BasicAuth(config))
-    
+
     // Application
     app.Get("/", func(c *fiber.Ctx) {
         c.Send("You are authorized!")
@@ -96,7 +96,7 @@ func main() {
 
     // Middleware
     app.Use(middleware.Cors())
-    
+
     // Application
     app.Get("/", func(c *fiber.Ctx) {
         c.Send("CORS is enabled!")
@@ -147,10 +147,10 @@ func main() {
         Timeout: 10,
         Max: 2,
     }
-    
+
     // Middleware
     app.Use(middleware.Limiter(config))
-    
+
     // Application
     app.Get("/", func(c *fiber.Ctx) {
         c.Send("This route can handle limited repeated requests!")
@@ -194,7 +194,7 @@ func main() {
 
     // Middleware
     app.Use(middleware.Logger())
-    
+
     // Application
     app.Get("/", func(c *fiber.Ctx) {
         c.Send("You have been logged!")
@@ -248,30 +248,29 @@ func main() {
 }
 ```
 
-## Secure
+## Helmet
 
-Secure middleware provides protection against cross-site scripting \(XSS\) attack, content type sniffing, clickjacking, insecure connection and other code injection attacks.
+Helmet middleware provides protection against cross-site scripting \(XSS\) attack, content type sniffing, clickjacking, insecure connection and other code injection attacks.
 
 **Signature**
 
 ```go
-middleware.Secure(config ...SecureConfig) func(*Ctx)
+middleware.Helmet(config ...HelmetConfig) func(*Ctx)
 ```
 
 **Config**
-
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
 | Skip | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
-| XSSProtection | `string` | ooooooooooo | `1; mode=block"` |
-| ContentTypeNosniff | `string` | ooooooooooo | `"nosniff"` |
-| XFrameOptions | `string` | ooooooooooo | `"SAMEORIGIN"` |
-| HSTSMaxAge | `int` | ooooooooooo | \`\` |
-| HSTSExcludeSubdomains | `bool` | ooooooooooo | \`\` |
-| ContentSecurityPolicy | `string` | ooooooooooo | \`\` |
-| CSPReportOnly | `bool` | ooooooooooo | \`\` |
-| HSTSPreloadEnabled | `bool` | ooooooooooo | \`\` |
-| ReferrerPolicy | `string` | ooooooooooo | \`\` |
+| XSSProtection | `string` |  XSSProtection provides protection against cross-site scripting attack (XSS) by setting the `X-XSS-Protection` header. | `1; mode=block"` |
+| ContentTypeNosniff | `string` | ContentTypeNosniff provides protection against overriding Content-Type header by setting the `X-Content-Type-Options` header. | `"nosniff"` |
+| XFrameOptions | `string` | XFrameOptions can be used to indicate whether or not a browser should be allowed to render a page in a <frame>, <iframe> or <object>. Sites can use this to avoid clickjacking attacks, by ensuring that their content is not embedded into other sites.provides protection against clickjacking. Possible values: `SAMEORIGIN, DENY, ALLOW-FROM uri` | `"SAMEORIGIN"` |
+| HSTSMaxAge | `int` | HSTSMaxAge sets the `Strict-Transport-Security` header to indicate how long (in seconds) browsers should remember that this site is only to be accessed using HTTPS. This reduces your exposure to some SSL-stripping man-in-the-middle (MITM) attacks. | \`\` |
+| HSTSExcludeSubdomains | `bool` | HSTSExcludeSubdomains won't include subdomains tag in the `Strict Transport Security` header, excluding all subdomains from security policy. It has no effect unless HSTSMaxAge is set to a non-zero value. | \`\` |
+| ContentSecurityPolicy | `string` | ContentSecurityPolicy sets the `Content-Security-Policy` header providing security against cross-site scripting (XSS), clickjacking and other code injection attacks resulting from execution of malicious content in the trusted web page context | \`\` |
+| CSPReportOnly | `bool` | - | \`\` |
+| HSTSPreloadEnabled | `bool` | - | \`\` |
+| ReferrerPolicy | `string` | - | \`\` |
 
 **Example**
 
@@ -298,4 +297,3 @@ func main() {
     // Run: curl --user john:doe http://localhost:3000
 }
 ```
-
