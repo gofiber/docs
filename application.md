@@ -32,6 +32,8 @@ func main() {
 
 ## Settings
 
+You can pass application settings when calling `New`, or change the settings before you call `Listen`
+
 **Example**
 
 ```go
