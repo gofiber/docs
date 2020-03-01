@@ -259,15 +259,16 @@ middleware.Helmet(config ...HelmetConfig) func(*Ctx)
 ```
 
 **Config**
+
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
 | Skip | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
-| XSSProtection | `string` |  XSSProtection provides protection against cross-site scripting attack (XSS) by setting the `X-XSS-Protection` header. | `1; mode=block"` |
+| XSSProtection | `string` | XSSProtection provides protection against cross-site scripting attack \(XSS\) by setting the `X-XSS-Protection` header. | `1; mode=block"` |
 | ContentTypeNosniff | `string` | ContentTypeNosniff provides protection against overriding Content-Type header by setting the `X-Content-Type-Options` header. | `"nosniff"` |
-| XFrameOptions | `string` | XFrameOptions can be used to indicate whether or not a browser should be allowed to render a page in a <frame>, <iframe> or <object>. Sites can use this to avoid clickjacking attacks, by ensuring that their content is not embedded into other sites.provides protection against clickjacking. Possible values: `SAMEORIGIN, DENY, ALLOW-FROM uri` | `"SAMEORIGIN"` |
-| HSTSMaxAge | `int` | HSTSMaxAge sets the `Strict-Transport-Security` header to indicate how long (in seconds) browsers should remember that this site is only to be accessed using HTTPS. This reduces your exposure to some SSL-stripping man-in-the-middle (MITM) attacks. | \`\` |
+| XFrameOptions | `string` | XFrameOptions can be used to indicate whether or not a browser should be allowed to render a page in a ,  or . Sites can use this to avoid clickjacking attacks, by ensuring that their content is not embedded into other sites.provides protection against clickjacking. Possible values: `SAMEORIGIN, DENY, ALLOW-FROM uri` | `"SAMEORIGIN"` |
+| HSTSMaxAge | `int` | HSTSMaxAge sets the `Strict-Transport-Security` header to indicate how long \(in seconds\) browsers should remember that this site is only to be accessed using HTTPS. This reduces your exposure to some SSL-stripping man-in-the-middle \(MITM\) attacks. | \`\` |
 | HSTSExcludeSubdomains | `bool` | HSTSExcludeSubdomains won't include subdomains tag in the `Strict Transport Security` header, excluding all subdomains from security policy. It has no effect unless HSTSMaxAge is set to a non-zero value. | \`\` |
-| ContentSecurityPolicy | `string` | ContentSecurityPolicy sets the `Content-Security-Policy` header providing security against cross-site scripting (XSS), clickjacking and other code injection attacks resulting from execution of malicious content in the trusted web page context | \`\` |
+| ContentSecurityPolicy | `string` | ContentSecurityPolicy sets the `Content-Security-Policy` header providing security against cross-site scripting \(XSS\), clickjacking and other code injection attacks resulting from execution of malicious content in the trusted web page context | \`\` |
 | CSPReportOnly | `bool` | - | \`\` |
 | HSTSPreloadEnabled | `bool` | - | \`\` |
 | ReferrerPolicy | `string` | - | \`\` |
@@ -297,3 +298,4 @@ func main() {
     // Run: curl --user john:doe http://localhost:3000
 }
 ```
+

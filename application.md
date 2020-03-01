@@ -37,26 +37,26 @@ func main() {
 ```go
 func main() {
     // Pass Settings creating a new app
-		app := fiber.New(&fiber.Settings{
-				Prefork:       true,
-				CaseSensitive: true,
-				StrictRouting: true,
-				ServerHeader:  "Go",
-				// etc...
-		})
+        app := fiber.New(&fiber.Settings{
+                Prefork:       true,
+                CaseSensitive: true,
+                StrictRouting: true,
+                ServerHeader:  "Go",
+                // etc...
+        })
 
-		// Or change Settings after initiating app
-		app.Settings.Prefork = true
-		app.Settings.CaseSensitive = true
-		app.Settings.StrictRouting = true
-		app.Settings.ServerHeader = true
-		// etc...
+        // Or change Settings after initiating app
+        app.Settings.Prefork = true
+        app.Settings.CaseSensitive = true
+        app.Settings.StrictRouting = true
+        app.Settings.ServerHeader = true
+        // etc...
 
-		app.Listen(3000)
+        app.Listen(3000)
 }
 ```
 
- **Common options**
+**Common options**
 
 <table>
   <thead>
@@ -123,18 +123,18 @@ func main() {
       <td style="text-align:left"><code>bool</code>
       </td>
       <td style="text-align:left">Enables GZip / Deflate compression for all responses.</td>
-      <td
-      style="text-align:left"><code>false</code>
-        </td>
+      <td style="text-align:left"><code>false</code>
+      </td>
     </tr>
     <tr>
       <td style="text-align:left">BodyLimit</td>
       <td style="text-align:left"><code>int</code>
       </td>
-      <td style="text-align:left">Sets the maximum allowed size for a request body, if the size exceeds the configured limit, it sends “413 - Request Entity Too Large” response. </td>
-      <td
-      style="text-align:left"><code>4 * 1024 * 1024</code>
-        </td>
+      <td style="text-align:left">Sets the maximum allowed size for a request body, if the size exceeds
+        the configured limit, it sends &#x201C;413 - Request Entity Too Large&#x201D;
+        response.</td>
+      <td style="text-align:left"><code>4 * 1024 * 1024</code>
+      </td>
     </tr>
     <tr>
       <td style="text-align:left">TemplateFolder</td>
@@ -172,9 +172,7 @@ func main() {
       </td>
     </tr>
   </tbody>
-</table>
-
-## Static
+</table>## Static
 
 Serve static files such as **images**, **CSS** and **JavaScript** files, you can use the **Static** method.
 
@@ -182,14 +180,14 @@ Serve static files such as **images**, **CSS** and **JavaScript** files, you can
 By default, this method will send `index.html` files in response to a request on a directory.
 {% endhint %}
 
-#### Signature
+**Signature**
 
 ```go
 app.Static(root string)         // => without prefix
 app.Static(prefix, root string) // => with prefix
 ```
 
-#### Examples
+**Examples**
 
 Use the following code to serve files in a directory named `./public`
 
@@ -229,7 +227,7 @@ app.Static("/static", "./public")
 
 Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) of the request.
 
-#### Signature
+**Signature**
 
 ```go
 // All, Get, Put, Post, Head, Patch
@@ -242,7 +240,7 @@ app.Use(handlers ...func(*Ctx))
 app.Use(prefix string, handlers ...func(*Ctx))
 ```
 
-#### Example
+**Example**
 
 ```go
 app.Use(func(c *fiber.Ctx) {
@@ -261,7 +259,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 Fiber supports a websocket upgrade implementation for fasthttp. The `*Conn` struct has all the functionality from the [gorilla/websocket ](https://pkg.go.dev/github.com/fasthttp/websocket?tab=doc#pkg-index)library.
 
- **Signature**
+**Signature**
 
 ```go
 app.WebSocket(path string, handler func(*Conn))
@@ -277,40 +275,39 @@ WebSocket does not support path parameters and wildcards.
 package main
 
 import (
-	"log"
-	"github.com/gofiber/fiber"
+    "log"
+    "github.com/gofiber/fiber"
 )
 
 func main() {
-	app := fiber.New()
-	// Optional middleware
-	app.Use("/ws", func(c *fiber.Ctx) {
-		if c.Get("host") == "localhost:3000" {
-			c.Status(403).Send("Request origin not allowed")
-		} else {
-			c.Next()
-		}
-	})
-	// Upgraded websocket request
-	app.WebSocket("/ws", func(c *fiber.Conn) {
-		for {
-			mt, msg, err := c.ReadMessage()
+    app := fiber.New()
+    // Optional middleware
+    app.Use("/ws", func(c *fiber.Ctx) {
+        if c.Get("host") == "localhost:3000" {
+            c.Status(403).Send("Request origin not allowed")
+        } else {
+            c.Next()
+        }
+    })
+    // Upgraded websocket request
+    app.WebSocket("/ws", func(c *fiber.Conn) {
+        for {
+            mt, msg, err := c.ReadMessage()
       if err != nil {
-      	log.Println("read:", err)
+          log.Println("read:", err)
         break
       }
       log.Printf("recv: %s", msg)
       err = c.WriteMessage(mt, msg)
       if err != nil {
-      	log.Println("write:", err)
+          log.Println("write:", err)
         break
       }
-		}
-	})
+        }
+    })
   // ws://localhost:3000/ws
-	app.Listen(3000)
+    app.Listen(3000)
 }
-
 ```
 
 ## Group
@@ -351,13 +348,13 @@ You can recover from panic errors in any handler by registering a `Recover` meth
 Recover is disabled by default unless you register a handler.
 {% endhint %}
 
-#### Signature
+**Signature**
 
 ```go
 app.Recover(handler func(*Ctx))
 ```
 
-#### Example
+**Example**
 
 ```go
 func main() {
@@ -380,13 +377,13 @@ func main() {
 
 Binds and listens for connections on the specified address. This can be a `int` for port or `string` for address.
 
-#### Signature
+**Signature**
 
 ```go
 app.Listen(address interface{}, tls ...string)
 ```
 
-#### Example
+**Example**
 
 ```go
 app.Listen(8080)
@@ -409,13 +406,13 @@ Testing your application is done with the **Test** method.
 Method is mostly used for `_test.go` files and application debugging.
 {% endhint %}
 
-#### Signature
+**Signature**
 
 ```go
 app.Test(req *http.Request) (*http.Response, error)
 ```
 
-#### Example
+**Example**
 
 ```go
 // Create route with GET method for test:
@@ -439,3 +436,4 @@ if resp.StatusCode == 200 {
   fmt.Println(string(body)) // => Hello, World!
 }
 ```
+
