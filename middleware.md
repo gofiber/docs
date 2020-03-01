@@ -37,21 +37,21 @@ import (
 
 func main() {
 	app := fiber.New()
-	
+
 	// Config
-	authConfig := middleware.BasicAuthConfig{
+	config := middleware.BasicAuthConfig{
 		Users: map[string]string{
 			"john":  "doe",
 			"admin": "123456",
 		},
 	}
 	// Middleware
-	app.Use(middleware.BasicAuth(authConfig))
+	app.Use(middleware.BasicAuth(config))
 	// Application
 	app.Get("/", func(c *fiber.Ctx) {
 		c.Send("You are authorized!")
 	})
-	
+
 	app.Listen(3000)
 	// Run: curl --user john:doe http://localhost:3000
 }
@@ -60,7 +60,541 @@ func main() {
 
 ## CORS
 
-TODO: Description
+CORS middleware implements CORS specification. CORS gives web servers cross-domain access controls, which enable secure cross-domain data transfers.
 
 **Signature**
 
+```go
+middleware.CORS(config ...CORSConfig) func(*Ctx)
+```
+
+**Config**
+
+| Property | Type | Description | Default |
+| :--- | :--- | :--- | :--- |
+| Skip | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
+| AllowOrigins | `[]string` | AllowOrigin defines a list of origins that may access the resource. | `[]string{"*"}` |
+| AllowMethods | `[]string` | AllowMethods defines a list methods allowed when accessing the resource. This is used in response to a preflight request. | `[]string{"GET","POST","HEAD","PUT","DELETE","PATCH"}` |
+| AllowHeaders | `[]string` | AllowHeaders defines a list of request headers that can be used when making the actual request. This in response to a preflight request. | `nil` |
+| AllowCredentials | `string` | AllowCredentials indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials. | `nil` |
+| ExposeHeaders | `[]string` | ExposeHeaders defines a whitelist headers that clients are allowed to access. | `nil` |
+| MaxAge | `int` | MaxAge indicates how long (in seconds) the results of a preflight request can be cached. | `0` |
+
+**Example**
+
+```go
+package main
+
+import (
+	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/middleware"
+)
+
+func main() {
+	app := fiber.New()
+
+	// Middleware
+	app.Use(middleware.Cors())
+	// Application
+	app.Get("/", func(c *fiber.Ctx) {
+		c.Send("CORS is enabled!")
+	})
+
+	app.Listen(3000)
+	// Run: curl -H "Origin: http://example.com" --verbose http://localhost:3000
+}
+
+```
+
+## Limiter
+
+Use to limit repeated requests to public APIs and/or endpoints such as password reset. This middleware does not share state with other processes/servers.
+
+**Signature**
+
+```go
+middleware.Limiter(config ...LimiterConfig) func(*Ctx)
+```
+
+**Config**
+
+| Property | Type | Description | Default |
+| :--- | :--- | :--- | :--- |
+| Skip | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
+| Timeout | `int` | Users defines the allowed credentials | `60` |
+| Max | `int` | Users defines the allowed credentials | `10` |
+| Message | `string` | Users defines the allowed credentials | `"Too many requests, please try again later."` |
+| StatusCode | `int` | Users defines the allowed credentials | `429` |
+| Key | `func(*Ctx) string` | Users defines the allowed credentials | `return c.IP()` |
+| Handler | `func(*Ctx)` | Realm is a string to define the realm attribute | `c.Status(StatusCode).SendString(Message)` |
+
+**Example**
+
+```go
+package main
+
+import (
+	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/middleware"
+)
+
+func main() {
+	app := fiber.New()
+
+	// Max 2 requests per 10 seconds
+	config := middleware.LimiterConfig{
+		Timeout: 10,
+    Max: 2,
+	}
+	// Middleware
+	app.Use(middleware.Limiter(config))
+	// Application
+	app.Get("/", func(c *fiber.Ctx) {
+		c.Send("This route can handle limited repeated requests!")
+	})
+
+	app.Listen(3000)
+	// Run: curl --user john:doe http://localhost:3000
+}
+
+```
+
+## Logger
+
+Logger middleware logs the information about each HTTP request.
+
+**Signature**
+
+```go
+middleware.Logger(config ...LoggerConfig) func(*Ctx)
+```
+
+**Config**
+
+| Property | Type | Description | Default |
+| :--- | :--- | :--- | :--- |
+| Format | `string` | Possible values: `time, ip, url, host, method, path, protocol, referer, ua, header:<key>, query:<key>, form:<key>, cookie:<key>` | `"${time} - ${ip} - ${method} ${path}\t${ua}\n"` |
+| TimeFormat | `string` | TimeFormat https://programming.guide/go/format-parse-string-time-date-example.html | `15:04:05` |
+| Output | `io.Writer` | Output is a writter where logs are written | `os.Stderr` |
+
+**Example**
+
+```go
+package main
+
+import (
+	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/middleware"
+)
+
+func main() {
+	app := fiber.New()
+
+	// Middleware
+	app.Use(middleware.Logger())
+	// Application
+	app.Get("/", func(c *fiber.Ctx) {
+		c.Send("You have been logged!")
+	})
+
+	app.Listen(3000)
+}
+
+```
+
+## Request ID
+
+RequestID adds an indentifier to the request using the `X-Request-ID` header
+
+**Signature**
+
+```go
+middleware.RequestID(config ...RequestIDConfig) func(*Ctx)
+```
+
+**Config**
+
+| Property | Type | Description | Default |
+| :--- | :--- | :--- | :--- |
+| Skip | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
+| Generator | `func(*Ctx) bool` | Generator defines a function to generate an ID. | `return uuid.New().String()` |
+
+**Example**
+
+```go
+package main
+
+import (
+	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/middleware"
+)
+
+func main() {
+	app := fiber.New()
+
+	// Middleware
+	app.Use(middleware.RequestID())
+  // => X-Request-ID: 6ba7b810-9dad-11d1-80b4-00c04fd430c8
+
+	// Application
+	app.Get("/", func(c *fiber.Ctx) {
+		c.Send("You are authorized!")
+	})
+
+	app.Listen(3000)
+	// Run: curl --user john:doe http://localhost:3000
+}
+
+```
+
+## Secure
+
+Secure middleware provides protection against cross-site scripting (XSS) attack, content type sniffing, clickjacking, insecure connection and other code injection attacks.
+
+**Signature**
+
+```go
+middleware.Secure(config ...SecureConfig) func(*Ctx)
+```
+
+**Config**
+
+| Property | Type | Description | Default |
+| :--- | :--- | :--- | :--- |
+| Skip | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
+| XSSProtection | `string` | ooooooooooo | `1; mode=block"` |
+| ContentTypeNosniff | `string` | ooooooooooo | `"nosniff"` |
+| XFrameOptions | `string` | ooooooooooo | `"SAMEORIGIN"` |
+| HSTSMaxAge | `int` | ooooooooooo | `` |
+| HSTSExcludeSubdomains | `bool` | ooooooooooo | `` |
+| ContentSecurityPolicy | `string` | ooooooooooo | `` |
+| CSPReportOnly | `bool` | ooooooooooo | `` |
+| HSTSPreloadEnabled | `bool` | ooooooooooo | `` |
+| ReferrerPolicy | `string` | ooooooooooo | `` |
+
+**Example**
+
+```go
+package main
+
+import (
+	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/middleware"
+)
+
+func main() {
+	app := fiber.New()
+
+	// Middleware
+	app.Use(middleware.Secure())
+
+	// Application
+	app.Get("/", func(c *fiber.Ctx) {
+		c.Send("You are authorized!")
+	})
+
+	app.Listen(3000)
+	// Run: curl --user john:doe http://localhost:3000
+}
+
+```
+---
+description: >-
+  Middleware is a function chained in the HTTP request cycle with access to the
+  Context which it uses to perform a specific action, for example, logging every
+  request or enabling CORS.
+---
+
+# 🧬 Middleware
+
+## BasicAuth
+
+Basic auth middleware provides an HTTP basic authentication. It calls the next handler for valid credentials and "401 - Unauthorized" for missing or invalid credentials.
+
+**Signature**
+
+```go
+middleware.BasicAuth(config ...BasicAuthConfig) func(*Ctx)
+```
+
+**Config**
+
+| Property | Type | Description | Default |
+| :--- | :--- | :--- | :--- |
+| Skip | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
+| Users | `map[string][string]` | Users defines the allowed credentials | `nil` |
+| Realm | `string` | Realm is a string to define the realm attribute | `Restricted` |
+
+**Example**
+
+```go
+package main
+
+import (
+	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/middleware"
+)
+
+func main() {
+	app := fiber.New()
+
+	// Config
+	config := middleware.BasicAuthConfig{
+		Users: map[string]string{
+			"john":  "doe",
+			"admin": "123456",
+		},
+	}
+	// Middleware
+	app.Use(middleware.BasicAuth(config))
+	// Application
+	app.Get("/", func(c *fiber.Ctx) {
+		c.Send("You are authorized!")
+	})
+
+	app.Listen(3000)
+	// Run: curl --user john:doe http://localhost:3000
+}
+
+```
+
+## CORS
+
+CORS middleware implements CORS specification. CORS gives web servers cross-domain access controls, which enable secure cross-domain data transfers.
+
+**Signature**
+
+```go
+middleware.CORS(config ...CORSConfig) func(*Ctx)
+```
+
+**Config**
+
+| Property | Type | Description | Default |
+| :--- | :--- | :--- | :--- |
+| Skip | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
+| AllowOrigins | `[]string` | AllowOrigin defines a list of origins that may access the resource. | `[]string{"*"}` |
+| AllowMethods | `[]string` | AllowMethods defines a list methods allowed when accessing the resource. This is used in response to a preflight request. | `[]string{"GET","POST","HEAD","PUT","DELETE","PATCH"}` |
+| AllowHeaders | `[]string` | AllowHeaders defines a list of request headers that can be used when making the actual request. This in response to a preflight request. | `nil` |
+| AllowCredentials | `string` | AllowCredentials indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials. | `nil` |
+| ExposeHeaders | `[]string` | ExposeHeaders defines a whitelist headers that clients are allowed to access. | `nil` |
+| MaxAge | `int` | MaxAge indicates how long (in seconds) the results of a preflight request can be cached. | `0` |
+
+**Example**
+
+```go
+package main
+
+import (
+	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/middleware"
+)
+
+func main() {
+	app := fiber.New()
+
+	// Middleware
+	app.Use(middleware.Cors())
+	// Application
+	app.Get("/", func(c *fiber.Ctx) {
+		c.Send("CORS is enabled!")
+	})
+
+	app.Listen(3000)
+	// Run: curl -H "Origin: http://example.com" --verbose http://localhost:3000
+}
+
+```
+
+## Limiter
+
+Use to limit repeated requests to public APIs and/or endpoints such as password reset. This middleware does not share state with other processes/servers.
+
+**Signature**
+
+```go
+middleware.Limiter(config ...LimiterConfig) func(*Ctx)
+```
+
+**Config**
+
+| Property | Type | Description | Default |
+| :--- | :--- | :--- | :--- |
+| Skip | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
+| Timeout | `int` | Users defines the allowed credentials | `60` |
+| Max | `int` | Users defines the allowed credentials | `10` |
+| Message | `string` | Users defines the allowed credentials | `"Too many requests, please try again later."` |
+| StatusCode | `int` | Users defines the allowed credentials | `429` |
+| Key | `func(*Ctx) string` | Users defines the allowed credentials | `return c.IP()` |
+| Handler | `func(*Ctx)` | Realm is a string to define the realm attribute | `c.Status(StatusCode).SendString(Message)` |
+
+**Example**
+
+```go
+package main
+
+import (
+	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/middleware"
+)
+
+func main() {
+	app := fiber.New()
+
+	// Max 2 requests per 10 seconds
+	config := middleware.LimiterConfig{
+		Timeout: 10,
+    Max: 2,
+	}
+	// Middleware
+	app.Use(middleware.Limiter(config))
+	// Application
+	app.Get("/", func(c *fiber.Ctx) {
+		c.Send("This route can handle limited repeated requests!")
+	})
+
+	app.Listen(3000)
+	// Run: curl --user john:doe http://localhost:3000
+}
+
+```
+
+## Logger
+
+Logger middleware logs the information about each HTTP request.
+
+**Signature**
+
+```go
+middleware.Logger(config ...LoggerConfig) func(*Ctx)
+```
+
+**Config**
+
+| Property | Type | Description | Default |
+| :--- | :--- | :--- | :--- |
+| Format | `string` | Possible values: `time, ip, url, host, method, path, protocol, referer, ua, header:<key>, query:<key>, form:<key>, cookie:<key>` | `"${time} - ${ip} - ${method} ${path}\t${ua}\n"` |
+| TimeFormat | `string` | TimeFormat https://programming.guide/go/format-parse-string-time-date-example.html | `15:04:05` |
+| Output | `io.Writer` | Output is a writter where logs are written | `os.Stderr` |
+
+**Example**
+
+```go
+package main
+
+import (
+	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/middleware"
+)
+
+func main() {
+	app := fiber.New()
+
+	// Middleware
+	app.Use(middleware.Logger())
+	// Application
+	app.Get("/", func(c *fiber.Ctx) {
+		c.Send("You have been logged!")
+	})
+
+	app.Listen(3000)
+}
+
+```
+
+## Request ID
+
+RequestID adds an indentifier to the request using the `X-Request-ID` header
+
+**Signature**
+
+```go
+middleware.RequestID(config ...RequestIDConfig) func(*Ctx)
+```
+
+**Config**
+
+| Property | Type | Description | Default |
+| :--- | :--- | :--- | :--- |
+| Skip | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
+| Generator | `func(*Ctx) bool` | Generator defines a function to generate an ID. | `return uuid.New().String()` |
+
+**Example**
+
+```go
+package main
+
+import (
+	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/middleware"
+)
+
+func main() {
+	app := fiber.New()
+
+	// Middleware
+	app.Use(middleware.RequestID())
+  // => X-Request-ID: 6ba7b810-9dad-11d1-80b4-00c04fd430c8
+
+	// Application
+	app.Get("/", func(c *fiber.Ctx) {
+		c.Send("You are authorized!")
+	})
+
+	app.Listen(3000)
+	// Run: curl --user john:doe http://localhost:3000
+}
+
+```
+
+## Secure
+
+Secure middleware provides protection against cross-site scripting (XSS) attack, content type sniffing, clickjacking, insecure connection and other code injection attacks.
+
+**Signature**
+
+```go
+middleware.Secure(config ...SecureConfig) func(*Ctx)
+```
+
+**Config**
+
+| Property | Type | Description | Default |
+| :--- | :--- | :--- | :--- |
+| Skip | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
+| XSSProtection | `string` | ooooooooooo | `1; mode=block"` |
+| ContentTypeNosniff | `string` | ooooooooooo | `"nosniff"` |
+| XFrameOptions | `string` | ooooooooooo | `"SAMEORIGIN"` |
+| HSTSMaxAge | `int` | ooooooooooo | `` |
+| HSTSExcludeSubdomains | `bool` | ooooooooooo | `` |
+| ContentSecurityPolicy | `string` | ooooooooooo | `` |
+| CSPReportOnly | `bool` | ooooooooooo | `` |
+| HSTSPreloadEnabled | `bool` | ooooooooooo | `` |
+| ReferrerPolicy | `string` | ooooooooooo | `` |
+
+**Example**
+
+```go
+package main
+
+import (
+	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/middleware"
+)
+
+func main() {
+	app := fiber.New()
+
+	// Middleware
+	app.Use(middleware.Secure())
+
+	// Application
+	app.Get("/", func(c *fiber.Ctx) {
+		c.Send("You are authorized!")
+	})
+
+	app.Listen(3000)
+	// Run: curl --user john:doe http://localhost:3000
+}
+
+```
