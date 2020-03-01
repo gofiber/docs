@@ -221,6 +221,60 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
+## Compress
+
+Fiber supports global compression using GZip / Deflate using the [Compression Setting](application.md#settings). But with the `c.Compress()` method you can enable / disable compression within handlers.
+
+**Signature**
+
+```go
+c.Compress(enable ...bool)
+```
+
+**Example**
+
+```go
+// Example 1
+func main() {
+  app := fiber.New(&fiber.Settings{
+    Compression: true, // global compression enabled
+  })
+  app.Get("/", func(c *fiber.Ctx) {
+    c.Send("Hello, World!") // compressed
+  })
+  app.Get("/demo", func(c *fiber.Ctx) {
+    c.Compress(false)
+    c.Send("hello, World!") // not compressed
+  })
+}
+// Example 2
+func main() {
+  app := fiber.New() // compression disabled by default
+  app.Get("/", func(c *fiber.Ctx) {
+    c.Compress()
+    c.Send("Hello, World!") // compressed
+  })
+  app.Get("/demo", func(c *fiber.Ctx) {
+    c.Send("hello, World!") // not compressed
+  })
+}
+// Example 3
+func gzip(c *fiber.Ctx) {
+  c.Compress()
+  c.Next()
+}
+func main() {
+  app := fiber.New() // compression disabled by default
+  app.Get("/", gzip, func(c *fiber.Ctx) {
+    c.Send("Hello, World!") // compressed
+  })
+  app.Get("/demo", func(c *fiber.Ctx) {
+    c.Send("hello, World!") // not compressed
+  })
+}
+```
+```
+
 ## Cookie
 
 Set cookies
