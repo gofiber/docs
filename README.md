@@ -19,7 +19,7 @@ Go **1.11** \(with enabled [Go Modules](https://golang.org/doc/go1.11#modules)\)
 Installation is done using the [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) command:
 
 ```bash
-go get -u github.com/gofiber/fiber
+go get -u github.com/gofiber/fiber/...
 ```
 
 ## Hello, World!
