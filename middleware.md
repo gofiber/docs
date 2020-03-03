@@ -66,7 +66,7 @@ CORS middleware implements CORS specification. CORS gives web servers cross-doma
 **Signature**
 
 ```go
-middleware.CORS(config ...CORSConfig) func(*Ctx)
+middleware.Cors(config ...CORSConfig) func(*Ctx)
 ```
 
 **Config**
@@ -95,7 +95,7 @@ func main() {
     app := fiber.New()
 
     // Middleware
-    app.Use(middleware.CORS())
+    app.Use(middleware.Cors())
 
     // Application
     app.Get("/", func(c *fiber.Ctx) {
