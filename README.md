@@ -8,13 +8,9 @@ description: A hosted documentation so you can start building web apps with Fibe
 
 **Fiber** is an [Express](https://github.com/expressjs/express) inspired **web framework** build on top of [Fasthttp](https://github.com/valyala/fasthttp), the **fastest** HTTP engine for [Go](https://golang.org/doc/). Designed to **ease** things up for **fast** development with **zero memory allocation** and **performance** in mind.
 
-## Installing
+## ⚙️ Installation
 
-First of all, [download](https://golang.org/dl/) and install Go.
-
-{% hint style="success" %}
-Go **1.11** \(with enabled [Go Modules](https://golang.org/doc/go1.11#modules)\) or higher is required.
-{% endhint %}
+First of all, [download](https://golang.org/dl/) and install Go. `1.11` or higher is required.
 
 Installation is done using the [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) command:
 
