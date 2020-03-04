@@ -6,7 +6,7 @@ description: 托管文档，因此您可以开始使用Fiber构建Web应用程�
 
 [![](https://img.shields.io/github/release/gofiber/fiber?style=flat-square)](https://github.com/gofiber/fiber/releases) [![](https://img.shields.io/badge/api-documentation-blue?style=flat-square)](https://fiber.wiki) ![](https://img.shields.io/badge/goreport-A%2B-brightgreen?style=flat-square) [![](https://img.shields.io/badge/coverage-91%25-brightgreen?style=flat-square)](https://gocover.io/github.com/gofiber/fiber) [![](https://img.shields.io/travis/gofiber/fiber/master.svg?label=linux&style=flat-square)](https://travis-ci.org/gofiber/fiber) [![](https://img.shields.io/travis/gofiber/fiber/master.svg?label=windows&style=flat-square)](https://travis-ci.org/gofiber/fiber)
 
-**Fiber**是一个基于[Expressjs的](https://github.com/expressjs/express) **Web框架，**建立在[Fasthttp](https://github.com/valyala/fasthttp) （ [Go](https://golang.org/doc/) **最快的** HTTP引擎）的基础上。意在**简化** **零内存分配**和**保证性能的**情况，以便**快速**开发。
+**Fiber**是一个基于[Expressjs的](https://github.com/expressjs/express) **Web框架，**建立在([Go](https://golang.org/doc/)语言写的**最快的** [Fasthttp](https://github.com/valyala/fasthttp) HTTP引擎的基础上。意在**简化** **零内存分配**和**保证性能的**情况，以便**快速**开发。
 
 ## 安装
 
@@ -19,6 +19,8 @@ description: 托管文档，因此您可以开始使用Fiber构建Web应用程�
 使用[`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them)命令完成安装：
 
 ```bash
+export GO111MODULE=on
+export GOPROXY=https://goproxy.cn
 go get -u github.com/gofiber/fiber
 ```
 
@@ -26,27 +28,21 @@ go get -u github.com/gofiber/fiber
 
 下面代码片段的是本质上最简单的**Fiber**应用程序，您可以尝试一下。
 
-```text
-touch server.go
-```
-
 ```go
+// server.go
+
 package main
 
 import "github.com/gofiber/fiber"
 
 func main() {
-  // Create new Fiber instance:
   app := fiber.New()
 
-  // Create route on root path, "/":
   app.Get("/", func(c *fiber.Ctx) {
     c.Send("Hello, World!")
-    // => "Hello, World!"
   })
-
-  // Start server on "localhost" with port "8080":
-  app.Listen(8080)
+  
+  app.Listen(3000)
 }
 ```
 
