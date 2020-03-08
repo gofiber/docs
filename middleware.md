@@ -119,17 +119,80 @@ middleware.Limiter(config ...LimiterConfig) func(*Ctx)
 
 **Config**
 
-| Property | Type | Description | Default |
-| :--- | :--- | :--- | :--- |
-| Skip | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
-| Timeout | `int` | Users defines the allowed credentials | `60` |
-| Max | `int` | Users defines the allowed credentials | `10` |
-| Message | `string` | Users defines the allowed credentials | `"Too many requests, please try again later."` |
-| StatusCode | `int` | Users defines the allowed credentials | `429` |
-| Key | `func(*Ctx) string` | Users defines the allowed credentials | `return c.IP()` |
-| Handler | `func(*Ctx)` | Realm is a string to define the realm attribute | `c.Status(StatusCode).SendString(Message)` |
-
-**Example**
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Property</th>
+      <th style="text-align:left">Type</th>
+      <th style="text-align:left">Description</th>
+      <th style="text-align:left">Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">Skip</td>
+      <td style="text-align:left"><code>func(*Ctx) bool</code>
+      </td>
+      <td style="text-align:left">Defines a function to skip middleware</td>
+      <td style="text-align:left"><code>nil</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Timeout</td>
+      <td style="text-align:left"><code>int</code>
+      </td>
+      <td style="text-align:left">Timeout in seconds on how long to keep records of requests in memory</td>
+      <td
+      style="text-align:left"><code>60</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Max</td>
+      <td style="text-align:left"><code>int</code>
+      </td>
+      <td style="text-align:left">Max number of recent connections during <code>Timeout</code> seconds before
+        sending a 429 response</td>
+      <td style="text-align:left"><code>10</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Message</td>
+      <td style="text-align:left"><code>string</code>
+      </td>
+      <td style="text-align:left">Response body</td>
+      <td style="text-align:left"><code>&quot;Too many requests, please try again later.&quot;</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">StatusCode</td>
+      <td style="text-align:left"><code>int</code>
+      </td>
+      <td style="text-align:left">Response status code</td>
+      <td style="text-align:left"><code>429</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Key</td>
+      <td style="text-align:left"><code>func(*Ctx) string</code>
+      </td>
+      <td style="text-align:left">Key allows to use a custom handler to create custom keys</td>
+      <td style="text-align:left"><code>func(c *fiber.Ctx) string { <br />   return c.IP() <br />}</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Handler</td>
+      <td style="text-align:left"><code>func(*Ctx)</code>
+      </td>
+      <td style="text-align:left">Handler is called when a request hits the limit</td>
+      <td style="text-align:left">
+        <p><code>func(c *fiber.Ctx) {</code>
+        </p>
+        <p><code>  c.Status(cfg.StatusCode).SendString(cfg.Message) }</code>
+        </p>
+      </td>
+    </tr>
+  </tbody>
+</table>**Example**
 
 ```go
 package main
