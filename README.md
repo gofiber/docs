@@ -127,7 +127,7 @@ Use the following code to serve files in a directory named `./public`:
 ```go
 app := fiber.New()
 
-app.Static("/", "./public") // => Serve all files into ./public
+app.Static("/", "./public") 
 
 app.Listen(8080)
 ```
