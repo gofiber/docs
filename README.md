@@ -67,7 +67,7 @@ app.Method(path string, ...func(*fiber.Ctx))
 **Simple route**
 
 ```go
-// Respond with "Hello, World!" on root path, "/":
+// Respond with "Hello, World!" on root path, "/"
 app.Get("/", func(c *fiber.Ctx) {
   c.Send("Hello, World!")
 })
