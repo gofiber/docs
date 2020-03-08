@@ -43,16 +43,16 @@ func main() {
         Prefork:       true,
         CaseSensitive: true,
         StrictRouting: true,
-        ServerHeader:  "Go",
-        // etc...
+        ServerHeader:  "Fiber",
+        // ...
     })
 
     // Or change Settings after initiating app
     app.Settings.Prefork = true
     app.Settings.CaseSensitive = true
     app.Settings.StrictRouting = true
-    app.Settings.ServerHeader = true
-    // etc...
+    app.Settings.ServerHeader = "Fiber"
+    // ...
 
     app.Listen(3000)
 }
@@ -168,7 +168,7 @@ func main() {
       <td style="text-align:left"><code>string</code>
       </td>
       <td style="text-align:left">If you preset the template file extension, you do not need to provide
-        the full filename in the Render function: <code>c.Render(&quot;home&quot;, d) -&gt; home.pug</code>
+        the full filename in the Render function: <code>c.Render(&quot;home&quot;, data) -&gt; home.pug</code>
       </td>
       <td style="text-align:left"><code>&quot;html&quot;</code>
       </td>
@@ -185,7 +185,6 @@ By default, this method will send `index.html` files in response to a request on
 **Signature**
 
 ```go
-app.Static(root string)         // => without prefix
 app.Static(prefix, root string) // => with prefix
 ```
 
@@ -194,7 +193,7 @@ app.Static(prefix, root string) // => with prefix
 Use the following code to serve files in a directory named `./public`
 
 ```go
-app.Static("./public")
+app.Static("/", "./public")
 
 // => http://localhost:3000/hello.html
 // => http://localhost:3000/js/jquery.js
@@ -205,17 +204,17 @@ To serve from multiple directories, you can use **Static** multiple times.
 
 ```go
 // Serve files from "./public" directory:
-app.Static("./public")
+app.Static("/", "./public")
 
 // Serve files from "./files" directory:
-app.Static("./files")
+app.Static("/", "./files")
 ```
 
 {% hint style="info" %}
 Use a reverse proxy cache like [NGINX](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) to improve performance of serving static assets.
 {% endhint %}
 
-To create a virtual path prefix \(_where the path does not actually exist in the file system_\) for files that are served by the **Static** method, specify a prefix path for the static directory, as shown below:
+You can use any virtual path prefix \(_where the path does not actually exist in the file system_\) for files that are served by the **Static** method, specify a prefix path for the static directory, as shown below:
 
 ```go
 app.Static("/static", "./public")
@@ -232,8 +231,8 @@ Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.
 **Signature**
 
 ```go
-/* These methods support :param & :optional? in path
-   You are required to pass a path to each method    */
+// HTTP methods support :param, :optional? and *wildcards
+// You are required to pass a path to each method
 app.All(path string, handlers ...func(*Ctx))
 app.Get(...
 app.Put(...
@@ -245,9 +244,9 @@ app.Delete(...
 app.Connect(...
 app.Options(...
 
-/* Use will only match the prefix of each path
-   i.e. "/john" will match "/john/doe", "/johnnnn"
-   Use does not support :param & :optional? in path   */
+// Use() will only match the beggining of each path
+// i.e. "/john" will match "/john/doe", "/johnnnn"
+// Use() does not support :param & :optional? in path
 app.Use(handlers ...func(*Ctx))
 app.Use(prefix string, handlers ...func(*Ctx))
 ```
@@ -295,7 +294,7 @@ func main() {
     app := fiber.New()
     // Optional middleware
     app.Use("/ws", func(c *fiber.Ctx) {
-        if c.Get("host") == "localhost:3000" {
+        if c.Get("host") != "localhost:3000" {
             c.Status(403).Send("Request origin not allowed")
         } else {
             c.Next()
@@ -352,39 +351,6 @@ func main() {
 }
 ```
 
-## Recover
-
-You can recover from panic errors in any handler by registering a `Recover` method. You can access the panic error by calling [`Error()`](https://github.com/gofiber/docs/tree/2f0839895190c02779e91237531b27445d4427c6/context/README.md#error)
-
-{% hint style="info" %}
-Recover is disabled by default unless you register a handler.
-{% endhint %}
-
-**Signature**
-
-```go
-app.Recover(handler func(*Ctx))
-```
-
-**Example**
-
-```go
-func main() {
-  app := fiber.New()
-
-  app.Get("/", func(c *fiber.Ctx) {
-    panic("Something went wrong!")
-  })
-
-  app.Recover(func(c *fiber.Ctx) {
-    c.Status(500).Send(c.Error())
-    // => 500 "Something went wrong!"
-  })
-
-  app.Listen(3000)
-}
-```
-
 ## Listen
 
 Binds and listens for connections on the specified address. This can be a `int` for port or `string` for address.
@@ -392,7 +358,7 @@ Binds and listens for connections on the specified address. This can be a `int` 
 **Signature**
 
 ```go
-app.Listen(address interface{}, tls ...string)
+app.Listen(address interface{}, tls ...*tls.Config)
 ```
 
 **Example**
@@ -404,10 +370,16 @@ app.Listen(":8080")
 app.Listen("127.0.0.1:8080")
 ```
 
-To enable **TLS/HTTPS** you can append your **cert** and **key** path.
+To enable **TLS/HTTPS** you can append a ****[**TLS config**](https://golang.org/pkg/crypto/tls/#Config).
 
 ```go
-app.Listen(443, "server.crt", "server.key")
+cer, err := tls.LoadX509KeyPair("server.crt", "server.key")
+if err != nil {
+    log.Fatal(err)
+}
+config := &tls.Config{Certificates: []tls.Certificate{cer}}
+
+app.Listen(443, config)
 ```
 
 ## Test

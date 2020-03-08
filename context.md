@@ -49,10 +49,10 @@ Fiber provides similar functions for the other accept headers.
 app.Get("/", func(c *fiber.Ctx) {
   c.AcceptsCharsets("utf-16", "iso-8859-1") 
   // "iso-8859-1"
-  
+
   c.AcceptsEncodings("compress", "br") 
   // "compress"
-  
+
   c.AcceptsLanguages("pt", "nl", "ru") 
   // "nl" "ru"
 })
@@ -276,8 +276,8 @@ func main() {
   })
 }
 ```
-```
 
+```text
 ## Cookie
 
 Set cookies
@@ -290,13 +290,13 @@ c.Cookie(*Cookie)
 
 ```go
 type Cookie struct {
-	Name     string
-	Value    string
-	Path     string
-	Domain   string
-	Expires  time.Time
-	Secure   bool
-	HTTPOnly bool
+    Name     string
+    Value    string
+    Path     string
+    Domain   string
+    Expires  time.Time
+    Secure   bool
+    HTTPOnly bool
 }
 ```
 
@@ -306,11 +306,11 @@ type Cookie struct {
 app.Get("/", func(c *fiber.Ctx) {
   // Create cookie
   cookie := new(fiber.Cookie)
-	cookie.Name = "john"
-	cookie.Value = "doe"
-	cookie.Expires = time.Now().Add(24 * time.Hour)
-	// Set cookie
-	c.Cookie(cookie)
+    cookie.Name = "john"
+    cookie.Value = "doe"
+    cookie.Expires = time.Now().Add(24 * time.Hour)
+    // Set cookie
+    c.Cookie(cookie)
 })
 ```
 
@@ -509,7 +509,7 @@ Not implemented yet, pull requests are welcome!
 
 ## Get
 
-Returns the HTTP request header specified by field. 
+Returns the HTTP request header specified by field.
 
 {% hint style="success" %}
 The match is **case-insensitive**.
@@ -1000,11 +1000,11 @@ c.Range(int size)
 
 ```go
 type Range struct {
-	Type   string
-	Ranges []struct {
-		Start int64
-		End   int64
-	}
+    Type   string
+    Ranges []struct {
+        Start int64
+        End   int64
+    }
 }
 ```
 
@@ -1015,7 +1015,7 @@ type Range struct {
 app.Get("/", func(c *fiber.Ctx) {
   b := c.Range(1000)
   if b.Type == "bytes" {
-  	for r := range r.Ranges {
+      for r := range r.Ranges {
       fmt.Println(r)
       // [500, 700]
     }
@@ -1066,7 +1066,7 @@ Renders a template with data and sends a `text/html` response. We support the fo
 c.Render(file string, data interface{}, engine ...string) error
 ```
 
-A simple template file with the ****`mustache` ****syntax.
+A simple template file with the **`mustache`** syntax.
 
 {% code title="/views/home.tmpl" %}
 ```go
@@ -1406,7 +1406,7 @@ c.Vary(field ...string)
 app.Get("/", func(c *fiber.Ctx) {
   c.Vary("Origin")     // => Vary: Origin
   c.Vary("User-Agent") // => Vary: Origin, User-Agent
-  
+
   // No duplicates
   c.Vary("Origin") // => Vary: Origin, User-Agent
 
