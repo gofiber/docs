@@ -73,7 +73,7 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-**Route with parameter**
+**Parameters**
 
 ```go
 // GET http://localhost:8080/hello%20world
@@ -84,30 +84,29 @@ app.Get("/:value", func(c *fiber.Ctx) {
 })
 ```
 
-**Route with optional parameter**
+**Optional parameter**
 
 ```go
-// GET http://localhost:8080/hello%20world
+// GET http://localhost:3000/john
 
-app.Get("/:value?", func(c *fiber.Ctx) {
-  if c.Params("value") != "" {
-    c.Send("Get request with value: " + c.Params("Value"))
-    // => Get request with value: hello world
-    return
+app.Get("/:name?", func(c *fiber.Ctx) {
+  if c.Params("name") == "" {
+    c.Send("Hello " + c.Params("name"))
+    // => Hello john
+  } else {
+    c.Send("Where is john?")
   }
-
-  c.Send("Get request without value")
 })
 ```
 
-**Route with wildcard**
+**Wildcards**
 
 ```go
-// GET http://localhost:8080/api/user/john
+// GET http://localhost:3000/api/user/john
 
 app.Get("/api/*", func(c *fiber.Ctx) {
-  c.Send("API path with wildcard: " + c.Params("*"))
-  // => API path with wildcard: user/john
+  c.Send("API path: " + c.Params("*"))
+  // => API path: user/john
 })
 ```
 
