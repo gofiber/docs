@@ -180,6 +180,9 @@ c.BodyParser(out interface{})
 
 // curl -v -F name=john -F pass=doe http://localhost:3000
 
+// Field names should start with an uppercase letter
+// Pass (o)
+// pass (x)
 type Person struct {
     Name string `json:"name" xml:"name" form:"name"`
     Pass string `json:"pass" xml:"pass" form:"pass"`
