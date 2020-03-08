@@ -305,9 +305,9 @@ middleware.Helmet(config ...HelmetConfig) func(*Ctx)
 | HSTSMaxAge | `int` | HSTSMaxAge sets the `Strict-Transport-Security` header to indicate how long \(in seconds\) browsers should remember that this site is only to be accessed using HTTPS. This reduces your exposure to some SSL-stripping man-in-the-middle \(MITM\) attacks. | \`\` |
 | HSTSExcludeSubdomains | `bool` | HSTSExcludeSubdomains won't include subdomains tag in the `Strict Transport Security` header, excluding all subdomains from security policy. It has no effect unless HSTSMaxAge is set to a non-zero value. | \`\` |
 | ContentSecurityPolicy | `string` | ContentSecurityPolicy sets the `Content-Security-Policy` header providing security against cross-site scripting \(XSS\), clickjacking and other code injection attacks resulting from execution of malicious content in the trusted web page context | \`\` |
-| CSPReportOnly | `bool` | - | \`\` |
-| HSTSPreloadEnabled | `bool` | - | \`\` |
-| ReferrerPolicy | `string` | - | \`\` |
+| CSPReportOnly | `bool` |  | \`\` |
+| HSTSPreloadEnabled | `bool` |  | \`\` |
+| ReferrerPolicy | `string` |  | \`\` |
 
 **Example**
 
