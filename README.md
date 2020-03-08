@@ -56,7 +56,6 @@ Route definition takes the following structures:
 
 ```go
 // Function signature
-app.Method(...func(*fiber.Ctx))
 app.Method(path string, ...func(*fiber.Ctx))
 ```
 
