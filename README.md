@@ -119,8 +119,7 @@ To serve static files such as **images**, **CSS** and **JavaScript** files, repl
 Function signature:
 
 ```go
-app.Static(root string)         // => without prefix
-app.Static(prefix, root string) // => with prefix
+app.Static(prefix, root string)
 ```
 
 Use the following code to serve files in a directory named `./public`:
@@ -128,7 +127,7 @@ Use the following code to serve files in a directory named `./public`:
 ```go
 app := fiber.New()
 
-app.Static("./public") // => Serve all files into ./public
+app.Static("/", "./public") // => Serve all files into ./public
 
 app.Listen(8080)
 ```
