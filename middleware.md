@@ -187,7 +187,7 @@ middleware.Limiter(config ...LimiterConfig) func(*Ctx)
       <td style="text-align:left">
         <p><code>func(c *fiber.Ctx) {</code>
         </p>
-        <p><code>  c.Status(cfg.StatusCode).SendString(cfg.Message) }</code>
+        <p><code> c.Status(cfg.StatusCode).SendString(cfg.Message) }</code>
         </p>
       </td>
     </tr>
