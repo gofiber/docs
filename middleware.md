@@ -386,7 +386,7 @@ func main() {
     app := fiber.New()
 
     // Middleware
-    app.Use(middleware.Secure())
+    app.Use(middleware.Helmet())
 
     // Application
     app.Get("/", func(c *fiber.Ctx) {
