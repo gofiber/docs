@@ -237,7 +237,7 @@ c.Compress(enable ...bool)
 **Example**
 
 ```go
-// Example 1
+// Example 1: Disable compression for specific routes
 func main() {
   app := fiber.New(&fiber.Settings{
     Compression: true, // global compression enabled
@@ -250,7 +250,8 @@ func main() {
     c.Send("hello, World!") // not compressed
   })
 }
-// Example 2
+
+// Example 2: Enable compression for specific routes
 func main() {
   app := fiber.New() // compression disabled by default
   app.Get("/", func(c *fiber.Ctx) {
@@ -261,7 +262,8 @@ func main() {
     c.Send("hello, World!") // not compressed
   })
 }
-// Example 3
+
+// Example 3: Create a custom middleware
 func gzip(c *fiber.Ctx) {
   c.Compress()
   c.Next()
