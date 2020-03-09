@@ -30,6 +30,143 @@ func main() {
 }
 ```
 
+## 设置
+
+您可以在调用`New`时传递应用程序设置，或在调用`Listen`之前更改设置。
+
+**示例**
+
+```go
+func main() {
+    // Pass Settings creating a new app
+		app := fiber.New(&fiber.Settings{
+				Prefork:       true,
+				CaseSensitive: true,
+				StrictRouting: true,
+				ServerHeader:  "Fiber",
+				// etc...
+		})
+		
+		// Or change Settings after initiating app
+		app.Settings.Prefork = true
+    app.Settings.CaseSensitive = true
+    app.Settings.StrictRouting = true
+    app.Settings.ServerHeader = "Fiber"
+		// etc...
+		
+		app.Listen(3000)
+}
+```
+
+**常用选项**
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">属性</th>
+      <th style="text-align:left">类型</th>
+      <th style="text-align:left">描述</th>
+      <th style="text-align:left">默认值</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">Prefork</td>
+      <td style="text-align:left"><code>bool</code>
+      </td>
+      <td>启用对<a href="https://lwn.net/Articles/542629/"><code>SO_REUSEPORT</code></a>套接字选项的使用。 这将在同一端口上侦听多个Go进程。 有关<a href="https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/"><code>套接字分片</code></a>的更多信息。
+      <td
+      style="text-align:left"><code>false</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">ServerHeader</td>
+      <td style="text-align:left"><code>string</code>
+      </td>
+      <td style="text-align:left">使用给定值启用<code>服务器</code>HTTP头。</td>
+      <td
+      style="text-align:left"><code>&quot;&quot;</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">StrictRouting</td>
+      <td style="text-align:left"><code>bool</code>
+      </td>
+      <td style="text-align:left">启用后，路由会将<code>/foo</code>和<code>/foo/</code>视为不同。 否则，路由会将<code>/foo</code>和<code>/foo/</code>视为相同。</td>
+      <td style="text-align:left"><code>false</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">CaseSensitive</td>
+      <td style="text-align:left"><code>bool</code>
+      </td>
+      <td style="text-align:left">启用后，<code>/Foo</code>和<code>/foo</code>是不同的路由。 禁用后，<code>/Foo</code>和<code>/foo</code>被视为相同。</td>
+      <td
+      style="text-align:left"><code>false</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Immutable</td>
+      <td style="text-align:left"><code>bool</code>
+      </td>
+      <td style="text-align:left">启用时，上下文方法返回的所有值都是不可变的。默认情况下，它们是有效的，直到您从处理程序返回，见问题<a href="https://github.com/gofiber/fiber/issues/185">#185</a>。</td>
+      <td
+      style="text-align:left"><code>false</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Compression</td>
+      <td style="text-align:left"><code>bool</code>
+      </td>
+      <td style="text-align:left">为所有响应启用GZip/Deflate压缩。</td>
+      <td style="text-align:left"><code>false</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">BodyLimit</td>
+      <td style="text-align:left"><code>int</code>
+      </td>
+      <td style="text-align:left">设置请求主体的最大允许大小，如果大小超过配置的限制，则发送 <code>413 - Request Entity Too Large</code> response.</td>
+      <td
+      style="text-align:left"><code>4 * 1024 * 1024</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">TemplateFolder</td>
+      <td style="text-align:left"><code>string</code>
+      </td>
+      <td style="text-align:left">
+        <p>应用程序视图的目录。如果设置了一个目录，这将是所有模板路径的前缀。</p>
+        <p><code>c.Render(&quot;home.pug&quot;, d) -&gt; /views/home.pug</code>
+        </p>
+      </td>
+      <td style="text-align:left"><code>&quot;&quot;</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">TemplateEngine</td>
+      <td style="text-align:left"><code>string</code>
+      </td>
+      <td style="text-align:left">要使用的模板引擎: <code>html</code>, <a href="https://github.com/eknkc/amber"><code>amber</code></a>,
+        <a
+        href="ttps://github.com/aymerick/raymond"><code>handlebars</code>
+          </a>, <code>mustache</code> or <a href="https://github.com/Joker/jade"><code>pug</code></a>.</td>
+      <td
+      style="text-align:left"><code>&quot;&quot;</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">TemplateExtension</td>
+      <td style="text-align:left"><code>string</code>
+      </td>
+      <td style="text-align:left">如果你预先设置了模板文件扩展名，你不需要在渲染函数中提供完整的文件名: <code>c.Render(&quot;home&quot;, data) -&gt; home.pug</code>
+      </td>
+      <td style="text-align:left"><code>&quot;html&quot;</code>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 ## 静态文件
 
 提供静态文件，例如**图像**，**CSS**和**JavaScript**文件，可以使用**Static**方法。
@@ -41,7 +178,6 @@ func main() {
 **签名**
 
 ```go
-app.Static(root string)         // => without prefix
 app.Static(prefix, root string) // => with prefix
 ```
 
@@ -88,29 +224,39 @@ app.Static("/static", "./public")
 **签名**
 
 ```go
-app.METHOD(handler func(*Ctx))              // match any path
-app.METHOD(path string, handler func(*Ctx)) // match specific path
+// HTTP方法支持:param，:可选?和*通配符
+// 您需要为每个方法传递一个路径
+app.All(path string, handlers ...func(*Ctx))
+app.Get(...)
+app.Put(...)
+app.Post(...)
+app.Head(...)
+app.Patch(...)
+app.Trace(...)
+app.Delete(...)
+app.Connect(...)
+app.Options(...)
+
+// Use()将只匹配每个路径的初始化
+// 列如 "/john" 只匹配 "/john/doe", "/johnnnn"
+// Use() 不支持 :param & :optional?
+app.Use(handlers ...func(*Ctx))
+app.Use(prefix string, handlers ...func(*Ctx))
 ```
 
 **示例**
 
 ```go
-// Single method
-app.Connect(...)
-app.Delete(...)
-app.Get(...)
-app.Head(...)
-app.Options(...)
-app.Patch(...)
-app.Post(...)
-app.Put(...)
-app.Trace(...)
-
-// Matches all methods & complete path
-app.All(...)
-
-// Matches all methods & URLs starting with a specified path
-app.Use(...)
+app.Use("/api", func(c *fiber.Ctx) {
+  c.Set("X-Custom-Header", random.String(32))
+  c.Next()
+})
+app.Get("/api/list", func(c *fiber.Ctx) {
+  c.Send("I'm a GET request!")
+})
+app.Post("/api/register", func(c *fiber.Ctx) {
+  c.Send("I'm a POST request!")
+})
 ```
 
 ## WebSocket
@@ -120,9 +266,12 @@ Fiber支持通过fasthttp实现的[Gorilla WebSocket](https://pkg.go.dev/github.
 **签名**
 
 ```go
-app.WebSocket(handler func(*Conn))              // match any path
-app.WebSocket(path string, handler func(*Conn)) // match specific path
+app.WebSocket(path string, handler func(*Conn))
 ```
+
+{% hint style="warning" %}
+WebSocket不支持路径参数和通配符。
+{% endhint %}
 
 **示例**
 
@@ -130,41 +279,39 @@ app.WebSocket(path string, handler func(*Conn)) // match specific path
 package main
 
 import (
-	"log"
-	"github.com/gofiber/fiber"
+    "log"
+    "github.com/gofiber/fiber"
 )
 
 func main() {
-	app := fiber.New()
-	// Optional middleware
-	app.Use("/ws", func(c *fiber.Ctx) {
-		if c.Get("host") == "localhost" {
-			c.Status(403).Send("Request origin not allowed")
-		} else {
-			c.Next()
-		}
-	})
-	// Upgraded websocket request
-	app.WebSocket("/ws/:id", func(c *fiber.Conn) {
-	  log.Println(c.Params("id")) // 123
-		for {
-			mt, msg, err := c.ReadMessage()
-      if err != nil {
-      	log.Println("read:", err)
-        break
-      }
-      log.Printf("recv: %s", msg)
-      err = c.WriteMessage(mt, msg)
-      if err != nil {
-      	log.Println("write:", err)
-        break
-      }
-		}
-	})
-  // ws://localhost:3000/ws/123
-	app.Listen(3000)
+    app := fiber.New()
+    // Optional middleware
+    app.Use("/ws", func(c *fiber.Ctx) {
+        if c.Get("host") != "localhost:3000" {
+            c.Status(403).Send("Request origin not allowed")
+        } else {
+            c.Next()
+        }
+    })
+    // Upgraded websocket request
+    app.WebSocket("/ws", func(c *fiber.Conn) {
+        for {
+            mt, msg, err := c.ReadMessage()
+            if err != nil {
+                log.Println("read:", err)
+                break
+            }
+            log.Printf("recv: %s", msg)
+            err = c.WriteMessage(mt, msg)
+            if err != nil {
+                log.Println("write:", err)
+                break
+            }
+        }
+    })
+  // ws://localhost:3000/ws
+    app.Listen(3000)
 }
-
 ```
 
 ## 组路由
@@ -237,7 +384,7 @@ func main() {
 **签名**
 
 ```go
-app.Listen(address interface{}, tls ...string)
+app.Listen(address interface{}, tls ...*tls.Config)
 ```
 
 **示例**
@@ -249,13 +396,19 @@ app.Listen(":8080")
 app.Listen("127.0.0.1:8080")
 ```
 
-要启用**TLS/HTTPS，**您可以附加**证书**和**密钥**的路径。
+要启用**TLS/HTTPS，**您可以添加[**TLS config**](https://golang.org/pkg/crypto/tls/#Config)。
 
 ```go
-app.Listen(443, "server.crt", "server.key")
+cer, err := tls.LoadX509KeyPair("server.crt", "server.key")
+if err != nil {
+    log.Fatal(err)
+}
+config := &tls.Config{Certificates: []tls.Certificate{cer}}
+
+app.Listen(443, config)
 ```
 
-## 测试
+## Test
 
 使用**Test**方法对应用程序进行测试。
 
@@ -293,146 +446,3 @@ if resp.StatusCode == 200 {
   fmt.Println(string(body)) // => Hello, World!
 }
 ```
-
-## 设置
-
-**示例**
-
-```go
-func main() {
-    // Pass Settings creating a new app
-		app := fiber.New(&fiber.Settings{
-				Prefork:       true,
-				CaseSensitive: true,
-				StrictRouting: true,
-				ServerHeader:  "Go",
-				// etc...
-		})
-		
-		// Or change Settings after initiating app
-		app.Settings.Prefork = true
-		app.Settings.CaseSensitive = true
-		app.Settings.StrictRouting = true
-		app.Settings.ServerHeader = true
-		// etc...
-		
-		app.Listen(3000)
-}
-```
-
-**路由选项**
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">属性</th>
-      <th style="text-align:left">类型</th>
-      <th style="text-align:left">描述</th>
-      <th style="text-align:left">默认值</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">Prefork</td>
-      <td style="text-align:left"><code>bool</code>
-      </td>
-      <td>启用对<a href="https://lwn.net/Articles/542629/"><code>SO_REUSEPORT</code></a>套接字选项的使用。 这将在同一端口上侦听多个Go进程。 有关<a href="https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/"><code>套接字分片</code></a>的更多信息。
-      <td
-      style="text-align:left"><code>false</code>
-        </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">ServerHeader</td>
-      <td style="text-align:left"><code>string</code>
-      </td>
-      <td style="text-align:left">使用给定值启用<code>服务器</code>HTTP头。</td>
-      <td
-      style="text-align:left"><code>&quot;&quot;</code>
-        </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">StrictRouting</td>
-      <td style="text-align:left"><code>bool</code>
-      </td>
-      <td style="text-align:left">启用后，路由会将<code>/foo</code>和<code>/foo/</code>视为不同。 否则，路由会将<code>/foo</code>和<code>/foo/</code>视为相同。</td>
-      <td style="text-align:left"><code>false</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">CaseSensitive</td>
-      <td style="text-align:left"><code>bool</code>
-      </td>
-      <td style="text-align:left">启用后，<code>/Foo</code>和<code>/foo</code>是不同的路由。 禁用后，<code>/Foo</code>和<code>/foo</code>被视为相同。</td>
-      <td
-      style="text-align:left"><code>false</code>
-        </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">ViewFolder</td>
-      <td style="text-align:left"><code>string</code>
-      </td>
-      <td style="text-align:left">
-        <p>应用程序视图的目录。 如果设置了目录，它将是所有模板路径的前缀。</p>
-        <p><code>c.Render(&quot;home.pug&quot;, d) -&gt; /views/home.pug</code>
-        </p>
-      </td>
-      <td style="text-align:left"><code>&quot;&quot;</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">ViewCache</td>
-      <td style="text-align:left"><code>bool</code>
-      </td>
-      <td style="text-align:left">启用视图模板编译缓存。</td>
-      <td style="text-align:left"><code>false</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">ViewEngine</td>
-      <td style="text-align:left"><code>string</code>
-      </td>
-      <td style="text-align:left">使用模板引擎: <code>html</code>, <a href="https://github.com/eknkc/amber"><code>amber</code></a>,
-        <a
-        href="ttps://github.com/aymerick/raymond"><code>handlebars</code>
-          </a>, <code>mustache</code> or <a href="https://github.com/Joker/jade"><code>pug</code></a>.</td>
-      <td
-      style="text-align:left"><code>&quot;&quot;</code>
-        </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">ViewExtension</td>
-      <td style="text-align:left"><code>string</code>
-      </td>
-      <td style="text-align:left">如果预设了模板文件扩展名，则无需在渲染功能中提供完整的文件名: <code>c.Render(&quot;home&quot;, d) -&gt; home.pug</code> 
-      </td>
-      <td style="text-align:left"><code>&quot;html&quot;</code>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-**Server 设置**
-
-{% hint style="warning" %}
-如果您知道自己在做什么，请仅更改这些设置。
-{% endhint %}
-
-| 属性 | 类型 | 描述 | 默认值 |
-| :--- | :--- | :--- | :--- |
-| GetOnly | `bool` | 如果设置为true，则拒绝所有非GET请求。 对于仅接受GET请求的服务器，此选项可用作反DoS攻击。 如果设置了`GetOnly`，则请求大小受`ReadBufferSize`限制。 | `false` |
-| IdleTimeout | `time.Duration` | IdleTimeout是启用保持活动状态后等待下一个请求的最长时间。 如果IdleTimeout为`0`，则使用`ReadTimeout`的值。 | `0` |
-| Concurrency | `int` | 服务器可以支持的最大并发连接数。 | `0` |
-| ReadTimeout | `time.Duration` | 读取完整请求（包括正文）所允许的时间。 连接打开时或在读取第一个字节后进行保持活动的连接时，将重置连接的读取截止时间。 | `0` |
-| WriteTimeout | `time.Duration` | 超时之前写入响应的最大超时时间。 请求处理程序返回后，将其重置。 | `0` |
-| TCPKeepalive | `bool` | 是否启用tcp保持活动连接，并且操作系统应在tcp连接上发送tcp保持活动消息。 | `false` |
-| MaxConnsPerIP | `int` | 每个IP允许的最大并发客户端连接数。 默认情况下，可以从单个IP地址到服务器建立`无限数量`的并发连接。 | `0` |
-| ReadBufferSize | `int` | 每个连接的缓冲区大小，用于读取请求。 这也限制了最大标头大小。 如果您的客户端发送multi-KB RequestURI或多multi-KB标头\(例如 BIG cookie\)，则增加此缓冲区。 | `4096` |
-| WriteBufferSize | `int` | 每个连接的缓冲区大小，用于写入响应。 | `4096` |
-| ConcurrencySleep | `time.Duration` | 如果超过`并发`限制，则需要要等待的时间(默认为`0`)：不要等待，立即接受新的连接。 | `0` |
-| DisableKeepAlive | `bool` | 是否禁用保持活动连接。 如果将此选项设置为`true`，则在将第一个响应发送给客户端之后，服务器将关闭所有传入连接。 | `false` |
-| ReduceMemoryUsage | `bool` | 如果设置为`true`，则以降低CPU使用率为代价来积极减少内存使用。 仅当服务器消耗过多的内存(主要用于空闲的保持活动连接)时，才尝试启用此选项。 这样可以将内存使用量减少50％以上。 | `false` |
-| MaxRequestsPerConn | `int` |每个连接服务的最大请求数。 服务器在最后一个请求后关闭连接。 `连接: 关闭`请求头添加到最后一个响应。 | `0` |
-| TCPKeepalivePeriod | `time.Duration` | TCP 保持活动消息之间的时间间隔。 默认情况下，TCP保持活动时间由操作系统确定。 | `0` |
-| MaxRequestBodySize | `int` | 最大请求体大小。 服务器拒绝请求体超过此限制的请求。 | `0` |
-| NoHeaderNormalizing | `bool` | 默认情况下，请求和响应头的名称是规范化的， 例如: _`HOST -> Host`_ ,`cONTENT-lenGTH -> Content-Length` | `false` |
-| NoDefaultContentType | `bool` | 设置为`true`时，将导致默认的Content-Type头从响应中排除。 | `false` |

@@ -202,7 +202,6 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ```go
 c.ClearCookie()
-c.ClearCookie(key string)
 ```
 
 **示例**
@@ -220,31 +219,78 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-## Cookie
+## Compress
 
-通过**name**和**value**设置cookie
+Fiber支持全局压缩使用[压缩设置](application.md#设置)。使用`c.Compress()`方法，您可以在处理程序中启用或禁用压缩。
 
 **签名**
 
 ```go
-c.Cookie(name, value string, options ...*Cookie{})
+c.Compress(enable ...bool)
 ```
 
-**Cookie 结构**
-
-{% hint style="warning" %}
-如果设置了**MaxAge**，则将不使用**Expire**选项
-{% endhint %}
+**示例**
 
 ```go
-&fiber.Cookie{
-  Expire   int64  // Unix timestamp
-  MaxAge   int    // Seconds
-  Domain   string
-  Path     string
-  HTTPOnly bool
-  Secure   bool
-  SameSite string
+// Example 1
+func main() {
+  app := fiber.New(&fiber.Settings{
+    Compression: true, // global compression enabled
+  })
+  app.Get("/", func(c *fiber.Ctx) {
+    c.Send("Hello, World!") // compressed
+  })
+  app.Get("/demo", func(c *fiber.Ctx) {
+    c.Compress(false)
+    c.Send("hello, World!") // not compressed
+  })
+}
+// Example 2
+func main() {
+  app := fiber.New() // compression disabled by default
+  app.Get("/", func(c *fiber.Ctx) {
+    c.Compress()
+    c.Send("Hello, World!") // compressed
+  })
+  app.Get("/demo", func(c *fiber.Ctx) {
+    c.Send("hello, World!") // not compressed
+  })
+}
+// Example 3
+func gzip(c *fiber.Ctx) {
+  c.Compress()
+  c.Next()
+}
+func main() {
+  app := fiber.New() // compression disabled by default
+  app.Get("/", gzip, func(c *fiber.Ctx) {
+    c.Send("Hello, World!") // compressed
+  })
+  app.Get("/demo", func(c *fiber.Ctx) {
+    c.Send("hello, World!") // not compressed
+  })
+}
+```
+
+## Cookie
+
+设置cookie
+
+**签名**
+
+```go
+c.Cookie(*Cookie)
+```
+
+```go
+type Cookie struct {
+    Name     string
+    Value    string
+    Path     string
+    Domain   string
+    Expires  time.Time
+    Secure   bool
+    HTTPOnly bool
 }
 ```
 
@@ -252,28 +298,21 @@ c.Cookie(name, value string, options ...*Cookie{})
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  c.Cookie("name", "john")
-  // => Cookie: name=john;
-
-  c.Cookie("name", "john", &fiber.Cookie{
-    MaxAge:   60,
-    Domain:   "example.com",
-    Path:     "/",
-    HTTPOnly: true,
-    Secure:   true,
-    SameSite: "lax",
-  })
-  // => name=john; max-age=60; domain=example.com; path=/;
-  //    HttpOnly; secure; SameSite=Lax
-
+  // Create cookie
+  cookie := new(fiber.Cookie)
+    cookie.Name = "john"
+    cookie.Value = "doe"
+    cookie.Expires = time.Now().Add(24 * time.Hour)
+    // Set cookie
+    c.Cookie(cookie)
 })
 ```
 
 ## Cookies
 
-获取 cookie.
+获取cookies.
 
-**签名**
+**签名**s
 
 ```go
 c.Cookies(key ...string) string
@@ -944,9 +983,40 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Range
 
-{% hint style="info" %}
-快来了！ 随时创建PR！
-{% endhint %}
+返回一个包含类型和范围片的结构。
+
+**签名**
+
+```go
+c.Range(int size)
+```
+
+**Range结构体**
+
+```go
+type Range struct {
+    Type   string
+    Ranges []struct {
+        Start int64
+        End   int64
+    }
+}
+```
+
+**示例**
+
+```go
+// Range: bytes=500-700, 700-900
+app.Get("/", func(c *fiber.Ctx) {
+  b := c.Range(1000)
+  if b.Type == "bytes" {
+      for r := range r.Ranges {
+      fmt.Println(r)
+      // [500, 700]
+    }
+  }
+})
+```
 
 ## Redirect
 
@@ -991,7 +1061,7 @@ app.Get("/", func(c *fiber.Ctx) {
 c.Render(view string, data interface{}, engine ...string) error
 ```
 
-个带有****`mustache` ****语法的简单模板文件。
+一个带有 **`mustache`** 语法的简单模板文件。
 
 {% code title="/views/home.tmpl" %}
 ```go
