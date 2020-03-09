@@ -277,14 +277,13 @@ func main() {
 }
 ```
 
-```text
 ## Cookie
 
-Set cookies
+Set cookie
 
 **Signature**
 
-```go
+```text
 c.Cookie(*Cookie)
 ```
 
@@ -306,11 +305,12 @@ type Cookie struct {
 app.Get("/", func(c *fiber.Ctx) {
   // Create cookie
   cookie := new(fiber.Cookie)
-    cookie.Name = "john"
-    cookie.Value = "doe"
-    cookie.Expires = time.Now().Add(24 * time.Hour)
-    // Set cookie
-    c.Cookie(cookie)
+  cookie.Name = "john"
+  cookie.Value = "doe"
+  cookie.Expires = time.Now().Add(24 * time.Hour)
+  
+  // Set cookie
+  c.Cookie(cookie)
 })
 ```
 
