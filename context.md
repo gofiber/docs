@@ -18,10 +18,10 @@ Based on the request’s [Accept](https://developer.mozilla.org/en-US/docs/Web/H
 **Signature**
 
 ```go
-c.Accepts(types ...string) string
-c.AcceptsCharsets(charsets ...string) string
-c.AcceptsEncodings(encodings ...string) string
-c.AcceptsLanguages(langs ...string) string
+c.Accepts(types ...string)                 string
+c.AcceptsCharsets(charsets ...string)      string
+c.AcceptsEncodings(encodings ...string)    string
+c.AcceptsLanguages(langs ...string)        string
 ```
 
 **Example**
