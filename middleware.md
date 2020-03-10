@@ -80,17 +80,88 @@ cors.New(config ...cors.Config) func(*fiber.Ctx)
 
 **Config**
 
-| Property | Type | Description | Default |
-| :--- | :--- | :--- | :--- |
-| Skip | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
-| AllowOrigins | `[]string` | AllowOrigin defines a list of origins that may access the resource. | `[]string{"*"}` |
-| AllowMethods | `[]string` | AllowMethods defines a list methods allowed when accessing the resource. This is used in response to a preflight request. | `[]string{"GET","POST","HEAD","PUT","DELETE","PATCH"}` |
-| AllowHeaders | `[]string` | AllowHeaders defines a list of request headers that can be used when making the actual request. This in response to a preflight request. | `nil` |
-| AllowCredentials | `string` | AllowCredentials indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials. | `nil` |
-| ExposeHeaders | `[]string` | ExposeHeaders defines a whitelist headers that clients are allowed to access. | `nil` |
-| MaxAge | `int` | MaxAge indicates how long \(in seconds\) the results of a preflight request can be cached. | `0` |
-
-**Example**
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Property</th>
+      <th style="text-align:left">Type</th>
+      <th style="text-align:left">Description</th>
+      <th style="text-align:left">Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">Skip</td>
+      <td style="text-align:left"><code>func(*Ctx) bool</code>
+      </td>
+      <td style="text-align:left">Defines a function to skip middleware</td>
+      <td style="text-align:left"><code>nil</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">AllowOrigins</td>
+      <td style="text-align:left"><code>[]string</code>
+      </td>
+      <td style="text-align:left">AllowOrigin defines a list of origins that may access the resource.</td>
+      <td
+      style="text-align:left"><code>[]string{&quot;*&quot;}</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">AllowMethods</td>
+      <td style="text-align:left"><code>[]string</code>
+      </td>
+      <td style="text-align:left">AllowMethods defines a list methods allowed when accessing the resource.
+        This is used in response to a preflight request.</td>
+      <td style="text-align:left">
+        <p><code>[]string{</code>
+        </p>
+        <p><code>&quot;GET&quot;, &quot;POST&quot;, &quot;HEAD&quot;, &quot;PUT&quot;, &quot;DELETE&quot;, &quot;PATCH&quot;</code>
+        </p>
+        <p><code>}</code>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">AllowHeaders</td>
+      <td style="text-align:left"><code>[]string</code>
+      </td>
+      <td style="text-align:left">AllowHeaders defines a list of request headers that can be used when making
+        the actual request. This in response to a preflight request.</td>
+      <td style="text-align:left"><code>nil</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">AllowCredentials</td>
+      <td style="text-align:left"><code>string</code>
+      </td>
+      <td style="text-align:left">AllowCredentials indicates whether or not the response to the request
+        can be exposed when the credentials flag is true. When used as part of
+        a response to a preflight request, this indicates whether or not the actual
+        request can be made using credentials.</td>
+      <td style="text-align:left"><code>nil</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">ExposeHeaders</td>
+      <td style="text-align:left"><code>[]string</code>
+      </td>
+      <td style="text-align:left">ExposeHeaders defines a whitelist headers that clients are allowed to
+        access.</td>
+      <td style="text-align:left"><code>nil</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">MaxAge</td>
+      <td style="text-align:left"><code>int</code>
+      </td>
+      <td style="text-align:left">MaxAge indicates how long (in seconds) the results of a preflight request
+        can be cached.</td>
+      <td style="text-align:left"><code>0</code>
+      </td>
+    </tr>
+  </tbody>
+</table>**Example**
 
 ```go
 package main
