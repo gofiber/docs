@@ -66,10 +66,16 @@ func main() {
 
 CORS middleware implements CORS specification. CORS gives web servers cross-domain access controls, which enable secure cross-domain data transfers.
 
+**Installation**
+
+```bash
+go get -u github.com/gofiber/cors
+```
+
 **Signature**
 
 ```go
-middleware.CORS(config ...CORSConfig) func(*Ctx)
+cors.New(config ...cors.Config) func(*fiber.Ctx)
 ```
 
 **Config**
@@ -90,23 +96,21 @@ middleware.CORS(config ...CORSConfig) func(*Ctx)
 package main
 
 import (
-    "github.com/gofiber/fiber"
-    "github.com/gofiber/fiber/middleware"
+  "github.com/gofiber/fiber"
+  "github.com/gofiber/cors"
 )
 
 func main() {
-    app := fiber.New()
+  app := fiber.New()
 
-    // Middleware
-    app.Use(middleware.CORS())
+  app.Use(cors.New())
 
-    // Application
-    app.Get("/", func(c *fiber.Ctx) {
-        c.Send("CORS is enabled!")
-    })
+  app.Get("/", func(c *fiber.Ctx) {
+    c.Send("Welcome!")
+  })
 
-    app.Listen(3000)
-    // Run: curl -H "Origin: http://example.com" --verbose http://localhost:3000
+  app.Listen(3000)
+  // curl -H "Origin: http://example.com" --verbose http://localhost:3000
 }
 ```
 
@@ -114,10 +118,16 @@ func main() {
 
 Use to limit repeated requests to public APIs and/or endpoints such as password reset. This middleware does not share state with other processes/servers.
 
+**Installation**
+
+```bash
+go get -u github.com/gofiber/limiter
+```
+
 **Signature**
 
 ```go
-middleware.Limiter(config ...LimiterConfig) func(*Ctx)
+limiter.New(config ...limiter.Config) func(*Ctx)
 ```
 
 **Config**
@@ -170,29 +180,26 @@ middleware.Limiter(config ...LimiterConfig) func(*Ctx)
 package main
 
 import (
-    "github.com/gofiber/fiber"
-    "github.com/gofiber/fiber/middleware"
+  "github.com/gofiber/fiber"
+  "github.com/gofiber/limiter"
 )
 
 func main() {
-    app := fiber.New()
+  app := fiber.New()
 
-    // Max 2 requests per 10 seconds
-    config := middleware.LimiterConfig{
-        Timeout: 10,
-        Max: 2,
-    }
+  // 3 requests per 10 seconds max
+  cfg := limiter.Config{
+    Timeout: 10,
+    Max: 3,
+  }
 
-    // Middleware
-    app.Use(middleware.Limiter(config))
+  app.Use(limiter.New(cfg))
 
-    // Application
-    app.Get("/", func(c *fiber.Ctx) {
-        c.Send("This route can handle limited repeated requests!")
-    })
+  app.Get("/", func(c *fiber.Ctx) {
+    c.Send("Welcome!")
+  })
 
-    app.Listen(3000)
-    // Run: curl --user john:doe http://localhost:3000
+  app.Listen(3000)
 }
 ```
 
@@ -200,10 +207,16 @@ func main() {
 
 Logger middleware logs the information about each HTTP request.
 
+**Installation**
+
+```bash
+go get -u github.com/gofiber/logger
+```
+
 **Signature**
 
 ```go
-middleware.Logger(config ...LoggerConfig) func(*Ctx)
+logger.new(config ...logger.Config) func(*Ctx)
 ```
 
 **Config**
@@ -220,22 +233,20 @@ middleware.Logger(config ...LoggerConfig) func(*Ctx)
 package main
 
 import (
-    "github.com/gofiber/fiber"
-    "github.com/gofiber/fiber/middleware"
+  "github.com/gofiber/fiber"
+  "github.com/gofiber/logger"
 )
 
 func main() {
-    app := fiber.New()
+  app := fiber.New()
 
-    // Middleware
-    app.Use(middleware.Logger())
+  app.Use(logger.New())
 
-    // Application
-    app.Get("/", func(c *fiber.Ctx) {
-        c.Send("You have been logged!")
-    })
+  app.Get("/", func(c *fiber.Ctx) {
+    c.Send("Welcome!")
+  })
 
-    app.Listen(3000)
+  app.Listen(3000)
 }
 ```
 
@@ -243,10 +254,16 @@ func main() {
 
 You can recover from panic errors within any route. By default the Recover middleware will respond with `500 Internal Server Error` when a panic occurs. You can also provide your own error handler.
 
+**Installation**
+
+```bash
+go get -u github.com/gofiber/recover
+```
+
 **Signature**
 
 ```go
-middleware.Recover(handle ...func(*Ctx, error)) func(*Ctx)
+recover.New(config ...recover.Config) func(*Ctx)
 ```
 
 **Example**
@@ -255,23 +272,28 @@ middleware.Recover(handle ...func(*Ctx, error)) func(*Ctx)
 package main
 
 import (
-    "github.com/gofiber/fiber"
-    "github.com/gofiber/fiber/middleware"
+	"github.com/gofiber/fiber"
+	"github.com/gofiber/recover"
 )
 
 func main() {
-  app := fiber.New()
+	app := fiber.New()
+  
+  // Optional
+	cfg := recover.Config{
+		Handler: func(c *fiber.Ctx, err error) {
+			c.SendString(err.Error())
+			c.SendStatus(500)
+		},
+	}
 
-  app.Use(middleware.Recover(func(c *fiber.Ctx, err error) {
-    log.Println(err)  // "Something went wrong!"
-    c.SendStatus(500) // Internal Server Error
-  })))
+	app.Use(recover.New(cfg))
 
-  app.Get("/", func(c *fiber.Ctx) {
-    panic("Something went wrong!")
-  })
+	app.Get("/", func(c *fiber.Ctx) {
+		panic("Hi, I'm a error!")
+	})
 
-  app.Listen(3000)
+	app.Listen(3000)
 }
 ```
 
@@ -279,10 +301,16 @@ func main() {
 
 RequestID adds an indentifier to the request using the `X-Request-ID` header
 
+**Installation**
+
+```bash
+go get -u github.com/gofiber/requestid
+```
+
 **Signature**
 
 ```go
-middleware.RequestID(config ...RequestIDConfig) func(*Ctx)
+requestid.New(config ...requestid.Config) func(*Ctx)
 ```
 
 **Config**
@@ -298,24 +326,20 @@ middleware.RequestID(config ...RequestIDConfig) func(*Ctx)
 package main
 
 import (
-    "github.com/gofiber/fiber"
-    "github.com/gofiber/fiber/middleware"
+  "github.com/gofiber/fiber"
+  "github.com/gofiber/requestid"
 )
 
 func main() {
-    app := fiber.New()
+  app := fiber.New()
+  
+  app.Use(requestid.New())
+  
+  app.Get("/", func(c *fiber.Ctx) {
+    c.Send("Hello, World!")
+  })
 
-    // Middleware
-    app.Use(middleware.RequestID())
-    // => X-Request-ID: 6ba7b810-9dad-11d1-80b4-00c04fd430c8
-
-    // Application
-    app.Get("/", func(c *fiber.Ctx) {
-        c.Send("You are authorized!")
-    })
-
-    app.Listen(3000)
-    // Run: curl --user john:doe http://localhost:3000
+  app.Listen(3000)
 }
 ```
 
@@ -323,10 +347,16 @@ func main() {
 
 Helmet middleware provides protection against cross-site scripting \(XSS\) attack, content type sniffing, clickjacking, insecure connection and other code injection attacks.
 
+**Installation**
+
+```bash
+go get -u github.com/gofiber/helmet
+```
+
 **Signature**
 
 ```go
-middleware.Helmet(config ...HelmetConfig) func(*Ctx)
+helmet.New(config ...helmet.Config) func(*Ctx)
 ```
 
 **Config**
@@ -350,23 +380,21 @@ middleware.Helmet(config ...HelmetConfig) func(*Ctx)
 package main
 
 import (
-    "github.com/gofiber/fiber"
-    "github.com/gofiber/fiber/middleware"
+  "github.com/gofiber/fiber"
+  "github.com/gofiber/helmet"
 )
 
 func main() {
-    app := fiber.New()
+  app := fiber.New()
 
-    // Middleware
-    app.Use(middleware.Helmet())
+  app.Use(helmet.New())
 
-    // Application
-    app.Get("/", func(c *fiber.Ctx) {
-        c.Send("You are authorized!")
-    })
+  app.Get("/", func(c *fiber.Ctx) {
+    c.Send("Welcome!")
+  })
 
-    app.Listen(3000)
-    // Run: curl --user john:doe http://localhost:3000
+  app.Listen(3000)
+  // curl -I http://localhost:3000
 }
 ```
 
