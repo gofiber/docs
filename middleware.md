@@ -139,7 +139,7 @@ limiter.New(config ...limiter.Config) func(*Ctx)
 | Max | `int` | Max number of recent connections during `Timeout` seconds before sending a 429 response | `10` |
 | Message | `string` | Response body | `"Too many requests, please try again later."` |
 | StatusCode | `int` | Response status code | `429` |
-| Key | `func(*Ctx) string` | Key allows to use a custom handler to create custom keys | `return c.IP()`  |
+| Key | `func(*Ctx) string` | A function that allows to create custom keys. By default `c.IP()` is used. | `nil` |
 | Handler | `func(*Ctx)` | Handler is called when a request hits the limit | `nil` |
 
 **Example**
@@ -267,7 +267,7 @@ func main() {
 
 ## Request ID
 
-Request ID adds an indentifier to the request using the `X-Request-ID` header
+Request ID adds an identifier to the request using the `X-Request-ID` header
 
 **Installation**
 
