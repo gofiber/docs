@@ -134,49 +134,17 @@ limiter.New(config ...limiter.Config) func(*Ctx)
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-
-
 | Skip | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
-| :--- | :--- | :--- | :--- |
-
-
 | Timeout | `int` | Timeout in seconds on how long to keep records of requests in memory | `60` |
-| :--- | :--- | :--- | :--- |
-
-
 | Max | `int` | Max number of recent connections during `Timeout` seconds before sending a 429 response | `10` |
-| :--- | :--- | :--- | :--- |
-
-
 | Message | `string` | Response body | `"Too many requests, please try again later."` |
-| :--- | :--- | :--- | :--- |
-
-
 | StatusCode | `int` | Response status code | `429` |
-| :--- | :--- | :--- | :--- |
+| Key | `func(*Ctx) string` | Key allows to use a custom handler to create custom keys | `func(c *fiber.Ctx) string {  return c.IP() }`|
+| Handler | `func(*Ctx)` | >Handler is called when a request hits the limit | `func(c *fiber.Ctx) string {  c.Status(cfg.StatusCode).SendString(cfg.Message) }` |
 
+**Example**
 
-| Key | `func(*Ctx) string` | Key allows to use a custom handler to create custom keys | `func(c *fiber.Ctx) string {  return c.IP() }` |
-| :--- | :--- | :--- | :--- |
-
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">Handler</th>
-      <th style="text-align:left"><code>func(*Ctx)</code>
-      </th>
-      <th style="text-align:left">Handler is called when a request hits the limit</th>
-      <th style="text-align:left">
-        <p><code>func(c *fiber.Ctx) {</code>
-        </p>
-        <p> <code>c.Status(cfg.StatusCode).SendString(cfg.Message) }</code>
-        </p>
-      </th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>```go
+```go
 package main
 
 import (
