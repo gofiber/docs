@@ -139,8 +139,8 @@ limiter.New(config ...limiter.Config) func(*Ctx)
 | Max | `int` | Max number of recent connections during `Timeout` seconds before sending a 429 response | `10` |
 | Message | `string` | Response body | `"Too many requests, please try again later."` |
 | StatusCode | `int` | Response status code | `429` |
-| Key | `func(*Ctx) string` | Key allows to use a custom handler to create custom keys | `func(c *fiber.Ctx) string {  return c.IP() }` |
-| Handler | `func(*Ctx)` | &gt;Handler is called when a request hits the limit | `func(c *fiber.Ctx) string {  c.Status(cfg.StatusCode).SendString(cfg.Message)}` |
+| Key | `func(*Ctx) string` | Key allows to use a custom handler to create custom keys | `return c.IP()`  |
+| Handler | `func(*Ctx)` | Handler is called when a request hits the limit | `nil` |
 
 **Example**
 
