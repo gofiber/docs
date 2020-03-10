@@ -7,9 +7,9 @@ description: >-
 
 # 🧬 Middleware
 
-## Basic Authentication
+## Basic Auth
 
-Basic authentication middleware provides an HTTP basic authentication. It calls the next handler for valid credentials and `401 Unauthorized` for missing or invalid credentials.
+Basic auth middleware provides an HTTP basic authentication. It calls the next handler for valid credentials and `401 Unauthorized` for missing or invalid credentials.
 
 **Installation**
 
@@ -139,8 +139,8 @@ limiter.New(config ...limiter.Config) func(*Ctx)
 | Max | `int` | Max number of recent connections during `Timeout` seconds before sending a 429 response | `10` |
 | Message | `string` | Response body | `"Too many requests, please try again later."` |
 | StatusCode | `int` | Response status code | `429` |
-| Key | `func(*Ctx) string` | Key allows to use a custom handler to create custom keys | `func(c *fiber.Ctx) string {  return c.IP() }`|
-| Handler | `func(*Ctx)` | >Handler is called when a request hits the limit | `func(c *fiber.Ctx) string {  c.Status(cfg.StatusCode).SendString(cfg.Message) }` |
+| Key | `func(*Ctx) string` | Key allows to use a custom handler to create custom keys | `func(c *fiber.Ctx) string {  return c.IP() }` |
+| Handler | `func(*Ctx)` | &gt;Handler is called when a request hits the limit | `func(c *fiber.Ctx) string {  c.Status(cfg.StatusCode).SendString(cfg.Message)}` |
 
 **Example**
 
@@ -240,34 +240,34 @@ recover.New(config ...recover.Config) func(*Ctx)
 package main
 
 import (
-	"github.com/gofiber/fiber"
-	"github.com/gofiber/recover"
+    "github.com/gofiber/fiber"
+    "github.com/gofiber/recover"
 )
 
 func main() {
-	app := fiber.New()
-  
+    app := fiber.New()
+
   // Optional
-	cfg := recover.Config{
-		Handler: func(c *fiber.Ctx, err error) {
-			c.SendString(err.Error())
-			c.SendStatus(500)
-		},
-	}
+    cfg := recover.Config{
+        Handler: func(c *fiber.Ctx, err error) {
+            c.SendString(err.Error())
+            c.SendStatus(500)
+        },
+    }
 
-	app.Use(recover.New(cfg))
+    app.Use(recover.New(cfg))
 
-	app.Get("/", func(c *fiber.Ctx) {
-		panic("Hi, I'm a error!")
-	})
+    app.Get("/", func(c *fiber.Ctx) {
+        panic("Hi, I'm a error!")
+    })
 
-	app.Listen(3000)
+    app.Listen(3000)
 }
 ```
 
-## RequestID
+## Request ID
 
-RequestID adds an indentifier to the request using the `X-Request-ID` header
+Request ID adds an indentifier to the request using the `X-Request-ID` header
 
 **Installation**
 
@@ -300,9 +300,9 @@ import (
 
 func main() {
   app := fiber.New()
-  
+
   app.Use(requestid.New())
-  
+
   app.Get("/", func(c *fiber.Ctx) {
     c.Send("Hello, World!")
   })
