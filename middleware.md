@@ -7,23 +7,31 @@ description: >-
 
 # 🧬 Middleware
 
-## BasicAuth
+## Basic Authentication
 
-Basic auth middleware provides an HTTP basic authentication. It calls the next handler for valid credentials and "401 - Unauthorized" for missing or invalid credentials.
+Basic authentication middleware provides an HTTP basic authentication. It calls the next handler for valid credentials and `401 Unauthorized` for missing or invalid credentials.
+
+**Installation**
+
+```bash
+go get -u github.com/gofiber/basicauth
+```
 
 **Signature**
 
 ```go
-middleware.BasicAuth(config ...BasicAuthConfig) func(*Ctx)
+basicauth.New(config ...basicauth.Config) func(*fiber.Ctx)
 ```
 
 **Config**
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| Skip | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
+| Skip | `func(*fiber.Ctx) bool` | Defines a function to skip middleware | `nil` |
 | Users | `map[string][string]` | Users defines the allowed credentials | `nil` |
 | Realm | `string` | Realm is a string to define the realm attribute | `Restricted` |
+| Authorizer | `func(string, string) bool` | A function you can pass to check the credentials however you want. | `nil` |
+| Unauthorized | `func(*fiber.Ctx)` | Custom response body for unauthorized responses | `nil` |
 
 **Example**
 
@@ -31,31 +39,26 @@ middleware.BasicAuth(config ...BasicAuthConfig) func(*Ctx)
 package main
 
 import (
-    "github.com/gofiber/fiber"
-    "github.com/gofiber/fiber/middleware"
+  "github.com/gofiber/fiber"
+  "github.com/gofiber/basicauth"
 )
 
 func main() {
-    app := fiber.New()
+  app := fiber.New()
 
-    // Config
-    config := middleware.BasicAuthConfig{
-        Users: map[string]string{
-            "john":  "doe",
-            "admin": "123456",
-        },
-    }
+  cfg := basicauth.Config{
+    Users: map[string]string{
+      "john":   "doe",
+      "admin":  "123456",
+    },
+  }
+  app.Use(basicauth.New(cfg))
 
-    // Middleware
-    app.Use(middleware.BasicAuth(config))
+  app.Get("/", func(c *fiber.Ctx) {
+    c.Send("Welcome!")
+  })
 
-    // Application
-    app.Get("/", func(c *fiber.Ctx) {
-        c.Send("You are authorized!")
-    })
-
-    app.Listen(3000)
-    // Run: curl --user john:doe http://localhost:3000
+  app.Listen(3000)
 }
 ```
 
@@ -119,82 +122,51 @@ middleware.Limiter(config ...LimiterConfig) func(*Ctx)
 
 **Config**
 
+| Property | Type | Description | Default |
+| :--- | :--- | :--- | :--- |
+
+
+| Skip | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
+| :--- | :--- | :--- | :--- |
+
+
+| Timeout | `int` | Timeout in seconds on how long to keep records of requests in memory | `60` |
+| :--- | :--- | :--- | :--- |
+
+
+| Max | `int` | Max number of recent connections during `Timeout` seconds before sending a 429 response | `10` |
+| :--- | :--- | :--- | :--- |
+
+
+| Message | `string` | Response body | `"Too many requests, please try again later."` |
+| :--- | :--- | :--- | :--- |
+
+
+| StatusCode | `int` | Response status code | `429` |
+| :--- | :--- | :--- | :--- |
+
+
+| Key | `func(*Ctx) string` | Key allows to use a custom handler to create custom keys | `func(c *fiber.Ctx) string {  return c.IP() }` |
+| :--- | :--- | :--- | :--- |
+
+
 <table>
   <thead>
     <tr>
-      <th style="text-align:left">Property</th>
-      <th style="text-align:left">Type</th>
-      <th style="text-align:left">Description</th>
-      <th style="text-align:left">Default</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">Skip</td>
-      <td style="text-align:left"><code>func(*Ctx) bool</code>
-      </td>
-      <td style="text-align:left">Defines a function to skip middleware</td>
-      <td style="text-align:left"><code>nil</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">Timeout</td>
-      <td style="text-align:left"><code>int</code>
-      </td>
-      <td style="text-align:left">Timeout in seconds on how long to keep records of requests in memory</td>
-      <td
-      style="text-align:left"><code>60</code>
-        </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">Max</td>
-      <td style="text-align:left"><code>int</code>
-      </td>
-      <td style="text-align:left">Max number of recent connections during <code>Timeout</code> seconds before
-        sending a 429 response</td>
-      <td style="text-align:left"><code>10</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">Message</td>
-      <td style="text-align:left"><code>string</code>
-      </td>
-      <td style="text-align:left">Response body</td>
-      <td style="text-align:left"><code>&quot;Too many requests, please try again later.&quot;</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">StatusCode</td>
-      <td style="text-align:left"><code>int</code>
-      </td>
-      <td style="text-align:left">Response status code</td>
-      <td style="text-align:left"><code>429</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">Key</td>
-      <td style="text-align:left"><code>func(*Ctx) string</code>
-      </td>
-      <td style="text-align:left">Key allows to use a custom handler to create custom keys</td>
-      <td style="text-align:left"><code>func(c *fiber.Ctx) string { <br />   return c.IP() <br />}</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">Handler</td>
-      <td style="text-align:left"><code>func(*Ctx)</code>
-      </td>
-      <td style="text-align:left">Handler is called when a request hits the limit</td>
-      <td style="text-align:left">
+      <th style="text-align:left">Handler</th>
+      <th style="text-align:left"><code>func(*Ctx)</code>
+      </th>
+      <th style="text-align:left">Handler is called when a request hits the limit</th>
+      <th style="text-align:left">
         <p><code>func(c *fiber.Ctx) {</code>
         </p>
-        <p><code> c.Status(cfg.StatusCode).SendString(cfg.Message) }</code>
+        <p> <code>c.Status(cfg.StatusCode).SendString(cfg.Message) }</code>
         </p>
-      </td>
+      </th>
     </tr>
-  </tbody>
-</table>**Example**
-
-```go
+  </thead>
+  <tbody></tbody>
+</table>```go
 package main
 
 import (
@@ -294,7 +266,7 @@ func main() {
     log.Println(err)  // "Something went wrong!"
     c.SendStatus(500) // Internal Server Error
   })))
-  
+
   app.Get("/", func(c *fiber.Ctx) {
     panic("Something went wrong!")
   })
