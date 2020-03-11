@@ -27,7 +27,7 @@ basicauth.New(config ...basicauth.Config) func(*fiber.Ctx)
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| Skip | `func(*fiber.Ctx) bool` | Defines a function to skip middleware | `nil` |
+| Filter | `func(*fiber.Ctx) bool` | Defines a function to skip middleware | `nil` |
 | Users | `map[string][string]` | Users defines the allowed credentials | `nil` |
 | Realm | `string` | Realm is a string to define the realm attribute | `Restricted` |
 | Authorizer | `func(string, string) bool` | A function you can pass to check the credentials however you want. | `nil` |
@@ -91,7 +91,7 @@ cors.New(config ...cors.Config) func(*fiber.Ctx)
   </thead>
   <tbody>
     <tr>
-      <td style="text-align:left">Skip</td>
+      <td style="text-align:left">Filter</td>
       <td style="text-align:left"><code>func(*Ctx) bool</code>
       </td>
       <td style="text-align:left">Defines a function to skip middleware</td>
@@ -205,7 +205,7 @@ limiter.New(config ...limiter.Config) func(*Ctx)
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| Skip | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
+| Filter | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
 | Timeout | `int` | Timeout in seconds on how long to keep records of requests in memory | `60` |
 | Max | `int` | Max number of recent connections during `Timeout` seconds before sending a 429 response | `10` |
 | Message | `string` | Response body | `"Too many requests, please try again later."` |
@@ -356,7 +356,7 @@ requestid.New(config ...requestid.Config) func(*Ctx)
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| Skip | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
+| Filter | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
 | Generator | `func(*Ctx) bool` | Generator defines a function to generate an ID. | `return uuid.New().String()` |
 
 **Example**
@@ -402,7 +402,7 @@ helmet.New(config ...helmet.Config) func(*Ctx)
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| Skip | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
+| Filter | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
 | XSSProtection | `string` | XSSProtection provides protection against cross-site scripting attack \(XSS\) by setting the `X-XSS-Protection` header. | `1; mode=block"` |
 | ContentTypeNosniff | `string` | ContentTypeNosniff provides protection against overriding Content-Type header by setting the `X-Content-Type-Options` header. | `"nosniff"` |
 | XFrameOptions | `string` | XFrameOptions can be used to indicate whether or not a browser should be allowed to render a page in a ,  or . Sites can use this to avoid clickjacking attacks, by ensuring that their content is not embedded into other sites.provides protection against clickjacking. Possible values: `SAMEORIGIN, DENY, ALLOW-FROM uri` | `"SAMEORIGIN"` |
