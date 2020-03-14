@@ -169,7 +169,7 @@ limiter.New(config ...limiter.Config) func(*Ctx)
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| Filter | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
+| Filter | `func(*fiber.Ctx) bool` | Defines a function to skip middleware | `nil` |
 | Timeout | `int` | Timeout in seconds on how long to keep records of requests in memory | `60` |
 | Max | `int` | Max number of recent connections during `Timeout` seconds before sending a 429 response | `10` |
 | Message | `string` | Response body | `"Too many requests, please try again later."` |
@@ -226,7 +226,7 @@ logger.new(config ...logger.Config) func(*Ctx)
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| Filter | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
+| Filter | `func(*fiber.Ctx) bool` | Defines a function to skip middleware | `nil` |
 | Format | `string` | Possible values: `time, ip, url, host, method, path, protocol, referer, ua, header:<key>, query:<key>, form:<key>, cookie:<key>` | `"${time} - ${ip} - ${method} ${path}\t${ua}\n"` |
 | TimeFormat | `string` | TimeFormat [read more here](https://programming.guide/go/format-parse-string-time-date-example.html) | `15:04:05` |
 | Output | `io.Writer` | Output is a writter where logs are written | `os.Stderr` |
@@ -321,8 +321,8 @@ requestid.New(config ...requestid.Config) func(*Ctx)
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| Filter | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
-| Generator | `func(*Ctx) bool` | Generator defines a function to generate an ID. | `return uuid.New().String()` |
+| Filter | `func(*fiber.Ctx) bool` | Defines a function to skip middleware | `nil` |
+| Generator | `func(*fiber.Ctx) bool` | Generator defines a function to generate an ID. | `return uuid.New().String()` |
 
 **Example**
 
@@ -367,7 +367,7 @@ helmet.New(config ...helmet.Config) func(*Ctx)
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| Filter | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
+| Filter | `func(*fiber.Ctx) bool` | Defines a function to skip middleware | `nil` |
 | XSSProtection | `string` | XSSProtection provides protection against cross-site scripting attack \(XSS\) by setting the `X-XSS-Protection` header. | `1; mode=block"` |
 | ContentTypeNosniff | `string` | ContentTypeNosniff provides protection against overriding Content-Type header by setting the `X-Content-Type-Options` header. | `"nosniff"` |
 | XFrameOptions | `string` | XFrameOptions can be used to indicate whether or not a browser should be allowed to render a page in a ,  or . Sites can use this to avoid clickjacking attacks, by ensuring that their content is not embedded into other sites.provides protection against clickjacking. Possible values: `SAMEORIGIN, DENY, ALLOW-FROM uri` | `"SAMEORIGIN"` |
