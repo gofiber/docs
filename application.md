@@ -185,7 +185,7 @@ By default, this method will send `index.html` files in response to a request on
 **Signature**
 
 ```go
-app.Static(prefix, root string) // => with prefix
+app.Static(prefix, root string, config ...Static) // => with prefix
 ```
 
 **Examples**
@@ -222,6 +222,38 @@ app.Static("/static", "./public")
 // => http://localhost:3000/static/hello.html
 // => http://localhost:3000/static/js/jquery.js
 // => http://localhost:3000/static/css/style.css
+```
+
+If you want to have a little bit more control regarding the settings for serving static files. You could use the `fiber.Static` struct to enable specific settings.
+
+```go
+// Static represents settings for serving static files
+type Static struct {
+	// Transparently compresses responses if set to true
+	// This works differently than the github.com/gofiber/compression middleware
+	// The server tries minimizing CPU usage by caching compressed files.
+	// It adds ".fiber.gz" suffix to the original file name.
+	// Optional. Default value false
+	Compress bool
+	// Enables byte range requests if set to true.
+	// Optional. Default value false
+	ByteRange bool
+	// Enable directory browsing.
+	// Optional. Default value false.
+	Browse bool
+	// Index file for serving a directory.
+	// Optional. Default value "index.html".
+	Index string
+}
+```
+
+```go
+app.Static("/", "./public", fiber.Static{
+  Compress:   true,
+  ByteRange:  true,
+  Browse:     true,
+  Index:      "john.html"
+})
 ```
 
 ## HTTP Methods
