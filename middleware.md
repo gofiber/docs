@@ -81,6 +81,7 @@ cors.New(config ...cors.Config) func(*fiber.Ctx)
 **Config**
 
 | Property | Type | Description | Default |
+| :--- | :--- | :--- | :--- |
 | Filter | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
 | AllowOrigins | `[]string` | AllowOrigin defines a list of origins that may access the resource. | `[]string{"*"}` |
 | AllowMethods | `[]string` | AllowMethods defines a list methods allowed when accessing the resource. This is used in response to a preflight request. | `[]string{"GET", "POST", "HEAD", "PUT", "DELETE", "PATCH"}` |
@@ -362,4 +363,3 @@ func main() {
   // curl -I http://localhost:3000
 }
 ```
-
