@@ -81,51 +81,12 @@ cors.New(config ...cors.Config) func(*fiber.Ctx)
 **Config**
 
 | Property | Type | Description | Default |
-| :--- | :--- | :--- | :--- |
-
-
 | Filter | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
-| :--- | :--- | :--- | :--- |
-
-
 | AllowOrigins | `[]string` | AllowOrigin defines a list of origins that may access the resource. | `[]string{"*"}` |
-| :--- | :--- | :--- | :--- |
-
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">AllowMethods</th>
-      <th style="text-align:left"><code>[]string</code>
-      </th>
-      <th style="text-align:left">AllowMethods defines a list methods allowed when accessing the resource.
-        This is used in response to a preflight request.</th>
-      <th style="text-align:left">
-        <p><code>[]string{</code>
-        </p>
-        <p><code>&quot;GET&quot;, &quot;POST&quot;, &quot;HEAD&quot;, &quot;PUT&quot;, &quot;DELETE&quot;, &quot;PATCH&quot;</code>
-        </p>
-        <p><code>}</code>
-        </p>
-      </th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>| AllowHeaders | `[]string` | AllowHeaders defines a list of request headers that can be used when making the actual request. This in response to a preflight request. | `nil` |
-| :--- | :--- | :--- | :--- |
-
-
+| AllowMethods | `[]string` | AllowMethods defines a list methods allowed when accessing the resource. This is used in response to a preflight request. | `[]string{"GET", "POST", "HEAD", "PUT", "DELETE", "PATCH"}` |
 | AllowCredentials | `string` | AllowCredentials indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials. | `nil` |
-| :--- | :--- | :--- | :--- |
-
-
 | ExposeHeaders | `[]string` | ExposeHeaders defines a whitelist headers that clients are allowed to access. | `nil` |
-| :--- | :--- | :--- | :--- |
-
-
 | MaxAge | `int` | MaxAge indicates how long \(in seconds\) the results of a preflight request can be cached. | `0` |
-| :--- | :--- | :--- | :--- |
-
 
 ```go
 package main
