@@ -15,19 +15,17 @@ Checks, if the specified **extensions** or **content** **types** are acceptable.
 Based on the request’s [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header.
 {% endhint %}
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Accepts(types ...string)                 string
 c.AcceptsCharsets(charsets ...string)      string
 c.AcceptsEncodings(encodings ...string)    string
 c.AcceptsLanguages(langs ...string)        string
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 // Accept: text/*, application/json
 
@@ -68,16 +66,14 @@ Appends the specified **value** to the HTTP response header field.
 If the header is **not** already set, it creates the header with the specified value.
 {% endhint %}
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Append(field, values ...string)
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   c.Append("Link", "http://google.com", "http://localhost")
@@ -87,23 +83,19 @@ app.Get("/", func(c *fiber.Ctx) {
   // => Link: http://localhost, http://google.com, Test
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Attachment
 
 Sets the HTTP response [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header field to `attachment`.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Attachment(file ...string)
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   c.Attachment()
@@ -119,16 +111,14 @@ app.Get("/", func(c *fiber.Ctx) {
 
 Returns base URL \(**protocol** + **host**\) as a `string`.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.BaseURL() string
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 // GET https://example.com/page#chapter-1
 
@@ -141,16 +131,14 @@ app.Get("/", func(c *fiber.Ctx) {
 
 Contains the **raw body** submitted in a **POST** request.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Body(key ...string) string
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 // curl -X POST http://localhost:8080 -d user=john
 
@@ -172,16 +160,14 @@ Binds the request body to a struct. `BodyParser` supports decoding the following
 * `application/x-www-form-urlencoded`
 * `multipart/form-data`
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.BodyParser(out interface{})
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 // curl -X POST -H "Content-Type: application/json" \ 
 // --data '{"name":"john","pass":"doe"}'  localhost:3000
@@ -217,16 +203,14 @@ app.Post("/", func(c *fiber.Ctx) {
 
 Expire a client cookie \(_or all cookies if left empty\)_
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.ClearCookie(key ...string)
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   // Clears all cookies:
@@ -261,11 +245,9 @@ type Cookie struct {
     HTTPOnly bool
 }
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   // Create cookie
@@ -288,11 +270,9 @@ Get cookies.
 ```go
 c.Cookies(key ...string) string
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   // Get raw cookie header:
@@ -311,16 +291,14 @@ Typically, browsers will prompt the user for download. By default, the [Content-
 
 Override this default with the **filename** parameter.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Download(path, filename ...string)
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   c.Download("./files/report-12345.pdf")
@@ -357,16 +335,14 @@ app.Get("/", func(c *fiber.Ctx) {
 
 This contains the error information that thrown by a panic or passed via the [`Next(err)`](https://github.com/gofiber/docs/tree/8d965e1e05fb67f965934586c78335ef29f52128/context/README.md#error) method.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Error() error
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 func main() {
   app := fiber.New()
@@ -401,16 +377,14 @@ Performs content-negotiation on the [Accept](https://developer.mozilla.org/en-US
 If the header is **not** specified or there is **no** proper format, **text/plain** is used.
 {% endhint %}
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Format(body interface{})
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   // Accept: text/plain
@@ -431,16 +405,14 @@ app.Get("/", func(c *fiber.Ctx) {
 
 MultipartForm files can be retrieved by name, the **first** file from the given key is returned.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.FormFile(name string) (*multipart.FileHeader, error)
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Post("/", func(c *fiber.Ctx) {
   // Get first file from form field "document":
@@ -458,16 +430,14 @@ app.Post("/", func(c *fiber.Ctx) {
 
 MultipartForm values can be retrieved by name, the **first** value from the given key is returned.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.FormValue(name string) string
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Post("/", func(c *fiber.Ctx) {
   // Get first value from form field "name":
@@ -492,16 +462,14 @@ Returns the HTTP request header specified by field.
 The match is **case-insensitive**.
 {% endhint %}
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Get(field string) string
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   c.Get("Content-Type") // "text/plain"
@@ -514,16 +482,14 @@ app.Get("/", func(c *fiber.Ctx) {
 
 Contains the hostname derived from the [Host](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host) HTTP header.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Hostname() string
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 // GET http://google.com/search
 
@@ -536,16 +502,14 @@ app.Get("/", func(c *fiber.Ctx) {
 
 Returns the remote IP address of the request.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.IP() string
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   c.IP() // "127.0.0.1"
@@ -556,16 +520,14 @@ app.Get("/", func(c *fiber.Ctx) {
 
 Returns an array of IP addresses specified in the [X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For) request header.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.IPs() []string
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 // X-Forwarded-For: proxy1, 127.0.0.1, proxy3
 
@@ -582,16 +544,14 @@ Returns the matching **content type**, if the incoming request’s [Content-Type
 If the request has **no** body, it returns **false**.
 {% endhint %}
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Is(t string) bool
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 // Content-Type: text/html; charset=utf-8
 
@@ -610,16 +570,14 @@ Converts any **interface** or **string** to JSON using [Jsoniter](https://github
 JSON also sets the content header to **application/json**.
 {% endhint %}
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.JSON(v interface{}) error
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 type SomeStruct struct {
   Name string
@@ -652,16 +610,14 @@ Sends a JSON response with JSONP support. This method is identical to [JSON](con
 
 Override this by passing a **named string** in the method.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.JSONP(v interface{}, callback ...string) error
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 type SomeStruct struct {
   name string
@@ -687,16 +643,14 @@ app.Get("/", func(c *fiber.Ctx) {
 
 Joins the links followed by the property to populate the response’s [Link](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Link) HTTP header field.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Links(link ...string)
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   c.Link(
@@ -716,16 +670,14 @@ Method that stores string variables scoped to the request and therefore availabl
 This is useful, if you want to pass some **specific** data to the next middleware.
 {% endhint %}
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Locals(key string, value ...interface{}) interface{}
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   c.Locals("user", "admin")
@@ -770,16 +722,14 @@ app.Get("/", func(c *fiber.Ctx) {
 
 Sets the response [Location](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Location) HTTP header to the specified path parameter.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Location(path string)
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Post("/", func(c *fiber.Ctx) {
   c.Location("http://example.com")
@@ -791,16 +741,14 @@ app.Post("/", func(c *fiber.Ctx) {
 
 Contains a string corresponding to the HTTP method of the request: `GET`, `POST`, `PUT` and so on.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Method() string
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Post("/", func(c *fiber.Ctx) {
   c.Method() // "POST"
@@ -811,16 +759,14 @@ app.Post("/", func(c *fiber.Ctx) {
 
 To access multipart form entries, you can parse the binary with `MultipartForm()`. This returns a `map[string][]string`, so given a key the value will be a string slice.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.MultipartForm() (*multipart.Form, error)
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Post("/", func(c *fiber.Ctx) {
   // Parse the multipart form:
@@ -852,16 +798,14 @@ app.Post("/", func(c *fiber.Ctx) {
 
 When **Next** is called, it executes the next method in the stack that matches the current route. You can pass an error struct within the method for custom error handling.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Next(err ...error)
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   fmt.Printl("1st route!")
@@ -884,16 +828,14 @@ app.Get("/", func(c *fiber.Ctx) {
 
 Contains the original request URL.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.OriginalURL() string
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 // GET http://example.com/search?q=something
 
@@ -910,16 +852,14 @@ Method can be used to get the route parameters.
 Defaults to empty string \(`""`\), if the param **doesn't** exist.
 {% endhint %}
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Params(param string) string
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 // GET http://example.com/user/fenny
 
@@ -932,16 +872,14 @@ app.Get("/user/:name", func(c *fiber.Ctx) {
 
 Contains the path part of the request URL.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Path() string
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 // GET http://example.com/users?sort=desc
 
@@ -954,16 +892,14 @@ app.Get("/users", func(c *fiber.Ctx) {
 
 Contains the request protocol string: `http` or `https` for **TLS** requests.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Protocol() string
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 // GET http://example.com
 
@@ -980,16 +916,14 @@ This property is an object containing a property for each query string parameter
 If there is **no** query string, it returns an **empty string**.
 {% endhint %}
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Query(parameter string) string
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 // GET http://example.com/shoes?order=desc&brand=nike
 
@@ -1003,8 +937,8 @@ app.Get("/", func(c *fiber.Ctx) {
 
 An struct containg the type and a slice of ranges will be returned.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Range(int size)
 ```
@@ -1020,11 +954,9 @@ type Range struct {
     }
 }
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 // Range: bytes=500-700, 700-900
 app.Get("/", func(c *fiber.Ctx) {
@@ -1046,16 +978,14 @@ Redirects to the URL derived from the specified path, with specified status, a p
 If **not** specified, status defaults to **302 Found**.
 {% endhint %}
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Redirect(path string, status ...int)
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   c.Redirect("/foo/bar")
@@ -1077,8 +1007,8 @@ Renders a template with data and sends a `text/html` response. We support the fo
 | `mustache` | [github.com/cbroglie/mustache](https://github.com/cbroglie/mustache) |
 | `pug` | [github.com/Joker/jade](https://github.com/Joker/jade) |
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Render(file string, data interface{}, engine ...string) error
 ```
@@ -1134,16 +1064,14 @@ app.Get("/", func(c *fiber.Ctx) {
 
 Contains the matched [Route](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc#Route) struct.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Route() *Route
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 // http://localhost:8080/hello
 
@@ -1162,16 +1090,14 @@ app.Post("/:api?", func(c *fiber.Ctx) {
 
 Method is used to save **any** multipart file to disk.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.SaveFile(fh *multipart.FileHeader, path string)
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Post("/", func(c *fiber.Ctx) {
   // Parse the multipart form:
@@ -1198,16 +1124,14 @@ app.Post("/", func(c *fiber.Ctx) {
 
 A boolean property, that is `true` , if a **TLS** connection is established.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Secure() bool
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 // Secure() method is equivalent to:
 c.Protocol() == "https"
@@ -1221,16 +1145,14 @@ Sets the HTTP response body. The **Send** body can be of any type.
 Send **doesn't** append like the [Write](https://fiber.wiki/context#write) method.
 {% endhint %}
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Send(body ...interface{})
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   c.Send("Hello, World!")         // => "Hello, World!"
@@ -1245,17 +1167,15 @@ Fiber also provides `SendBytes` & `SendString` methods for raw inputs.
 Use this, if you **don't need** type assertion, recommended for **faster** performance.
 {% endhint %}
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.SendBytes(b []byte)
 c.SendString(s string)
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   c.SendByte([]byte("Hello, World!"))
@@ -1274,16 +1194,14 @@ Transfers the file from the given path. Sets the [Content-Type](https://develope
 Method use **gzipping** by default, set it to **false** to disable.
 {% endhint %}
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.SendFile(path string, gzip ...bool)
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Get("/not-found", func(c *fiber.Ctx) {
   c.SendFile("./public/404.html")
@@ -1301,16 +1219,14 @@ Sets the status code and the correct status message in the body, if the response
 You can find all used status codes and messages [here](https://github.com/gofiber/fiber/blob/dffab20bcdf4f3597d2c74633a7705a517d2c8c2/utils.go#L183-L244).
 {% endhint %}
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.SendStatus(status int)
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Get("/not-found", func(c *fiber.Ctx) {
   c.SendStatus(415)
@@ -1326,16 +1242,14 @@ app.Get("/not-found", func(c *fiber.Ctx) {
 
 Sets the response’s HTTP header field to the specified `key`, `value`.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Set(field, value string)
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   c.Set("Content-Type", "text/plain")
@@ -1359,16 +1273,14 @@ Sets the HTTP status for the response.
 Method is a **chainable**.
 {% endhint %}
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Status(status int)
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   c.Status(200)
@@ -1383,16 +1295,14 @@ An array of subdomains in the domain name of the request.
 
 The application property subdomain offset, which defaults to `2`, is used for determining the beginning of the subdomain segments.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Subdomains(offset ...int) []string
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 // Host: "tobi.ferrets.example.com"
 
@@ -1406,16 +1316,14 @@ app.Get("/", func(c *fiber.Ctx) {
 
 Sets the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP header to the MIME type listed [here](https://github.com/nginx/nginx/blob/master/conf/mime.types) specified by the file **extension**.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Type(t string) string
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   c.Type(".html") // => "text/html"
@@ -1433,16 +1341,14 @@ Adds the given header field to the [Vary](https://developer.mozilla.org/en-US/do
 Multiple fields are **allowed**.
 {% endhint %}
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Vary(field ...string)
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   c.Vary("Origin")     // => Vary: Origin
@@ -1460,16 +1366,14 @@ app.Get("/", func(c *fiber.Ctx) {
 
 Appends **any** input to the HTTP body response.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.Write(body ...interface{})
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   c.Write("Hello, ")         // => "Hello, "
@@ -1482,16 +1386,14 @@ app.Get("/", func(c *fiber.Ctx) {
 
 A Boolean property, that is `true`, if the request’s [X-Requested-With](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers) header field is [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest), indicating that the request was issued by a client library \(such as [jQuery](https://api.jquery.com/jQuery.ajax/)\).
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 c.XHR() bool
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
+**Example**
+
 ```go
 // X-Requested-With: XMLHttpRequest
 
