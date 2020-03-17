@@ -10,7 +10,7 @@ This method creates a new **Fiber** named instance. You can pass optional [setti
 
 {% code title="Signature" %}
 ```go
-fiber.New(settings ...*Settings)
+fiber.New(settings ...Settings)
 ```
 {% endcode %}
 
