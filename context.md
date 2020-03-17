@@ -57,7 +57,6 @@ app.Get("/", func(c *fiber.Ctx) {
   // "nl" "ru"
 })
 ```
-{% endcode %}
 
 ## Append
 
@@ -246,7 +245,6 @@ type Cookie struct {
     HTTPOnly bool
 }
 ```
-{% endcode %}
 
 {% code title="Example" %}
 ```go
@@ -272,7 +270,6 @@ Get cookies.
 ```go
 c.Cookies(key ...string) string
 ```
-{% endcode %}
 
 {% code title="Example" %}
 ```go
@@ -333,7 +330,6 @@ app.Get("/", func(c *fiber.Ctx) {
   // => "Hello, World!"
 })
 ```
-{% endcode %}
 
 ## Error
 
@@ -696,30 +692,6 @@ app.Get("/admin", func(c *fiber.Ctx) {
   }
 })
 ```
-
-{% hint style="info" %}
-You can put any type inside the **Locals**, but don't forget to convert it back, when you are using the variable.
-{% endhint %}
-
-```go
-type SomeStruct struct {
-  Message string `json:"message"`
-}
-
-app.Get("/", func(c *fiber.Ctx) {
-  c.Locals("user", SomeStruct{"Hello, World!"})
-  // => user: {"message":"Hello, World!"}
-
-  c.Next()
-})
-
-app.Get("/", func(c *fiber.Ctx) {
-  if val, ok := c.Locals("user").(SomeStruct); ok {
-    fmt.Println(val.Message)
-    // => "Hello, World!"
-  }
-})
-```
 {% endcode %}
 
 ## Location
@@ -945,18 +917,6 @@ An struct containg the type and a slice of ranges will be returned.
 ```go
 c.Range(int size)
 ```
-
-**Range struct**
-
-```go
-type Range struct {
-    Type   string
-    Ranges []struct {
-        Start int64
-        End   int64
-    }
-}
-```
 {% endcode %}
 
 {% code title="Example" %}
@@ -1014,53 +974,6 @@ Renders a template with data and sends a `text/html` response. We support the fo
 {% code title="Signature" %}
 ```go
 c.Render(file string, data interface{}, engine ...string) error
-```
-
-A simple template file with the **`mustache`** syntax.
-
-{% code title="/views/home.tmpl" %}
-```go
-<html>
-    <head>
-        <title>{{title}}</title>
-    </head>
-<body>
-    I wish it was {{year}}
-</body>
-</html>
-```
-{% endcode %}
-
-**Example**
-
-```go
-app.Get("/", func(c *fiber.Ctx) {
-  // fiber.Map == map[string]interface{}
-  data := fiber.Map{
-    "title": "Homepage",
-    "year":  1999,
-  }
-  c.Render("./views/home.tmpl", data, "mustache")
-})
-```
-
-{% hint style="success" %}
-It's even easier if you set your template settings globally!
-{% endhint %}
-
-```go
-app := fiber.New(&fiber.Settings{
-  TemplateEngine:    "mustache",
-  TemplateFolder:    "./views",
-  TemplateExtension: ".tmpl",
-})
-
-app.Get("/", func(c *fiber.Ctx) {
-  c.Render("home", fiber.Map{
-    "title": "Homepage",
-    "year":  1999,
-  })
-})
 ```
 {% endcode %}
 
@@ -1156,6 +1069,11 @@ c.Send(body ...interface{})
 {% endcode %}
 
 {% code title="Example" %}
+```
+
+```
+{% endcode %}
+
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   c.Send("Hello, World!")         // => "Hello, World!"
@@ -1396,6 +1314,11 @@ c.XHR() bool
 {% endcode %}
 
 {% code title="Example" %}
+```
+
+```
+{% endcode %}
+
 ```go
 // X-Requested-With: XMLHttpRequest
 

@@ -23,7 +23,7 @@ import "github.com/gofiber/fiber"
 func main() {
     app := fiber.New()
 
-    // Your app logic here ...
+    // ...
 
     app.Listen(3000)
 }
@@ -37,20 +37,14 @@ You can pass application settings when calling `New`, or change the settings bef
 {% code title="Example" %}
 ```go
 func main() {
-    // Pass Settings creating a new app
+    // Pass Settings creating a new instance
     app := fiber.New(&fiber.Settings{
         Prefork:       true,
         CaseSensitive: true,
         StrictRouting: true,
         ServerHeader:  "Fiber",
-        // ...
     })
 
-    // Or change Settings after initiating app
-    app.Settings.Prefork = true
-    app.Settings.CaseSensitive = true
-    app.Settings.StrictRouting = true
-    app.Settings.ServerHeader = "Fiber"
     // ...
 
     app.Listen(3000)
@@ -61,20 +55,14 @@ func main() {
 {% code title="Example" %}
 ```go
 func main() {
-    // Pass Settings creating a new app
-    app := fiber.New(&fiber.Settings{
-        Prefork:       true,
-        CaseSensitive: true,
-        StrictRouting: true,
-        ServerHeader:  "Fiber",
-        // ...
-    })
+    app := fiber.New()
 
-    // Or change Settings after initiating app
+    // Or change Settings after creating an instance
     app.Settings.Prefork = true
     app.Settings.CaseSensitive = true
     app.Settings.StrictRouting = true
     app.Settings.ServerHeader = "Fiber"
+    
     // ...
 
     app.Listen(3000)
@@ -108,10 +96,6 @@ func main() {
 | :--- | :--- | :--- | :--- |
 
 
-| Compression | `bool` | Enables GZip / Deflate compression for all responses. | `false` |
-| :--- | :--- | :--- | :--- |
-
-
 | BodyLimit | `int` | Sets the maximum allowed size for a request body, if the size exceeds the configured limit, it sends `413 - Request Entity Too Large` response. | `4 * 1024 * 1024` |
 | :--- | :--- | :--- | :--- |
 
@@ -133,11 +117,7 @@ func main() {
     </tr>
   </thead>
   <tbody></tbody>
-</table>| TemplateEngine | `string` | The template engine to use: `html`, [`amber`](https://github.com/eknkc/amber), [`handlebars`](ttps://github.com/aymerick/raymond) , `mustache` or [`pug`](https://github.com/Joker/jade). | `""` |
-| :--- | :--- | :--- | :--- |
-
-
-| TemplateExtension | `string` | If you preset the template file extension, you do not need to provide the full filename in the Render function: `c.Render("home", data) -> home.pug` | `"html"` |
+</table>| TemplateExtension | `string` | If you preset the template file extension, you do not need to provide the full filename in the Render function: `c.Render("home", data) -> home.pug` | `"html"` |
 | :--- | :--- | :--- | :--- |
 
 
