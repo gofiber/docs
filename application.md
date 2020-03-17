@@ -18,7 +18,6 @@ fiber.New(settings ...*Settings)
 
 {% tabs %}
 {% tab title="Example" %}
-{% code title="Example" %}
 ```go
 package main
 
