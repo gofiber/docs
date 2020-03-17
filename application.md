@@ -215,8 +215,7 @@ app.Static("/", "./public", fiber.Static{
 
 Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) of the request.
 
-**Signature**
-
+{% code title="Signatures" %}
 ```go
 // HTTP methods support :param, :optional? and *wildcards
 // You are required to pass a path to each method
@@ -237,9 +236,9 @@ app.Options(...
 app.Use(handlers ...func(*Ctx))
 app.Use(prefix string, handlers ...func(*Ctx))
 ```
+{% endcode %}
 
-**Example**
-
+{% code title="Example" %}
 ```go
 app.Use("/api", func(c *fiber.Ctx) {
   c.Set("X-Custom-Header", random.String(32))
@@ -252,6 +251,7 @@ app.Post("/api/register", func(c *fiber.Ctx) {
   c.Send("I'm a POST request!")
 })
 ```
+{% endcode %}
 
 ## WebSocket
 
