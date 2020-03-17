@@ -123,28 +123,21 @@ func main() {
 
 ## Static
 
-Serve static files such as **images**, **CSS** and **JavaScript** files, you can use the **Static** method.
+Use the **Static** method to serve static files such as **images**, **CSS** and **JavaScript**.
 
 {% hint style="info" %}
-By default, this method will send `index.html` files in response to a request on a directory.
+By default, **Static** will serve`index.html` files in response to a request on a directory.
 {% endhint %}
 
-**Signature**
-
-{% code title="Example" %}
+{% code title="Signature" %}
 ```go
 app.Static(prefix, root string, config ...Static) // => with prefix
 ```
 {% endcode %}
 
-```go
-app.Static(prefix, root string, config ...Static) // => with prefix
-```
-
-**Examples**
-
 Use the following code to serve files in a directory named `./public`
 
+{% code title="Example" %}
 ```go
 app.Static("/", "./public")
 
@@ -152,9 +145,11 @@ app.Static("/", "./public")
 // => http://localhost:3000/js/jquery.js
 // => http://localhost:3000/css/style.css
 ```
+{% endcode %}
 
 To serve from multiple directories, you can use **Static** multiple times.
 
+{% code title="Example" %}
 ```go
 // Serve files from "./public" directory:
 app.Static("/", "./public")
@@ -162,13 +157,15 @@ app.Static("/", "./public")
 // Serve files from "./files" directory:
 app.Static("/", "./files")
 ```
+{% endcode %}
 
 {% hint style="info" %}
-Use a reverse proxy cache like [NGINX](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) to improve performance of serving static assets.
+Use a reverse proxy cache like ****[**NGINX**](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) to improve performance of serving static assets.
 {% endhint %}
 
 You can use any virtual path prefix \(_where the path does not actually exist in the file system_\) for files that are served by the **Static** method, specify a prefix path for the static directory, as shown below:
 
+{% code title="Example" %}
 ```go
 app.Static("/static", "./public")
 
@@ -176,9 +173,11 @@ app.Static("/static", "./public")
 // => http://localhost:3000/static/js/jquery.js
 // => http://localhost:3000/static/css/style.css
 ```
+{% endcode %}
 
 If you want to have a little bit more control regarding the settings for serving static files. You could use the `fiber.Static` struct to enable specific settings.
 
+{% code title="fiber.Static{}" %}
 ```go
 // Static represents settings for serving static files
 type Static struct {
@@ -199,7 +198,9 @@ type Static struct {
     Index string
 }
 ```
+{% endcode %}
 
+{% code title="Example" %}
 ```go
 app.Static("/", "./public", fiber.Static{
   Compress:   true,
@@ -208,6 +209,7 @@ app.Static("/", "./public", fiber.Static{
   Index:      "john.html"
 })
 ```
+{% endcode %}
 
 ## HTTP Methods
 
