@@ -8,6 +8,25 @@ description: The app instance conventionally denotes the Fiber application.
 
 This method creates a new **Fiber** named instance. You can pass optional [settings ](application.md#settings)when creating a new instance.
 
+{% tabs %}
+{% tab title="Example" %}
+{% code title="Example" %}
+```go
+package main
+
+import "github.com/gofiber/fiber"
+
+func main() {
+    app := fiber.New()
+
+    // Your app logic here ...
+
+    app.Listen(3000)
+}
+```
+{% endcode %}
+{% endtab %}
+{% endtabs %}
 
 ```go
 fiber.New(settings ...*Settings)
@@ -27,12 +46,37 @@ func main() {
 }
 ```
 
-
 ## Settings
 
 You can pass application settings when calling `New`, or change the settings before you call `Listen`
 
 **Example**
+
+{% tabs %}
+{% tab title="Go" %}
+```go
+func main() {
+    // Pass Settings creating a new app
+    app := fiber.New(&fiber.Settings{
+        Prefork:       true,
+        CaseSensitive: true,
+        StrictRouting: true,
+        ServerHeader:  "Fiber",
+        // ...
+    })
+
+    // Or change Settings after initiating app
+    app.Settings.Prefork = true
+    app.Settings.CaseSensitive = true
+    app.Settings.StrictRouting = true
+    app.Settings.ServerHeader = "Fiber"
+    // ...
+
+    app.Listen(3000)
+}
+```
+{% endtab %}
+{% endtabs %}
 
 ```go
 func main() {
@@ -58,121 +102,62 @@ func main() {
 
 **Common options**
 
+| Property | Type | Description | Default |
+| :--- | :--- | :--- | :--- |
+
+
+| Prefork | `bool` | Enables use of the[`SO_REUSEPORT`](https://lwn.net/Articles/542629/)socket option. This will spawn multiple Go processes listening on the same port. learn more about [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false` |
+| :--- | :--- | :--- | :--- |
+
+
+| ServerHeader | `string` | Enables the `Server` HTTP header with the given value. | `""` |
+| :--- | :--- | :--- | :--- |
+
+
+| StrictRouting | `bool` | When enabled, the router treats `/foo` and `/foo/` as different. Otherwise, the router treats `/foo` and `/foo/` as the same. | `false` |
+| :--- | :--- | :--- | :--- |
+
+
+| CaseSensitive | `bool` | When enabled, `/Foo` and `/foo` are different routes. When disabled, `/Foo`and `/foo` are treated the same. | `false` |
+| :--- | :--- | :--- | :--- |
+
+
+| Immutable | `bool` | When enabled, all values returned by context methods are immutable. By default they are valid until you return from the handler, see issue [\#185](https://github.com/gofiber/fiber/issues/185). | `false` |
+| :--- | :--- | :--- | :--- |
+
+
+| Compression | `bool` | Enables GZip / Deflate compression for all responses. | `false` |
+| :--- | :--- | :--- | :--- |
+
+
+| BodyLimit | `int` | Sets the maximum allowed size for a request body, if the size exceeds the configured limit, it sends `413 - Request Entity Too Large` response. | `4 * 1024 * 1024` |
+| :--- | :--- | :--- | :--- |
+
+
 <table>
   <thead>
     <tr>
-      <th style="text-align:left">Property</th>
-      <th style="text-align:left">Type</th>
-      <th style="text-align:left">Description</th>
-      <th style="text-align:left">Default</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left">Prefork</td>
-      <td style="text-align:left"><code>bool</code>
-      </td>
-      <td style="text-align:left">Enables use of the<a href="https://lwn.net/Articles/542629/"><code>SO_REUSEPORT</code></a>socket
-        option. This will spawn multiple Go processes listening on the same port.
-        learn more about <a href="https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/">socket sharding</a>.</td>
-      <td
-      style="text-align:left"><code>false</code>
-        </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">ServerHeader</td>
-      <td style="text-align:left"><code>string</code>
-      </td>
-      <td style="text-align:left">Enables the <code>Server</code> HTTP header with the given value.</td>
-      <td
-      style="text-align:left"><code>&quot;&quot;</code>
-        </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">StrictRouting</td>
-      <td style="text-align:left"><code>bool</code>
-      </td>
-      <td style="text-align:left">When enabled, the router treats <code>/foo</code> and <code>/foo/</code> as
-        different. Otherwise, the router treats <code>/foo</code> and <code>/foo/</code> as
-        the same.</td>
-      <td style="text-align:left"><code>false</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">CaseSensitive</td>
-      <td style="text-align:left"><code>bool</code>
-      </td>
-      <td style="text-align:left">When enabled, <code>/Foo</code> and <code>/foo</code> are different routes.
-        When disabled, <code>/Foo</code>and <code>/foo</code> are treated the same.</td>
-      <td
-      style="text-align:left"><code>false</code>
-        </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">Immutable</td>
-      <td style="text-align:left"><code>bool</code>
-      </td>
-      <td style="text-align:left">When enabled, all values returned by context methods are immutable. By
-        default they are valid until you return from the handler, see issue <a href="https://github.com/gofiber/fiber/issues/185">#185</a>.</td>
-      <td
-      style="text-align:left"><code>false</code>
-        </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">Compression</td>
-      <td style="text-align:left"><code>bool</code>
-      </td>
-      <td style="text-align:left">Enables GZip / Deflate compression for all responses.</td>
-      <td style="text-align:left"><code>false</code>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">BodyLimit</td>
-      <td style="text-align:left"><code>int</code>
-      </td>
-      <td style="text-align:left">Sets the maximum allowed size for a request body, if the size exceeds
-        the configured limit, it sends <code>413 - Request Entity Too Large</code> response.</td>
-      <td
-      style="text-align:left"><code>4 * 1024 * 1024</code>
-        </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">TemplateFolder</td>
-      <td style="text-align:left"><code>string</code>
-      </td>
-      <td style="text-align:left">
+      <th style="text-align:left">TemplateFolder</th>
+      <th style="text-align:left"><code>string</code>
+      </th>
+      <th style="text-align:left">
         <p>A directory for the application&apos;s views. If a directory is set, this
           will be the prefix for all template paths.</p>
         <p><code>c.Render(&quot;home.pug&quot;, d) -&gt; /views/home.pug</code>
         </p>
-      </td>
-      <td style="text-align:left"><code>&quot;&quot;</code>
-      </td>
+      </th>
+      <th style="text-align:left"><code>&quot;&quot;</code>
+      </th>
     </tr>
-    <tr>
-      <td style="text-align:left">TemplateEngine</td>
-      <td style="text-align:left"><code>string</code>
-      </td>
-      <td style="text-align:left">The template engine to use: <code>html</code>, <a href="https://github.com/eknkc/amber"><code>amber</code></a>,
-        <a
-        href="ttps://github.com/aymerick/raymond"><code>handlebars</code>
-          </a>, <code>mustache</code> or <a href="https://github.com/Joker/jade"><code>pug</code></a>.</td>
-      <td
-      style="text-align:left"><code>&quot;&quot;</code>
-        </td>
-    </tr>
-    <tr>
-      <td style="text-align:left">TemplateExtension</td>
-      <td style="text-align:left"><code>string</code>
-      </td>
-      <td style="text-align:left">If you preset the template file extension, you do not need to provide
-        the full filename in the Render function: <code>c.Render(&quot;home&quot;, data) -&gt; home.pug</code>
-      </td>
-      <td style="text-align:left"><code>&quot;html&quot;</code>
-      </td>
-    </tr>
-  </tbody>
-</table>## Static
+  </thead>
+  <tbody></tbody>
+</table>| TemplateEngine | `string` | The template engine to use: `html`, [`amber`](https://github.com/eknkc/amber), [`handlebars`](ttps://github.com/aymerick/raymond) , `mustache` or [`pug`](https://github.com/Joker/jade). | `""` |
+| :--- | :--- | :--- | :--- |
+
+
+| TemplateExtension | `string` | If you preset the template file extension, you do not need to provide the full filename in the Render function: `c.Render("home", data) -> home.pug` | `"html"` |
+| :--- | :--- | :--- | :--- |
+
 
 Serve static files such as **images**, **CSS** and **JavaScript** files, you can use the **Static** method.
 
@@ -181,6 +166,12 @@ By default, this method will send `index.html` files in response to a request on
 {% endhint %}
 
 **Signature**
+
+{% code title="Example" %}
+```go
+app.Static(prefix, root string, config ...Static) // => with prefix
+```
+{% endcode %}
 
 ```go
 app.Static(prefix, root string, config ...Static) // => with prefix
@@ -227,21 +218,21 @@ If you want to have a little bit more control regarding the settings for serving
 ```go
 // Static represents settings for serving static files
 type Static struct {
-	// Transparently compresses responses if set to true
-	// This works differently than the github.com/gofiber/compression middleware
-	// The server tries minimizing CPU usage by caching compressed files.
-	// It adds ".fiber.gz" suffix to the original file name.
-	// Optional. Default value false
-	Compress bool
-	// Enables byte range requests if set to true.
-	// Optional. Default value false
-	ByteRange bool
-	// Enable directory browsing.
-	// Optional. Default value false.
-	Browse bool
-	// Index file for serving a directory.
-	// Optional. Default value "index.html".
-	Index string
+    // Transparently compresses responses if set to true
+    // This works differently than the github.com/gofiber/compression middleware
+    // The server tries minimizing CPU usage by caching compressed files.
+    // It adds ".fiber.gz" suffix to the original file name.
+    // Optional. Default value false
+    Compress bool
+    // Enables byte range requests if set to true.
+    // Optional. Default value false
+    ByteRange bool
+    // Enable directory browsing.
+    // Optional. Default value false.
+    Browse bool
+    // Index file for serving a directory.
+    // Optional. Default value "index.html".
+    Index string
 }
 ```
 
@@ -400,7 +391,7 @@ app.Listen(":8080")
 app.Listen("127.0.0.1:8080")
 ```
 
-To enable **TLS/HTTPS** you can append a ****[**TLS config**](https://golang.org/pkg/crypto/tls/#Config).
+To enable **TLS/HTTPS** you can append a **\*\*\[**TLS config\*\*\]\([https://golang.org/pkg/crypto/tls/\#Config](https://golang.org/pkg/crypto/tls/#Config)\).
 
 ```go
 cer, err := tls.LoadX509KeyPair("server.crt", "server.key")
