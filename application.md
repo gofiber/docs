@@ -70,7 +70,7 @@ func main() {
 ```
 {% endcode %}
 
-**Common options**
+**Settings** **fields**
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
@@ -120,6 +120,8 @@ func main() {
 </table>| TemplateExtension | `string` | If you preset the template file extension, you do not need to provide the full filename in the Render function: `c.Render("home", data) -> home.pug` | `"html"` |
 | :--- | :--- | :--- | :--- |
 
+
+## Static
 
 Serve static files such as **images**, **CSS** and **JavaScript** files, you can use the **Static** method.
 
