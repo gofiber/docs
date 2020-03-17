@@ -8,16 +8,16 @@ description: The app instance conventionally denotes the Fiber application.
 
 This method creates a new **Fiber** named instance. You can pass optional [settings ](application.md#settings)when creating a new instance.
 
-**Signature**
-
-{% code title="Signature" %}
+{% tabs %}
+{% tab title="Signature" %}
 ```go
 fiber.New(settings ...*Settings)
 ```
-{% endcode %}
+{% endtab %}
+{% endtabs %}
 
-**Example**
-
+{% tabs %}
+{% tab title="Example" %}
 {% code title="Example" %}
 ```go
 package main
@@ -33,6 +33,8 @@ func main() {
 }
 ```
 {% endcode %}
+{% endtab %}
+{% endtabs %}
 
 ## Settings
 
