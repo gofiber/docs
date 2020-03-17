@@ -10,12 +10,15 @@ This method creates a new **Fiber** named instance. You can pass optional [setti
 
 **Signature**
 
+{% code title="Signature" %}
 ```go
 fiber.New(settings ...*Settings)
 ```
+{% endcode %}
 
 **Example**
 
+{% code title="Example" %}
 ```go
 package main
 
@@ -29,6 +32,7 @@ func main() {
     app.Listen(3000)
 }
 ```
+{% endcode %}
 
 ## Settings
 
