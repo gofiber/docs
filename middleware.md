@@ -17,13 +17,11 @@ Basic auth middleware provides an HTTP basic authentication. It calls the next h
 go get -u github.com/gofiber/basicauth
 ```
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 basicauth.New(config ...basicauth.Config) func(*fiber.Ctx)
 ```
-{% endtab %}
-{% endtabs %}
 
 **Config**
 
@@ -74,13 +72,11 @@ CORS middleware implements CORS specification. CORS gives web servers cross-doma
 go get -u github.com/gofiber/cors
 ```
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 cors.New(config ...cors.Config) func(*fiber.Ctx)
 ```
-{% endtab %}
-{% endtabs %}
 
 **Config**
 
@@ -125,13 +121,11 @@ Use to limit repeated requests to public APIs and/or endpoints such as password 
 go get -u github.com/gofiber/limiter
 ```
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 limiter.New(config ...limiter.Config) func(*Ctx)
 ```
-{% endtab %}
-{% endtabs %}
 
 **Config**
 
@@ -184,13 +178,11 @@ Logger middleware logs the information about each HTTP request.
 go get -u github.com/gofiber/logger
 ```
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 logger.new(config ...logger.Config) func(*Ctx)
 ```
-{% endtab %}
-{% endtabs %}
 
 **Config**
 
@@ -234,8 +226,8 @@ You can recover from panic errors within any route. By default the Recover middl
 go get -u github.com/gofiber/recover
 ```
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 recover.New(config ...recover.Config) func(*Ctx)
 ```
@@ -281,13 +273,11 @@ Request ID adds an identifier to the request using the `X-Request-ID` header
 go get -u github.com/gofiber/requestid
 ```
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 requestid.New(config ...requestid.Config) func(*Ctx)
 ```
-{% endtab %}
-{% endtabs %}
 
 **Config**
 
@@ -329,13 +319,11 @@ Helmet middleware provides protection against cross-site scripting \(XSS\) attac
 go get -u github.com/gofiber/helmet
 ```
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 helmet.New(config ...helmet.Config) func(*Ctx)
 ```
-{% endtab %}
-{% endtabs %}
 
 **Config**
 

@@ -40,8 +40,6 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Accepts("png")              // ""
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 Fiber provides similar functions for the other accept headers.
 
@@ -61,8 +59,6 @@ app.Get("/", func(c *fiber.Ctx) {
   // "nl" "ru"
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Append
 
@@ -118,8 +114,6 @@ app.Get("/", func(c *fiber.Ctx) {
   // => Content-Type: image/png
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## BaseURL
 
@@ -142,8 +136,6 @@ app.Get("/", func(c *fiber.Ctx) {
   c.BaseURL() // https://example.com
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Body
 
@@ -170,8 +162,6 @@ app.Post("/", func(c *fiber.Ctx) {
   c.Body("user") // "john"
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## BodyParser
 
@@ -222,8 +212,6 @@ app.Post("/", func(c *fiber.Ctx) {
     // Do something with person.Name or person.Pass
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## ClearCookie
 
@@ -251,8 +239,6 @@ app.Get("/", func(c *fiber.Ctx) {
   c.ClearCookie("token", "session", "track_id", "version")
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Cookie
 
@@ -292,8 +278,6 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Cookie(cookie)
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Cookies
 
@@ -318,8 +302,6 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Cookies("name") // "john"
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Download
 
@@ -348,8 +330,6 @@ app.Get("/", func(c *fiber.Ctx) {
   // => Download report.pdf
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Fasthttp
 
@@ -372,8 +352,6 @@ app.Get("/", func(c *fiber.Ctx) {
   // => "Hello, World!"
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Error
 
@@ -414,8 +392,6 @@ func main() {
   app.Listen(1337)
 }
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Format
 
@@ -450,8 +426,6 @@ app.Get("/", func(c *fiber.Ctx) {
   // => "Hello, World!"
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## FormFile
 
@@ -479,8 +453,6 @@ app.Post("/", func(c *fiber.Ctx) {
   }
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## FormValue
 
@@ -503,8 +475,6 @@ app.Post("/", func(c *fiber.Ctx) {
   // => "john" or "" if not exist
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Fresh
 
@@ -539,8 +509,6 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Get("something")    // ""
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Hostname
 
@@ -563,8 +531,6 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Hostname() // "google.com"
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## IP
 
@@ -585,8 +551,6 @@ app.Get("/", func(c *fiber.Ctx) {
   c.IP() // "127.0.0.1"
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## IPs
 
@@ -609,8 +573,6 @@ app.Get("/", func(c *fiber.Ctx) {
   c.IPs() // ["proxy1", "127.0.0.1", "proxy3"]
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Is
 
@@ -639,8 +601,6 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Is("json")  // false
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## JSON
 
@@ -685,8 +645,6 @@ app.Get("/json", func(c *fiber.Ctx) {
   // => "{"name": "Grame", "age": 20}"
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## JSONP
 
@@ -724,8 +682,6 @@ app.Get("/", func(c *fiber.Ctx) {
   // => customFunc({"name": "Grame", "age": 20})
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Links
 
@@ -751,8 +707,6 @@ app.Get("/", func(c *fiber.Ctx) {
   //       <http://api.example.com/users?page=5>; rel="last"
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Locals
 
@@ -811,8 +765,6 @@ app.Get("/", func(c *fiber.Ctx) {
   }
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Location
 
@@ -834,8 +786,6 @@ app.Post("/", func(c *fiber.Ctx) {
   c.Location("/foo/bar")
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Method
 
@@ -856,8 +806,6 @@ app.Post("/", func(c *fiber.Ctx) {
   c.Method() // "POST"
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## MultipartForm
 
@@ -899,8 +847,6 @@ app.Post("/", func(c *fiber.Ctx) {
   }
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Next
 
@@ -933,8 +879,6 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Send("Hello, World!")
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## OriginalURL
 
@@ -957,8 +901,6 @@ app.Get("/", func(c *fiber.Ctx) {
   c.OriginalURL() // "/search?q=something"
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Params
 
@@ -985,8 +927,6 @@ app.Get("/user/:name", func(c *fiber.Ctx) {
   c.Params("name") // "fenny"
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Path
 
@@ -1009,8 +949,6 @@ app.Get("/users", func(c *fiber.Ctx) {
   c.Path() // "/users"
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Protocol
 
@@ -1033,8 +971,6 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Protocol() // "http"
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Query
 
@@ -1062,8 +998,6 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Query("brand") // "nike"
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Range
 
@@ -1103,8 +1037,6 @@ app.Get("/", func(c *fiber.Ctx) {
   }
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Redirect
 
@@ -1132,8 +1064,6 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Redirect("http://example.com", 301)
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Render
 
@@ -1199,8 +1129,6 @@ app.Get("/", func(c *fiber.Ctx) {
   })
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Route
 
@@ -1229,8 +1157,6 @@ app.Post("/:api?", func(c *fiber.Ctx) {
   // => {POST /:api?  ^(?:/([^/]+?))?/?$ [api] 0x7b49e0}
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## SaveFile
 
@@ -1267,8 +1193,6 @@ app.Post("/", func(c *fiber.Ctx) {
   }
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Secure
 
@@ -1288,8 +1212,6 @@ c.Secure() bool
 // Secure() method is equivalent to:
 c.Protocol() == "https"
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Send
 
@@ -1343,8 +1265,6 @@ app.Get("/", func(c *fiber.Ctx) {
   // => "Hello, World!"
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## SendFile
 
@@ -1372,8 +1292,6 @@ app.Get("/not-found", func(c *fiber.Ctx) {
   c.SendFile("./static/index.html", false)
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## SendStatus
 
@@ -1403,8 +1321,6 @@ app.Get("/not-found", func(c *fiber.Ctx) {
   // => 415 "Hello, World!"
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Set
 
@@ -1426,8 +1342,6 @@ app.Get("/", func(c *fiber.Ctx) {
   // => "Content-type: text/plain"
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Stale
 
@@ -1462,8 +1376,6 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Status(404).SendFile("./public/gopher.png")
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Subdomains
 
@@ -1489,8 +1401,6 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Subdomains(1) // ["tobi"]
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Type
 
@@ -1514,8 +1424,6 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Type("png")   // => "image/png"
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Vary
 
@@ -1547,8 +1455,6 @@ app.Get("/", func(c *fiber.Ctx) {
   // => Vary: Origin, User-Agent, Accept-Encoding, Accept
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## Write
 
@@ -1571,8 +1477,6 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Write(123)               // => "Hello, World! 123"
 })
 ```
-{% endtab %}
-{% endtabs %}
 
 ## XHR
 

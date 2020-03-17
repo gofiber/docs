@@ -8,16 +8,11 @@ description: The app instance conventionally denotes the Fiber application.
 
 This method creates a new **Fiber** named instance. You can pass optional [settings ](application.md#settings)when creating a new instance.
 
-{% tabs %}
-{% tab title="Signature" %}
+
 ```go
 fiber.New(settings ...*Settings)
 ```
-{% endtab %}
-{% endtabs %}
 
-{% tabs %}
-{% tab title="Example" %}
 ```go
 package main
 
@@ -31,8 +26,7 @@ func main() {
     app.Listen(3000)
 }
 ```
-{% endtab %}
-{% endtabs %}
+
 
 ## Settings
 
@@ -186,13 +180,11 @@ Serve static files such as **images**, **CSS** and **JavaScript** files, you can
 By default, this method will send `index.html` files in response to a request on a directory.
 {% endhint %}
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 app.Static(prefix, root string, config ...Static) // => with prefix
 ```
-{% endtab %}
-{% endtabs %}
 
 **Examples**
 
@@ -266,8 +258,8 @@ app.Static("/", "./public", fiber.Static{
 
 Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) of the request.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 // HTTP methods support :param, :optional? and *wildcards
 // You are required to pass a path to each method
@@ -288,8 +280,6 @@ app.Options(...
 app.Use(handlers ...func(*Ctx))
 app.Use(prefix string, handlers ...func(*Ctx))
 ```
-{% endtab %}
-{% endtabs %}
 
 **Example**
 
@@ -310,13 +300,11 @@ app.Post("/api/register", func(c *fiber.Ctx) {
 
 Fiber supports a websocket upgrade implementation for fasthttp. The `*Conn` struct has all the functionality from the [gorilla/websocket ](https://pkg.go.dev/github.com/fasthttp/websocket?tab=doc#pkg-index)library.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 app.WebSocket(path string, handler func(*Conn))
 ```
-{% endtab %}
-{% endtabs %}
 
 {% hint style="warning" %}
 WebSocket does not support path parameters and wildcards.
@@ -367,13 +355,11 @@ func main() {
 
 You can group routes by creating a `*Group` struct.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 app.Group(prefix string, handlers ...func(*Ctx)) *Group
 ```
-{% endtab %}
-{% endtabs %}
 
 **Example**
 
@@ -399,13 +385,11 @@ func main() {
 
 Binds and listens for connections on the specified address. This can be a `int` for port or `string` for address.
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 app.Listen(address interface{}, tls ...*tls.Config)
 ```
-{% endtab %}
-{% endtabs %}
 
 **Example**
 
@@ -436,13 +420,11 @@ Testing your application is done with the **Test** method.
 Method is mostly used for `_test.go` files and application debugging.
 {% endhint %}
 
-{% tabs %}
-{% tab title="Signature" %}
+**Signature**
+
 ```go
 app.Test(req *http.Request) (*http.Response, error)
 ```
-{% endtab %}
-{% endtabs %}
 
 **Example**
 
