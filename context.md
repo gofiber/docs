@@ -120,6 +120,7 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endtab %}
 {% endtabs %}
+
 ## BaseURL
 
 Returns base URL \(**protocol** + **host**\) as a `string`.
@@ -143,6 +144,7 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endtab %}
 {% endtabs %}
+
 ## Body
 
 Contains the **raw body** submitted in a **POST** request.
