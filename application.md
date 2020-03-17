@@ -342,23 +342,24 @@ func main() {
 
 Binds and listens for connections on the specified address. This can be a `int` for port or `string` for address.
 
-**Signature**
-
+{% code title="Signature" %}
 ```go
 app.Listen(address interface{}, tls ...*tls.Config)
 ```
+{% endcode %}
 
-**Example**
-
+{% code title="Examples" %}
 ```go
 app.Listen(8080)
 app.Listen("8080")
 app.Listen(":8080")
 app.Listen("127.0.0.1:8080")
 ```
+{% endcode %}
 
-To enable **TLS/HTTPS** you can append a **\*\*\[**TLS config\*\*\]\([https://golang.org/pkg/crypto/tls/\#Config](https://golang.org/pkg/crypto/tls/#Config)\).
+To enable **TLS/HTTPS** you can append a ****[**TLS config**](https://golang.org/pkg/crypto/tls/#Config).
 
+{% code title="Example" %}
 ```go
 cer, err := tls.LoadX509KeyPair("server.crt", "server.key")
 if err != nil {
@@ -368,23 +369,19 @@ config := &tls.Config{Certificates: []tls.Certificate{cer}}
 
 app.Listen(443, config)
 ```
+{% endcode %}
 
 ## Test
 
-Testing your application is done with the **Test** method.
+Testing your application is done with the **Test** method. Use this method for creating `_test.go` files or when you need to debug your routing logic.
 
-{% hint style="info" %}
-Method is mostly used for `_test.go` files and application debugging.
-{% endhint %}
-
-**Signature**
-
+{% code title="Signature" %}
 ```go
 app.Test(req *http.Request) (*http.Response, error)
 ```
+{% endcode %}
 
-**Example**
-
+{% code title="Example" %}
 ```go
 // Create route with GET method for test:
 app.Get("/", func(c *Ctx) {
@@ -407,4 +404,5 @@ if resp.StatusCode == 200 {
   fmt.Println(string(body)) // => Hello, World!
 }
 ```
+{% endcode %}
 
