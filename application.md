@@ -8,8 +8,12 @@ description: The app instance conventionally denotes the Fiber application.
 
 This method creates a new **Fiber** named instance. You can pass optional [settings ](application.md#settings)when creating a new instance.
 
-{% tabs %}
-{% tab title="Example" %}
+{% code title="Signature" %}
+```go
+fiber.New(settings ...*Settings)
+```
+{% endcode %}
+
 {% code title="Example" %}
 ```go
 package main
@@ -25,35 +29,12 @@ func main() {
 }
 ```
 {% endcode %}
-{% endtab %}
-{% endtabs %}
-
-```go
-fiber.New(settings ...*Settings)
-```
-
-```go
-package main
-
-import "github.com/gofiber/fiber"
-
-func main() {
-    app := fiber.New()
-
-    // Your app logic here ...
-
-    app.Listen(3000)
-}
-```
 
 ## Settings
 
 You can pass application settings when calling `New`, or change the settings before you call `Listen`
 
-**Example**
-
-{% tabs %}
-{% tab title="Go" %}
+{% code title="Example" %}
 ```go
 func main() {
     // Pass Settings creating a new app
@@ -75,9 +56,9 @@ func main() {
     app.Listen(3000)
 }
 ```
-{% endtab %}
-{% endtabs %}
+{% endcode %}
 
+{% code title="Example" %}
 ```go
 func main() {
     // Pass Settings creating a new app
@@ -99,6 +80,7 @@ func main() {
     app.Listen(3000)
 }
 ```
+{% endcode %}
 
 **Common options**
 
