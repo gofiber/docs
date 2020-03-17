@@ -186,11 +186,13 @@ Serve static files such as **images**, **CSS** and **JavaScript** files, you can
 By default, this method will send `index.html` files in response to a request on a directory.
 {% endhint %}
 
-**Signature**
-
+{% tabs %}
+{% tab title="Signature" %}
 ```go
 app.Static(prefix, root string, config ...Static) // => with prefix
 ```
+{% endtab %}
+{% endtabs %}
 
 **Examples**
 
@@ -264,8 +266,8 @@ app.Static("/", "./public", fiber.Static{
 
 Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) of the request.
 
-**Signature**
-
+{% tabs %}
+{% tab title="Signature" %}
 ```go
 // HTTP methods support :param, :optional? and *wildcards
 // You are required to pass a path to each method
@@ -286,6 +288,8 @@ app.Options(...
 app.Use(handlers ...func(*Ctx))
 app.Use(prefix string, handlers ...func(*Ctx))
 ```
+{% endtab %}
+{% endtabs %}
 
 **Example**
 
@@ -306,11 +310,13 @@ app.Post("/api/register", func(c *fiber.Ctx) {
 
 Fiber supports a websocket upgrade implementation for fasthttp. The `*Conn` struct has all the functionality from the [gorilla/websocket ](https://pkg.go.dev/github.com/fasthttp/websocket?tab=doc#pkg-index)library.
 
-**Signature**
-
+{% tabs %}
+{% tab title="Signature" %}
 ```go
 app.WebSocket(path string, handler func(*Conn))
 ```
+{% endtab %}
+{% endtabs %}
 
 {% hint style="warning" %}
 WebSocket does not support path parameters and wildcards.
@@ -361,11 +367,13 @@ func main() {
 
 You can group routes by creating a `*Group` struct.
 
-**Signature**
-
+{% tabs %}
+{% tab title="Signature" %}
 ```go
 app.Group(prefix string, handlers ...func(*Ctx)) *Group
 ```
+{% endtab %}
+{% endtabs %}
 
 **Example**
 
@@ -391,11 +399,13 @@ func main() {
 
 Binds and listens for connections on the specified address. This can be a `int` for port or `string` for address.
 
-**Signature**
-
+{% tabs %}
+{% tab title="Signature" %}
 ```go
 app.Listen(address interface{}, tls ...*tls.Config)
 ```
+{% endtab %}
+{% endtabs %}
 
 **Example**
 
@@ -426,11 +436,13 @@ Testing your application is done with the **Test** method.
 Method is mostly used for `_test.go` files and application debugging.
 {% endhint %}
 
-**Signature**
-
+{% tabs %}
+{% tab title="Signature" %}
 ```go
 app.Test(req *http.Request) (*http.Response, error)
 ```
+{% endtab %}
+{% endtabs %}
 
 **Example**
 
