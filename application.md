@@ -322,7 +322,7 @@ Testing your application is done with the **Test** method. Use this method for c
 
 {% code title="Signature" %}
 ```go
-app.Test(req *http.Request) (*http.Response, error)
+app.Test(req *http.Request, msTimeout ...int) (*http.Response, error)
 ```
 {% endcode %}
 
