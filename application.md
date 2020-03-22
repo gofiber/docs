@@ -253,61 +253,6 @@ app.Post("/api/register", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-## WebSocket
-
-Fiber supports a websocket upgrade implementation for fasthttp. The `*Conn` struct has all the functionality from the [gorilla/websocket ](https://pkg.go.dev/github.com/fasthttp/websocket?tab=doc#pkg-index)library.
-
-**Signature**
-
-```go
-app.WebSocket(path string, handler func(*Conn))
-```
-
-{% hint style="warning" %}
-WebSocket does not support path parameters and wildcards.
-{% endhint %}
-
-**Example**
-
-```go
-package main
-
-import (
-    "log"
-    "github.com/gofiber/fiber"
-)
-
-func main() {
-    app := fiber.New()
-    // Optional middleware
-    app.Use("/ws", func(c *fiber.Ctx) {
-        if c.Get("host") != "localhost:3000" {
-            c.Status(403).Send("Request origin not allowed")
-        } else {
-            c.Next()
-        }
-    })
-    // Upgraded websocket request
-    app.WebSocket("/ws", func(c *fiber.Conn) {
-        for {
-            mt, msg, err := c.ReadMessage()
-            if err != nil {
-                log.Println("read:", err)
-                break
-            }
-            log.Printf("recv: %s", msg)
-            err = c.WriteMessage(mt, msg)
-            if err != nil {
-                log.Println("write:", err)
-                break
-            }
-        }
-    })
-  // ws://localhost:3000/ws
-    app.Listen(3000)
-}
-```
-
 ## Group
 
 You can group routes by creating a `*Group` struct.
