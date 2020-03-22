@@ -263,6 +263,130 @@ func main() {
 }
 ```
 
+## Template
+
+Fiber supports a websocket upgrade middleware. The `*Conn` struct has all the functionality from the gorilla/websocket library.
+
+**Installation**
+
+```bash
+go get -u github.com/gofiber/template
+```
+
+**Signature**
+
+```go
+template.Engine() func(raw string, bind interface{}) (out string, err error)
+```
+
+**Template Engines**
+
+| Keyword | Engine |
+| :--- | :--- |
+| `Amber()` | [github.com/eknkc/amber](https://github.com/eknkc/amber) |
+| `Handlebars()` | [github.com/aymerick/raymond](https://github.com/aymerick/raymond) |
+| `Mustache()` | [github.com/cbroglie/mustache](https://github.com/cbroglie/mustache) |
+| `Pug()` | [github.com/Joker/jade](https://github.com/Joker/jade) |
+
+**Example**
+
+```go
+package main
+
+import (
+  "github.com/gofiber/fiber"
+  "github.com/gofiber/template"
+)
+
+func main() {
+  app := fiber.New()
+
+  app.Settings.TemplateEngine = template.Mustache()
+  // app.Settings.TemplateEngine = template.Amber()
+  // app.Settings.TemplateEngine = template.Handlebars()
+  // app.Settings.TemplateEngine = template.Pug()
+
+  app.Get("/", func(c *fiber.Ctx) {
+    bind := fiber.Map{
+      "name": "John",
+      "age":  35,
+    }
+    if err := c.Render("./views/index.mustache", bind); err != nil {
+      c.Status(500).Send(err.Error())
+    }
+    // <html><head><title>Template Demo</title></head>
+    // <body>Hi, my name is John and im 35 years old
+    // </body></html>
+  })
+
+  app.Listen(3000)
+}
+```
+
+## WebSocket
+
+Fiber supports a websocket upgrade middleware. The `*Conn` struct has all the functionality from the gorilla/websocket library.
+
+**Installation**
+
+```bash
+go get -u github.com/gofiber/websocket
+```
+
+**Signature**
+
+```go
+websocket.New(handler func(*websocket.Conn), config ...websocket.Config) func(*Ctx)
+```
+
+**Config**
+
+| Property | Type | Description | Default |
+| :--- | :--- | :--- | :--- |
+| Origins          | `[]string` | Defines a function to skip middleware | `[]string{"*"}` |
+| ReadBufferSize   | `int` | Generator defines a function to generate an ID. | `1024` |
+| WriteBufferSize    | `int` | Generator defines a function to generate an ID. | `1024` |
+
+**Example**
+
+```go
+package main
+
+import 
+  "github.com/gofiber/fiber"
+  "github.com/gofiber/websocket"
+)
+
+func main() {
+  app := fiber.New()
+
+  app.Use(func(c *fiber.Ctx) {
+    c.Locals("Hello", "World")
+    c.Next()
+  })
+  
+  app.Get("/ws", websocket.New(func(c *websocket.Conn) {
+    fmt.Println(c.Locals("Hello")) // "World"
+    // Websocket stuff
+    for {
+      mt, msg, err := c.ReadMessage()
+      if err != nil {
+        log.Println("read:", err)
+        break
+      }
+      log.Printf("recv: %s", msg)
+      err = c.WriteMessage(mt, msg)
+      if err != nil {
+        log.Println("write:", err)
+        break
+      }
+    }
+  }))
+
+  app.Listen(3000) // ws://localhost:3000/ws
+}
+```
+
 ## Request ID
 
 Request ID adds an identifier to the request using the `X-Request-ID` header
