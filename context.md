@@ -243,6 +243,7 @@ type Cookie struct {
     Expires  time.Time
     Secure   bool
     HTTPOnly bool
+    SameSite string
 }
 ```
 
