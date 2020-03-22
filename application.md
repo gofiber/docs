@@ -74,50 +74,15 @@ func main() {
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-
-
 | Prefork | `bool` | Enables use of the[`SO_REUSEPORT`](https://lwn.net/Articles/542629/)socket option. This will spawn multiple Go processes listening on the same port. learn more about [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false` |
-| :--- | :--- | :--- | :--- |
-
-
 | ServerHeader | `string` | Enables the `Server` HTTP header with the given value. | `""` |
-| :--- | :--- | :--- | :--- |
-
-
 | StrictRouting | `bool` | When enabled, the router treats `/foo` and `/foo/` as different. Otherwise, the router treats `/foo` and `/foo/` as the same. | `false` |
-| :--- | :--- | :--- | :--- |
-
-
 | CaseSensitive | `bool` | When enabled, `/Foo` and `/foo` are different routes. When disabled, `/Foo`and `/foo` are treated the same. | `false` |
-| :--- | :--- | :--- | :--- |
-
-
 | Immutable | `bool` | When enabled, all values returned by context methods are immutable. By default they are valid until you return from the handler, see issue [\#185](https://github.com/gofiber/fiber/issues/185). | `false` |
-| :--- | :--- | :--- | :--- |
-
-
 | BodyLimit | `int` | Sets the maximum allowed size for a request body, if the size exceeds the configured limit, it sends `413 - Request Entity Too Large` response. | `4 * 1024 * 1024` |
-| :--- | :--- | :--- | :--- |
-
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">TemplateFolder</th>
-      <th style="text-align:left"><code>string</code>
-      </th>
-      <th style="text-align:left">
-        <p>A directory for the application&apos;s views. If a directory is set, this
-          will be the prefix for all template paths.</p>
-        <p><code>c.Render(&quot;home.pug&quot;, d) -&gt; /views/home.pug</code>
-        </p>
-      </th>
-      <th style="text-align:left"><code>&quot;&quot;</code>
-      </th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>| TemplateExtension | `string` | If you preset the template file extension, you do not need to provide the full filename in the Render function: `c.Render("home", data) -> home.pug` | `"html"` |
+| TemplateEngine | `func(raw string, bind interface{}) (out string, err error)` | You can specify a custom template engine to render different type of templates. See our Template Middleware. | `nil` |
+| TemplateFolder | `string` | A directory for the application&apos;s views. If a directory is set, this will be the prefix for all template paths. | `""` |
+| TemplateExtension | `string` | If you preset the template file extension, you do not need to provide the full filename in the Render function: `c.Render("home", data) -> home.pug` | `"html"` |
 | :--- | :--- | :--- | :--- |
 
 
