@@ -2,7 +2,7 @@
 description: The app instance conventionally denotes the Fiber application.
 ---
 
-# 🚀  Application
+# 🚀 Application
 
 ## New
 
@@ -10,7 +10,7 @@ This method creates a new **Fiber** named instance. You can pass optional [setti
 
 {% code title="Signature" %}
 ```go
-fiber.New(settings ...Settings)
+fiber.New(settings ...Settings) *App
 ```
 {% endcode %}
 
@@ -62,7 +62,7 @@ func main() {
     app.Settings.CaseSensitive = true
     app.Settings.StrictRouting = true
     app.Settings.ServerHeader = "Fiber"
-    
+
     // ...
 
     app.Listen(3000)
@@ -81,9 +81,8 @@ func main() {
 | Immutable | `bool` | When enabled, all values returned by context methods are immutable. By default they are valid until you return from the handler, see issue [\#185](https://github.com/gofiber/fiber/issues/185). | `false` |
 | BodyLimit | `int` | Sets the maximum allowed size for a request body, if the size exceeds the configured limit, it sends `413 - Request Entity Too Large` response. | `4 * 1024 * 1024` |
 | TemplateEngine | `func(raw string, bind interface{}) (string, error)` | You can specify a custom template engine to render different type of templates. See our Template Middleware. | `nil` |
-| TemplateFolder | `string` | A directory for the application&apos;s views. If a directory is set, this will be the prefix for all template paths. `c.Render("home", data) -> ./views/home.pug` | `""` |
+| TemplateFolder | `string` | A directory for the application's views. If a directory is set, this will be the prefix for all template paths. `c.Render("home", data) -> ./views/home.pug` | `""` |
 | TemplateExtension | `string` | If you preset the template file extension, you do not need to provide the full filename in the Render function: `c.Render("home", data) -> home.pug` | `"html"` |
-
 
 ## Static
 
@@ -124,7 +123,7 @@ app.Static("/", "./files")
 {% endcode %}
 
 {% hint style="info" %}
-Use a reverse proxy cache like ****[**NGINX**](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) to improve performance of serving static assets.
+Use a reverse proxy cache like **\*\*\[**NGINX\*\*\]\([https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/)\) to improve performance of serving static assets.
 {% endhint %}
 
 You can use any virtual path prefix \(_where the path does not actually exist in the file system_\) for files that are served by the **Static** method, specify a prefix path for the static directory, as shown below:
@@ -266,7 +265,7 @@ app.Listen("127.0.0.1:8080")
 ```
 {% endcode %}
 
-To enable **TLS/HTTPS** you can append a ****[**TLS config**](https://golang.org/pkg/crypto/tls/#Config).
+To enable **TLS/HTTPS** you can append a **\*\*\[**TLS config\*\*\]\([https://golang.org/pkg/crypto/tls/\#Config](https://golang.org/pkg/crypto/tls/#Config)\).
 
 {% code title="Example" %}
 ```go

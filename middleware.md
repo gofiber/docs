@@ -388,11 +388,11 @@ websocket.New(handler func(*websocket.Conn), config ...websocket.Config) func(*C
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
 | HandshakeTimeout | `time.Duration` | Specifies the duration for the handshake to complete. | `0` |
-| Subprotocols  | `[]string` |  specifies the server's supported protocols in order of preference. If this field is not nil, then the Upgrade method negotiates a subprotocol by selecting the first match in this list with a protocol requested by the client. | `nil` |
+| Subprotocols | `[]string` | specifies the server's supported protocols in order of preference. If this field is not nil, then the Upgrade method negotiates a subprotocol by selecting the first match in this list with a protocol requested by the client. | `nil` |
 | Origins | `[]string` | Origins is a string slice of origins that are acceptable, by default all origins are allowed. | `[]string{"*"}` |
 | ReadBufferSize | `int` | ReadBufferSize specify I/O buffer sizes in bytes. | `1024` |
-| WriteBufferSize  | `int` | WriteBufferSize specify I/O buffer sizes in bytes. | `1024` |
-| EnableCompression  | `bool` | EnableCompression specify if the server should attempt to negotiate per message compression (RFC 7692) | `false` |
+| WriteBufferSize | `int` | WriteBufferSize specify I/O buffer sizes in bytes. | `1024` |
+| EnableCompression | `bool` | EnableCompression specify if the server should attempt to negotiate per message compression \(RFC 7692\) | `false` |
 
 **Example**
 
@@ -411,7 +411,7 @@ func main() {
     c.Locals("Hello", "World")
     c.Next()
   })
-  
+
   app.Get("/ws", websocket.New(func(c *websocket.Conn) {
     fmt.Println(c.Locals("Hello")) // "World"
     // Websocket stuff

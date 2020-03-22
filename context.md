@@ -5,7 +5,7 @@ description: >-
   headers and so on.
 ---
 
-# 🧠  Context
+# 🧠 Context
 
 ## Accepts
 
@@ -962,8 +962,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Render
 
-Renders a template with data and sends a `text/html` response. By default `Render` uses the default Go Template engine.
-If you want to use another engine, please take a look at our Template middleware.
+Renders a template with data and sends a `text/html` response. By default `Render` uses the default Go Template engine. If you want to use another engine, please take a look at our Template middleware.
 
 {% code title="Signature" %}
 ```go
@@ -1063,7 +1062,7 @@ c.Send(body ...interface{})
 {% endcode %}
 
 {% code title="Example" %}
-```
+```text
 
 ```
 {% endcode %}
@@ -1308,7 +1307,7 @@ c.XHR() bool
 {% endcode %}
 
 {% code title="Example" %}
-```
+```text
 
 ```
 {% endcode %}

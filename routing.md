@@ -4,7 +4,7 @@ description: >-
   requests.
 ---
 
-# 🔌  Routing
+# 🔌 Routing
 
 ## Paths
 
