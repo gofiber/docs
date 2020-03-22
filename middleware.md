@@ -111,6 +111,50 @@ func main() {
 }
 ```
 
+## Compression
+
+This middleware allows dynamic compression for gzip & deflate if you your responses are bigger than 4kb. If you want to enable compression for static files only, please use the Compression setting inside `Static`.
+
+**Installation**
+
+```bash
+go get -u github.com/gofiber/compression
+```
+
+**Signature**
+
+```go
+compression.New(config ...compression.Config) func(*fiber.Ctx)
+```
+
+**Config**
+
+| Property | Type | Description | Default |
+| :--- | :--- | :--- | :--- |
+| Filter | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
+| Level | `int` | Level of compression, `0`, `1`, `2`, `3`, `4` | `0` |
+
+```go
+package main
+
+import 
+  "github.com/gofiber/fiber"
+  "github.com/gofiber/compression"
+)
+
+func main() {
+  app := fiber.New()
+
+  app.Use(compression.New())
+
+  app.Get("/", func(c *fiber.Ctx) {
+    c.Send("Welcome!")
+  })
+
+  app.Listen(3000)
+}
+```
+
 ## Limiter
 
 Use to limit repeated requests to public APIs and/or endpoints such as password reset. This middleware does not share state with other processes/servers.
@@ -343,9 +387,12 @@ websocket.New(handler func(*websocket.Conn), config ...websocket.Config) func(*C
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| Origins          | `[]string` | Defines a function to skip middleware | `[]string{"*"}` |
-| ReadBufferSize   | `int` | Generator defines a function to generate an ID. | `1024` |
-| WriteBufferSize    | `int` | Generator defines a function to generate an ID. | `1024` |
+| HandshakeTimeout | `time.Duration` | Specifies the duration for the handshake to complete. | `0` |
+| Subprotocols  | `[]string` |  specifies the server's supported protocols in order of preference. If this field is not nil, then the Upgrade method negotiates a subprotocol by selecting the first match in this list with a protocol requested by the client. | `nil` |
+| Origins | `[]string` | Origins is a string slice of origins that are acceptable, by default all origins are allowed. | `[]string{"*"}` |
+| ReadBufferSize | `int` | ReadBufferSize specify I/O buffer sizes in bytes. | `1024` |
+| WriteBufferSize  | `int` | WriteBufferSize specify I/O buffer sizes in bytes. | `1024` |
+| EnableCompression  | `bool` | EnableCompression specify if the server should attempt to negotiate per message compression (RFC 7692) | `false` |
 
 **Example**
 
