@@ -86,6 +86,9 @@ func main() {
 | TemplateEngine | `func(raw string, bind interface{}) (string, error)` | You can specify a custom template function to render different template languages. See our [**Template Middleware**](middleware.md#template) ****for presets. | `nil` |
 | TemplateFolder | `string` | A directory for the application's views. If a directory is set, this will be the prefix for all template paths. `c.Render("home", data) -> ./views/home.pug` | `""` |
 | TemplateExtension | `string` | If you preset the template file extension, you do not need to provide the full filename in the Render function: `c.Render("home", data) -> home.pug` | `"html"` |
+| ReadTimeout | `time.Duration` | The amount of time allowed to read the full request including body. Default timeout is unlimited. | `nil` |
+| WriteTimeout | `time.Duration` | The maximum duration before timing out writes of the response. Default timeout is unlimited. | `nil` |
+| IdleTimeout | `time.Duration` | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used. | `nil` |
 
 ## Static
 
