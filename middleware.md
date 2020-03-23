@@ -113,7 +113,7 @@ func main() {
 
 ## Compression
 
-This middleware allows dynamic compression for gzip & deflate if you your responses are bigger than 4kb. If you want to enable compression for static files only, please use the Compression setting inside `Static`.
+This middleware allows dynamic compression for gzip & deflate if you your responses are bigger than 4kb. If you want to enable compression for static files only, please use the [**Compression** ](application.md#static)setting inside the [**Static** ](application.md#static)method.
 
 **Installation**
 
