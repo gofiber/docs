@@ -986,12 +986,12 @@ c.Route() *Route
 
 app.Get("/hello", func(c *fiber.Ctx) {
   r := c.Route()
-  fmt.Println(r.Method, r.Path, r.Prefix, r.Regex, r.Params, r.HandlerCtx)
+  fmt.Println(r.Method, r.Path, r.Params, r.Regexp, r.Handler)
 })
 
 app.Post("/:api?", func(c *fiber.Ctx) {
   c.Route()
-  // => {POST /:api?  ^(?:/([^/]+?))?/?$ [api] 0x7b49e0}
+  // => {GET /hello [] nil 0x7b49e0}
 })
 ```
 {% endcode %}
