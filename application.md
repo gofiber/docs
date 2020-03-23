@@ -126,7 +126,7 @@ app.Static("/", "./files")
 {% endcode %}
 
 {% hint style="info" %}
-Use a reverse proxy cache like **\*\*\[**NGINX\*\*\]\([https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/)\) to improve performance of serving static assets.
+Use a reverse proxy cache like [**NGINX**](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) to improve performance of serving static assets.
 {% endhint %}
 
 You can use any virtual path prefix \(_where the path does not actually exist in the file system_\) for files that are served by the **Static** method, specify a prefix path for the static directory, as shown below:
