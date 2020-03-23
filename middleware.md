@@ -20,7 +20,7 @@ go get -u github.com/gofiber/basicauth
 **Signature**
 
 ```go
-basicauth.New(config ...basicauth.Config) func(*fiber.Ctx)
+basicauth.New(config ...Config) func(*fiber.Ctx)
 ```
 
 **Config**
@@ -75,7 +75,7 @@ go get -u github.com/gofiber/cors
 **Signature**
 
 ```go
-cors.New(config ...cors.Config) func(*fiber.Ctx)
+cors.New(config ...Config) func(*fiber.Ctx)
 ```
 
 **Config**
@@ -124,7 +124,7 @@ go get -u github.com/gofiber/compression
 **Signature**
 
 ```go
-compression.New(config ...compression.Config) func(*fiber.Ctx)
+compression.New(config ...Config) func(*fiber.Ctx)
 ```
 
 **Config**
@@ -168,7 +168,7 @@ go get -u github.com/gofiber/limiter
 **Signature**
 
 ```go
-limiter.New(config ...limiter.Config) func(*Ctx)
+limiter.New(config ...Config) func(*Ctx)
 ```
 
 **Config**
@@ -225,7 +225,7 @@ go get -u github.com/gofiber/logger
 **Signature**
 
 ```go
-logger.new(config ...logger.Config) func(*Ctx)
+logger.new(config ...Config) func(*Ctx)
 ```
 
 **Config**
@@ -273,7 +273,7 @@ go get -u github.com/gofiber/recover
 **Signature**
 
 ```go
-recover.New(config ...recover.Config) func(*Ctx)
+recover.New(config ...Config) func(*Ctx)
 ```
 
 **Example**
@@ -380,7 +380,7 @@ go get -u github.com/gofiber/websocket
 **Signature**
 
 ```go
-websocket.New(handler func(*websocket.Conn), config ...websocket.Config) func(*Ctx)
+websocket.New(handler func(*Conn), config ...Config) func(*Ctx)
 ```
 
 **Config**
@@ -447,7 +447,7 @@ go get -u github.com/gofiber/requestid
 **Signature**
 
 ```go
-requestid.New(config ...requestid.Config) func(*Ctx)
+requestid.New(config ...Config) func(*Ctx)
 ```
 
 **Config**
@@ -493,7 +493,7 @@ go get -u github.com/gofiber/helmet
 **Signature**
 
 ```go
-helmet.New(config ...helmet.Config) func(*Ctx)
+helmet.New(config ...Config) func(*Ctx)
 ```
 
 **Config**
