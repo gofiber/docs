@@ -80,7 +80,7 @@ func main() {
 | CaseSensitive | `bool` | When enabled, `/Foo` and `/foo` are different routes. When disabled, `/Foo`and `/foo` are treated the same. | `false` |
 | Immutable | `bool` | When enabled, all values returned by context methods are immutable. By default they are valid until you return from the handler, see issue [\#185](https://github.com/gofiber/fiber/issues/185). | `false` |
 | BodyLimit | `int` | Sets the maximum allowed size for a request body, if the size exceeds the configured limit, it sends `413 - Request Entity Too Large` response. | `4 * 1024 * 1024` |
-| TemplateEngine | `func(raw string, bind interface{}) (string, error)` | You can specify a custom template engine to render different type of templates. See our Template Middleware. | `nil` |
+| TemplateEngine | `func(raw string, bind interface{}) (string, error)` | You can specify a custom template engine to render different type of templates. See our [**Template Middleware**.](middleware.md#template) | `nil` |
 | TemplateFolder | `string` | A directory for the application's views. If a directory is set, this will be the prefix for all template paths. `c.Render("home", data) -> ./views/home.pug` | `""` |
 | TemplateExtension | `string` | If you preset the template file extension, you do not need to provide the full filename in the Render function: `c.Render("home", data) -> home.pug` | `"html"` |
 
