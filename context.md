@@ -1062,11 +1062,6 @@ c.Send(body ...interface{})
 {% endcode %}
 
 {% code title="Example" %}
-```text
-
-```
-{% endcode %}
-
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   c.Send("Hello, World!")         // => "Hello, World!"
@@ -1074,6 +1069,7 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Send(123)                     // => 123
 })
 ```
+{% endcode %}
 
 Fiber also provides `SendBytes` & `SendString` methods for raw inputs.
 
