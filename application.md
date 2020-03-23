@@ -33,7 +33,7 @@ func main() {
 
 ## Settings
 
-You can pass application settings when calling `New`, or change the settings before you call `Listen`
+You can pass application settings when calling `New`.
 
 {% code title="Example" %}
 ```go
@@ -52,6 +52,8 @@ func main() {
 }
 ```
 {% endcode %}
+
+Or change the settings after initializing an `app`.
 
 {% code title="Example" %}
 ```go
