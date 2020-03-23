@@ -1307,11 +1307,6 @@ c.XHR() bool
 {% endcode %}
 
 {% code title="Example" %}
-```text
-
-```
-{% endcode %}
-
 ```go
 // X-Requested-With: XMLHttpRequest
 
@@ -1319,4 +1314,5 @@ app.Get("/", func(c *fiber.Ctx) {
   c.XHR() // true
 })
 ```
+{% endcode %}
 
