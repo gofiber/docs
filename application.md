@@ -188,7 +188,7 @@ Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.
 ```go
 // HTTP methods support :param, :optional? and *wildcards
 // You are required to pass a path to each method
-app.All(path string, handlers ...func(*Ctx))
+app.All(path string, handlers ...func(*Ctx)) *Fiber
 app.Get
 app.Put
 app.Post
@@ -203,7 +203,7 @@ app.Options
 // i.e. "/john" will match "/john/doe", "/johnnnn"
 // Use() does not support :param & :optional? in path
 app.Use(handlers ...func(*Ctx))
-app.Use(prefix string, handlers ...func(*Ctx))
+app.Use(prefix string, handlers ...func(*Ctx)) *Fiber
 ```
 {% endcode %}
 
