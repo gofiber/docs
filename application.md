@@ -11,7 +11,7 @@ You can pass optional [settings ](application.md#settings)when creating a new in
 
 {% code title="Signature" %}
 ```go
-fiber.New(settings ...Settings) *App
+fiber.New(settings ...Settings) *Fiber
 ```
 {% endcode %}
 
