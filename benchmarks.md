@@ -1,6 +1,6 @@
 ---
 description: >-
-  This benchmarks aims to compare the performance of Fiber and other Go web
+  This benchmarks aims to compare the performance of Fiber and other web
   frameworks.
 ---
 
