@@ -10,8 +10,6 @@ description: >-
 
 🔗 [https://www.techempower.com/benchmarks/](https://www.techempower.com/benchmarks/#section=test&runid=02692910-4c3f-4c56-a9dc-f0167a4280a4)
 
-Fiber v1.8.42
-
 * **CPU** Intel Xeon Gold 5120
 * **MEM** 32GB
 * **GO** go1.13.6 linux/amd64
