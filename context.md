@@ -31,7 +31,7 @@ c.AcceptsLanguages(langs ...string)        string
 app.Get("/", func(c *fiber.Ctx) {
   c.Accepts("html")             // "html"
   c.Accepts("text/html")        // "text/html"
-  c.Accepts("json", "text")     // "json" "text"
+  c.Accepts("json", "text")     // "json"
   c.Accepts("application/json") // "application/json"
   c.Accepts("image/png")        // ""
   c.Accepts("png")              // ""
@@ -54,7 +54,7 @@ app.Get("/", func(c *fiber.Ctx) {
   // "compress"
 
   c.AcceptsLanguages("pt", "nl", "ru") 
-  // "nl" "ru"
+  // "nl"
 })
 ```
 
