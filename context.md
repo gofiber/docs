@@ -162,7 +162,7 @@ Binds the request body to a struct. `BodyParser` supports decoding the following
 
 {% code title="Signature" %}
 ```go
-c.BodyParser(out interface{})
+c.BodyParser(out interface{}) error
 ```
 {% endcode %}
 
