@@ -1,5 +1,5 @@
 ---
-description: A hosted documentation so you can start building web apps with Fiber.
+description: An API documentation so you can start building web apps with Fiber.
 ---
 
 # 📖 Getting started
