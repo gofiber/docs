@@ -8,7 +8,9 @@ description: >-
 
 ## TechEmpower
 
-🔗 [https://www.techempower.com/benchmarks/](https://www.techempower.com/benchmarks/)
+🔗 [https://www.techempower.com/benchmarks/](https://www.techempower.com/benchmarks/#section=test&runid=02692910-4c3f-4c56-a9dc-f0167a4280a4)
+
+Fiber v1.8.42
 
 * **CPU** Intel Xeon Gold 5120
 * **MEM** 32GB
@@ -16,32 +18,40 @@ description: >-
 * **OS** Linux
 * **NET** Dedicated Cisco 10-gigabit Ethernet switch.
 
-To see all language frameworks, visit [Plaintext All Results](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext).  
-To view the list yourself, visit [Plaintext Go Results](https://www.techempower.com/benchmarks/#section=test&runid=350f0783-cc9b-4259-9831-28987799782a&hw=ph&test=plaintext&l=zijocf-1r).
-
 ### Plaintext
 
-![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-plaintext.png)
+**Fiber** handled **6,091,966** responses per second with an average latency of **1.9** ms.  
+**Express** handled **368,303** responses per second with an average latency of **346.2** ms.
 
-### Plaintext latency
+![](.gitbook/assets/plaintext.png)
 
-![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-plaintext-latency.png)
+### Data Updates
 
-### JSON serialization
+**Fiber** handled **11,815** responses  per second with an average latency of **42.9** ms.  
+**Express** handled **1,221** responses  per second with an average latency of **412.6** ms.
 
-![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-json.png)
+![](.gitbook/assets/data_updates.png)
 
-### Single query
+### Multiple Queries
 
-![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-single-query.png)
+**Fiber** handled **19,895** responses per second with an average latency of **25.4** ms.  
+**Express** handled **4,280** responses  per second with an average latency of **117.8** ms.
 
-### Multiple queries
+![](.gitbook/assets/multiple_queries.png)
 
-![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-multiple-queries.png)
+### Single Query
 
-### Data updates
+**Fiber** handled **367,624** responses per second with an average latency of **0.7** ms.  
+**Express** handled **57,503** responses  per second with an average latency of **4.4** ms.
 
-![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/techempower-updates.png)
+![](.gitbook/assets/single_query.png)
+
+### JSON Serialization
+
+**Fiber** handled **1,108,213** responses per second with an average latency of **0.5** ms.  
+**Express** handled **245,211** responses  per second with an average latency of **1.1** ms.
+
+![](.gitbook/assets/json.png)
 
 ## Go web framework benchmark
 
