@@ -309,7 +309,7 @@ func main() {
 
 ## Template
 
-Fiber supports a websocket upgrade middleware. The `*Conn` struct has all the functionality from the gorilla/websocket library.
+By default Fiber comes with the [**default HTML template**](https://golang.org/pkg/html/template/) engine, but this middleware contains third party rendering engines.
 
 **Installation**
 
@@ -369,7 +369,7 @@ func main() {
 
 ## WebSocket
 
-Fiber supports a websocket upgrade middleware. The `*Conn` struct has all the functionality from the gorilla/websocket library.
+Fiber supports a websocket upgrade middleware. The `*Conn` struct has all the functionality from the [**gorilla/websocket**](https://github.com/gorilla/websocket) library.
 
 **Installation**
 
@@ -414,7 +414,7 @@ func main() {
 
   app.Get("/ws", websocket.New(func(c *websocket.Conn) {
     fmt.Println(c.Locals("Hello")) // "World"
-    // Websocket stuff
+    // Websocket logic...
     for {
       mt, msg, err := c.ReadMessage()
       if err != nil {
