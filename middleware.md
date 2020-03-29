@@ -455,7 +455,7 @@ requestid.New(config ...Config) func(*Ctx)
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
 | Filter | `func(*fiber.Ctx) bool` | Defines a function to skip middleware | `nil` |
-| Generator | `func(*fiber.Ctx) bool` | Generator defines a function to generate an ID. | `return uuid.New().String()` |
+| Generator | `func(*fiber.Ctx) string` | Generator defines a function to generate an ID. | `return uuid.New().String()` |
 
 **Example**
 
