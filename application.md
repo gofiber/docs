@@ -6,12 +6,12 @@ description: The app instance conventionally denotes the Fiber application.
 
 ## New
 
-This method creates a new **Fiber** named instance.   
+This method creates a new **App** named instance.   
 You can pass optional [settings ](application.md#settings)when creating a new instance.
 
 {% code title="Signature" %}
 ```go
-fiber.New(settings ...Settings) *Fiber
+fiber.New(settings ...Settings) *App
 ```
 {% endcode %}
 
