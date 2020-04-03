@@ -21,7 +21,9 @@ description: >-
 **Fiber** handled **6,091,966** responses per second with an average latency of **1.9** ms.  
 **Express** handled **368,303** responses per second with an average latency of **346.2** ms.
 
-![](.gitbook/assets/plaintext.png)
+![](.gitbook/assets/plaintext%20%281%29.png)
+
+![Fiber vs Express](.gitbook/assets/plaintext_express.png)
 
 ### Data Updates
 
@@ -30,26 +32,34 @@ description: >-
 
 ![](.gitbook/assets/data_updates.png)
 
+![Fiber vs Express](.gitbook/assets/data_updates_express%20%281%29.png)
+
 ### Multiple Queries
 
 **Fiber** handled **19,895** responses per second with an average latency of **25.4** ms.  
 **Express** handled **4,280** responses  per second with an average latency of **117.8** ms.
 
-![](.gitbook/assets/multiple_queries.png)
+![](.gitbook/assets/multiple_queries%20%281%29.png)
+
+![Fiber vs Express](.gitbook/assets/multiple_queries_express.png)
 
 ### Single Query
 
 **Fiber** handled **367,624** responses per second with an average latency of **0.7** ms.  
 **Express** handled **57,503** responses  per second with an average latency of **4.4** ms.
 
-![](.gitbook/assets/single_query.png)
+![](.gitbook/assets/single_query%20%282%29.png)
+
+![Fiber vs Express](.gitbook/assets/single_query_express.png)
 
 ### JSON Serialization
 
 **Fiber** handled **1,108,213** responses per second with an average latency of **0.5** ms.  
 **Express** handled **245,211** responses  per second with an average latency of **1.1** ms.
 
-![](.gitbook/assets/json.png)
+![](.gitbook/assets/json%20%281%29.png)
+
+![Fiber vs Express](.gitbook/assets/json_express.png)
 
 ## Go web framework benchmark
 
