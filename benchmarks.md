@@ -18,8 +18,8 @@ description: >-
 
 ### Plaintext
 
-**Fiber** handled **6,091,966** responses per second with an average latency of **1.9** ms.  
-**Express** handled **368,303** responses per second with an average latency of **346.2** ms.
+**Fiber** handled **6,162,556** responses per second with an average latency of **2.0** ms.  
+**Express** handled **367,069** responses per second with an average latency of **354.1** ms.
 
 ![](.gitbook/assets/plaintext%20%281%29.png)
 
@@ -27,8 +27,8 @@ description: >-
 
 ### Data Updates
 
-**Fiber** handled **11,815** responses  per second with an average latency of **42.9** ms.  
-**Express** handled **1,221** responses  per second with an average latency of **412.6** ms.
+**Fiber** handled **11,846** responses  per second with an average latency of **42.8** ms.  
+**Express** handled **2,066** responses  per second with an average latency of **390.44** ms.
 
 ![](.gitbook/assets/data_updates.png)
 
@@ -36,8 +36,8 @@ description: >-
 
 ### Multiple Queries
 
-**Fiber** handled **19,895** responses per second with an average latency of **25.4** ms.  
-**Express** handled **4,280** responses  per second with an average latency of **117.8** ms.
+**Fiber** handled **19,664** responses per second with an average latency of **25.7** ms.  
+**Express** handled **4,302** responses  per second with an average latency of **117.2** ms.
 
 ![](.gitbook/assets/multiple_queries%20%281%29.png)
 
@@ -45,8 +45,8 @@ description: >-
 
 ### Single Query
 
-**Fiber** handled **367,624** responses per second with an average latency of **0.7** ms.  
-**Express** handled **57,503** responses  per second with an average latency of **4.4** ms.
+**Fiber** handled **368,647** responses per second with an average latency of **0.7** ms.  
+**Express** handled **57,880** responses  per second with an average latency of **4.4** ms.
 
 ![](.gitbook/assets/single_query%20%282%29.png)
 
@@ -54,8 +54,8 @@ description: >-
 
 ### JSON Serialization
 
-**Fiber** handled **1,108,213** responses per second with an average latency of **0.5** ms.  
-**Express** handled **245,211** responses  per second with an average latency of **1.1** ms.
+**Fiber** handled **1,146,667** responses per second with an average latency of **0.4** ms.  
+**Express** handled **244,847** responses  per second with an average latency of **1.1** ms.
 
 ![](.gitbook/assets/json%20%281%29.png)
 
