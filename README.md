@@ -90,7 +90,7 @@ app.Get("/:value", func(c *fiber.Ctx) {
 // GET http://localhost:3000/john
 
 app.Get("/:name?", func(c *fiber.Ctx) {
-  if c.Params("name") == "" {
+  if c.Params("name") != "" {
     c.Send("Hello " + c.Params("name"))
     // => Hello john
   } else {
