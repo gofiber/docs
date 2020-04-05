@@ -271,7 +271,7 @@ app.Listen("127.0.0.1:8080")
 ```
 {% endcode %}
 
-To enable **TLS/HTTPS** you can append a **\*\*\[**TLS config\*\*\]\([https://golang.org/pkg/crypto/tls/\#Config](https://golang.org/pkg/crypto/tls/#Config)\).
+To enable **TLS/HTTPS** you can append a **[TLS config](https://golang.org/pkg/crypto/tls/#Config)**.
 
 {% code title="Example" %}
 ```go
