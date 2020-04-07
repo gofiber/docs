@@ -19,8 +19,6 @@ description: 托管文档，因此您可以开始使用Fiber构建Web应用程�
 使用[`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them)命令完成安装：
 
 ```bash
-export GO111MODULE=on
-export GOPROXY=https://goproxy.cn
 go get -u github.com/gofiber/fiber
 ```
 
@@ -54,7 +52,7 @@ go run server.go
 
 ## 路由
 
-路由是指确定应用程序如何响应客户端对特定端点的请求，该特定端点是URI（或路径）和特定的HTTP请求方法（GET，PUT，POST等）。
+路由是指确定应用程序如何响应客户端对特定端点的请求，该特定端点是URI \(或路径\)和特定的HTTP请求方法 \(GET，PUT，POST等\)。
 
 {% hint style="info" %}
 每个路由可以具有**一个处理函数** ，该**函数**在匹配该路由时执行。
