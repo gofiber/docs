@@ -535,3 +535,51 @@ func main() {
 }
 ```
 
+
+## Redirect
+
+Redirects middleware provides an HTTP redirect to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code.
+
+**Installation**
+
+```bash
+go get -u github.com/gofiber/redirect
+```
+
+**Signature**
+
+```go
+redirect.New(config ...Config) func(*Ctx)
+```
+
+**Example**
+
+```go
+package main
+
+import (
+  "github.com/gofiber/fiber"
+  "github.com/gofiber/redirect"
+)
+
+func main() {
+  app := fiber.New()
+  
+  app.Use(redirect.New(redirect.Config{
+    Rules: map[string]string{
+      "/old":   "/new",
+      "/old/*": "/new/$1",
+    },
+    Status: 301,
+  }))
+  
+  app.Get("/new", func(c *fiber.Ctx) {
+    c.Send("Hello, World!")
+  })
+  app.Get("/new/*", func(c *fiber.Ctx) {
+    c.Send("Wildcard: ", c.Params("*"))
+  })
+  
+  app.Listen(3000)
+}
+```
