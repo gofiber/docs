@@ -473,7 +473,7 @@ func main() {
   app.Use(requestid.New())
 
   app.Get("/", func(c *fiber.Ctx) {
-    c.Send("Hello, World!")
+    c.Send(requestid.Get(c))
   })
 
   app.Listen(3000)
@@ -535,7 +535,6 @@ func main() {
 }
 ```
 
-
 ## Redirect
 
 Redirects middleware provides an HTTP redirect to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code.
@@ -564,7 +563,7 @@ import (
 
 func main() {
   app := fiber.New()
-  
+
   app.Use(redirect.New(redirect.Config{
     Rules: map[string]string{
       "/old":   "/new",
@@ -572,14 +571,15 @@ func main() {
     },
     Status: 301,
   }))
-  
+
   app.Get("/new", func(c *fiber.Ctx) {
     c.Send("Hello, World!")
   })
   app.Get("/new/*", func(c *fiber.Ctx) {
     c.Send("Wildcard: ", c.Params("*"))
   })
-  
+
   app.Listen(3000)
 }
 ```
+
