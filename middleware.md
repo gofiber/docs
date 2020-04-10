@@ -569,7 +569,7 @@ func main() {
       "/old":   "/new",
       "/old/*": "/new/$1",
     },
-    Status: 301,
+    StatusCode: 301,
   }))
 
   app.Get("/new", func(c *fiber.Ctx) {
