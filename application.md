@@ -258,7 +258,7 @@ Binds and listens for connections on the specified address. This can be a `int` 
 
 {% code title="Signature" %}
 ```go
-app.Listen(address interface{}, tls ...*tls.Config)
+app.Listen(address interface{}, tls ...*tls.Config) error
 ```
 {% endcode %}
 
@@ -282,6 +282,30 @@ if err != nil {
 config := &tls.Config{Certificates: []tls.Certificate{cer}}
 
 app.Listen(443, config)
+```
+{% endcode %}
+
+## Serve
+
+You can pass your own [`net.Listener`](https://golang.org/pkg/net/#Listener) using the `Serve` method.
+
+{% code title="Signature" %}
+```go
+app.Serve(ln net.Listener, tls ...*tls.Config) error
+```
+{% endcode %}
+
+{% hint style="warning" %}
+**Serve** does not support the ****[**Prefork** ](application.md#settings)feature.
+{% endhint %}
+
+{% code title="Example" %}
+```go
+if ln, err = net.Listen("tcp4", ":8080"); err != nil {
+    log.Fatal(err)
+}
+
+app.Serve(ln)
 ```
 {% endcode %}
 
