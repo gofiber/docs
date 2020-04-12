@@ -100,3 +100,7 @@ If we enable **http pipelining**, test result as below:
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency-pipeline.png)
 
+Dependency graph for `v1.9.0`
+
+![](.gitbook/assets/graph.svg)
+
