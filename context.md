@@ -153,7 +153,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## BodyParser
 
-Binds the request body to a struct. `BodyParser` supports decoding the following content types based on the `Content-Type` header:
+Binds the request body to a struct. `BodyParser` supports decoding query parameters and the following content types based on the `Content-Type` header:
 
 * `application/json`
 * `application/xml`
@@ -168,34 +168,33 @@ c.BodyParser(out interface{}) error
 
 {% code title="Example" %}
 ```go
-// curl -X POST -H "Content-Type: application/json" \ 
-// --data '{"name":"john","pass":"doe"}'  localhost:3000
-
-// curl -X POST -H "Content-Type: application/xml" \ 
-// --data '<Login><name>john</name><pass>doe</pass><Login>'  localhost:3000
-
-// curl -X POST -H "Content-Type: application/x-www-form-urlencoded" \
-// --data 'name=john&pass=doe'  localhost:3000
-
-// curl -v -F name=john -F pass=doe http://localhost:3000
-
 // Field names should start with an uppercase letter
-// Pass (o)
-// pass (x)
 type Person struct {
-    Name string `json:"name" xml:"name" form:"name"`
-    Pass string `json:"pass" xml:"pass" form:"pass"`
+    Name string `json:"name" xml:"name"`
+    Pass string `json:"pass" xml:"pass"`
 }
 
 app.Post("/", func(c *fiber.Ctx) {
-    var person Person
+		p := new(Person)
 
-    if err := c.BodyParser(&person); err != nil {
-        // Handle error
-    }
+		if err := c.BodyParser(p); err != nil {
+			log.Fatal(err)
+		}
 
-    // Do something with person.Name or person.Pass
+		log.Println(p.Name) // john
+		log.Println(p.Pass) // doe
 })
+// Run tests with the following curl commands
+
+// curl -X POST -H "Content-Type: application/json" --data "{\"name\":\"john\",\"pass\":\"doe\"}" localhost:3000
+
+// curl -X POST -H "Content-Type: application/xml" --data "<login><name>john</name><pass>doe</pass></login>" localhost:3000
+
+// curl -X POST -H "Content-Type: application/x-www-form-urlencoded" --data "name=john&pass=doe" localhost:3000
+
+// curl -X POST -F name=john -F pass=doe http://localhost:3000
+
+// curl -X POST "http://localhost:3000/?name=john&pass=doe"
 ```
 {% endcode %}
 
