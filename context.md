@@ -170,8 +170,8 @@ c.BodyParser(out interface{}) error
 ```go
 // Field names should start with an uppercase letter
 type Person struct {
-    Name string `json:"name" xml:"name"`
-    Pass string `json:"pass" xml:"pass"`
+	Name string `json:"name" xml:"name" form:"name" query:"name"`
+	Pass string `json:"pass" xml:"pass" form:"pass" query:"pass"`
 }
 
 app.Post("/", func(c *fiber.Ctx) {
