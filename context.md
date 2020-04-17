@@ -1099,8 +1099,8 @@ app.Get("/", func(c *fiber.Ctx) {
 
 Transfers the file from the given path. Sets the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) response HTTP header field based on the **filenames** extension.
 
-{% hint style="info" %}
-Method use **gzipping** by default, set it to **false** to disable.
+{% hint style="warning" %}
+Method use **gzipping** by default, set it to **true** to disable.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1115,7 +1115,7 @@ app.Get("/not-found", func(c *fiber.Ctx) {
   c.SendFile("./public/404.html")
 
   // Disable gzipping:
-  c.SendFile("./static/index.html", false)
+  c.SendFile("./static/index.html", true)
 })
 ```
 {% endcode %}
