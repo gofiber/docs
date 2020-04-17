@@ -392,7 +392,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
   // Accept: text/html
   c.Format("Hello, World!")
-  // => <p>Hello, World!</p
+  // => <p>Hello, World!</p>
 
   // Accept: application/json
   c.Format("Hello, World!")
