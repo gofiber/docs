@@ -10,8 +10,8 @@
 ## Links
 
 * [🏠 Home](https://gofiber.io)
-* [📝 Github](https://github.com/gofiber/fiber)
 * [🍳 Examples](https://github.com/gofiber/recipes)
+* [📝 Github](https://github.com/gofiber/fiber)
 * [☕ Buy a Coffee](https://www.buymeacoffee.com/fenny)
 * [💬 Telegram Chat](https://t.me/gofiber)
 
