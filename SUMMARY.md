@@ -13,5 +13,5 @@
 * [🍳 Examples](https://github.com/gofiber/recipes)
 * [📝 Github](https://github.com/gofiber/fiber)
 * [☕ Buy a Coffee](https://www.buymeacoffee.com/fenny)
-* [💬 Telegram Chat](https://t.me/gofiber)
+* [💬 Telegram](https://t.me/gofiber)
 
