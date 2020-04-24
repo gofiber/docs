@@ -777,12 +777,12 @@ c.Next(err ...error)
 {% code title="Example" %}
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  fmt.Printl("1st route!")
+  fmt.Println("1st route!")
   c.Next()
 })
 
 app.Get("*", func(c *fiber.Ctx) {
-  fmt.Printl("2nd route!")
+  fmt.Println("2nd route!")
   c.Next(fmt.Errorf("Some error"))
 })
 
