@@ -422,7 +422,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## FormValue
 
-MultipartForm values can be retrieved by name, the **first** value from the given key is returned.
+Any form values can be retrieved by name, the **first** value from the given key is returned.
 
 {% code title="Signature" %}
 ```go
