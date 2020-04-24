@@ -260,7 +260,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Cookies
 
-Get cookies.
+Get cookie value by key.
 
 **Signature**s
 
