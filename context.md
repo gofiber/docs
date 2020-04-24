@@ -133,7 +133,7 @@ Contains the **raw body** submitted in a **POST** request.
 
 {% code title="Signature" %}
 ```go
-c.Body(key ...string) string
+c.Body() string
 ```
 {% endcode %}
 
@@ -144,9 +144,6 @@ c.Body(key ...string) string
 app.Post("/", func(c *fiber.Ctx) {
   // Get raw body from POST request:
   c.Body() // user=john
-
-  // Get body value by specific key:
-  c.Body("user") // "john"
 })
 ```
 {% endcode %}
@@ -268,15 +265,12 @@ Get cookies.
 **Signature**s
 
 ```go
-c.Cookies(key ...string) string
+c.Cookies(key string) string
 ```
 
 {% code title="Example" %}
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  // Get raw cookie header:
-  c.Cookies() // name=john;
-
   // Get cookie by key:
   c.Cookies("name") // "john"
 })
