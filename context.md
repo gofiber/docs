@@ -167,19 +167,19 @@ c.BodyParser(out interface{}) error
 ```go
 // Field names should start with an uppercase letter
 type Person struct {
-	Name string `json:"name" xml:"name" form:"name" query:"name"`
-	Pass string `json:"pass" xml:"pass" form:"pass" query:"pass"`
+    Name string `json:"name" xml:"name" form:"name" query:"name"`
+    Pass string `json:"pass" xml:"pass" form:"pass" query:"pass"`
 }
 
 app.Post("/", func(c *fiber.Ctx) {
-		p := new(Person)
+        p := new(Person)
 
-		if err := c.BodyParser(p); err != nil {
-			log.Fatal(err)
-		}
+        if err := c.BodyParser(p); err != nil {
+            log.Fatal(err)
+        }
 
-		log.Println(p.Name) // john
-		log.Println(p.Pass) // doe
+        log.Println(p.Name) // john
+        log.Println(p.Pass) // doe
 })
 // Run tests with the following curl commands
 
