@@ -148,7 +148,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## BodyParser
 
-Binds the request body to a struct. `BodyParser` supports decoding query parameters and the following content types based on the `Content-Type` header:
+Привязывает тело запроса к структуре. `BodyParser` поддерживает декодирование параметров запроса (и последующих типов содержимого) на основе заголовка `Content-Type`:
 
 * `application/json`
 * `application/xml`
@@ -195,7 +195,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## ClearCookie
 
-Expire a client cookie \(_or all cookies if left empty\)_
+Истечение клиентского cookie \(_или всех cookie-файлов, если оставить пустым\)_
 
 {% code title="Signature" %}
 ```go
@@ -220,9 +220,9 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Cookie
 
-Set cookie
+Установить cookie
 
-**Signature**
+**Сигнатура**
 
 ```text
 c.Cookie(*Cookie)
@@ -258,9 +258,9 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Cookies
 
-Get cookie value by key.
+Получить значение cookie по ключу.
 
-**Signature**s
+**Сигнатура**
 
 ```go
 c.Cookies(key string) string
@@ -277,11 +277,11 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Download
 
-Transfers the file from path as an `attachment`.
+Передаёт файл из пути в качестве `вложения` (attachment).
 
-Typically, browsers will prompt the user for download. By default, the [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header `filename=` parameter is the filepath \(_this typically appears in the browser dialog_\).
+Как правило, браузеры запрашивают скачивание у пользователя. По умолчанию, заголовок [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) с `filename=`, является параметром filepath \(_обычно появляется в диалоговом окне браузера_\).
 
-Override this default with the **filename** parameter.
+Переопределить значение по умолчанию с помощью параметра **filename**.
 
 {% code title="Signature" %}
 ```go
@@ -303,15 +303,15 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Fasthttp
 
-You can still **access** and use all **Fasthttp** methods and properties.
+Вы все еще можете **получить доступ** и использовать все **Fasthttp** методы и свойства.
 
-**Signature**
+**Сигнатура**
 
 {% hint style="info" %}
-Please read the [Fasthttp Documentation](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) for more information.
+Пожалуйста, прочитайте [Fasthttp Documentation](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) для получения дополнительной информации.
 {% endhint %}
 
-**Example**
+**Пример**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -325,7 +325,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Error
 
-This contains the error information that thrown by a panic or passed via the [`Next(err)`](https://github.com/gofiber/docs/tree/8d965e1e05fb67f965934586c78335ef29f52128/context/README.md#error) method.
+Содержит информацию об ошибке, вызванную паникой или передаваемую через метод [`Next(err)`](https://github.com/gofiber/docs/tree/8d965e1e05fb67f965934586c78335ef29f52128/context/README.md#error).
 
 {% code title="Signature" %}
 ```go
@@ -363,10 +363,10 @@ func main() {
 
 ## Format
 
-Performs content-negotiation on the [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header. It uses [Accepts](context.md#accepts) to select a proper format.
+Выполняет согласование содержимого в HTTP-заголовке [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept). Он использует [Accepts](context.md#accepts) для выбора надлежащего формата.
 
 {% hint style="info" %}
-If the header is **not** specified or there is **no** proper format, **text/plain** is used.
+Если заголовок **не указан** или **не существует** корректный формат, то используется **text/plain**.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -395,7 +395,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## FormFile
 
-MultipartForm files can be retrieved by name, the **first** file from the given key is returned.
+Файлы в MultipartForm могут быть получены по имени. Возвращается **первый** файл с данного ключа.
 
 {% code title="Signature" %}
 ```go
@@ -420,7 +420,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## FormValue
 
-Any form values can be retrieved by name, the **first** value from the given key is returned.
+Значения любой формы могут быть получены по имени. Возвращается значение **первого** из заданного ключа.
 
 {% code title="Signature" %}
 ```go
@@ -443,12 +443,12 @@ app.Post("/", func(c *fiber.Ctx) {
 [https://expressjs.com/en/4x/api.html\#req.fresh](https://expressjs.com/en/4x/api.html#req.fresh)
 
 {% hint style="info" %}
-Not implemented yet, pull requests are welcome!
+Пока что не реализовано, вы можете прислать Pull Request!
 {% endhint %}
 
 ## Get
 
-Returns the HTTP request header specified by field.
+Возвращает заголовок HTTP-запроса, указанный по полю.
 
 {% hint style="success" %}
 The match is **case-insensitive**.
@@ -598,9 +598,9 @@ app.Get("/json", func(c *fiber.Ctx) {
 
 ## JSONP
 
-Sends a JSON response with JSONP support. This method is identical to [JSON](context.md#json), except that it opts-in to JSONP callback support. By default, the callback name is simply callback.
+Sends a JSON response with JSONP support. This method is identical to [JSON](context.md#json), except that it opts-in to JSONP callback support. По умолчанию, просто вызывается имя обратного вызова (callback).
 
-Override this by passing a **named string** in the method.
+Переопределить это, указав **именованную строку** метода.
 
 {% code title="Signature" %}
 ```go
@@ -633,7 +633,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Links
 
-Joins the links followed by the property to populate the response’s [Link](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Link) HTTP header field.
+Присоединяется к ссылкам, за которыми следует свойство для заполнения поля заголовка ответа [Link](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Link).
 
 {% code title="Signature" %}
 ```go
@@ -656,10 +656,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Locals
 
-Method that stores string variables scoped to the request and therefore available only to the routes that match the request.
+Метод, который хранит строковые переменные (видимые в запросе), и поэтому доступен только для маршрутов, соответствующих запросу.
 
 {% hint style="success" %}
-This is useful, if you want to pass some **specific** data to the next middleware.
+Это полезно, если вы хотите передать **специфические** данные следующему middleware.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -688,7 +688,7 @@ app.Get("/admin", func(c *fiber.Ctx) {
 
 ## Location
 
-Sets the response [Location](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Location) HTTP header to the specified path parameter.
+Устанавливает ответ HTTP-заголовка [Location](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Location) к указанному параметру пути.
 
 {% code title="Signature" %}
 ```go
@@ -707,7 +707,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Method
 
-Contains a string corresponding to the HTTP method of the request: `GET`, `POST`, `PUT` and so on.
+Содержит строку, соответствующую методу HTTP-запроса: `GET`, `POST`, `PUT` и так далее.
 
 {% code title="Signature" %}
 ```go
@@ -725,7 +725,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## MultipartForm
 
-To access multipart form entries, you can parse the binary with `MultipartForm()`. This returns a `map[string][]string`, so given a key the value will be a string slice.
+Для доступа к множественным элементам, вы можете разобрать бинарный файл с помощью `MultipartForm()`. Это возвращает `map[string][]string`, поэтому значение с таким ключом будет слайсом строки.
 
 {% code title="Signature" %}
 ```go
@@ -1163,7 +1163,7 @@ app.Get("/", func(c *fiber.Ctx) {
 [https://expressjs.com/en/4x/api.html\#req.fresh](https://expressjs.com/en/4x/api.html#req.fresh)
 
 {% hint style="info" %}
-Not implemented yet, pull requests are welcome!
+Пока что не реализовано, вы можете прислать Pull Request!
 {% endhint %}
 
 ## Status
