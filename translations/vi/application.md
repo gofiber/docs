@@ -6,8 +6,8 @@ description: Thể hiện app thông thường biểu thị ứng dụng Fiber.
 
 ## New
 
-This method creates a new **App** named instance.  
-You can pass optional [settings ](application.md#settings)when creating a new instance
+Phương thức này tạo mới một thể hiện của **App**  
+Bạn có thể truyền [các cài đặt](application.m#settings) tùy chọn khi tạo một thể hiện mới
 
 {% code title="Signature" %}
 ```go
@@ -33,12 +33,12 @@ func main() {
 
 ## Settings
 
-You can pass application settings when calling `New`.
+Bạn có thể truyền các cài đặt ứng dụng khi gọi `New`.
 
 {% code title="Example" %}
 ```go
 func main() {
-    // Pass Settings creating a new instance
+    // Truyền các cài đặt tạo một thể hiện mới
     app := fiber.New(fiber.Settings{
         Prefork:       true,
         CaseSensitive: true,
@@ -53,14 +53,14 @@ func main() {
 ```
 {% endcode %}
 
-Or change the settings after initializing an `app`.
+Hoặc thay đổi các cài đặt sau khi khởi tạo một `app`.
 
 {% code title="Example" %}
 ```go
 func main() {
     app := fiber.New()
 
-    // Or change Settings after creating an instance
+    // Hoặc thay đổi những cài đặt sau khi tạo một thể hiện
     app.Settings.Prefork = true
     app.Settings.CaseSensitive = true
     app.Settings.StrictRouting = true
@@ -73,9 +73,9 @@ func main() {
 ```
 {% endcode %}
 
-**Settings** **fields**
+**Các trường** **cài đặt**
 
-| Property                  | Type                                                 | Description                                                                                                                                                                                                                                               | Default           |
+| Thuộc tính                | Kiểu                                                 | Mô tả                                                                                                                                                                                                                                                     | Mặc định          |
 |:------------------------- |:---------------------------------------------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
 | Prefork                   | `bool`                                               | Enables use of the[`SO_REUSEPORT`](https://lwn.net/Articles/542629/)socket option. This will spawn multiple Go processes listening on the same port. learn more about [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
 | ServerHeader              | `string`                                             | Enables the `Server` HTTP header with the given value.                                                                                                                                                                                                    | `""`              |
