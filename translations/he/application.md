@@ -2,7 +2,7 @@
 description: The app instance conventionally denotes the Fiber application.
 ---
 
-# 🚀 Aplicação
+# 🚀 Application
 
 ## New
 
