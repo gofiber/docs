@@ -1,21 +1,21 @@
 ---
-description: The app instance conventionally denotes the Fiber application.
+descripción: Convencionalmente la instancia app denota la aplicación Fiber.
 ---
 
-# 🚀 Application
+# 🚀 Applicación
 
 ## New
 
-This method creates a new **App** named instance.  
-You can pass optional [settings ](application.md#settings)when creating a new instance
+Este método crea una nueva instancia llamada **App**
+Opcionalmente se puede invocar con [ajustes ](application.md#settings) cuando se crea una nueva instancia
 
-{% code title="Signature" %}
+{% code title="Firma/Contrato" %}
 ```go
 fiber.New(settings ...Settings) *App
 ```
 {% endcode %}
 
-{% code title="Example" %}
+{% code title="Ejemplo" %}
 ```go
 package main
 
@@ -33,12 +33,12 @@ func main() {
 
 ## Settings
 
-You can pass application settings when calling `New`.
+Puedes enviar ajustes cuando se llama `New`.
 
-{% code title="Example" %}
+{% code title="Ejemplo" %}
 ```go
 func main() {
-    // Pass Settings creating a new instance
+    // Enviando Ajustes al crear una nueva instancia
     app := fiber.New(fiber.Settings{
         Prefork:       true,
         CaseSensitive: true,
@@ -53,14 +53,14 @@ func main() {
 ```
 {% endcode %}
 
-Or change the settings after initializing an `app`.
+Cambiando los ajustes luego de inicializar una `app`.
 
-{% code title="Example" %}
+{% code title="Ejemplo" %}
 ```go
 func main() {
     app := fiber.New()
 
-    // Or change Settings after creating an instance
+    // Cambiando los Ajustes luego de crear una instancia
     app.Settings.Prefork = true
     app.Settings.CaseSensitive = true
     app.Settings.StrictRouting = true
@@ -73,9 +73,9 @@ func main() {
 ```
 {% endcode %}
 
-**Settings** **fields**
+**Propiedades** **de** **ajustes**
 
-| Property                  | Type                                                 | Description                                                                                                                                                                                                                                               | Default           |
+| Propiedad                 | Tipo                                                 | Descripción                                                                                                                                                                                                                                               | Default           |
 |:------------------------- |:---------------------------------------------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
 | Prefork                   | `bool`                                               | Enables use of the[`SO_REUSEPORT`](https://lwn.net/Articles/542629/)socket option. This will spawn multiple Go processes listening on the same port. learn more about [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
 | ServerHeader              | `string`                                             | Enables the `Server` HTTP header with the given value.                                                                                                                                                                                                    | `""`              |
@@ -96,21 +96,21 @@ func main() {
 
 ## Static
 
-Use the **Static** method to serve static files such as **images**, **CSS** and **JavaScript**.
+Utiliza el método **Static** para servir archivos estáticos como **imágenes**, **CSS** y **JavaScript**.
 
 {% hint style="info" %}
-By default, **Static** will serve`index.html` files in response to a request on a directory.
+Por defecto, **Static** servira archivos `index.html` cuando haya solicitudes a un directorio.
 {% endhint %}
 
-{% code title="Signature" %}
+{% code title="Firma/Contrato" %}
 ```go
-app.Static(prefix, root string, config ...Static) // => with prefix
+app.Static(prefix, root string, config ...Static) // => con prefix
 ```
 {% endcode %}
 
-Use the following code to serve files in a directory named `./public`
+Usa el siguiente código para servir archivos en un directorio llamado `./public`
 
-{% code title="Example" %}
+{% code title="Ejemplo" %}
 ```go
 app.Static("/", "./public")
 
@@ -120,25 +120,25 @@ app.Static("/", "./public")
 ```
 {% endcode %}
 
-To serve from multiple directories, you can use **Static** multiple times.
+Para responder desde multiples directorios, se puede usar **Static** varias veces.
 
-{% code title="Example" %}
+{% code title="Ejemplo" %}
 ```go
-// Serve files from "./public" directory:
+// Servir archivos desde el directorio "./public":
 app.Static("/", "./public")
 
-// Serve files from "./files" directory:
+// Servir archivos desde el directorio "./files":
 app.Static("/", "./files")
 ```
 {% endcode %}
 
 {% hint style="info" %}
-Use a reverse proxy cache like [**NGINX**](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) to improve performance of serving static assets.
+Usa un cache de proxy inverso como [**NGINX**](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) para mejorar el rendimiento al servir recursos estáticos.
 {% endhint %}
 
-You can use any virtual path prefix \(_where the path does not actually exist in the file system_\) for files that are served by the **Static** method, specify a prefix path for the static directory, as shown below:
+Puedes usar cualquier prefijo de ruta virtual \(_donde la ruta no existe actualmente en el sistema de archivos_\) para los archivos que son servidos por el método **Static**, especificando un prefijo de ruta para el directorio 'static', como se muestra abajo: 
 
-{% code title="Example" %}
+{% code title="Ejemplo" %}
 ```go
 app.Static("/static", "./public")
 
@@ -148,32 +148,32 @@ app.Static("/static", "./public")
 ```
 {% endcode %}
 
-If you want to have a little bit more control regarding the settings for serving static files. You could use the `fiber.Static` struct to enable specific settings.
+Si desea tener un poco mas de control respecto a los ajustes para servir los archivos estáticos, puedes usar el struct `fiber.Static` para habilitar ajustes especificos.
 
 {% code title="fiber.Static{}" %}
 ```go
-// Static represents settings for serving static files
+// Static representa ajustes para servir archivos estáticos
 type Static struct {
-    // Transparently compresses responses if set to true
-    // This works differently than the github.com/gofiber/compression middleware
-    // The server tries minimizing CPU usage by caching compressed files.
-    // It adds ".fiber.gz" suffix to the original file name.
-    // Optional. Default value false
+    // Comprime transparentemente las respuestas si esta establecido a true
+    // Esto funciona de manera distinta que en el middleware github.com/gofiber/compression
+    // El servidor intenta minimizar el uso del CPU almacenando en cache los archivos comprimidos.
+    // Agrega el sufijo ".fiber.gz" al nombre original del archivo
+    // Es opcional. Valor por defecto false 
     Compress bool
-    // Enables byte range requests if set to true.
-    // Optional. Default value false
+    // Habilita pedidos byte range si se establece a true.
+    // Es opcional. Valor por defecto false.
     ByteRange bool
-    // Enable directory browsing.
-    // Optional. Default value false.
+    // Habilita la navegación de directorios.
+    // Es opcional. Valor por defecto false.
     Browse bool
-    // Index file for serving a directory.
-    // Optional. Default value "index.html".
+    // archivo index para servir un directorio. 
+    // Es opcional. Valor por defecto "index.html".
     Index string
 }
 ```
 {% endcode %}
 
-{% code title="Example" %}
+{% code title="Ejemplo" %}
 ```go
 app.Static("/", "./public", fiber.Static{
   Compress:   true,
@@ -186,12 +186,12 @@ app.Static("/", "./public", fiber.Static{
 
 ## HTTP Methods
 
-Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) of the request.
+Enruta una petición HTTP, donde **METHOD** es un [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) dee la petición. 
 
-{% code title="Signatures" %}
+{% code title="Firma/Contrato" %}
 ```go
-// HTTP methods support :param, :optional? and *wildcards
-// You are required to pass a path to each method
+// Método HTTP admite :param, :optional? and *wildcards
+// Es requerido enviar un path para cada método
 app.All(path string, handlers ...func(*Ctx)) *Fiber
 app.Get
 app.Put
@@ -203,15 +203,15 @@ app.Delete
 app.Connect
 app.Options
 
-// Use() will only match the beggining of each path
-// i.e. "/john" will match "/john/doe", "/johnnnn"
-// Use() does not support :param & :optional? in path
+// Use() solo coincidirá con el principio de cada ruta
+// ṕ.e. /john" coincidirá "/john/doe", "/johnnnn"
+// Use() no admite :param & :optional? en la ruta
 app.Use(handlers ...func(*Ctx))
 app.Use(prefix string, handlers ...func(*Ctx)) *Fiber
 ```
 {% endcode %}
 
-{% code title="Example" %}
+{% code title="Ejemplo" %}
 ```go
 app.Use("/api", func(c *fiber.Ctx) {
   c.Set("X-Custom-Header", random.String(32))
@@ -228,15 +228,15 @@ app.Post("/api/register", func(c *fiber.Ctx) {
 
 ## Group
 
-You can group routes by creating a `*Group` struct.
+Puedes agrupar rutas creando un struct `*Group`.
 
-**Signature**
+**Firma/Contrato**
 
 ```go
 app.Group(prefix string, handlers ...func(*Ctx)) *Group
 ```
 
-**Example**
+**Ejemplo**
 
 ```go
 func main() {
@@ -258,15 +258,16 @@ func main() {
 
 ## Listen
 
-Binds and listens for connections on the specified address. This can be a `int` for port or `string` for address.
+Enlaza y espera por conecciones en la dirección especificada.
+Esta puede ser `int` para puerto o `string` para dirección.
 
-{% code title="Signature" %}
+{% code title="Firma/Contrato" %}
 ```go
 app.Listen(address interface{}, tls ...*tls.Config) error
 ```
 {% endcode %}
 
-{% code title="Examples" %}
+{% code title="Ejemplos" %}
 ```go
 app.Listen(8080)
 app.Listen("8080")
@@ -275,9 +276,9 @@ app.Listen("127.0.0.1:8080")
 ```
 {% endcode %}
 
-To enable **TLS/HTTPS** you can append a [**TLS config**](https://golang.org/pkg/crypto/tls/#Config).
+Para habilitar **TLS/HTTPS** puedes anexar [**TLS config**](https://golang.org/pkg/crypto/tls/#Config).
 
-{% code title="Example" %}
+{% code title="Ejemplo" %}
 ```go
 cer, err := tls.LoadX509KeyPair("server.crt", "server.key")
 if err != nil {
@@ -291,19 +292,19 @@ app.Listen(443, config)
 
 ## Serve
 
-You can pass your own [`net.Listener`](https://golang.org/pkg/net/#Listener) using the `Serve` method.
+Puedes pasar tu propio [`net.Listener`](https://golang.org/pkg/net/#Listener) usando el método `Serve`.
 
-{% code title="Signature" %}
+{% code title="Contrato/Firma" %}
 ```go
 app.Serve(ln net.Listener, tls ...*tls.Config) error
 ```
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** does not support the ****[**Prefork** ](application.md#settings)feature.
+**Serve** no admite la propiedad ****[**Prefork** ](application.md#settings).
 {% endhint %}
 
-{% code title="Example" %}
+{% code title="Ejemplo" %}
 ```go
 if ln, err = net.Listen("tcp4", ":8080"); err != nil {
     log.Fatal(err)
@@ -315,22 +316,22 @@ app.Serve(ln)
 
 ## Test
 
-Testing your application is done with the **Test** method. Use this method for creating `_test.go` files or when you need to debug your routing logic. The default timeout is `200ms` if you want to disable a timeout completely, pass `-1` as a second argument.
+Las pruebas en la aplicación es realizado a travez del método **Test**. Usa este método para crear archivos `_test.go` o cuando necesitas depurar tus logica de enrutamiento. El tiempo de espera es `200ms` por defecto, si deseas desabilitarlo completamente, envia `-1`como segundo argumento.
 
-{% code title="Signature" %}
+{% code title="Firma/Contrato" %}
 ```go
 app.Test(req *http.Request, msTimeout ...int) (*http.Response, error)
 ```
 {% endcode %}
 
-{% code title="Example" %}
+{% code title="Ejemplo" %}
 ```go
-// Create route with GET method for test:
+// Crea una ruta con método GET para prueba:
 app.Get("/", func(c *Ctx) {
   fmt.Println(c.BaseURL())              // => http://google.com
   fmt.Println(c.Get("X-Custom-Header")) // => hi
 
-  c.Send("hello, World!")
+  c.Send("Hola, Mundo!")
 })
 
 // http.Request
@@ -340,10 +341,10 @@ req.Header.Set("X-Custom-Header", "hi")
 // http.Response
 resp, _ := app.Test(req)
 
-// Do something with results:
+// Haz algo con el resultados:
 if resp.StatusCode == 200 {
   body, _ := ioutil.ReadAll(resp.Body)
-  fmt.Println(string(body)) // => Hello, World!
+  fmt.Println(string(body)) // => Hola, Mundo!
 }
 ```
 {% endcode %}
