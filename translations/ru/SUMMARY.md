@@ -1,17 +1,17 @@
-# Table of contents
+# Оглавление
 
-* [📖 Getting started](README.md)
-* [🚀 Application](application.md)
-* [🧠 Context](context.md)
+* [📖 Приступая к работе](README.md)
+* [🚀 Приложение](application.md)
+* [🧠 Контекст](context.md)
 * [🧬 Middleware](middleware.md)
-* [🔌 Routing](routing.md)
+* [🔌 Маршрутизация](routing.md)
 * [🤖 Benchmarks](benchmarks.md)
 
 ## Links
 
-* [🏠 Home](https://gofiber.io)
-* [🍳 Examples](https://github.com/gofiber/recipes)
+* [🏠 Главная](https://gofiber.io)
+* [🍳 Примеры](https://github.com/gofiber/recipes)
 * [📝 Github](https://github.com/gofiber/fiber)
-* [☕ Buy Coffee](https://www.buymeacoffee.com/fenny)
-* [💬 Telegram](https://t.me/gofiber)
+* [☕ Купить кофе](https://www.buymeacoffee.com/fenny)
+* [💬 Группа в Telegram](https://t.me/gofiber)
 

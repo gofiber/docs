@@ -236,7 +236,7 @@ You can group routes by creating a `*Group` struct.
 app.Group(prefix string, handlers ...func(*Ctx)) *Group
 ```
 
-**示例**
+**Example**
 
 ```go
 func main() {
@@ -258,7 +258,7 @@ func main() {
 
 ## Listen
 
-绑定和监听指定地址的连接。 可以是 `int` 类型（端口）或 `string` 类型（地址）。
+Binds and listens for connections on the specified address. This can be a `int` for port or `string` for address.
 
 {% code title="Signature" %}
 ```go
@@ -275,7 +275,7 @@ app.Listen("127.0.0.1:8080")
 ```
 {% endcode %}
 
-要启用 **TLS/HTTPS** ，您可以添加一个 [**TLS 配置**](https://golang.org/pkg/crypto/tls/#Config)
+To enable **TLS/HTTPS** you can append a [**TLS config**](https://golang.org/pkg/crypto/tls/#Config).
 
 {% code title="Example" %}
 ```go
@@ -291,7 +291,7 @@ app.Listen(443, config)
 
 ## Serve
 
-您可以通过自己的 [`net.Listener`](https://golang.org/pkg/net/#Listener) 使用 `Serve` 方法。
+You can pass your own [`net.Listener`](https://golang.org/pkg/net/#Listener) using the `Serve` method.
 
 {% code title="Signature" %}
 ```go
