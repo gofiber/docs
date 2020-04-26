@@ -6,8 +6,7 @@ description: The app instance conventionally denotes the Fiber application.
 
 ## New
 
-This method creates a new **App** named instance.  
-You can pass optional [settings ](application.md#settings)when creating a new instance
+Method ini akan membuat instance App baru. Kamu juga dapat memasukan opsional pengaturan ketika membuat instance baru
 
 {% code title="Signature" %}
 ```go
@@ -33,12 +32,12 @@ func main() {
 
 ## Settings
 
-You can pass application settings when calling `New`.
+Kamu dapet memasukan parameter pengaturan ketika menggunakan `New`.
 
-{% code title="Example" %}
+% code title="Contoh" %}
 ```go
 func main() {
-    // Pass Settings creating a new instance
+    // Memasukan pengaturan ketika membuat instance
     app := fiber.New(fiber.Settings{
         Prefork:       true,
         CaseSensitive: true,
@@ -53,7 +52,7 @@ func main() {
 ```
 {% endcode %}
 
-Or change the settings after initializing an `app`.
+Atau bisa juga ganti pengaturan setelah menginisialisasi `app`.
 
 {% code title="Example" %}
 ```go
@@ -73,44 +72,40 @@ func main() {
 ```
 {% endcode %}
 
-**Settings** **fields**
+**Parameter** **Pengaturan**
+Kamu dapat mengatur fungsi template dengan bahasa template lainya. Lihat Template Middleware</strong> kami.</td> 
 
-| Property                  | Type                                                 | Description                                                                                                                                                                                                                                               | Default           |
-|:------------------------- |:---------------------------------------------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
-| Prefork                   | `bool`                                               | Enables use of the[`SO_REUSEPORT`](https://lwn.net/Articles/542629/)socket option. This will spawn multiple Go processes listening on the same port. learn more about [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
-| ServerHeader              | `string`                                             | Enables the `Server` HTTP header with the given value.                                                                                                                                                                                                    | `""`              |
-| StrictRouting             | `bool`                                               | When enabled, the router treats `/foo` and `/foo/` as different. Otherwise, the router treats `/foo` and `/foo/` as the same.                                                                                                                             | `false`           |
-| CaseSensitive             | `bool`                                               | When enabled, `/Foo` and `/foo` are different routes. When disabled, `/Foo`and `/foo` are treated the same.                                                                                                                                               | `false`           |
-| Immutable                 | `bool`                                               | When enabled, all values returned by context methods are immutable. By default they are valid until you return from the handler, see issue [\#185](https://github.com/gofiber/fiber/issues/185).                                                        | `false`           |
-| BodyLimit                 | `int`                                                | Sets the maximum allowed size for a request body, if the size exceeds the configured limit, it sends `413 - Request Entity Too Large` response.                                                                                                           | `4 * 1024 * 1024` |
-| Concurrency               | `int`                                                | Maximum number of concurrent connections.                                                                                                                                                                                                                 | `256 * 1024`      |
-| DisableKeepalive          | `bool`                                               | Disable keep-alive connections, the server will close incoming connections after sending the first response to client                                                                                                                                     | `false`           |
-| DisableDefaultDate        | `bool`                                               | When set to true causes the default date header to be excluded from the response.                                                                                                                                                                         | `false`           |
-| DisableDefaultContentType | `bool`                                               | When set to true, causes the default Content-Type header to be excluded from the Response.                                                                                                                                                                | `false`           |
-| TemplateEngine            | `func(raw string, bind interface{}) (string, error)` | You can specify a custom template function to render different template languages. See our [**Template Middleware**](middleware.md#template) _\*\*_for presets.                                                                                     | `nil`             |
-| TemplateFolder            | `string`                                             | A directory for the application's views. If a directory is set, this will be the prefix for all template paths. `c.Render("home", data) -> ./views/home.pug`                                                                                           | `""`              |
-| TemplateExtension         | `string`                                             | If you preset the template file extension, you do not need to provide the full filename in the Render function: `c.Render("home", data) -> home.pug`                                                                                                   | `"html"`          |
-| ReadTimeout               | `time.Duration`                                      | The amount of time allowed to read the full request including body. Default timeout is unlimited.                                                                                                                                                         | `nil`             |
-| WriteTimeout              | `time.Duration`                                      | The maximum duration before timing out writes of the response. Default timeout is unlimited.                                                                                                                                                              | `nil`             |
-| IdleTimeout               | `time.Duration`                                      | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used.                                                                                                             | `nil`             |
+</tr> 
+
+</tbody> </table> 
+
+
 
 ## Static
 
 Use the **Static** method to serve static files such as **images**, **CSS** and **JavaScript**.
 
 {% hint style="info" %}
-By default, **Static** will serve`index.html` files in response to a request on a directory.
+
+By default, **Static** will serve`index.html` files in response to a request on a directory. 
+
 {% endhint %}
 
 {% code title="Signature" %}
+
+
 ```go
 app.Static(prefix, root string, config ...Static) // => with prefix
 ```
+
+
 {% endcode %}
 
 Use the following code to serve files in a directory named `./public`
 
 {% code title="Example" %}
+
+
 ```go
 app.Static("/", "./public")
 
@@ -118,11 +113,15 @@ app.Static("/", "./public")
 // => http://localhost:3000/js/jquery.js
 // => http://localhost:3000/css/style.css
 ```
+
+
 {% endcode %}
 
 To serve from multiple directories, you can use **Static** multiple times.
 
 {% code title="Example" %}
+
+
 ```go
 // Serve files from "./public" directory:
 app.Static("/", "./public")
@@ -130,15 +129,21 @@ app.Static("/", "./public")
 // Serve files from "./files" directory:
 app.Static("/", "./files")
 ```
+
+
 {% endcode %}
 
 {% hint style="info" %}
-Use a reverse proxy cache like [**NGINX**](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) to improve performance of serving static assets.
+
+Use a reverse proxy cache like [**NGINX**](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) to improve performance of serving static assets. 
+
 {% endhint %}
 
 You can use any virtual path prefix \(_where the path does not actually exist in the file system_\) for files that are served by the **Static** method, specify a prefix path for the static directory, as shown below:
 
 {% code title="Example" %}
+
+
 ```go
 app.Static("/static", "./public")
 
@@ -146,11 +151,15 @@ app.Static("/static", "./public")
 // => http://localhost:3000/static/js/jquery.js
 // => http://localhost:3000/static/css/style.css
 ```
+
+
 {% endcode %}
 
 If you want to have a little bit more control regarding the settings for serving static files. You could use the `fiber.Static` struct to enable specific settings.
 
 {% code title="fiber.Static{}" %}
+
+
 ```go
 // Static represents settings for serving static files
 type Static struct {
@@ -171,9 +180,13 @@ type Static struct {
     Index string
 }
 ```
+
+
 {% endcode %}
 
 {% code title="Example" %}
+
+
 ```go
 app.Static("/", "./public", fiber.Static{
   Compress:   true,
@@ -182,13 +195,19 @@ app.Static("/", "./public", fiber.Static{
   Index:      "john.html"
 })
 ```
+
+
 {% endcode %}
+
+
 
 ## HTTP Methods
 
 Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) of the request.
 
 {% code title="Signatures" %}
+
+
 ```go
 // HTTP methods support :param, :optional? and *wildcards
 // You are required to pass a path to each method
@@ -209,9 +228,13 @@ app.Options
 app.Use(handlers ...func(*Ctx))
 app.Use(prefix string, handlers ...func(*Ctx)) *Fiber
 ```
+
+
 {% endcode %}
 
 {% code title="Example" %}
+
+
 ```go
 app.Use("/api", func(c *fiber.Ctx) {
   c.Set("X-Custom-Header", random.String(32))
@@ -224,7 +247,11 @@ app.Post("/api/register", func(c *fiber.Ctx) {
   c.Send("I'm a POST request!")
 })
 ```
+
+
 {% endcode %}
+
+
 
 ## Group
 
@@ -232,11 +259,16 @@ You can group routes by creating a `*Group` struct.
 
 **Signature**
 
+
+
 ```go
 app.Group(prefix string, handlers ...func(*Ctx)) *Group
 ```
 
+
 **Example**
+
+
 
 ```go
 func main() {
@@ -256,28 +288,41 @@ func main() {
 }
 ```
 
+
+
+
 ## Listen
 
 Binds and listens for connections on the specified address. This can be a `int` for port or `string` for address.
 
 {% code title="Signature" %}
+
+
 ```go
 app.Listen(address interface{}, tls ...*tls.Config) error
 ```
+
+
 {% endcode %}
 
 {% code title="Examples" %}
+
+
 ```go
 app.Listen(8080)
 app.Listen("8080")
 app.Listen(":8080")
 app.Listen("127.0.0.1:8080")
 ```
+
+
 {% endcode %}
 
 To enable **TLS/HTTPS** you can append a [**TLS config**](https://golang.org/pkg/crypto/tls/#Config).
 
 {% code title="Example" %}
+
+
 ```go
 cer, err := tls.LoadX509KeyPair("server.crt", "server.key")
 if err != nil {
@@ -287,23 +332,35 @@ config := &tls.Config{Certificates: []tls.Certificate{cer}}
 
 app.Listen(443, config)
 ```
+
+
 {% endcode %}
+
+
 
 ## Serve
 
 You can pass your own [`net.Listener`](https://golang.org/pkg/net/#Listener) using the `Serve` method.
 
 {% code title="Signature" %}
+
+
 ```go
 app.Serve(ln net.Listener, tls ...*tls.Config) error
 ```
+
+
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** does not support the ****[**Prefork** ](application.md#settings)feature.
+
+**Serve** does not support the ****[**Prefork** ](application.md#settings)feature. 
+
 {% endhint %}
 
 {% code title="Example" %}
+
+
 ```go
 if ln, err = net.Listen("tcp4", ":8080"); err != nil {
     log.Fatal(err)
@@ -311,19 +368,29 @@ if ln, err = net.Listen("tcp4", ":8080"); err != nil {
 
 app.Serve(ln)
 ```
+
+
 {% endcode %}
+
+
 
 ## Test
 
 Testing your application is done with the **Test** method. Use this method for creating `_test.go` files or when you need to debug your routing logic. The default timeout is `200ms` if you want to disable a timeout completely, pass `-1` as a second argument.
 
 {% code title="Signature" %}
+
+
 ```go
 app.Test(req *http.Request, msTimeout ...int) (*http.Response, error)
 ```
+
+
 {% endcode %}
 
 {% code title="Example" %}
+
+
 ```go
 // Create route with GET method for test:
 app.Get("/", func(c *Ctx) {
@@ -346,5 +413,7 @@ if resp.StatusCode == 200 {
   fmt.Println(string(body)) // => Hello, World!
 }
 ```
+
+
 {% endcode %}
 
