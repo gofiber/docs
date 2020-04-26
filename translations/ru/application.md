@@ -167,7 +167,7 @@ type Static struct {
     // Optional. Значение по умолчанию: false.
     Browse bool
     // Index file for serving a directory.
-    // Optional. Default value "index.html".
+    // Optional. Значение по умолчанию "index.html".
     Index string
 }
 ```
@@ -186,7 +186,7 @@ app.Static("/", "./public", fiber.Static{
 
 ## HTTP Methods
 
-Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) of the request.
+Маршрутизирует HTTP-запрос, где **METHOD** является [HTTP методом](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) запроса.
 
 {% code title="Signatures" %}
 ```go
@@ -315,7 +315,7 @@ app.Serve(ln)
 
 ## Test
 
-Testing your application is done with the **Test** method. Use this method for creating `_test.go` files or when you need to debug your routing logic. The default timeout is `200ms` if you want to disable a timeout completely, pass `-1` as a second argument.
+Testing your application is done with the **Test** method. Use this method for creating `_test.go` files or when you need to debug your routing logic. По умолчанию тайм-аут `200 мс`. Если вы хотите полностью отключить тайм-аут, то передайте `-1` в качестве второго аргумента.
 
 {% code title="Signature" %}
 ```go
