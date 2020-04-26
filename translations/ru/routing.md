@@ -1,15 +1,15 @@
 ---
 description: >-
-  Routing refers to how an application's endpoints (URIs) respond to client requests.
+  Маршрутизация относится к тому, как конечные точки (endpoints) приложения отвечают на запросы клиентов.
 ---
 
-# 🔌 Routing
+# 🔌 Маршрутизация
 
 ## Paths
 
-Route paths, in combination with a request method, define the endpoints at which requests can be made. Route paths can be **strings** or **string patterns**.
+Пути маршрутов в комбинации с методом запроса определяют конечные точки, в которых могут быть сделаны запросы. Пути маршрутов могут быть **strings** или **string patterns**.
 
-**Examples of route paths based on strings**
+**Примеры путей маршрута на основе строк**
 
 ```go
 // This route path will match requests to the root route, "/":
@@ -28,19 +28,19 @@ app.Get("/random.txt", func(c *fiber.Ctx) {
 })
 ```
 
-## Parameters
+## Параметры
 
-Route parameters are **named URL segments** that are used to capture the values specified at their position in the URL. The captured values can be retrieved using the [Params](https://fiber.wiki/context#params) function, with the name of the route parameter specified in the path as their respective keys.
+Параметры маршрута — это **именованные сегменты URL**, которые используются для записи значений, указанных в их позиции в URL. Перехваченные значения можно получить с помощью функции [Params](https://fiber.wiki/context#params), с именем параметра маршрута, указанным в пути в качестве соответствующих ключей.
 
 {% hint style="info" %}
-Name of the route parameter must be made up of **characters** \(`[A-Za-z0-9_]`\).
+Имя параметра маршрута должно состоять из **символов** \(`[A-Za-z0-9_]`\).
 {% endhint %}
 
 {% hint style="danger" %}
-The hyphen \(`-`\) are **not** interpreted literally yet. Planned for **Fiber** v1.10.
+Дефис \(`-`\) еще **не** интерпретируется буквально. Запланировано в **Fiber** версии 1.10.
 {% endhint %}
 
-**Example of define routes with route parameters**
+**Пример определения маршрутов с параметрами маршрута**
 
 ```go
 // Parameters
@@ -60,9 +60,9 @@ app.Get("/user/:name?", func(c *fiber.Ctx) {
 
 ## Middleware
 
-Functions, that are designed to make changes to the request or response, are called **middleware functions**. The [Next](https://github.com/gofiber/docs/tree/34729974f7d6c1d8363076e7e88cd71edc34a2ac/context/README.md#next) is a **Fiber** router function, when called, executes the **next** function that **matches** the current route.
+Функции, предназначенные для внесения изменений в запрос или ответ, называются **функциями middleware**. [Next](https://github.com/gofiber/docs/tree/34729974f7d6c1d8363076e7e88cd71edc34a2ac/context/README.md#next) — это функция маршрутизации в **Fiber**, при вызове которой, происходит исполнение **следующей** функции, что **соответствует** текущему маршруту.
 
-**Example of a middleware function**
+**Пример функции middleware**
 
 ```go
 app.Use(func(c *fiber.Ctx) {
@@ -83,11 +83,11 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-`Use` method path is a **mount** or **prefix** path and limits middleware to only apply to any paths requested that begin with it. This means you cannot use `:params` on the `Use` method.
+`Use` method path is a **mount** or **prefix** path and limits middleware to only apply to any paths requested that begin with it. Это означает, что вы не можете использовать `:params` в методе `Use`.
 
 ## Grouping
 
-If you have many endpoints, you can organize your routes using `Group`
+Если у вас много конечных точек (endpoints), то вы можете организовать свои маршруты с помощью `Group`
 
 ```go
 func main() {
