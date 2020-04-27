@@ -1,4 +1,4 @@
-# Table of contents
+# Mục lục
 
 * [📖 Getting started](README.md)
 * [🚀 Application](application.md)
@@ -9,9 +9,9 @@
 
 ## Links
 
-* [🏠 Home](https://gofiber.io)
-* [🍳 Examples](https://github.com/gofiber/recipes)
+* [🏠 Trang chủ](https://gofiber.io)
+* [🍳 Các ví dụ](https://github.com/gofiber/recipes)
 * [📝 Github](https://github.com/gofiber/fiber)
-* [☕ Buy Coffee](https://www.buymeacoffee.com/fenny)
+* [☕ Ủng hộ](https://www.buymeacoffee.com/fenny)
 * [💬 Telegram](https://t.me/gofiber)
 

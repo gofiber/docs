@@ -15,7 +15,7 @@ Basic auth middleware provides an HTTP basic authentication. It calls the next h
 go get -u github.com/gofiber/basicauth
 ```
 
-**Signature**
+**Assinatura**
 
 ```go
 basicauth.New(config ...Config) func(*fiber.Ctx)
@@ -23,15 +23,15 @@ basicauth.New(config ...Config) func(*fiber.Ctx)
 
 **Config**
 
-| Property     | Type                        | Description                                                        | Default      |
-|:------------ |:--------------------------- |:------------------------------------------------------------------ |:------------ |
-| Filter       | `func(*fiber.Ctx) bool`     | Defines a function to skip middleware                              | `nil`        |
-| Users        | `map[string][string]`       | Users defines the allowed credentials                              | `nil`        |
-| Realm        | `string`                    | Realm is a string to define the realm attribute                    | `Restricted` |
-| Authorizer   | `func(string, string) bool` | A function you can pass to check the credentials however you want. | `nil`        |
-| Unauthorized | `func(*fiber.Ctx)`          | Custom response body for unauthorized responses                    | `nil`        |
+| Propriedade  | Tipo                        | Descrição                                                          | Valor Predefinido |
+|:------------ |:--------------------------- |:------------------------------------------------------------------ |:----------------- |
+| Filter       | `func(*fiber.Ctx) bool`     | Defines a function to skip middleware                              | `nil`             |
+| Users        | `map[string][string]`       | Users defines the allowed credentials                              | `nil`             |
+| Realm        | `string`                    | Realm is a string to define the realm attribute                    | `Restricted`      |
+| Authorizer   | `func(string, string) bool` | A function you can pass to check the credentials however you want. | `nil`             |
+| Unauthorized | `func(*fiber.Ctx)`          | Custom response body for unauthorized responses                    | `nil`             |
 
-**Example**
+**Exemplo**
 
 ```go
 package main
@@ -70,7 +70,7 @@ CORS middleware implements CORS specification. CORS gives web servers cross-doma
 go get -u github.com/gofiber/cors
 ```
 
-**Signature**
+**Assinatura**
 
 ```go
 cors.New(config ...Config) func(*fiber.Ctx)
@@ -78,7 +78,7 @@ cors.New(config ...Config) func(*fiber.Ctx)
 
 **Config**
 
-| Property         | Type              | Description                                                                                                                                                                                                                                                     | Default                                                     |
+| Propriedade      | Tipo              | Descrição                                                                                                                                                                                                                                                       | Valor Predefinido                                           |
 |:---------------- |:----------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------------------------------------------------- |
 | Filter           | `func(*Ctx) bool` | Defines a function to skip middleware                                                                                                                                                                                                                           | `nil`                                                       |
 | AllowOrigins     | `[]string`        | AllowOrigin defines a list of origins that may access the resource.                                                                                                                                                                                             | `[]string{"*"}`                                             |
@@ -119,7 +119,7 @@ This middleware allows dynamic compression for gzip & deflate if you your respon
 go get -u github.com/gofiber/compression
 ```
 
-**Signature**
+**Assinatura**
 
 ```go
 compression.New(config ...Config) func(*fiber.Ctx)
@@ -127,10 +127,10 @@ compression.New(config ...Config) func(*fiber.Ctx)
 
 **Config**
 
-| Property | Type              | Description                                   | Default |
-|:-------- |:----------------- |:--------------------------------------------- |:------- |
-| Filter   | `func(*Ctx) bool` | Defines a function to skip middleware         | `nil`   |
-| Level    | `int`             | Level of compression, `0`, `1`, `2`, `3`, `4` | `0`     |
+| Propriedade | Tipo              | Descrição                                     | Valor Predefinido |
+|:----------- |:----------------- |:--------------------------------------------- |:----------------- |
+| Filter      | `func(*Ctx) bool` | Defines a function to skip middleware         | `nil`             |
+| Level       | `int`             | Level of compression, `0`, `1`, `2`, `3`, `4` | `0`               |
 
 ```go
 package main
@@ -163,7 +163,7 @@ Use to limit repeated requests to public APIs and/or endpoints such as password 
 go get -u github.com/gofiber/limiter
 ```
 
-**Signature**
+**Assinatura**
 
 ```go
 limiter.New(config ...Config) func(*Ctx)
@@ -171,17 +171,17 @@ limiter.New(config ...Config) func(*Ctx)
 
 **Config**
 
-| Property   | Type                    | Description                                                                             | Default                                        |
-|:---------- |:----------------------- |:--------------------------------------------------------------------------------------- |:---------------------------------------------- |
-| Filter     | `func(*fiber.Ctx) bool` | Defines a function to skip middleware                                                   | `nil`                                          |
-| Timeout    | `int`                   | Timeout in seconds on how long to keep records of requests in memory                    | `60`                                           |
-| Max        | `int`                   | Max number of recent connections during `Timeout` seconds before sending a 429 response | `10`                                           |
-| Message    | `string`                | Response body                                                                           | `"Too many requests, please try again later."` |
-| StatusCode | `int`                   | Response status code                                                                    | `429`                                          |
-| Key        | `func(*Ctx) string`     | A function that allows to create custom keys. By default `c.IP()` is used.              | `nil`                                          |
-| Handler    | `func(*Ctx)`            | Handler is called when a request hits the limit                                         | `nil`                                          |
+| Propriedade | Tipo                    | Descrição                                                                               | Valor Predefinido                              |
+|:----------- |:----------------------- |:--------------------------------------------------------------------------------------- |:---------------------------------------------- |
+| Filter      | `func(*fiber.Ctx) bool` | Defines a function to skip middleware                                                   | `nil`                                          |
+| Timeout     | `int`                   | Timeout in seconds on how long to keep records of requests in memory                    | `60`                                           |
+| Max         | `int`                   | Max number of recent connections during `Timeout` seconds before sending a 429 response | `10`                                           |
+| Message     | `string`                | Response body                                                                           | `"Too many requests, please try again later."` |
+| StatusCode  | `int`                   | Response status code                                                                    | `429`                                          |
+| Key         | `func(*Ctx) string`     | A function that allows to create custom keys. By default `c.IP()` is used.              | `nil`                                          |
+| Handler     | `func(*Ctx)`            | Handler is called when a request hits the limit                                         | `nil`                                          |
 
-**Example**
+**Exemplo**
 
 ```go
 package main
@@ -220,7 +220,7 @@ Logger middleware logs the information about each HTTP request.
 go get -u github.com/gofiber/logger
 ```
 
-**Signature**
+**Assinatura**
 
 ```go
 logger.new(config ...Config) func(*Ctx)
@@ -228,14 +228,14 @@ logger.new(config ...Config) func(*Ctx)
 
 **Config**
 
-| Property   | Type                    | Description                                                                                                                                              | Default                                            |
-|:---------- |:----------------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------- |:-------------------------------------------------- |
-| Filter     | `func(*fiber.Ctx) bool` | Defines a function to skip middleware                                                                                                                    | `nil`                                              |
-| Format     | `string`                | Possible values: `time, ip, url, host, method, path, protocol, referer, ua, header:<key>, query:<key>, form:<key>, cookie:<key>` | `"${time} - ${ip} - ${method} ${path}\t${ua}\n"` |
-| TimeFormat | `string`                | TimeFormat [read more here](https://programming.guide/go/format-parse-string-time-date-example.html)                                                     | `15:04:05`                                         |
-| Output     | `io.Writer`             | Output is a writter where logs are written                                                                                                               | `os.Stderr`                                        |
+| Propriedade | Tipo                    | Descrição                                                                                                                                                | Valor Predefinido                                  |
+|:----------- |:----------------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------- |:-------------------------------------------------- |
+| Filter      | `func(*fiber.Ctx) bool` | Defines a function to skip middleware                                                                                                                    | `nil`                                              |
+| Format      | `string`                | Possible values: `time, ip, url, host, method, path, protocol, referer, ua, header:<key>, query:<key>, form:<key>, cookie:<key>` | `"${time} - ${ip} - ${method} ${path}\t${ua}\n"` |
+| TimeFormat  | `string`                | TimeFormat [read more here](https://programming.guide/go/format-parse-string-time-date-example.html)                                                     | `15:04:05`                                         |
+| Output      | `io.Writer`             | Output is a writter where logs are written                                                                                                               | `os.Stderr`                                        |
 
-**Example**
+**Exemplo**
 
 ```go
 package main
@@ -268,13 +268,13 @@ You can recover from panic errors within any route. By default the Recover middl
 go get -u github.com/gofiber/recover
 ```
 
-**Signature**
+**Assinatura**
 
 ```go
 recover.New(config ...Config) func(*Ctx)
 ```
 
-**Example**
+**Exemplo**
 
 ```go
 package main
@@ -315,7 +315,7 @@ By default Fiber comes with the [**default HTML template**](https://golang.org/p
 go get -u github.com/gofiber/template
 ```
 
-**Signature**
+**Assinatura**
 
 ```go
 template.Engine() func(raw string, bind interface{}) (out string, err error)
@@ -330,7 +330,7 @@ template.Engine() func(raw string, bind interface{}) (out string, err error)
 | `Mustache()`   | [github.com/cbroglie/mustache](https://github.com/cbroglie/mustache) |
 | `Pug()`        | [github.com/Joker/jade](https://github.com/Joker/jade)               |
 
-**Example**
+**Exemplo**
 
 ```go
 package main
@@ -375,7 +375,7 @@ Fiber supports a websocket upgrade middleware. The `*Conn` struct has all the fu
 go get -u github.com/gofiber/websocket
 ```
 
-**Signature**
+**Assinatura**
 
 ```go
 websocket.New(handler func(*Conn), config ...Config) func(*Ctx)
@@ -383,16 +383,16 @@ websocket.New(handler func(*Conn), config ...Config) func(*Ctx)
 
 **Config**
 
-| Property          | Type            | Description                                                                                                                                                                                                                      | Default         |
-|:----------------- |:--------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------- |
-| HandshakeTimeout  | `time.Duration` | Specifies the duration for the handshake to complete.                                                                                                                                                                            | `0`             |
-| Subprotocols      | `[]string`      | specifies the server's supported protocols in order of preference. If this field is not nil, then the Upgrade method negotiates a subprotocol by selecting the first match in this list with a protocol requested by the client. | `nil`           |
-| Origins           | `[]string`      | Origins is a string slice of origins that are acceptable, by default all origins are allowed.                                                                                                                                    | `[]string{"*"}` |
-| ReadBufferSize    | `int`           | ReadBufferSize specify I/O buffer sizes in bytes.                                                                                                                                                                                | `1024`          |
-| WriteBufferSize   | `int`           | WriteBufferSize specify I/O buffer sizes in bytes.                                                                                                                                                                               | `1024`          |
-| EnableCompression | `bool`          | EnableCompression specify if the server should attempt to negotiate per message compression \(RFC 7692\)                                                                                                                       | `false`         |
+| Propriedade       | Tipo            | Descrição                                                                                                                                                                                                                        | Valor Predefinido |
+|:----------------- |:--------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
+| HandshakeTimeout  | `time.Duration` | Specifies the duration for the handshake to complete.                                                                                                                                                                            | `0`               |
+| Subprotocols      | `[]string`      | specifies the server's supported protocols in order of preference. If this field is not nil, then the Upgrade method negotiates a subprotocol by selecting the first match in this list with a protocol requested by the client. | `nil`             |
+| Origins           | `[]string`      | Origins is a string slice of origins that are acceptable, by default all origins are allowed.                                                                                                                                    | `[]string{"*"}`   |
+| ReadBufferSize    | `int`           | ReadBufferSize specify I/O buffer sizes in bytes.                                                                                                                                                                                | `1024`            |
+| WriteBufferSize   | `int`           | WriteBufferSize specify I/O buffer sizes in bytes.                                                                                                                                                                               | `1024`            |
+| EnableCompression | `bool`          | EnableCompression specify if the server should attempt to negotiate per message compression \(RFC 7692\)                                                                                                                       | `false`           |
 
-**Example**
+**Exemplo**
 
 ```go
 package main
@@ -442,7 +442,7 @@ Request ID adds an identifier to the request using the `X-Request-ID` header
 go get -u github.com/gofiber/requestid
 ```
 
-**Signature**
+**Assinatura**
 
 ```go
 requestid.New(config ...Config) func(*Ctx)
@@ -450,12 +450,12 @@ requestid.New(config ...Config) func(*Ctx)
 
 **Config**
 
-| Property  | Type                      | Description                                     | Default                      |
-|:--------- |:------------------------- |:----------------------------------------------- |:---------------------------- |
-| Filter    | `func(*fiber.Ctx) bool`   | Defines a function to skip middleware           | `nil`                        |
-| Generator | `func(*fiber.Ctx) string` | Generator defines a function to generate an ID. | `return uuid.New().String()` |
+| Propriedade | Tipo                      | Descrição                                       | Valor Predefinido            |
+|:----------- |:------------------------- |:----------------------------------------------- |:---------------------------- |
+| Filter      | `func(*fiber.Ctx) bool`   | Defines a function to skip middleware           | `nil`                        |
+| Generator   | `func(*fiber.Ctx) string` | Generator defines a function to generate an ID. | `return uuid.New().String()` |
 
-**Example**
+**Exemplo**
 
 ```go
 package main
@@ -488,7 +488,7 @@ Helmet middleware provides protection against cross-site scripting \(XSS\) attac
 go get -u github.com/gofiber/helmet
 ```
 
-**Signature**
+**Assinatura**
 
 ```go
 helmet.New(config ...Config) func(*Ctx)
@@ -496,20 +496,20 @@ helmet.New(config ...Config) func(*Ctx)
 
 **Config**
 
-| Property              | Type                    | Description                                                                                                                                                                                                                                                                                                                    | Default          |
-|:--------------------- |:----------------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |:---------------- |
-| Filter                | `func(*fiber.Ctx) bool` | Defines a function to skip middleware                                                                                                                                                                                                                                                                                          | `nil`            |
-| XSSProtection         | `string`                | XSSProtection provides protection against cross-site scripting attack \(XSS\) by setting the `X-XSS-Protection` header.                                                                                                                                                                                                      | `1; mode=block"` |
-| ContentTypeNosniff    | `string`                | ContentTypeNosniff provides protection against overriding Content-Type header by setting the `X-Content-Type-Options` header.                                                                                                                                                                                                  | `"nosniff"`      |
-| XFrameOptions         | `string`                | XFrameOptions can be used to indicate whether or not a browser should be allowed to render a page in a ,  or . Sites can use this to avoid clickjacking attacks, by ensuring that their content is not embedded into other sites.provides protection against clickjacking. Possible values: `SAMEORIGIN, DENY, ALLOW-FROM uri` | `"SAMEORIGIN"`   |
-| HSTSMaxAge            | `int`                   | HSTSMaxAge sets the `Strict-Transport-Security` header to indicate how long \(in seconds\) browsers should remember that this site is only to be accessed using HTTPS. This reduces your exposure to some SSL-stripping man-in-the-middle \(MITM\) attacks.                                                                | \`\`         |
-| HSTSExcludeSubdomains | `bool`                  | HSTSExcludeSubdomains won't include subdomains tag in the `Strict Transport Security` header, excluding all subdomains from security policy. It has no effect unless HSTSMaxAge is set to a non-zero value.                                                                                                                    | \`\`         |
-| ContentSecurityPolicy | `string`                | ContentSecurityPolicy sets the `Content-Security-Policy` header providing security against cross-site scripting \(XSS\), clickjacking and other code injection attacks resulting from execution of malicious content in the trusted web page context                                                                         | \`\`         |
-| CSPReportOnly         | `bool`                  |                                                                                                                                                                                                                                                                                                                                | \`\`         |
-| HSTSPreloadEnabled    | `bool`                  |                                                                                                                                                                                                                                                                                                                                | \`\`         |
-| ReferrerPolicy        | `string`                |                                                                                                                                                                                                                                                                                                                                | \`\`         |
+| Propriedade           | Tipo                    | Descrição                                                                                                                                                                                                                                                                                                                      | Valor Predefinido |
+|:--------------------- |:----------------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |:----------------- |
+| Filter                | `func(*fiber.Ctx) bool` | Defines a function to skip middleware                                                                                                                                                                                                                                                                                          | `nil`             |
+| XSSProtection         | `string`                | XSSProtection provides protection against cross-site scripting attack \(XSS\) by setting the `X-XSS-Protection` header.                                                                                                                                                                                                      | `1; mode=block"`  |
+| ContentTypeNosniff    | `string`                | ContentTypeNosniff provides protection against overriding Content-Type header by setting the `X-Content-Type-Options` header.                                                                                                                                                                                                  | `"nosniff"`       |
+| XFrameOptions         | `string`                | XFrameOptions can be used to indicate whether or not a browser should be allowed to render a page in a ,  or . Sites can use this to avoid clickjacking attacks, by ensuring that their content is not embedded into other sites.provides protection against clickjacking. Possible values: `SAMEORIGIN, DENY, ALLOW-FROM uri` | `"SAMEORIGIN"`    |
+| HSTSMaxAge            | `int`                   | HSTSMaxAge sets the `Strict-Transport-Security` header to indicate how long \(in seconds\) browsers should remember that this site is only to be accessed using HTTPS. This reduces your exposure to some SSL-stripping man-in-the-middle \(MITM\) attacks.                                                                | \`\`          |
+| HSTSExcludeSubdomains | `bool`                  | HSTSExcludeSubdomains won't include subdomains tag in the `Strict Transport Security` header, excluding all subdomains from security policy. It has no effect unless HSTSMaxAge is set to a non-zero value.                                                                                                                    | \`\`          |
+| ContentSecurityPolicy | `string`                | ContentSecurityPolicy sets the `Content-Security-Policy` header providing security against cross-site scripting \(XSS\), clickjacking and other code injection attacks resulting from execution of malicious content in the trusted web page context                                                                         | \`\`          |
+| CSPReportOnly         | `bool`                  |                                                                                                                                                                                                                                                                                                                                | \`\`          |
+| HSTSPreloadEnabled    | `bool`                  |                                                                                                                                                                                                                                                                                                                                | \`\`          |
+| ReferrerPolicy        | `string`                |                                                                                                                                                                                                                                                                                                                                | \`\`          |
 
-**Example**
+**Exemplo**
 
 ```go
 package main
@@ -543,13 +543,13 @@ Redirects middleware provides an HTTP redirect to the URL derived from the speci
 go get -u github.com/gofiber/redirect
 ```
 
-**Signature**
+**Assinatura**
 
 ```go
 redirect.New(config ...Config) func(*Ctx)
 ```
 
-**Example**
+**Exemplo**
 
 ```go
 package main

@@ -222,7 +222,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 Set cookie
 
-**Signature**
+**Assinatura**
 
 ```text
 c.Cookie(*Cookie)
@@ -305,13 +305,13 @@ app.Get("/", func(c *fiber.Ctx) {
 
 You can still **access** and use all **Fasthttp** methods and properties.
 
-**Signature**
+**Assinatura**
 
 {% hint style="info" %}
 Please read the [Fasthttp Documentation](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) for more information.
 {% endhint %}
 
-**Example**
+**Exemplo**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -1213,7 +1213,7 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-## Type
+## Tipo
 
 Sets the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP header to the MIME type listed [here](https://github.com/nginx/nginx/blob/master/conf/mime.types) specified by the file **extension**.
 
