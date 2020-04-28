@@ -1,16 +1,16 @@
 ---
 description: >-
-  The Ctx struct represents the Context which hold the HTTP request and response. It has methods for the request query string, parameters, body, HTTP headers and so on.
+  A estrutura Ctx representa o Contexto que contém a solicitação e a resposta HTTP. Possui métodos para a seqüência de consulta de solicitação, parâmetros, corpo, cabeçalhos HTTP e assim por diante.
 ---
 
 # 🧠 Context
 
 ## Accepts
 
-Checks, if the specified **extensions** or **content** **types** are acceptable.
+Verifica se as **extensões** ou **tipos de conteúdo** **** especificados são aceitáveis.
 
 {% hint style="info" %}
-Based on the request’s [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header.
+Com base no cabeçalho [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) da requisição HTTP.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -37,7 +37,7 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-Fiber provides similar functions for the other accept headers.
+O Fiber fornece funções semelhantes para os outros cabeçalhos suportados.
 
 ```go
 // Accept-Charset: utf-8, iso-8859-1;q=0.2
@@ -58,15 +58,15 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Append
 
-Appends the specified **value** to the HTTP response header field.
+Adiciona o  **valor** especificado ao campo de cabeçalho de resposta HTTP.
 
 {% hint style="warning" %}
-If the header is **not** already set, it creates the header with the specified value.
+Se o cabeçalho **não estiver** definido, ele cria o cabeçalho com o valor especificado.
 {% endhint %}
 
 {% code title="Signature" %}
 ```go
-c.Append(field, values ...string)
+c.Append(campo, valores ...string)
 ```
 {% endcode %}
 
@@ -84,11 +84,11 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Attachment
 
-Sets the HTTP response [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header field to `attachment`.
+Define a resposta HTTP [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) no campo de cabeçalho </a> para `anexo`.
 
 {% code title="Signature" %}
 ```go
-c.Attachment(file ...string)
+c.Anexo(arquivo ...string)
 ```
 {% endcode %}
 
@@ -96,10 +96,10 @@ c.Attachment(file ...string)
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   c.Attachment()
-  // => Content-Disposition: attachment
+  // => Content-Disposition: anexo
 
-  c.Attachment("./upload/images/logo.png")
-  // => Content-Disposition: attachment; filename="logo.png"
+  c.Attachment("./upload/images/logo. ng")
+  // => Content-Disposition: anexo; filename="logo.png"
   // => Content-Type: image/png
 })
 ```
@@ -107,7 +107,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## BaseURL
 
-Returns base URL \(**protocol** + **host**\) as a `string`.
+Retorna a URL base \(**protocolo** + **host**\) como uma `string`.
 
 {% code title="Signature" %}
 ```go
@@ -127,7 +127,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Body
 
-Contains the **raw body** submitted in a **POST** request.
+Contém o **corpo bruto** enviado em uma requisição **POST**.
 
 {% code title="Signature" %}
 ```go
@@ -139,8 +139,8 @@ c.Body() string
 ```go
 // curl -X POST http://localhost:8080 -d user=john
 
-app.Post("/", func(c *fiber.Ctx) {
-  // Get raw body from POST request:
+app.Post("/", func(c *fiber. tx) {
+  // Obtenha corpo bruto da requisição POST:
   c.Body() // user=john
 })
 ```
