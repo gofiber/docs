@@ -13,5 +13,5 @@
 * [🍳 Các ví dụ](https://github.com/gofiber/recipes)
 * [📝 Github](https://github.com/gofiber/fiber)
 * [☕ Ủng hộ](https://www.buymeacoffee.com/fenny)
-* [💬 Telegram](https://t.me/gofiber)
+* [💬 Telegram](https://gofiber.io/discord)
 
