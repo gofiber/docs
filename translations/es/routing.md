@@ -1,58 +1,58 @@
 ---
 description: >-
-  Routing refers to how an application's endpoints (URIs) respond to client requests.
+  La ruta se refiere a cómo los extremos (endpoints) de una aplicación (URIs) responden a las peticiones del cliente.
 ---
 
 # 🔌 Routing
 
 ## Paths
 
-Route paths, in combination with a request method, define the endpoints at which requests can be made. Route paths can be **strings** or **string patterns**.
+Las direcciones de la ruta, en combinación con un método de solicitud, definen los extremos en los que se pueden realizar las solicitudes. Las rutas pueden ser **cadenas (strings)** o **patrones de cadenas**.
 
-**Examples of route paths based on strings**
+**Ejemplos de rutas basadas en cadenas**
 
 ```go
-// This route path will match requests to the root route, "/":
+// Esta ruta coincidirá con las solicitudes de la ruta raíz, "/":
 app.Get("/", func(c *fiber.Ctx) {
-  c.Send("root")
+  c. end("root")
 })
 
-// This route path will match requests to "/about":
-app.Get("/about", func(c *fiber.Ctx) {
+// Esta ruta coincidirá con las solicitudes a "/about":
+app. et("/about", func(c *fiber.Ctx) {
   c.Send("about")
 })
 
-// This route path will match requests to "/random.txt":
+// Esta ruta de ruta coincidirá con las solicitudes a "/random.txt":
 app.Get("/random.txt", func(c *fiber.Ctx) {
   c.Send("random.txt")
 })
 ```
 
-## Parameters
+## Parámetros
 
-Route parameters are **named URL segments** that are used to capture the values specified at their position in the URL. The captured values can be retrieved using the [Params](https://fiber.wiki/context#params) function, with the name of the route parameter specified in the path as their respective keys.
+Los parámetros de ruta son **segmentos URL nombrados** que se utilizan para capturar los valores especificados en su posición en la URL. Los valores capturados pueden ser recuperados usando la función [Params](https://fiber.wiki/context#params) con el nombre del parámetro de ruta especificado en la dirección como sus claves respectivas.
 
 {% hint style="info" %}
-Name of the route parameter must be made up of **characters** \(`[A-Za-z0-9_]`\).
+El nombre del parámetro de ruta debe estar compuesto de **caracteres** \(`[A-Za-z0-9_]`\).
 {% endhint %}
 
 {% hint style="danger" %}
-The hyphen \(`-`\) are **not** interpreted literally yet. Planned for **Fiber** v1.10.
+El guión \\(`-`\\) no está **interpretado literalmente**. Planeado para **Fiber** v1.10.
 {% endhint %}
 
-**Example of define routes with route parameters**
+**Ejemplo de definir rutas con parámetros de ruta**
 
 ```go
-// Parameters
+// Parámetros
 app.Get("/user/:name/books/:title", func(c *fiber.Ctx) {
   c.Write(c.Params("name"))
   c.Write(c.Params("title"))
 })
-// Wildcard
-app.Get("/user/*", func(c *fiber.Ctx) {
+// Comodín
+app. et("/user/*", func(c *fiber.Ctx) {
   c.Send(c.Params("*"))
 })
-// Optional parameter
+// Parámetro opcional
 app.Get("/user/:name?", func(c *fiber.Ctx) {
   c.Send(c.Params("name"))
 })
@@ -60,13 +60,13 @@ app.Get("/user/:name?", func(c *fiber.Ctx) {
 
 ## Middleware
 
-Functions, that are designed to make changes to the request or response, are called **middleware functions**. The [Next](https://github.com/gofiber/docs/tree/34729974f7d6c1d8363076e7e88cd71edc34a2ac/context/README.md#next) is a **Fiber** router function, when called, executes the **next** function that **matches** the current route.
+Las funciones, diseñadas para hacer cambios en la solicitud o respuesta, se llaman **funciones de middleware**. La función de ruta [Next](https://github.com/gofiber/docs/tree/34729974f7d6c1d8363076e7e88cd71edc34a2ac/context/README.md#next) de **Fiber**, cuando se llama, ejecuta la **siguiente** función que **coincida** con la ruta actual.
 
-**Example of a middleware function**
+**Ejemplo de una función middleware**
 
 ```go
-app.Use(func(c *fiber.Ctx) {
-  // Set some security headers:
+app se(func(c *fiber.Ctx) {
+  // Establece algunos encabezados de seguridad:
   c.Set("X-XSS-Protection", "1; mode=block")
   c.Set("X-Content-Type-Options", "nosniff")
   c.Set("X-Download-Options", "noopen")
@@ -74,7 +74,7 @@ app.Use(func(c *fiber.Ctx) {
   c.Set("X-Frame-Options", "SAMEORIGIN")
   c.Set("X-DNS-Prefetch-Control", "off")
 
-  // Go to next middleware:
+  // Ir al siguiente middleware:
   c.Next()
 })
 

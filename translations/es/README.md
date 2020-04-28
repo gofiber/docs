@@ -1,18 +1,18 @@
 ---
-description: An API documentation so you can start building web apps with Fiber.
+description: Una documentación de API para que puedas empezar a crear aplicaciónes web con Fiber.
 ---
 
-# 📖 Getting started
+# Primeros Pasos
 
  [![](https://img.shields.io/github/release/gofiber/fiber?style=flat-square)](https://github.com/gofiber/fiber/releases)  [![](https://img.shields.io/badge/go.dev-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc)   [![](https://goreportcard.com/badge/github.com/gofiber/fiber?style=flat-square)](https://goreportcard.com/report/github.com/gofiber/fiber)  [![](https://img.shields.io/badge/coverage-91%25-brightgreen?style=flat-square)](https://gocover.io/github.com/gofiber/fiber)  [![](https://img.shields.io/github/workflow/status/gofiber/fiber/Test?label=tests&style=flat-square)](https://github.com/gofiber/fiber/actions?query=workflow%3ATest)  [![](https://img.shields.io/github/workflow/status/gofiber/fiber/Gosec?label=gosec&style=flat-square)](https://github.com/gofiber/fiber/actions?query=workflow%3AGosec)
 
-**Fiber** is an [Express](https://github.com/expressjs/express) inspired **web framework** build on top of [Fasthttp](https://github.com/valyala/fasthttp), the **fastest** HTTP engine for [Go](https://golang.org/doc/). Designed to **ease** things up for **fast** development with **zero memory allocation** and **performance** in mind.
+**Fiber** es un **framework web** inspirado en [Express](https://github.com/expressjs/express) desarollado sobre [Fasthttp](https://github.com/valyala/fasthttp), el motor HTTP **más rápido** para [Go](https://golang.org/doc/). Diseñado para **facilitar** las cosas logrando un **desarrollo rápido** con **cero asignación de memoria** y **rendimiento** en mente.
 
 ## Installation
 
-First of all, [download](https://golang.org/dl/) and install Go. `1.11` or higher is required.
+En primer lugar, [descargue](https://golang.org/dl/) e instale Go. `1.11` o superior es requerido.
 
-Installation is done using the [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) command:
+La instalación se realiza utilizando el comando [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them):
 
 ```bash
 go get -u github.com/gofiber/fiber
@@ -20,7 +20,7 @@ go get -u github.com/gofiber/fiber
 
 ## Hello, World!
 
-Embedded below is essentially simplest **Fiber** app, which you can create.
+Insertado a continuación es esencialmente la aplicación **Fiber** más simple, que puedes crear.
 
 ```go
 package main
@@ -31,7 +31,7 @@ func main() {
   app := fiber.New()
 
   app.Get("/", func(c *fiber.Ctx) {
-    c.Send("Hello, World!")
+    c.Send("Hola, Mundo!")
   })
 
   app.Listen(3000)
@@ -42,77 +42,77 @@ func main() {
 go run server.go
 ```
 
-Browse to `http://localhost:3000` and you should see `Hello, World!` on the page.
+Navega a `http://localhost:3000` y deberías ver `¡Hola, Mundo!` en la página.
 
 ## Basic routing
 
-Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI \(or path\) and a specific HTTP request method \(GET, PUT, POST and so on\).
+La ruta se refiere a determinar cómo responde una aplicación a una solicitud de cliente a un punto final (endpoint) en particular, que es una URI \(o ruta\) y un método específico de petición HTTP \(GET, PUT, POST y así sucesivamente\).
 
 {% hint style="info" %}
-Each route can have **multiple handler functions**, that are executed when the route is matched.
+Cada ruta puede tener **múltiples funciones de manejador**, que se ejecutan cuando la ruta es igualada.
 {% endhint %}
 
-Route definition takes the following structures:
+La definición de ruta toma las siguientes estructuras:
 
 ```go
-// Function signature
+// Firma de la función
 app.Method(path string, ...func(*fiber.Ctx))
 ```
 
-* `app` is an instance of **Fiber**.
-* `Method` is an [HTTP request method](https://fiber.wiki/application#methods), in capitalization: `Get`, `Put`, `Post`, etc.
-* `path` is a virtual path on the server.
-* `func(*fiber.Ctx)` is a callback function containing the [Context](https://fiber.wiki/context) executed when the route is matched.
+* `app` es una instancia de **Fiber**.
+* `Method` es un [método de solicitud HTTP](https://fiber.wiki/application#methods), en mayúsculas: `Obtener`, `Poner`, `Post`, etc.
+* `path` es una ruta virtual en el servidor.
+* `func(*fiber.Ctx)` es una función de devolución de llamada que contiene el [Context](https://fiber.wiki/context) ejejecutado cuando la ruta es igualada.
 
-**Simple route**
+**Ruta simple**
 
 ```go
-// Respond with "Hello, World!" on root path, "/"
+// Responde con "Hola, Mundo!" en la ruta raíz, "/"
 app.Get("/", func(c *fiber.Ctx) {
-  c.Send("Hello, World!")
+  c.Send("Hola, Mundo!")
 })
 ```
 
-**Parameters**
+**Parámetros**
 
 ```go
-// GET http://localhost:8080/hello%20world
+// Get http://localhost:8080/hello%20world
 
-app.Get("/:value", func(c *fiber.Ctx) {
-  c.Send("Get request with value: " + c.Params("value"))
-  // => Get request with value: hello world
+app.Get("/:valor", func(c *fiber.Ctx) {
+  c. end("Pedido Get con el valor: " + c.Params("valor"))
+  // => Pedido Get con el valor: hola mundo
 })
 ```
 
-**Optional parameter**
+**Parámetros opcionales**
 
 ```go
 // GET http://localhost:3000/john
 
-app.Get("/:name?", func(c *fiber.Ctx) {
-  if c.Params("name") != "" {
-    c.Send("Hello " + c.Params("name"))
-    // => Hello john
+app.Get("/:nombre?", func(c *fiber.Ctx) {
+  if c.Params("nombre") != "" {
+    c.Send("Hola " + c.Params("nombre"))
+    // => Hola john
   } else {
-    c.Send("Where is john?")
+    c.Send("¿Dondé está John??")
   }
 })
 ```
 
-**Wildcards**
+**Caracteres comodín**
 
 ```go
 // GET http://localhost:3000/api/user/john
 
 app.Get("/api/*", func(c *fiber.Ctx) {
-  c.Send("API path: " + c.Params("*"))
-  // => API path: user/john
+  c.Send("Ruta API: " + c.Params("*"))
+  // => Ruta API: user/john
 })
 ```
 
 ## Static files
 
-To serve static files such as **images**, **CSS** and **JavaScript** files, replace your function handler with a file or directory string.
+Para servir archivos estáticos como archivos de **imágenes**, **CSS** y **JavaScript**, reemplaza tu manejador de funciones con un string de archivo o directorio.
 
 Function signature:
 
@@ -120,7 +120,7 @@ Function signature:
 app.Static(prefix, root string)
 ```
 
-Use the following code to serve files in a directory named `./public`:
+Usa el siguiente código para servir archivos en un directorio llamado `./public`:
 
 ```go
 app := fiber.New()
@@ -130,7 +130,7 @@ app.Static("/", "./public")
 app.Listen(8080)
 ```
 
-Now, you can load the files that are in the `./public` directory:
+Ahora, puedes cargar los archivos que están en el directorio `./public`:
 
 ```bash
 http://localhost:8080/hello.html
