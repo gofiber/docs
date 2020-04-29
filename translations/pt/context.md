@@ -148,7 +148,7 @@ app.Post("/", func(c *fiber. tx) {
 
 ## BodyParser
 
-Binds the request body to a struct. `BodyParser` supports decoding query parameters and the following content types based on the `Content-Type` header:
+Vincula o corpo da solicitação a uma estrutura. `BodyParser` suporta a decodificação de parâmetros de consulta e os seguintes tipos de conteúdo baseados no cabeçalho `Content-Type`:
 
 * `application/json`
 * `application/xml`
@@ -195,7 +195,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## ClearCookie
 
-Expire a client cookie \(_or all cookies if left empty\)_
+Expirar um cookie de cliente \(_ou todos os cookies se deixados vazios\)_
 
 {% code title="Signature" %}
 ```go
@@ -220,7 +220,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Cookie
 
-Set cookie
+Definir cookies
 
 **Assinatura**
 
@@ -244,13 +244,13 @@ type Cookie struct {
 {% code title="Example" %}
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  // Create cookie
+  // Criar cookie
   cookie := new(fiber.Cookie)
   cookie.Name = "john"
   cookie.Value = "doe"
   cookie.Expires = time.Now().Add(24 * time.Hour)
 
-  // Set cookie
+  // Definir cookie
   c.Cookie(cookie)
 })
 ```
@@ -258,7 +258,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Cookies
 
-Get cookie value by key.
+Obter valor de cookie por chave.
 
 **Signature**s
 
@@ -269,19 +269,19 @@ c.Cookies(key string) string
 {% code title="Example" %}
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  // Get cookie by key:
-  c.Cookies("name") // "john"
+  // Obtenha cookie por chave:
+  c.Cookies("nome") // "john"
 })
 ```
 {% endcode %}
 
 ## Download
 
-Transfers the file from path as an `attachment`.
+Transfere o arquivo do caminho como um `anexo`.
 
-Typically, browsers will prompt the user for download. By default, the [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header `filename=` parameter is the filepath \(_this typically appears in the browser dialog_\).
+Normalmente, os navegadores irão solicitar o download do usuário. Por padrão, o parâmetro [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header `filename=` é o caminho do arquivo \(_que geralmente aparece na caixa de diálogo do navegador_\).
 
-Override this default with the **filename** parameter.
+Sobrescrever esse padrão com o **parâmetro de nome do arquivo**.
 
 {% code title="Signature" %}
 ```go
@@ -303,12 +303,12 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Fasthttp
 
-You can still **access** and use all **Fasthttp** methods and properties.
+Você ainda pode **acessar** e usar todos os métodos e propriedades **Fasthttp.**
 
 **Assinatura**
 
 {% hint style="info" %}
-Please read the [Fasthttp Documentation](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) for more information.
+Por favor, leia a [Documentação Fasthttp](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) para obter mais informações.
 {% endhint %}
 
 **Exemplo**
