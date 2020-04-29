@@ -1,16 +1,16 @@
 ---
 description: >-
-  The Ctx struct represents the Context which hold the HTTP request and response. It has methods for the request query string, parameters, body, HTTP headers and so on.
+  La estructura Ctx representa el Contexto que contiene la petición y respuesta HTTP. Tiene métodos para la cadena de consulta de solicitud, parámetros, cuerpo, cabeceras HTTP y así sucesivamente.
 ---
 
-# 🧠 Context
+# 🧠 Contexto
 
 ## Accepts
 
 Checks, if the specified **extensions** or **content** **types** are acceptable.
 
 {% hint style="info" %}
-Based on the request’s [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header.
+Basado en el encabezado HTTP [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) de la solicitud.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -37,7 +37,7 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-Fiber provides similar functions for the other accept headers.
+Fiber proporciona funciones similares para los otros encabezados de aceptación.
 
 ```go
 // Accept-Charset: utf-8, iso-8859-1;q=0.2
@@ -58,10 +58,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Append
 
-Appends the specified **value** to the HTTP response header field.
+Añade el **valor** especificado al campo cabecera de respuesta HTTP.
 
 {% hint style="warning" %}
-If the header is **not** already set, it creates the header with the specified value.
+Si el encabezado **no** está ya establecido, crea el encabezado con el valor especificado.
 {% endhint %}
 
 {% code title="Signature" %}
