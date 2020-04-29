@@ -99,7 +99,7 @@ Concurrency test in **30 ms** processing time, the test result for **100**, **10
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency-pipeline.png)
 
-Dependency graph for `v1.9.0`
+График зависимостей для `v1.9.0`
 
 ![](.gitbook/assets/graph.svg)
 
