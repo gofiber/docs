@@ -60,7 +60,7 @@ app.Method(path string, ...func(*fiber.Ctx))
 ```
 
 * `app` ist eine Instanz von **Fiber**.
-* `Method` is an [HTTP request method](https://fiber.wiki/application#methods), in capitalization: `Get`, `Put`, `Post`, etc.
+* `Methode` ist eine [HTTP-Anfragemethode](https://fiber.wiki/application#methods), in Großschreibung: `Get`, `Put`, `Post`, etc.
 * `path` ist ein virtueller Pfad auf dem Server.
 * `func(*fiber.Ctx)` ist eine Callback-Funktion, die den [Kontext](https://fiber.wiki/context) enthält, der ausgeführt wird, wenn die Route übereinstimmt.
 
