@@ -38,8 +38,8 @@ Puedes enviar ajustes cuando se llama a `New`.
 {% code title="Example" %}
 ```go
 func main() {
-    // Enviando Ajustes al crear una nueva instancia
-    app := fiber.New(fiber.Settings{
+    // Pass Settings creating a new instance
+    app := fiber.New(&fiber.Settings{
         Prefork:       true,
         CaseSensitive: true,
         StrictRouting: true,
