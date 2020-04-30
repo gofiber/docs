@@ -1,4 +1,4 @@
-# Table of contents
+# Inhaltsverzeichnis
 
 * [📖 Erste Schritte](README.md)
 * [🚀 Anwendung](application.md)
