@@ -38,7 +38,7 @@ Sie können die Anwendungseinstellungen übergeben, wenn Sie `New` aufrufen.
 {% code title="Example" %}
 ```go
 func main() {
-    // Pass Settings creating a new instance
+    // Übergeben der Einstellungen und erzeugen einer neuen Instanz
     app := fiber.New(&fiber.Settings{
         Prefork:       true,
         CaseSensitive: true,
@@ -91,7 +91,7 @@ func main() {
 | ETag                      | `bool`                                               | Aktivieren oder deaktivieren Sie die ETag Header-Generation, da sowohl schwache als auch starke etags mit der gleichen Hashing-Methode \(CRC-32\) erzeugt werden. Schwache ETags sind die Standards, wenn aktiviert.                                                     | `false`           |
 | TemplateEngine            | `func(raw string, bind interface{}) (string, error)` | Sie können eine benutzerdefinierte Template-Funktion angeben, um verschiedene Template-Sprachen zu rendern. Schauen Sie sich unsere [**Template Middleware**](middleware.md#template) _\*\*_für Vorlagen an.                                                         | `nil`             |
 | TemplateFolder            | `string`                                             | Ein Verzeichnis für die Views der Anwendung. Wenn ein Verzeichnis gesetzt ist, wird dies das Präfix für alle Template-Pfade. `c.Render("home", data) -> ./views/home.pug`                                                                                               | `""`              |
-| TemplateExtension         | `string`                                             | Wenn Sie die Template-Dateiendung voreinstellen, müssen Sie in der Render-Funktion nicht den vollständigen Dateinamen angeben: `c. ender("home", data) -> home.pug`                                                                                                     | `"html"`          |
+| TemplateExtension         | `string`                                             | Wenn Sie die Template-Dateiendung voreinstellen, müssen Sie in der Render-Funktion nicht den vollständigen Dateinamen angeben: `c.Render("home", data) -> home.pug`                                                                                                     | `"html"`          |
 | ReadTimeout               | `time.Duration`                                      | Die Zeitspanne, die erlaubt ist, die vollständige Anfrage einschließlich des Körpers zu lesen. Standard Timeout ist unbegrenzt.                                                                                                                                            | `nil`             |
 | WriteTimeout              | `time.Duration`                                      | Die maximale Zeitspanne für das Schreiben der Antwort. Standard Timeout ist unbegrenzt.                                                                                                                                                                                    | `nil`             |
 | IdleTimeout               | `time.Duration`                                      | Die maximale Zeitspanne, um auf die nächsten Anfrage zu warten, wenn 'keep-alive' aktiviert ist. Wenn IdleTimeout null ist, wird der Wert von ReadTimeout verwendet.                                                                                                       | `nil`             |
@@ -135,10 +135,10 @@ app.Static("/", "./files")
 {% endcode %}
 
 {% hint style="info" %}
-Use a reverse proxy cache like [**NGINX**](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) to improve performance of serving static assets.
+Verwenden Sie einen Reverse-Proxy-Cache wie [**NGINX**](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) um die Leistung der Bereitstellung statischer Assets zu verbessern.
 {% endhint %}
 
-You can use any virtual path prefix \(_where the path does not actually exist in the file system_\) for files that are served by the **Static** method, specify a prefix path for the static directory, as shown below:
+Sie können jedes virtuelle Pfadpräfix \(_, wo der Pfad im Dateisystem nicht wirklich vorhanden ist_\) für Dateien verwenden, die von der **Static** Methode ausgeliefert werden. Dafür müssen Sie einen Präfixpfad für das statische Verzeichnis angeben, so wie unten gezeigt:
 
 {% code title="Example" %}
 ```go
@@ -150,26 +150,26 @@ app.Static("/static", "./public")
 ```
 {% endcode %}
 
-If you want to have a little bit more control regarding the settings for serving static files. You could use the `fiber.Static` struct to enable specific settings.
+Wenn Sie ein bisschen mehr Kontrolle über die Einstellungen für das Bereitstellen statischer Dateien haben möchten. Können Sie die `fiber.Static` Struktur verwenden, um bestimmte Einstellungen zu aktivieren.
 
 {% code title="fiber.Static{}" %}
 ```go
-// Static represents settings for serving static files
+// Static repräsentiert Einstellungen für das Ausliefern statischer Dateien
 type Static struct {
-    // Transparently compresses responses if set to true
-    // This works differently than the github.com/gofiber/compression middleware
-    // The server tries minimizing CPU usage by caching compressed files.
-    // It adds ".fiber.gz" suffix to the original file name.
-    // Optional. Default value false
+    // Transparent komprimiert Antworten wenn auf true gesetzt
+    // Dies funktioniert anders als der github.com/gofiber/compression Middleware
+    // Der Server versucht die CPU-Auslastung durch das Caching komprimierter Dateien zu minimieren.
+    // Es fügt dem ursprünglichen Dateinamen den ".fiber.gz" Suffix hinzu.
+    // Optional. Standardwert false
     Compress bool
-    // Enables byte range requests if set to true.
-    // Optional. Default value false
+    //  Aktiviert Byte-Bereichsanfrage, wenn es auf true gesetzt wird.
+    // Optional. Standardwert false
     ByteRange bool
-    // Enable directory browsing.
-    // Optional. Default value false.
+    // Aktiviert Verzeichnisbrowsing.
+    // Optional. Standardwert false.
     Browse bool
-    // Index file for serving a directory.
-    // Optional. Default value "index.html".
+    // Indexdatei für das Bereitstellen eines Verzeichnisses.
+    // Optional. Standardwert "index.html".
     Index string
 }
 ```
@@ -188,26 +188,26 @@ app.Static("/", "./public", fiber.Static{
 
 ## HTTP Methods
 
-Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) of the request.
+Routet eine HTTP-Anfrage, wobei **METHOD** die [HTTP-Methode](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) der Anfrage ist.
 
 {% code title="Signatures" %}
 ```go
-// HTTP methods support :param, :optional? and *wildcards
-// You are required to pass a path to each method
-app.All(path string, handlers ...func(*Ctx)) *Fiber
+// HTTP Methoden unterstützen :param, :optional? und den "*" Platzhalter
+// Sie müssen einen Pfad zu jeder Methode übergeben
+app.All(path string, handlers ... unc(*Ctx)) *Fiber
 app.Get
-app.Put
+app.Setze
 app.Post
 app.Head
 app.Patch
-app.Trace
+app. race
 app.Delete
 app.Connect
 app.Options
 
-// Use() will only match the beggining of each path
-// i.e. "/john" will match "/john/doe", "/johnnnn"
-// Use() does not support :param & :optional? in path
+// Use() stimmt nur mit dem Beginn jedes Pfades überein
+// z.b. "/john" stimmt mit "/john/doe" und "/johnnnnn" überein
+// Use() unterstützt kein :param & :optional? im Pfad
 app.Use(handlers ...func(*Ctx))
 app.Use(prefix string, handlers ...func(*Ctx)) *Fiber
 ```
@@ -220,17 +220,17 @@ app.Use("/api", func(c *fiber.Ctx) {
   c.Next()
 })
 app.Get("/api/list", func(c *fiber.Ctx) {
-  c.Send("I'm a GET request!")
+  c.Send("Ich bin eine GET-Anfrage!")
 })
 app.Post("/api/register", func(c *fiber.Ctx) {
-  c.Send("I'm a POST request!")
+  c.Send("Ich bin eine POST-Anfrage!")
 })
 ```
 {% endcode %}
 
 ## Group
 
-You can group routes by creating a `*Group` struct.
+Sie können Routen gruppieren, indem Sie eine `*Group` Struktur erstellen.
 
 **Signature**
 
@@ -238,7 +238,7 @@ You can group routes by creating a `*Group` struct.
 app.Group(prefix string, handlers ...func(*Ctx)) *Group
 ```
 
-**Example**
+**Beispiel**
 
 ```go
 func main() {
@@ -260,7 +260,7 @@ func main() {
 
 ## Listen
 
-Binds and listens for connections on the specified address. This can be a `int` for port or `string` for address.
+Bindet und hört auf Verbindungen für die angegebenen Adresse. Dies kann ein `int` für Port oder `string` für die Adresse sein.
 
 {% code title="Signature" %}
 ```go
@@ -277,7 +277,7 @@ app.Listen("127.0.0.1:8080")
 ```
 {% endcode %}
 
-To enable **TLS/HTTPS** you can append a [**TLS config**](https://golang.org/pkg/crypto/tls/#Config).
+Um **TLS/HTTPS** zu aktivieren, können Sie eine [**TLS Konfiguration**](https://golang.org/pkg/crypto/tls/#Config) anhängen.
 
 {% code title="Example" %}
 ```go
@@ -293,7 +293,7 @@ app.Listen(443, config)
 
 ## Serve
 
-You can pass your own [`net.Listener`](https://golang.org/pkg/net/#Listener) using the `Serve` method.
+Sie können Ihren eigenen [`net.Listener`](https://golang.org/pkg/net/#Listener) mit der `Serve` Methode übergeben.
 
 {% code title="Signature" %}
 ```go
@@ -302,7 +302,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** does not support the ****[**Prefork** ](application.md#settings)feature.
+**Serve** unterstützt nicht das ****[**Prefork** ](application.md#settings)Feature.
 {% endhint %}
 
 {% code title="Example" %}
@@ -317,7 +317,7 @@ app.Serve(ln)
 
 ## Test
 
-Testing your application is done with the **Test** method. Use this method for creating `_test.go` files or when you need to debug your routing logic. The default timeout is `200ms` if you want to disable a timeout completely, pass `-1` as a second argument.
+Das Testen Ihrer Anwendung erfolgt mit der **Test** Methode. Verwenden Sie diese Methode, um `_test.go` Dateien zu erstellen oder wenn Sie Ihre Routing-Logik debuggen müssen. Der Standard-Timeout ist `200ms` wenn Sie einen Timeout komplett deaktivieren möchten, übergeben Sie `-1` als zweites Argument.
 
 {% code title="Signature" %}
 ```go
@@ -327,12 +327,12 @@ app.Test(req *http.Request, msTimeout ...int) (*http.Response, error)
 
 {% code title="Example" %}
 ```go
-// Create route with GET method for test:
+// Erstelle eine Route mit GET Methode für den Test:
 app.Get("/", func(c *Ctx) {
   fmt.Println(c.BaseURL())              // => http://google.com
   fmt.Println(c.Get("X-Custom-Header")) // => hi
 
-  c.Send("hello, World!")
+  c.Send("Hallo, Welt!")
 })
 
 // http.Request
@@ -342,10 +342,10 @@ req.Header.Set("X-Custom-Header", "hi")
 // http.Response
 resp, _ := app.Test(req)
 
-// Do something with results:
+// Prüfe das Resultat:
 if resp.StatusCode == 200 {
   body, _ := ioutil.ReadAll(resp.Body)
-  fmt.Println(string(body)) // => Hello, World!
+  fmt.Println(string(body)) // => Hallo, Welt!
 }
 ```
 {% endcode %}
