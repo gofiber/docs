@@ -39,7 +39,7 @@ func main() {
 ```go
 func main() {
     // Pass Settings creating a new instance
-    app := fiber.New(fiber.Settings{
+    app := fiber.New(&fiber.Settings{
         Prefork:       true,
         CaseSensitive: true,
         StrictRouting: true,
