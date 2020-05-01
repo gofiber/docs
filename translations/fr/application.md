@@ -53,14 +53,14 @@ func main() {
 ```
 {% endcode %}
 
-Ou changer les options après initialisation d'une `app`.
+Ou changer les paramètres après initialisation d'une `app`.
 
 {% code title="Example" %}
 ```go
 func main() {
     app := fiber.New()
 
-    // Ou changer les options après avoir créé une instance
+    // Ou changer les paramètres après avoir créé une instance
     app.Settings.Prefork = true
     app.Settings.CaseSensitive = true
     app.Settings.StrictRouting = true
@@ -73,9 +73,9 @@ func main() {
 ```
 {% endcode %}
 
-**Settings** **fields**
+**Liste** **des paramètres**
 
-| Property                  | Type                                                 | Description                                                                                                                                                                                                                                               | Default           |
+| Propriété                 | Type                                                 | Description                                                                                                                                                                                                                                               | Défault           |
 |:------------------------- |:---------------------------------------------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
 | Prefork                   | `bool`                                               | Enables use of the[`SO_REUSEPORT`](https://lwn.net/Articles/542629/)socket option. This will spawn multiple Go processes listening on the same port. learn more about [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
 | ServerHeader              | `string`                                             | Enables the `Server` HTTP header with the given value.                                                                                                                                                                                                    | `""`              |
