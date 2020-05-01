@@ -1,6 +1,6 @@
 ---
 description: >-
-  La estructura Ctx representa el Contexto que contiene la petición y respuesta HTTP. Tiene métodos para la cadena de consulta de solicitud, parámetros, cuerpo, cabeceras HTTP y así sucesivamente.
+  La estructura Ctx representa el Context (Contexto) que contiene la petición y respuesta HTTP. Tiene métodos para la cadena de consulta de solicitud, parámetros, cuerpo, cabeceras HTTP y así sucesivamente.
 ---
 
 # 🧠 Contexto
@@ -1171,7 +1171,7 @@ Not implemented yet, pull requests are welcome!
 Sets the HTTP status for the response.
 
 {% hint style="info" %}
-Method is a **chainable**.
+El método es un **encadenable**.
 {% endhint %}
 
 {% code title="Signature" %}
