@@ -38,7 +38,7 @@ Vous pouvez indiquer des options lorsque vous appelez `New`.
 {% code title="Example" %}
 ```go
 func main() {
-    // Pass Settings creating a new instance
+    // Passer "Settings" pour créer une nouvelle instance
     app := fiber.New(&fiber.Settings{
         Prefork:       true,
         CaseSensitive: true,
@@ -53,14 +53,14 @@ func main() {
 ```
 {% endcode %}
 
-Or change the settings after initializing an `app`.
+Ou changer les options après initialisation d'une `app`.
 
 {% code title="Example" %}
 ```go
 func main() {
     app := fiber.New()
 
-    // Or change Settings after creating an instance
+    // Ou changer les options après avoir créé une instance
     app.Settings.Prefork = true
     app.Settings.CaseSensitive = true
     app.Settings.StrictRouting = true
