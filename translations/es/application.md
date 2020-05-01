@@ -2,7 +2,7 @@
 description: Convencionalmente la instancia app denota la aplicación Fiber.
 ---
 
-# 🚀 Application
+# 🚀 Aplicación
 
 ## New
 
@@ -38,8 +38,8 @@ Puedes enviar ajustes cuando se llama a `New`.
 {% code title="Example" %}
 ```go
 func main() {
-    // Enviando Ajustes al crear una nueva instancia
-    app := fiber.New(fiber.Settings{
+    // Pass Settings creating a new instance
+    app := fiber.New(&fiber.Settings{
         Prefork:       true,
         CaseSensitive: true,
         StrictRouting: true,
@@ -88,13 +88,13 @@ func main() {
 | DisableDefaultDate        | `bool`                                               | Cuando se establece en true hace que la cabecera de fecha por defecto sea excluida de la respuesta.                                                                                                                                                                             | `false`           |
 | DisableDefaultContentType | `bool`                                               | Cuando se establece en true, hace que la cabecera de tipo del contenido por defecto sea excluida de la respuesta.                                                                                                                                                               | `false`           |
 | DisableStartupMessage     | `bool`                                               | Cuando se establece en verdadero, no imprimirá la fibra ASCII y "listening" en el mensaje                                                                                                                                                                                       | `false`           |
-| ETag                      | `bool`                                               | Enable or disable ETag header generation, since both weak and strong etags are generated using the same hashing method \(CRC-32\). Weak ETags are the default when enabled.                                                                                                   | `false`           |
-| TemplateEngine            | `func(raw string, bind interface{}) (string, error)` | You can specify a custom template function to render different template languages. See our [**Template Middleware**](middleware.md#template) _\*\*_for presets.                                                                                                           | `nil`             |
-| TemplateFolder            | `string`                                             | A directory for the application's views. If a directory is set, this will be the prefix for all template paths. `c.Render("home", data) -> ./views/home.pug`                                                                                                                 | `""`              |
-| TemplateExtension         | `string`                                             | If you preset the template file extension, you do not need to provide the full filename in the Render function: `c.Render("home", data) -> home.pug`                                                                                                                         | `"html"`          |
-| ReadTimeout               | `time.Duration`                                      | The amount of time allowed to read the full request including body. El tiempo de espera por defecto es ilimitado.                                                                                                                                                               | `nil`             |
-| WriteTimeout              | `time.Duration`                                      | The maximum duration before timing out writes of the response. El tiempo de espera por defecto es ilimitado.                                                                                                                                                                    | `nil`             |
-| IdleTimeout               | `time.Duration`                                      | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used.                                                                                                                                   | `nil`             |
+| ETag                      | `bool`                                               | Activar o desactivar la generación de cabeceras ETag, ya que etags débiles y fuertes se generan utilizando el mismo método de hashing \(CRC-32\). ETags débiles son los predeterminados cuando están habilitados.                                                             | `false`           |
+| TemplateEngine            | `func(raw string, bind interface{}) (string, error)` | Puedes especificar una función de plantilla personalizada para representar diferentes idiomas de plantilla. Ve nuestro [**Middleware de Plantilla**](middleware.md#template) _\*\*_para encontrar preajustes.                                                             | `nil`             |
+| TemplateFolder            | `string`                                             | Un directorio para las vistas de la aplicación. Si se establece un directorio, este será el usado por defecto para todas las rutas de plantillas. `c.Render("home", data) -> ./views/home.pug`                                                                               | `""`              |
+| TemplateExtension         | `string`                                             | Si preestableces la extensión del archivo de plantilla, no necesita proporcionar el nombre completo del archivo en la función Render: `c.Render("home", data) -> home.pug`                                                                                                   | `"html"`          |
+| ReadTimeout               | `time.Duration`                                      | La cantidad de tiempo permitido para leer la solicitud completa incluyendo el cuerpo. El tiempo de espera por defecto es ilimitado.                                                                                                                                             | `nil`             |
+| WriteTimeout              | `time.Duration`                                      | La duración máxima antes de agotar el tiempo de espera para escribir la respuesta. El tiempo de espera por defecto es ilimitado.                                                                                                                                                | `nil`             |
+| IdleTimeout               | `time.Duration`                                      | La cantidad máxima de tiempo para esperar a la siguiente petición cuando keep-alive está activada. Si IdleTimeout es cero, se usa el valor de ReadTimeout.                                                                                                                      | `nil`             |
 
 ## Static
 

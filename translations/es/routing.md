@@ -3,7 +3,7 @@ description: >-
   La ruta se refiere a cómo los extremos (endpoints) de una aplicación (URIs) responden a las peticiones del cliente.
 ---
 
-# 🔌 Routing
+# 🔌 Enrutamiento
 
 ## Paths
 
@@ -83,11 +83,11 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-`Use` method path is a **mount** or **prefix** path and limits middleware to only apply to any paths requested that begin with it. This means you cannot use `:params` on the `Use` method.
+El parámetro del método `Use` es un **punto de montaje** o **prefijo** de ruta y limita al middleware a solo aplicarse a cualquier ruta solicitada que empiece con este. Esto significa que no puedes usar `:params` en el método `Use`.
 
 ## Grouping
 
-If you have many endpoints, you can organize your routes using `Group`
+Si tienes muchos endpoints, puedes organizar tus rutas usando `Group`
 
 ```go
 func main() {

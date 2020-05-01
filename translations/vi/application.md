@@ -38,8 +38,8 @@ Bạn có thể truyền các cài đặt ứng dụng khi gọi `New`.
 {% code title="Example" %}
 ```go
 func main() {
-    // Truyền các cài đặt tạo một thể hiện mới
-    app := fiber.New(fiber.Settings{
+    // Pass Settings creating a new instance
+    app := fiber.New(&fiber.Settings{
         Prefork:       true,
         CaseSensitive: true,
         StrictRouting: true,

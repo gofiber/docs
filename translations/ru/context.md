@@ -1,16 +1,16 @@
 ---
 description: >-
-  The Ctx struct represents the Context which hold the HTTP request and response. It has methods for the request query string, parameters, body, HTTP headers and so on.
+  Структура Ctx представляет контекст, который содержит HTTP запрос и ответ. Он имеет методы для строки запроса, параметров, тела, HTTP-заголовков и так далее.
 ---
 
 # 🧠 Контекст
 
 ## Accepts
 
-Checks, if the specified **extensions** or **content** **types** are acceptable.
+Проверяет, являются ли указанные **расширения** или **типы контента** разрешенными.
 
 {% hint style="info" %}
-Based on the request’s [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header.
+Основан на запросе HTTP-заголовка [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept).
 {% endhint %}
 
 {% code title="Signature" %}

@@ -1,17 +1,17 @@
-# Table of contents
+# Tartalomjegyzék
 
-* [📖 Getting started](README.md)
-* [🚀 Application](application.md)
-* [🧠 Context](context.md)
+* [📖 Első lépések](README.md)
+* [🚀 Alkalmazás](application.md)
+* [🧠 Kontextus](context.md)
 * [🧬 Middleware](middleware.md)
-* [🔌 Routing](routing.md)
-* [🤖 Benchmarks](benchmarks.md)
+* [🔌 Útvonalak](routing.md)
+* [🤖 Benchmark-ok](benchmarks.md)
 
-## Links
+## Linkek
 
-* [🏠 Home](https://gofiber.io)
-* [🍳 Examples](https://github.com/gofiber/recipes)
+* [🏠 Főoldal](https://gofiber.io)
+* [🍳 Példák](https://github.com/gofiber/recipes)
 * [📝 Github](https://github.com/gofiber/fiber)
-* [☕ Buy Coffee](https://www.buymeacoffee.com/fenny)
-* [💬 Telegram](https://t.me/gofiber)
+* [☕ Támogass egy kávéval](https://www.buymeacoffee.com/fenny)
+* [💬 Discord](https://gofiber.io/discord)
 

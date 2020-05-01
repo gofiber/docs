@@ -3,7 +3,7 @@ description: >-
   The Ctx struct represents the Context which hold the HTTP request and response. It has methods for the request query string, parameters, body, HTTP headers and so on.
 ---
 
-# 🧠 Context
+# 🧠 Kontextus
 
 ## Accepts
 
@@ -631,7 +631,7 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-## Links
+## Linkek
 
 Joins the links followed by the property to populate the response’s [Link](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Link) HTTP header field.
 

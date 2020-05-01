@@ -1,13 +1,13 @@
 ---
-description: The app instance conventionally denotes the Fiber application.
+description: Инстанс приложения, обычно, обозначает Fiber приложение.
 ---
 
 # 🚀 Приложение
 
 ## New
 
-This method creates a new **App** named instance.  
-You can pass optional [settings ](application.md#settings)when creating a new instance
+Этот метод создает новое **приложение** названного экземпляра.  
+Вы можете передать необязательные [параметры](application.md#settings) при создании новой копии
 
 {% code title="Signature" %}
 ```go
@@ -33,13 +33,13 @@ func main() {
 
 ## Settings
 
-You can pass application settings when calling `New`.
+Вы можете передать настройки приложения при вызове метода `New`.
 
 {% code title="Example" %}
 ```go
 func main() {
     // Pass Settings creating a new instance
-    app := fiber.New(fiber.Settings{
+    app := fiber.New(&fiber.Settings{
         Prefork:       true,
         CaseSensitive: true,
         StrictRouting: true,
@@ -53,7 +53,7 @@ func main() {
 ```
 {% endcode %}
 
-Or change the settings after initializing an `app`.
+Или измените настройки после инициализации `приложения`.
 
 {% code title="Example" %}
 ```go
@@ -73,17 +73,17 @@ func main() {
 ```
 {% endcode %}
 
-**Settings** **fields**
+**Настройки** **полей**
 
 | Свойство                  | Тип                                                  | Описание                                                                                                                                                                                                                                                                      | По умолчанию      |
 |:------------------------- |:---------------------------------------------------- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
 | Prefork                   | `bool`                                               | Позволяет использовать опцию сокета[`SO_REUSEPORT`](https://lwn.net/Articles/542629/). Это приведет к появлению нескольких Go процессов прослушивания на одном порту. узнайте больше о [сокетах в шардинге](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
 | ServerHeader              | `string`                                             | Включает HTTP-заголовок `Server` с заданным значением.                                                                                                                                                                                                                        | `""`              |
 | StrictRouting             | `bool`                                               | Если этот параметр включен, маршрутизатор обрабатывает `/foo` и `/foo/`, как разные маршруты. В противном случае, маршрутизатор обрабатывает `/foo` и `/foo/`, как одинаковые маршруты.                                                                                       | `false`           |
-| CaseSensitive             | `bool`                                               | When enabled, `/Foo` and `/foo` are different routes. When disabled, `/Foo`and `/foo` are treated the same.                                                                                                                                                                   | `false`           |
-| Immutable                 | `bool`                                               | When enabled, all values returned by context methods are immutable. By default they are valid until you return from the handler, see issue [\#185](https://github.com/gofiber/fiber/issues/185).                                                                            | `false`           |
-| BodyLimit                 | `int`                                                | Sets the maximum allowed size for a request body, if the size exceeds the configured limit, it sends `413 - Request Entity Too Large` response.                                                                                                                               | `4 * 1024 * 1024` |
-| Concurrency               | `int`                                                | Maximum number of concurrent connections.                                                                                                                                                                                                                                     | `256 * 1024`      |
+| CaseSensitive             | `bool`                                               | Если включено, `/Foo` и `/foo` являются разными маршрутами. Когда отключено, `/Foo` и `/foo` обрабатываются одинаково.                                                                                                                                                        | `false`           |
+| Immutable                 | `bool`                                               | Когда включено, все значения, возвращаемые методами контекста, не изменяются. По умолчанию они действительны до тех пор, пока вы не вернетесь из обработчика, см. проблему [\#185](https://github.com/gofiber/fiber/issues/185).                                            | `false`           |
+| BodyLimit                 | `int`                                                | Устанавливает максимально допустимый размер для тела запроса. Если размер превышает сконфигурированный предел, то он отправляет `413 - Request Entity Too Large` в качестве ответа.                                                                                           | `4 * 1024 * 1024` |
+| Concurrency               | `int`                                                | Максимальное количество одновременных подключений.                                                                                                                                                                                                                            | `256 * 1024`      |
 | DisableKeepalive          | `bool`                                               | Отключение keep-alive соединений, приведет к закрытию входящих соединений после отправки первого ответа клиенту                                                                                                                                                               | `false`           |
 | DisableDefaultDate        | `bool`                                               | Если установлено значение true, то заголовок даты по умолчанию будет исключён из ответа.                                                                                                                                                                                      | `false`           |
 | DisableDefaultContentType | `bool`                                               | Если установлено значение true, то заголовок Content-Type по умолчанию будет исключён из ответа.                                                                                                                                                                              | `false`           |
@@ -260,7 +260,7 @@ func main() {
 
 ## Listen
 
-Binds and listens for connections on the specified address. This can be a `int` for port or `string` for address.
+Привязки и прослушивание соединений по указанному адресу. Это может быть `int` для порта или `string` для адреса.
 
 {% code title="Signature" %}
 ```go
@@ -277,7 +277,7 @@ app.Listen("127.0.0.1:8080")
 ```
 {% endcode %}
 
-To enable **TLS/HTTPS** you can append a [**TLS config**](https://golang.org/pkg/crypto/tls/#Config).
+Чтобы включить **TLS/HTTPS**, вы можете добавить [**TLS конфиг**](https://golang.org/pkg/crypto/tls/#Config).
 
 {% code title="Example" %}
 ```go
@@ -293,7 +293,7 @@ app.Listen(443, config)
 
 ## Serve
 
-You can pass your own [`net.Listener`](https://golang.org/pkg/net/#Listener) using the `Serve` method.
+Вы можете передать свои [`net.Listener`](https://golang.org/pkg/net/#Listener) с помощью метода `Serve`.
 
 {% code title="Signature" %}
 ```go
@@ -302,7 +302,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** does not support the ****[**Prefork** ](application.md#settings)feature.
+**Serve** не поддерживает функцию [**Prefork**](application.md#settings).
 {% endhint %}
 
 {% code title="Example" %}
@@ -317,7 +317,7 @@ app.Serve(ln)
 
 ## Test
 
-Testing your application is done with the **Test** method. Use this method for creating `_test.go` files or when you need to debug your routing logic. По умолчанию тайм-аут `200 мс`. Если вы хотите полностью отключить тайм-аут, то передайте `-1` в качестве второго аргумента.
+Тестирование вашего приложения осуществляется методом **Test**. Используйте этот метод для создания `_test.go` файлов или когда вам нужно отладить вашу логику маршрутизации. По умолчанию тайм-аут `200 мс`. Если вы хотите полностью отключить тайм-аут, то передайте `-1` в качестве второго аргумента.
 
 {% code title="Signature" %}
 ```go

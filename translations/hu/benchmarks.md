@@ -3,7 +3,7 @@ description: >-
   This benchmarks aims to compare the performance of Fiber and other web frameworks.
 ---
 
-# 🤖 Benchmarks
+# 🤖 Benchmark-ok
 
 ## TechEmpower
 

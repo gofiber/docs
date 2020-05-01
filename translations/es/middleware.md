@@ -1,15 +1,15 @@
 ---
 description: >-
-  Middleware is a function chained in the HTTP request cycle with access to the Context which it uses to perform a specific action, for example, logging every request or enabling CORS.
+  Middleware es una función encadenada en ciclo de una solicitud HTTP con acceso al Context que utiliza para realizar una acción especifica, por ejemplo, registrar cada solicitud o habilitar CORS.
 ---
 
 # 🧬 Middleware
 
 ## Basic Auth
 
-Basic auth middleware provides an HTTP basic authentication. It calls the next handler for valid credentials and `401 Unauthorized` for missing or invalid credentials.
+El middleware de autenticación básica proporciona una autenticación simple. It calls the next handler for valid credentials and `401 Unauthorized` for missing or invalid credentials.
 
-**Installation**
+**Instalación**
 
 ```bash
 go get -u github.com/gofiber/basicauth
@@ -21,7 +21,7 @@ go get -u github.com/gofiber/basicauth
 basicauth.New(config ...Config) func(*fiber.Ctx)
 ```
 
-**Config**
+**Configuración**
 
 | Propiedad    | Tipo                        | Descripción                                                        | Predeterminado |
 |:------------ |:--------------------------- |:------------------------------------------------------------------ |:-------------- |
@@ -64,7 +64,7 @@ func main() {
 
 CORS middleware implements CORS specification. CORS gives web servers cross-domain access controls, which enable secure cross-domain data transfers.
 
-**Installation**
+**Instalación**
 
 ```bash
 go get -u github.com/gofiber/cors
@@ -76,7 +76,7 @@ go get -u github.com/gofiber/cors
 cors.New(config ...Config) func(*fiber.Ctx)
 ```
 
-**Config**
+**Configuración**
 
 | Propiedad        | Tipo              | Descripción                                                                                                                                                                                                                                                     | Predeterminado                                              |
 |:---------------- |:----------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------------------------------------------------- |
@@ -113,7 +113,7 @@ func main() {
 
 This middleware allows dynamic compression for gzip & deflate if you your responses are bigger than 4kb. If you want to enable compression for static files only, please use the [**Compression** ](application.md#static)setting inside the [**Static** ](application.md#static)method.
 
-**Installation**
+**Instalación**
 
 ```bash
 go get -u github.com/gofiber/compression
@@ -125,7 +125,7 @@ go get -u github.com/gofiber/compression
 compression.New(config ...Config) func(*fiber.Ctx)
 ```
 
-**Config**
+**Configuración**
 
 | Propiedad | Tipo              | Descripción                                   | Predeterminado |
 |:--------- |:----------------- |:--------------------------------------------- |:-------------- |
@@ -157,7 +157,7 @@ func main() {
 
 Use to limit repeated requests to public APIs and/or endpoints such as password reset. This middleware does not share state with other processes/servers.
 
-**Installation**
+**Instalación**
 
 ```bash
 go get -u github.com/gofiber/limiter
@@ -169,7 +169,7 @@ go get -u github.com/gofiber/limiter
 limiter.New(config ...Config) func(*Ctx)
 ```
 
-**Config**
+**Configuración**
 
 | Propiedad  | Tipo                    | Descripción                                                                             | Predeterminado                                 |
 |:---------- |:----------------------- |:--------------------------------------------------------------------------------------- |:---------------------------------------------- |
@@ -214,7 +214,7 @@ func main() {
 
 Logger middleware logs the information about each HTTP request.
 
-**Installation**
+**Instalación**
 
 ```bash
 go get -u github.com/gofiber/logger
@@ -226,7 +226,7 @@ go get -u github.com/gofiber/logger
 logger.new(config ...Config) func(*Ctx)
 ```
 
-**Config**
+**Configuración**
 
 | Propiedad  | Tipo                    | Descripción                                                                                                                                              | Predeterminado                                     |
 |:---------- |:----------------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------- |:-------------------------------------------------- |
@@ -262,7 +262,7 @@ func main() {
 
 You can recover from panic errors within any route. By default the Recover middleware will respond with `500 Internal Server Error` when a panic occurs. You can also provide your own error handler.
 
-**Installation**
+**Instalación**
 
 ```bash
 go get -u github.com/gofiber/recover
@@ -309,7 +309,7 @@ func main() {
 
 By default Fiber comes with the [**default HTML template**](https://golang.org/pkg/html/template/) engine, but this middleware contains third party rendering engines.
 
-**Installation**
+**Instalación**
 
 ```bash
 go get -u github.com/gofiber/template
@@ -369,7 +369,7 @@ func main() {
 
 Fiber supports a websocket upgrade middleware. The `*Conn` struct has all the functionality from the [**gorilla/websocket**](https://github.com/gorilla/websocket) library.
 
-**Installation**
+**Instalación**
 
 ```bash
 go get -u github.com/gofiber/websocket
@@ -381,7 +381,7 @@ go get -u github.com/gofiber/websocket
 websocket.New(handler func(*Conn), config ...Config) func(*Ctx)
 ```
 
-**Config**
+**Configuración**
 
 | Propiedad         | Tipo            | Descripción                                                                                                                                                                                                                      | Predeterminado  |
 |:----------------- |:--------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------- |
@@ -436,7 +436,7 @@ func main() {
 
 Request ID adds an identifier to the request using the `X-Request-ID` header
 
-**Installation**
+**Instalación**
 
 ```bash
 go get -u github.com/gofiber/requestid
@@ -448,7 +448,7 @@ go get -u github.com/gofiber/requestid
 requestid.New(config ...Config) func(*Ctx)
 ```
 
-**Config**
+**Configuración**
 
 | Propiedad | Tipo                      | Descripción                                     | Predeterminado               |
 |:--------- |:------------------------- |:----------------------------------------------- |:---------------------------- |
@@ -482,7 +482,7 @@ func main() {
 
 Helmet middleware provides protection against cross-site scripting \(XSS\) attack, content type sniffing, clickjacking, insecure connection and other code injection attacks.
 
-**Installation**
+**Instalación**
 
 ```bash
 go get -u github.com/gofiber/helmet
@@ -494,7 +494,7 @@ go get -u github.com/gofiber/helmet
 helmet.New(config ...Config) func(*Ctx)
 ```
 
-**Config**
+**Configuración**
 
 | Propiedad             | Tipo                    | Descripción                                                                                                                                                                                                                                                                                                                    | Predeterminado   |
 |:--------------------- |:----------------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |:---------------- |
@@ -537,7 +537,7 @@ func main() {
 
 Redirects middleware provides an HTTP redirect to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code.
 
-**Installation**
+**Instalación**
 
 ```bash
 go get -u github.com/gofiber/redirect

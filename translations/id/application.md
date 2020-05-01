@@ -37,8 +37,8 @@ Kamu dapet memasukan parameter pengaturan ketika menggunakan `New`.
 % code title="Contoh" %}
 ```go
 func main() {
-    // Memasukan pengaturan ketika membuat instance
-    app := fiber.New(fiber.Settings{
+    // Pass Settings creating a new instance
+    app := fiber.New(&fiber.Settings{
         Prefork:       true,
         CaseSensitive: true,
         StrictRouting: true,

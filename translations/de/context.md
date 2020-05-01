@@ -24,7 +24,7 @@ c.AcceptsLanguages(langs ...string)        string
 
 {% code title="Example" %}
 ```go
-// Accept: text/*, application/json
+// Unterstützt: text/*, application/json
 
 app.Get("/", func(c *fiber.Ctx) {
   c.Accepts("html")             // "html"
@@ -311,7 +311,7 @@ You can still **access** and use all **Fasthttp** methods and properties.
 Please read the [Fasthttp Documentation](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) for more information.
 {% endhint %}
 
-**Example**
+**Beispiel**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -1213,7 +1213,7 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-## Type
+## Typ
 
 Sets the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP header to the MIME type listed [here](https://github.com/nginx/nginx/blob/master/conf/mime.types) specified by the file **extension**.
 
