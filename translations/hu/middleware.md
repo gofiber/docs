@@ -9,7 +9,7 @@ description: >-
 
 Basic auth middleware provides an HTTP basic authentication. It calls the next handler for valid credentials and `401 Unauthorized` for missing or invalid credentials.
 
-**Installation**
+**Telepítés**
 
 ```bash
 go get -u github.com/gofiber/basicauth
@@ -64,7 +64,7 @@ func main() {
 
 CORS middleware implements CORS specification. CORS gives web servers cross-domain access controls, which enable secure cross-domain data transfers.
 
-**Installation**
+**Telepítés**
 
 ```bash
 go get -u github.com/gofiber/cors
@@ -113,7 +113,7 @@ func main() {
 
 This middleware allows dynamic compression for gzip & deflate if you your responses are bigger than 4kb. If you want to enable compression for static files only, please use the [**Compression** ](application.md#static)setting inside the [**Static** ](application.md#static)method.
 
-**Installation**
+**Telepítés**
 
 ```bash
 go get -u github.com/gofiber/compression
@@ -157,7 +157,7 @@ func main() {
 
 Use to limit repeated requests to public APIs and/or endpoints such as password reset. This middleware does not share state with other processes/servers.
 
-**Installation**
+**Telepítés**
 
 ```bash
 go get -u github.com/gofiber/limiter
@@ -214,7 +214,7 @@ func main() {
 
 Logger middleware logs the information about each HTTP request.
 
-**Installation**
+**Telepítés**
 
 ```bash
 go get -u github.com/gofiber/logger
@@ -262,7 +262,7 @@ func main() {
 
 You can recover from panic errors within any route. By default the Recover middleware will respond with `500 Internal Server Error` when a panic occurs. You can also provide your own error handler.
 
-**Installation**
+**Telepítés**
 
 ```bash
 go get -u github.com/gofiber/recover
@@ -309,7 +309,7 @@ func main() {
 
 By default Fiber comes with the [**default HTML template**](https://golang.org/pkg/html/template/) engine, but this middleware contains third party rendering engines.
 
-**Installation**
+**Telepítés**
 
 ```bash
 go get -u github.com/gofiber/template
@@ -369,7 +369,7 @@ func main() {
 
 Fiber supports a websocket upgrade middleware. The `*Conn` struct has all the functionality from the [**gorilla/websocket**](https://github.com/gorilla/websocket) library.
 
-**Installation**
+**Telepítés**
 
 ```bash
 go get -u github.com/gofiber/websocket
@@ -436,7 +436,7 @@ func main() {
 
 Request ID adds an identifier to the request using the `X-Request-ID` header
 
-**Installation**
+**Telepítés**
 
 ```bash
 go get -u github.com/gofiber/requestid
@@ -482,7 +482,7 @@ func main() {
 
 Helmet middleware provides protection against cross-site scripting \(XSS\) attack, content type sniffing, clickjacking, insecure connection and other code injection attacks.
 
-**Installation**
+**Telepítés**
 
 ```bash
 go get -u github.com/gofiber/helmet
@@ -537,7 +537,7 @@ func main() {
 
 Redirects middleware provides an HTTP redirect to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code.
 
-**Installation**
+**Telepítés**
 
 ```bash
 go get -u github.com/gofiber/redirect
