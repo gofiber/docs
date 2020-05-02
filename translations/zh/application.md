@@ -38,7 +38,7 @@ func main() {
 {% code title="Example" %}
 ```go
 func main() {
-    // Pass Settings creating a new instance
+    // 在创建app实例时传入设置 Settings
     app := fiber.New(&fiber.Settings{
         Prefork:       true,
         CaseSensitive: true,
@@ -317,7 +317,7 @@ app.Serve(ln)
 
 ## Test
 
-Testing your application is done with the **Test** method. Use this method for creating `_test.go` files or when you need to debug your routing logic. The default timeout is `200ms` if you want to disable a timeout completely, pass `-1` as a second argument.
+通过 **Test** 方法可以测试您的应用程序。 使用此方法可以用于创建 `_test.go` 文件或当您需要调试路由逻辑也可使用。 默认超时限制是 `200ms` 如果您想要完全禁用超时限制，可以通过传入 `-1` 作为第二个参数。
 
 {% code title="Signature" %}
 ```go
@@ -327,7 +327,7 @@ app.Test(req *http.Request, msTimeout ...int) (*http.Response, error)
 
 {% code title="Example" %}
 ```go
-// Create route with GET method for test:
+// 创建GET方法的路由用以测试:
 app.Get("/", func(c *Ctx) {
   fmt.Println(c.BaseURL())              // => http://google.com
   fmt.Println(c.Get("X-Custom-Header")) // => hi
@@ -335,14 +335,14 @@ app.Get("/", func(c *Ctx) {
   c.Send("hello, World!")
 })
 
-// http.Request
+// http.Request 请求
 req, _ := http.NewRequest("GET", "http://google.com", nil)
 req.Header.Set("X-Custom-Header", "hi")
 
-// http.Response
+// http.Response 响应
 resp, _ := app.Test(req)
 
-// Do something with results:
+// 处理返回结果:
 if resp.StatusCode == 200 {
   body, _ := ioutil.ReadAll(resp.Body)
   fmt.Println(string(body)) // => Hello, World!
