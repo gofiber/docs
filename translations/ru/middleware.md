@@ -1,6 +1,6 @@
 ---
 description: >-
-  Middleware is a function chained in the HTTP request cycle with access to the Context which it uses to perform a specific action, for example, logging every request or enabling CORS.
+  Middleware — это функция, привязанная к циклу HTTP-запросов, с доступом к контексту, который используется для выполнения конкретного действия. Например, ведение журнала каждого запроса или включение CORS.
 ---
 
 # 🧬 Middleware
@@ -31,7 +31,7 @@ basicauth.New(config ...Config) func(*fiber.Ctx)
 | Authorizer   | `func(string, string) bool` | A function you can pass to check the credentials however you want. | `nil`        |
 | Unauthorized | `func(*fiber.Ctx)`          | Custom response body for unauthorized responses                    | `nil`        |
 
-**Example**
+**Пример**
 
 ```go
 package main
@@ -127,10 +127,10 @@ compression.New(config ...Config) func(*fiber.Ctx)
 
 **Config**
 
-| Свойство | Тип               | Описание                                      | По умолчанию |
-|:-------- |:----------------- |:--------------------------------------------- |:------------ |
-| Filter   | `func(*Ctx) bool` | Defines a function to skip middleware         | `nil`        |
-| Level    | `int`             | Level of compression, `0`, `1`, `2`, `3`, `4` | `0`          |
+| Свойство | Тип               | Описание                               | По умолчанию |
+|:-------- |:----------------- |:-------------------------------------- |:------------ |
+| Filter   | `func(*Ctx) bool` | Defines a function to skip middleware  | `nil`        |
+| Level    | `int`             | Уровень сжатия `0`, `1`, `2`, `3`, `4` | `0`          |
 
 ```go
 package main
@@ -181,7 +181,7 @@ limiter.New(config ...Config) func(*Ctx)
 | Key        | `func(*Ctx) string`     | A function that allows to create custom keys. By default `c.IP()` is used.              | `nil`                                          |
 | Handler    | `func(*Ctx)`            | Handler is called when a request hits the limit                                         | `nil`                                          |
 
-**Example**
+**Пример**
 
 ```go
 package main
@@ -235,7 +235,7 @@ logger.new(config ...Config) func(*Ctx)
 | TimeFormat | `string`                | TimeFormat [read more here](https://programming.guide/go/format-parse-string-time-date-example.html)                                                     | `15:04:05`                                         |
 | Output     | `io.Writer`             | Output is a writter where logs are written                                                                                                               | `os.Stderr`                                        |
 
-**Example**
+**Пример**
 
 ```go
 package main
@@ -274,7 +274,7 @@ go get -u github.com/gofiber/recover
 recover.New(config ...Config) func(*Ctx)
 ```
 
-**Example**
+**Пример**
 
 ```go
 package main
@@ -330,7 +330,7 @@ template.Engine() func(raw string, bind interface{}) (out string, err error)
 | `Mustache()`   | [github.com/cbroglie/mustache](https://github.com/cbroglie/mustache) |
 | `Pug()`        | [github.com/Joker/jade](https://github.com/Joker/jade)               |
 
-**Example**
+**Пример**
 
 ```go
 package main
@@ -392,7 +392,7 @@ websocket.New(handler func(*Conn), config ...Config) func(*Ctx)
 | WriteBufferSize   | `int`           | WriteBufferSize specify I/O buffer sizes in bytes.                                                                                                                                                                               | `1024`          |
 | EnableCompression | `bool`          | EnableCompression specify if the server should attempt to negotiate per message compression \(RFC 7692\)                                                                                                                       | `false`         |
 
-**Example**
+**Пример**
 
 ```go
 package main
@@ -455,7 +455,7 @@ requestid.New(config ...Config) func(*Ctx)
 | Filter    | `func(*fiber.Ctx) bool`   | Defines a function to skip middleware           | `nil`                        |
 | Generator | `func(*fiber.Ctx) string` | Generator defines a function to generate an ID. | `return uuid.New().String()` |
 
-**Example**
+**Пример**
 
 ```go
 package main
@@ -509,7 +509,7 @@ helmet.New(config ...Config) func(*Ctx)
 | HSTSPreloadEnabled    | `bool`                  |                                                                                                                                                                                                                                                                                                                                | \`\`         |
 | ReferrerPolicy        | `string`                |                                                                                                                                                                                                                                                                                                                                | \`\`         |
 
-**Example**
+**Пример**
 
 ```go
 package main
@@ -549,7 +549,7 @@ go get -u github.com/gofiber/redirect
 redirect.New(config ...Config) func(*Ctx)
 ```
 
-**Example**
+**Пример**
 
 ```go
 package main
