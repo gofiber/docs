@@ -83,7 +83,7 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-`Use` method path is a **mount** or **prefix** path and limits middleware to only apply to any paths requested that begin with it. Это означает, что вы не можете использовать `:params` в методе `Use`.
+`Use` путь метода **mount** или **prefix** и ограничивает middleware только теми путями, которые начинаются с него. Это означает, что вы не можете использовать `:params` в методе `Use`.
 
 ## Grouping
 
