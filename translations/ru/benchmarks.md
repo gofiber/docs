@@ -69,11 +69,11 @@ description: >-
 * **GO** go1.13.6 linux/amd64
 * **OS** Linux
 
-The first test case is to mock **0 ms**, **10 ms**, **100 ms**, **500 ms** processing time in handlers.
+Первый тестовый случай — это симулирование времени обработки в обработчиках с **0 мс**, **10 мс**, **100 мс**, **500 мс**.
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark.png)
 
-The concurrency clients are **5000**.
+Параллелизм клиентов: **5000**.
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark_latency.png)
 
@@ -87,7 +87,7 @@ Allocs — это перераспределение heap по веб серве
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark-pipeline.png)
 
-Concurrency test in **30 ms** processing time, the test result for **100**, **1000**, **5000** clients is:
+Тест на концентрацию в **30 мс** время обработки, результат теста для **100**, **1000**, **5000** клиентов:
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency.png)
 
