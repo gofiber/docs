@@ -707,11 +707,12 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Method
 
-Contains a string corresponding to the HTTP method of the request: `GET`, `POST`, `PUT` and so on.
+Contains a string corresponding to the HTTP method of the request: `GET`, `POST`, `PUT` and so on.  
+Optionally, you could override the method by passing a string.
 
 {% code title="Signature" %}
 ```go
-c.Method() string
+c.Method(override ...string) string
 ```
 {% endcode %}
 
@@ -838,11 +839,11 @@ app.Get("/user/:name", func(c *fiber.Ctx) {
 
 ## Path
 
-Contains the path part of the request URL.
+Contains the path part of the request URL. Optionally, you could override the path by passing a string.
 
 {% code title="Signature" %}
 ```go
-c.Path() string
+c.Path(override ...string) string
 ```
 {% endcode %}
 
@@ -1213,7 +1214,7 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-## Type
+## 타입
 
 Sets the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP header to the MIME type listed [here](https://github.com/nginx/nginx/blob/master/conf/mime.types) specified by the file **extension**.
 
