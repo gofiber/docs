@@ -709,11 +709,12 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Method
 
-Contains a string corresponding to the HTTP method of the request: `GET`, `POST`, `PUT` and so on.
+Contains a string corresponding to the HTTP method of the request: `GET`, `POST`, `PUT` and so on.  
+Optionally, you could override the method by passing a string.
 
 {% code title="Signature" %}
 ```go
-c.Method() string
+c.Method(override ...string) string
 ```
 {% endcode %}
 
