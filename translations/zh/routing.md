@@ -1,28 +1,28 @@
 ---
 description: >-
-  Routing refers to how an application's endpoints (URIs) respond to client requests.
+  路由是指应用程序的端点 (URI) 是如何响应客户端的请求。
 ---
 
 # 🔌 Routing
 
 ## Paths
 
-Route paths, in combination with a request method, define the endpoints at which requests can be made. Route paths can be **strings** or **string patterns**.
+路由路径与请求方法相结合，可以定义请求的端点。 路由路径可以是 **strings 字符串** 或 **string patterns 字符串模式**。
 
-**Examples of route paths based on strings**
+**基于 strings 字符串的路由路径示例**
 
 ```go
-// This route path will match requests to the root route, "/":
+// 此路由路径将匹配请求到根路由 "/":
 app.Get("/", func(c *fiber.Ctx) {
   c.Send("root")
 })
 
-// This route path will match requests to "/about":
+// 此路由路径将匹配请求到 "/about":
 app.Get("/about", func(c *fiber.Ctx) {
   c.Send("about")
 })
 
-// This route path will match requests to "/random.txt":
+// 此路由路径将匹配请求到 "/random.txt":
 app.Get("/random.txt", func(c *fiber.Ctx) {
   c.Send("random.txt")
 })
@@ -30,17 +30,17 @@ app.Get("/random.txt", func(c *fiber.Ctx) {
 
 ## Parameters
 
-Route parameters are **named URL segments** that are used to capture the values specified at their position in the URL. The captured values can be retrieved using the [Params](https://fiber.wiki/context#params) function, with the name of the route parameter specified in the path as their respective keys.
+路由参数是 **命名的 URL 部分** ，用于捕获他们在 URL 位置中指定的值。 可以使用 [Params](https://fiber.wiki/context#params) 函数获取捕获的值。 这包含路径中指定的路由参数的名称作为其各自的键。
 
 {% hint style="info" %}
-Name of the route parameter must be made up of **characters** \(`[A-Za-z0-9_]`\).
+路由参数的名称必须由 **字符 characters** 所构成 \(`[A-Za-z0-9_]`\)。
 {% endhint %}
 
 {% hint style="danger" %}
-The hyphen \(`-`\) are **not** interpreted literally yet. Planned for **Fiber** v1.10.
+连线 \(`-`\)  **尚未** 能够当成字符直接处理。 计划实现在 **Fiber** v1.10。
 {% endhint %}
 
-**Example of define routes with route parameters**
+**定义路由参数的示例**
 
 ```go
 // Parameters
