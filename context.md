@@ -840,11 +840,11 @@ app.Get("/user/:name", func(c *fiber.Ctx) {
 
 ## Path
 
-Contains the path part of the request URL.
+Contains the path part of the request URL. Optionally, you could override the path by passing a string.
 
 {% code title="Signature" %}
 ```go
-c.Path() string
+c.Path(override ...string) string
 ```
 {% endcode %}
 
