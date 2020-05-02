@@ -1,16 +1,16 @@
 ---
 description: >-
-  The Ctx struct represents the Context which hold the HTTP request and response. It has methods for the request query string, parameters, body, HTTP headers and so on.
+  La structure Ctx représente le contexte qui contient la requête et la réponse HTTP. Il a des méthodes pour exploiter la requête telle que les paramètres, le corps, les en-têtes HTTP etc.
 ---
 
 # 🧠 Context
 
 ## Accepts
 
-Checks, if the specified **extensions** or **content** **types** are acceptable.
+Vérifie si **les extensions** ou **les types de contenu** sont acceptables.
 
 {% hint style="info" %}
-Based on the request’s [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header.
+Basé sur l'en-tête de la requête HTTP [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept).
 {% endhint %}
 
 {% code title="Signature" %}
@@ -37,7 +37,7 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-Fiber provides similar functions for the other accept headers.
+Fiber fournit des fonctions similaires pour les autres en-têtes "accept".
 
 ```go
 // Accept-Charset: utf-8, iso-8859-1;q=0.2
@@ -58,10 +58,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Append
 
-Appends the specified **value** to the HTTP response header field.
+Ajoute la **valeur** spécifiée à l'en-tête HTTP envoyé en réponse.
 
 {% hint style="warning" %}
-If the header is **not** already set, it creates the header with the specified value.
+Si l'en-tête n'est **pas** déjà spécifié, il crée un nouvel en-tête avec la valeur spécifiée.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -84,7 +84,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Attachment
 
-Sets the HTTP response [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header field to `attachment`.
+Spécifie l'en-tête HTTP [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) à `attachment`.
 
 {% code title="Signature" %}
 ```go
@@ -107,7 +107,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## BaseURL
 
-Returns base URL \(**protocol** + **host**\) as a `string`.
+Retourne l'URL sous la forme d'une `chaîne de caractères` \(**protocol** + **host**\).
 
 {% code title="Signature" %}
 ```go
@@ -127,7 +127,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Body
 
-Contains the **raw body** submitted in a **POST** request.
+Contient le **corps brute** de la requête **POST**.
 
 {% code title="Signature" %}
 ```go
@@ -140,7 +140,7 @@ c.Body() string
 // curl -X POST http://localhost:8080 -d user=john
 
 app.Post("/", func(c *fiber.Ctx) {
-  // Get raw body from POST request:
+  // Récupérer le contenu brute de la requête POST :
   c.Body() // user=john
 })
 ```
@@ -148,7 +148,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## BodyParser
 
-Binds the request body to a struct. `BodyParser` supports decoding query parameters and the following content types based on the `Content-Type` header:
+Lier le corps de la requête à une structure. `BodyParser` supports decoding query parameters and the following content types based on the `Content-Type` header:
 
 * `application/json`
 * `application/xml`
@@ -311,7 +311,7 @@ You can still **access** and use all **Fasthttp** methods and properties.
 Please read the [Fasthttp Documentation](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) for more information.
 {% endhint %}
 
-**Example**
+**Exemple**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -707,11 +707,12 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Method
 
-Contains a string corresponding to the HTTP method of the request: `GET`, `POST`, `PUT` and so on.
+Contains a string corresponding to the HTTP method of the request: `GET`, `POST`, `PUT` and so on.  
+Optionally, you could override the method by passing a string.
 
 {% code title="Signature" %}
 ```go
-c.Method() string
+c.Method(override ...string) string
 ```
 {% endcode %}
 
@@ -838,11 +839,11 @@ app.Get("/user/:name", func(c *fiber.Ctx) {
 
 ## Path
 
-Contains the path part of the request URL.
+Contains the path part of the request URL. Optionally, you could override the path by passing a string.
 
 {% code title="Signature" %}
 ```go
-c.Path() string
+c.Path(override ...string) string
 ```
 {% endcode %}
 
