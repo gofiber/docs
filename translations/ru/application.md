@@ -87,14 +87,14 @@ func main() {
 | DisableKeepalive          | `bool`                                               | Отключение keep-alive соединений, приведет к закрытию входящих соединений после отправки первого ответа клиенту                                                                                                                                                               | `false`           |
 | DisableDefaultDate        | `bool`                                               | Если установлено значение true, то заголовок даты по умолчанию будет исключён из ответа.                                                                                                                                                                                      | `false`           |
 | DisableDefaultContentType | `bool`                                               | Если установлено значение true, то заголовок Content-Type по умолчанию будет исключён из ответа.                                                                                                                                                                              | `false`           |
-| DisableStartupMessage     | `bool`                                               | When set to true, it will not print out the fiber ASCII and "listening" on message                                                                                                                                                                                            | `false`           |
-| ETag                      | `bool`                                               | Enable or disable ETag header generation, since both weak and strong etags are generated using the same hashing method \(CRC-32\). Weak ETags are the default when enabled.                                                                                                 | `false`           |
-| TemplateEngine            | `func(raw string, bind interface{}) (string, error)` | You can specify a custom template function to render different template languages. See our [**Template Middleware**](middleware.md#template) _\*\*_for presets.                                                                                                         | `nil`             |
-| TemplateFolder            | `string`                                             | A directory for the application's views. If a directory is set, this will be the prefix for all template paths. `c.Render("home", data) -> ./views/home.pug`                                                                                                               | `""`              |
-| TemplateExtension         | `string`                                             | If you preset the template file extension, you do not need to provide the full filename in the Render function: `c.Render("home", data) -> home.pug`                                                                                                                       | `"html"`          |
-| ReadTimeout               | `time.Duration`                                      | The amount of time allowed to read the full request including body. Время ожидания по умолчанию не ограничено.                                                                                                                                                                | `nil`             |
-| WriteTimeout              | `time.Duration`                                      | The maximum duration before timing out writes of the response. Время ожидания по умолчанию не ограничено.                                                                                                                                                                     | `nil`             |
-| IdleTimeout               | `time.Duration`                                      | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used.                                                                                                                                 | `nil`             |
+| DisableStartupMessage     | `bool`                                               | Когда установлено значение true, не будет отображаться лого Fiber в ASCII-графике и сообщение «слушает на порту ...»                                                                                                                                                          | `false`           |
+| ETag                      | `bool`                                               | Включение или отключение генерации заголовков ETag, так как слабые и сильные ETag генерируются с использованием одного и того же метода хэширования \(CRC-32\). Слабые ETags по умолчанию, когда включено.                                                                  | `false`           |
+| TemplateEngine            | `func(raw string, bind interface{}) (string, error)` | Вы можете указать пользовательскую функцию для отображения различных языков шаблонизации. Смотрите наши [**шаблоны пресетов**](middleware.md#template) для Middleware.                                                                                                        | `nil`             |
+| TemplateFolder            | `string`                                             | Каталог для просмотра приложения. Если папка указана, то она будет использована в качестве префикса для всех путей шаблона. `c.Render("home", data) -> ./views/home.pug`                                                                                                   | `""`              |
+| TemplateExtension         | `string`                                             | Если вы устанавливаете расширение файла шаблона, вам не нужно предоставлять полное имя файла в функции Render: `c.Render("home", data) -> home.pug`                                                                                                                        | `"html"`          |
+| ReadTimeout               | `time.Duration`                                      | Время, отведенное на прочтение полного запроса, включая тело. Время ожидания по умолчанию не ограничено.                                                                                                                                                                      | `nil`             |
+| WriteTimeout              | `time.Duration`                                      | Максимальная длительность до истечения времени записи ответа. Время ожидания по умолчанию не ограничено.                                                                                                                                                                      | `nil`             |
+| IdleTimeout               | `time.Duration`                                      | Максимальное время ожидания следующего запроса при включенном keep-alive. Если IdleTimeout равен нулю, то используется значение ReadTimeout.                                                                                                                                  | `nil`             |
 
 ## Static
 
@@ -106,7 +106,7 @@ func main() {
 
 {% code title="Signature" %}
 ```go
-app.Static(prefix, root string, config ...Static) // => with prefix
+app.Static(prefix, root string, config ...Static) // => с префиксом
 ```
 {% endcode %}
 
@@ -154,22 +154,22 @@ app.Static("/static", "./public")
 
 {% code title="fiber.Static{}" %}
 ```go
-// Static represents settings for serving static files
+// Static представляет параметры для обработки статических файлов
 type Static struct {
-    // Transparently compresses responses if set to true
-    // This works differently than the github.com/gofiber/compression middleware
-    // The server tries minimizing CPU usage by caching compressed files.
-    // It adds ".fiber.gz" suffix to the original file name.
-    // Optional. Default value false
+    // Прозрачное сжатие ответов, если установлено значение true
+    // Это работает иначе, чем этот middleware: github.com/gofiber/compression
+    // Сервер старается минимизировать использование ЦП путем кэширования сжатых файлов.
+    // Добавляется суффикс ".fiber.gz" к оригинальному имени файла.
+    // Необязательный. Значение по умолчанию false
     Compress bool
-    // Enables byte range requests if set to true.
-    // Optional. Default value false
+    // Включает запросы диапазона байтов, если установлено значение true.
+    // Необязательный. Значение по умолчанию false
     ByteRange bool
-    // Enable directory browsing.
-    // Optional. Значение по умолчанию: false.
+    // Разрешить просмотр каталогов.
+    // Необязательный. Значение по умолчанию: false.
     Browse bool
-    // Index file for serving a directory.
-    // Optional. Значение по умолчанию "index.html".
+    // Индексный файл для работы с каталогом.
+    // Необязательный. Значение по умолчанию "index.html".
     Index string
 }
 ```
@@ -192,8 +192,8 @@ app.Static("/", "./public", fiber.Static{
 
 {% code title="Signatures" %}
 ```go
-// HTTP methods support :param, :optional? and *wildcards
-// You are required to pass a path to each method
+// HTTP-методы поддерживают :param, :optional? и *wildcards
+// Вам необходимо пропустить путь к каждому методу
 app.All(path string, handlers ...func(*Ctx)) *Fiber
 app.Get
 app.Put
@@ -205,9 +205,9 @@ app.Delete
 app.Connect
 app.Options
 
-// Use() will only match the beggining of each path
-// i.e. "/john" will match "/john/doe", "/johnnnn"
-// Use() does not support :param & :optional? in path
+// Use() будет совпадать только с началом каждого роута,
+// так как "/john" будет соответствовать "/john/doe" и "/johnnnnnnn"
+// Use() не поддерживает :param и :optional? в роуте
 app.Use(handlers ...func(*Ctx))
 app.Use(prefix string, handlers ...func(*Ctx)) *Fiber
 ```
@@ -230,7 +230,7 @@ app.Post("/api/register", func(c *fiber.Ctx) {
 
 ## Group
 
-You can group routes by creating a `*Group` struct.
+Вы можете группировать маршруты, создав структуру `*Group`.
 
 **Signature**
 
@@ -238,7 +238,7 @@ You can group routes by creating a `*Group` struct.
 app.Group(prefix string, handlers ...func(*Ctx)) *Group
 ```
 
-**Example**
+**Пример**
 
 ```go
 func main() {
