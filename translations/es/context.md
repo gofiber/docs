@@ -7,7 +7,7 @@ description: >-
 
 ## Accepts
 
-Checks, if the specified **extensions** or **content** **types** are acceptable.
+Comprueba, si las **extensiones** o **tipos de** **contenido** son aceptables.
 
 {% hint style="info" %}
 Basado en el encabezado HTTP [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) de la solicitud.
@@ -451,7 +451,7 @@ Not implemented yet, pull requests are welcome!
 Returns the HTTP request header specified by field.
 
 {% hint style="success" %}
-The match is **case-insensitive**.
+La comparación es **insensible en mayúsculas y minúsculas**.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -556,7 +556,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## JSON
 
-Converts any **interface** or **string** to JSON using [Jsoniter](https://github.com/json-iterator/go).
+Convierte cualquier **interfaz** o **cadena** a JSON usando [Jsoniter](https://github.com/json-iterator/go).
 
 {% hint style="info" %}
 JSON also sets the content header to **application/json**.
@@ -688,7 +688,7 @@ app.Get("/admin", func(c *fiber.Ctx) {
 
 ## Location
 
-Sets the response [Location](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Location) HTTP header to the specified path parameter.
+Establece la respuesta [Ubicación](https://developer. mozilla. org/ru/docs/Web/HTTP/Headers/Location) encabezado HTTP en el parámetro de ruta especificado.
 
 {% code title="Signature" %}
 ```go
