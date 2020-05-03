@@ -38,7 +38,7 @@ Você pode passar as configurações da sua aplicação quando chamar o método 
 {% code title="Example" %}
 ```go
 func main() {
-    // Pass Settings creating a new instance
+    // Passando as configurações criando uma nova instância
     app := fiber.New(&fiber.Settings{
         Prefork:       true,
         CaseSensitive: true,
