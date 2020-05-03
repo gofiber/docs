@@ -6,7 +6,7 @@ description: Documentação da API para que você possa começar a criar aplica�
 
  [![](https://img.shields.io/github/release/gofiber/fiber?style=flat-square)](https://github.com/gofiber/fiber/releases)  [![](https://img.shields.io/badge/go.dev-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc)   [![](https://goreportcard.com/badge/github.com/gofiber/fiber?style=flat-square)](https://goreportcard.com/report/github.com/gofiber/fiber)  [![](https://img.shields.io/badge/coverage-91-brightgreen?style=flat-square)](https://gocover.io/github.com/gofiber/fiber)  [![](https://img.shields.io/github/workflow/status/gofiber/fiber/Test?label=tests&style=flat-square)](https://github.com/gofiber/fiber/actions?query=workflow%3ATest)  [![](https://img.shields.io/github/workflow/status/gofiber/fiber/Gosec?label=gosec&style=flat-square)](https://github.com/gofiber/fiber/actions?query=workflow%3AGosec)
 
-**Fiber** is an [Express](https://github.com/expressjs/express) inspired **web framework** build on top of [Fasthttp](https://github.com/valyala/fasthttp), the **fastest** HTTP engine for [Go](https://golang.org/doc/). Designed to **ease** things up for **fast** development with **zero memory allocation** and **performance** in mind.
+**Fiber** é um **framework web** inspirado em [Express](https://github.com/expressjs/express), construído sobre o [FastHttp](https://github.com/valyala/fasthttp),  ecanismo HTTP **mais rápida** para [Go](https://golang.org/doc/). Projetado para **facilitar** as coisas para desenvolvimento **rápido** com **zero alocação de memória** e **desempenho** em mente.
 
 ## Installation
 
@@ -46,34 +46,34 @@ Abrindo o navegador em `http://localhost:3000` você deveria ver `Hello, World!`
 
 ## Basic routing
 
-Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI \(or path\) and a specific HTTP request method \(GET, PUT, POST and so on\).
+Roteamento refere-se a determinar como uma aplicação responde a uma requisição do cliente para um endpoint específico, que é um URI \(ou caminho\) e um método de requisição HTTP específico \(GET, PUT, POST e assim por diante\).
 
 {% hint style="info" %}
-Each route can have **multiple handler functions**, that are executed when the route is matched.
+Cada rota pode ter **várias funções handler**, que são executadas quando a rota é combinada.
 {% endhint %}
 
-Route definition takes the following structures:
+A definição de rota aceita as seguintes estruturas:
 
 ```go
-// Function signature
+// Assinatura da Função
 app.Method(path string, ...func(*fiber.Ctx))
 ```
 
-* `app` is an instance of **Fiber**.
+* `app` é uma instância de **Fiber**.
 * `Method` is an [HTTP request method](https://fiber.wiki/application#methods), in capitalization: `Get`, `Put`, `Post`, etc.
-* `path` is a virtual path on the server.
-* `func(*fiber.Ctx)` is a callback function containing the [Context](https://fiber.wiki/context) executed when the route is matched.
+* `path` é um caminho virtual no servidor.
+* `func(*fiber.Ctx)` é uma função callback que contém o [Context](https://fiber.wiki/context) executando quando a rota é correspondente.
 
-**Simple route**
+**Rota simples**
 
 ```go
-// Respond with "Hello, World!" on root path, "/"
+// Resposta com "Hello, World!" na rota principal, "/"
 app.Get("/", func(c *fiber.Ctx) {
   c.Send("Hello, World!")
 })
 ```
 
-**Parameters**
+**Parâmetros**
 
 ```go
 // GET http://localhost:8080/hello%20world
@@ -84,7 +84,7 @@ app.Get("/:value", func(c *fiber.Ctx) {
 })
 ```
 
-**Optional parameter**
+**Parâmetros opcionais**
 
 ```go
 // GET http://localhost:3000/john
@@ -112,7 +112,7 @@ app.Get("/api/*", func(c *fiber.Ctx) {
 
 ## Static files
 
-To serve static files such as **images**, **CSS** and **JavaScript** files, replace your function handler with a file or directory string.
+Para servir arquivos estáticos como **imagens**, **CSS** e arquivos **JavaScript**, substituir sua função handler com por um arquivo ou string de diretório.
 
 Assinatura da função:
 
@@ -120,7 +120,7 @@ Assinatura da função:
 app.Static(prefix, root string)
 ```
 
-Use the following code to serve files in a directory named `./public`:
+Use o seguinte código para servir os arquivos do diretório chamado `./public`:
 
 ```go
 app := fiber.New()
