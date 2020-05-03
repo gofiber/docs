@@ -13,5 +13,5 @@
 * [🍳 Примеры](https://github.com/gofiber/recipes)
 * [📝 Github](https://github.com/gofiber/fiber)
 * [☕ Купить кофе](https://www.buymeacoffee.com/fenny)
-* [💬 Группа в Telegram](https://gofiber.io/discord)
+* [💬 Discord](https://gofiber.io/discord)
 

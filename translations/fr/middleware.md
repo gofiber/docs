@@ -23,7 +23,7 @@ basicauth.New(config ...Config) func(*fiber.Ctx)
 
 **Config**
 
-| Property     | Type                        | Description                                                        | Default      |
+| Propriété    | Type                        | Description                                                        | Défaut       |
 |:------------ |:--------------------------- |:------------------------------------------------------------------ |:------------ |
 | Filter       | `func(*fiber.Ctx) bool`     | Defines a function to skip middleware                              | `nil`        |
 | Users        | `map[string][string]`       | Users defines the allowed credentials                              | `nil`        |
@@ -31,7 +31,7 @@ basicauth.New(config ...Config) func(*fiber.Ctx)
 | Authorizer   | `func(string, string) bool` | A function you can pass to check the credentials however you want. | `nil`        |
 | Unauthorized | `func(*fiber.Ctx)`          | Custom response body for unauthorized responses                    | `nil`        |
 
-**Example**
+**Exemple**
 
 ```go
 package main
@@ -78,7 +78,7 @@ cors.New(config ...Config) func(*fiber.Ctx)
 
 **Config**
 
-| Property         | Type              | Description                                                                                                                                                                                                                                                     | Default                                                     |
+| Propriété        | Type              | Description                                                                                                                                                                                                                                                     | Défaut                                                      |
 |:---------------- |:----------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------------------------------------------------- |
 | Filter           | `func(*Ctx) bool` | Defines a function to skip middleware                                                                                                                                                                                                                           | `nil`                                                       |
 | AllowOrigins     | `[]string`        | AllowOrigin defines a list of origins that may access the resource.                                                                                                                                                                                             | `[]string{"*"}`                                             |
@@ -127,10 +127,10 @@ compression.New(config ...Config) func(*fiber.Ctx)
 
 **Config**
 
-| Property | Type              | Description                                   | Default |
-|:-------- |:----------------- |:--------------------------------------------- |:------- |
-| Filter   | `func(*Ctx) bool` | Defines a function to skip middleware         | `nil`   |
-| Level    | `int`             | Level of compression, `0`, `1`, `2`, `3`, `4` | `0`     |
+| Propriété | Type              | Description                                   | Défaut |
+|:--------- |:----------------- |:--------------------------------------------- |:------ |
+| Filter    | `func(*Ctx) bool` | Defines a function to skip middleware         | `nil`  |
+| Level     | `int`             | Level of compression, `0`, `1`, `2`, `3`, `4` | `0`    |
 
 ```go
 package main
@@ -171,7 +171,7 @@ limiter.New(config ...Config) func(*Ctx)
 
 **Config**
 
-| Property   | Type                    | Description                                                                             | Default                                        |
+| Propriété  | Type                    | Description                                                                             | Défaut                                         |
 |:---------- |:----------------------- |:--------------------------------------------------------------------------------------- |:---------------------------------------------- |
 | Filter     | `func(*fiber.Ctx) bool` | Defines a function to skip middleware                                                   | `nil`                                          |
 | Timeout    | `int`                   | Timeout in seconds on how long to keep records of requests in memory                    | `60`                                           |
@@ -181,7 +181,7 @@ limiter.New(config ...Config) func(*Ctx)
 | Key        | `func(*Ctx) string`     | A function that allows to create custom keys. By default `c.IP()` is used.              | `nil`                                          |
 | Handler    | `func(*Ctx)`            | Handler is called when a request hits the limit                                         | `nil`                                          |
 
-**Example**
+**Exemple**
 
 ```go
 package main
@@ -228,14 +228,14 @@ logger.new(config ...Config) func(*Ctx)
 
 **Config**
 
-| Property   | Type                    | Description                                                                                                                                              | Default                                            |
+| Propriété  | Type                    | Description                                                                                                                                              | Défaut                                             |
 |:---------- |:----------------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------- |:-------------------------------------------------- |
 | Filter     | `func(*fiber.Ctx) bool` | Defines a function to skip middleware                                                                                                                    | `nil`                                              |
 | Format     | `string`                | Possible values: `time, ip, url, host, method, path, protocol, referer, ua, header:<key>, query:<key>, form:<key>, cookie:<key>` | `"${time} - ${ip} - ${method} ${path}\t${ua}\n"` |
 | TimeFormat | `string`                | TimeFormat [read more here](https://programming.guide/go/format-parse-string-time-date-example.html)                                                     | `15:04:05`                                         |
 | Output     | `io.Writer`             | Output is a writter where logs are written                                                                                                               | `os.Stderr`                                        |
 
-**Example**
+**Exemple**
 
 ```go
 package main
@@ -274,7 +274,7 @@ go get -u github.com/gofiber/recover
 recover.New(config ...Config) func(*Ctx)
 ```
 
-**Example**
+**Exemple**
 
 ```go
 package main
@@ -330,7 +330,7 @@ template.Engine() func(raw string, bind interface{}) (out string, err error)
 | `Mustache()`   | [github.com/cbroglie/mustache](https://github.com/cbroglie/mustache) |
 | `Pug()`        | [github.com/Joker/jade](https://github.com/Joker/jade)               |
 
-**Example**
+**Exemple**
 
 ```go
 package main
@@ -383,7 +383,7 @@ websocket.New(handler func(*Conn), config ...Config) func(*Ctx)
 
 **Config**
 
-| Property          | Type            | Description                                                                                                                                                                                                                      | Default         |
+| Propriété         | Type            | Description                                                                                                                                                                                                                      | Défaut          |
 |:----------------- |:--------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------- |
 | HandshakeTimeout  | `time.Duration` | Specifies the duration for the handshake to complete.                                                                                                                                                                            | `0`             |
 | Subprotocols      | `[]string`      | specifies the server's supported protocols in order of preference. If this field is not nil, then the Upgrade method negotiates a subprotocol by selecting the first match in this list with a protocol requested by the client. | `nil`           |
@@ -392,7 +392,7 @@ websocket.New(handler func(*Conn), config ...Config) func(*Ctx)
 | WriteBufferSize   | `int`           | WriteBufferSize specify I/O buffer sizes in bytes.                                                                                                                                                                               | `1024`          |
 | EnableCompression | `bool`          | EnableCompression specify if the server should attempt to negotiate per message compression \(RFC 7692\)                                                                                                                       | `false`         |
 
-**Example**
+**Exemple**
 
 ```go
 package main
@@ -450,12 +450,12 @@ requestid.New(config ...Config) func(*Ctx)
 
 **Config**
 
-| Property  | Type                      | Description                                     | Default                      |
+| Propriété | Type                      | Description                                     | Défaut                       |
 |:--------- |:------------------------- |:----------------------------------------------- |:---------------------------- |
 | Filter    | `func(*fiber.Ctx) bool`   | Defines a function to skip middleware           | `nil`                        |
 | Generator | `func(*fiber.Ctx) string` | Generator defines a function to generate an ID. | `return uuid.New().String()` |
 
-**Example**
+**Exemple**
 
 ```go
 package main
@@ -496,7 +496,7 @@ helmet.New(config ...Config) func(*Ctx)
 
 **Config**
 
-| Property              | Type                    | Description                                                                                                                                                                                                                                                                                                                    | Default          |
+| Propriété             | Type                    | Description                                                                                                                                                                                                                                                                                                                    | Défaut           |
 |:--------------------- |:----------------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |:---------------- |
 | Filter                | `func(*fiber.Ctx) bool` | Defines a function to skip middleware                                                                                                                                                                                                                                                                                          | `nil`            |
 | XSSProtection         | `string`                | XSSProtection provides protection against cross-site scripting attack \(XSS\) by setting the `X-XSS-Protection` header.                                                                                                                                                                                                      | `1; mode=block"` |
@@ -509,7 +509,7 @@ helmet.New(config ...Config) func(*Ctx)
 | HSTSPreloadEnabled    | `bool`                  |                                                                                                                                                                                                                                                                                                                                | \`\`         |
 | ReferrerPolicy        | `string`                |                                                                                                                                                                                                                                                                                                                                | \`\`         |
 
-**Example**
+**Exemple**
 
 ```go
 package main
@@ -549,7 +549,7 @@ go get -u github.com/gofiber/redirect
 redirect.New(config ...Config) func(*Ctx)
 ```
 
-**Example**
+**Exemple**
 
 ```go
 package main

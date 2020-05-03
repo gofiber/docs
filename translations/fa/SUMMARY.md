@@ -1,6 +1,6 @@
 # Table of contents
 
-* [📖 시작하기](README.md)
+* [📖 Getting started](README.md)
 * [🚀 Application](application.md)
 * [🧠 Context](context.md)
 * [🧬 Middleware](middleware.md)
