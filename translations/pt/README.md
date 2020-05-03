@@ -10,9 +10,9 @@ description: Documentação da API para que você possa começar a criar aplica�
 
 ## Installation
 
-First of all, [download](https://golang.org/dl/) and install Go. `1.11` or higher is required.
+Antes de tudo, [baixe](https://golang.org/dl/) e instale o Go. `1.11` ou superior é necessário.
 
-Installation is done using the [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) command:
+A instalação é feita usando o comando[`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them):
 
 ```bash
 go get -u github.com/gofiber/fiber
@@ -42,7 +42,7 @@ func main() {
 go run server.go
 ```
 
-Browse to `http://localhost:3000` and you should see `Hello, World!` on the page.
+Abrindo o navegador em `http://localhost:3000` você deveria ver `Hello, World!` na tela.
 
 ## Basic routing
 
