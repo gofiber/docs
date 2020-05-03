@@ -7,9 +7,9 @@ description: >-
 
 ## Basic Auth
 
-Basic auth middleware provides an HTTP basic authentication. It calls the next handler for valid credentials and `401 Unauthorized` for missing or invalid credentials.
+Basic auth middleware обеспечивает базовую HTTP-аутентификацию. Он вызывает обработчик для правильных учетных данных и `401 Unauthorized` для отсутствующих или недействительных учетных данных.
 
-**Installation**
+**Установка**
 
 ```bash
 go get -u github.com/gofiber/basicauth
@@ -21,15 +21,15 @@ go get -u github.com/gofiber/basicauth
 basicauth.New(config ...Config) func(*fiber.Ctx)
 ```
 
-**Config**
+**Конфигурация**
 
-| Свойство     | Тип                         | Описание                                                           | По умолчанию |
-|:------------ |:--------------------------- |:------------------------------------------------------------------ |:------------ |
-| Filter       | `func(*fiber.Ctx) bool`     | Defines a function to skip middleware                              | `nil`        |
-| Users        | `map[string][string]`       | Users defines the allowed credentials                              | `nil`        |
-| Realm        | `string`                    | Realm is a string to define the realm attribute                    | `Restricted` |
-| Authorizer   | `func(string, string) bool` | A function you can pass to check the credentials however you want. | `nil`        |
-| Unauthorized | `func(*fiber.Ctx)`          | Custom response body for unauthorized responses                    | `nil`        |
+| Свойство     | Тип                         | Описание                                                                          | По умолчанию |
+|:------------ |:--------------------------- |:--------------------------------------------------------------------------------- |:------------ |
+| Filter       | `func(*fiber.Ctx) bool`     | Определяет функцию для пропуска (skip) middleware                                 | `nil`        |
+| Users        | `map[string][string]`       | Определяет допустимые учетные данные                                              | `nil`        |
+| Realm        | `string`                    | Realm — это строка для определения атрибута области                               | `Restricted` |
+| Authorizer   | `func(string, string) bool` | Функция, которую вы можете передать для проверки учетных данных, если необходимо. | `nil`        |
+| Unauthorized | `func(*fiber.Ctx)`          | Пользовательское тело ответа для несанкционированных ответов                      | `nil`        |
 
 **Пример**
 
@@ -62,9 +62,9 @@ func main() {
 
 ## CORS
 
-CORS middleware implements CORS specification. CORS gives web servers cross-domain access controls, which enable secure cross-domain data transfers.
+CORS middleware реализует спецификацию CORS. CORS предоставляет веб серверы междоменного доступа, которые позволяют осуществлять безопасную междоменную передачу данных.
 
-**Installation**
+**Установка**
 
 ```bash
 go get -u github.com/gofiber/cors
@@ -76,16 +76,16 @@ go get -u github.com/gofiber/cors
 cors.New(config ...Config) func(*fiber.Ctx)
 ```
 
-**Config**
+**Конфигурация**
 
-| Свойство         | Тип               | Описание                                                                                                                                                                                                                                                        | По умолчанию                                                |
-|:---------------- |:----------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------------------------------------------------- |
-| Filter           | `func(*Ctx) bool` | Defines a function to skip middleware                                                                                                                                                                                                                           | `nil`                                                       |
-| AllowOrigins     | `[]string`        | AllowOrigin defines a list of origins that may access the resource.                                                                                                                                                                                             | `[]string{"*"}`                                             |
-| AllowMethods     | `[]string`        | AllowMethods defines a list methods allowed when accessing the resource. This is used in response to a preflight request.                                                                                                                                       | `[]string{"GET", "POST", "HEAD", "PUT", "DELETE", "PATCH"}` |
-| AllowCredentials | `string`          | AllowCredentials indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials. | `nil`                                                       |
-| ExposeHeaders    | `[]string`        | ExposeHeaders defines a whitelist headers that clients are allowed to access.                                                                                                                                                                                   | `nil`                                                       |
-| MaxAge           | `int`             | MaxAge indicates how long \(in seconds\) the results of a preflight request can be cached.                                                                                                                                                                    | `0`                                                         |
+| Свойство         | Тип               | Описание                                                                                                                                                                                                               | По умолчанию                                                |
+|:---------------- |:----------------- |:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------------------------------------------------- |
+| Filter           | `func(*Ctx) bool` | Определяет функцию для пропуска (skip) middleware                                                                                                                                                                      | `nil`                                                       |
+| AllowOrigins     | `[]string`        | AllowOrigin определяет список источников, которые могут получить доступ к ресурсу.                                                                                                                                     | `[]string{"*"}`                                             |
+| AllowMethods     | `[]string`        | Определяет список методов, разрешенных при доступе к ресурсу. Используется в ответ на предполетный запрос.                                                                                                             | `[]string{"GET", "POST", "HEAD", "PUT", "DELETE", "PATCH"}` |
+| AllowCredentials | `string`          | Указывает, могут ли отображаться ответы на запрос, когда true. При использовании в качестве части ответа на предполетный запрос — это означает, что реальный запрос может быть сделан с использованием учетных данных. | `nil`                                                       |
+| ExposeHeaders    | `[]string`        | Определяют заголовки белого списка, к которым клиент имеет доступ.                                                                                                                                                     | `nil`                                                       |
+| MaxAge           | `int`             | Показывает время кэширования результатов запроса preflight \(в секундах\).                                                                                                                                           | `0`                                                         |
 
 ```go
 package main
@@ -111,9 +111,9 @@ func main() {
 
 ## Compression
 
-This middleware allows dynamic compression for gzip & deflate if you your responses are bigger than 4kb. If you want to enable compression for static files only, please use the [**Compression** ](application.md#static)setting inside the [**Static** ](application.md#static)method.
+Этот middleware позволяет использовать динамическое сжатие для gzip и deflate, если ответ сервера больше 4 Кб. Если вы хотите включить сжатие только для статических файлов, то, пожалуйста, используйте параметр [**Compression**](application.md#static) внутри метода [**Static**](application.md#static).
 
-**Installation**
+**Установка**
 
 ```bash
 go get -u github.com/gofiber/compression
@@ -127,10 +127,10 @@ compression.New(config ...Config) func(*fiber.Ctx)
 
 **Config**
 
-| Свойство | Тип               | Описание                               | По умолчанию |
-|:-------- |:----------------- |:-------------------------------------- |:------------ |
-| Filter   | `func(*Ctx) bool` | Defines a function to skip middleware  | `nil`        |
-| Level    | `int`             | Уровень сжатия `0`, `1`, `2`, `3`, `4` | `0`          |
+| Свойство | Тип               | Описание                                          | По умолчанию |
+|:-------- |:----------------- |:------------------------------------------------- |:------------ |
+| Filter   | `func(*Ctx) bool` | Определяет функцию для пропуска (skip) middleware | `nil`        |
+| Level    | `int`             | Уровень сжатия `0`, `1`, `2`, `3`, `4`            | `0`          |
 
 ```go
 package main
@@ -169,11 +169,11 @@ go get -u github.com/gofiber/limiter
 limiter.New(config ...Config) func(*Ctx)
 ```
 
-**Config**
+**Конфигурация**
 
 | Свойство   | Тип                     | Описание                                                                                | По умолчанию                                   |
 |:---------- |:----------------------- |:--------------------------------------------------------------------------------------- |:---------------------------------------------- |
-| Filter     | `func(*fiber.Ctx) bool` | Defines a function to skip middleware                                                   | `nil`                                          |
+| Filter     | `func(*fiber.Ctx) bool` | Определяет функцию для пропуска (skip) middleware                                       | `nil`                                          |
 | Timeout    | `int`                   | Timeout in seconds on how long to keep records of requests in memory                    | `60`                                           |
 | Max        | `int`                   | Max number of recent connections during `Timeout` seconds before sending a 429 response | `10`                                           |
 | Message    | `string`                | Response body                                                                           | `"Too many requests, please try again later."` |
@@ -226,11 +226,11 @@ go get -u github.com/gofiber/logger
 logger.new(config ...Config) func(*Ctx)
 ```
 
-**Config**
+**Конфигурация**
 
 | Свойство   | Тип                     | Описание                                                                                                                                                 | По умолчанию                                       |
 |:---------- |:----------------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------- |:-------------------------------------------------- |
-| Filter     | `func(*fiber.Ctx) bool` | Defines a function to skip middleware                                                                                                                    | `nil`                                              |
+| Filter     | `func(*fiber.Ctx) bool` | Определяет функцию для пропуска (skip) middleware                                                                                                        | `nil`                                              |
 | Format     | `string`                | Possible values: `time, ip, url, host, method, path, protocol, referer, ua, header:<key>, query:<key>, form:<key>, cookie:<key>` | `"${time} - ${ip} - ${method} ${path}\t${ua}\n"` |
 | TimeFormat | `string`                | TimeFormat [read more here](https://programming.guide/go/format-parse-string-time-date-example.html)                                                     | `15:04:05`                                         |
 | Output     | `io.Writer`             | Output is a writter where logs are written                                                                                                               | `os.Stderr`                                        |
@@ -381,7 +381,7 @@ go get -u github.com/gofiber/websocket
 websocket.New(handler func(*Conn), config ...Config) func(*Ctx)
 ```
 
-**Config**
+**Конфигурация**
 
 | Свойство          | Тип             | Описание                                                                                                                                                                                                                         | По умолчанию    |
 |:----------------- |:--------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------- |
@@ -448,12 +448,12 @@ go get -u github.com/gofiber/requestid
 requestid.New(config ...Config) func(*Ctx)
 ```
 
-**Config**
+**Конфигурация**
 
-| Свойство  | Тип                       | Описание                                        | По умолчанию                 |
-|:--------- |:------------------------- |:----------------------------------------------- |:---------------------------- |
-| Filter    | `func(*fiber.Ctx) bool`   | Defines a function to skip middleware           | `nil`                        |
-| Generator | `func(*fiber.Ctx) string` | Generator defines a function to generate an ID. | `return uuid.New().String()` |
+| Свойство  | Тип                       | Описание                                          | По умолчанию                 |
+|:--------- |:------------------------- |:------------------------------------------------- |:---------------------------- |
+| Filter    | `func(*fiber.Ctx) bool`   | Определяет функцию для пропуска (skip) middleware | `nil`                        |
+| Generator | `func(*fiber.Ctx) string` | Generator defines a function to generate an ID.   | `return uuid.New().String()` |
 
 **Пример**
 
@@ -494,11 +494,11 @@ go get -u github.com/gofiber/helmet
 helmet.New(config ...Config) func(*Ctx)
 ```
 
-**Config**
+**Конфигурация**
 
 | Свойство              | Тип                     | Описание                                                                                                                                                                                                                                                                                                                       | По умолчанию     |
 |:--------------------- |:----------------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |:---------------- |
-| Filter                | `func(*fiber.Ctx) bool` | Defines a function to skip middleware                                                                                                                                                                                                                                                                                          | `nil`            |
+| Filter                | `func(*fiber.Ctx) bool` | Определяет функцию для пропуска (skip) middleware                                                                                                                                                                                                                                                                              | `nil`            |
 | XSSProtection         | `string`                | XSSProtection provides protection against cross-site scripting attack \(XSS\) by setting the `X-XSS-Protection` header.                                                                                                                                                                                                      | `1; mode=block"` |
 | ContentTypeNosniff    | `string`                | ContentTypeNosniff provides protection against overriding Content-Type header by setting the `X-Content-Type-Options` header.                                                                                                                                                                                                  | `"nosniff"`      |
 | XFrameOptions         | `string`                | XFrameOptions can be used to indicate whether or not a browser should be allowed to render a page in a ,  or . Sites can use this to avoid clickjacking attacks, by ensuring that their content is not embedded into other sites.provides protection against clickjacking. Possible values: `SAMEORIGIN, DENY, ALLOW-FROM uri` | `"SAMEORIGIN"`   |
