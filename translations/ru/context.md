@@ -704,8 +704,8 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Method
 
-Contains a string corresponding to the HTTP method of the request: `GET`, `POST`, `PUT` and so on.  
-Optionally, you could override the method by passing a string.
+Содержит строку, соответствующую методу HTTP-запроса: `GET`, `POST`, `PUT` и так далее.  
+При желании вы можете переопределить метод путём передачи строки.
 
 {% code title="Signature" %}
 ```go
@@ -836,7 +836,7 @@ app.Get("/user/:name", func(c *fiber.Ctx) {
 
 ## Path
 
-Contains the path part of the request URL. Optionally, you could override the path by passing a string.
+Содержит часть пути URL-адреса. При желании, вы можете переопределить путь через передачу строки.
 
 {% code title="Signature" %}
 ```go
