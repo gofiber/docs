@@ -62,7 +62,7 @@ func main() {
 
 ## CORS
 
-CORS middleware implements CORS specification. CORS gives web servers cross-domain access controls, which enable secure cross-domain data transfers.
+CORS middleware implementa especificação CORS. CORS gives web servers cross-domain access controls, which enable secure cross-domain data transfers.
 
 **Installation**
 
