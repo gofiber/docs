@@ -1,16 +1,16 @@
 ---
 description: >-
-  The Ctx struct represents the Context which hold the HTTP request and response. It has methods for the request query string, parameters, body, HTTP headers and so on.
+  La struttura Ctx rappresenta il Contesto che mantiene la richiesta HTTP e la risposta. Ha metodi per la string di richiesta della query, i parametri, il corpo, gli header HTTP e così via.
 ---
 
 # 🧠 Contesto
 
 ## Accepts
 
-Checks, if the specified **extensions** or **content** **types** are acceptable.
+Controlla, se le **estensioni** specificate o **tipi** **di contenuti** sono accettabili.
 
 {% hint style="info" %}
-Based on the request’s [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header.
+Basato sulla richiesta della richiesta di [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) dell'header di HTTP.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -37,7 +37,7 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-Fiber provides similar functions for the other accept headers.
+Fiber fornisce funzioni simili per gli altri header accetta.
 
 ```go
 // Accept-Charset: utf-8, iso-8859-1;q=0.2
@@ -58,7 +58,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Append
 
-Appends the specified **value** to the HTTP response header field.
+Mette in attesa il **valore** specificato al campo di risposta dell'header HTTP.
 
 {% hint style="warning" %}
 If the header is **not** already set, it creates the header with the specified value.
@@ -311,7 +311,7 @@ You can still **access** and use all **Fasthttp** methods and properties.
 Please read the [Fasthttp Documentation](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) for more information.
 {% endhint %}
 
-**Example**
+**Esempio**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -1214,7 +1214,7 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-## Type
+## Tipo
 
 Sets the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP header to the MIME type listed [here](https://github.com/nginx/nginx/blob/master/conf/mime.types) specified by the file **extension**.
 
