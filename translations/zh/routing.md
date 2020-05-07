@@ -3,7 +3,7 @@ description: >-
   路由是指应用程序的端点 (URI) 是如何响应客户端的请求。
 ---
 
-# 🔌 Routing
+# 🔌 路由
 
 ## Paths
 
@@ -28,7 +28,7 @@ app.Get("/random.txt", func(c *fiber.Ctx) {
 })
 ```
 
-## Parameters
+## 参数
 
 路由参数是 **命名的 URL 部分** ，用于捕获他们在 URL 位置中指定的值。 可以使用 [Params](https://fiber.wiki/context#params) 函数获取捕获的值。 这包含路径中指定的路由参数的名称作为其各自的键。
 
@@ -43,16 +43,16 @@ app.Get("/random.txt", func(c *fiber.Ctx) {
 **定义路由参数的示例**
 
 ```go
-// Parameters
+// 参数
 app.Get("/user/:name/books/:title", func(c *fiber.Ctx) {
   c.Write(c.Params("name"))
   c.Write(c.Params("title"))
 })
-// Wildcard
+// 通配符
 app.Get("/user/*", func(c *fiber.Ctx) {
   c.Send(c.Params("*"))
 })
-// Optional parameter
+// 可选参数
 app.Get("/user/:name?", func(c *fiber.Ctx) {
   c.Send(c.Params("name"))
 })
@@ -60,13 +60,13 @@ app.Get("/user/:name?", func(c *fiber.Ctx) {
 
 ## Middleware
 
-Functions, that are designed to make changes to the request or response, are called **middleware functions**. The [Next](https://github.com/gofiber/docs/tree/34729974f7d6c1d8363076e7e88cd71edc34a2ac/context/README.md#next) is a **Fiber** router function, when called, executes the **next** function that **matches** the current route.
+用于更改请求或响应的函数被称为 **中间件函数**。 [Next](https://github.com/gofiber/docs/tree/34729974f7d6c1d8363076e7e88cd71edc34a2ac/context/README.md#next) 函数是 **Fiber** 的一个路由函数, 被调用时, 会执行 **下一个** 函数现在所 **对应** 的路由。
 
-**Example of a middleware function**
+**中间件函数示例**
 
 ```go
 app.Use(func(c *fiber.Ctx) {
-  // Set some security headers:
+  // 设置一下安全类的头字段:
   c.Set("X-XSS-Protection", "1; mode=block")
   c.Set("X-Content-Type-Options", "nosniff")
   c.Set("X-Download-Options", "noopen")
@@ -74,7 +74,7 @@ app.Use(func(c *fiber.Ctx) {
   c.Set("X-Frame-Options", "SAMEORIGIN")
   c.Set("X-DNS-Prefetch-Control", "off")
 
-  // Go to next middleware:
+  // 调用下一个中间件:
   c.Next()
 })
 
@@ -83,11 +83,11 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-`Use` method path is a **mount** or **prefix** path and limits middleware to only apply to any paths requested that begin with it. This means you cannot use `:params` on the `Use` method.
+`Use` 方法路径是 **挂载** 或 **前缀** 路径，并限制中间件仅应用于以它开头的任何请求路径。 这意味着您不能在 `Use` 方法中使用 `:params` 。
 
 ## Grouping
 
-If you have many endpoints, you can organize your routes using `Group`
+如果您有许多端点，您可以使用 `Group` 来分组安排您的路由。
 
 ```go
 func main() {
