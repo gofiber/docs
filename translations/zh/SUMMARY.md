@@ -1,17 +1,17 @@
-# Table of contents
+# 目录
 
-* [📖 Getting started](README.md)
-* [🚀 Application](application.md)
-* [🧠 Context](context.md)
-* [🧬 Middleware](middleware.md)
-* [🔌 Routing](routing.md)
-* [🤖 Benchmarks](benchmarks.md)
+* [📖 入门指南](README.md)
+* [🚀 应用程序](application.md)
+* [🧠 上下文](context.md)
+* [🧬 中间件](middleware.md)
+* [🔌 路由](routing.md)
+* [🤖 基准](benchmarks.md)
 
 ## Links
 
-* [🏠 Home](https://gofiber.io)
-* [🍳 Examples](https://github.com/gofiber/recipes)
+* [🏠 主页](https://gofiber.io)
+* [🍳 示例](https://github.com/gofiber/recipes)
 * [📝 Github](https://github.com/gofiber/fiber)
-* [☕ Buy Coffee](https://www.buymeacoffee.com/fenny)
+* [☕ 购买咖啡](https://www.buymeacoffee.com/fenny)
 * [💬 Discord](https://gofiber.io/discord)
 
