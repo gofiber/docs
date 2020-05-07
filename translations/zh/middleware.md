@@ -1,15 +1,15 @@
 ---
 description: >-
-  Middleware is a function chained in the HTTP request cycle with access to the Context which it uses to perform a specific action, for example, logging every request or enabling CORS.
+  中间件是一个作用于 HTTP 请求周期链中的一个函数，它可以访问用于执行特定操作的上下文. 例如，记录每个请求或启用 CORS。
 ---
 
-# 🧬 Middleware
+# 🧬 中间件
 
 ## Basic Auth
 
-Basic auth middleware provides an HTTP basic authentication. It calls the next handler for valid credentials and `401 Unauthorized` for missing or invalid credentials.
+基本验证中间件提供一个 HTTP 基本验证。 它调用了 next 处理器函数来验证凭据和 `401 Unauthorized 未授权` 缺少或无效凭据。
 
-**Installation**
+**安装**
 
 ```bash
 go get -u github.com/gofiber/basicauth
@@ -21,15 +21,15 @@ go get -u github.com/gofiber/basicauth
 basicauth.New(config ...Config) func(*fiber.Ctx)
 ```
 
-**Config**
+**配置**
 
-| 属性           | 类型                          | 说明                                                                 | 默认           |
-|:------------ |:--------------------------- |:------------------------------------------------------------------ |:------------ |
-| Filter       | `func(*fiber.Ctx) bool`     | Defines a function to skip middleware                              | `nil`        |
-| Users        | `map[string][string]`       | Users defines the allowed credentials                              | `nil`        |
-| Realm        | `string`                    | Realm is a string to define the realm attribute                    | `Restricted` |
-| Authorizer   | `func(string, string) bool` | A function you can pass to check the credentials however you want. | `nil`        |
-| Unauthorized | `func(*fiber.Ctx)`          | Custom response body for unauthorized responses                    | `nil`        |
+| 属性           | 类型                          | 说明                | 默认           |
+|:------------ |:--------------------------- |:----------------- |:------------ |
+| Filter       | `func(*fiber.Ctx) bool`     | 定义跳过中间件的函数        | `nil`        |
+| Users        | `map[string][string]`       | 用户定义允许的凭据         | `nil`        |
+| Realm        | `string`                    | Realm 是定义领域属性的字符串 | `Restricted` |
+| Authorizer   | `func(string, string) bool` | 一个用以检查凭据的自定义函数    | `nil`        |
+| Unauthorized | `func(*fiber.Ctx)`          | 未经授权响应的自定义响应体     | `nil`        |
 
 **示例**
 
@@ -62,7 +62,7 @@ func main() {
 
 ## CORS
 
-CORS middleware implements CORS specification. CORS gives web servers cross-domain access controls, which enable secure cross-domain data transfers.
+CORS 跨域中间件实现CORS 跨域规格。 CORS 提供网络服务器跨域访问控制，从而能够进行安全的跨域数据传输。
 
 **Installation**
 
@@ -76,13 +76,13 @@ go get -u github.com/gofiber/cors
 cors.New(config ...Config) func(*fiber.Ctx)
 ```
 
-**Config**
+**配置**
 
 | 属性               | 类型                | 说明                                                                                                                                                                                                                                                              | 默认                                                          |
 |:---------------- |:----------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------------------------------------------------- |
-| Filter           | `func(*Ctx) bool` | Defines a function to skip middleware                                                                                                                                                                                                                           | `nil`                                                       |
-| AllowOrigins     | `[]string`        | AllowOrigin defines a list of origins that may access the resource.                                                                                                                                                                                             | `[]string{"*"}`                                             |
-| AllowMethods     | `[]string`        | AllowMethods defines a list methods allowed when accessing the resource. This is used in response to a preflight request.                                                                                                                                       | `[]string{"GET", "POST", "HEAD", "PUT", "DELETE", "PATCH"}` |
+| Filter           | `func(*Ctx) bool` | 定义跳过中间件的函数                                                                                                                                                                                                                                                      | `nil`                                                       |
+| AllowOrigins     | `[]string`        | 定义一个可以访问资源的来源列表。                                                                                                                                                                                                                                                | `[]string{"*"}`                                             |
+| AllowMethods     | `[]string`        | 定义访问资源时允许的方法列表。 这用于回应 preflight 预检请求。                                                                                                                                                                                                                           | `[]string{"GET", "POST", "HEAD", "PUT", "DELETE", "PATCH"}` |
 | AllowCredentials | `string`          | AllowCredentials indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials. | `nil`                                                       |
 | ExposeHeaders    | `[]string`        | ExposeHeaders defines a whitelist headers that clients are allowed to access.                                                                                                                                                                                   | `nil`                                                       |
 | MaxAge           | `int`             | MaxAge indicates how long \(in seconds\) the results of a preflight request can be cached.                                                                                                                                                                    | `0`                                                         |
@@ -125,11 +125,11 @@ go get -u github.com/gofiber/compression
 compression.New(config ...Config) func(*fiber.Ctx)
 ```
 
-**Config**
+**配置**
 
 | 属性     | 类型                | 说明                                            | 默认    |
 |:------ |:----------------- |:--------------------------------------------- |:----- |
-| Filter | `func(*Ctx) bool` | Defines a function to skip middleware         | `nil` |
+| Filter | `func(*Ctx) bool` | 定义跳过中间件的函数                                    | `nil` |
 | Level  | `int`             | Level of compression, `0`, `1`, `2`, `3`, `4` | `0`   |
 
 ```go
@@ -169,11 +169,11 @@ go get -u github.com/gofiber/limiter
 limiter.New(config ...Config) func(*Ctx)
 ```
 
-**Config**
+**配置**
 
 | 属性         | 类型                      | 说明                                                                                      | 默认                                             |
 |:---------- |:----------------------- |:--------------------------------------------------------------------------------------- |:---------------------------------------------- |
-| Filter     | `func(*fiber.Ctx) bool` | Defines a function to skip middleware                                                   | `nil`                                          |
+| Filter     | `func(*fiber.Ctx) bool` | 定义跳过中间件的函数                                                                              | `nil`                                          |
 | Timeout    | `int`                   | Timeout in seconds on how long to keep records of requests in memory                    | `60`                                           |
 | Max        | `int`                   | Max number of recent connections during `Timeout` seconds before sending a 429 response | `10`                                           |
 | Message    | `string`                | Response body                                                                           | `"Too many requests, please try again later."` |
@@ -226,11 +226,11 @@ go get -u github.com/gofiber/logger
 logger.new(config ...Config) func(*Ctx)
 ```
 
-**Config**
+**配置**
 
 | 属性         | 类型                      | 说明                                                                                                                                                       | 默认                                                 |
 |:---------- |:----------------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------- |:-------------------------------------------------- |
-| Filter     | `func(*fiber.Ctx) bool` | Defines a function to skip middleware                                                                                                                    | `nil`                                              |
+| Filter     | `func(*fiber.Ctx) bool` | 定义跳过中间件的函数                                                                                                                                               | `nil`                                              |
 | Format     | `string`                | Possible values: `time, ip, url, host, method, path, protocol, referer, ua, header:<key>, query:<key>, form:<key>, cookie:<key>` | `"${time} - ${ip} - ${method} ${path}\t${ua}\n"` |
 | TimeFormat | `string`                | TimeFormat [read more here](https://programming.guide/go/format-parse-string-time-date-example.html)                                                     | `15:04:05`                                         |
 | Output     | `io.Writer`             | Output is a writter where logs are written                                                                                                               | `os.Stderr`                                        |
@@ -381,7 +381,7 @@ go get -u github.com/gofiber/websocket
 websocket.New(handler func(*Conn), config ...Config) func(*Ctx)
 ```
 
-**Config**
+**配置**
 
 | 属性                | 类型              | 说明                                                                                                                                                                                                                               | 默认              |
 |:----------------- |:--------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------- |
@@ -448,11 +448,11 @@ go get -u github.com/gofiber/requestid
 requestid.New(config ...Config) func(*Ctx)
 ```
 
-**Config**
+**配置**
 
 | 属性        | 类型                        | 说明                                              | 默认                           |
 |:--------- |:------------------------- |:----------------------------------------------- |:---------------------------- |
-| Filter    | `func(*fiber.Ctx) bool`   | Defines a function to skip middleware           | `nil`                        |
+| Filter    | `func(*fiber.Ctx) bool`   | 定义跳过中间件的函数                                      | `nil`                        |
 | Generator | `func(*fiber.Ctx) string` | Generator defines a function to generate an ID. | `return uuid.New().String()` |
 
 **示例**
@@ -494,11 +494,11 @@ go get -u github.com/gofiber/helmet
 helmet.New(config ...Config) func(*Ctx)
 ```
 
-**Config**
+**配置**
 
 | 属性                    | 类型                      | 说明                                                                                                                                                                                                                                                                                                                             | 默认               |
 |:--------------------- |:----------------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |:---------------- |
-| Filter                | `func(*fiber.Ctx) bool` | Defines a function to skip middleware                                                                                                                                                                                                                                                                                          | `nil`            |
+| Filter                | `func(*fiber.Ctx) bool` | 定义跳过中间件的函数                                                                                                                                                                                                                                                                                                                     | `nil`            |
 | XSSProtection         | `string`                | XSSProtection provides protection against cross-site scripting attack \(XSS\) by setting the `X-XSS-Protection` header.                                                                                                                                                                                                      | `1; mode=block"` |
 | ContentTypeNosniff    | `string`                | ContentTypeNosniff provides protection against overriding Content-Type header by setting the `X-Content-Type-Options` header.                                                                                                                                                                                                  | `"nosniff"`      |
 | XFrameOptions         | `string`                | XFrameOptions can be used to indicate whether or not a browser should be allowed to render a page in a ,  or . Sites can use this to avoid clickjacking attacks, by ensuring that their content is not embedded into other sites.provides protection against clickjacking. Possible values: `SAMEORIGIN, DENY, ALLOW-FROM uri` | `"SAMEORIGIN"`   |
