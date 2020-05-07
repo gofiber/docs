@@ -1,13 +1,13 @@
 ---
-description: The app instance conventionally denotes the Fiber application.
+description: کلمه app معمولا به یک برنامه Fiber اشاره می کند.
 ---
 
 # 🚀 Application
 
 ## New
 
-This method creates a new **App** named instance.  
-You can pass optional [settings ](application.md#settings)when creating a new instance
+این متد یک **App** جدید ایجاد می کند.  
+شما می توانید هنگام ایجاد یک app جدید [تنظیمات ](application.md#settings) اختیاری آن را ارسال کنید
 
 {% code title="Signature" %}
 ```go
@@ -33,12 +33,12 @@ func main() {
 
 ## Settings
 
-You can pass application settings when calling `New`.
+شما می توانید هنگام فراخوانی `New` تنظیمات برنامه را ارسال کنید.
 
 {% code title="Example" %}
 ```go
 func main() {
-    // Pass Settings creating a new instance
+    // ارسال تنظیمات هنگام ایجاد یک app جدید
     app := fiber.New(&fiber.Settings{
         Prefork:       true,
         CaseSensitive: true,
@@ -53,14 +53,14 @@ func main() {
 ```
 {% endcode %}
 
-Or change the settings after initializing an `app`.
+یا بعد از ایجاد یک `app` تنظیمات آن را تغییر دهید.
 
 {% code title="Example" %}
 ```go
 func main() {
     app := fiber.New()
 
-    // Or change Settings after creating an instance
+    // تغییر تنظیمات بعد از ایجاد یک app
     app.Settings.Prefork = true
     app.Settings.CaseSensitive = true
     app.Settings.StrictRouting = true
@@ -73,44 +73,44 @@ func main() {
 ```
 {% endcode %}
 
-**Settings** **fields**
+**پارامترهای** **تنظیمات**
 
-| Property                  | Type                                                 | Description                                                                                                                                                                                                                                               | Default           |
-|:------------------------- |:---------------------------------------------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
-| Prefork                   | `bool`                                               | Enables use of the[`SO_REUSEPORT`](https://lwn.net/Articles/542629/)socket option. This will spawn multiple Go processes listening on the same port. learn more about [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
-| ServerHeader              | `string`                                             | Enables the `Server` HTTP header with the given value.                                                                                                                                                                                                    | `""`              |
-| StrictRouting             | `bool`                                               | When enabled, the router treats `/foo` and `/foo/` as different. Otherwise, the router treats `/foo` and `/foo/` as the same.                                                                                                                             | `false`           |
-| CaseSensitive             | `bool`                                               | When enabled, `/Foo` and `/foo` are different routes. When disabled, `/Foo`and `/foo` are treated the same.                                                                                                                                               | `false`           |
-| Immutable                 | `bool`                                               | When enabled, all values returned by context methods are immutable. By default they are valid until you return from the handler, see issue [\#185](https://github.com/gofiber/fiber/issues/185).                                                        | `false`           |
-| BodyLimit                 | `int`                                                | Sets the maximum allowed size for a request body, if the size exceeds the configured limit, it sends `413 - Request Entity Too Large` response.                                                                                                           | `4 * 1024 * 1024` |
-| Concurrency               | `int`                                                | Maximum number of concurrent connections.                                                                                                                                                                                                                 | `256 * 1024`      |
-| DisableKeepalive          | `bool`                                               | Disable keep-alive connections, the server will close incoming connections after sending the first response to client                                                                                                                                     | `false`           |
-| DisableDefaultDate        | `bool`                                               | When set to true causes the default date header to be excluded from the response.                                                                                                                                                                         | `false`           |
-| DisableDefaultContentType | `bool`                                               | When set to true, causes the default Content-Type header to be excluded from the Response.                                                                                                                                                                | `false`           |
-| DisableStartupMessage     | `bool`                                               | When set to true, it will not print out the fiber ASCII and "listening" on message                                                                                                                                                                        | `false`           |
-| ETag                      | `bool`                                               | Enable or disable ETag header generation, since both weak and strong etags are generated using the same hashing method \(CRC-32\). Weak ETags are the default when enabled.                                                                             | `false`           |
-| TemplateEngine            | `func(raw string, bind interface{}) (string, error)` | You can specify a custom template function to render different template languages. See our [**Template Middleware**](middleware.md#template) _\*\*_for presets.                                                                                     | `nil`             |
-| TemplateFolder            | `string`                                             | A directory for the application's views. If a directory is set, this will be the prefix for all template paths. `c.Render("home", data) -> ./views/home.pug`                                                                                           | `""`              |
-| TemplateExtension         | `string`                                             | If you preset the template file extension, you do not need to provide the full filename in the Render function: `c.Render("home", data) -> home.pug`                                                                                                   | `"html"`          |
-| ReadTimeout               | `time.Duration`                                      | The amount of time allowed to read the full request including body. Default timeout is unlimited.                                                                                                                                                         | `nil`             |
-| WriteTimeout              | `time.Duration`                                      | The maximum duration before timing out writes of the response. Default timeout is unlimited.                                                                                                                                                              | `nil`             |
-| IdleTimeout               | `time.Duration`                                      | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used.                                                                                                             | `nil`             |
+| ویژگی                     | نوع                                                  | توضیحات                                                                                                                                                                                                                                                                 | پیش‌فرض           |
+|:------------------------- |:---------------------------------------------------- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
+| Prefork                   | `bool`                                               | استفاده از گزینه سوکت [`SO_REUSEPORT`](https://lwn.net/Articles/542629/) را فعال می کند. این گزینه باعث می شود تا چندین پردازش Go از یک پورت استفاده کنند. در مورد [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/) بیشتر یاد بگیرید. | `false`           |
+| ServerHeader              | `string`                                             | هدر HTTP `Server` را با مقدار داده شده مقداردهی می کند.                                                                                                                                                                                                                 | `""`              |
+| StrictRouting             | `bool`                                               | در صورت فعال بودن، روتر برای `/foo` و `/foo/` تمایز قائل می شود. در غیر این صورت، روتر برای `/foo` و `/foo/` یکسان عمل می کند.                                                                                                                                          | `false`           |
+| CaseSensitive             | `bool`                                               | در صورت فعال بودن، `/Foo` و `/foo` مسیرهای متفاوتی هستند. در صورت غیرفعال بودن، `/Foo`و `/foo` یکسان تلقی می شوند.                                                                                                                                                      | `false`           |
+| Immutable                 | `bool`                                               | درصورت فعال بودن، تمام مقادیر به صورت تغییرناپذیر توسط context بازگشت داده می شوند. به صورت پیش‌فرض تمام مقادیر تا هنگامی که از هندلر برمی گردید معتبر هستند، این موضوع را ببینید [\#185](https://github.com/gofiber/fiber/issues/185).                               | `false`           |
+| BodyLimit                 | `int`                                                | حداکثر اندازه بدنه ی یک درخواست را تنظیم می کند، اگر اندازه از حد تنظیم شده تجاوز کند، خطای `413 - Request Entity Too Large` ارسال می کند.                                                                                                                              | `4 * 1024 * 1024` |
+| Concurrency               | `int`                                                | حداکثر تعداد کانکشن های همزمان.                                                                                                                                                                                                                                         | `256 * 1024`      |
+| DisableKeepalive          | `bool`                                               | با غیرفعال کردن کانکشن های keep-alive، سرور کانکشن های ورودی را بعد از ارسال اولین پاسخ به کلاینت خواهد بست                                                                                                                                                             | `false`           |
+| DisableDefaultDate        | `bool`                                               | در صورت مقداردهی با true، هدر پیش‌فرض تاریخ حذف می شود.                                                                                                                                                                                                                 | `false`           |
+| DisableDefaultContentType | `bool`                                               | در صورت مقداردهی با true، باعث می شود تا هدر Content-Type از ریسپانس حذف شود.                                                                                                                                                                                           | `false`           |
+| DisableStartupMessage     | `bool`                                               | در صورت مقداردهی با true، پیغام fiber ASCII و "listening" چاپ نمی شود                                                                                                                                                                                                   | `false`           |
+| ETag                      | `bool`                                               | فعال یا غیرفعال کردن ساختن هدر ETag، در صورت فعال بودن هر دو حالت ETag ضعیف و قوی با استفاده از یک متد هش یکسان ساخته می شوند \(CRC-32\). در صورت فعال بودن، ETagهای ضعیف پیش‌فرض هستند.                                                                              | `false`           |
+| TemplateEngine            | `func(raw string, bind interface{}) (string, error)` | شما می توانید یک تابع شخصی سازی شده قالب بندی، برای رندر کردن زبان های مختلف قالب بندی، مشخص کنید. [**میان افزار قالب بندی**](middleware.md#template) پیش فرض را ببینید.                                                                                                | `nil`             |
+| TemplateFolder            | `string`                                             | یک دایرکتوری برای تمپلیت های برنامه. اگر یک دایرکتوری تنظیم شود، به عنوان پیشوندی برای مسیر تمام تمپلیت ها نیز خواهد بود. `c.Render("home", data) -> ./views/home.pug`                                                                                               | `""`              |
+| TemplateExtension         | `string`                                             | اگر فرمت فایل تمپلیت را تنظیم کنید، نیازی به ارسال نام کامل فایل به تابع Render نخواهید داشت: `c.Render("home", data) -> home.pug`                                                                                                                                   | `"html"`          |
+| ReadTimeout               | `time.Duration`                                      | مقدار زمان مجاز به خواندن کامل درخواست شامل بدنه. مهلت پیش‌فرض نامحدود است.                                                                                                                                                                                             | `nil`             |
+| WriteTimeout              | `time.Duration`                                      | حداکثر مدت زمان قبل از پایان زمان نوشتن پاسخ. مهلت پیش‌فرض نامحدود است.                                                                                                                                                                                                 | `nil`             |
+| IdleTimeout               | `time.Duration`                                      | حداکثر مدت زمان برای منتظر ماندن تا درخواست بعدی هنگامی که keep-alive فعال شده است. اگر IdleTimeout صفر باشد، از مقدار ReadTimeout استفاده می شود.                                                                                                                      | `nil`             |
 
 ## Static
 
-Use the **Static** method to serve static files such as **images**, **CSS** and **JavaScript**.
+از متد **Static** برای پردازش فایل های استاتیک مثل **images** ،**CSS** و **JavaScript** استفاده کنید.
 
 {% hint style="info" %}
-By default, **Static** will serve`index.html` files in response to a request on a directory.
+به صورت پیش‌فرض، **Static** از فایل های `index.html` در پاسخ به یک دایرکتوری استفاده می کند.
 {% endhint %}
 
 {% code title="Signature" %}
 ```go
-app.Static(prefix, root string, config ...Static) // => with prefix
+app.Static(prefix, root string, config ...Static) // => با پیشوند
 ```
 {% endcode %}
 
-Use the following code to serve files in a directory named `./public`
+از کد زیر برای پردازش فایل های یک دایرکتوری به اسم `./public` استفاده کنید
 
 {% code title="Example" %}
 ```go
@@ -122,23 +122,23 @@ app.Static("/", "./public")
 ```
 {% endcode %}
 
-To serve from multiple directories, you can use **Static** multiple times.
+برای پردازش از چند دایرکتوری، می توانید از **Static** چندین بار استفاده کنید.
 
 {% code title="Example" %}
 ```go
-// Serve files from "./public" directory:
+// پردازش فایل های دایرکتوری "public/.":
 app.Static("/", "./public")
 
-// Serve files from "./files" directory:
+// پردازش فایل های دایرکتوری "files/.":
 app.Static("/", "./files")
 ```
 {% endcode %}
 
 {% hint style="info" %}
-Use a reverse proxy cache like [**NGINX**](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) to improve performance of serving static assets.
+از یک reverse proxy cache مثل [**NGINX**](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) برای افزایش کارایی پردازش فایل های استاتیک استفاده کنید.
 {% endhint %}
 
-You can use any virtual path prefix \(_where the path does not actually exist in the file system_\) for files that are served by the **Static** method, specify a prefix path for the static directory, as shown below:
+از هر پیشوند مسیر مجازی \(_در حالی که این مسیر در سیستم فایل وجود ندارد_\) برای پردازش فایل هایی که توسط متد **Static** انجام می شود، می توانید استفاده کنید. مانند مثال زیر، برای مسیر دایرکتوری استاتیک یک پشوند تعیین کنید:
 
 {% code title="Example" %}
 ```go
@@ -150,26 +150,26 @@ app.Static("/static", "./public")
 ```
 {% endcode %}
 
-If you want to have a little bit more control regarding the settings for serving static files. You could use the `fiber.Static` struct to enable specific settings.
+اگر می خواهید کنترل بیشتری روی پردازش فایل های استاتیک داشته باشید، می توانید از استراکت `fiber.Static` برای تنظیمات بیشتر استفاده کنید.
 
 {% code title="fiber.Static{}" %}
 ```go
-// Static represents settings for serving static files
+// Static نمایانگر تنظیمات برای پردازش فایل های استاتیک است
 type Static struct {
-    // Transparently compresses responses if set to true
-    // This works differently than the github.com/gofiber/compression middleware
-    // The server tries minimizing CPU usage by caching compressed files.
-    // It adds ".fiber.gz" suffix to the original file name.
-    // Optional. Default value false
+    // اگر با true مقداردهی شود خروجی ها را فشرده سازی می کند
+    // عملکرد این ویژگی با میان افزار github.com/gofiber/compression متفاوت است
+    // سرور تلاش می کند تا با کش کردن فایل های فشرده شده، میزان استفاده از CPU را کاهش دهد.
+    پسوند "fiber.gz." را به نام اصلی فایل اضافه می کند.
+    // اختیاری. مقدار پیش‌فرض false
     Compress bool
-    // Enables byte range requests if set to true.
-    // Optional. Default value false
+    // اگر به true تنظیم شود، درخواست های byte range را فعال می کند.
+    // اختیاری. مقدار پیش‌فرض false
     ByteRange bool
-    // Enable directory browsing.
-    // Optional. Default value false.
+    // فعال کردن جستجوگر دایرکتوری.
+    // اختیاری. مقدار پیش‌فرض false.
     Browse bool
-    // Index file for serving a directory.
-    // Optional. Default value "index.html".
+    // فایل ایندکس برای پردازش دایرکتوری.
+    // اختیاری. مقدار پیش‌فرض "index.html".
     Index string
 }
 ```
@@ -188,12 +188,12 @@ app.Static("/", "./public", fiber.Static{
 
 ## HTTP Methods
 
-Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) of the request.
+یک درخواست HTTP را مسیریابی می کند، در حالی که **METHOD** همان [HTTP متد](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) است.
 
 {% code title="Signatures" %}
 ```go
-// HTTP methods support :param, :optional? and *wildcards
-// You are required to pass a path to each method
+// متدهای HTTP از param: ، :optional? و *wildcards
+// ارسال یک مسیر به هر متد اجباری است
 app.All(path string, handlers ...func(*Ctx)) *Fiber
 app.Get
 app.Put
@@ -205,9 +205,9 @@ app.Delete
 app.Connect
 app.Options
 
-// Use() will only match the beggining of each path
-// i.e. "/john" will match "/john/doe", "/johnnnn"
-// Use() does not support :param & :optional? in path
+// ()Use فقط ابتدای هر مسیر را مطابقت می دهد
+// برای مثال "john/" این موارد را هم مطابقت می دهد "/john/doe", "/johnnnn"
+// ()Use از :param و :optional? پشتیبانی نمی کند 
 app.Use(handlers ...func(*Ctx))
 app.Use(prefix string, handlers ...func(*Ctx)) *Fiber
 ```
