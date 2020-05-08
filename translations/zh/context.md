@@ -1193,9 +1193,9 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Subdomains
 
-An array of subdomains in the domain name of the request.
+请求域名中的子域名数组。
 
-The application property subdomain offset, which defaults to `2`, is used for determining the beginning of the subdomain segments.
+应用程序中的子域名偏移属性，默认为 `2`，用于确定子域段的开头位置。
 
 {% code title="Signature" %}
 ```go
@@ -1205,7 +1205,7 @@ c.Subdomains(offset ...int) []string
 
 {% code title="Example" %}
 ```go
-// Host: "tobi.ferrets.example.com"
+// 域名: "tobi.ferrets.example.com"
 
 app.Get("/", func(c *fiber.Ctx) {
   c.Subdomains()  // ["ferrets", "tobi"]
@@ -1216,7 +1216,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## 类型
 
-Sets the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP header to the MIME type listed [here](https://github.com/nginx/nginx/blob/master/conf/mime.types) specified by the file **extension**.
+设置对应由文件 **扩展** 所指定的 [类型](https://github.com/nginx/nginx/blob/master/conf/mime.types) [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP 头字段  .
 
 {% code title="Signature" %}
 ```go
@@ -1237,10 +1237,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Vary
 
-Adds the given header field to the [Vary](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary) response header. This will append the header, if not already listed, otherwise leaves it listed in the current location.
+将给予的头字段添加到 [Vary](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary) 响应头。 如果尚未列出，这将附加在原有的头字段，否则它将留在当前位置中。
 
 {% hint style="info" %}
-Multiple fields are **allowed**.
+**允许** 多个领域名。
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1255,7 +1255,7 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Vary("Origin")     // => Vary: Origin
   c.Vary("User-Agent") // => Vary: Origin, User-Agent
 
-  // No duplicates
+  // 不能重复
   c.Vary("Origin") // => Vary: Origin, User-Agent
 
   c.Vary("Accept-Encoding", "Accept")
@@ -1266,7 +1266,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Write
 
-Appends **any** input to the HTTP body response.
+将 **任意** 的输入附加到 HTTP 实体响应中。
 
 {% code title="Signature" %}
 ```go
