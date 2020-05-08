@@ -737,25 +737,25 @@ c.MultipartForm() (*multipart.Form, error)
 {% code title="Example" %}
 ```go
 app.Post("/", func(c *fiber.Ctx) {
-  // Parse the multipart form:
+  // 解析多部分表单:
   if form, err := c.MultipartForm(); err == nil {
     // => *multipart.Form
 
     if token := form.Value["token"]; len(token) > 0 {
-      // Get key value:
+      // 获取键值:
       fmt.Println(token[0])
     }
 
-    // Get all files from "documents" key:
+    // 从 "documents" 键中获取所有文件:
     files := form.File["documents"]
     // => []*multipart.FileHeader
 
-    // Loop through files:
+    // 遍历所有文件:
     for _, file := range files {
       fmt.Println(file.Filename, file.Size, file.Header["Content-Type"][0])
       // => "tutorial.pdf" 360641 "application/pdf"
 
-      // Save the files to disk:
+      // 储存文件:
       c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
     }
   }
@@ -765,7 +765,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Next
 
-When **Next** is called, it executes the next method in the stack that matches the current route. You can pass an error struct within the method for custom error handling.
+当调用 **Next** 时，它会执行与当前路由匹配的堆栈中的 next 方法。 您可以在 next 方法中传入一个 error struct 结构用于自定义错误处理。
 
 {% code title="Signature" %}
 ```go
@@ -795,7 +795,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## OriginalURL
 
-Contains the original request URL.
+包含原始请求的 URL。
 
 {% code title="Signature" %}
 ```go
@@ -815,10 +815,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Params
 
-Method can be used to get the route parameters.
+可以用来获取路由参数的方法。
 
 {% hint style="info" %}
-Defaults to empty string \(`""`\), if the param **doesn't** exist.
+默认值为空字符串 \(`""`\), 如果参数 **不存在**
 {% endhint %}
 
 {% code title="Signature" %}
@@ -839,7 +839,7 @@ app.Get("/user/:name", func(c *fiber.Ctx) {
 
 ## Path
 
-Contains the path part of the request URL. Optionally, you could override the path by passing a string.
+包含请求 URL 的路径部分。 如果需要，您可以通过传入一个字符串来覆盖路径。
 
 {% code title="Signature" %}
 ```go
@@ -859,7 +859,7 @@ app.Get("/users", func(c *fiber.Ctx) {
 
 ## Protocol
 
-Contains the request protocol string: `http` or `https` for **TLS** requests.
+包含请求协议字符串： `htp` 或 `https` 的 **TLS** 请求。
 
 {% code title="Signature" %}
 ```go
@@ -879,10 +879,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Query
 
-This property is an object containing a property for each query string parameter in the route.
+此属性是一个包含路由中每个查询字符串参数的属性的对象。
 
 {% hint style="info" %}
-If there is **no** query string, it returns an **empty string**.
+如果有 **没有** 查询字符串，它将返回 **空字符串**。
 {% endhint %}
 
 {% code title="Signature" %}
