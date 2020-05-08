@@ -111,9 +111,9 @@ func main() {
 
 ## Compression
 
-如果您的响应大于4kb，此中间件允许动态压缩至 gzip & deflate。 If you want to enable compression for static files only, please use the [**Compression** ](application.md#static)setting inside the [**Static** ](application.md#static)method.
+如果您的响应大于4kb，此中间件允许动态压缩至 gzip & deflate。 如果您只想启用对静态文件的压缩， 请使用 [**Compression 压缩** ](application.md#static)在 [**Static** ](application.md#static)方法内设置。
 
-**Installation**
+**安装**
 
 ```bash
 go get -u github.com/gofiber/compression
@@ -127,10 +127,10 @@ compression.New(config ...Config) func(*fiber.Ctx)
 
 **配置**
 
-| 属性     | 类型                | 说明                                            | 默认    |
-|:------ |:----------------- |:--------------------------------------------- |:----- |
-| Filter | `func(*Ctx) bool` | 定义跳过中间件的函数                                    | `nil` |
-| Level  | `int`             | Level of compression, `0`, `1`, `2`, `3`, `4` | `0`   |
+| 属性     | 类型                | 说明                                    | 默认    |
+|:------ |:----------------- |:------------------------------------- |:----- |
+| Filter | `func(*Ctx) bool` | 定义跳过中间件的函数                            | `nil` |
+| Level  | `int`             | 压缩级别， `0`</code> , `1`, `2`, `3`, `4` | `0`   |
 
 ```go
 package main
@@ -155,9 +155,9 @@ func main() {
 
 ## Limiter
 
-Use to limit repeated requests to public APIs and/or endpoints such as password reset. This middleware does not share state with other processes/servers.
+用来限制重复请求到公共API 和/或 端点，例如密码重置。 此中间件不与其他进程 或服务器共享状态。
 
-**Installation**
+**安装**
 
 ```bash
 go get -u github.com/gofiber/limiter
@@ -171,15 +171,15 @@ limiter.New(config ...Config) func(*Ctx)
 
 **配置**
 
-| 属性         | 类型                      | 说明                                                                                      | 默认                                             |
-|:---------- |:----------------------- |:--------------------------------------------------------------------------------------- |:---------------------------------------------- |
-| Filter     | `func(*fiber.Ctx) bool` | 定义跳过中间件的函数                                                                              | `nil`                                          |
-| Timeout    | `int`                   | Timeout in seconds on how long to keep records of requests in memory                    | `60`                                           |
-| Max        | `int`                   | Max number of recent connections during `Timeout` seconds before sending a 429 response | `10`                                           |
-| Message    | `string`                | Response body                                                                           | `"Too many requests, please try again later."` |
-| StatusCode | `int`                   | Response status code                                                                    | `429`                                          |
-| Key        | `func(*Ctx) string`     | A function that allows to create custom keys. By default `c.IP()` is used.              | `nil`                                          |
-| Handler    | `func(*Ctx)`            | Handler is called when a request hits the limit                                         | `nil`                                          |
+| 属性         | 类型                      | 说明                                          | 默认                                             |
+|:---------- |:----------------------- |:------------------------------------------- |:---------------------------------------------- |
+| Filter     | `func(*fiber.Ctx) bool` | 定义跳过中间件的函数                                  | `nil`                                          |
+| Timeout    | `int`                   | 保存请求记录于内存的超时限制，以秒为单位。                       | `60`                                           |
+| Max        | `int`                   | 在发送429超时响应之前 ，`Timeout 超时` 限制内（秒）所允许的最大连接数量 | `10`                                           |
+| Message    | `string`                | 响应体                                         | `"Too many requests, please try again later."` |
+| StatusCode | `int`                   | 响应状态码                                       | `429`                                          |
+| Key        | `func(*Ctx) string`     | 允许创建自定义键的函数。 默认使用 `c.IP()`。                 | `nil`                                          |
+| Handler    | `func(*Ctx)`            | 处理器函数将在请求达到限制时被调用                           | `nil`                                          |
 
 **示例**
 
@@ -194,7 +194,7 @@ import (
 func main() {
   app := fiber.New()
 
-  // 3 requests per 10 seconds max
+  // 每10秒内， 最多允许 3 个请求
   cfg := limiter.Config{
     Timeout: 10,
     Max: 3,
@@ -212,9 +212,9 @@ func main() {
 
 ## Logger
 
-Logger middleware logs the information about each HTTP request.
+日志中间件可以记录每个HTTP请求的信息。
 
-**Installation**
+**安装**
 
 ```bash
 go get -u github.com/gofiber/logger
@@ -228,12 +228,12 @@ logger.new(config ...Config) func(*Ctx)
 
 **配置**
 
-| 属性         | 类型                      | 说明                                                                                                                                                       | 默认                                                 |
-|:---------- |:----------------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------- |:-------------------------------------------------- |
-| Filter     | `func(*fiber.Ctx) bool` | 定义跳过中间件的函数                                                                                                                                               | `nil`                                              |
-| Format     | `string`                | Possible values: `time, ip, url, host, method, path, protocol, referer, ua, header:<key>, query:<key>, form:<key>, cookie:<key>` | `"${time} - ${ip} - ${method} ${path}\t${ua}\n"` |
-| TimeFormat | `string`                | TimeFormat [read more here](https://programming.guide/go/format-parse-string-time-date-example.html)                                                     | `15:04:05`                                         |
-| Output     | `io.Writer`             | Output is a writter where logs are written                                                                                                               | `os.Stderr`                                        |
+| 属性         | 类型                      | 说明                                                                                                                                                    | 默认                                                 |
+|:---------- |:----------------------- |:----------------------------------------------------------------------------------------------------------------------------------------------------- |:-------------------------------------------------- |
+| Filter     | `func(*fiber.Ctx) bool` | 定义跳过中间件的函数                                                                                                                                            | `nil`                                              |
+| Format     | `string`                | 定义日志输出格式。可用的值： `time, ip, url, host, method, path, protocol, referer, ua, header:<key>, quer:<key>, form:<key>, cookie:<key>` | `"${time} - ${ip} - ${method} ${path}\t${ua}\n"` |
+| TimeFormat | `string`                | 时间格式 [在这里阅读更多](https://programming.guide/go/format-parse-string-time-date-example.html)                                                               | `15:04:05`                                         |
+| Output     | `io.Writer`             | 写入日志的 writter                                                                                                                                         | `os.Stderr`                                        |
 
 **示例**
 
@@ -260,9 +260,9 @@ func main() {
 
 ## Recover
 
-You can recover from panic errors within any route. By default the Recover middleware will respond with `500 Internal Server Error` when a panic occurs. You can also provide your own error handler.
+您可以从任何路由中的 panic 错误中恢复。 默认情况下，当出现 panic 错误时，中间件将响应 `500 Internal Server Error` 内部服务器错误。 您也可以定义自己的错误处理器函数。
 
-**Installation**
+**安装**
 
 ```bash
 go get -u github.com/gofiber/recover
@@ -287,7 +287,7 @@ import (
 func main() {
     app := fiber.New()
 
-  // Optional
+  // 可选
     cfg := recover.Config{
         Handler: func(c *fiber.Ctx, err error) {
             c.SendString(err.Error())
