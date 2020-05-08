@@ -293,22 +293,22 @@ c.Download(path, filename ...string)
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   c.Download("./files/report-12345.pdf")
-  // => Download report-12345.pdf
+  // => 下载 report-12345.pdf
 
   c.Download("./files/report-12345.pdf", "report.pdf")
-  // => Download report.pdf
+  // => 下载 report.pdf
 })
 ```
 {% endcode %}
 
 ## Fasthttp
 
-You can still **access** and use all **Fasthttp** methods and properties.
+您仍然可以 **访问** 并使用所有 **Fasthtt** 方法和属性。
 
 **Signature**
 
 {% hint style="info" %}
-Please read the [Fasthttp Documentation](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) for more information.
+请阅读 [Fasthttp文档](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) 了解更多详情。
 {% endhint %}
 
 **示例**
@@ -325,7 +325,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Error
 
-This contains the error information that thrown by a panic or passed via the [`Next(err)`](https://github.com/gofiber/docs/tree/8d965e1e05fb67f965934586c78335ef29f52128/context/README.md#error) method.
+这包含由 panic  错误或通过 [`Nex(err)`](https://github.com/gofiber/docs/tree/8d965e1e05fb67f965934586c78335ef29f52128/context/README.md#error) 方法投掷的错误信息。
 
 {% code title="Signature" %}
 ```go
