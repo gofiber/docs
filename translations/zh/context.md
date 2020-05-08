@@ -904,7 +904,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Range
 
-An struct containg the type and a slice of ranges will be returned.
+将返回一个包含该类型和范围切片的结构。
 
 {% code title="Signature" %}
 ```go
@@ -929,7 +929,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Redirect
 
-Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code.
+重定向到指定路径的 URL ，且具有指定的状态，是一个对应于HTTP状态代码的正整数。
 
 {% hint style="info" %}
 If **not** specified, status defaults to **302 Found**.
@@ -954,7 +954,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Render
 
-Renders a template with data and sends a `text/html` response. By default `Render` uses the default [**Go Template engine**](https://golang.org/pkg/html/template/). If you want to use another engine, please take a look at our [**Template middleware**](middleware.md#template).
+渲染一个带有数据的模板并发送一个 `text/html` 响应。 默认情况下 `Render` 使用 [**Go 模版引擎**](https://golang.org/pkg/html/template/)。 如果您想要使用其他的模版引擎，请查看我们的 [**模板中间件**](middleware.md#template)。
 
 {% code title="Signature" %}
 ```go
@@ -964,7 +964,7 @@ c.Render(file string, data interface{}) error
 
 ## Route
 
-Contains the matched [Route](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc#Route) struct.
+包含匹配的 [路由](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc#Route) 结构。
 
 {% code title="Signature" %}
 ```go
@@ -990,7 +990,7 @@ app.Post("/:api?", func(c *fiber.Ctx) {
 
 ## SaveFile
 
-Method is used to save **any** multipart file to disk.
+此方法用于保存 **任意** 多部分文件到磁盘。
 
 {% code title="Signature" %}
 ```go
