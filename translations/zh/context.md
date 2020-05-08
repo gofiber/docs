@@ -1107,7 +1107,7 @@ c.SendFile(path string, gzip ...bool)
 app.Get("/not-found", func(c *fiber.Ctx) {
   c.SendFile("./public/404.html")
 
-  // Disable gzipping:
+  // 禁用 gzipping:
   c.SendFile("./static/index.html", true)
 })
 ```
@@ -1115,10 +1115,10 @@ app.Get("/not-found", func(c *fiber.Ctx) {
 
 ## SendStatus
 
-Sets the status code and the correct status message in the body, if the response body is **empty**.
+如果响应正文为 **空**，设置状态码和正文中的状态信息。
 
 {% hint style="success" %}
-You can find all used status codes and messages [here](https://github.com/gofiber/fiber/blob/dffab20bcdf4f3597d2c74633a7705a517d2c8c2/utils.go#L183-L244).
+您可以在[这里](https://github.com/gofiber/fiber/blob/dffab20bcdf4f3597d2c74633a7705a517d2c8c2/utils.go#L183-L244)找到所有的状态码和消息 。
 {% endhint %}
 
 {% code title="Signature" %}
