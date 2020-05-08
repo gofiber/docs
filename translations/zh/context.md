@@ -530,10 +530,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Is
 
-Returns the matching **content type**, if the incoming request’s [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP header field matches the [MIME type](https://developer.mozilla.org/ru/docs/Web/HTTP/Basics_of_HTTP/MIME_types) specified by the type parameter.
+如果传入请求的 [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP 头字段与 [MIME 类型](https://developer.mozilla.org/ru/docs/Web/HTTP/Basics_of_HTTP/MIME_types)指定的参数匹配，返回对或错以表示 **内容类型** 是否匹配。
 
 {% hint style="info" %}
-If the request has **no** body, it returns **false**.
+如果请求 **没有** 实体, 返回 **false**。
 {% endhint %}
 
 {% code title="Signature" %}
@@ -556,10 +556,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## JSON
 
-Converts any **interface** or **string** to JSON using [Jsoniter](https://github.com/json-iterator/go).
+使用 [Jsoniter](https://github.com/json-iterator/go) 将任意 **interface 接口** 或 **string 字符串** 转换为 JSON 。
 
 {% hint style="info" %}
-JSON also sets the content header to **application/json**.
+JSON 将内容头字段设置为 **application/json**。
 {% endhint %}
 
 {% code title="Signature" %}
@@ -576,7 +576,7 @@ type SomeStruct struct {
 }
 
 app.Get("/json", func(c *fiber.Ctx) {
-  // Create data struct:
+  // 创建数据 struct:
   data := SomeStruct{
     Name: "Grame",
     Age:  20,
@@ -598,7 +598,7 @@ app.Get("/json", func(c *fiber.Ctx) {
 
 ## JSONP
 
-Sends a JSON response with JSONP support. This method is identical to [JSON](context.md#json), except that it opts-in to JSONP callback support. By default, the callback name is simply callback.
+使用 JSONP 发送JSON 响应。 这个方法与 [JSON](context.md#json) 完全相同，只是加入了支持 JSONP 的回调。 默认情况下，回调名称是 callback。
 
 Override this by passing a **named string** in the method.
 
