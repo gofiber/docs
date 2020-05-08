@@ -367,7 +367,7 @@ func main() {
 
 ## WebSocket
 
-Fiber 支持 Websocket 升级中间件。 `*conn` 结构具有来自 [**gorilla/websocket**](https://github.com/gorilla/websocket) 库的所有功能。
+Fiber 支持 Websocket 升级中间件。 `*Conn` 结构具有来自 [**gorilla/websocket**](https://github.com/gorilla/websocket) 库的所有功能。
 
 **安装**
 
@@ -383,14 +383,14 @@ websocket.New(handler func(*Conn), config ...Config) func(*Ctx)
 
 **配置**
 
-| 属性                | 类型              | 说明                                                                                                                                                                                | 默认              |
-|:----------------- |:--------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------- |
-| HandshakeTimeout  | `time.Duration` | 指定完成握手的时间。                                                                                                                                                                        | `0`             |
-| Subprotocols      | `[]string`      | 指定服务器支持的协议按首选项顺序排列。 If this field is not nil, then the Upgrade method negotiates a subprotocol by selecting the first match in this list with a protocol requested by the client. | `nil`           |
-| Origins           | `[]string`      | Origins is a string slice of origins that are acceptable, by default all origins are allowed.                                                                                     | `[]string{"*"}` |
-| ReadBufferSize    | `int`           | ReadBufferSize specify I/O buffer sizes in bytes.                                                                                                                                 | `1024`          |
-| WriteBufferSize   | `int`           | WriteBufferSize specify I/O buffer sizes in bytes.                                                                                                                                | `1024`          |
-| EnableCompression | `bool`          | EnableCompression specify if the server should attempt to negotiate per message compression \(RFC 7692\)                                                                        | `false`         |
+| 属性                | 类型              | 说明                                                              | 默认              |
+|:----------------- |:--------------- |:--------------------------------------------------------------- |:--------------- |
+| HandshakeTimeout  | `time.Duration` | 指定完成握手的时间。                                                      | `0`             |
+| Subprotocols      | `[]string`      | 指定服务器支持的协议按首选项顺序排列。 如果此字段不是nil, 升级方法将选择此列表中的第一个与客户端请求协议所匹配的子协议。 | `nil`           |
+| Origins           | `[]string`      | 定义可接受的站点，默认允许所有站点。                                              | `[]string{"*"}` |
+| ReadBufferSize    | `int`           | ReadBufferSize 读取缓冲以字节形式指定 I/O 缓冲区大小。                           | `1024`          |
+| WriteBufferSize   | `int`           | WriteBufferSize 写入缓冲以字节形式指定 I/O 缓冲区大小。                          | `1024`          |
+| EnableCompression | `bool`          | 表示服务器是否应尝试压缩每个消息 \(RFC 7692\)                                 | `false`         |
 
 **示例**
 
@@ -412,7 +412,7 @@ func main() {
 
   app.Get("/ws", websocket.New(func(c *websocket.Conn) {
     fmt.Println(c.Locals("Hello")) // "World"
-    // Websocket logic...
+    // Websocket 逻辑...
     for {
       mt, msg, err := c.ReadMessage()
       if err != nil {
@@ -434,9 +434,9 @@ func main() {
 
 ## Request ID
 
-Request ID adds an identifier to the request using the `X-Request-ID` header
+使用 `X-Request-ID` 头字段为请求添加标识符。
 
-**Installation**
+**安装**
 
 ```bash
 go get -u github.com/gofiber/requestid
@@ -450,10 +450,10 @@ requestid.New(config ...Config) func(*Ctx)
 
 **配置**
 
-| 属性        | 类型                        | 说明                                              | 默认                           |
-|:--------- |:------------------------- |:----------------------------------------------- |:---------------------------- |
-| Filter    | `func(*fiber.Ctx) bool`   | 定义跳过中间件的函数                                      | `nil`                        |
-| Generator | `func(*fiber.Ctx) string` | Generator defines a function to generate an ID. | `return uuid.New().String()` |
+| 属性        | 类型                        | 说明             | 默认                           |
+|:--------- |:------------------------- |:-------------- |:---------------------------- |
+| Filter    | `func(*fiber.Ctx) bool`   | 定义跳过中间件的函数     | `nil`                        |
+| Generator | `func(*fiber.Ctx) string` | 生成器定义了生成ID的函数。 | `return uuid.New().String()` |
 
 **示例**
 
