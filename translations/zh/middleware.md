@@ -480,9 +480,9 @@ func main() {
 
 ## Helmet
 
-Helmet middleware provides protection against cross-site scripting \(XSS\) attack, content type sniffing, clickjacking, insecure connection and other code injection attacks.
+头盔中间件提供保护以防止跨站脚本\(XSS\)攻击、内容类型嗅探攻击、点击劫持、不安全的连接和其他代码注入攻击。
 
-**Installation**
+**安装**
 
 ```bash
 go get -u github.com/gofiber/helmet
@@ -496,18 +496,18 @@ helmet.New(config ...Config) func(*Ctx)
 
 **配置**
 
-| 属性                    | 类型                      | 说明                                                                                                                                                                                                                                                                                                                             | 默认               |
-|:--------------------- |:----------------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |:---------------- |
-| Filter                | `func(*fiber.Ctx) bool` | 定义跳过中间件的函数                                                                                                                                                                                                                                                                                                                     | `nil`            |
-| XSSProtection         | `string`                | XSSProtection provides protection against cross-site scripting attack \(XSS\) by setting the `X-XSS-Protection` header.                                                                                                                                                                                                      | `1; mode=block"` |
-| ContentTypeNosniff    | `string`                | ContentTypeNosniff provides protection against overriding Content-Type header by setting the `X-Content-Type-Options` header.                                                                                                                                                                                                  | `"nosniff"`      |
-| XFrameOptions         | `string`                | XFrameOptions can be used to indicate whether or not a browser should be allowed to render a page in a ,  or . Sites can use this to avoid clickjacking attacks, by ensuring that their content is not embedded into other sites.provides protection against clickjacking. Possible values: `SAMEORIGIN, DENY, ALLOW-FROM uri` | `"SAMEORIGIN"`   |
-| HSTSMaxAge            | `int`                   | HSTSMaxAge sets the `Strict-Transport-Security` header to indicate how long \(in seconds\) browsers should remember that this site is only to be accessed using HTTPS. This reduces your exposure to some SSL-stripping man-in-the-middle \(MITM\) attacks.                                                                | \`\`         |
-| HSTSExcludeSubdomains | `bool`                  | HSTSExcludeSubdomains won't include subdomains tag in the `Strict Transport Security` header, excluding all subdomains from security policy. It has no effect unless HSTSMaxAge is set to a non-zero value.                                                                                                                    | \`\`         |
-| ContentSecurityPolicy | `string`                | ContentSecurityPolicy sets the `Content-Security-Policy` header providing security against cross-site scripting \(XSS\), clickjacking and other code injection attacks resulting from execution of malicious content in the trusted web page context                                                                         | \`\`         |
-| CSPReportOnly         | `bool`                  |                                                                                                                                                                                                                                                                                                                                | \`\`         |
-| HSTSPreloadEnabled    | `bool`                  |                                                                                                                                                                                                                                                                                                                                | \`\`         |
-| ReferrerPolicy        | `string`                |                                                                                                                                                                                                                                                                                                                                | \`\`         |
+| 属性                    | 类型                      | 说明                                                                                                                                              | 默认               |
+|:--------------------- |:----------------------- |:----------------------------------------------------------------------------------------------------------------------------------------------- |:---------------- |
+| Filter                | `func(*fiber.Ctx) bool` | 定义跳过中间件的函数                                                                                                                                      | `nil`            |
+| XSSProtection         | `string`                | XSSProtection 通过设置 `X-XSS-Protection` 头字段来提供保护，免遭跨地点脚本攻击 \(XSS\)。                                                                             | `1; mode=block"` |
+| ContentTypeNosniff    | `string`                | ContentTypeNosniff 通过设置 `X-Content-Type-Options` 头字段提供保护，免受覆盖Content-Type 头字段的影响。                                                               | `"nosniff"`      |
+| XFrameOptions         | `string`                | XFrameworkOptions 可以用来表示是否允许浏览器在 `frame`, `iframe`, `embed` 或 `object ` 中渲染。 这可以避免点击劫持，确保内容不会被嵌入到其他站点。 允许的值： `SAMEORIGIN, DENY, ALLOW-FROM uri` | `"SAMEORIGIN"`   |
+| HSTSMaxAge            | `int`                   | HSTSMaxAge 设置 `Strict-Transport-Security` 头字段来指示浏览器应该记住这个网站多久\(秒\) 以 HTTPS 访问。 这可以减少您暴露在 SSL 中间人攻击的风险\(MITM\)。                              | \`\`         |
+| HSTSExcludeSubdomains | `bool`                  | HSTSExclusdeSubdomains 不会在 `Strict Transport Security` 头字段中包含子域标签，将从安全策略中排除所有子域。 除非HSTSMaxAge设置为非零值，否则它不会生效。                                    | \`\`         |
+| ContentSecurityPolicy | `string`                | ContentSecurityPolicy 设置了 `Content-Security-Policy` 头字段来避免在受信任的网页环境中执行了恶意内容而导致的影响，可以防止跨网站脚本攻击 \(XSS\)，点击劫持和其他代码注入攻击。                          | \`\`         |
+| CSPReportOnly         | `bool`                  |                                                                                                                                                 | \`\`         |
+| HSTSPreloadEnabled    | `bool`                  |                                                                                                                                                 | \`\`         |
+| ReferrerPolicy        | `string`                |                                                                                                                                                 | \`\`         |
 
 **示例**
 
