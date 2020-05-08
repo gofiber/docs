@@ -84,7 +84,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Attachment
 
-Sets the HTTP response [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header field to `attachment`.
+将 HTTP 响应 [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) 头字段设置为 `attachment` 附件。
 
 {% code title="Signature" %}
 ```go
@@ -107,7 +107,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## BaseURL
 
-Returns base URL \(**protocol** + **host**\) as a `string`.
+返回以 `string` 字符串表示的基础 URL \(**protocol 协议** + **host 主机**\)
 
 {% code title="Signature" %}
 ```go
@@ -127,7 +127,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Body
 
-Contains the **raw body** submitted in a **POST** request.
+包含在 **POST** 请求中提交的 **原始主体**
 
 {% code title="Signature" %}
 ```go
@@ -140,7 +140,7 @@ c.Body() string
 // curl -X POST http://localhost:8080 -d user=john
 
 app.Post("/", func(c *fiber.Ctx) {
-  // Get raw body from POST request:
+  // 获取POST请求中的原始主体:
   c.Body() // user=john
 })
 ```
@@ -148,7 +148,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## BodyParser
 
-Binds the request body to a struct. `BodyParser` supports decoding query parameters and the following content types based on the `Content-Type` header:
+将请求主体绑定到 struct 结构中。 `BodyParser` 支持解码查询参数以及基于 `Content-Type` 头字段的以下内容类型：
 
 * `application/json`
 * `application/xml`
@@ -163,7 +163,7 @@ c.BodyParser(out interface{}) error
 
 {% code title="Example" %}
 ```go
-// Field names should start with an uppercase letter
+// 领域名字需以大写字母作为开头
 type Person struct {
     Name string `json:"name" xml:"name" form:"name" query:"name"`
     Pass string `json:"pass" xml:"pass" form:"pass" query:"pass"`
@@ -179,7 +179,7 @@ app.Post("/", func(c *fiber.Ctx) {
         log.Println(p.Name) // john
         log.Println(p.Pass) // doe
 })
-// Run tests with the following curl commands
+// 使用一下 curl 指令测试
 
 // curl -X POST -H "Content-Type: application/json" --data "{\"name\":\"john\",\"pass\":\"doe\"}" localhost:3000
 
@@ -195,7 +195,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## ClearCookie
 
-Expire a client cookie \(_or all cookies if left empty\)_
+清理过期的客户端 cookie \(_或所有cookie 如果留空\)_
 
 {% code title="Signature" %}
 ```go
@@ -206,13 +206,13 @@ c.ClearCookie(key ...string)
 {% code title="Example" %}
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  // Clears all cookies:
+  // 清理所有 cookies:
   c.ClearCookie()
 
-  // Expire specific cookie by name:
+  // 以名字清理特定 cookie:
   c.ClearCookie("user")
 
-  // Expire multiple cookies by names:
+  // 以名字清理多个特定 cookie:
   c.ClearCookie("token", "session", "track_id", "version")
 })
 ```
@@ -220,7 +220,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Cookie
 
-Set cookie
+设置 Cookie
 
 **Signature**
 
@@ -258,7 +258,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Cookies
 
-Get cookie value by key.
+通过键获取 cookie 值。
 
 **Signature**s
 
@@ -269,7 +269,7 @@ c.Cookies(key string) string
 {% code title="Example" %}
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  // Get cookie by key:
+  // 通过键获取 cookie:
   c.Cookies("name") // "john"
 })
 ```
@@ -277,11 +277,11 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Download
 
-Transfers the file from path as an `attachment`.
+将文件从路径传送为 `附件`。
 
-Typically, browsers will prompt the user for download. By default, the [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header `filename=` parameter is the filepath \(_this typically appears in the browser dialog_\).
+通常情况下，浏览器会提示用户下载。 默认情况下， [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) 头字段 `filename=` 参数是文件路径\(_这通常出现在浏览器对话框_\)。
 
-Override this default with the **filename** parameter.
+用 **filename** 参数覆盖此默认值。
 
 {% code title="Signature" %}
 ```go
