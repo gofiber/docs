@@ -363,10 +363,10 @@ func main() {
 
 ## Format
 
-Performs content-negotiation on the [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header. It uses [Accepts](context.md#accepts) to select a proper format.
+基于请求的 [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP 头字段作出对应的内容处理。 使用 [Accepts](context.md#accepts) 选择一个适当的格式。
 
 {% hint style="info" %}
-If the header is **not** specified or there is **no** proper format, **text/plain** is used.
+倘若头字段 **尚未** 设置或 **没有** 对应的格式, 将会自动使用 **text/plain**。
 {% endhint %}
 
 {% code title="Signature" %}
