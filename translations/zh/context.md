@@ -1,16 +1,16 @@
 ---
 description: >-
-  The Ctx struct represents the Context which hold the HTTP request and response. It has methods for the request query string, parameters, body, HTTP headers and so on.
+  Ctx struct 结构代表了持有HTTP请求和响应的上下文。 它拥有用于请求查询字符串、参数、物体、HTTP头字段等的方法。
 ---
 
 # 🧠 上下文
 
 ## Accepts
 
-Checks, if the specified **extensions** or **content** **types** are acceptable.
+检查指定的 **extensions 扩展** 或 **content 内容** **types 类型** 是否可接受。
 
 {% hint style="info" %}
-Based on the request’s [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header.
+基于请求的 [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP 头字段.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -37,7 +37,7 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-Fiber provides similar functions for the other accept headers.
+Fiber也为其他 aceept 头字段提供了类似的功能。
 
 ```go
 // Accept-Charset: utf-8, iso-8859-1;q=0.2
