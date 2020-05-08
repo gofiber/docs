@@ -600,7 +600,7 @@ app.Get("/json", func(c *fiber.Ctx) {
 
 使用 JSONP 发送JSON 响应。 这个方法与 [JSON](context.md#json) 完全相同，只是加入了支持 JSONP 的回调。 默认情况下，回调名称是 callback。
 
-Override this by passing a **named string** in the method.
+可以在方法中通过传入一个 **命名字符串** 来更改回调名称。
 
 {% code title="Signature" %}
 ```go
@@ -633,7 +633,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Links
 
-Joins the links followed by the property to populate the response’s [Link](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Link) HTTP header field.
+集合所有在属性中定义的链接来填充响应的 [Link](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Link) HTTP 头字段.
 
 {% code title="Signature" %}
 ```go
@@ -656,10 +656,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Locals
 
-Method that stores string variables scoped to the request and therefore available only to the routes that match the request.
+将字符串变量存储到请求范围内的方法，因此仅适用于匹配请求的路由。
 
 {% hint style="success" %}
-This is useful, if you want to pass some **specific** data to the next middleware.
+这可以让您将一些 **特定的** 数据传递给下一个中间件。
 {% endhint %}
 
 {% code title="Signature" %}
@@ -688,7 +688,7 @@ app.Get("/admin", func(c *fiber.Ctx) {
 
 ## Location
 
-Sets the response [Location](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Location) HTTP header to the specified path parameter.
+设置响应 [Location 位置](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Location) HTTP 头字段到指定的路径参数。
 
 {% code title="Signature" %}
 ```go
@@ -707,8 +707,8 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Method
 
-Contains a string corresponding to the HTTP method of the request: `GET`, `POST`, `PUT` and so on.  
-Optionally, you could override the method by passing a string.
+包含与请求的 HTTP 方法相对应的字符串： `GET`， `POST`, `PUT` 等。  
+如果需要，您可以通过传入一个字符串来覆盖这个方法。
 
 {% code title="Signature" %}
 ```go
@@ -726,7 +726,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## MultipartForm
 
-To access multipart form entries, you can parse the binary with `MultipartForm()`. This returns a `map[string][]string`, so given a key the value will be a string slice.
+要访问多部分表单项，您可以使用 `MultipartForm()` 来解析二进制文件。 This returns a `map[string][]string`, so given a key the value will be a string slice.
 
 {% code title="Signature" %}
 ```go
