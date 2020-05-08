@@ -58,10 +58,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Append
 
-Appends the specified **value** to the HTTP response header field.
+将 HTTP 响应头字段附加指定的 **value 值**。
 
 {% hint style="warning" %}
-If the header is **not** already set, it creates the header with the specified value.
+如果头字段 **还未** 设置 ，它将创建以指定值的头字段。
 {% endhint %}
 
 {% code title="Signature" %}
@@ -74,10 +74,10 @@ c.Append(field, values ...string)
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   c.Append("Link", "http://google.com", "http://localhost")
-  // => Link: http://localhost, http://google.com
+  // => 链接: http://localhost, http://google.com
 
   c.Append("Link", "Test")
-  // => Link: http://localhost, http://google.com, Test
+  // => 链接: http://localhost, http://google.com, Test
 })
 ```
 {% endcode %}
