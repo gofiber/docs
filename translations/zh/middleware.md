@@ -307,7 +307,7 @@ func main() {
 
 ## Template
 
-By default Fiber comes with the [**default HTML template**](https://golang.org/pkg/html/template/) engine, but this middleware contains third party rendering engines.
+默认情况下，Fiber 有 [**默认的 HTML 模版**](https://golang.org/pkg/html/template/) 引擎，但这个中间件包含第三方渲染引擎。
 
 **Installation**
 
@@ -321,9 +321,9 @@ go get -u github.com/gofiber/template
 template.Engine() func(raw string, bind interface{}) (out string, err error)
 ```
 
-**Template Engines**
+**模板引擎**
 
-| Keyword        | Engine                                                               |
+| 关键词            | 引擎                                                                   |
 |:-------------- |:-------------------------------------------------------------------- |
 | `Amber()`      | [github.com/eknkc/amber](https://github.com/eknkc/amber)             |
 | `Handlebars()` | [github.com/aymerick/raymond](https://github.com/aymerick/raymond)   |
@@ -367,9 +367,9 @@ func main() {
 
 ## WebSocket
 
-Fiber supports a websocket upgrade middleware. The `*Conn` struct has all the functionality from the [**gorilla/websocket**](https://github.com/gorilla/websocket) library.
+Fiber 支持 Websocket 升级中间件。 `*conn` 结构具有来自 [**gorilla/websocket**](https://github.com/gorilla/websocket) 库的所有功能。
 
-**Installation**
+**安装**
 
 ```bash
 go get -u github.com/gofiber/websocket
@@ -383,14 +383,14 @@ websocket.New(handler func(*Conn), config ...Config) func(*Ctx)
 
 **配置**
 
-| 属性                | 类型              | 说明                                                                                                                                                                                                                               | 默认              |
-|:----------------- |:--------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------- |
-| HandshakeTimeout  | `time.Duration` | Specifies the duration for the handshake to complete.                                                                                                                                                                            | `0`             |
-| Subprotocols      | `[]string`      | specifies the server's supported protocols in order of preference. If this field is not nil, then the Upgrade method negotiates a subprotocol by selecting the first match in this list with a protocol requested by the client. | `nil`           |
-| Origins           | `[]string`      | Origins is a string slice of origins that are acceptable, by default all origins are allowed.                                                                                                                                    | `[]string{"*"}` |
-| ReadBufferSize    | `int`           | ReadBufferSize specify I/O buffer sizes in bytes.                                                                                                                                                                                | `1024`          |
-| WriteBufferSize   | `int`           | WriteBufferSize specify I/O buffer sizes in bytes.                                                                                                                                                                               | `1024`          |
-| EnableCompression | `bool`          | EnableCompression specify if the server should attempt to negotiate per message compression \(RFC 7692\)                                                                                                                       | `false`         |
+| 属性                | 类型              | 说明                                                                                                                                                                                | 默认              |
+|:----------------- |:--------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------- |
+| HandshakeTimeout  | `time.Duration` | 指定完成握手的时间。                                                                                                                                                                        | `0`             |
+| Subprotocols      | `[]string`      | 指定服务器支持的协议按首选项顺序排列。 If this field is not nil, then the Upgrade method negotiates a subprotocol by selecting the first match in this list with a protocol requested by the client. | `nil`           |
+| Origins           | `[]string`      | Origins is a string slice of origins that are acceptable, by default all origins are allowed.                                                                                     | `[]string{"*"}` |
+| ReadBufferSize    | `int`           | ReadBufferSize specify I/O buffer sizes in bytes.                                                                                                                                 | `1024`          |
+| WriteBufferSize   | `int`           | WriteBufferSize specify I/O buffer sizes in bytes.                                                                                                                                | `1024`          |
+| EnableCompression | `bool`          | EnableCompression specify if the server should attempt to negotiate per message compression \(RFC 7692\)                                                                        | `false`         |
 
 **示例**
 
