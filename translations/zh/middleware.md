@@ -535,9 +535,9 @@ func main() {
 
 ## Redirect
 
-Redirects middleware provides an HTTP redirect to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code.
+重定向中间件支持 HTTP 重定向到指定路径的 URL ，且具有指定的状态，是一个对应于HTTP状态代码的正整数。
 
-**Installation**
+**安装**
 
 ```bash
 go get -u github.com/gofiber/redirect
