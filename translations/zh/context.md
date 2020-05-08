@@ -303,7 +303,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Fasthttp
 
-您仍然可以 **访问** 并使用所有 **Fasthtt** 方法和属性。
+您仍然可以 **访问** 并使用所有 **Fasthttp** 方法和属性。
 
 **Signature**
 
@@ -1286,7 +1286,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## XHR
 
-A Boolean property, that is `true`, if the request’s [X-Requested-With](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers) header field is [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest), indicating that the request was issued by a client library \(such as [jQuery](https://api.jquery.com/jQuery.ajax/)\).
+布尔属性为 `true` 时, 即为请求中的 [X-Requested-With](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers) 头字段是 [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest), 表示该请求是由客户端的库所发起 \(例如 [jQuery](https://api.jquery.com/jQuery.ajax/)\).
 
 {% code title="Signature" %}
 ```go
