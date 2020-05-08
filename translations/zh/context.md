@@ -1024,7 +1024,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Secure
 
-A boolean property, that is `true` , if a **TLS** connection is established.
+布尔属性将为 `true` , 如果已建立 **TLS** 连接。
 
 {% code title="Signature" %}
 ```go
@@ -1034,17 +1034,17 @@ c.Secure() bool
 
 {% code title="Example" %}
 ```go
-// Secure() method is equivalent to:
+// Secure() 方法等价于:
 c.Protocol() == "https"
 ```
 {% endcode %}
 
 ## Send
 
-Sets the HTTP response body. The **Send** body can be of any type.
+设置 HTTP 响应正文。 **Send 发送** 的正文可以是任何类型。
 
 {% hint style="warning" %}
-Send **doesn't** append like the [Write](https://fiber.wiki/context#write) method.
+此方法 **不会** 类似 [Write 写入](https://fiber.wiki/context#write) 方法一般在原有的正文中进行附加。
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1063,10 +1063,10 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-Fiber also provides `SendBytes` & `SendString` methods for raw inputs.
+Fiber还提供了 `SendBytes` & `SendString` 的原始输入方法。
 
 {% hint style="success" %}
-Use this, if you **don't need** type assertion, recommended for **faster** performance.
+如果您 **不需要** 类型断言，建议使用以获取 **更快** 的性能。
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1090,10 +1090,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## SendFile
 
-Transfers the file from the given path. Sets the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) response HTTP header field based on the **filenames** extension.
+将文件从指定的路径传输。 基于 **文件名** 的扩展，设置对应的 [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) 响应 HTTP 头字段。
 
 {% hint style="warning" %}
-Method use **gzipping** by default, set it to **true** to disable.
+默认情况下，此方法使用 **gzipping** ，设置为 **true** 禁用。
 {% endhint %}
 
 {% code title="Signature" %}
