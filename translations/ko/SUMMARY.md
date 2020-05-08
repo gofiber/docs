@@ -1,4 +1,4 @@
-# Table of contents
+# 목차
 
 * [📖 시작하기](README.md)
 * [🚀 Application](application.md)
