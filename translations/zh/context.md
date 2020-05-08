@@ -395,7 +395,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## FormFile
 
-MultipartForm files can be retrieved by name, the **first** file from the given key is returned.
+多片段格式文件可以通过名称检索，返回给定键的 **第一个** 文件。
 
 {% code title="Signature" %}
 ```go
@@ -406,10 +406,10 @@ c.FormFile(name string) (*multipart.FileHeader, error)
 {% code title="Example" %}
 ```go
 app.Post("/", func(c *fiber.Ctx) {
-  // Get first file from form field "document":
+  // 从表中的 "document" 获取第一个文件:
   file, err := c.FormFile("document")
 
-  // Check for errors:
+  // 检查错误:
   if err == nil {
     // Save file to root directory:
     c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
@@ -420,7 +420,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## FormValue
 
-Any form values can be retrieved by name, the **first** value from the given key is returned.
+任何表单值都可以通过名称检索，会返回给予键的 **第一** 值。
 
 {% code title="Signature" %}
 ```go
@@ -431,7 +431,7 @@ c.FormValue(name string) string
 {% code title="Example" %}
 ```go
 app.Post("/", func(c *fiber.Ctx) {
-  // Get first value from form field "name":
+  // 从表中的 "name" 获取第一个值:
   c.FormValue("name")
   // => "john" or "" if not exist
 })
@@ -443,15 +443,15 @@ app.Post("/", func(c *fiber.Ctx) {
 [https://expressjs.com/en/4x/api.html\#req.fresh](https://expressjs.com/en/4x/api.html#req.fresh)
 
 {% hint style="info" %}
-Not implemented yet, pull requests are welcome!
+尚未实施，欢迎提交贡献。
 {% endhint %}
 
 ## Get
 
-Returns the HTTP request header specified by field.
+返回指定的 HTTP 请求头字段
 
 {% hint style="success" %}
-The match is **case-insensitive**.
+匹配的头字段 **大小写不敏感**。
 {% endhint %}
 
 {% code title="Signature" %}
@@ -472,7 +472,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Hostname
 
-Contains the hostname derived from the [Host](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host) HTTP header.
+包含来自 [Host](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host) HTTP 头字段中的主机名。
 
 {% code title="Signature" %}
 ```go
@@ -492,7 +492,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## IP
 
-Returns the remote IP address of the request.
+返回请求的IP地址。
 
 {% code title="Signature" %}
 ```go
@@ -510,7 +510,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## IPs
 
-Returns an array of IP addresses specified in the [X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For) request header.
+返回 [X-Forwarded-for](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For) 请求头中指定的 IP 地址数组。
 
 {% code title="Signature" %}
 ```go
@@ -1164,7 +1164,7 @@ app.Get("/", func(c *fiber.Ctx) {
 [https://expressjs.com/en/4x/api.html\#req.fresh](https://expressjs.com/en/4x/api.html#req.fresh)
 
 {% hint style="info" %}
-Not implemented yet, pull requests are welcome!
+尚未实施，欢迎提交贡献。
 {% endhint %}
 
 ## Status
