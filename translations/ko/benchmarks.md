@@ -17,8 +17,8 @@ description: >-
 
 ### Plaintext
 
-**Fiber** handled **6,162,556** responses per second with an average latency of **2.0** ms.  
-**Express** handled **367,069** responses per second with an average latency of **354.1** ms.
+**Fiber** 는 초당 **6,162,556** 건의 응답과 평균 **2.0** ms의 지연율을 보였습니다.  
+**Express** 는 초당 **367,069** 건의 응답과 평균 **354.1** ms의 지연율을 보였습니다.
 
 ![](.gitbook/assets/plaintext%20%281%29.png)
 
@@ -26,8 +26,8 @@ description: >-
 
 ### Data Updates
 
-**Fiber** handled **11,846** responses  per second with an average latency of **42.8** ms.  
-**Express** handled **2,066** responses  per second with an average latency of **390.44** ms.
+**Fiber** 는 초당 **11,846** 건의 응답과 평균 **42.8** ms의 지연율을 보였습니다.  
+**Express** 는 초당 **2,066** 건의 응답과 평균 **390.44** ms의 지연율을 보였습니다.
 
 ![](.gitbook/assets/data_updates.png)
 
@@ -35,8 +35,8 @@ description: >-
 
 ### Multiple Queries
 
-**Fiber** handled **19,664** responses per second with an average latency of **25.7** ms.  
-**Express** handled **4,302** responses  per second with an average latency of **117.2** ms.
+**Fiber** 는 초당 **19,664** 건의 응답과 평균 **25.7** ms의 지연율을 보였습니다.  
+**Express** 는 초당 **4,302** 건의 응답과 평균 **117.2** ms의 지연율을 보였습니다.
 
 ![](.gitbook/assets/multiple_queries%20%281%29.png)
 
@@ -44,8 +44,8 @@ description: >-
 
 ### Single Query
 
-**Fiber** handled **368,647** responses per second with an average latency of **0.7** ms.  
-**Express** handled **57,880** responses  per second with an average latency of **4.4** ms.
+**Fiber** 는 초당 **368,647** 건의 응답과 평균 **0.7** ms의 지연율을 보였습니다.  
+**Express** 는 초당 **57,880** 건의 응답과 평균 **4.4** ms의 지연율을 보였습니다.
 
 ![](.gitbook/assets/single_query%20%282%29.png)
 
@@ -53,8 +53,8 @@ description: >-
 
 ### JSON Serialization
 
-**Fiber** handled **1,146,667** responses per second with an average latency of **0.4** ms.  
-**Express** handled **244,847** responses  per second with an average latency of **1.1** ms.
+**Fiber** 는 초당 **1,146,667** 건의 응답과 평균 **0.4** ms의 지연율을 보였습니다.  
+**Express** 는 초당 **244,847** 건의 응답과 평균 **1.1** ms의 지연율을 보였습니다.
 
 ![](.gitbook/assets/json%20%281%29.png)
 
@@ -69,11 +69,11 @@ description: >-
 * **GO** go1.13.6 linux/amd64
 * **OS** Linux
 
-The first test case is to mock **0 ms**, **10 ms**, **100 ms**, **500 ms** processing time in handlers.
+첫 번째 테스트 케이스는 **0ms**, **10ms**, **100ms**, **500ms** 의 처리 시간에 맞추어져 있습니다.
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark.png)
 
-The concurrency clients are **5000**.
+동시 접속 클라이언트들은 **5000**개 입니다.
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark_latency.png)
 
