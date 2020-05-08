@@ -1142,7 +1142,7 @@ app.Get("/not-found", func(c *fiber.Ctx) {
 
 ## Set
 
-Sets the response’s HTTP header field to the specified `key`, `value`.
+设置响应的HTTP头字段到指定的 `key 键`， `value 值`。
 
 {% code title="Signature" %}
 ```go
@@ -1169,10 +1169,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Status
 
-Sets the HTTP status for the response.
+设置响应的 HTTP 状态。
 
 {% hint style="info" %}
-Method is a **chainable**.
+方法是 **可链的**。
 {% endhint %}
 
 {% code title="Signature" %}
