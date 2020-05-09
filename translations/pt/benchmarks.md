@@ -17,32 +17,32 @@ description: >-
 
 ### Plaintext
 
-**Fiber** handled **6,162,556** responses per second with an average latency of **2.0** ms.  
-**Express** handled **367,069** responses per second with an average latency of **354.1** ms.
+O **Fiber** lida com **6,162,556** respostas por segundo com uma latência média de **2.0 **ms.  
+O **Express** lida com **367,909** respostas por segundo com uma latência média de **354.1** ms.
 
 ![](.gitbook/assets/plaintext%20%281%29.png)
 
 ![Fiber vs Express](.gitbook/assets/plaintext_express.png)
 
-### Data Updates
+### Atualização de dados
 
-**Fiber** handled **11,846** responses  per second with an average latency of **42.8** ms.  
-**Express** handled **2,066** responses  per second with an average latency of **390.44** ms.
+O **Fiber** lida com **11,846** respostas por segundo com uma latência média de **42.8 **ms.  
+O **Express** lida com **2,066** respostas por segundo com uma latência média de **390.44** ms.
 
 ![](.gitbook/assets/data_updates.png)
 
 ![Fiber vs Express](.gitbook/assets/data_updates_express%20%281%29.png)
 
-### Multiple Queries
+### Queries Múltiplas
 
-**Fiber** handled **19,664** responses per second with an average latency of **25.7** ms.  
-**Express** handled **4,302** responses  per second with an average latency of **117.2** ms.
+O **Fiber** lida com **19,664** respostas por segundo com uma latência média de **25.7 **ms.  
+O **Express** lida com **4,302** respostas por segundo com uma latência média de **117.2** ms.
 
 ![](.gitbook/assets/multiple_queries%20%281%29.png)
 
 ![Fiber vs Express](.gitbook/assets/multiple_queries_express.png)
 
-### Single Query
+### Query Única
 
 **Fiber** handled **368,647** responses per second with an average latency of **0.7** ms.  
 **Express** handled **57,880** responses  per second with an average latency of **4.4** ms.
