@@ -44,17 +44,17 @@ O **Express** lida com **4,302** respostas por segundo com uma latência média 
 
 ### Query Única
 
-**Fiber** handled **368,647** responses per second with an average latency of **0.7** ms.  
-**Express** handled **57,880** responses  per second with an average latency of **4.4** ms.
+O **Fiber** lida com **368,647** respostas por segundo com uma latência média de **0.7** ms.  
+O **Express** lida com **57,880** respostas por segundo com uma latência média de **4.4** ms.
 
 ![](.gitbook/assets/single_query%20%282%29.png)
 
 ![Fiber vs Express](.gitbook/assets/single_query_express.png)
 
-### JSON Serialization
+### Serialização JSON
 
-**Fiber** handled **1,146,667** responses per second with an average latency of **0.4** ms.  
-**Express** handled **244,847** responses  per second with an average latency of **1.1** ms.
+O **Fiber** lida com **1,146,667** respostas por segundo com uma latência média de **0.4** ms.  
+O**Express** lida com **244,847** respostas por segundo com uma latência média de **1.1** ms.
 
 ![](.gitbook/assets/json%20%281%29.png)
 
