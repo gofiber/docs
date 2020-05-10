@@ -1127,7 +1127,7 @@ app.Get("/not-found", func(c *fiber.Ctx) {
 Définit le code de statut et corrige le message du statut dans le corps, si le corps de la réponse est **vide**.
 
 {% hint style="success" %}
-You can find all used status codes and messages [here](https://github.com/gofiber/fiber/blob/dffab20bcdf4f3597d2c74633a7705a517d2c8c2/utils.go#L183-L244).
+Vous pouvez trouver tous les code de statuts et des messages [ici](https://github.com/gofiber/fiber/blob/dffab20bcdf4f3597d2c74633a7705a517d2c8c2/utils.go#L183-L244).
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1151,7 +1151,7 @@ app.Get("/not-found", func(c *fiber.Ctx) {
 
 ## Set
 
-Sets the response’s HTTP header field to the specified `key`, `value`.
+Définit l'en-tête de la réponse HTTP par le champ spécifié `key`, `value`.
 
 {% code title="Signature" %}
 ```go
@@ -1178,10 +1178,10 @@ Pas encore implémenté, des "pull requests" sont bienvenus !
 
 ## Status
 
-Sets the HTTP status for the response.
+Définit le statut HTTP de la réponse.
 
 {% hint style="info" %}
-Method is a **chainable**.
+La méthode est **chainable**.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1202,9 +1202,9 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Subdomains
 
-An array of subdomains in the domain name of the request.
+Un tableau de sous-domaines du nom de domaine de la requête.
 
-The application property subdomain offset, which defaults to `2`, is used for determining the beginning of the subdomain segments.
+L'offset de l'application pour les sous-domaines, qui est par défaut `2`, est utilisé pour déterminer le début des segments du sous-domaine.
 
 {% code title="Signature" %}
 ```go
