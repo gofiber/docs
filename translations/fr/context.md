@@ -559,10 +559,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## JSON
 
-Converts any **interface** or **string** to JSON using [Jsoniter](https://github.com/json-iterator/go).
+Converti n'importe quelle **interface** ou **chaîne de caractères** en JSON en utilisant [Jsoniter](https://github.com/json-iterator/go).
 
 {% hint style="info" %}
-JSON also sets the content header to **application/json**.
+JSON définit également l'en-tête Content-Type à **application/json**.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -601,7 +601,7 @@ app.Get("/json", func(c *fiber.Ctx) {
 
 ## JSONP
 
-Sends a JSON response with JSONP support. This method is identical to [JSON](context.md#json), except that it opts-in to JSONP callback support. By default, the callback name is simply callback.
+Envoie une réponse JSON avec le support JSONP. Cette méthode est identique à [JSON](context.md#json), sauf qu'elle opte pour une fonction de rappel JSONP. Par défaut, le nom de la fonction de rappel est simplement "callback".
 
 Override this by passing a **named string** in the method.
 
