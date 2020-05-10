@@ -1225,7 +1225,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Type
 
-Sets the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP header to the MIME type listed [here](https://github.com/nginx/nginx/blob/master/conf/mime.types) specified by the file **extension**.
+Définit l'en-tête HTTP [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) au MIME type listé [ici](https://github.com/nginx/nginx/blob/master/conf/mime.types) spécifié par **l'extension** du fichier.
 
 {% code title="Signature" %}
 ```go
@@ -1246,10 +1246,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Vary
 
-Adds the given header field to the [Vary](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary) response header. This will append the header, if not already listed, otherwise leaves it listed in the current location.
+Ajoute l'en-tête donné à l'en-tête [Vary](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary) en réponse. Ceci ajoutera l'en-tête, s'il n'est pas déjà listé, sinon le laissera listé dans l'emplacement courant.
 
 {% hint style="info" %}
-Multiple fields are **allowed**.
+Plusieurs champs sont **autorisés**.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1264,7 +1264,7 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Vary("Origin")     // => Vary: Origin
   c.Vary("User-Agent") // => Vary: Origin, User-Agent
 
-  // No duplicates
+  // Pas de doublon
   c.Vary("Origin") // => Vary: Origin, User-Agent
 
   c.Vary("Accept-Encoding", "Accept")
@@ -1275,7 +1275,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Write
 
-Appends **any** input to the HTTP body response.
+Ajoute **n'importe quelle entrée** au corps de la réponse HTTP.
 
 {% code title="Signature" %}
 ```go
