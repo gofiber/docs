@@ -963,7 +963,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Render
 
-Renders a template with data and sends a `text/html` response. By default `Render` uses the default [**Go Template engine**](https://golang.org/pkg/html/template/). If you want to use another engine, please take a look at our [**Template middleware**](middleware.md#template).
+Affiche un modèle avec des données et envoie une réponse `text/html`. Par défaut `Render` utilise le [**moteur de modèle Go**](https://golang.org/pkg/html/template/). Si vous voulez utiliser un autre moteur, veuillez jeter un coup d'oeil au [**middleware modèle**](middleware.md#template).
 
 {% code title="Signature" %}
 ```go
@@ -973,7 +973,7 @@ c.Render(file string, data interface{}) error
 
 ## Route
 
-Contains the matched [Route](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc#Route) struct.
+Contient la structure [Route](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc#Route) correspondante.
 
 {% code title="Signature" %}
 ```go
@@ -999,7 +999,7 @@ app.Post("/:api?", func(c *fiber.Ctx) {
 
 ## SaveFile
 
-Method is used to save **any** multipart file to disk.
+La méthode est utilisée pour sauvegarder **n'importe quel fichier** multipart sur le disque.
 
 {% code title="Signature" %}
 ```go
@@ -1010,20 +1010,20 @@ c.SaveFile(fh *multipart.FileHeader, path string)
 {% code title="Example" %}
 ```go
 app.Post("/", func(c *fiber.Ctx) {
-  // Parse the multipart form:
+  // Analyse le formulaire multipart :
   if form, err := c.MultipartForm(); err == nil {
     // => *multipart.Form
 
-    // Get all files from "documents" key:
+    // Récupère tous les fichiers depuis la clé "documents" :
     files := form.File["documents"]
     // => []*multipart.FileHeader
 
-    // Loop through files:
+    // Boucle sur les fichiers :
     for _, file := range files {
       fmt.Println(file.Filename, file.Size, file.Header["Content-Type"][0])
       // => "tutorial.pdf" 360641 "application/pdf"
 
-      // Save the files to disk:
+      // Sauvegarde les fichiers sur le disque :
       c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
     }
   }
@@ -1033,7 +1033,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Secure
 
-A boolean property, that is `true` , if a **TLS** connection is established.
+Une propriété booléenne qui est `vrai` si une connexion **TLS** est établie.
 
 {% code title="Signature" %}
 ```go
@@ -1043,17 +1043,17 @@ c.Secure() bool
 
 {% code title="Example" %}
 ```go
-// Secure() method is equivalent to:
+// Secure() est l'équivalent de :
 c.Protocol() == "https"
 ```
 {% endcode %}
 
 ## Send
 
-Sets the HTTP response body. The **Send** body can be of any type.
+Définit le corps de la réponse HTTP. Le corps de **Send** peut être de n'importe quel type.
 
 {% hint style="warning" %}
-Send **doesn't** append like the [Write](https://fiber.wiki/context#write) method.
+Send **n'ajoute pas** à la suite comme pourrait le faire la méthode [Write](https://fiber.wiki/context#write).
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1072,7 +1072,7 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-Fiber also provides `SendBytes` & `SendString` methods for raw inputs.
+Fiber fournit également les méthodes `SendBytes` & `SendString` pour des entrées brutes.
 
 {% hint style="success" %}
 Use this, if you **don't need** type assertion, recommended for **faster** performance.
