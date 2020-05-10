@@ -603,7 +603,7 @@ app.Get("/json", func(c *fiber.Ctx) {
 
 Envoie une réponse JSON avec le support JSONP. Cette méthode est identique à [JSON](context.md#json), sauf qu'elle opte pour une fonction de rappel JSONP. Par défaut, le nom de la fonction de rappel est simplement "callback".
 
-Override this by passing a **named string** in the method.
+Remplacer ce comportement en passant un **nom** dans la méthode.
 
 {% code title="Signature" %}
 ```go
@@ -631,6 +631,9 @@ app.Get("/", func(c *fiber.Ctx) {
   c.JSONP(data, "customFunc")
   // => customFunc({"name": "Grame", "age": 20})
 })
+ 
+Text
+XPath: /pre[45]/code
 ```
 {% endcode %}
 
