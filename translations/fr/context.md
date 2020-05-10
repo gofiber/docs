@@ -398,7 +398,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## FormFile
 
-MultipartForm files can be retrieved by name, the **first** file from the given key is returned.
+Les fichiers d'un MultipartForm peuvent être récupérés par nom, le **premier** fichier pour un nom donné sera retourné.
 
 {% code title="Signature" %}
 ```go
@@ -409,12 +409,12 @@ c.FormFile(name string) (*multipart.FileHeader, error)
 {% code title="Example" %}
 ```go
 app.Post("/", func(c *fiber.Ctx) {
-  // Get first file from form field "document":
+  // Récupérer le premier fichier du formulaire nommé "document" :
   file, err := c.FormFile("document")
 
   // Check for errors:
   if err == nil {
-    // Save file to root directory:
+    // Sauvegarder le fichier à la racine du répertoire :
     c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
   }
 })
@@ -423,7 +423,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## FormValue
 
-Any form values can be retrieved by name, the **first** value from the given key is returned.
+N'importe quelle valeur peut être récupérée par son nom, la **première** valeur pour un nom donné est retournée.
 
 {% code title="Signature" %}
 ```go
@@ -434,7 +434,7 @@ c.FormValue(name string) string
 {% code title="Example" %}
 ```go
 app.Post("/", func(c *fiber.Ctx) {
-  // Get first value from form field "name":
+  // Récupérer la première valeur du formulaire ayant comme nom "name" :
   c.FormValue("name")
   // => "john" or "" if not exist
 })
