@@ -639,7 +639,7 @@ XPath: /pre[45]/code
 
 ## Links
 
-Joins the links followed by the property to populate the response’s [Link](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Link) HTTP header field.
+Rejoint les liens suivis par la propriété pour remplir l'en-tête HTTP [Link](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Link) de la réponse.
 
 {% code title="Signature" %}
 ```go
@@ -662,10 +662,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Locals
 
-Method that stores string variables scoped to the request and therefore available only to the routes that match the request.
+Méthode qui stock dans le scope de la requête des variables et donc uniquement valable pour les routes qui correspondent à la requête.
 
 {% hint style="success" %}
-This is useful, if you want to pass some **specific** data to the next middleware.
+Particulièrement utile si vous voulez passer des **informations spécifiques** au prochain middleware.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -683,7 +683,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 app.Get("/admin", func(c *fiber.Ctx) {
   if c.Locals("user") == "admin" {
-    c.Status(200).Send("Welcome, admin!")
+    c.Status(200).Send("Bienvenue, admin!")
   } else {
     c.SendStatus(403)
     // => 403 Forbidden
