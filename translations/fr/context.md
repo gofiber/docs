@@ -774,7 +774,7 @@ XPath: /pre[55]/code
 
 ## Next
 
-When **Next** is called, it executes the next method in the stack that matches the current route. You can pass an error struct within the method for custom error handling.
+Quand **Next** est appelée, elle exécute la prochaine méthode dans la pile qui correspond à la route en cours. Vous pouvez passer une structure error dans la méthode pour une gestion personnalisée de l'erreur.
 
 {% code title="Signature" %}
 ```go
@@ -785,18 +785,18 @@ c.Next(err ...error)
 {% code title="Example" %}
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  fmt.Println("1st route!")
+  fmt.Println("1ère route !")
   c.Next()
 })
 
 app.Get("*", func(c *fiber.Ctx) {
-  fmt.Println("2nd route!")
-  c.Next(fmt.Errorf("Some error"))
+  fmt.Println("2ème route !")
+  c.Next(fmt.Errorf("une erreur"))
 })
 
 app.Get("/", func(c *fiber.Ctx) {
-  fmt.Println(c.Error()) // => "Some error"
-  fmt.Println("3rd route!")
+  fmt.Println(c.Error()) // => "une erreur"
+  fmt.Println("3ème route !")
   c.Send("Hello, World!")
 })
 ```
@@ -804,7 +804,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## OriginalURL
 
-Contains the original request URL.
+Contient l'URL de la requête originale.
 
 {% code title="Signature" %}
 ```go
@@ -824,10 +824,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Params
 
-Method can be used to get the route parameters.
+La méthode peut être utilisée pour récupérer les paramètres de la route.
 
 {% hint style="info" %}
-Defaults to empty string \(`""`\), if the param **doesn't** exist.
+Par défaut, la chaîne de caractère sera vide \(`""`\), si le paramètre **n'existe pas**.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -848,7 +848,7 @@ app.Get("/user/:name", func(c *fiber.Ctx) {
 
 ## Path
 
-Contains the path part of the request URL. Optionally, you could override the path by passing a string.
+Contient le chemin de l'URL. En option, vous pouvez remplacer le chemin en passant une chaîne de caractères en paramètre.
 
 {% code title="Signature" %}
 ```go
