@@ -454,7 +454,7 @@ Pas encore implémenté, des "pull requests" sont bienvenus !
 Retourne l'en-tête de la requête HTTP spécifié par "field".
 
 {% hint style="success" %}
-The match is **case-insensitive**.
+La correspondance est **insensible à la casse**.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -468,14 +468,14 @@ c.Get(field string) string
 app.Get("/", func(c *fiber.Ctx) {
   c.Get("Content-Type") // "text/plain"
   c.Get("CoNtEnT-TypE") // "text/plain"
-  c.Get("something")    // ""
+  c.Get("quelque-chose")    // ""
 })
 ```
 {% endcode %}
 
 ## Hostname
 
-Contains the hostname derived from the [Host](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host) HTTP header.
+Contient le nom d'hôte dérivé de l'en-tête HTTP [Host](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host).
 
 {% code title="Signature" %}
 ```go
@@ -495,7 +495,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## IP
 
-Returns the remote IP address of the request.
+Retourne l'adresse IP distante de la requête.
 
 {% code title="Signature" %}
 ```go
