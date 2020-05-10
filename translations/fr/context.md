@@ -713,8 +713,8 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Method
 
-Contains a string corresponding to the HTTP method of the request: `GET`, `POST`, `PUT` and so on.  
-Optionally, you could override the method by passing a string.
+Contient une chaîne de caractère correspondant à la méthode HTTP de la requête : `GET`, `POST`, `PUT` et ainsi de suite.  
+En option, vous pouvez remplacer la méthode en passant une chaîne de caractère.
 
 {% code title="Signature" %}
 ```go
@@ -732,7 +732,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## MultipartForm
 
-To access multipart form entries, you can parse the binary with `MultipartForm()`. This returns a `map[string][]string`, so given a key the value will be a string slice.
+Pour accéder aux entrées du formulaire multipart, vous pouvez analyser le binaire avec `MultipartForm()`. La méthode retourne une `map[string][]string`, donc pour une clé donnée, la valeur sera un slice d'une chaîne de caractères.
 
 {% code title="Signature" %}
 ```go
@@ -743,29 +743,32 @@ c.MultipartForm() (*multipart.Form, error)
 {% code title="Example" %}
 ```go
 app.Post("/", func(c *fiber.Ctx) {
-  // Parse the multipart form:
+  // Analyser le formulaire multipart :
   if form, err := c.MultipartForm(); err == nil {
     // => *multipart.Form
 
     if token := form.Value["token"]; len(token) > 0 {
-      // Get key value:
+      // Récupère la valeur :
       fmt.Println(token[0])
     }
 
-    // Get all files from "documents" key:
+    // Récupérer tous les fichiers via la clé "documents" :
     files := form.File["documents"]
     // => []*multipart.FileHeader
 
-    // Loop through files:
+    // Boucler sur les fichiers :
     for _, file := range files {
       fmt.Println(file.Filename, file.Size, file.Header["Content-Type"][0])
       // => "tutorial.pdf" 360641 "application/pdf"
 
-      // Save the files to disk:
+      // Sauvegarder les fichiers sur le disque :
       c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
     }
   }
 })
+ 
+Text
+XPath: /pre[55]/code
 ```
 {% endcode %}
 
