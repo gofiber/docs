@@ -1075,7 +1075,7 @@ app.Get("/", func(c *fiber.Ctx) {
 Fiber fournit également les méthodes `SendBytes` & `SendString` pour des entrées brutes.
 
 {% hint style="success" %}
-Use this, if you **don't need** type assertion, recommended for **faster** performance.
+Utilisez ceci si vous **n'avez pas** besoin d'assertion type, recommandé pour de **meilleur** performance.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1099,10 +1099,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## SendFile
 
-Transfers the file from the given path. Sets the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) response HTTP header field based on the **filenames** extension.
+Transfert le fichier à partir du chemin spécifié. Définit l'en-tête HTTP [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) de la réponse en se basant sur l'extension **des fichiers**.
 
 {% hint style="warning" %}
-Method use **gzipping** by default, set it to **true** to disable.
+La méthode utilise **GZIP** par défaut, définir à **true** pour désactiver.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1124,7 +1124,7 @@ app.Get("/not-found", func(c *fiber.Ctx) {
 
 ## SendStatus
 
-Sets the status code and the correct status message in the body, if the response body is **empty**.
+Définit le code de statut et corrige le message du statut dans le corps, si le corps de la réponse est **vide**.
 
 {% hint style="success" %}
 You can find all used status codes and messages [here](https://github.com/gofiber/fiber/blob/dffab20bcdf4f3597d2c74633a7705a517d2c8c2/utils.go#L183-L244).
