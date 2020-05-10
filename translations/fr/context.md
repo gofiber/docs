@@ -451,7 +451,7 @@ Pas encore implémenté, des "pull requests" sont bienvenus !
 
 ## Get
 
-Returns the HTTP request header specified by field.
+Retourne l'en-tête de la requête HTTP spécifié par "field".
 
 {% hint style="success" %}
 The match is **case-insensitive**.
