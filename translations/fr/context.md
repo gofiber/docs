@@ -868,7 +868,7 @@ app.Get("/users", func(c *fiber.Ctx) {
 
 ## Protocol
 
-Contains the request protocol string: `http` or `https` for **TLS** requests.
+Contient le protocole de la requête : `http` ou `https` pour **TLS**.
 
 {% code title="Signature" %}
 ```go
@@ -888,10 +888,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Query
 
-This property is an object containing a property for each query string parameter in the route.
+Cette propriété est un objet contenant une propriété pour chaque paramètre de la route.
 
 {% hint style="info" %}
-If there is **no** query string, it returns an **empty string**.
+S'il **n'y a pas** de paramètre, elle retourne une chaîne de caractères **vide**.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -913,7 +913,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Range
 
-An struct containg the type and a slice of ranges will be returned.
+Une structure contenant le type et une liste d'intervalle seront retournés.
 
 {% code title="Signature" %}
 ```go
