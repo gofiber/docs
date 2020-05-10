@@ -87,7 +87,7 @@ Se habilitarmos **http pipelining**, resultado do teste abaixo:
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark-pipeline.png)
 
-Concurrency test in **30 ms** processing time, the test result for **100**, **1000**, **5000** clients is:
+Para teste de simultaneidade com tempo de processamento igual a **30 ms**, o resultado do teste para **100**, **1000**, **5000** clientes é:
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency.png)
 
@@ -99,7 +99,7 @@ Se habilitarmos **http pipelining**, resultado do teste abaixo:
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency-pipeline.png)
 
-Dependency graph for `v1.9.0`
+Gráfico de dependência para `v1.9.0`
 
 ![](.gitbook/assets/graph.svg)
 
