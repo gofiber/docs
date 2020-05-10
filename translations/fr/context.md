@@ -446,7 +446,7 @@ app.Post("/", func(c *fiber.Ctx) {
 [https://expressjs.com/en/4x/api.html\#req.fresh](https://expressjs.com/en/4x/api.html#req.fresh)
 
 {% hint style="info" %}
-Not implemented yet, pull requests are welcome!
+Pas encore implémenté, des "pull requests" sont bienvenus !
 {% endhint %}
 
 ## Get
@@ -1167,7 +1167,7 @@ app.Get("/", func(c *fiber.Ctx) {
 [https://expressjs.com/en/4x/api.html\#req.fresh](https://expressjs.com/en/4x/api.html#req.fresh)
 
 {% hint style="info" %}
-Not implemented yet, pull requests are welcome!
+Pas encore implémenté, des "pull requests" sont bienvenus !
 {% endhint %}
 
 ## Status
