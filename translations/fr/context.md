@@ -369,7 +369,7 @@ XPath: /pre[25]/code
 Fait la négociation de contenu via l'en-tête HTTP [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept). Il utilise [Accepts](context.md#accepts) pour sélection le bon format.
 
 {% hint style="info" %}
-If the header is **not** specified or there is **no** proper format, **text/plain** is used.
+Si l'en-tête **n'est pas** spécifié ou s'il **n'a pas** le bon format, **text/plain** est utilisé.
 {% endhint %}
 
 {% code title="Signature" %}
