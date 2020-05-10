@@ -694,7 +694,7 @@ app.Get("/admin", func(c *fiber.Ctx) {
 
 ## Location
 
-Sets the response [Location](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Location) HTTP header to the specified path parameter.
+Définit l'en-tête de la réponse HTTP [Location](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Location) par le chemin spécifié en paramètre.
 
 {% code title="Signature" %}
 ```go
