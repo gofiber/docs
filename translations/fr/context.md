@@ -513,7 +513,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## IPs
 
-Returns an array of IP addresses specified in the [X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For) request header.
+Retourne un tableau d'adresses IP spécifiées dans l'en-tête de la requête HTTP [X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For).
 
 {% code title="Signature" %}
 ```go
@@ -533,10 +533,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Is
 
-Returns the matching **content type**, if the incoming request’s [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP header field matches the [MIME type](https://developer.mozilla.org/ru/docs/Web/HTTP/Basics_of_HTTP/MIME_types) specified by the type parameter.
+Retourne le **type de contenu** correspondant, si l'en-tête [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) de la requête HTTP correspond au [MIME type](https://developer.mozilla.org/ru/docs/Web/HTTP/Basics_of_HTTP/MIME_types) spécifié par le paramètre.
 
 {% hint style="info" %}
-If the request has **no** body, it returns **false**.
+Si la requête **n'a pas** de corps, il retourne **faux**.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -550,9 +550,9 @@ c.Is(t string) bool
 // Content-Type: text/html; charset=utf-8
 
 app.Get("/", func(c *fiber.Ctx) {
-  c.Is("html")  // true
-  c.Is(".html") // true
-  c.Is("json")  // false
+  c.Is("html")  // vrai
+  c.Is(".html") // vrai
+  c.Is("json")  // faux
 })
 ```
 {% endcode %}
