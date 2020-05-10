@@ -938,10 +938,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Redirect
 
-Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code.
+Redirige vers l'URL dérivée du chemin spécifié, avec le statut spécifié, un entier positif qui correspond à un code de statut HTTP.
 
 {% hint style="info" %}
-If **not** specified, status defaults to **302 Found**.
+Si **non spécifié**, le statut par défaut sera **302 Found**.
 {% endhint %}
 
 {% code title="Signature" %}
