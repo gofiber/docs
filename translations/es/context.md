@@ -7,7 +7,7 @@ description: >-
 
 ## Accepts
 
-Checks, if the specified **extensions** or **content** **types** are acceptable.
+Comprueba, si las **extensiones** especificadas o **tipos de** **contenido** son aceptables.
 
 {% hint style="info" %}
 Basado en el encabezado HTTP [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) de la solicitud.
@@ -420,7 +420,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## FormValue
 
-Any form values can be retrieved by name, the **first** value from the given key is returned.
+Cualquier valor de formulario puede ser recuperado por nombre, se devuelve el **primer**valor de la clave dada.
 
 {% code title="Signature" %}
 ```go
@@ -443,15 +443,15 @@ app.Post("/", func(c *fiber.Ctx) {
 [https://expressjs.com/en/4x/api.html\#req.fresh](https://expressjs.com/en/4x/api.html#req.fresh)
 
 {% hint style="info" %}
-Not implemented yet, pull requests are welcome!
+Aún no implementado, ¡las pull request son bienvenidas!
 {% endhint %}
 
 ## Get
 
-Returns the HTTP request header specified by field.
+Devuelve el encabezado de petición HTTP especificado por campo.
 
 {% hint style="success" %}
-The match is **case-insensitive**.
+La comparación es **insensible en mayúsculas y minúsculas**.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -472,7 +472,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Hostname
 
-Contains the hostname derived from the [Host](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host) HTTP header.
+Contiene el nombre de host derivado de la cabecera HTTP [Host](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host).
 
 {% code title="Signature" %}
 ```go
@@ -492,7 +492,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## IP
 
-Returns the remote IP address of the request.
+Devuelve la dirección IP remota de la solicitud.
 
 {% code title="Signature" %}
 ```go
@@ -510,7 +510,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## IPs
 
-Returns an array of IP addresses specified in the [X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For) request header.
+Devuelve un array de direcciones IP especificadas en el encabezado de solicitud [X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For).
 
 {% code title="Signature" %}
 ```go
@@ -530,10 +530,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Is
 
-Returns the matching **content type**, if the incoming request’s [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP header field matches the [MIME type](https://developer.mozilla.org/ru/docs/Web/HTTP/Basics_of_HTTP/MIME_types) specified by the type parameter.
+Devuelve el coincidente **content type**, si el campo de cabecera HTTP de la solicitud entrante [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) coincide con el [tipo MIME](https://developer.mozilla.org/ru/docs/Web/HTTP/Basics_of_HTTP/MIME_types) especificado por el parámetro de tipo.
 
 {% hint style="info" %}
-If the request has **no** body, it returns **false**.
+Si la solicitud no tiene **cuerpo**, devuelve **falso**.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -556,10 +556,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## JSON
 
-Converts any **interface** or **string** to JSON using [Jsoniter](https://github.com/json-iterator/go).
+Convierte cualquier **interfaz** o **cadena** a JSON usando [Jsoniter](https://github.com/json-iterator/go).
 
 {% hint style="info" %}
-JSON also sets the content header to **application/json**.
+JSON también establece el encabezado de contenido a **application/json**.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -598,7 +598,7 @@ app.Get("/json", func(c *fiber.Ctx) {
 
 ## JSONP
 
-Sends a JSON response with JSONP support. This method is identical to [JSON](context.md#json), except that it opts-in to JSONP callback support. By default, the callback name is simply callback.
+Envía una respuesta JSON con soporte JSONP. Este método es idéntico a [JSON](context.md#json), excepto que opta por el soporte de callback JSONP. Por defecto, el nombre del callback es simplemente callback.
 
 Override this by passing a **named string** in the method.
 
@@ -633,7 +633,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Links
 
-Joins the links followed by the property to populate the response’s [Link](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Link) HTTP header field.
+Une los enlaces seguidos por la propiedad para rellenar el campo de encabezado HTTP [Link](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Link) de la respuesta.
 
 {% code title="Signature" %}
 ```go
@@ -656,10 +656,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Locals
 
-Method that stores string variables scoped to the request and therefore available only to the routes that match the request.
+Método que almacena variables string a la petición y por lo tanto sólo está disponible para las rutas que coincidan con la petición.
 
 {% hint style="success" %}
-This is useful, if you want to pass some **specific** data to the next middleware.
+Esto es útil, si quieres pasar datos **específicos** al siguiente middleware.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -688,7 +688,7 @@ app.Get("/admin", func(c *fiber.Ctx) {
 
 ## Location
 
-Sets the response [Location](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Location) HTTP header to the specified path parameter.
+Establece la respuesta [Ubicación](https://developer. mozilla. org/ru/docs/Web/HTTP/Headers/Location) encabezado HTTP en el parámetro de ruta especificado.
 
 {% code title="Signature" %}
 ```go
@@ -707,8 +707,8 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Method
 
-Contains a string corresponding to the HTTP method of the request: `GET`, `POST`, `PUT` and so on.  
-Optionally, you could override the method by passing a string.
+Contiene un string correspondiente al método HTTP de la petición: `GET`, `POST`, `PUT` y así sucesivamente.  
+Opcionalmente, puede sobrescribir el método pasando un string.
 
 {% code title="Signature" %}
 ```go
@@ -1164,7 +1164,7 @@ app.Get("/", func(c *fiber.Ctx) {
 [https://expressjs.com/en/4x/api.html\#req.fresh](https://expressjs.com/en/4x/api.html#req.fresh)
 
 {% hint style="info" %}
-Not implemented yet, pull requests are welcome!
+Aún no implementado, ¡las pull request son bienvenidas!
 {% endhint %}
 
 ## Status

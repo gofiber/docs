@@ -1,16 +1,16 @@
 ---
 description: >-
-  The Ctx struct represents the Context which hold the HTTP request and response. It has methods for the request query string, parameters, body, HTTP headers and so on.
+  Ctx struct 结构代表了持有HTTP请求和响应的上下文。 它拥有用于请求查询字符串、参数、物体、HTTP头字段等的方法。
 ---
 
-# 🧠 Context
+# 🧠 上下文
 
 ## Accepts
 
-Checks, if the specified **extensions** or **content** **types** are acceptable.
+检查指定的 **extensions 扩展** 或 **content 内容** **types 类型** 是否可接受。
 
 {% hint style="info" %}
-Based on the request’s [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header.
+基于请求的 [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP 头字段.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -37,7 +37,7 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-Fiber provides similar functions for the other accept headers.
+Fiber也为其他 aceept 头字段提供了类似的功能。
 
 ```go
 // Accept-Charset: utf-8, iso-8859-1;q=0.2
@@ -58,10 +58,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Append
 
-Appends the specified **value** to the HTTP response header field.
+将 HTTP 响应头字段附加指定的 **value 值**。
 
 {% hint style="warning" %}
-If the header is **not** already set, it creates the header with the specified value.
+如果头字段 **还未** 设置 ，它将创建以指定值的头字段。
 {% endhint %}
 
 {% code title="Signature" %}
@@ -74,17 +74,17 @@ c.Append(field, values ...string)
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   c.Append("Link", "http://google.com", "http://localhost")
-  // => Link: http://localhost, http://google.com
+  // => 链接: http://localhost, http://google.com
 
   c.Append("Link", "Test")
-  // => Link: http://localhost, http://google.com, Test
+  // => 链接: http://localhost, http://google.com, Test
 })
 ```
 {% endcode %}
 
 ## Attachment
 
-Sets the HTTP response [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header field to `attachment`.
+将 HTTP 响应 [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) 头字段设置为 `attachment` 附件。
 
 {% code title="Signature" %}
 ```go
@@ -107,7 +107,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## BaseURL
 
-Returns base URL \(**protocol** + **host**\) as a `string`.
+返回以 `string` 字符串表示的基础 URL \(**protocol 协议** + **host 主机**\)
 
 {% code title="Signature" %}
 ```go
@@ -127,7 +127,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Body
 
-Contains the **raw body** submitted in a **POST** request.
+包含在 **POST** 请求中提交的 **原始主体**
 
 {% code title="Signature" %}
 ```go
@@ -140,7 +140,7 @@ c.Body() string
 // curl -X POST http://localhost:8080 -d user=john
 
 app.Post("/", func(c *fiber.Ctx) {
-  // Get raw body from POST request:
+  // 获取POST请求中的原始主体:
   c.Body() // user=john
 })
 ```
@@ -148,7 +148,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## BodyParser
 
-Binds the request body to a struct. `BodyParser` supports decoding query parameters and the following content types based on the `Content-Type` header:
+将请求主体绑定到 struct 结构中。 `BodyParser` 支持解码查询参数以及基于 `Content-Type` 头字段的以下内容类型：
 
 * `application/json`
 * `application/xml`
@@ -163,7 +163,7 @@ c.BodyParser(out interface{}) error
 
 {% code title="Example" %}
 ```go
-// Field names should start with an uppercase letter
+// 领域名字需以大写字母作为开头
 type Person struct {
     Name string `json:"name" xml:"name" form:"name" query:"name"`
     Pass string `json:"pass" xml:"pass" form:"pass" query:"pass"`
@@ -179,7 +179,7 @@ app.Post("/", func(c *fiber.Ctx) {
         log.Println(p.Name) // john
         log.Println(p.Pass) // doe
 })
-// Run tests with the following curl commands
+// 使用一下 curl 指令测试
 
 // curl -X POST -H "Content-Type: application/json" --data "{\"name\":\"john\",\"pass\":\"doe\"}" localhost:3000
 
@@ -195,7 +195,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## ClearCookie
 
-Expire a client cookie \(_or all cookies if left empty\)_
+清理过期的客户端 cookie \(_或所有cookie 如果留空\)_
 
 {% code title="Signature" %}
 ```go
@@ -206,13 +206,13 @@ c.ClearCookie(key ...string)
 {% code title="Example" %}
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  // Clears all cookies:
+  // 清理所有 cookies:
   c.ClearCookie()
 
-  // Expire specific cookie by name:
+  // 以名字清理特定 cookie:
   c.ClearCookie("user")
 
-  // Expire multiple cookies by names:
+  // 以名字清理多个特定 cookie:
   c.ClearCookie("token", "session", "track_id", "version")
 })
 ```
@@ -220,7 +220,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Cookie
 
-Set cookie
+设置 Cookie
 
 **Signature**
 
@@ -258,7 +258,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Cookies
 
-Get cookie value by key.
+通过键获取 cookie 值。
 
 **Signature**s
 
@@ -269,7 +269,7 @@ c.Cookies(key string) string
 {% code title="Example" %}
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  // Get cookie by key:
+  // 通过键获取 cookie:
   c.Cookies("name") // "john"
 })
 ```
@@ -277,11 +277,11 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Download
 
-Transfers the file from path as an `attachment`.
+将文件从路径传送为 `附件`。
 
-Typically, browsers will prompt the user for download. By default, the [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header `filename=` parameter is the filepath \(_this typically appears in the browser dialog_\).
+通常情况下，浏览器会提示用户下载。 默认情况下， [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) 头字段 `filename=` 参数是文件路径\(_这通常出现在浏览器对话框_\)。
 
-Override this default with the **filename** parameter.
+用 **filename** 参数覆盖此默认值。
 
 {% code title="Signature" %}
 ```go
@@ -293,22 +293,22 @@ c.Download(path, filename ...string)
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   c.Download("./files/report-12345.pdf")
-  // => Download report-12345.pdf
+  // => 下载 report-12345.pdf
 
   c.Download("./files/report-12345.pdf", "report.pdf")
-  // => Download report.pdf
+  // => 下载 report.pdf
 })
 ```
 {% endcode %}
 
 ## Fasthttp
 
-You can still **access** and use all **Fasthttp** methods and properties.
+您仍然可以 **访问** 并使用所有 **Fasthttp** 方法和属性。
 
 **Signature**
 
 {% hint style="info" %}
-Please read the [Fasthttp Documentation](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) for more information.
+请阅读 [Fasthttp文档](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) 了解更多详情。
 {% endhint %}
 
 **示例**
@@ -325,7 +325,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Error
 
-This contains the error information that thrown by a panic or passed via the [`Next(err)`](https://github.com/gofiber/docs/tree/8d965e1e05fb67f965934586c78335ef29f52128/context/README.md#error) method.
+这包含由 panic  错误或通过 [`Nex(err)`](https://github.com/gofiber/docs/tree/8d965e1e05fb67f965934586c78335ef29f52128/context/README.md#error) 方法投掷的错误信息。
 
 {% code title="Signature" %}
 ```go
@@ -363,10 +363,10 @@ func main() {
 
 ## Format
 
-Performs content-negotiation on the [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header. It uses [Accepts](context.md#accepts) to select a proper format.
+基于请求的 [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP 头字段作出对应的内容处理。 使用 [Accepts](context.md#accepts) 选择一个适当的格式。
 
 {% hint style="info" %}
-If the header is **not** specified or there is **no** proper format, **text/plain** is used.
+倘若头字段 **尚未** 设置或 **没有** 对应的格式, 将会自动使用 **text/plain**。
 {% endhint %}
 
 {% code title="Signature" %}
@@ -395,7 +395,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## FormFile
 
-MultipartForm files can be retrieved by name, the **first** file from the given key is returned.
+多片段格式文件可以通过名称检索，返回给定键的 **第一个** 文件。
 
 {% code title="Signature" %}
 ```go
@@ -406,10 +406,10 @@ c.FormFile(name string) (*multipart.FileHeader, error)
 {% code title="Example" %}
 ```go
 app.Post("/", func(c *fiber.Ctx) {
-  // Get first file from form field "document":
+  // 从表中的 "document" 获取第一个文件:
   file, err := c.FormFile("document")
 
-  // Check for errors:
+  // 检查错误:
   if err == nil {
     // Save file to root directory:
     c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
@@ -420,7 +420,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## FormValue
 
-Any form values can be retrieved by name, the **first** value from the given key is returned.
+任何表单值都可以通过名称检索，会返回给予键的 **第一** 值。
 
 {% code title="Signature" %}
 ```go
@@ -431,7 +431,7 @@ c.FormValue(name string) string
 {% code title="Example" %}
 ```go
 app.Post("/", func(c *fiber.Ctx) {
-  // Get first value from form field "name":
+  // 从表中的 "name" 获取第一个值:
   c.FormValue("name")
   // => "john" or "" if not exist
 })
@@ -443,15 +443,15 @@ app.Post("/", func(c *fiber.Ctx) {
 [https://expressjs.com/en/4x/api.html\#req.fresh](https://expressjs.com/en/4x/api.html#req.fresh)
 
 {% hint style="info" %}
-Not implemented yet, pull requests are welcome!
+尚未实施，欢迎提交贡献。
 {% endhint %}
 
 ## Get
 
-Returns the HTTP request header specified by field.
+返回指定的 HTTP 请求头字段
 
 {% hint style="success" %}
-The match is **case-insensitive**.
+匹配的头字段 **大小写不敏感**。
 {% endhint %}
 
 {% code title="Signature" %}
@@ -472,7 +472,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Hostname
 
-Contains the hostname derived from the [Host](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host) HTTP header.
+包含来自 [Host](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host) HTTP 头字段中的主机名。
 
 {% code title="Signature" %}
 ```go
@@ -492,7 +492,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## IP
 
-Returns the remote IP address of the request.
+返回请求的IP地址。
 
 {% code title="Signature" %}
 ```go
@@ -510,7 +510,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## IPs
 
-Returns an array of IP addresses specified in the [X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For) request header.
+返回 [X-Forwarded-for](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For) 请求头中指定的 IP 地址数组。
 
 {% code title="Signature" %}
 ```go
@@ -530,10 +530,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Is
 
-Returns the matching **content type**, if the incoming request’s [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP header field matches the [MIME type](https://developer.mozilla.org/ru/docs/Web/HTTP/Basics_of_HTTP/MIME_types) specified by the type parameter.
+如果传入请求的 [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP 头字段与 [MIME 类型](https://developer.mozilla.org/ru/docs/Web/HTTP/Basics_of_HTTP/MIME_types)指定的参数匹配，返回对或错以表示 **内容类型** 是否匹配。
 
 {% hint style="info" %}
-If the request has **no** body, it returns **false**.
+如果请求 **没有** 实体, 返回 **false**。
 {% endhint %}
 
 {% code title="Signature" %}
@@ -556,10 +556,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## JSON
 
-Converts any **interface** or **string** to JSON using [Jsoniter](https://github.com/json-iterator/go).
+使用 [Jsoniter](https://github.com/json-iterator/go) 将任意 **interface 接口** 或 **string 字符串** 转换为 JSON 。
 
 {% hint style="info" %}
-JSON also sets the content header to **application/json**.
+JSON 将内容头字段设置为 **application/json**。
 {% endhint %}
 
 {% code title="Signature" %}
@@ -576,7 +576,7 @@ type SomeStruct struct {
 }
 
 app.Get("/json", func(c *fiber.Ctx) {
-  // Create data struct:
+  // 创建数据 struct:
   data := SomeStruct{
     Name: "Grame",
     Age:  20,
@@ -598,9 +598,9 @@ app.Get("/json", func(c *fiber.Ctx) {
 
 ## JSONP
 
-Sends a JSON response with JSONP support. This method is identical to [JSON](context.md#json), except that it opts-in to JSONP callback support. By default, the callback name is simply callback.
+使用 JSONP 发送JSON 响应。 这个方法与 [JSON](context.md#json) 完全相同，只是加入了支持 JSONP 的回调。 默认情况下，回调名称是 callback。
 
-Override this by passing a **named string** in the method.
+可以在方法中通过传入一个 **命名字符串** 来更改回调名称。
 
 {% code title="Signature" %}
 ```go
@@ -633,7 +633,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Links
 
-Joins the links followed by the property to populate the response’s [Link](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Link) HTTP header field.
+集合所有在属性中定义的链接来填充响应的 [Link](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Link) HTTP 头字段.
 
 {% code title="Signature" %}
 ```go
@@ -656,10 +656,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Locals
 
-Method that stores string variables scoped to the request and therefore available only to the routes that match the request.
+将字符串变量存储到请求范围内的方法，因此仅适用于匹配请求的路由。
 
 {% hint style="success" %}
-This is useful, if you want to pass some **specific** data to the next middleware.
+这可以让您将一些 **特定的** 数据传递给下一个中间件。
 {% endhint %}
 
 {% code title="Signature" %}
@@ -688,7 +688,7 @@ app.Get("/admin", func(c *fiber.Ctx) {
 
 ## Location
 
-Sets the response [Location](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Location) HTTP header to the specified path parameter.
+设置响应 [Location 位置](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Location) HTTP 头字段到指定的路径参数。
 
 {% code title="Signature" %}
 ```go
@@ -707,8 +707,8 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Method
 
-Contains a string corresponding to the HTTP method of the request: `GET`, `POST`, `PUT` and so on.  
-Optionally, you could override the method by passing a string.
+包含与请求的 HTTP 方法相对应的字符串： `GET`， `POST`, `PUT` 等。  
+如果需要，您可以通过传入一个字符串来覆盖这个方法。
 
 {% code title="Signature" %}
 ```go
@@ -726,7 +726,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## MultipartForm
 
-To access multipart form entries, you can parse the binary with `MultipartForm()`. This returns a `map[string][]string`, so given a key the value will be a string slice.
+要访问多部分表单项，您可以使用 `MultipartForm()` 来解析二进制文件。 This returns a `map[string][]string`, so given a key the value will be a string slice.
 
 {% code title="Signature" %}
 ```go
@@ -737,25 +737,25 @@ c.MultipartForm() (*multipart.Form, error)
 {% code title="Example" %}
 ```go
 app.Post("/", func(c *fiber.Ctx) {
-  // Parse the multipart form:
+  // 解析多部分表单:
   if form, err := c.MultipartForm(); err == nil {
     // => *multipart.Form
 
     if token := form.Value["token"]; len(token) > 0 {
-      // Get key value:
+      // 获取键值:
       fmt.Println(token[0])
     }
 
-    // Get all files from "documents" key:
+    // 从 "documents" 键中获取所有文件:
     files := form.File["documents"]
     // => []*multipart.FileHeader
 
-    // Loop through files:
+    // 遍历所有文件:
     for _, file := range files {
       fmt.Println(file.Filename, file.Size, file.Header["Content-Type"][0])
       // => "tutorial.pdf" 360641 "application/pdf"
 
-      // Save the files to disk:
+      // 储存文件:
       c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
     }
   }
@@ -765,7 +765,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Next
 
-When **Next** is called, it executes the next method in the stack that matches the current route. You can pass an error struct within the method for custom error handling.
+当调用 **Next** 时，它会执行与当前路由匹配的堆栈中的 next 方法。 您可以在 next 方法中传入一个 error struct 结构用于自定义错误处理。
 
 {% code title="Signature" %}
 ```go
@@ -795,7 +795,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## OriginalURL
 
-Contains the original request URL.
+包含原始请求的 URL。
 
 {% code title="Signature" %}
 ```go
@@ -815,10 +815,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Params
 
-Method can be used to get the route parameters.
+可以用来获取路由参数的方法。
 
 {% hint style="info" %}
-Defaults to empty string \(`""`\), if the param **doesn't** exist.
+默认值为空字符串 \(`""`\), 如果参数 **不存在**
 {% endhint %}
 
 {% code title="Signature" %}
@@ -839,7 +839,7 @@ app.Get("/user/:name", func(c *fiber.Ctx) {
 
 ## Path
 
-Contains the path part of the request URL. Optionally, you could override the path by passing a string.
+包含请求 URL 的路径部分。 如果需要，您可以通过传入一个字符串来覆盖路径。
 
 {% code title="Signature" %}
 ```go
@@ -859,7 +859,7 @@ app.Get("/users", func(c *fiber.Ctx) {
 
 ## Protocol
 
-Contains the request protocol string: `http` or `https` for **TLS** requests.
+包含请求协议字符串： `htp` 或 `https` 的 **TLS** 请求。
 
 {% code title="Signature" %}
 ```go
@@ -879,10 +879,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Query
 
-This property is an object containing a property for each query string parameter in the route.
+此属性是一个包含路由中每个查询字符串参数的属性的对象。
 
 {% hint style="info" %}
-If there is **no** query string, it returns an **empty string**.
+如果有 **没有** 查询字符串，它将返回 **空字符串**。
 {% endhint %}
 
 {% code title="Signature" %}
@@ -904,7 +904,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Range
 
-An struct containg the type and a slice of ranges will be returned.
+将返回一个包含该类型和范围切片的结构。
 
 {% code title="Signature" %}
 ```go
@@ -929,7 +929,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Redirect
 
-Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code.
+重定向到指定路径的 URL ，且具有指定的状态，是一个对应于HTTP状态代码的正整数。
 
 {% hint style="info" %}
 If **not** specified, status defaults to **302 Found**.
@@ -954,7 +954,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Render
 
-Renders a template with data and sends a `text/html` response. By default `Render` uses the default [**Go Template engine**](https://golang.org/pkg/html/template/). If you want to use another engine, please take a look at our [**Template middleware**](middleware.md#template).
+渲染一个带有数据的模板并发送一个 `text/html` 响应。 默认情况下 `Render` 使用 [**Go 模版引擎**](https://golang.org/pkg/html/template/)。 如果您想要使用其他的模版引擎，请查看我们的 [**模板中间件**](middleware.md#template)。
 
 {% code title="Signature" %}
 ```go
@@ -964,7 +964,7 @@ c.Render(file string, data interface{}) error
 
 ## Route
 
-Contains the matched [Route](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc#Route) struct.
+包含匹配的 [路由](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc#Route) 结构。
 
 {% code title="Signature" %}
 ```go
@@ -990,7 +990,7 @@ app.Post("/:api?", func(c *fiber.Ctx) {
 
 ## SaveFile
 
-Method is used to save **any** multipart file to disk.
+此方法用于保存 **任意** 多部分文件到磁盘。
 
 {% code title="Signature" %}
 ```go
@@ -1024,7 +1024,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Secure
 
-A boolean property, that is `true` , if a **TLS** connection is established.
+布尔属性将为 `true` , 如果已建立 **TLS** 连接。
 
 {% code title="Signature" %}
 ```go
@@ -1034,17 +1034,17 @@ c.Secure() bool
 
 {% code title="Example" %}
 ```go
-// Secure() method is equivalent to:
+// Secure() 方法等价于:
 c.Protocol() == "https"
 ```
 {% endcode %}
 
 ## Send
 
-Sets the HTTP response body. The **Send** body can be of any type.
+设置 HTTP 响应正文。 **Send 发送** 的正文可以是任何类型。
 
 {% hint style="warning" %}
-Send **doesn't** append like the [Write](https://fiber.wiki/context#write) method.
+此方法 **不会** 类似 [Write 写入](https://fiber.wiki/context#write) 方法一般在原有的正文中进行附加。
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1063,10 +1063,10 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-Fiber also provides `SendBytes` & `SendString` methods for raw inputs.
+Fiber还提供了 `SendBytes` & `SendString` 的原始输入方法。
 
 {% hint style="success" %}
-Use this, if you **don't need** type assertion, recommended for **faster** performance.
+如果您 **不需要** 类型断言，建议使用以获取 **更快** 的性能。
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1090,10 +1090,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## SendFile
 
-Transfers the file from the given path. Sets the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) response HTTP header field based on the **filenames** extension.
+将文件从指定的路径传输。 基于 **文件名** 的扩展，设置对应的 [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) 响应 HTTP 头字段。
 
 {% hint style="warning" %}
-Method use **gzipping** by default, set it to **true** to disable.
+默认情况下，此方法使用 **gzipping** ，设置为 **true** 禁用。
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1107,7 +1107,7 @@ c.SendFile(path string, gzip ...bool)
 app.Get("/not-found", func(c *fiber.Ctx) {
   c.SendFile("./public/404.html")
 
-  // Disable gzipping:
+  // 禁用 gzipping:
   c.SendFile("./static/index.html", true)
 })
 ```
@@ -1115,10 +1115,10 @@ app.Get("/not-found", func(c *fiber.Ctx) {
 
 ## SendStatus
 
-Sets the status code and the correct status message in the body, if the response body is **empty**.
+如果响应正文为 **空**，设置状态码和正文中的状态信息。
 
 {% hint style="success" %}
-You can find all used status codes and messages [here](https://github.com/gofiber/fiber/blob/dffab20bcdf4f3597d2c74633a7705a517d2c8c2/utils.go#L183-L244).
+您可以在[这里](https://github.com/gofiber/fiber/blob/dffab20bcdf4f3597d2c74633a7705a517d2c8c2/utils.go#L183-L244)找到所有的状态码和消息 。
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1142,7 +1142,7 @@ app.Get("/not-found", func(c *fiber.Ctx) {
 
 ## Set
 
-Sets the response’s HTTP header field to the specified `key`, `value`.
+设置响应的HTTP头字段到指定的 `key 键`， `value 值`。
 
 {% code title="Signature" %}
 ```go
@@ -1164,15 +1164,15 @@ app.Get("/", func(c *fiber.Ctx) {
 [https://expressjs.com/en/4x/api.html\#req.fresh](https://expressjs.com/en/4x/api.html#req.fresh)
 
 {% hint style="info" %}
-Not implemented yet, pull requests are welcome!
+尚未实施，欢迎提交贡献。
 {% endhint %}
 
 ## Status
 
-Sets the HTTP status for the response.
+设置响应的 HTTP 状态。
 
 {% hint style="info" %}
-Method is a **chainable**.
+方法是 **可链的**。
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1193,9 +1193,9 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Subdomains
 
-An array of subdomains in the domain name of the request.
+请求域名中的子域名数组。
 
-The application property subdomain offset, which defaults to `2`, is used for determining the beginning of the subdomain segments.
+应用程序中的子域名偏移属性，默认为 `2`，用于确定子域段的开头位置。
 
 {% code title="Signature" %}
 ```go
@@ -1205,7 +1205,7 @@ c.Subdomains(offset ...int) []string
 
 {% code title="Example" %}
 ```go
-// Host: "tobi.ferrets.example.com"
+// 域名: "tobi.ferrets.example.com"
 
 app.Get("/", func(c *fiber.Ctx) {
   c.Subdomains()  // ["ferrets", "tobi"]
@@ -1216,7 +1216,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## 类型
 
-Sets the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP header to the MIME type listed [here](https://github.com/nginx/nginx/blob/master/conf/mime.types) specified by the file **extension**.
+设置对应由文件 **扩展** 所指定的 [类型](https://github.com/nginx/nginx/blob/master/conf/mime.types) [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP 头字段  .
 
 {% code title="Signature" %}
 ```go
@@ -1237,10 +1237,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Vary
 
-Adds the given header field to the [Vary](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary) response header. This will append the header, if not already listed, otherwise leaves it listed in the current location.
+将给予的头字段添加到 [Vary](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary) 响应头。 如果尚未列出，这将附加在原有的头字段，否则它将留在当前位置中。
 
 {% hint style="info" %}
-Multiple fields are **allowed**.
+**允许** 多个领域名。
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1255,7 +1255,7 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Vary("Origin")     // => Vary: Origin
   c.Vary("User-Agent") // => Vary: Origin, User-Agent
 
-  // No duplicates
+  // 不能重复
   c.Vary("Origin") // => Vary: Origin, User-Agent
 
   c.Vary("Accept-Encoding", "Accept")
@@ -1266,7 +1266,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Write
 
-Appends **any** input to the HTTP body response.
+将 **任意** 的输入附加到 HTTP 实体响应中。
 
 {% code title="Signature" %}
 ```go
@@ -1286,7 +1286,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## XHR
 
-A Boolean property, that is `true`, if the request’s [X-Requested-With](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers) header field is [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest), indicating that the request was issued by a client library \(such as [jQuery](https://api.jquery.com/jQuery.ajax/)\).
+布尔属性为 `true` 时, 即为请求中的 [X-Requested-With](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers) 头字段是 [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest), 表示该请求是由客户端的库所发起 \(例如 [jQuery](https://api.jquery.com/jQuery.ajax/)\).
 
 {% code title="Signature" %}
 ```go
