@@ -307,6 +307,68 @@ func main() {
 }
 ```
 
+## Session
+
+The session middleware is a session implementation; a feature that allows Fiber to maintain user identity and to store user-specific data during multiple request/response interactions between a browser and Fiber. By default the Session middleware uses the `memory` provider as a session key:value store, however we provide support for memcache, MySQL, Postgres, Redis and SQLite3 a additional session providers.
+
+**Installation**
+
+```bash
+go get -u github.com/gofiber/session
+```
+
+**Signature**
+
+```go
+session.New(config ...session.Config) *Session
+```
+
+**Config**
+
+| Property | Type | Description | Default |
+| :--- | :--- | :--- | :--- |
+| Lookup | `string` | Where to look for the session id `<source>:<name>`, possible values: `cookie:key`, `header:key` or `query:key` | `"cookie:session_id"` |
+| Domain | `string` | Cookie domain | `""` |
+| Expiration | `time.Duration` | Session expiration time, possible values: `0` means no expiry (24 years), `-1` means when the browser closes, `>0` is the time.Duration which the session cookies should expire. | `12 * time.Hour` |
+| Secure | `bool` | If the cookie should only be send over HTTPS | `false` |
+| Provider | `Provider` | Holds the provider interface | `memory.Provider` |
+| Generator | `func() []byte` | Generator is a function that generates an unique id | `uuid` |
+| GCInterval | `time.Duration` | Interval for the garbage collector | `uuid` |
+
+**Example**
+
+```go
+package main
+
+import (
+  "fmt"
+
+  "github.com/gofiber/fiber"
+  "github.com/gofiber/session"
+)
+
+func main() {
+  app := fiber.New()
+
+  // create session handler
+  sessions := session.New()
+
+  app.Get("/", func(c *fiber.Ctx) {
+    store := sessions.Get(c)    // get/create new session
+    defer store.Save()
+
+    store.ID()                   // returns session id
+    store.Destroy()              // delete storage + cookie
+    store.Get("john")            // get from storage
+    store.Regenerate()           // generate new session id
+    store.Delete("john")         // delete from storage
+    store.Set("john", "doe")     // save to storage
+  })
+  
+  app.Listen(3000)
+}
+```
+
 ## Template
 
 By default Fiber comes with the [**default HTML template**](https://golang.org/pkg/html/template/) engine, but this middleware contains third party rendering engines.
