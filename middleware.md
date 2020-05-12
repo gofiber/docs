@@ -29,7 +29,7 @@ basicauth.New(config ...Config) func(*fiber.Ctx)
 | :--- | :--- | :--- | :--- |
 | Filter | `func(*fiber.Ctx) bool` | Defines a function to skip middleware | `nil` |
 | Users | `map[string][string]` | Users defines the allowed credentials | `nil` |
-| Realm | `string` | Realm is a string to define the realm attribute | `Restricted` |
+| Realm | `string` | Realm is a string to define the realm attribute | `"Restricted"` |
 | Authorizer | `func(string, string) bool` | A function you can pass to check the credentials however you want. | `nil` |
 | Unauthorized | `func(*fiber.Ctx)` | Custom response body for unauthorized responses | `nil` |
 
@@ -566,12 +566,12 @@ helmet.New(config ...Config) func(*Ctx)
 | XSSProtection | `string` | XSSProtection provides protection against cross-site scripting attack \(XSS\) by setting the `X-XSS-Protection` header. | `1; mode=block"` |
 | ContentTypeNosniff | `string` | ContentTypeNosniff provides protection against overriding Content-Type header by setting the `X-Content-Type-Options` header. | `"nosniff"` |
 | XFrameOptions | `string` | XFrameOptions can be used to indicate whether or not a browser should be allowed to render a page in a ,  or . Sites can use this to avoid clickjacking attacks, by ensuring that their content is not embedded into other sites.provides protection against clickjacking. Possible values: `SAMEORIGIN, DENY, ALLOW-FROM uri` | `"SAMEORIGIN"` |
-| HSTSMaxAge | `int` | HSTSMaxAge sets the `Strict-Transport-Security` header to indicate how long \(in seconds\) browsers should remember that this site is only to be accessed using HTTPS. This reduces your exposure to some SSL-stripping man-in-the-middle \(MITM\) attacks. | \`\` |
-| HSTSExcludeSubdomains | `bool` | HSTSExcludeSubdomains won't include subdomains tag in the `Strict Transport Security` header, excluding all subdomains from security policy. It has no effect unless HSTSMaxAge is set to a non-zero value. | \`\` |
-| ContentSecurityPolicy | `string` | ContentSecurityPolicy sets the `Content-Security-Policy` header providing security against cross-site scripting \(XSS\), clickjacking and other code injection attacks resulting from execution of malicious content in the trusted web page context | \`\` |
-| CSPReportOnly | `bool` |  | \`\` |
-| HSTSPreloadEnabled | `bool` |  | \`\` |
-| ReferrerPolicy | `string` |  | \`\` |
+| HSTSMaxAge | `int` | HSTSMaxAge sets the `Strict-Transport-Security` header to indicate how long \(in seconds\) browsers should remember that this site is only to be accessed using HTTPS. This reduces your exposure to some SSL-stripping man-in-the-middle \(MITM\) attacks. | `0` |
+| HSTSExcludeSubdomains | `bool` | HSTSExcludeSubdomains won't include subdomains tag in the `Strict Transport Security` header, excluding all subdomains from security policy. It has no effect unless HSTSMaxAge is set to a non-zero value. | `false` |
+| ContentSecurityPolicy | `string` | ContentSecurityPolicy sets the `Content-Security-Policy` header providing security against cross-site scripting \(XSS\), clickjacking and other code injection attacks resulting from execution of malicious content in the trusted web page context | `""` |
+| CSPReportOnly | `bool` |  | `false` |
+| HSTSPreloadEnabled | `bool` |  | `false` |
+| ReferrerPolicy | `string` |  | `""` |
 
 **Example**
 
