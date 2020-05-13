@@ -62,9 +62,9 @@ func main() {
 
 ## CORS
 
-CORS middleware implementa especificação CORS. CORS gives web servers cross-domain access controls, which enable secure cross-domain data transfers.
+CORS middleware implementa especificação CORS. CORS fornece aos servidores da Web controles de acesso entre domínios, que permitem transferências seguras de dados entre os domínios.
 
-**Installation**
+**Instalação**
 
 ```bash
 go get -u github.com/gofiber/cors
@@ -85,7 +85,7 @@ cors.New(config ...Config) func(*fiber.Ctx)
 | AllowMethods     | `[]string`        | AllowMethods define uma lista de métodos permitidos ao acessar o recurso. Isso é usado em resposta a uma solicitação de comprovação.                                                                                                                                            | `[]string{"GET", "POST", "HEAD", "PUT", "DELETE", "PATCH"}` |
 | AllowCredentials | `bool`            | AllowCredentials indica se a resposta à solicitação pode ou não ser exposta quando o sinalizador de credenciais for true. Quando usado como parte de uma resposta a uma solicitação de comprovação, isso indica se a solicitação real pode ou não ser feita usando credenciais. | `false`                                                     |
 | ExposeHeaders    | `[]string`        | ExposeHeaders define os cabeçalhos da lista de permissões que os clientes têm permissão para acessar.                                                                                                                                                                           | `[]string{}`                                                |
-| MaxAge           | `int`             | MaxAge indicates how long \(in seconds\) the results of a preflight request can be cached.                                                                                                                                                                                    | `0`                                                         |
+| MaxAge           | `int`             | MaxAge indica quanto tempo (em segundos) os resultados de uma solicitação de comprovação podem ser armazenados em cache.                                                                                                                                                        | `0`                                                         |
 
 ```go
 package main
@@ -111,9 +111,9 @@ func main() {
 
 ## Compression
 
-This middleware allows dynamic compression for gzip & deflate if you your responses are bigger than 4kb. If you want to enable compression for static files only, please use the [**Compression** ](application.md#static)setting inside the [**Static** ](application.md#static)method.
+Esse middleware permite compactação dinâmica para gzip & deflate se suas respostas forem maiores que 4kb. Se você deseja ativar a compactação apenas para arquivos estáticos, use o [**Compression**](application.md#static) na configuração dentro do método [**Static**](application.md#static).
 
-**Installation**
+**Instalação**
 
 ```bash
 go get -u github.com/gofiber/compression
@@ -125,12 +125,12 @@ go get -u github.com/gofiber/compression
 compression.New(config ...Config) func(*fiber.Ctx)
 ```
 
-**Config**
+**Configuração**
 
-| Propriedade | Tipo              | Descrição                                     | Valor Predefinido |
-|:----------- |:----------------- |:--------------------------------------------- |:----------------- |
-| Filter      | `func(*Ctx) bool` | Defines a function to skip middleware         | `nil`             |
-| Level       | `int`             | Level of compression, `0`, `1`, `2`, `3`, `4` | `0`               |
+| Propriedade | Tipo              | Descrição                                    | Valor Predefinido |
+|:----------- |:----------------- |:-------------------------------------------- |:----------------- |
+| Filter      | `func(*Ctx) bool` | Defines a function to skip middleware        | `nil`             |
+| Level       | `int`             | Nível de compressão, `0`, `1`, `2`, `3`, `4` | `0`               |
 
 ```go
 package main
