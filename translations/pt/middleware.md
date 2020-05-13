@@ -171,15 +171,15 @@ limiter.New(config ...Config) func(*Ctx)
 
 **Configuração**
 
-| Propriedade | Tipo                    | Descrição                                                                               | Valor Predefinido                              |
-|:----------- |:----------------------- |:--------------------------------------------------------------------------------------- |:---------------------------------------------- |
-| Filter      | `func(*fiber.Ctx) bool` | Define uma função para ignorar o middleware                                             | `nil`                                          |
-| Timeout     | `int`                   | Timeout in seconds on how long to keep records of requests in memory                    | `60`                                           |
-| Max         | `int`                   | Max number of recent connections during `Timeout` seconds before sending a 429 response | `10`                                           |
-| Message     | `string`                | Response body                                                                           | `"Too many requests, please try again later."` |
-| StatusCode  | `int`                   | Response status code                                                                    | `429`                                          |
-| Key         | `func(*Ctx) string`     | A function that allows to create custom keys. By default `c.IP()` is used.              | `nil`                                          |
-| Handler     | `func(*Ctx)`            | Handler is called when a request hits the limit                                         | `nil`                                          |
+| Propriedade | Tipo                    | Descrição                                                                                        | Valor Predefinido                                            |
+|:----------- |:----------------------- |:------------------------------------------------------------------------------------------------ |:------------------------------------------------------------ |
+| Filter      | `func(*fiber.Ctx) bool` | Define uma função para ignorar o middleware                                                      | `nil`                                                        |
+| Timeout     | `int`                   | Tempo limite em segundos para manter os registros de solicitações na memória                     | `60`                                                         |
+| Max         | `int`                   | Número máximo de conexões recentes durante o tempo de `Timeout` antes de enviar uma resposta 429 | `10`                                                         |
+| Message     | `string`                | Corpo da resposta                                                                                | `Muitas solicitações. Por favor, tente novamente mais tarde` |
+| StatusCode  | `int`                   | Código de status da resposta                                                                     | `429`                                                        |
+| Key         | `func(*Ctx) string`     | Uma função que permite criar chaves personalizadas. Por padrão `c.IP()` é usado.                 | `nil`                                                        |
+| Handler     | `func(*Ctx)`            | O Handler é chamado quando uma solicitação atinge o limite                                       | `nil`                                                        |
 
 **Exemplo**
 
@@ -212,9 +212,9 @@ func main() {
 
 ## Logger
 
-Logger middleware logs the information about each HTTP request.
+Logger middleware registra as informações sobre cada solicitação HTTP.
 
-**Installation**
+**Instalação**
 
 ```bash
 go get -u github.com/gofiber/logger
@@ -228,12 +228,12 @@ logger.new(config ...Config) func(*Ctx)
 
 **Configuração**
 
-| Propriedade | Tipo                    | Descrição                                                                                                                                                | Valor Predefinido                                  |
-|:----------- |:----------------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------- |:-------------------------------------------------- |
-| Filter      | `func(*fiber.Ctx) bool` | Define uma função para ignorar o middleware                                                                                                              | `nil`                                              |
-| Format      | `string`                | Possible values: `time, ip, url, host, method, path, protocol, referer, ua, header:<key>, query:<key>, form:<key>, cookie:<key>` | `"${time} - ${ip} - ${method} ${path}\t${ua}\n"` |
-| TimeFormat  | `string`                | TimeFormat [read more here](https://programming.guide/go/format-parse-string-time-date-example.html)                                                     | `15:04:05`                                         |
-| Output      | `io.Writer`             | Output is a writter where logs are written                                                                                                               | `os.Stderr`                                        |
+| Propriedade | Tipo                    | Descrição                                                                                                                                                  | Valor Predefinido                                  |
+|:----------- |:----------------------- |:---------------------------------------------------------------------------------------------------------------------------------------------------------- |:-------------------------------------------------- |
+| Filter      | `func(*fiber.Ctx) bool` | Define uma função para ignorar o middleware                                                                                                                | `nil`                                              |
+| Format      | `string`                | Valores possíveis: `time, ip, url, host, method, path, protocol, referer, ua, header:<key>, query:<key>, form:<key>, cookie:<key>` | `"${time} - ${ip} - ${method} ${path}\t${ua}\n"` |
+| TimeFormat  | `string`                | Formatação do horário [leia mais aqui](https://programming.guide/go/format-parse-string-time-date-example.html)                                            | `15:04:05`                                         |
+| Output      | `io.Writer`             | Output is a writter where logs are written                                                                                                                 | `os.Stderr`                                        |
 
 **Exemplo**
 
