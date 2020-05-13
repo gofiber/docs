@@ -233,7 +233,7 @@ logger.new(config ...Config) func(*Ctx)
 | Filter      | `func(*fiber.Ctx) bool` | Define uma função para ignorar o middleware                                                                                                                | `nil`                                              |
 | Format      | `string`                | Valores possíveis: `time, ip, url, host, method, path, protocol, referer, ua, header:<key>, query:<key>, form:<key>, cookie:<key>` | `"${time} - ${ip} - ${method} ${path}\t${ua}\n"` |
 | TimeFormat  | `string`                | Formatação do horário [leia mais aqui](https://programming.guide/go/format-parse-string-time-date-example.html)                                            | `15:04:05`                                         |
-| Output      | `io.Writer`             | Output is a writter where logs are written                                                                                                                 | `os.Stderr`                                        |
+| Output      | `io.Writer`             | Output é um escritor onde os logs são escritos                                                                                                             | `os.Stderr`                                        |
 
 **Exemplo**
 
@@ -260,9 +260,9 @@ func main() {
 
 ## Recover
 
-You can recover from panic errors within any route. By default the Recover middleware will respond with `500 Internal Server Error` when a panic occurs. You can also provide your own error handler.
+Você pode se recuperar de erros de pânico em qualquer rota. Por padrão, a recuperação do middleware irá responder com `500 Internal Server Error` quando um pânico ocorrer. Você também pode fornecer seu próprio manipulador de erro.
 
-**Installation**
+**Instalação**
 
 ```bash
 go get -u github.com/gofiber/recover
@@ -307,9 +307,9 @@ func main() {
 
 ## Template
 
-By default Fiber comes with the [**default HTML template**](https://golang.org/pkg/html/template/) engine, but this middleware contains third party rendering engines.
+Por padrão, o Fiber vem com um [**modelo HTML padrão**](https://golang.org/pkg/html/template/) mas este middleware contém mecanismos de renderização de terceiros.
 
-**Installation**
+**Instalação**
 
 ```bash
 go get -u github.com/gofiber/template
@@ -323,7 +323,7 @@ template.Engine() func(raw string, bind interface{}) (out string, err error)
 
 **Template Engines**
 
-| Keyword        | Engine                                                               |
+| Palavra-Chave  | Engine                                                               |
 |:-------------- |:-------------------------------------------------------------------- |
 | `Amber()`      | [github.com/eknkc/amber](https://github.com/eknkc/amber)             |
 | `Handlebars()` | [github.com/aymerick/raymond](https://github.com/aymerick/raymond)   |
