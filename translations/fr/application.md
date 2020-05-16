@@ -11,7 +11,7 @@ Optionnellement, vous pouvez passer [settings](application.md#settings) lors de 
 
 {% code title="Signature" %}
 ```go
-fiber.New(settings ...Settings) *App
+fiber.New(settings ...*Settings) *App
 ```
 {% endcode %}
 
@@ -91,7 +91,7 @@ func main() {
 | ETag                      | `bool`                                               | Active ou désactive la génération de l'en-tête ETag, étant donné que les etags forts et faibles utilisent la même méthode de hashage \(CRC-32\). Par défaut, les faibles ETags sont utilisés quand activé.                                                                | `false`           |
 | TemplateEngine            | `func(raw string, bind interface{}) (string, error)` | Vous pouvez spécifier une fonction de modèle personnalisée afin de restituer le contenu dans différentes langues de modèle. Voir [**Template Middleware**](middleware.md#template) _\*\*_ pour les préréglages.                                                       | `nil`             |
 | TemplateFolder            | `string`                                             | Un répertoire pour les vues de l'application. Si un répertoire est paramétré, celui-ci sera utilisé comme préfixe pour tous les chemins des modèles. `c.Render("home", data) -> ./views/home.pug`                                                                        | `""`              |
-| TemplateExtension         | `string`                                             | Si vous paramétrez une extension pour vos modèles, vous n'avez pas besoin d'indiquer le nom complet du fichier dans la fonction Render : `c.Render("home", data) -> home.pug`                                                                                            | `"html"`          |
+| TemplateExtension         | `string`                                             | Si vous paramétrez une extension pour vos modèles, vous n'avez pas besoin d'indiquer le nom complet du fichier dans la fonction Render : `c.Render("home", data) -> home.pug`                                                                                            | `""`              |
 | ReadTimeout               | `time.Duration`                                      | Durée maximumale autorisée pour lire entièrement une requête en comptant le corps de celle-ci. Par défaut la durée est illimitée.                                                                                                                                           | `nil`             |
 | WriteTimeout              | `time.Duration`                                      | Durée maximale avant que les écritures vers la réponse échouent. Par défaut la durée est illimitée.                                                                                                                                                                         | `nil`             |
 | IdleTimeout               | `time.Duration`                                      | Durée maximale d'attente entrer deux requêtes lorsque keep-alive est activé. If IdleTimeout est égale à zéro, la valeur de ReadTimeout est utilisée.                                                                                                                        | `nil`             |
@@ -101,7 +101,7 @@ func main() {
 Utilisez la méthode **Static** pour servir des fichiers statiques comme **des images**, **du CSS** et **du JavaScript**.
 
 {% hint style="info" %}
-Par défaut, **Static** servira le fichier `index.html` comme réponse lorsque la requête concerne un répertoire.
+By default, **Static** will serve `index.html` files in response to a request on a directory.
 {% endhint %}
 
 {% code title="Signature" %}
