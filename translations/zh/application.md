@@ -11,7 +11,7 @@ description: 用于表示Fiber应用程序的实例。
 
 {% code title="Signature" %}
 ```go
-fiber.New(settings ...Settings) *App
+fiber.New(settings ...*Settings) *App
 ```
 {% endcode %}
 
@@ -91,7 +91,7 @@ func main() {
 | ETag                      | `bool`                                               | 启用或禁用 ETag 头字段，这是因为弱 Etags 和 强 Etags 都是使用相同的散列（哈希）方法 \(CRC-32\)。 启用时，默认使用弱 ETags。                                                                                       | `false`           |
 | TemplateEngine            | `func(raw string, bind interface{}) (string, error)` | 您可以指定一个自定义模板函数来渲染不同的模板语言。 查看我们的 [**模板中间件**](middleware.md#template) _\*\*_预设。                                                                                       | `nil`             |
 | TemplateFolder            | `string`                                             | 应用程序的 view 目录。 如果设置了目录，这将是所有模板路径的前缀。 `c.Render("home", data) -> ./views/home.pug`                                                                                      | `""`              |
-| TemplateExtension         | `string`                                             | 如果您预设了模板文件的扩展名，您就不需要在渲染函数中提供完整的文件名： `c.Render("home", data) -> home.pug`                                                                                               | `"html"`          |
+| TemplateExtension         | `string`                                             | 如果您预设了模板文件的扩展名，您就不需要在渲染函数中提供完整的文件名： `c.Render("home", data) -> home.pug`                                                                                               | `""`              |
 | ReadTimeout               | `time.Duration`                                      | 读取请求最大允许的时间 （包括读取 body）。 默认无超时限制。                                                                                                                                         | `nil`             |
 | WriteTimeout              | `time.Duration`                                      | 写出响应最大允许的时间。默认无超时限制。 默认无超时限制。                                                                                                                                             | `nil`             |
 | IdleTimeout               | `time.Duration`                                      | 开启保持存活时，等待下一次请求的最大允许时间。 如果IdleTimeout为零，则使用ReadTimeout的值。                                                                                                                 | `nil`             |
@@ -101,7 +101,7 @@ func main() {
 使用 **Static** 静态方法来为提供静态文件，例如 **图片**, **CSS** 和 **JavaScript**。
 
 {% hint style="info" %}
-默认情况下， **Static** 将提供 `index.html` 文件响应于目录上的请求。
+By default, **Static** will serve `index.html` files in response to a request on a directory.
 {% endhint %}
 
 {% code title="Signature" %}
