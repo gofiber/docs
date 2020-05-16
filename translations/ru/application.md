@@ -11,7 +11,7 @@ description: Инстанс приложения, обычно, обознача
 
 {% code title="Signature" %}
 ```go
-fiber.New(settings ...Settings) *App
+fiber.New(settings ...*Settings) *App
 ```
 {% endcode %}
 
@@ -91,7 +91,7 @@ func main() {
 | ETag                      | `bool`                                               | Включение или отключение генерации заголовков ETag, так как слабые и сильные ETag генерируются с использованием одного и того же метода хэширования \(CRC-32\). Слабые ETags по умолчанию, когда включено.                                                                  | `false`           |
 | TemplateEngine            | `func(raw string, bind interface{}) (string, error)` | Вы можете указать пользовательскую функцию для отображения различных языков шаблонизации. Смотрите наши [**шаблоны пресетов**](middleware.md#template) для Middleware.                                                                                                        | `nil`             |
 | TemplateFolder            | `string`                                             | Каталог для просмотра приложения. Если папка указана, то она будет использована в качестве префикса для всех путей шаблона. `c.Render("home", data) -> ./views/home.pug`                                                                                                   | `""`              |
-| TemplateExtension         | `string`                                             | Если вы устанавливаете расширение файла шаблона, вам не нужно предоставлять полное имя файла в функции Render: `c.Render("home", data) -> home.pug`                                                                                                                        | `"html"`          |
+| TemplateExtension         | `string`                                             | Если вы устанавливаете расширение файла шаблона, вам не нужно предоставлять полное имя файла в функции Render: `c.Render("home", data) -> home.pug`                                                                                                                        | `""`              |
 | ReadTimeout               | `time.Duration`                                      | Время, отведенное на прочтение полного запроса, включая тело. Время ожидания по умолчанию не ограничено.                                                                                                                                                                      | `nil`             |
 | WriteTimeout              | `time.Duration`                                      | Максимальная длительность до истечения времени записи ответа. Время ожидания по умолчанию не ограничено.                                                                                                                                                                      | `nil`             |
 | IdleTimeout               | `time.Duration`                                      | Максимальное время ожидания следующего запроса при включенном keep-alive. Если IdleTimeout равен нулю, то используется значение ReadTimeout.                                                                                                                                  | `nil`             |
@@ -101,7 +101,7 @@ func main() {
 Используйте метод **Static** для обработки статических файлов, таких как **изображения**, **CSS** и **JavaScript**.
 
 {% hint style="info" %}
-По умолчанию, **Static** будет обрабатывать`index.html` файлы в ответ на запрос в каталоге.
+By default, **Static** will serve `index.html` files in response to a request on a directory.
 {% endhint %}
 
 {% code title="Signature" %}
