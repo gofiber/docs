@@ -1,13 +1,13 @@
 ---
-description: The app instance conventionally denotes the Fiber application.
+description: نموذج التطبيق يشير تقليدياً إلى تطبيق Fiber.
 ---
 
 # 🚀 Application
 
 ## New
 
-This method creates a new **App** named instance.  
-You can pass optional [settings ](application.md#settings)when creating a new instance
+هذه الطريقة تنشئ **تطبيق** نموذج جديد.  
+يمكنك تمرير إعدادات اختيارية [ ](application.md#settings)عند إنشاء مثيل جديد
 
 {% code title="Signature" %}
 ```go
@@ -33,7 +33,7 @@ func main() {
 
 ## Settings
 
-You can pass application settings when calling `New`.
+يمكنك اجتياز إعدادات التطبيق عند الاتصال `New`.
 
 {% code title="Example" %}
 ```go
@@ -53,7 +53,7 @@ func main() {
 ```
 {% endcode %}
 
-Or change the settings after initializing an `app`.
+أو تغيير الإعدادات بعد تهيئة تطبيق `app`.
 
 {% code title="Example" %}
 ```go
@@ -73,35 +73,35 @@ func main() {
 ```
 {% endcode %}
 
-**Settings** **fields**
+**إعدادات** **حقول**
 
-| Property                  | Type                                                 | Description                                                                                                                                                                                                                                               | Default           |
-|:------------------------- |:---------------------------------------------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
-| Prefork                   | `bool`                                               | Enables use of the[`SO_REUSEPORT`](https://lwn.net/Articles/542629/)socket option. This will spawn multiple Go processes listening on the same port. learn more about [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
-| ServerHeader              | `string`                                             | Enables the `Server` HTTP header with the given value.                                                                                                                                                                                                    | `""`              |
-| StrictRouting             | `bool`                                               | When enabled, the router treats `/foo` and `/foo/` as different. Otherwise, the router treats `/foo` and `/foo/` as the same.                                                                                                                             | `false`           |
-| CaseSensitive             | `bool`                                               | When enabled, `/Foo` and `/foo` are different routes. When disabled, `/Foo`and `/foo` are treated the same.                                                                                                                                               | `false`           |
-| Immutable                 | `bool`                                               | When enabled, all values returned by context methods are immutable. By default they are valid until you return from the handler, see issue [\#185](https://github.com/gofiber/fiber/issues/185).                                                        | `false`           |
-| BodyLimit                 | `int`                                                | Sets the maximum allowed size for a request body, if the size exceeds the configured limit, it sends `413 - Request Entity Too Large` response.                                                                                                           | `4 * 1024 * 1024` |
-| Concurrency               | `int`                                                | Maximum number of concurrent connections.                                                                                                                                                                                                                 | `256 * 1024`      |
-| DisableKeepalive          | `bool`                                               | Disable keep-alive connections, the server will close incoming connections after sending the first response to client                                                                                                                                     | `false`           |
-| DisableDefaultDate        | `bool`                                               | When set to true causes the default date header to be excluded from the response.                                                                                                                                                                         | `false`           |
-| DisableDefaultContentType | `bool`                                               | When set to true, causes the default Content-Type header to be excluded from the Response.                                                                                                                                                                | `false`           |
-| DisableStartupMessage     | `bool`                                               | When set to true, it will not print out the fiber ASCII and "listening" on message                                                                                                                                                                        | `false`           |
-| ETag                      | `bool`                                               | Enable or disable ETag header generation, since both weak and strong etags are generated using the same hashing method \(CRC-32\). Weak ETags are the default when enabled.                                                                             | `false`           |
-| TemplateEngine            | `func(raw string, bind interface{}) (string, error)` | You can specify a custom template function to render different template languages. See our [**Template Middleware**](middleware.md#template) _\*\*_for presets.                                                                                     | `nil`             |
-| TemplateFolder            | `string`                                             | A directory for the application's views. If a directory is set, this will be the prefix for all template paths. `c.Render("home", data) -> ./views/home.pug`                                                                                           | `""`              |
-| TemplateExtension         | `string`                                             | If you preset the template file extension, you do not need to provide the full filename in the Render function: `c.Render("home", data) -> home.pug`                                                                                                   | `"html"`          |
-| ReadTimeout               | `time.Duration`                                      | The amount of time allowed to read the full request including body. Default timeout is unlimited.                                                                                                                                                         | `nil`             |
-| WriteTimeout              | `time.Duration`                                      | The maximum duration before timing out writes of the response. Default timeout is unlimited.                                                                                                                                                              | `nil`             |
-| IdleTimeout               | `time.Duration`                                      | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used.                                                                                                             | `nil`             |
+| Property                  | Type                                                 | Description                                                                                                                                                                                                                      | Default           |
+|:------------------------- |:---------------------------------------------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
+| Prefork                   | `bool`                                               | تمكين استخدام[`SO_REUSEPORT`](https://lwn.net/Articles/542629/)خيار المقطع. هذا سوف يولد عدة عمليات اذهب للاستماع على نفس الميناء. اعرف المزيد عن [قصف المقبس](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
+| ServerHeader              | `string`                                             | تمكين `server` HTTP مع القيمة المحددة.                                                                                                                                                                                           | `""`              |
+| StrictRouting             | `bool`                                               | عند التمكين، يتعامل جهاز التوجيه مع `/foo` و `/foo/` باعتبارهما مختلفين. عند التمكين، يتعامل جهاز التوجيه مع `/foo` و `/foo/` باعتبارهما مختلفين.                                                                                | `false`           |
+| CaseSensitive             | `bool`                                               | عند التمكين، `/Foo` و `/foo` طرق مختلفة. عند التعطيل، يتم معاملة `/Foo`و `/foo` بنفس المعاملة.                                                                                                                                   | `false`           |
+| Immutable                 | `bool`                                               | عند التمكين، جميع القيم المرتجعة بأساليب السياق غير قابلة للتغيير. بشكل افتراضي تكون صالحة حتى تعود من المعالج ، انظر المشكلة [\#185](https://github.com/gofiber/fiber/issues/185).                                            | `false`           |
+| BodyLimit                 | `int`                                                | يعين الحد الأقصى المسموح به لحجم هيئة الطلب، إذا تجاوز الحجم الحد المكون، يرسل `413 - طلب كيان كبير جدا` رد.                                                                                                                     | `4 * 1024 * 1024` |
+| Concurrency               | `int`                                                | الحد الأقصى لعدد الاتصالات المتزامنة.                                                                                                                                                                                            | `256 * 1024`      |
+| DisableKeepalive          | `bool`                                               | تعطيل اتصالات البقاء على قيد الحياة، سيقوم الخادم بإغلاق الاتصالات الواردة بعد إرسال أول استجابة إلى العميل                                                                                                                      | `false`           |
+| DisableDefaultDate        | `bool`                                               | عند تعيين إلى حقيقة، يؤدي رأس التاريخ الافتراضي إلى استبعاده من الاستجابة.                                                                                                                                                       | `false`           |
+| DisableDefaultContentType | `bool`                                               | عند تعيين إلى صحيح، يؤدي إلى استبعاد رأس المحتوى الافتراضي من الاستجابة.                                                                                                                                                         | `false`           |
+| DisableStartupMessage     | `bool`                                               | When set to true, it will not print out the fiber ASCII and "listening" on message                                                                                                                                               | `false`           |
+| ETag                      | `bool`                                               | تمكين أو تعطيل توليد ترويسة الـ ETag ، لأن العلامات الضعيفة والقوية يتم إنشاؤها باستخدام نفس طريقة التجزئة \(CRC-32\). علامات Eags ضعيفة هي الافتراضية عند التمكين.                                                            | `false`           |
+| TemplateEngine            | `func(raw string, bind interface{}) (string, error)` | يمكنك تحديد وظيفة قالب مخصص لتقديم لغات قالب مختلفة. راجع [**منتصف القالب**](middleware.md#template) _\*\*_for presetts.                                                                                                   | `nil`             |
+| TemplateFolder            | `string`                                             | دليل لوجهات نظر التطبيق. إذا تم تعيين مجلد، هذا سيكون البادئة لجميع مسارات القالب. `c.Render("home", data) -> ./views/home.pug`                                                                                               | `""`              |
+| TemplateExtension         | `string`                                             | إذا قمت بتعيين ملحق ملف القالب مسبقاً، فأنت لست بحاجة إلى توفير اسم الملف الكامل في وظيفة إعادة التقديم: `c. ender("home", data) -> home.pug`                                                                                 | `"html"`          |
+| ReadTimeout               | `time.Duration`                                      | ومقدار الوقت المتاح لقراءة الطلب بأكمله، بما في ذلك الجسم. المهلة الافتراضية غير محدودة.                                                                                                                                         | `nil`             |
+| WriteTimeout              | `time.Duration`                                      | ويكرر الرد الحد الأقصى للمدة التي تسبق التوقيت. المهلة الافتراضية غير محدودة.                                                                                                                                                    | `nil`             |
+| IdleTimeout               | `time.Duration`                                      | الحد الأقصى من الوقت للانتظار للطلب التالي عند تمكين البقاء على قيد الحياة. If IdleTimeout is zero, the value of ReadTimeout is used.                                                                                            | `nil`             |
 
 ## Static
 
-Use the **Static** method to serve static files such as **images**, **CSS** and **JavaScript**.
+استخدم طريقة **ثابت** لخدمة الملفات الثابتة مثل **صور**و **CSS** و **جافا سكريبت**.
 
 {% hint style="info" %}
-By default, **Static** will serve`index.html` files in response to a request on a directory.
+بشكل افتراضي، **Static** سوف يخدم`ملفات index.html` استجابة لطلب في الدليل.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -110,7 +110,7 @@ app.Static(prefix, root string, config ...Static) // => with prefix
 ```
 {% endcode %}
 
-Use the following code to serve files in a directory named `./public`
+استخدم التعليمة البرمجية التالية لتقديم الملفات في دليل يسمى `./public`
 
 {% code title="Example" %}
 ```go
@@ -122,7 +122,7 @@ app.Static("/", "./public")
 ```
 {% endcode %}
 
-To serve from multiple directories, you can use **Static** multiple times.
+للخدمة من دلائل متعددة، يمكنك استخدام **Static** عدة مرات.
 
 {% code title="Example" %}
 ```go
@@ -135,10 +135,10 @@ app.Static("/", "./files")
 {% endcode %}
 
 {% hint style="info" %}
-Use a reverse proxy cache like [**NGINX**](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) to improve performance of serving static assets.
+استخدم ذاكرة التخزين المؤقت للوكيل العكسي مثل [**NGINX**](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) لتحسين أداء خدمة الأصول الثابتة.
 {% endhint %}
 
-You can use any virtual path prefix \(_where the path does not actually exist in the file system_\) for files that are served by the **Static** method, specify a prefix path for the static directory, as shown below:
+يمكنك استخدام أي بادئة المسار الظاهري \(_حيث المسار غير موجود بالفعل في نظام الملفات_\) للملفات التي يتم خدمتها بواسطة **الأسلوب الثابت** ، حدد مسار بادئة للدليل الثابت، كما هو موضح أدناه:
 
 {% code title="Example" %}
 ```go
@@ -150,7 +150,7 @@ app.Static("/static", "./public")
 ```
 {% endcode %}
 
-If you want to have a little bit more control regarding the settings for serving static files. You could use the `fiber.Static` struct to enable specific settings.
+إذا كنت ترغب في أن يكون لديك تحكم أكثر قليلاً فيما يتعلق بإعدادات تقديم الملفات الثابتة. يمكنك استخدام `fiber.Static` التي تم تركيبها لتمكين إعدادات محددة.
 
 {% code title="fiber.Static{}" %}
 ```go
@@ -230,7 +230,7 @@ app.Post("/api/register", func(c *fiber.Ctx) {
 
 ## Group
 
-You can group routes by creating a `*Group` struct.
+يمكنك تجميع المسارات عن طريق إنشاء `*Group` struct.
 
 **Signature**
 

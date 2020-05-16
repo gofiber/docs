@@ -1,15 +1,15 @@
 ---
 description: >-
-  Middleware is a function chained in the HTTP request cycle with access to the Context which it uses to perform a specific action, for example, logging every request or enabling CORS.
+  O middleware é uma função encadeada no ciclo de solicitações HTTP com acesso ao Contexto usado para executar uma ação específica, por exemplo, registrando todas as solicitações ou ativando o CORS.
 ---
 
 # 🧬 Middleware
 
 ## Basic Auth
 
-Basic auth middleware provides an HTTP basic authentication. It calls the next handler for valid credentials and `401 Unauthorized` for missing or invalid credentials.
+O middleware de autenticação básica fornece uma autenticação básica HTTP. Ele chama o próximo manipulador para credenciais válidas e `401 Não Autorizado` para credenciais ausentes ou inválidas.
 
-**Installation**
+**Instalação**
 
 ```bash
 go get -u github.com/gofiber/basicauth
@@ -21,15 +21,15 @@ go get -u github.com/gofiber/basicauth
 basicauth.New(config ...Config) func(*fiber.Ctx)
 ```
 
-**Config**
+**Configuração**
 
-| Propriedade  | Tipo                        | Descrição                                                          | Valor Predefinido |
-|:------------ |:--------------------------- |:------------------------------------------------------------------ |:----------------- |
-| Filter       | `func(*fiber.Ctx) bool`     | Defines a function to skip middleware                              | `nil`             |
-| Users        | `map[string][string]`       | Users defines the allowed credentials                              | `nil`             |
-| Realm        | `string`                    | Realm is a string to define the realm attribute                    | `Restricted`      |
-| Authorizer   | `func(string, string) bool` | A function you can pass to check the credentials however you want. | `nil`             |
-| Unauthorized | `func(*fiber.Ctx)`          | Custom response body for unauthorized responses                    | `nil`             |
+| Propriedade  | Tipo                        | Descrição                                                                             | Valor Predefinido |
+|:------------ |:--------------------------- |:------------------------------------------------------------------------------------- |:----------------- |
+| Filter       | `func(*fiber.Ctx) bool`     | Define uma função para ignorar o middleware                                           | `nil`             |
+| Users        | `map[string][string]`       | Define as credenciais de usuários permitidas                                          | `nil`             |
+| Realm        | `string`                    | Realm é uma string que define o atributo domínio                                      | `Restricted`      |
+| Authorizer   | `func(string, string) bool` | Uma função que você pode passar para verificar as credenciais da maneira que desejar. | `nil`             |
+| Unauthorized | `func(*fiber.Ctx)`          | Corpo de resposta customizado para respostas não autorizadas                          | `nil`             |
 
 **Exemplo**
 
@@ -62,9 +62,9 @@ func main() {
 
 ## CORS
 
-CORS middleware implementa especificação CORS. CORS gives web servers cross-domain access controls, which enable secure cross-domain data transfers.
+CORS middleware implementa especificação CORS. CORS fornece aos servidores da Web controles de acesso entre domínios, que permitem transferências seguras de dados entre os domínios.
 
-**Installation**
+**Instalação**
 
 ```bash
 go get -u github.com/gofiber/cors
@@ -76,16 +76,16 @@ go get -u github.com/gofiber/cors
 cors.New(config ...Config) func(*fiber.Ctx)
 ```
 
-**Config**
+**Configuração**
 
-| Propriedade      | Tipo              | Descrição                                                                                                                                                                                                                                                       | Valor Predefinido                                           |
-|:---------------- |:----------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------------------------------------------------- |
-| Filter           | `func(*Ctx) bool` | Defines a function to skip middleware                                                                                                                                                                                                                           | `nil`                                                       |
-| AllowOrigins     | `[]string`        | AllowOrigin defines a list of origins that may access the resource.                                                                                                                                                                                             | `[]string{"*"}`                                             |
-| AllowMethods     | `[]string`        | AllowMethods defines a list methods allowed when accessing the resource. This is used in response to a preflight request.                                                                                                                                       | `[]string{"GET", "POST", "HEAD", "PUT", "DELETE", "PATCH"}` |
-| AllowCredentials | `string`          | AllowCredentials indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials. | `nil`                                                       |
-| ExposeHeaders    | `[]string`        | ExposeHeaders defines a whitelist headers that clients are allowed to access.                                                                                                                                                                                   | `nil`                                                       |
-| MaxAge           | `int`             | MaxAge indicates how long \(in seconds\) the results of a preflight request can be cached.                                                                                                                                                                    | `0`                                                         |
+| Propriedade      | Tipo              | Descrição                                                                                                                                                                                                                                                                       | Valor Predefinido                                           |
+|:---------------- |:----------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------------------------------------------------- |
+| Filter           | `func(*Ctx) bool` | Define uma função para ignorar o middleware                                                                                                                                                                                                                                     | `nil`                                                       |
+| AllowOrigins     | `[]string`        | AllowOrigin define uma lista de origens que podem acessar o recurso.                                                                                                                                                                                                            | `[]string{"*"}`                                             |
+| AllowMethods     | `[]string`        | AllowMethods define uma lista de métodos permitidos ao acessar o recurso. Isso é usado em resposta a uma solicitação de comprovação.                                                                                                                                            | `[]string{"GET", "POST", "HEAD", "PUT", "DELETE", "PATCH"}` |
+| AllowCredentials | `bool`            | AllowCredentials indica se a resposta à solicitação pode ou não ser exposta quando o sinalizador de credenciais for true. Quando usado como parte de uma resposta a uma solicitação de comprovação, isso indica se a solicitação real pode ou não ser feita usando credenciais. | `false`                                                     |
+| ExposeHeaders    | `[]string`        | ExposeHeaders define os cabeçalhos da lista de permissões que os clientes têm permissão para acessar.                                                                                                                                                                           | `[]string{}`                                                |
+| MaxAge           | `int`             | MaxAge indica quanto tempo (em segundos) os resultados de uma solicitação de comprovação podem ser armazenados em cache.                                                                                                                                                        | `0`                                                         |
 
 ```go
 package main
@@ -111,9 +111,9 @@ func main() {
 
 ## Compression
 
-This middleware allows dynamic compression for gzip & deflate if you your responses are bigger than 4kb. If you want to enable compression for static files only, please use the [**Compression** ](application.md#static)setting inside the [**Static** ](application.md#static)method.
+Esse middleware permite compactação dinâmica para gzip & deflate se suas respostas forem maiores que 4kb. Se você deseja ativar a compactação apenas para arquivos estáticos, use o [**Compression**](application.md#static) na configuração dentro do método [**Static**](application.md#static).
 
-**Installation**
+**Instalação**
 
 ```bash
 go get -u github.com/gofiber/compression
@@ -125,12 +125,12 @@ go get -u github.com/gofiber/compression
 compression.New(config ...Config) func(*fiber.Ctx)
 ```
 
-**Config**
+**Configuração**
 
-| Propriedade | Tipo              | Descrição                                     | Valor Predefinido |
-|:----------- |:----------------- |:--------------------------------------------- |:----------------- |
-| Filter      | `func(*Ctx) bool` | Defines a function to skip middleware         | `nil`             |
-| Level       | `int`             | Level of compression, `0`, `1`, `2`, `3`, `4` | `0`               |
+| Propriedade | Tipo              | Descrição                                    | Valor Predefinido |
+|:----------- |:----------------- |:-------------------------------------------- |:----------------- |
+| Filter      | `func(*Ctx) bool` | Define uma função para ignorar o middleware  | `nil`             |
+| Level       | `int`             | Nível de compressão, `0`, `1`, `2`, `3`, `4` | `0`               |
 
 ```go
 package main
@@ -155,9 +155,9 @@ func main() {
 
 ## Limiter
 
-Use to limit repeated requests to public APIs and/or endpoints such as password reset. This middleware does not share state with other processes/servers.
+Use para limitar solicitações repetidas a APIs públicas e/ou endpoints como redefinição de senha. Este middleware não compartilha estado com outros processos/servidores.
 
-**Installation**
+**Instalação**
 
 ```bash
 go get -u github.com/gofiber/limiter
@@ -169,17 +169,17 @@ go get -u github.com/gofiber/limiter
 limiter.New(config ...Config) func(*Ctx)
 ```
 
-**Config**
+**Configuração**
 
-| Propriedade | Tipo                    | Descrição                                                                               | Valor Predefinido                              |
-|:----------- |:----------------------- |:--------------------------------------------------------------------------------------- |:---------------------------------------------- |
-| Filter      | `func(*fiber.Ctx) bool` | Defines a function to skip middleware                                                   | `nil`                                          |
-| Timeout     | `int`                   | Timeout in seconds on how long to keep records of requests in memory                    | `60`                                           |
-| Max         | `int`                   | Max number of recent connections during `Timeout` seconds before sending a 429 response | `10`                                           |
-| Message     | `string`                | Response body                                                                           | `"Too many requests, please try again later."` |
-| StatusCode  | `int`                   | Response status code                                                                    | `429`                                          |
-| Key         | `func(*Ctx) string`     | A function that allows to create custom keys. By default `c.IP()` is used.              | `nil`                                          |
-| Handler     | `func(*Ctx)`            | Handler is called when a request hits the limit                                         | `nil`                                          |
+| Propriedade | Tipo                    | Descrição                                                                                        | Valor Predefinido                                            |
+|:----------- |:----------------------- |:------------------------------------------------------------------------------------------------ |:------------------------------------------------------------ |
+| Filter      | `func(*fiber.Ctx) bool` | Define uma função para ignorar o middleware                                                      | `nil`                                                        |
+| Timeout     | `int`                   | Tempo limite em segundos para manter os registros de solicitações na memória                     | `60`                                                         |
+| Max         | `int`                   | Número máximo de conexões recentes durante o tempo de `Timeout` antes de enviar uma resposta 429 | `10`                                                         |
+| Message     | `string`                | Corpo da resposta                                                                                | `Muitas solicitações. Por favor, tente novamente mais tarde` |
+| StatusCode  | `int`                   | Código de status da resposta                                                                     | `429`                                                        |
+| Key         | `func(*Ctx) string`     | Uma função que permite criar chaves personalizadas. Por padrão `c.IP()` é usado.                 | `nil`                                                        |
+| Handler     | `func(*Ctx)`            | O Handler é chamado quando uma solicitação atinge o limite                                       | `nil`                                                        |
 
 **Exemplo**
 
@@ -212,9 +212,9 @@ func main() {
 
 ## Logger
 
-Logger middleware logs the information about each HTTP request.
+Logger middleware registra as informações sobre cada solicitação HTTP.
 
-**Installation**
+**Instalação**
 
 ```bash
 go get -u github.com/gofiber/logger
@@ -226,14 +226,14 @@ go get -u github.com/gofiber/logger
 logger.new(config ...Config) func(*Ctx)
 ```
 
-**Config**
+**Configuração**
 
-| Propriedade | Tipo                    | Descrição                                                                                                                                                | Valor Predefinido                                  |
-|:----------- |:----------------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------- |:-------------------------------------------------- |
-| Filter      | `func(*fiber.Ctx) bool` | Defines a function to skip middleware                                                                                                                    | `nil`                                              |
-| Format      | `string`                | Possible values: `time, ip, url, host, method, path, protocol, referer, ua, header:<key>, query:<key>, form:<key>, cookie:<key>` | `"${time} - ${ip} - ${method} ${path}\t${ua}\n"` |
-| TimeFormat  | `string`                | TimeFormat [read more here](https://programming.guide/go/format-parse-string-time-date-example.html)                                                     | `15:04:05`                                         |
-| Output      | `io.Writer`             | Output is a writter where logs are written                                                                                                               | `os.Stderr`                                        |
+| Propriedade | Tipo                    | Descrição                                                                                                                                                  | Valor Predefinido                                  |
+|:----------- |:----------------------- |:---------------------------------------------------------------------------------------------------------------------------------------------------------- |:-------------------------------------------------- |
+| Filter      | `func(*fiber.Ctx) bool` | Define uma função para ignorar o middleware                                                                                                                | `nil`                                              |
+| Format      | `string`                | Valores possíveis: `time, ip, url, host, method, path, protocol, referer, ua, header:<key>, query:<key>, form:<key>, cookie:<key>` | `"${time} - ${ip} - ${method} ${path}\t${ua}\n"` |
+| TimeFormat  | `string`                | Formatação do horário [leia mais aqui](https://programming.guide/go/format-parse-string-time-date-example.html)                                            | `15:04:05`                                         |
+| Output      | `io.Writer`             | Output é um escritor onde os logs são escritos                                                                                                             | `os.Stderr`                                        |
 
 **Exemplo**
 
@@ -260,9 +260,9 @@ func main() {
 
 ## Recover
 
-You can recover from panic errors within any route. By default the Recover middleware will respond with `500 Internal Server Error` when a panic occurs. You can also provide your own error handler.
+Você pode se recuperar de erros de pânico em qualquer rota. Por padrão, a recuperação do middleware irá responder com `500 Internal Server Error` quando um pânico ocorrer. Você também pode fornecer seu próprio manipulador de erro.
 
-**Installation**
+**Instalação**
 
 ```bash
 go get -u github.com/gofiber/recover
@@ -307,9 +307,9 @@ func main() {
 
 ## Template
 
-By default Fiber comes with the [**default HTML template**](https://golang.org/pkg/html/template/) engine, but this middleware contains third party rendering engines.
+Por padrão, o Fiber vem com um [**modelo HTML padrão**](https://golang.org/pkg/html/template/) mas este middleware contém mecanismos de renderização de terceiros.
 
-**Installation**
+**Instalação**
 
 ```bash
 go get -u github.com/gofiber/template
@@ -323,7 +323,7 @@ template.Engine() func(raw string, bind interface{}) (out string, err error)
 
 **Template Engines**
 
-| Keyword        | Engine                                                               |
+| Palavra-Chave  | Engine                                                               |
 |:-------------- |:-------------------------------------------------------------------- |
 | `Amber()`      | [github.com/eknkc/amber](https://github.com/eknkc/amber)             |
 | `Handlebars()` | [github.com/aymerick/raymond](https://github.com/aymerick/raymond)   |
@@ -381,7 +381,7 @@ go get -u github.com/gofiber/websocket
 websocket.New(handler func(*Conn), config ...Config) func(*Ctx)
 ```
 
-**Config**
+**Configuração**
 
 | Propriedade       | Tipo            | Descrição                                                                                                                                                                                                                        | Valor Predefinido |
 |:----------------- |:--------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
@@ -448,11 +448,11 @@ go get -u github.com/gofiber/requestid
 requestid.New(config ...Config) func(*Ctx)
 ```
 
-**Config**
+**Configuração**
 
 | Propriedade | Tipo                      | Descrição                                       | Valor Predefinido            |
 |:----------- |:------------------------- |:----------------------------------------------- |:---------------------------- |
-| Filter      | `func(*fiber.Ctx) bool`   | Defines a function to skip middleware           | `nil`                        |
+| Filter      | `func(*fiber.Ctx) bool`   | Define uma função para ignorar o middleware     | `nil`                        |
 | Generator   | `func(*fiber.Ctx) string` | Generator defines a function to generate an ID. | `return uuid.New().String()` |
 
 **Exemplo**
@@ -494,11 +494,11 @@ go get -u github.com/gofiber/helmet
 helmet.New(config ...Config) func(*Ctx)
 ```
 
-**Config**
+**Configuração**
 
 | Propriedade           | Tipo                    | Descrição                                                                                                                                                                                                                                                                                                                      | Valor Predefinido |
 |:--------------------- |:----------------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |:----------------- |
-| Filter                | `func(*fiber.Ctx) bool` | Defines a function to skip middleware                                                                                                                                                                                                                                                                                          | `nil`             |
+| Filter                | `func(*fiber.Ctx) bool` | Define uma função para ignorar o middleware                                                                                                                                                                                                                                                                                    | `nil`             |
 | XSSProtection         | `string`                | XSSProtection provides protection against cross-site scripting attack \(XSS\) by setting the `X-XSS-Protection` header.                                                                                                                                                                                                      | `1; mode=block"`  |
 | ContentTypeNosniff    | `string`                | ContentTypeNosniff provides protection against overriding Content-Type header by setting the `X-Content-Type-Options` header.                                                                                                                                                                                                  | `"nosniff"`       |
 | XFrameOptions         | `string`                | XFrameOptions can be used to indicate whether or not a browser should be allowed to render a page in a ,  or . Sites can use this to avoid clickjacking attacks, by ensuring that their content is not embedded into other sites.provides protection against clickjacking. Possible values: `SAMEORIGIN, DENY, ALLOW-FROM uri` | `"SAMEORIGIN"`    |

@@ -83,8 +83,8 @@ cors.New(config ...Config) func(*fiber.Ctx)
 | Filter           | `func(*Ctx) bool` | 定义跳过中间件的函数                                                              | `nil`                                                       |
 | AllowOrigins     | `[]string`        | 定义一个可以访问资源的来源列表。                                                        | `[]string{"*"}`                                             |
 | AllowMethods     | `[]string`        | 定义访问资源时允许的方法列表。 这用于回应 preflight 预检请求。                                   | `[]string{"GET", "POST", "HEAD", "PUT", "DELETE", "PATCH"}` |
-| AllowCredentials | `string`          | 允许凭据属性用以表示当标记为 true 时，是否可以将对请求的响应暴露。 当作为预检请求响应的一部分时，这表示是否可以使用凭据发出实际的请求。 | `nil`                                                       |
-| ExposeHeaders    | `[]string`        | 定义允许客户端访问的白名单头字段。                                                       | `nil`                                                       |
+| AllowCredentials | `bool`            | 允许凭据属性用以表示当标记为 true 时，是否可以将对请求的响应暴露。 当作为预检请求响应的一部分时，这表示是否可以使用凭据发出实际的请求。 | `false`                                                     |
+| ExposeHeaders    | `[]string`        | 定义允许客户端访问的白名单头字段。                                                       | `[]string{}`                                                |
 | MaxAge           | `int`             | MaxAge 表示预检请求的结果可以缓存多久  \(秒\)。                                        | `0`                                                         |
 
 ```go
