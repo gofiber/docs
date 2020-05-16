@@ -11,7 +11,7 @@ description: 이 앱 인스턴스는 일반적으로 Fiber 어플리케이션을
 
 {% code title="Signature" %}
 ```go
-fiber.New(settings ...Settings) *App
+fiber.New(settings ...*Settings) *App
 ```
 {% endcode %}
 
@@ -91,7 +91,7 @@ func main() {
 | ETag                      | `bool`                                               | ETag 헤더 생성을 활성화 혹은 비활성화합니다, 약한 etag와 강한 etag 모두 같은 해시 함수인 \(CRC-32\) 를 사용해서 생성되기 때문입니다. 활성화시 약한 ETag들이 기본 값입니다.                                                                                     | `false`           |
 | TemplateEngine            | `func(raw string, bind interface{}) (string, error)` | 다른 템플릿 언어를 렌더링하기 위한 커스텀 템플릿 함수를 명시할 수 있습니다. 우리의 [**Template Middleware**](middleware.md#template) _\*\*_에서 프리셋들을 보세요.                                                                           | `nil`             |
 | TemplateFolder            | `string`                                             | 어플리케이션의 뷰를 위한 디렉토리입니다. 디렉토리가 설정되면, 이것은 모든 템플릿 경로의 접두사가 됩니다. `c.Render("home", data) -> ./views/home.pug`                                                                                           | `""`              |
-| TemplateExtension         | `string`                                             | 만약 여러분이 템플릿 파일 확장자를 미리 설정했다면, 렌더 함수에서 전체 파일 이름을 명시할 필요가 없습니다: `c.Render("home", data) -> home.pug`                                                                                                 | `"html"`          |
+| TemplateExtension         | `string`                                             | 만약 여러분이 템플릿 파일 확장자를 미리 설정했다면, 렌더 함수에서 전체 파일 이름을 명시할 필요가 없습니다: `c.Render("home", data) -> home.pug`                                                                                                 | `""`              |
 | ReadTimeout               | `time.Duration`                                      | 바디에 포함된 전체 요청을 읽는데 허용되는 시간의 양. 기본값은 제한 없음 입니다.                                                                                                                                                        | `nil`             |
 | WriteTimeout              | `time.Duration`                                      | 응답을 작성하다 타임 아웃되기 전까지의 최대 시간. 기본값은 제한 없음 입니다.                                                                                                                                                          | `nil`             |
 | IdleTimeout               | `time.Duration`                                      | keep-alive 활성화시 다음 요청을 기다리는 최대 시간. IdleTimeout이 0이면, ReadTimeout값이 사용됩니다.                                                                                                                             | `nil`             |
@@ -101,7 +101,7 @@ func main() {
 **이미지**, **CSS** 와 **자바스크립트** 같은 static 파일들을 제공하기 위해서 **Static** 메소드를 사용하세요.
 
 {% hint style="info" %}
-기본적으로, **Static** 은 `index.html` 파일을 디렉토리에 대한 요청에 응답하여 제공합니다.
+By default, **Static** will serve `index.html` files in response to a request on a directory.
 {% endhint %}
 
 {% code title="Signature" %}
