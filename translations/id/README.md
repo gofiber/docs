@@ -1,5 +1,5 @@
 ---
-description: An API documentation so you can start building web apps with Fiber.
+description: Dokumentasi API untuk memulai membangun aplikasi berbasis web dengan Fiber.
 ---
 
 # 📖 Getting started
