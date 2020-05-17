@@ -13,7 +13,7 @@ description: >-
 * **MEM** 32GB
 * **GO** go1.13.6 linux/amd64
 * **OS** Linux
-* **NET** Dedicated Cisco 10-gigabit Ethernet switch.
+* **REDE** Switch Ethernet Cisco de 10 gigabits dedicado.
 
 ### Plaintext
 
