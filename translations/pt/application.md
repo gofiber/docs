@@ -101,7 +101,7 @@ func main() {
 Use o método **Static** para levantar arquivos estáticos, como **imagens**, **CSS** e **JavaScript**.
 
 {% hint style="info" %}
-By default, **Static** will serve `index.html` files in response to a request on a directory.
+Por padrão, **Static** servirá o arquivo `index.html` em resposta a uma requisição em um diretório.
 {% endhint %}
 
 {% code title="Signature" %}
