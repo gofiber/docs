@@ -1,6 +1,6 @@
 ---
 description: >-
-  The Ctx struct represents the Context which hold the HTTP request and response. It has methods for the request query string, parameters, body, HTTP headers and so on.
+  Ctx 구조체는 HTTP 요청과 응답을 가지고 있는 Context를 나타냅니다. 그것은 요청 쿼리 문자열, 파라미터, 바디, HTTP 헤더 등을 위한 메소드들을 가지고 있습니다.
 ---
 
 # 🧠 Context
