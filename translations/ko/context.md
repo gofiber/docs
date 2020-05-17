@@ -7,10 +7,10 @@ description: >-
 
 ## Accepts
 
-Checks, if the specified **extensions** or **content** **types** are acceptable.
+**extensions** 또는 **content** **types** 가 허용 되는지 확인합니다.
 
 {% hint style="info" %}
-Based on the request’s [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header.
+요청의 [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP 헤더에 기반합니다.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -37,7 +37,7 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-Fiber provides similar functions for the other accept headers.
+Fiber는 다른 accept 헤더들을 위한 유사한 함수들도 제공합니다.
 
 ```go
 // Accept-Charset: utf-8, iso-8859-1;q=0.2
@@ -58,10 +58,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Append
 
-Appends the specified **value** to the HTTP response header field.
+명시된 **value** 를 HTTP 응답 헤더 영역에 덧붙입니다.
 
 {% hint style="warning" %}
-If the header is **not** already set, it creates the header with the specified value.
+만약 헤더가 이미 설정되지 **않았다면**, 그것은 명시된 값을 가진 헤더를 생성합니다.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -84,7 +84,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Attachment
 
-Sets the HTTP response [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header field to `attachment`.
+HTTP 응답 [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) 헤더 영역을 `attachment` 로 설정합니다.
 
 {% code title="Signature" %}
 ```go
@@ -107,7 +107,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## BaseURL
 
-Returns base URL \(**protocol** + **host**\) as a `string`.
+Base URL \(**protocol** + **host**\) 을 `string`으로 반환합니다.
 
 {% code title="Signature" %}
 ```go
