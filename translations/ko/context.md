@@ -366,7 +366,7 @@ func main() {
 [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP 헤더의 content-negotiation을 수행합니다. 그것은 적절한 포맷을 선택하기 위해 [Accepts](context.md#accepts) 를 사용합니다.
 
 {% hint style="info" %}
-If the header is **not** specified or there is **no** proper format, **text/plain** is used.
+만약 헤더가 명시되지 **않거나** 적절한 포맷이 **없으면**, **text/plain** 이 사용됩니다.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -395,7 +395,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## FormFile
 
-MultipartForm files can be retrieved by name, the **first** file from the given key is returned.
+MultipartForm 파일들은 이름을 통해 가져올 수 있으며, 주어진 키의 **첫 번째** 파일이 반환됩니다.
 
 {% code title="Signature" %}
 ```go
@@ -420,7 +420,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## FormValue
 
-Any form values can be retrieved by name, the **first** value from the given key is returned.
+Form 값들은 이름을 통해 가져올 수 있으며, 주어진 키의 **첫 번째** 파일이 반환됩니다.
 
 {% code title="Signature" %}
 ```go
@@ -443,15 +443,15 @@ app.Post("/", func(c *fiber.Ctx) {
 [https://expressjs.com/en/4x/api.html\#req.fresh](https://expressjs.com/en/4x/api.html#req.fresh)
 
 {% hint style="info" %}
-Not implemented yet, pull requests are welcome!
+아직 구현되지 않았습니다, pull request는 환영입니다!
 {% endhint %}
 
 ## Get
 
-Returns the HTTP request header specified by field.
+필드에 명시된 HTTP 요청 헤더를 반환합니다.
 
 {% hint style="success" %}
-The match is **case-insensitive**.
+비교는 **대소문자를 구분하지 않습니다**.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -472,7 +472,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Hostname
 
-Contains the hostname derived from the [Host](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host) HTTP header.
+[Host](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host) HTTP 헤더에서 가져온 호스트 네임을 포함합니다.
 
 {% code title="Signature" %}
 ```go
@@ -492,7 +492,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## IP
 
-Returns the remote IP address of the request.
+요청의 원격 IP 주소를 반환합니다.
 
 {% code title="Signature" %}
 ```go
@@ -510,7 +510,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## IPs
 
-Returns an array of IP addresses specified in the [X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For) request header.
+[X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For) 요청 헤더에 명시된 IP 주소들의 배열을 반환합니다.
 
 {% code title="Signature" %}
 ```go
@@ -530,10 +530,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Is
 
-Returns the matching **content type**, if the incoming request’s [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP header field matches the [MIME type](https://developer.mozilla.org/ru/docs/Web/HTTP/Basics_of_HTTP/MIME_types) specified by the type parameter.
+들어오는 요청의 [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP 헤더 영역이 타입 파라미터로 명시된 [MIME type](https://developer.mozilla.org/ru/docs/Web/HTTP/Basics_of_HTTP/MIME_types) 과 일치하는지를 통해, **content type** 일치하는지 여부를 반환합니다.
 
 {% hint style="info" %}
-If the request has **no** body, it returns **false**.
+만약 요청이 바디를 가지고 있지 **않다면**, **false**를 반환합니다.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1164,7 +1164,7 @@ app.Get("/", func(c *fiber.Ctx) {
 [https://expressjs.com/en/4x/api.html\#req.fresh](https://expressjs.com/en/4x/api.html#req.fresh)
 
 {% hint style="info" %}
-Not implemented yet, pull requests are welcome!
+아직 구현되지 않았습니다, pull request는 환영입니다!
 {% endhint %}
 
 ## Status
