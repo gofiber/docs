@@ -101,7 +101,7 @@ func main() {
 **이미지**, **CSS** 와 **자바스크립트** 같은 static 파일들을 제공하기 위해서 **Static** 메소드를 사용하세요.
 
 {% hint style="info" %}
-By default, **Static** will serve `index.html` files in response to a request on a directory.
+기본적으로, **Static** 은 `index.html` 파일을 디렉토리에 대한 요청에 응답하여 제공합니다.
 {% endhint %}
 
 {% code title="Signature" %}
