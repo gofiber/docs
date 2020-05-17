@@ -1,15 +1,15 @@
 ---
 description: >-
-  Routing refers to how an application's endpoints (URIs) respond to client requests.
+  Routing은 어플리케이션의 엔드포인트 (URI)가 클라이언트의 요청에 어떻게 응답하는지를 나타냅니다.
 ---
 
 # 🔌 Routing
 
 ## Paths
 
-Route paths, in combination with a request method, define the endpoints at which requests can be made. Route paths can be **strings** or **string patterns**.
+요청 메소드와 함께하는 라우트 경로는, 요청이 만들어질 수 있는 엔드포인트를 정의합니다. 라우트 경로는 **strings** 또는 **string patterns**입니다.
 
-**Examples of route paths based on strings**
+**문자열 기반의 라우트 경로 예제**
 
 ```go
 // This route path will match requests to the root route, "/":
@@ -30,14 +30,14 @@ app.Get("/random.txt", func(c *fiber.Ctx) {
 
 ## Parameters
 
-Route parameters are **named URL segments** that are used to capture the values specified at their position in the URL. The captured values can be retrieved using the [Params](https://fiber.wiki/context#params) function, with the name of the route parameter specified in the path as their respective keys.
+라우트 파라미터들은 URL에서 그들의 위치에 명시된 값을 저장하기 위해 사용되는 **지명된 URL 조각** 입니다. 저장된 값들은 경로에 명시된 라우트 파라미터의 이름을 각각 키로 삼아 [Params](https://fiber.wiki/context#params) 함수를 사용해 가져올 수 있습니다.
 
 {% hint style="info" %}
-Name of the route parameter must be made up of **characters** \(`[A-Za-z0-9_]`\).
+라우트 파라미터의 이름은 **characters** \(`[A-Za-z0-9_]`\) 로 구성되어야 합니다.
 {% endhint %}
 
 {% hint style="danger" %}
-The hyphen \(`-`\) are **not** interpreted literally yet. Planned for **Fiber** v1.10.
+하이픈 \(`-`\) 은 아직 문자로 해석되지 **않습니다**. Planned for **Fiber** v1.10.
 {% endhint %}
 
 **Example of define routes with route parameters**
