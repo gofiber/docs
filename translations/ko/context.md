@@ -127,7 +127,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Body
 
-Contains the **raw body** submitted in a **POST** request.
+**POST** 요청으로 보내진 **raw body** 를 담고 있습니다.
 
 {% code title="Signature" %}
 ```go
@@ -148,7 +148,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## BodyParser
 
-Binds the request body to a struct. `BodyParser` supports decoding query parameters and the following content types based on the `Content-Type` header:
+요청 바디를 구조체로 바인드합니다. `BodyParser` 는 쿼리 파라미터 디코딩과 `Content-Type` 헤더에 기반한 다음의 content type들을 지원합니다:
 
 * `application/json`
 * `application/xml`
@@ -195,7 +195,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## ClearCookie
 
-Expire a client cookie \(_or all cookies if left empty\)_
+클라이언트 쿠키를 만료시킵니다 \(_또는 비어있는 모든 쿠키들\)_
 
 {% code title="Signature" %}
 ```go
@@ -220,7 +220,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Cookie
 
-Set cookie
+쿠키를 설정합니다
 
 **Signature**
 
@@ -258,7 +258,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Cookies
 
-Get cookie value by key.
+키에 맞는 쿠키 값을 가져옵니다.
 
 **Signature**s
 
@@ -277,11 +277,11 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Download
 
-Transfers the file from path as an `attachment`.
+경로의 파일을 `attachment` 처럼 전송합니다.
 
-Typically, browsers will prompt the user for download. By default, the [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header `filename=` parameter is the filepath \(_this typically appears in the browser dialog_\).
+일반적으로, 브라우저는 사용자가 다운로드를 하게 합니다. 기본적으로, [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) 헤더 `filename=` 파라미터가 파일경로입니다 \(_이것은 일반적으로 브라우저 다이얼로그에 나와있습니다_\).
 
-Override this default with the **filename** parameter.
+이 기본값을 **filename** 파라미터와 함께 오버라이드합니다.
 
 {% code title="Signature" %}
 ```go
@@ -303,12 +303,12 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Fasthttp
 
-You can still **access** and use all **Fasthttp** methods and properties.
+여러분은 여전히 **Fasthttp** 메소드들과 속성들에 **접속**하고 사용할 수 있습니다.
 
 **Signature**
 
 {% hint style="info" %}
-Please read the [Fasthttp Documentation](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) for more information.
+더 많은 정보는 [Fasthttp Documentation](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) 을 읽어주세요.
 {% endhint %}
 
 **Example**
@@ -325,7 +325,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Error
 
-This contains the error information that thrown by a panic or passed via the [`Next(err)`](https://github.com/gofiber/docs/tree/8d965e1e05fb67f965934586c78335ef29f52128/context/README.md#error) method.
+이것은 패닉 또는 [`Next(err)`](https://github.com/gofiber/docs/tree/8d965e1e05fb67f965934586c78335ef29f52128/context/README.md#error) 메소드를 통해 던져진 에러 정보를 포함합니다.
 
 {% code title="Signature" %}
 ```go
@@ -363,7 +363,7 @@ func main() {
 
 ## Format
 
-Performs content-negotiation on the [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header. It uses [Accepts](context.md#accepts) to select a proper format.
+[Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP 헤더의 content-negotiation을 수행합니다. 그것은 적절한 포맷을 선택하기 위해 [Accepts](context.md#accepts) 를 사용합니다.
 
 {% hint style="info" %}
 If the header is **not** specified or there is **no** proper format, **text/plain** is used.
