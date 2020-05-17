@@ -37,10 +37,10 @@ app.Get("/random.txt", func(c *fiber.Ctx) {
 {% endhint %}
 
 {% hint style="danger" %}
-하이픈 \(`-`\) 은 아직 문자로 해석되지 **않습니다**. Planned for **Fiber** v1.10.
+하이픈 \(`-`\) 은 아직 문자로 해석되지 **않습니다**. **Fiber** v1.10 에서 계획 중입니다.
 {% endhint %}
 
-**Example of define routes with route parameters**
+**라우트 파라미터를 사용한 라우트 정의 예제**
 
 ```go
 // Parameters
@@ -60,9 +60,9 @@ app.Get("/user/:name?", func(c *fiber.Ctx) {
 
 ## Middleware
 
-Functions, that are designed to make changes to the request or response, are called **middleware functions**. The [Next](https://github.com/gofiber/docs/tree/34729974f7d6c1d8363076e7e88cd71edc34a2ac/context/README.md#next) is a **Fiber** router function, when called, executes the **next** function that **matches** the current route.
+요청 또는 응답에 변화를 주기 위해 설계된 함수들을 **미들웨어 함수**라고 합니다. **Fiber** 라우터 함수인 [Next](https://github.com/gofiber/docs/tree/34729974f7d6c1d8363076e7e88cd71edc34a2ac/context/README.md#next) 는, 호출 시 현재 라우트에 **일치하는** **next** 함수를 실행합니다.
 
-**Example of a middleware function**
+**미들웨어 함수 예제**
 
 ```go
 app.Use(func(c *fiber.Ctx) {
@@ -83,11 +83,11 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-`Use` method path is a **mount** or **prefix** path and limits middleware to only apply to any paths requested that begin with it. This means you cannot use `:params` on the `Use` method.
+`Use` 메소드 경로는 경로의 **시작점** 또는 **접두사** 이고 미들웨어가 이것으로 시작하는 경로일 때에만 적용되게 제한합니다. 이것은 여러분이 `:params`를 `Use` 메소드에서 사용할 수 없음을 의미합니다.
 
 ## Grouping
 
-If you have many endpoints, you can organize your routes using `Group`
+만약 여러분이 많은 엔드포인트들을 가지고 있다면, 여러분은 라우트를 `Group`을 통해 조직화할 수 있습니다.
 
 ```go
 func main() {
