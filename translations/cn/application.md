@@ -101,7 +101,7 @@ func main() {
 使用 **Static** 静态方法来为提供静态文件，例如 **图片**, **CSS** 和 **JavaScript**。
 
 {% hint style="info" %}
-By default, **Static** will serve `index.html` files in response to a request on a directory.
+默认情况下，**Static** 方法将自动以目录下的 `index.html` 文件作为请求某个目录的响应。
 {% endhint %}
 
 {% code title="Signature" %}
