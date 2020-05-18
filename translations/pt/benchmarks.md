@@ -73,7 +73,7 @@ O primeiro caso de teste é simular o tempo de processamento de **0 ms**, **10 m
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark.png)
 
-The concurrency clients are **5000**.
+A quantidade de clientes simultâneos é de **5000**.
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark_latency.png)
 
