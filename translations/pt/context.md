@@ -395,7 +395,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## FormFile
 
-MultipartForm files can be retrieved by name, the **first** file from the given key is returned.
+Os arquivos MultipartForm podem ser recuperados pelo nome, o **primeiro** arquivo da chave determinada é retornado.
 
 {% code title="Signature" %}
 ```go
