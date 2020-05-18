@@ -15,7 +15,7 @@ description: >-
 * **OS** Linux
 * **REDE** Switch Ethernet Cisco de 10 gigabits dedicado.
 
-### Plaintext
+### Texto Simples
 
 O **Fiber** lida com **6,162,556** respostas por segundo com uma latência média de **2.0 **ms.  
 O **Express** lida com **367,909** respostas por segundo com uma latência média de **354.1** ms.
