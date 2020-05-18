@@ -1,12 +1,12 @@
 ---
-description: An API documentation so you can start building web apps with Fiber.
+description: Dokumentasi API untuk memulai membangun aplikasi berbasis web dengan Fiber.
 ---
 
-# 📖 Getting started
+# 📖 Pengenalan
 
  [![](https://img.shields.io/github/release/gofiber/fiber?style=flat-square)](https://github.com/gofiber/fiber/releases)  [![](https://img.shields.io/badge/go.dev-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc)   [![](https://goreportcard.com/badge/github.com/gofiber/fiber?style=flat-square)](https://goreportcard.com/report/github.com/gofiber/fiber)  [![](https://img.shields.io/badge/coverage-91%25-brightgreen?style=flat-square)](https://gocover.io/github.com/gofiber/fiber)  [![](https://img.shields.io/github/workflow/status/gofiber/fiber/Test?label=tests&style=flat-square)](https://github.com/gofiber/fiber/actions?query=workflow%3ATest)  [![](https://img.shields.io/github/workflow/status/gofiber/fiber/Gosec?label=gosec&style=flat-square)](https://github.com/gofiber/fiber/actions?query=workflow%3AGosec)
 
-**Fiber** is an [Express](https://github.com/expressjs/express) inspired **web framework** build on top of [Fasthttp](https://github.com/valyala/fasthttp), the **fastest** HTTP engine for [Go](https://golang.org/doc/). Designed to **ease** things up for **fast** development with **zero memory allocation** and **performance** in mind.
+Fiber Dirancang untuk memudahkan dan sangat cepat dalam membangun aplikasi dengan alokasi memori nol dan kinerja yang sangat baik. Fiber Dirancang untuk memudahkan dan sangat cepat dalam membangun aplikasi dengan alokasi memori nol dan kinerja yang sangat baik.
 
 ## Installation
 

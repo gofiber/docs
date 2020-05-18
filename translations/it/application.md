@@ -11,7 +11,7 @@ Puoi passare [impostazioni ](application.md#settings) opzionali quando crei una 
 
 {% code title="Signature" %}
 ```go
-fiber.New(settings ...Settings) *App
+fiber.New(settings ...*Settings) *App
 ```
 {% endcode %}
 
@@ -91,7 +91,7 @@ func main() {
 | ETag                      | `bool`                                                                  | Abilita o disabilita la generazione di intestazione ETag, poiché sia gli etag deboli che quelli forti sono generati usando lo stesso metodo di hashing \(CRC-32\). Gli ETag deboli sono predefiniti quando abilitati.                                              | `false`           |
 | TemplateEngine            | `func(stringa grezza, interfaccia di asscoiazione{}) (stringa, errore)` | Puoi specificare una funzione modello personalizzato per renderizzare diverse lingue del modello. Vedi il nostro [**Modello Middleware**](middleware.md#template) _\*\*_ per i preset.                                                                         | `nil`             |
 | TemplateFolder            | `string`                                                                | Una directory per le visualizzazioni dell'applicazione. Se una directory è impostata, questa sarà il prefisso per tutti i percorsi del modello. `c.Render("home", data) -> ./views/home.pug`                                                                      | `""`              |
-| TemplateExtension         | `string`                                                                | Se preimposti l'estensione del file del modello, non hai bisogno di fornire il nome del file completo nella funzione Render: `c.Render("home", data) -> home.pug`                                                                                                 | `"html"`          |
+| TemplateExtension         | `string`                                                                | Se preimposti l'estensione del file del modello, non hai bisogno di fornire il nome del file completo nella funzione Render: `c.Render("home", data) -> home.pug`                                                                                                 | `""`              |
 | ReadTimeout               | `time.Duration`                                                         | La quantità di tempo consentita per leggere la richiesta completa incluso il corpo. Timeout predefinito illimitato.                                                                                                                                                  | `nil`             |
 | WriteTimeout              | `time.Duration`                                                         | La durata massima prima che il timeout scriva il responso. Timeout predefinito illimitato.                                                                                                                                                                           | `nil`             |
 | IdleTimeout               | `time.Duration`                                                         | La quantità massima di tempo di attessa per la prossima richiesta quando mantieni vivo è abilitato. Se IdleTimeout è a zero, il valore di ReadTimeout viene usato.                                                                                                   | `nil`             |
@@ -101,7 +101,7 @@ func main() {
 Usa il metodo **Statico** per servire file statici come **immagini**, **CSS** e **JavaScript**.
 
 {% hint style="info" %}
-Di default, **Statico** servirà i file `index.html` in risposta ad una richiesta su una directory.
+By default, **Static** will serve `index.html` files in response to a request on a directory.
 {% endhint %}
 
 {% code title="Signature" %}

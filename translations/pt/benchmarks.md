@@ -13,9 +13,9 @@ description: >-
 * **MEM** 32GB
 * **GO** go1.13.6 linux/amd64
 * **OS** Linux
-* **NET** Dedicated Cisco 10-gigabit Ethernet switch.
+* **REDE** Switch Ethernet Cisco de 10 gigabits dedicado.
 
-### Plaintext
+### Texto Simples
 
 O **Fiber** lida com **6,162,556** respostas por segundo com uma latência média de **2.0 **ms.  
 O **Express** lida com **367,909** respostas por segundo com uma latência média de **354.1** ms.
@@ -73,7 +73,7 @@ O primeiro caso de teste é simular o tempo de processamento de **0 ms**, **10 m
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark.png)
 
-The concurrency clients are **5000**.
+A quantidade de clientes simultâneos é de **5000**.
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark_latency.png)
 

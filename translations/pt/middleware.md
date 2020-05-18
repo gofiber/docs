@@ -27,7 +27,7 @@ basicauth.New(config ...Config) func(*fiber.Ctx)
 |:------------ |:--------------------------- |:------------------------------------------------------------------------------------- |:----------------- |
 | Filter       | `func(*fiber.Ctx) bool`     | Define uma função para ignorar o middleware                                           | `nil`             |
 | Users        | `map[string][string]`       | Define as credenciais de usuários permitidas                                          | `nil`             |
-| Realm        | `string`                    | Realm é uma string que define o atributo domínio                                      | `Restricted`      |
+| Realm        | `string`                    | Realm é uma string que define o atributo domínio                                      | `"Restricted"`    |
 | Authorizer   | `func(string, string) bool` | Uma função que você pode passar para verificar as credenciais da maneira que desejar. | `nil`             |
 | Unauthorized | `func(*fiber.Ctx)`          | Corpo de resposta customizado para respostas não autorizadas                          | `nil`             |
 
@@ -305,11 +305,73 @@ func main() {
 }
 ```
 
-## Template
+## Session
 
-Por padrão, o Fiber vem com um [**modelo HTML padrão**](https://golang.org/pkg/html/template/) mas este middleware contém mecanismos de renderização de terceiros.
+The session middleware is a session implementation; a feature that allows Fiber to maintain user identity and to store user-specific data during multiple request/response interactions between a browser and Fiber. By default the Session middleware uses the `memory` provider as a session key:value store, however we provide support for memcache, MySQL, Postgres, Redis and SQLite3 a additional session providers.
 
 **Instalação**
+
+```bash
+go get -u github.com/gofiber/session
+```
+
+**Assinatura**
+
+```go
+session.New(config ...session.Config) *Session
+```
+
+**Configuração**
+
+| Propriedade | Tipo            | Descrição                                                                                                                                                                           | Valor Predefinido     |
+|:----------- |:--------------- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------------- |
+| Lookup      | `string`        | Where to look for the session id `<source>:<name>`, possible values: `cookie:key`, `header:key` or `query:key`                                                          | `"cookie:session_id"` |
+| Domain      | `string`        | Cookie domain                                                                                                                                                                       | `""`                  |
+| Expiration  | `time.Duration` | Session expiration time, possible values: `0` means no expiry (24 years), `-1` means when the browser closes, `>0` is the time.Duration which the session cookies should expire. | `12 * time.Hour`      |
+| Secure      | `bool`          | If the cookie should only be send over HTTPS                                                                                                                                        | `false`               |
+| Provider    | `Provider`      | Holds the provider interface                                                                                                                                                        | `memory.Provider`     |
+| Generator   | `func() []byte` | Generator is a function that generates an unique id                                                                                                                                 | `uuid`                |
+| GCInterval  | `time.Duration` | Interval for the garbage collector                                                                                                                                                  | `uuid`                |
+
+**Exemplo**
+
+```go
+package main
+
+import (
+  "fmt"
+
+  "github.com/gofiber/fiber"
+  "github.com/gofiber/session"
+)
+
+func main() {
+  app := fiber.New()
+
+  // create session handler
+  sessions := session.New()
+
+  app.Get("/", func(c *fiber.Ctx) {
+    store := sessions.Get(c)    // get/create new session
+    defer store.Save()
+
+    store.ID()                   // returns session id
+    store.Destroy()              // delete storage + cookie
+    store.Get("john")            // get from storage
+    store.Regenerate()           // generate new session id
+    store.Delete("john")         // delete from storage
+    store.Set("john", "doe")     // save to storage
+  })
+
+  app.Listen(3000)
+}
+```
+
+## Template
+
+By default Fiber comes with the [**default HTML template**](https://golang.org/pkg/html/template/) engine, but this middleware contains third party rendering engines.
+
+**Installation**
 
 ```bash
 go get -u github.com/gofiber/template
@@ -323,7 +385,7 @@ template.Engine() func(raw string, bind interface{}) (out string, err error)
 
 **Template Engines**
 
-| Palavra-Chave  | Engine                                                               |
+| Keyword        | Engine                                                               |
 |:-------------- |:-------------------------------------------------------------------- |
 | `Amber()`      | [github.com/eknkc/amber](https://github.com/eknkc/amber)             |
 | `Handlebars()` | [github.com/aymerick/raymond](https://github.com/aymerick/raymond)   |
@@ -502,12 +564,12 @@ helmet.New(config ...Config) func(*Ctx)
 | XSSProtection         | `string`                | XSSProtection provides protection against cross-site scripting attack \(XSS\) by setting the `X-XSS-Protection` header.                                                                                                                                                                                                      | `1; mode=block"`  |
 | ContentTypeNosniff    | `string`                | ContentTypeNosniff provides protection against overriding Content-Type header by setting the `X-Content-Type-Options` header.                                                                                                                                                                                                  | `"nosniff"`       |
 | XFrameOptions         | `string`                | XFrameOptions can be used to indicate whether or not a browser should be allowed to render a page in a ,  or . Sites can use this to avoid clickjacking attacks, by ensuring that their content is not embedded into other sites.provides protection against clickjacking. Possible values: `SAMEORIGIN, DENY, ALLOW-FROM uri` | `"SAMEORIGIN"`    |
-| HSTSMaxAge            | `int`                   | HSTSMaxAge sets the `Strict-Transport-Security` header to indicate how long \(in seconds\) browsers should remember that this site is only to be accessed using HTTPS. This reduces your exposure to some SSL-stripping man-in-the-middle \(MITM\) attacks.                                                                | \`\`          |
-| HSTSExcludeSubdomains | `bool`                  | HSTSExcludeSubdomains won't include subdomains tag in the `Strict Transport Security` header, excluding all subdomains from security policy. It has no effect unless HSTSMaxAge is set to a non-zero value.                                                                                                                    | \`\`          |
-| ContentSecurityPolicy | `string`                | ContentSecurityPolicy sets the `Content-Security-Policy` header providing security against cross-site scripting \(XSS\), clickjacking and other code injection attacks resulting from execution of malicious content in the trusted web page context                                                                         | \`\`          |
-| CSPReportOnly         | `bool`                  |                                                                                                                                                                                                                                                                                                                                | \`\`          |
-| HSTSPreloadEnabled    | `bool`                  |                                                                                                                                                                                                                                                                                                                                | \`\`          |
-| ReferrerPolicy        | `string`                |                                                                                                                                                                                                                                                                                                                                | \`\`          |
+| HSTSMaxAge            | `int`                   | HSTSMaxAge sets the `Strict-Transport-Security` header to indicate how long \(in seconds\) browsers should remember that this site is only to be accessed using HTTPS. This reduces your exposure to some SSL-stripping man-in-the-middle \(MITM\) attacks.                                                                | `0`               |
+| HSTSExcludeSubdomains | `bool`                  | HSTSExcludeSubdomains won't include subdomains tag in the `Strict Transport Security` header, excluding all subdomains from security policy. It has no effect unless HSTSMaxAge is set to a non-zero value.                                                                                                                    | `false`           |
+| ContentSecurityPolicy | `string`                | ContentSecurityPolicy sets the `Content-Security-Policy` header providing security against cross-site scripting \(XSS\), clickjacking and other code injection attacks resulting from execution of malicious content in the trusted web page context                                                                         | `""`              |
+| CSPReportOnly         | `bool`                  |                                                                                                                                                                                                                                                                                                                                | `false`           |
+| HSTSPreloadEnabled    | `bool`                  |                                                                                                                                                                                                                                                                                                                                | `false`           |
+| ReferrerPolicy        | `string`                |                                                                                                                                                                                                                                                                                                                                | `""`              |
 
 **Exemplo**
 

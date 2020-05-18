@@ -11,7 +11,7 @@ description: نموذج التطبيق يشير تقليدياً إلى تطبي
 
 {% code title="Signature" %}
 ```go
-fiber.New(settings ...Settings) *App
+fiber.New(settings ...*Settings) *App
 ```
 {% endcode %}
 
@@ -91,7 +91,7 @@ func main() {
 | ETag                      | `bool`                                               | تمكين أو تعطيل توليد ترويسة الـ ETag ، لأن العلامات الضعيفة والقوية يتم إنشاؤها باستخدام نفس طريقة التجزئة \(CRC-32\). علامات Eags ضعيفة هي الافتراضية عند التمكين.                                                            | `false`           |
 | TemplateEngine            | `func(raw string, bind interface{}) (string, error)` | يمكنك تحديد وظيفة قالب مخصص لتقديم لغات قالب مختلفة. راجع [**منتصف القالب**](middleware.md#template) _\*\*_for presetts.                                                                                                   | `nil`             |
 | TemplateFolder            | `string`                                             | دليل لوجهات نظر التطبيق. إذا تم تعيين مجلد، هذا سيكون البادئة لجميع مسارات القالب. `c.Render("home", data) -> ./views/home.pug`                                                                                               | `""`              |
-| TemplateExtension         | `string`                                             | إذا قمت بتعيين ملحق ملف القالب مسبقاً، فأنت لست بحاجة إلى توفير اسم الملف الكامل في وظيفة إعادة التقديم: `c. ender("home", data) -> home.pug`                                                                                 | `"html"`          |
+| TemplateExtension         | `string`                                             | إذا قمت بتعيين ملحق ملف القالب مسبقاً، فأنت لست بحاجة إلى توفير اسم الملف الكامل في وظيفة إعادة التقديم: `c. ender("home", data) -> home.pug`                                                                                 | `""`              |
 | ReadTimeout               | `time.Duration`                                      | ومقدار الوقت المتاح لقراءة الطلب بأكمله، بما في ذلك الجسم. المهلة الافتراضية غير محدودة.                                                                                                                                         | `nil`             |
 | WriteTimeout              | `time.Duration`                                      | ويكرر الرد الحد الأقصى للمدة التي تسبق التوقيت. المهلة الافتراضية غير محدودة.                                                                                                                                                    | `nil`             |
 | IdleTimeout               | `time.Duration`                                      | الحد الأقصى من الوقت للانتظار للطلب التالي عند تمكين البقاء على قيد الحياة. If IdleTimeout is zero, the value of ReadTimeout is used.                                                                                            | `nil`             |
@@ -101,7 +101,7 @@ func main() {
 استخدم طريقة **ثابت** لخدمة الملفات الثابتة مثل **صور**و **CSS** و **جافا سكريبت**.
 
 {% hint style="info" %}
-بشكل افتراضي، **Static** سوف يخدم`ملفات index.html` استجابة لطلب في الدليل.
+By default, **Static** will serve `index.html` files in response to a request on a directory.
 {% endhint %}
 
 {% code title="Signature" %}

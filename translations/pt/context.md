@@ -325,7 +325,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Error
 
-This contains the error information that thrown by a panic or passed via the [`Next(err)`](https://github.com/gofiber/docs/tree/8d965e1e05fb67f965934586c78335ef29f52128/context/README.md#error) method.
+Contém a informação de erro lançada por um `panic` ou transmitidas pelo método [`Next(err)`](https://github.com/gofiber/docs/tree/8d965e1e05fb67f965934586c78335ef29f52128/context/README.md#error).
 
 {% code title="Signature" %}
 ```go
@@ -363,10 +363,10 @@ func main() {
 
 ## Format
 
-Performs content-negotiation on the [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header. It uses [Accepts](context.md#accepts) to select a proper format.
+Com base no cabeçalho [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) da requisição HTTP. [Accepts](context.md#accepts) é usado para selecionar um formato adequado.
 
 {% hint style="info" %}
-If the header is **not** specified or there is **no** proper format, **text/plain** is used.
+Se o cabeçalho **não** for especificado ou não houver **nenhum** formato adequado, **text/plain** será usado.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -379,23 +379,23 @@ c.Format(body interface{})
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   // Accept: text/plain
-  c.Format("Hello, World!")
-  // => Hello, World!
+  c.Format("Olá, Mundo!")
+  // => Olá, Mundo!
 
   // Accept: text/html
-  c.Format("Hello, World!")
-  // => <p>Hello, World!</p>
+  c.Format("Olá, Mundo!")
+  // => <p>Olá, Mundo!</p>
 
   // Accept: application/json
-  c.Format("Hello, World!")
-  // => "Hello, World!"
+  c.Format("Olá, Mundo!")
+  // => "Olá, Mundo!"
 })
 ```
 {% endcode %}
 
 ## FormFile
 
-MultipartForm files can be retrieved by name, the **first** file from the given key is returned.
+Os arquivos MultipartForm podem ser recuperados pelo nome, o **primeiro** arquivo da chave determinada é retornado.
 
 {% code title="Signature" %}
 ```go

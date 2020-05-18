@@ -11,7 +11,7 @@ Sie können optionale [Einstellungen ](application.md#settings)beim Erstellen ei
 
 {% code title="Signature" %}
 ```go
-fiber.New(settings ...Settings) *App
+fiber.New(settings ...*Settings) *App
 ```
 {% endcode %}
 
@@ -91,7 +91,7 @@ func main() {
 | ETag                      | `bool`                                               | Aktivieren oder deaktivieren Sie die ETag Header-Generation, da sowohl schwache als auch starke etags mit der gleichen Hashing-Methode \(CRC-32\) erzeugt werden. Schwache ETags sind die Standards, wenn aktiviert.                                                     | `false`           |
 | TemplateEngine            | `func(raw string, bind interface{}) (string, error)` | Sie können eine benutzerdefinierte Template-Funktion angeben, um verschiedene Template-Sprachen zu rendern. Schauen Sie sich unsere [**Template Middleware**](middleware.md#template) _\*\*_für Vorlagen an.                                                         | `nil`             |
 | TemplateFolder            | `string`                                             | Ein Verzeichnis für die Views der Anwendung. Wenn ein Verzeichnis gesetzt ist, wird dies das Präfix für alle Template-Pfade. `c.Render("home", data) -> ./views/home.pug`                                                                                               | `""`              |
-| TemplateExtension         | `string`                                             | Wenn Sie die Template-Dateiendung voreinstellen, müssen Sie in der Render-Funktion nicht den vollständigen Dateinamen angeben: `c.Render("home", data) -> home.pug`                                                                                                     | `"html"`          |
+| TemplateExtension         | `string`                                             | Wenn Sie die Template-Dateiendung voreinstellen, müssen Sie in der Render-Funktion nicht den vollständigen Dateinamen angeben: `c.Render("home", data) -> home.pug`                                                                                                     | `""`              |
 | ReadTimeout               | `time.Duration`                                      | Die Zeitspanne, die erlaubt ist, die vollständige Anfrage einschließlich des Körpers zu lesen. Standard Timeout ist unbegrenzt.                                                                                                                                            | `nil`             |
 | WriteTimeout              | `time.Duration`                                      | Die maximale Zeitspanne für das Schreiben der Antwort. Standard Timeout ist unbegrenzt.                                                                                                                                                                                    | `nil`             |
 | IdleTimeout               | `time.Duration`                                      | Die maximale Zeitspanne, um auf die nächsten Anfrage zu warten, wenn 'keep-alive' aktiviert ist. Wenn IdleTimeout null ist, wird der Wert von ReadTimeout verwendet.                                                                                                       | `nil`             |
@@ -101,7 +101,7 @@ func main() {
 Verwenden Sie die **Static** Methode, um statische Dateien wie **Bilder**, **CSS** und **JavaScript** auszuliefern.
 
 {% hint style="info" %}
-Standardmäßig liefert **Static** `index.html` Dateien als Antwort auf eine Anfrage in einem Verzeichnis.
+By default, **Static** will serve `index.html` files in response to a request on a directory.
 {% endhint %}
 
 {% code title="Signature" %}

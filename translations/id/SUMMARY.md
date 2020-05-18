@@ -1,6 +1,6 @@
 # Table of contents
 
-* [📖 Getting started](README.md)
+* [📖 Pengenalan](README.md)
 * [🚀 Application](application.md)
 * [🧠 Context](context.md)
 * [🧬 Middleware](middleware.md)
