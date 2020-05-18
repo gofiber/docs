@@ -366,7 +366,7 @@ func main() {
 Com base no cabeçalho [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) da requisição HTTP. [Accepts](context.md#accepts) é usado para selecionar um formato adequado.
 
 {% hint style="info" %}
-If the header is **not** specified or there is **no** proper format, **text/plain** is used.
+Se o cabeçalho **não** for especificado ou não houver **nenhum** formato adequado, **text/plain** será usado.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -379,16 +379,16 @@ c.Format(body interface{})
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   // Accept: text/plain
-  c.Format("Hello, World!")
-  // => Hello, World!
+  c.Format("Olá, Mundo!")
+  // => Olá, Mundo!
 
   // Accept: text/html
-  c.Format("Hello, World!")
-  // => <p>Hello, World!</p>
+  c.Format("Olá, Mundo!")
+  // => <p>Olá, Mundo!</p>
 
   // Accept: application/json
-  c.Format("Hello, World!")
-  // => "Hello, World!"
+  c.Format("Olá, Mundo!")
+  // => "Olá, Mundo!"
 })
 ```
 {% endcode %}
