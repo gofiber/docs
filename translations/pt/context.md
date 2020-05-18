@@ -325,7 +325,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Error
 
-This contains the error information that thrown by a panic or passed via the [`Next(err)`](https://github.com/gofiber/docs/tree/8d965e1e05fb67f965934586c78335ef29f52128/context/README.md#error) method.
+Contém a informação de erro lançada por um `panic` ou transmitidas pelo método [`Next(err)`](https://github.com/gofiber/docs/tree/8d965e1e05fb67f965934586c78335ef29f52128/context/README.md#error).
 
 {% code title="Signature" %}
 ```go
@@ -363,7 +363,7 @@ func main() {
 
 ## Format
 
-Performs content-negotiation on the [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header. It uses [Accepts](context.md#accepts) to select a proper format.
+Com base no cabeçalho [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) da requisição HTTP. [Accepts](context.md#accepts) é usado para selecionar um formato adequado.
 
 {% hint style="info" %}
 If the header is **not** specified or there is **no** proper format, **text/plain** is used.
