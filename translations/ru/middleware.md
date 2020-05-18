@@ -307,7 +307,7 @@ func main() {
 
 ## Session
 
-The session middleware is a session implementation; a feature that allows Fiber to maintain user identity and to store user-specific data during multiple request/response interactions between a browser and Fiber. By default the Session middleware uses the `memory` provider as a session key:value store, however we provide support for memcache, MySQL, Postgres, Redis and SQLite3 a additional session providers.
+The session middleware is a session implementation; a feature that allows Fiber to maintain user identity and to store user-specific data during multiple request/response interactions between a browser and Fiber. По умолчанию, middleware использует провайдер `memory` в качестве ключ-значения в хранилище сессии (key:value store). Однако, мы обеспечиваем поддержку дополнительных провайдеров сессий, таких как memcache, MySQL, Postgres, Redis и SQLite3.
 
 **Установка**
 
