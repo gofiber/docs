@@ -24,7 +24,6 @@ Poniżej jest przedstawiona zasadniczo najprostsza aplikacja **Fiber**, która m
 
 ```go
 package main
-
 import "github.com/gofiber/fiber"
 
 func main() {
@@ -42,38 +41,38 @@ func main() {
 go run server.go
 ```
 
-Browse to `http://localhost:3000` and you should see `Hello, World!` on the page.
+Przejdź do `http://localhost:3000` i na stronie powinno ci się ukazać `Hello, World!`.
 
 ## Basic routing
 
-Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI \(or path\) and a specific HTTP request method \(GET, PUT, POST and so on\).
+Routing określa jak aplikacja powinna odpowiedzieć na zapytanie na określony endpoint, którym jest URI \(lub ścieżka\) i metoda zapytania HTTP \(GET, PUT, POST i tym podobne\).
 
 {% hint style="info" %}
-Each route can have **multiple handler functions**, that are executed when the route is matched.
+Każdy route może mieć **wiele funkcji-handlerów**, które są uruchamiane, kiedy route jest poprawnie dopasowane.
 {% endhint %}
 
-Route definition takes the following structures:
+Definicja route przyjmuje następującą strukturę:
 
 ```go
-// Function signature
+// Podpis funkcji
 app.Method(path string, ...func(*fiber.Ctx))
 ```
 
-* `app` is an instance of **Fiber**.
-* `Method` is an [HTTP request method](https://fiber.wiki/application#methods), in capitalization: `Get`, `Put`, `Post`, etc.
-* `path` is a virtual path on the server.
-* `func(*fiber.Ctx)` is a callback function containing the [Context](https://fiber.wiki/context) executed when the route is matched.
+* `app` jest instancją **Fiber**.
+* `Method` to [Metoda wysyłania zapytania HTTP](https://fiber.wiki/application#methods), rozpoczynająca się wielką literą, np. `Get`, `Put` czy `Post`.
+* `path` to wirtualna ścieżka na serwerze.
+* `func(*Fiber.Ctx)` to funkcja-callback zawierająca [Context](https://fiber.wiki/context), która się uruchamia, kiedy route jest dopasowany.
 
-**Simple route**
+**Prosty route**
 
 ```go
-// Respond with "Hello, World!" on root path, "/"
+// Wysyła "Hello, World!" na głównej ścieżce, "/"
 app.Get("/", func(c *fiber.Ctx) {
   c.Send("Hello, World!")
 })
 ```
 
-**Parameters**
+**Parametry**
 
 ```go
 // GET http://localhost:8080/hello%20world
