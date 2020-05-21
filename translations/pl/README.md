@@ -78,34 +78,34 @@ app.Get("/", func(c *fiber.Ctx) {
 // GET http://localhost:8080/hello%20world
 
 app.Get("/:value", func(c *fiber.Ctx) {
-  c.Send("Get request with value: " + c.Params("value"))
-  // => Get request with value: hello world
+  c.Send("Zapytanie GET z wartością: " + c.Params("value"))
+  // => Zapytanie GET z wartością: hello world
 })
 ```
 
-**Optional parameter**
+**Opcjonalne parametry**
 
 ```go
 // GET http://localhost:3000/john
 
 app.Get("/:name?", func(c *fiber.Ctx) {
   if c.Params("name") != "" {
-    c.Send("Hello " + c.Params("name"))
-    // => Hello john
+    c.Send("Witaj " + c.Params("name"))
+    // => Witaj john!
   } else {
-    c.Send("Where is john?")
+    c.Send("Gdzie jest john?")
   }
 })
 ```
 
-**Wildcards**
+**Wildcardy**
 
 ```go
 // GET http://localhost:3000/api/user/john
 
 app.Get("/api/*", func(c *fiber.Ctx) {
-  c.Send("API path: " + c.Params("*"))
-  // => API path: user/john
+  c.Send("Ścieżka API: " + c.Params("*"))
+  // => Ścieżka API: user/john
 })
 ```
 
@@ -119,7 +119,7 @@ Function signature:
 app.Static(prefix, root string)
 ```
 
-Use the following code to serve files in a directory named `./public`:
+Użyj poniższego kodu, aby serwować pliki statyczne w katalogu o nazwie `./public`:
 
 ```go
 app := fiber.New()
@@ -129,7 +129,7 @@ app.Static("/", "./public")
 app.Listen(8080)
 ```
 
-Now, you can load the files that are in the `./public` directory:
+Teraz możesz ładować pliki, które znajdują się w katalogu `./public`:
 
 ```bash
 http://localhost:8080/hello.html
