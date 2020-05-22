@@ -101,7 +101,7 @@ func main() {
 Используйте метод **Static** для обработки статических файлов, таких как **изображения**, **CSS** и **JavaScript**.
 
 {% hint style="info" %}
-By default, **Static** will serve `index.html` files in response to a request on a directory.
+По умолчанию, **Static** будет обрабатывать`index.html` файл в ответ на запрос в каталоге.
 {% endhint %}
 
 {% code title="Signature" %}
