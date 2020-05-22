@@ -445,14 +445,14 @@ websocket.New(handler func(*Conn), config ...Config) func(*Ctx)
 
 **配置**
 
-| 属性                | 类型              | 说明                                                                                                                                                                                                                               | 默认              |
-|:----------------- |:--------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------- |
-| HandshakeTimeout  | `time.Duration` | Specifies the duration for the handshake to complete.                                                                                                                                                                            | `0`             |
-| Subprotocols      | `[]string`      | specifies the server's supported protocols in order of preference. If this field is not nil, then the Upgrade method negotiates a subprotocol by selecting the first match in this list with a protocol requested by the client. | `nil`           |
-| Origins           | `[]string`      | Origins is a string slice of origins that are acceptable, by default all origins are allowed.                                                                                                                                    | `[]string{"*"}` |
-| ReadBufferSize    | `int`           | ReadBufferSize specify I/O buffer sizes in bytes.                                                                                                                                                                                | `1024`          |
-| WriteBufferSize   | `int`           | WriteBufferSize specify I/O buffer sizes in bytes.                                                                                                                                                                               | `1024`          |
-| EnableCompression | `bool`          | EnableCompression specify if the server should attempt to negotiate per message compression \(RFC 7692\)                                                                                                                       | `false`         |
+| 属性                | 类型              | 说明                                                                                                         | 默认              |
+|:----------------- |:--------------- |:---------------------------------------------------------------------------------------------------------- |:--------------- |
+| HandshakeTimeout  | `time.Duration` | 握手阶段超时设置                                                                                                   | `0`             |
+| Subprotocols      | `[]string`      | 指定支持的协议，优先级按照定义顺序。 如果该设置不为空，在调用 Upgrade 方法时，会根据客户端指定的协议从列表中选出第一个符合的 subprotocol 作为协商结果。                    | `nil`           |
+| Origins           | `[]string`      | 指定哪些只允许接受哪些 origin 的 websocket 请求，默认不作限制。                                                                  | `[]string{"*"}` |
+| ReadBufferSize    | `int`           | 指定“读缓存”的大小，单位为字节                                                                                           | `1024`          |
+| WriteBufferSize   | `int`           | 指定“写缓存”的大小                                                                                                 | `1024`          |
+| EnableCompression | `bool`          | EnableCompression specify if the server should attempt to negotiate per message compression \(RFC 7692\) | `false`         |
 
 **示例**
 
