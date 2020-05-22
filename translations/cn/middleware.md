@@ -307,7 +307,7 @@ func main() {
 
 ## Session
 
-Session 中间件是 session 的 go 实现，该中间件可以让 Fiber 维护用户的 ID 信息，并且存储与之相关的数据，session 主要用于浏览器请求场景。 中间件默认使用 `memory` 来存储 session 信息，此外，我们还提供了像 memcache、MySQL、Postgres、Redis 和 SQLite3 等这些候选方案。
+Session 中间件是 session 的 go 实现，该中间件可以让 Fiber 维护用户的 ID 信息，并且存储与之相关的数据，session 主要用于浏览器请求场景。 中间件默认使用 `memory` provider 来存储 session 信息，此外，我们还提供了 memcache、MySQL、Postgres、Redis 和 SQLite3 等这些 provider 作为候选方案。
 
 **Installation**
 
@@ -328,10 +328,10 @@ session.New(config ...session.Config) *Session
 | Lookup     | `string`        | 获取 session id 的方式，可以使用的值有：`cookie:key`、`header:key` 或 `query:key`                              | `"cookie:session_id"` |
 | Domain     | `string`        | session id 一般通过 cookie 设置，该字段用于设置 cookie 的 domain 属性                                           | `""`                  |
 | Expiration | `time.Duration` | 定义 session 过期时间，`0` 表示不会过期（实际上 24 年过期），`-1` 表示浏览器关闭后过期，`>0` 的值通过 time.Duration 设置，表示具体过期时间。 | `12 * time.Hour`      |
-| Secure     | `bool`          | If the cookie should only be send over HTTPS                                                   | `false`               |
-| Provider   | `Provider`      | Holds the provider interface                                                                   | `memory.Provider`     |
-| Generator  | `func() []byte` | Generator is a function that generates an unique id                                            | `uuid`                |
-| GCInterval | `time.Duration` | Interval for the garbage collector                                                             | `uuid`                |
+| Secure     | `bool`          | 设置 cookie 的 secure 属性，是否只在 HTTPS 环境下发送                                                         | `false`               |
+| Provider   | `Provider`      | 传入要使用的 provider                                                                                | `memory.Provider`     |
+| Generator  | `func() []byte` | 定义 session id 生成器                                                                              | `uuid`                |
+| GCInterval | `time.Duration` | 定义 GC（垃圾回收）周期                                                                                  | `uuid`                |
 
 **示例**
 
@@ -369,7 +369,7 @@ func main() {
 
 ## Template
 
-By default Fiber comes with the [**default HTML template**](https://golang.org/pkg/html/template/) engine, but this middleware contains third party rendering engines.
+Fiber 本身自带一个[**默认的 HTML 模板**](https://golang.org/pkg/html/template/)引擎，相比之下，这个中间件包含了第三方的模板渲染引擎
 
 **安装**
 
@@ -383,9 +383,9 @@ go get -u github.com/gofiber/template
 template.Engine() func(raw string, bind interface{}) (out string, err error)
 ```
 
-**Template Engines**
+**模板引擎**
 
-| Keyword        | Engine                                                               |
+| 关键字            | 模板引擎                                                                 |
 |:-------------- |:-------------------------------------------------------------------- |
 | `Amber()`      | [github.com/eknkc/amber](https://github.com/eknkc/amber)             |
 | `Handlebars()` | [github.com/aymerick/raymond](https://github.com/aymerick/raymond)   |
@@ -429,7 +429,7 @@ func main() {
 
 ## WebSocket
 
-Fiber supports a websocket upgrade middleware. The `*Conn` struct has all the functionality from the [**gorilla/websocket**](https://github.com/gorilla/websocket) library.
+Fiber 支持 websocket 中间件。 `*Conn` 结构体包含了 [**gorilla/websocket**](https://github.com/gorilla/websocket) 里的所有功能
 
 **安装**
 
