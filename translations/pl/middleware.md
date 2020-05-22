@@ -31,7 +31,7 @@ basicauth.New(config ...Config) func(*fiber.Ctx)
 | Authorizer   | `func(string, string) bool` | A function you can pass to check the credentials however you want. | `nil`            |
 | Unauthorized | `func(*fiber.Ctx)`          | Custom response body for unauthorized responses                    | `nil`            |
 
-**Example**
+**Przykład**
 
 ```go
 package main
@@ -181,7 +181,7 @@ limiter.New(config ...Config) func(*Ctx)
 | Key        | `func(*Ctx) string`     | A function that allows to create custom keys. By default `c.IP()` is used.              | `nil`                                          |
 | Handler    | `func(*Ctx)`            | Handler is called when a request hits the limit                                         | `nil`                                          |
 
-**Example**
+**Przykład**
 
 ```go
 package main
@@ -235,7 +235,7 @@ logger.new(config ...Config) func(*Ctx)
 | TimeFormat | `string`                | TimeFormat [read more here](https://programming.guide/go/format-parse-string-time-date-example.html)                                                     | `15:04:05`                                         |
 | Output     | `io.Writer`             | Output is a writter where logs are written                                                                                                               | `os.Stderr`                                        |
 
-**Example**
+**Przykład**
 
 ```go
 package main
@@ -274,7 +274,7 @@ go get -u github.com/gofiber/recover
 recover.New(config ...Config) func(*Ctx)
 ```
 
-**Example**
+**Przykład**
 
 ```go
 package main
@@ -333,7 +333,7 @@ session.New(config ...session.Config) *Session
 | Generator  | `func() []byte` | Generator is a function that generates an unique id                                                                                                                                 | `uuid`                |
 | GCInterval | `time.Duration` | Interval for the garbage collector                                                                                                                                                  | `uuid`                |
 
-**Example**
+**Przykład**
 
 ```go
 package main
@@ -392,7 +392,7 @@ template.Engine() func(raw string, bind interface{}) (out string, err error)
 | `Mustache()`   | [github.com/cbroglie/mustache](https://github.com/cbroglie/mustache) |
 | `Pug()`        | [github.com/Joker/jade](https://github.com/Joker/jade)               |
 
-**Example**
+**Przykład**
 
 ```go
 package main
@@ -454,7 +454,7 @@ websocket.New(handler func(*Conn), config ...Config) func(*Ctx)
 | WriteBufferSize   | `int`           | WriteBufferSize specify I/O buffer sizes in bytes.                                                                                                                                                                               | `1024`           |
 | EnableCompression | `bool`          | EnableCompression specify if the server should attempt to negotiate per message compression \(RFC 7692\)                                                                                                                       | `false`          |
 
-**Example**
+**Przykład**
 
 ```go
 package main
@@ -517,7 +517,7 @@ requestid.New(config ...Config) func(*Ctx)
 | Filter     | `func(*fiber.Ctx) bool`   | Defines a function to skip middleware           | `nil`                        |
 | Generator  | `func(*fiber.Ctx) string` | Generator defines a function to generate an ID. | `return uuid.New().String()` |
 
-**Example**
+**Przykład**
 
 ```go
 package main
@@ -571,7 +571,7 @@ helmet.New(config ...Config) func(*Ctx)
 | HSTSPreloadEnabled    | `bool`                  |                                                                                                                                                                                                                                                                                                                                | `false`          |
 | ReferrerPolicy        | `string`                |                                                                                                                                                                                                                                                                                                                                | `""`             |
 
-**Example**
+**Przykład**
 
 ```go
 package main
@@ -611,7 +611,7 @@ go get -u github.com/gofiber/redirect
 redirect.New(config ...Config) func(*Ctx)
 ```
 
-**Example**
+**Przykład**
 
 ```go
 package main
