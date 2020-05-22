@@ -192,8 +192,8 @@ Przekierowuje zapytanie HTTP, gdzie **METHOD** jest [metodą HTTP](https://devel
 
 {% code title="Signatures" %}
 ```go
-// HTTP methods support :param, :optional? and *wildcards
-// You are required to pass a path to each method
+// Metody HTTP wspierają parametry - :param, opcjonalne - :optional? i wildcardy - *wildcards
+// Musisz przekazać ścieżkę do każdej metody
 app.All(path string, handlers ...func(*Ctx)) *Fiber
 app.Get
 app.Put
@@ -205,9 +205,9 @@ app.Delete
 app.Connect
 app.Options
 
-// Use() will only match the beggining of each path
-// i.e. "/john" will match "/john/doe", "/johnnnn"
-// Use() does not support :param & :optional? in path
+// Use() będzie tylko dopasowywało początek każdej ścieżki
+// np. "/john" złapie "/john/doe", "/johnnnn"
+// Use() nie wspiera :param i :optional? w ścieżce
 app.Use(handlers ...func(*Ctx))
 app.Use(prefix string, handlers ...func(*Ctx)) *Fiber
 ```
@@ -220,17 +220,17 @@ app.Use("/api", func(c *fiber.Ctx) {
   c.Next()
 })
 app.Get("/api/list", func(c *fiber.Ctx) {
-  c.Send("I'm a GET request!")
+  c.Send("Jestem requestem GET!")
 })
 app.Post("/api/register", func(c *fiber.Ctx) {
-  c.Send("I'm a POST request!")
+  c.Send("Jestem requestem POST!")
 })
 ```
 {% endcode %}
 
 ## Group
 
-You can group routes by creating a `*Group` struct.
+Możesz grupować routy tworząc structy `*Group`.
 
 **Signature**
 
@@ -238,7 +238,7 @@ You can group routes by creating a `*Group` struct.
 app.Group(prefix string, handlers ...func(*Ctx)) *Group
 ```
 
-**Example**
+**Przykład**
 
 ```go
 func main() {
@@ -260,7 +260,7 @@ func main() {
 
 ## Listen
 
-Binds and listens for connections on the specified address. This can be a `int` for port or `string` for address.
+Binduje i nasłuchuje połączeń na podanym adresie. Może być `int` dla portu lub `string` dla adresu.
 
 {% code title="Signature" %}
 ```go
