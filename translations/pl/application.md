@@ -138,7 +138,7 @@ app.Static("/", "./files")
 Warto używać reverse proxy cache jak [**NGINX**](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/), aby poprawić wydajność serwowania statycznych assetsów.
 {% endhint %}
 
-You can use any virtual path prefix \(_where the path does not actually exist in the file system_\) for files that are served by the **Static** method, specify a prefix path for the static directory, as shown below:
+Można użyć dowolnego wirtualnego prefixu dla ścieżek \(_gdzie ścieżka nie istnieje w żadnym systemie plików_\) dla plików, które są serwowane przez metodę **Static**, określając ścieżkę prefixu dla katalogu statycznych plików, jak pokazano poniżej:
 
 {% code title="Example" %}
 ```go
@@ -150,26 +150,26 @@ app.Static("/static", "./public")
 ```
 {% endcode %}
 
-If you want to have a little bit more control regarding the settings for serving static files. You could use the `fiber.Static` struct to enable specific settings.
+Jeżeli chcesz mieć trochę więcej kontroli nad ustawieniami serwowania assetsów. Możesz użyć structa `fiber.Static`, aby ustanowić konkretne ustawienia.
 
 {% code title="fiber.Static{}" %}
 ```go
-// Static represents settings for serving static files
+// Static reprezentuje ustawienia do serwowania plików
 type Static struct {
-    // Transparently compresses responses if set to true
-    // This works differently than the github.com/gofiber/compression middleware
-    // The server tries minimizing CPU usage by caching compressed files.
-    // It adds ".fiber.gz" suffix to the original file name.
-    // Optional. Default value false
+    // Przejrzyście kompresuje odpowiedzi, jeżeli ustawiono true
+    // Działa inaczej niż middleware github.com/gofiber/compression 
+    // Serwer próbuje zminimalizować użycie CPU cache-ując skompresowane pliki.
+    // Dodaje suffix ".fiber.gz" do oryginalnej nazwy pliku.
+    // Opcjonalne. Domyślnie false
     Compress bool
-    // Enables byte range requests if set to true.
-    // Optional. Default value false
+    // Włącza zapytania byte range, jeżeli ustawione na true.
+    // Opcjonalne. Domyślnie false
     ByteRange bool
-    // Enable directory browsing.
-    // Optional. Default value false.
+    // Włącza przeglądanie katalogów.
+    // Opcjonalne. Domyślnie false.
     Browse bool
-    // Index file for serving a directory.
-    // Optional. Default value "index.html".
+    // Index, główny plik dla serwowanego folderu.
+    // Opcjonalne. Domyślnie "index.html".
     Index string
 }
 ```
@@ -188,7 +188,7 @@ app.Static("/", "./public", fiber.Static{
 
 ## HTTP Methods
 
-Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) of the request.
+Przekierowuje zapytanie HTTP, gdzie **METHOD** jest [metodą HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) zapytania.
 
 {% code title="Signatures" %}
 ```go
