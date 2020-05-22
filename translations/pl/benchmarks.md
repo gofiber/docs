@@ -10,7 +10,7 @@ description: >-
 🔗 [https://www.techempower.com/benchmarks/](https://www.techempower.com/benchmarks/#section=test&runid=c7152e8f-5b33-4ae7-9e89-630af44bc8de&hw=ph&test=plaintext)
 
 * **CPU** Intel Xeon Gold 5120
-* **MEM** 32GB
+* **Pamięć RAM** 32GB
 * **GO** go1.13.6 linux/amd64
 * **OS** Linux
 * **NET** Dedicated Cisco 10-gigabit Ethernet switch.
