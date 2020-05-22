@@ -311,7 +311,7 @@ You can still **access** and use all **Fasthttp** methods and properties.
 Please read the [Fasthttp Documentation](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) for more information.
 {% endhint %}
 
-**Example**
+**Przykład**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
