@@ -98,19 +98,19 @@ func main() {
 
 ## Static
 
-Use the **Static** method to serve static files such as **images**, **CSS** and **JavaScript**.
+Użyj metody **Static**, żeby serwować statyczne pliki takie jak **zdjęcia**, **arkusze CSS** czy **JavaScript**.
 
 {% hint style="info" %}
-By default, **Static** will serve `index.html` files in response to a request on a directory.
+Domyślnie **Static** serwuje `index.html` w odpowiedzi na zapytanie na katalog.
 {% endhint %}
 
 {% code title="Signature" %}
 ```go
-app.Static(prefix, root string, config ...Static) // => with prefix
+app.Static(prefix, root string, config ...Static) // => z prefixem
 ```
 {% endcode %}
 
-Use the following code to serve files in a directory named `./public`
+Użyj poniższego kodu, aby serwowac pliki znajdujące się w katalogu `./public`
 
 {% code title="Example" %}
 ```go
@@ -122,20 +122,20 @@ app.Static("/", "./public")
 ```
 {% endcode %}
 
-To serve from multiple directories, you can use **Static** multiple times.
+Aby serwować z wielu katalogów, po prostu możesz użyć metody **Static** wiele razy.
 
 {% code title="Example" %}
 ```go
-// Serve files from "./public" directory:
+// Serwuj pliki z katalogu "./public":
 app.Static("/", "./public")
 
-// Serve files from "./files" directory:
+// Serwuj pliki z katalogu "./files":
 app.Static("/", "./files")
 ```
 {% endcode %}
 
 {% hint style="info" %}
-Use a reverse proxy cache like [**NGINX**](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) to improve performance of serving static assets.
+Warto używać reverse proxy cache jak [**NGINX**](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/), aby poprawić wydajność serwowania statycznych assetsów.
 {% endhint %}
 
 You can use any virtual path prefix \(_where the path does not actually exist in the file system_\) for files that are served by the **Static** method, specify a prefix path for the static directory, as shown below:
