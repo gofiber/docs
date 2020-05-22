@@ -449,10 +449,10 @@ websocket.New(handler func(*Conn), config ...Config) func(*Ctx)
 |:----------------- |:--------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------- |
 | HandshakeTimeout  | `time.Duration` | Определяет продолжительность handshake.                                                                                                                                                                               | `0`             |
 | Subprotocols      | `[]string`      | Определяет протоколы, поддерживаемые сервером в порядке предпочтений. Если это поле не пустое, то метод Upgrade согласовывает подпротокол, выбрав первое совпадение в этом списке с протоколом, запрошенным клиентом. | `nil`           |
-| Origins           | `[]string`      | Origins is a string slice of origins that are acceptable, by default all origins are allowed.                                                                                                                         | `[]string{"*"}` |
-| ReadBufferSize    | `int`           | ReadBufferSize specify I/O buffer sizes in bytes.                                                                                                                                                                     | `1024`          |
-| WriteBufferSize   | `int`           | WriteBufferSize specify I/O buffer sizes in bytes.                                                                                                                                                                    | `1024`          |
-| EnableCompression | `bool`          | EnableCompression specify if the server should attempt to negotiate per message compression \(RFC 7692\)                                                                                                            | `false`         |
+| Origins           | `[]string`      | Origins — это фрагмент строк, которые являются приемлемыми. По умолчанию допускаются все исходные тексты.                                                                                                             | `[]string{"*"}` |
+| ReadBufferSize    | `int`           | ReadBufferSize задает размер буфера ввода-вывода (I/O) для чтения в байтах.                                                                                                                                           | `1024`          |
+| WriteBufferSize   | `int`           | WriteBufferSize задает размер буфера ввода-вывода (I/O) для записи в байтах.                                                                                                                                          | `1024`          |
+| EnableCompression | `bool`          | Включите, если сервер должен попытаться сообщить о сжатии сообщений \(RFC 7692\)                                                                                                                                    | `false`         |
 
 **Пример**
 
@@ -496,7 +496,7 @@ func main() {
 
 ## Request ID
 
-Request ID adds an identifier to the request using the `X-Request-ID` header
+Request ID добавляет идентификатор к запросу, используя заголовок `X-Request-ID`
 
 **Установка**
 
@@ -507,7 +507,7 @@ go get -u github.com/gofiber/requestid
 **Signature**
 
 ```go
-requestid.New(config ...Config) func(*Ctx)
+go get -u github.com/gofiber/requestid
 ```
 
 **Конфигурация**
@@ -515,7 +515,7 @@ requestid.New(config ...Config) func(*Ctx)
 | Свойство  | Тип                       | Описание                                          | По умолчанию                 |
 |:--------- |:------------------------- |:------------------------------------------------- |:---------------------------- |
 | Filter    | `func(*fiber.Ctx) bool`   | Определяет функцию для пропуска (skip) middleware | `nil`                        |
-| Generator | `func(*fiber.Ctx) string` | Generator defines a function to generate an ID.   | `return uuid.New().String()` |
+| Generator | `func(*fiber.Ctx) string` | Определяет функцию для генерации ID.              | `return uuid.New().String()` |
 
 **Пример**
 
@@ -542,7 +542,7 @@ func main() {
 
 ## Helmet
 
-Helmet middleware provides protection against cross-site scripting \(XSS\) attack, content type sniffing, clickjacking, insecure connection and other code injection attacks.
+Helmet middleware обеспечивает защиту от межсайтовых сценариев \(XSS\) атаки, типа sniffing контента, clickjacking, небезопасного подключения и других атак со вставкой кода.
 
 **Установка**
 
@@ -558,18 +558,18 @@ helmet.New(config ...Config) func(*Ctx)
 
 **Конфигурация**
 
-| Свойство              | Тип                     | Описание                                                                                                                                                                                                                                                                                                                       | По умолчанию     |
-|:--------------------- |:----------------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |:---------------- |
-| Filter                | `func(*fiber.Ctx) bool` | Определяет функцию для пропуска (skip) middleware                                                                                                                                                                                                                                                                              | `nil`            |
-| XSSProtection         | `string`                | XSSProtection provides protection against cross-site scripting attack \(XSS\) by setting the `X-XSS-Protection` header.                                                                                                                                                                                                      | `1; mode=block"` |
-| ContentTypeNosniff    | `string`                | ContentTypeNosniff provides protection against overriding Content-Type header by setting the `X-Content-Type-Options` header.                                                                                                                                                                                                  | `"nosniff"`      |
-| XFrameOptions         | `string`                | XFrameOptions can be used to indicate whether or not a browser should be allowed to render a page in a ,  or . Sites can use this to avoid clickjacking attacks, by ensuring that their content is not embedded into other sites.provides protection against clickjacking. Possible values: `SAMEORIGIN, DENY, ALLOW-FROM uri` | `"SAMEORIGIN"`   |
-| HSTSMaxAge            | `int`                   | HSTSMaxAge sets the `Strict-Transport-Security` header to indicate how long \(in seconds\) browsers should remember that this site is only to be accessed using HTTPS. This reduces your exposure to some SSL-stripping man-in-the-middle \(MITM\) attacks.                                                                | `0`              |
-| HSTSExcludeSubdomains | `bool`                  | HSTSExcludeSubdomains won't include subdomains tag in the `Strict Transport Security` header, excluding all subdomains from security policy. It has no effect unless HSTSMaxAge is set to a non-zero value.                                                                                                                    | `false`          |
-| ContentSecurityPolicy | `string`                | ContentSecurityPolicy sets the `Content-Security-Policy` header providing security against cross-site scripting \(XSS\), clickjacking and other code injection attacks resulting from execution of malicious content in the trusted web page context                                                                         | `""`             |
-| CSPReportOnly         | `bool`                  |                                                                                                                                                                                                                                                                                                                                | `false`          |
-| HSTSPreloadEnabled    | `bool`                  |                                                                                                                                                                                                                                                                                                                                | `false`          |
-| ReferrerPolicy        | `string`                |                                                                                                                                                                                                                                                                                                                                | `""`             |
+| Свойство              | Тип                     | Описание                                                                                                                                                                                                                                                                                                          | По умолчанию      |
+|:--------------------- |:----------------------- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
+| Filter                | `func(*fiber.Ctx) bool` | Определяет функцию для пропуска (skip) middleware                                                                                                                                                                                                                                                                 | `nil`             |
+| XSSProtection         | `string`                | Обеспечивает защиту от атаки на межсайтовый скриптинг \(XSS\) путем установки заголовка `X-XSS-Protection`.                                                                                                                                                                                                     | `"1; mode=block"` |
+| ContentTypeNosniff    | `string`                | Обеспечивает защиту от переопределения заголовка Content-Type путем установки заголовка `X-Content-Type-Options`.                                                                                                                                                                                                 | `"nosniff"`       |
+| XFrameOptions         | `string`                | Может использоваться для указания того, должен ли браузер отображать страницу в iframe или нет. Сайты могут использовать это для того, чтобы избежать clickjacking, когда их содержимое было встроено в другие сайты. Обеспечивает защиту от clickjacking. Возможные значения: `SAMEORIGIN, DENY, ALLOW-FROM uri` | `"SAMEORIGIN"`    |
+| HSTSMaxAge            | `int`                   | HSTSMaxAge sets the `Strict-Transport-Security` header to indicate how long \(in seconds\) browsers should remember that this site is only to be accessed using HTTPS. This reduces your exposure to some SSL-stripping man-in-the-middle \(MITM\) attacks.                                                   | `0`               |
+| HSTSExcludeSubdomains | `bool`                  | HSTSExcludeSubdomains won't include subdomains tag in the `Strict Transport Security` header, excluding all subdomains from security policy. It has no effect unless HSTSMaxAge is set to a non-zero value.                                                                                                       | `false`           |
+| ContentSecurityPolicy | `string`                | ContentSecurityPolicy sets the `Content-Security-Policy` header providing security against cross-site scripting \(XSS\), clickjacking and other code injection attacks resulting from execution of malicious content in the trusted web page context                                                            | `""`              |
+| CSPReportOnly         | `bool`                  |                                                                                                                                                                                                                                                                                                                   | `false`           |
+| HSTSPreloadEnabled    | `bool`                  |                                                                                                                                                                                                                                                                                                                   | `false`           |
+| ReferrerPolicy        | `string`                |                                                                                                                                                                                                                                                                                                                   | `""`              |
 
 **Пример**
 
