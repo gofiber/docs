@@ -6,8 +6,8 @@ description: Instancja aplikacji standardowo stanowi aplikacje Fiber.
 
 ## New
 
-This method creates a new **App** named instance.  
-You can pass optional [settings ](application.md#settings)when creating a new instance
+Ta metoda tworzy nową instancję **App**.   
+Możesz przekazać opcjonalne [ustawienia](application.md#settings) podczas tworzenia nowej instancji
 
 {% code title="Signature" %}
 ```go
@@ -33,7 +33,7 @@ func main() {
 
 ## Settings
 
-You can pass application settings when calling `New`.
+Możesz ustanowić ustawienia aplikacji przy wywoływaniu `New`.
 
 {% code title="Example" %}
 ```go
@@ -83,13 +83,13 @@ func main() {
 | CaseSensitive             | `bool`                                               | Gdy włączone, `/Foo` i `/foo` są innymi routeami. W przeciwnym razie `/Foo` i `/foo` są traktowane jako identyczne.                                                                                                                              | `false`           |
 | Immutable                 | `bool`                                               | Gdy włączone, wszystkie wartości zwrócone przez context są niezmienne. Domyślnie są prawidłowe dopóki ich nie zwrócisz z handlera, zobacz [\#185](https://github.com/gofiber/fiber/issues/185).                                                | `false`           |
 | BodyLimit                 | `int`                                                | Ustawia maksymalny dozwolony rozmiar body żądania, jeżeli rozmiar przekroczy ustawiony limit, wysyła `413 - Request Entity Too Large`.                                                                                                           | `4 * 1024 * 1024` |
-| Concurrency               | `int`                                                | Maximum number of concurrent connections.                                                                                                                                                                                                        | `256 * 1024`      |
-| DisableKeepalive          | `bool`                                               | Disable keep-alive connections, the server will close incoming connections after sending the first response to client                                                                                                                            | `false`           |
-| DisableDefaultDate        | `bool`                                               | When set to true causes the default date header to be excluded from the response.                                                                                                                                                                | `false`           |
-| DisableDefaultContentType | `bool`                                               | When set to true, causes the default Content-Type header to be excluded from the Response.                                                                                                                                                       | `false`           |
-| DisableStartupMessage     | `bool`                                               | When set to true, it will not print out the fiber ASCII and "listening" on message                                                                                                                                                               | `false`           |
-| ETag                      | `bool`                                               | Enable or disable ETag header generation, since both weak and strong etags are generated using the same hashing method \(CRC-32\). Weak ETags are the default when enabled.                                                                    | `false`           |
-| TemplateEngine            | `func(raw string, bind interface{}) (string, error)` | You can specify a custom template function to render different template languages. See our [**Template Middleware**](middleware.md#template) _\*\*_for presets.                                                                            | `nil`             |
+| Concurrency               | `int`                                                | Maksymalna liczba jednoczesnych połączeń.                                                                                                                                                                                                        | `256 * 1024`      |
+| DisableKeepalive          | `bool`                                               | Wyłącza utrzymywanie połączeń keep-alive, serwer będzie zamykał przychodzące połączenia po wysłaniu odpowiedzi do klienta                                                                                                                        | `false`           |
+| DisableDefaultDate        | `bool`                                               | Gdy ustawione na true, domyślny nagłówek z datą nie będzie załączany w odpowiedzi.                                                                                                                                                               | `false`           |
+| DisableDefaultContentType | `bool`                                               | Gdy ustawione na true, domyślny nagłówek Content-Type nie będzie uwzględniany w odpowiedzi.                                                                                                                                                      | `false`           |
+| DisableStartupMessage     | `bool`                                               | Gdy ustawione na true, Fiber nie będzie wyświetlał ASCII arta i wiadomości o nasłuchiwaniu                                                                                                                                                       | `false`           |
+| ETag                      | `bool`                                               | Wyłącza lub włącza generowanie nagłówków ETag, ponieważ zarówno słabe, jak i mocne ETagi są generowane tą samą metodą hashowania \(CRC-32\). Słabe ETagi są domyślnie ustawione, gdy włączone.                                                 | `false`           |
+| TemplateEngine            | `func(raw string, bind interface{}) (string, error)` | Możesz ustawić niestandardową funkcję szablonów, aby przetwarzać inne języki templatowania. Zobacz [**Template Middleware**](middleware.md#template)_\*\*_dla presetów.                                                                    | `nil`             |
 | TemplateFolder            | `string`                                             | A directory for the application's views. If a directory is set, this will be the prefix for all template paths. `c.Render("home", data) -> ./views/home.pug`                                                                                  | `""`              |
 | TemplateExtension         | `string`                                             | If you preset the template file extension, you do not need to provide the full filename in the Render function: `c.Render("home", data) -> home.pug`                                                                                          | `""`              |
 | ReadTimeout               | `time.Duration`                                      | The amount of time allowed to read the full request including body. Default timeout is unlimited.                                                                                                                                                | `nil`             |
