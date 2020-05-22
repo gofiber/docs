@@ -1,5 +1,5 @@
 ---
-description: The app instance conventionally denotes the Fiber application.
+description: Instancja aplikacji standardowo stanowi aplikacje Fiber.
 ---
 
 # 🚀 Application
@@ -38,7 +38,7 @@ You can pass application settings when calling `New`.
 {% code title="Example" %}
 ```go
 func main() {
-    // Pass Settings creating a new instance
+    // Przekaż ustawienia podczas tworzenia nowej instancji
     app := fiber.New(&fiber.Settings{
         Prefork:       true,
         CaseSensitive: true,
@@ -53,14 +53,14 @@ func main() {
 ```
 {% endcode %}
 
-Or change the settings after initializing an `app`.
+Lub zmień ustawienia po zainicjalizowaniu instancji `app`.
 
 {% code title="Example" %}
 ```go
 func main() {
     app := fiber.New()
 
-    // Or change Settings after creating an instance
+    // Lub zmień ustawienia po utworzeniu instancji
     app.Settings.Prefork = true
     app.Settings.CaseSensitive = true
     app.Settings.StrictRouting = true
