@@ -496,7 +496,7 @@ func main() {
 
 ## Request ID
 
-Request ID adds an identifier to the request using the `X-Request-ID` header
+Request ID 为每个请求添加 `X-Request-ID` 首部，并赋予一个标识符
 
 **安装**
 
@@ -512,10 +512,10 @@ requestid.New(config ...Config) func(*Ctx)
 
 **配置**
 
-| 属性        | 类型                        | 说明                                              | 默认                           |
-|:--------- |:------------------------- |:----------------------------------------------- |:---------------------------- |
-| Filter    | `func(*fiber.Ctx) bool`   | 定义跳过中间件的函数                                      | `nil`                        |
-| Generator | `func(*fiber.Ctx) string` | Generator defines a function to generate an ID. | `return uuid.New().String()` |
+| 属性        | 类型                        | 说明         | 默认                       |
+|:--------- |:------------------------- |:---------- |:------------------------ |
+| Filter    | `func(*fiber.Ctx) bool`   | 定义跳过中间件的函数 | `nil`                    |
+| Generator | `func(*fiber.Ctx) string` | 定义 ID 生成策略 | `返回 uuid.New().String()` |
 
 **示例**
 
@@ -542,7 +542,7 @@ func main() {
 
 ## Helmet
 
-Helmet middleware provides protection against cross-site scripting \(XSS\) attack, content type sniffing, clickjacking, insecure connection and other code injection attacks.
+Helmet 中间件主要提供跨站脚本攻击（XSS）、内容嗅探（content type sniffing）、点击劫持（clickjacking）、非安全连接和其他代码注入攻击的防护。
 
 **安装**
 
@@ -558,18 +558,18 @@ helmet.New(config ...Config) func(*Ctx)
 
 **配置**
 
-| 属性                    | 类型                      | 说明                                                                                                                                                                                                                                                                                                                             | 默认               |
-|:--------------------- |:----------------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |:---------------- |
-| Filter                | `func(*fiber.Ctx) bool` | 定义跳过中间件的函数                                                                                                                                                                                                                                                                                                                     | `nil`            |
-| XSSProtection         | `string`                | XSSProtection provides protection against cross-site scripting attack \(XSS\) by setting the `X-XSS-Protection` header.                                                                                                                                                                                                      | `1; mode=block"` |
-| ContentTypeNosniff    | `string`                | ContentTypeNosniff provides protection against overriding Content-Type header by setting the `X-Content-Type-Options` header.                                                                                                                                                                                                  | `"nosniff"`      |
-| XFrameOptions         | `string`                | XFrameOptions can be used to indicate whether or not a browser should be allowed to render a page in a ,  or . Sites can use this to avoid clickjacking attacks, by ensuring that their content is not embedded into other sites.provides protection against clickjacking. Possible values: `SAMEORIGIN, DENY, ALLOW-FROM uri` | `"SAMEORIGIN"`   |
-| HSTSMaxAge            | `int`                   | HSTSMaxAge sets the `Strict-Transport-Security` header to indicate how long \(in seconds\) browsers should remember that this site is only to be accessed using HTTPS. This reduces your exposure to some SSL-stripping man-in-the-middle \(MITM\) attacks.                                                                | `0`              |
-| HSTSExcludeSubdomains | `bool`                  | HSTSExcludeSubdomains won't include subdomains tag in the `Strict Transport Security` header, excluding all subdomains from security policy. It has no effect unless HSTSMaxAge is set to a non-zero value.                                                                                                                    | `false`          |
-| ContentSecurityPolicy | `string`                | ContentSecurityPolicy sets the `Content-Security-Policy` header providing security against cross-site scripting \(XSS\), clickjacking and other code injection attacks resulting from execution of malicious content in the trusted web page context                                                                         | `""`             |
-| CSPReportOnly         | `bool`                  |                                                                                                                                                                                                                                                                                                                                | `false`          |
-| HSTSPreloadEnabled    | `bool`                  |                                                                                                                                                                                                                                                                                                                                | `false`          |
-| ReferrerPolicy        | `string`                |                                                                                                                                                                                                                                                                                                                                | `""`             |
+| 属性                    | 类型                      | 说明                                                                                                                                                                                                                                                                                    | 默认               |
+|:--------------------- |:----------------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:---------------- |
+| Filter                | `func(*fiber.Ctx) bool` | 定义跳过中间件的函数                                                                                                                                                                                                                                                                            | `nil`            |
+| XSSProtection         | `string`                | 通过设置 `X-XSS-Protection` 首部提供 XSS 防护                                                                                                                                                                                                                                                   | `1; mode=block"` |
+| ContentTypeNosniff    | `string`                | 通过设置 `X-Content-Type-Options` 首部防护 Content-Type 首部篡改。                                                                                                                                                                                                                                 | `"nosniff"`      |
+| XFrameOptions         | `string`                | XFrameOptions 设置是否允许页面被嵌入到 &ltframe&gt、&ltiframe&gt 或 &ltobject&gt 中。 Sites can use this to avoid clickjacking attacks, by ensuring that their content is not embedded into other sites.provides protection against clickjacking. Possible values: `SAMEORIGIN, DENY, ALLOW-FROM uri` | `"SAMEORIGIN"`   |
+| HSTSMaxAge            | `int`                   | HSTSMaxAge sets the `Strict-Transport-Security` header to indicate how long \(in seconds\) browsers should remember that this site is only to be accessed using HTTPS. This reduces your exposure to some SSL-stripping man-in-the-middle \(MITM\) attacks.                       | `0`              |
+| HSTSExcludeSubdomains | `bool`                  | HSTSExcludeSubdomains won't include subdomains tag in the `Strict Transport Security` header, excluding all subdomains from security policy. It has no effect unless HSTSMaxAge is set to a non-zero value.                                                                           | `false`          |
+| ContentSecurityPolicy | `string`                | ContentSecurityPolicy sets the `Content-Security-Policy` header providing security against cross-site scripting \(XSS\), clickjacking and other code injection attacks resulting from execution of malicious content in the trusted web page context                                | `""`             |
+| CSPReportOnly         | `bool`                  |                                                                                                                                                                                                                                                                                       | `false`          |
+| HSTSPreloadEnabled    | `bool`                  |                                                                                                                                                                                                                                                                                       | `false`          |
+| ReferrerPolicy        | `string`                |                                                                                                                                                                                                                                                                                       | `""`             |
 
 **示例**
 
