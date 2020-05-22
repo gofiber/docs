@@ -307,7 +307,7 @@ func main() {
 
 ## Session
 
-The session middleware is a session implementation; a feature that allows Fiber to maintain user identity and to store user-specific data during multiple request/response interactions between a browser and Fiber. By default the Session middleware uses the `memory` provider as a session key:value store, however we provide support for memcache, MySQL, Postgres, Redis and SQLite3 a additional session providers.
+Session 中间件是 session 的 go 实现，该中间件可以让 Fiber 维护用户的 ID 信息，并且存储与之相关的数据，session 主要用于浏览器请求场景。 中间件默认使用 `memory` 来存储 session 信息，此外，我们还提供了像 memcache、MySQL、Postgres、Redis 和 SQLite3 等这些候选方案。
 
 **Installation**
 
@@ -323,15 +323,15 @@ session.New(config ...session.Config) *Session
 
 **配置**
 
-| 属性         | 类型              | 说明                                                                                                                                                                                  | 默认                    |
-|:---------- |:--------------- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------------- |
-| Lookup     | `string`        | Where to look for the session id `<source>:<name>`, possible values: `cookie:key`, `header:key` or `query:key`                                                          | `"cookie:session_id"` |
-| Domain     | `string`        | Cookie domain                                                                                                                                                                       | `""`                  |
-| Expiration | `time.Duration` | Session expiration time, possible values: `0` means no expiry (24 years), `-1` means when the browser closes, `>0` is the time.Duration which the session cookies should expire. | `12 * time.Hour`      |
-| Secure     | `bool`          | If the cookie should only be send over HTTPS                                                                                                                                        | `false`               |
-| Provider   | `Provider`      | Holds the provider interface                                                                                                                                                        | `memory.Provider`     |
-| Generator  | `func() []byte` | Generator is a function that generates an unique id                                                                                                                                 | `uuid`                |
-| GCInterval | `time.Duration` | Interval for the garbage collector                                                                                                                                                  | `uuid`                |
+| 属性         | 类型              | 说明                                                                                             | 默认                    |
+|:---------- |:--------------- |:---------------------------------------------------------------------------------------------- |:--------------------- |
+| Lookup     | `string`        | 获取 session id 的方式，可以使用的值有：`cookie:key`、`header:key` 或 `query:key`                              | `"cookie:session_id"` |
+| Domain     | `string`        | session id 一般通过 cookie 设置，该字段用于设置 cookie 的 domain 属性                                           | `""`                  |
+| Expiration | `time.Duration` | 定义 session 过期时间，`0` 表示不会过期（实际上 24 年过期），`-1` 表示浏览器关闭后过期，`>0` 的值通过 time.Duration 设置，表示具体过期时间。 | `12 * time.Hour`      |
+| Secure     | `bool`          | If the cookie should only be send over HTTPS                                                   | `false`               |
+| Provider   | `Provider`      | Holds the provider interface                                                                   | `memory.Provider`     |
+| Generator  | `func() []byte` | Generator is a function that generates an unique id                                            | `uuid`                |
+| GCInterval | `time.Duration` | Interval for the garbage collector                                                             | `uuid`                |
 
 **示例**
 
