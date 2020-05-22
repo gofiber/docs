@@ -348,19 +348,19 @@ import (
 func main() {
   app := fiber.New()
 
-  // create session handler
+  // 创建 session 处理函数
   sessions := session.New()
 
   app.Get("/", func(c *fiber.Ctx) {
-    store := sessions.Get(c)    // get/create new session
+    store := sessions.Get(c)    // 获取/新建一个 session
     defer store.Save()
 
-    store.ID()                   // returns session id
-    store.Destroy()              // delete storage + cookie
-    store.Get("john")            // get from storage
-    store.Regenerate()           // generate new session id
-    store.Delete("john")         // delete from storage
-    store.Set("john", "doe")     // save to storage
+    store.ID()                   // 返回 session id
+    store.Destroy()              // 销毁 session，包括其关联的数据和 cookie
+    store.Get("john")            // 从 session 中读取数据
+    store.Regenerate()           // 新生成一个 session id
+    store.Delete("john")         // 将数据从 session 中删除
+    store.Set("john", "doe")     // 设置数据
   })
 
   app.Listen(3000)
@@ -445,14 +445,14 @@ websocket.New(handler func(*Conn), config ...Config) func(*Ctx)
 
 **配置**
 
-| 属性                | 类型              | 说明                                                                                                         | 默认              |
-|:----------------- |:--------------- |:---------------------------------------------------------------------------------------------------------- |:--------------- |
-| HandshakeTimeout  | `time.Duration` | 握手阶段超时设置                                                                                                   | `0`             |
-| Subprotocols      | `[]string`      | 指定支持的协议，优先级按照定义顺序。 如果该设置不为空，在调用 Upgrade 方法时，会根据客户端指定的协议从列表中选出第一个符合的 subprotocol 作为协商结果。                    | `nil`           |
-| Origins           | `[]string`      | 指定哪些只允许接受哪些 origin 的 websocket 请求，默认不作限制。                                                                  | `[]string{"*"}` |
-| ReadBufferSize    | `int`           | 指定“读缓存”的大小，单位为字节                                                                                           | `1024`          |
-| WriteBufferSize   | `int`           | 指定“写缓存”的大小                                                                                                 | `1024`          |
-| EnableCompression | `bool`          | EnableCompression specify if the server should attempt to negotiate per message compression \(RFC 7692\) | `false`         |
+| 属性                | 类型              | 说明                                                                                      | 默认              |
+|:----------------- |:--------------- |:--------------------------------------------------------------------------------------- |:--------------- |
+| HandshakeTimeout  | `time.Duration` | 握手阶段超时设置                                                                                | `0`             |
+| Subprotocols      | `[]string`      | 指定支持的协议，优先级按照定义顺序。 如果该设置不为空，在调用 Upgrade 方法时，会根据客户端指定的协议从列表中选出第一个符合的 subprotocol 作为协商结果。 | `nil`           |
+| Origins           | `[]string`      | 指定哪些只允许接受哪些 origin 的 websocket 请求，默认不作限制。                                               | `[]string{"*"}` |
+| ReadBufferSize    | `int`           | 指定“读缓存”的大小，单位为字节                                                                        | `1024`          |
+| WriteBufferSize   | `int`           | 指定“写缓存”的大小                                                                              | `1024`          |
+| EnableCompression | `bool`          | 是否尝试对每条消息进行压缩（依据 RFC 7692 规范）                                                           | `false`         |
 
 **示例**
 
@@ -474,7 +474,7 @@ func main() {
 
   app.Get("/ws", websocket.New(func(c *websocket.Conn) {
     fmt.Println(c.Locals("Hello")) // "World"
-    // Websocket logic...
+    // Websocket 相关逻辑...
     for {
       mt, msg, err := c.ReadMessage()
       if err != nil {
