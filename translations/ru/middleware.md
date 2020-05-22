@@ -323,15 +323,15 @@ session.New(config ...session.Config) *Session
 
 **Конфигурация**
 
-| Свойство   | Тип             | Описание                                                                                                                                                                            | По умолчанию          |
-|:---------- |:--------------- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------------- |
-| Lookup     | `string`        | Where to look for the session id `<source>:<name>`, possible values: `cookie:key`, `header:key` or `query:key`                                                          | `"cookie:session_id"` |
-| Domain     | `string`        | Cookie domain                                                                                                                                                                       | `""`                  |
-| Expiration | `time.Duration` | Session expiration time, possible values: `0` means no expiry (24 years), `-1` means when the browser closes, `>0` is the time.Duration which the session cookies should expire. | `12 * time.Hour`      |
-| Secure     | `bool`          | If the cookie should only be send over HTTPS                                                                                                                                        | `false`               |
-| Provider   | `Provider`      | Holds the provider interface                                                                                                                                                        | `memory.Provider`     |
-| Generator  | `func() []byte` | Generator is a function that generates an unique id                                                                                                                                 | `uuid`                |
-| GCInterval | `time.Duration` | Interval for the garbage collector                                                                                                                                                  | `uuid`                |
+| Свойство   | Тип             | Описание                                                                                                                                                                             | По умолчанию          |
+|:---------- |:--------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |:--------------------- |
+| Lookup     | `string`        | Where to look for the session id `<source>:<name>`, possible values: `cookie:key`, `header:key` or `query:key`                                                           | `"cookie:session_id"` |
+| Domain     | `string`        | Cookie domain                                                                                                                                                                        | `""`                  |
+| Expiration | `time.Duration` | Время истечения сессии, возможные значения: `0` означает не истекает (24 года); `-1` означает, что при закрытии браузера; `>0` — время. Продолжительность действия cookie сессии. | `12 * time.Hour`      |
+| Secure     | `bool`          | Если куки должны быть отправлены только по HTTPS                                                                                                                                     | `false`               |
+| Provider   | `Provider`      | Содержит интерфейс провайдера                                                                                                                                                        | `memory.Provider`     |
+| Generator  | `func() []byte` | Генератор — это функция, которая генерирует уникальный id                                                                                                                            | `uuid`                |
+| GCInterval | `time.Duration` | Интервал для сборщика мусора                                                                                                                                                         | `uuid`                |
 
 **Пример**
 
@@ -369,7 +369,7 @@ func main() {
 
 ## Template
 
-By default Fiber comes with the [**default HTML template**](https://golang.org/pkg/html/template/) engine, but this middleware contains third party rendering engines.
+По умолчанию, Fiber поставляется с движком [**стандартного HTML шаблона**](https://golang.org/pkg/html/template/), но этот middleware содержит движки для отрисовки сторонних производителей.
 
 **Установка**
 
@@ -383,9 +383,9 @@ go get -u github.com/gofiber/template
 template.Engine() func(raw string, bind interface{}) (out string, err error)
 ```
 
-**Template Engines**
+**Шаблонизаторы**
 
-| Keyword        | Engine                                                               |
+| Название       | Движок                                                               |
 |:-------------- |:-------------------------------------------------------------------- |
 | `Amber()`      | [github.com/eknkc/amber](https://github.com/eknkc/amber)             |
 | `Handlebars()` | [github.com/aymerick/raymond](https://github.com/aymerick/raymond)   |
@@ -429,7 +429,7 @@ func main() {
 
 ## WebSocket
 
-Fiber supports a websocket upgrade middleware. The `*Conn` struct has all the functionality from the [**gorilla/websocket**](https://github.com/gorilla/websocket) library.
+Fiber поддерживает обновление websocket через middleware. Структура `*Conn` имеет всю функциональность из библиотеки [**gorilla/websocket**](https://github.com/gorilla/websocket).
 
 **Установка**
 
@@ -445,14 +445,14 @@ websocket.New(handler func(*Conn), config ...Config) func(*Ctx)
 
 **Конфигурация**
 
-| Свойство          | Тип             | Описание                                                                                                                                                                                                                         | По умолчанию    |
-|:----------------- |:--------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------- |
-| HandshakeTimeout  | `time.Duration` | Specifies the duration for the handshake to complete.                                                                                                                                                                            | `0`             |
-| Subprotocols      | `[]string`      | specifies the server's supported protocols in order of preference. If this field is not nil, then the Upgrade method negotiates a subprotocol by selecting the first match in this list with a protocol requested by the client. | `nil`           |
-| Origins           | `[]string`      | Origins is a string slice of origins that are acceptable, by default all origins are allowed.                                                                                                                                    | `[]string{"*"}` |
-| ReadBufferSize    | `int`           | ReadBufferSize specify I/O buffer sizes in bytes.                                                                                                                                                                                | `1024`          |
-| WriteBufferSize   | `int`           | WriteBufferSize specify I/O buffer sizes in bytes.                                                                                                                                                                               | `1024`          |
-| EnableCompression | `bool`          | EnableCompression specify if the server should attempt to negotiate per message compression \(RFC 7692\)                                                                                                                       | `false`         |
+| Свойство          | Тип             | Описание                                                                                                                                                                                                              | По умолчанию    |
+|:----------------- |:--------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------- |
+| HandshakeTimeout  | `time.Duration` | Определяет продолжительность handshake.                                                                                                                                                                               | `0`             |
+| Subprotocols      | `[]string`      | Определяет протоколы, поддерживаемые сервером в порядке предпочтений. Если это поле не пустое, то метод Upgrade согласовывает подпротокол, выбрав первое совпадение в этом списке с протоколом, запрошенным клиентом. | `nil`           |
+| Origins           | `[]string`      | Origins is a string slice of origins that are acceptable, by default all origins are allowed.                                                                                                                         | `[]string{"*"}` |
+| ReadBufferSize    | `int`           | ReadBufferSize specify I/O buffer sizes in bytes.                                                                                                                                                                     | `1024`          |
+| WriteBufferSize   | `int`           | WriteBufferSize specify I/O buffer sizes in bytes.                                                                                                                                                                    | `1024`          |
+| EnableCompression | `bool`          | EnableCompression specify if the server should attempt to negotiate per message compression \(RFC 7692\)                                                                                                            | `false`         |
 
 **Пример**
 
