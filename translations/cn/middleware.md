@@ -558,18 +558,18 @@ helmet.New(config ...Config) func(*Ctx)
 
 **配置**
 
-| 属性                    | 类型                      | 说明                                                                                                                                                                                                                                                     | 默认               |
-|:--------------------- |:----------------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |:---------------- |
-| Filter                | `func(*fiber.Ctx) bool` | 定义跳过中间件的函数                                                                                                                                                                                                                                             | `nil`            |
-| XSSProtection         | `string`                | 通过设置 `X-XSS-Protection` 首部提供 XSS 防护                                                                                                                                                                                                                    | `1; mode=block"` |
-| ContentTypeNosniff    | `string`                | 通过设置 `X-Content-Type-Options` 首部防护 Content-Type 首部篡改。                                                                                                                                                                                                  | `"nosniff"`      |
-| XFrameOptions         | `string`                | XFrameOptions 设置是否允许页面被嵌入到 &ltframe&gt、&ltiframe&gt 或 &ltobject&gt 中。 网站可以设置此选项来防止点击劫持，主要通过防止网站页面被嵌入到其他站点。 可选值：`SAMEORIGIN、DENY、ALLOW-FROM uri`                                                                                                        | `"SAMEORIGIN"`   |
-| HSTSMaxAge            | `int`                   | 设置 `Strict-Transport-Security` 首部，让浏览器记住在多长时间内（秒为单位）都要使用 HTTPS 来访问当前网站。 这可以减少 SSL-stripping 和中间人攻击（MITM）的风险。                                                                                                                                           | `0`              |
-| HSTSExcludeSubdomains | `bool`                  | 设置为 true 将会排除 `Strict Transport Security` 首部中设置的子域名，将这些子域名排除在安全策略外。 如果 HSTSMaxAge 的值不为 0，那么此字段的设置无效。                                                                                                                                                   | `false`          |
-| ContentSecurityPolicy | `string`                | ContentSecurityPolicy sets the `Content-Security-Policy` header providing security against cross-site scripting \(XSS\), clickjacking and other code injection attacks resulting from execution of malicious content in the trusted web page context | `""`             |
-| CSPReportOnly         | `bool`                  |                                                                                                                                                                                                                                                        | `false`          |
-| HSTSPreloadEnabled    | `bool`                  |                                                                                                                                                                                                                                                        | `false`          |
-| ReferrerPolicy        | `string`                |                                                                                                                                                                                                                                                        | `""`             |
+| 属性                    | 类型                      | 说明                                                                                                                                              | 默认               |
+|:--------------------- |:----------------------- |:----------------------------------------------------------------------------------------------------------------------------------------------- |:---------------- |
+| Filter                | `func(*fiber.Ctx) bool` | 定义跳过中间件的函数                                                                                                                                      | `nil`            |
+| XSSProtection         | `string`                | 通过设置 `X-XSS-Protection` 首部提供 XSS 防护                                                                                                             | `1; mode=block"` |
+| ContentTypeNosniff    | `string`                | 通过设置 `X-Content-Type-Options` 首部防护 Content-Type 首部篡改。                                                                                           | `"nosniff"`      |
+| XFrameOptions         | `string`                | XFrameOptions 设置是否允许页面被嵌入到 &ltframe&gt、&ltiframe&gt 或 &ltobject&gt 中。 网站可以设置此选项来防止点击劫持，主要通过防止网站页面被嵌入到其他站点。 可选值：`SAMEORIGIN、DENY、ALLOW-FROM uri` | `"SAMEORIGIN"`   |
+| HSTSMaxAge            | `int`                   | 设置 `Strict-Transport-Security` 首部，让浏览器记住在多长时间内（秒为单位）都要使用 HTTPS 来访问当前网站。 这可以减少 SSL-stripping 和中间人攻击（MITM）的风险。                                    | `0`              |
+| HSTSExcludeSubdomains | `bool`                  | 设置为 true 将会排除 `Strict Transport Security` 首部中设置的子域名，将这些子域名排除在安全策略外。 如果 HSTSMaxAge 的值不为 0，那么此字段的设置无效。                                            | `false`          |
+| ContentSecurityPolicy | `string`                | 设置 `Content-Security-Policy` 首部来避免遭受 XSS、点击劫持和其他代码注入的攻击，防止在可信任的页面上展示/运行恶意内容/代码。                                                                 | `""`             |
+| CSPReportOnly         | `bool`                  |                                                                                                                                                 | `false`          |
+| HSTSPreloadEnabled    | `bool`                  |                                                                                                                                                 | `false`          |
+| ReferrerPolicy        | `string`                |                                                                                                                                                 | `""`             |
 
 **示例**
 
@@ -597,7 +597,7 @@ func main() {
 
 ## Redirect
 
-Redirects middleware provides an HTTP redirect to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code.
+提供 HTTP 跳转功能，根据配置定义跳转到一个指定的地址、返回指定的状态码。
 
 **Installation**
 
