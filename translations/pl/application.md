@@ -268,7 +268,7 @@ app.Listen(address interface{}, tls ...*tls.Config) error
 ```
 {% endcode %}
 
-{% code title="Examples" %}
+{% code title="Przykłady" %}
 ```go
 app.Listen(8080)
 app.Listen("8080")
@@ -277,7 +277,7 @@ app.Listen("127.0.0.1:8080")
 ```
 {% endcode %}
 
-To enable **TLS/HTTPS** you can append a [**TLS config**](https://golang.org/pkg/crypto/tls/#Config).
+Aby włączyć **TLS/HTTPS**, możesz dołączyć [**config TLS**](https://golang.org/pkg/crypto/tls/#Config).
 
 {% code title="Example" %}
 ```go
@@ -293,7 +293,7 @@ app.Listen(443, config)
 
 ## Serve
 
-You can pass your own [`net.Listener`](https://golang.org/pkg/net/#Listener) using the `Serve` method.
+Możesz również przekazywać swój własny [`net.Listener`](https://golang.org/pkg/net/#Listener) używając metody `Serve`.
 
 {% code title="Signature" %}
 ```go
@@ -302,7 +302,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** does not support the ****[**Prefork** ](application.md#settings)feature.
+**Serve** nie wspiera ****[**Prefork**](application.md#settings).
 {% endhint %}
 
 {% code title="Example" %}
@@ -317,7 +317,7 @@ app.Serve(ln)
 
 ## Test
 
-Testing your application is done with the **Test** method. Use this method for creating `_test.go` files or when you need to debug your routing logic. The default timeout is `200ms` if you want to disable a timeout completely, pass `-1` as a second argument.
+Testowanie aplikacji odbywa się z uzyciem metody **Test**. Użyj tej metody w tworzeniu plików `_test.go` lub gdy potrzebujesz zdebugować logikę routingu. The default timeout is `200ms` if you want to disable a timeout completely, pass `-1` as a second argument.
 
 {% code title="Signature" %}
 ```go
