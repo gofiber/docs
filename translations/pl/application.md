@@ -317,7 +317,7 @@ app.Serve(ln)
 
 ## Test
 
-Testowanie aplikacji odbywa się z uzyciem metody **Test**. Użyj tej metody w tworzeniu plików `_test.go` lub gdy potrzebujesz zdebugować logikę routingu. The default timeout is `200ms` if you want to disable a timeout completely, pass `-1` as a second argument.
+Testowanie aplikacji odbywa się z uzyciem metody **Test**. Użyj tej metody w tworzeniu plików `_test.go` lub gdy potrzebujesz zdebugować logikę routingu. Domyślnie timeout ma wartość `200ms`. Jeżeli chcesz wyłączyć timeout całkowicie, przekaż `-1` jako drugi argument.
 
 {% code title="Signature" %}
 ```go
@@ -327,7 +327,7 @@ app.Test(req *http.Request, msTimeout ...int) (*http.Response, error)
 
 {% code title="Example" %}
 ```go
-// Create route with GET method for test:
+// Utwórz route dla metody GET dla testu:
 app.Get("/", func(c *Ctx) {
   fmt.Println(c.BaseURL())              // => http://google.com
   fmt.Println(c.Get("X-Custom-Header")) // => hi
@@ -342,7 +342,7 @@ req.Header.Set("X-Custom-Header", "hi")
 // http.Response
 resp, _ := app.Test(req)
 
-// Do something with results:
+// Zrób coś z wynikami
 if resp.StatusCode == 200 {
   body, _ := ioutil.ReadAll(resp.Body)
   fmt.Println(string(body)) // => Hello, World!
