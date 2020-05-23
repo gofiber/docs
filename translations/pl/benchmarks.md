@@ -1,9 +1,9 @@
 ---
 description: >-
-  This benchmarks aims to compare the performance of Fiber and other web frameworks.
+  Celem tego benchmarku jest porównanie wydajności Fiber i innych frameworków internetowych.
 ---
 
-# 🤖 Benchmarks
+# 🤖 Benchmarki
 
 ## TechEmpower
 
@@ -17,8 +17,8 @@ description: >-
 
 ### Plaintext
 
-**Fiber** handled **6,162,556** responses per second with an average latency of **2.0** ms.  
-**Express** handled **367,069** responses per second with an average latency of **354.1** ms.
+**Fiber** obsłużył **6,162,556** odpowiedzi na sekundę ze średnim opóźnieniem **2.0** ms.  
+**Express** obsłużył **367,069** odpowiedzi na sekundę ze średnim opóźnieniem **354.1** ms.
 
 ![](.gitbook/assets/plaintext%20%281%29.png)
 
@@ -26,8 +26,8 @@ description: >-
 
 ### Aktualizowanie danych
 
-**Fiber** handled **11,846** responses  per second with an average latency of **42.8** ms.  
-**Express** handled **2,066** responses  per second with an average latency of **390.44** ms.
+**Fiber** obsłużył **11,846** odpowiedzi na sekundę ze średnim opóźnieniem **42.8** ms.  
+**Express** obsłużył **2,066** odpowiedzi na sekundę ze średnim opóźnieniem **390.44** ms.
 
 ![](.gitbook/assets/data_updates.png)
 
@@ -35,8 +35,8 @@ description: >-
 
 ### Wiele zapytań
 
-**Fiber** handled **19,664** responses per second with an average latency of **25.7** ms.  
-**Express** handled **4,302** responses  per second with an average latency of **117.2** ms.
+**Fiber** obsłużył **19,664** odpowiedzi na sekundę ze średnim opóźnieniem **25.7** ms.  
+**Express** obsłużył **4,302** odpowiedzi na sekundę ze średnim opóźnieniem **117.2** ms.
 
 ![](.gitbook/assets/multiple_queries%20%281%29.png)
 
@@ -44,8 +44,8 @@ description: >-
 
 ### Pojedyncze zapytanie
 
-**Fiber** handled **368,647** responses per second with an average latency of **0.7** ms.  
-**Express** handled **57,880** responses  per second with an average latency of **4.4** ms.
+**Fiber** obsłużył **368,647** odpowiedzi na sekundę ze średnim opóźnieniem **0.7** ms.  
+**Express** obsłużył **57,880** odpowiedzi na sekundę ze średnim opóźnieniem **4.4** ms.
 
 ![](.gitbook/assets/single_query%20%282%29.png)
 
@@ -53,8 +53,8 @@ description: >-
 
 ### Serializacja JSON
 
-**Fiber** handled **1,146,667** responses per second with an average latency of **0.4** ms.  
-**Express** handled **244,847** responses  per second with an average latency of **1.1** ms.
+**Fiber** obsłużył **1,146,667** odpowiedzi na sekundę ze średnim opóźnieniem **0.4** ms.  
+**Express** obsłużył **244,847** odpowiedzi na sekundę ze średnim opóźnieniem **1.1** ms.
 
 ![](.gitbook/assets/json%20%281%29.png)
 
@@ -69,25 +69,25 @@ description: >-
 * **GO** go1.13.6 linux/amd64
 * **OS** Linux
 
-The first test case is to mock **0 ms**, **10 ms**, **100 ms**, **500 ms** processing time in handlers.
+Pierwszy test polega na sztucznym wymuszeniu **0 ms**, **10 ms**, **100 ms**, **500 ms** czasu przetwarzania w handlerach.
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark.png)
 
-The concurrency clients are **5000**.
+Ilość jednoczesnych połączeń wynosi **5000**.
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark_latency.png)
 
-Latency is the time of real processing time by web servers. _The smaller is the better._
+Latency to rzeczywisty czas przetwarzania przez serwery. _Im niższy, tym lepiej_
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark_alloc.png)
 
-Allocs is the heap allocations by web servers when test is running. The unit is MB. _The smaller is the better._
+Allocations to ilość zaalokowanej pamięci przez serwery podczas działania testu. W megabajtach. _Im niższy, tym lepiej_
 
-If we enable **http pipelining**, test result as below:
+Jeżeli włączymy **http pipelining**, test daje poniższe rezultaty:
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark-pipeline.png)
 
-Concurrency test in **30 ms** processing time, the test result for **100**, **1000**, **5000** clients is:
+Test na konkurencję z **30 ms** czasem przetwarzania, wyniki dla **100**, **1000**, **5000** klientów są następujące:
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency.png)
 
@@ -95,11 +95,11 @@ Concurrency test in **30 ms** processing time, the test result for **100**, **10
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency_alloc.png)
 
-If we enable **http pipelining**, test result as below:
+Jeżeli włączymy **http pipelining**, test daje poniższe rezultaty:
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency-pipeline.png)
 
-Dependency graph for `v1.9.0`
+Schemat zależnych pakietów dla wersji `v1.9.0`
 
 ![](.gitbook/assets/graph.svg)
 
