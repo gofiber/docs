@@ -1,6 +1,6 @@
 ---
 description: >-
-  Struct Ctx reprezentuje Context, który przechowywuje zapytania i odpowiedzi HTTP. It has methods for the request query string, parameters, body, HTTP headers and so on.
+  Struct Ctx reprezentuje Context, który przechowywuje zapytania i odpowiedzi HTTP. Ma metody pozwalające na dostęp do query stringów zapytania, parametrów, body, nagłówków HTTP itp.
 ---
 
 # 🧠 Context
