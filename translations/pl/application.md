@@ -2,7 +2,7 @@
 description: Instancja aplikacji standardowo stanowi aplikacje Fiber.
 ---
 
-# 🚀 Application
+# 🚀 Aplikacja
 
 ## New
 
