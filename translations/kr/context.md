@@ -659,7 +659,7 @@ app.Get("/", func(c *fiber.Ctx) {
 요청에 국한된 문자열 변수를 저장하여서 그 요청에 맞는 라우트에서만 사용될 수 있게 해주는 메소드입니다.
 
 {% hint style="success" %}
-This is useful, if you want to pass some **specific** data to the next middleware.
+이것은 만약 여러분이 **특정** 데이터를 다음 미들웨어에 전달하고 싶을 때 유용합니다.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -688,7 +688,7 @@ app.Get("/admin", func(c *fiber.Ctx) {
 
 ## Location
 
-Sets the response [Location](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Location) HTTP header to the specified path parameter.
+응답의 [Location](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Location) HTTP 헤더를 특정 경로 파라미터로 설정합니다.
 
 {% code title="Signature" %}
 ```go
