@@ -1,6 +1,6 @@
 ---
 description: >-
-  The Ctx struct represents the Context which hold the HTTP request and response. It has methods for the request query string, parameters, body, HTTP headers and so on.
+  Struct Ctx reprezentuje Context, który przechowywuje zapytania i odpowiedzi HTTP. It has methods for the request query string, parameters, body, HTTP headers and so on.
 ---
 
 # 🧠 Context
@@ -37,7 +37,7 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-Fiber provides similar functions for the other accept headers.
+Fiber ma podobne funkcje dla innych accept-headerów.
 
 ```go
 // Accept-Charset: utf-8, iso-8859-1;q=0.2
@@ -311,7 +311,7 @@ You can still **access** and use all **Fasthttp** methods and properties.
 Please read the [Fasthttp Documentation](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) for more information.
 {% endhint %}
 
-**Example**
+**Przykład**
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -1214,7 +1214,7 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-## Type
+## Typ
 
 Sets the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP header to the MIME type listed [here](https://github.com/nginx/nginx/blob/master/conf/mime.types) specified by the file **extension**.
 

@@ -1,6 +1,6 @@
 ---
 description: >-
-  Routing refers to how an application's endpoints (URIs) respond to client requests.
+  Routing określa jak aplikacja powinna reagować na zapytania pod konkretne endpointy (URI).
 ---
 
 # 🔌 Routing
@@ -28,7 +28,7 @@ app.Get("/random.txt", func(c *fiber.Ctx) {
 })
 ```
 
-## Parameters
+## Parametry
 
 Route parameters are **named URL segments** that are used to capture the values specified at their position in the URL. The captured values can be retrieved using the [Params](https://fiber.wiki/context#params) function, with the name of the route parameter specified in the path as their respective keys.
 

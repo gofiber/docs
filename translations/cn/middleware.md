@@ -307,7 +307,7 @@ func main() {
 
 ## Session
 
-The session middleware is a session implementation; a feature that allows Fiber to maintain user identity and to store user-specific data during multiple request/response interactions between a browser and Fiber. By default the Session middleware uses the `memory` provider as a session key:value store, however we provide support for memcache, MySQL, Postgres, Redis and SQLite3 a additional session providers.
+Session 中间件是 session 的 go 实现，该中间件可以让 Fiber 维护用户的 ID 信息，并且存储与之相关的数据，session 主要用于浏览器请求场景。 中间件默认使用 `memory` provider 来存储 session 信息，此外，我们还提供了 memcache、MySQL、Postgres、Redis 和 SQLite3 等这些 provider 作为候选方案。
 
 **Installation**
 
@@ -323,15 +323,15 @@ session.New(config ...session.Config) *Session
 
 **配置**
 
-| 属性         | 类型              | 说明                                                                                                                                                                                  | 默认                    |
-|:---------- |:--------------- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------------- |
-| Lookup     | `string`        | Where to look for the session id `<source>:<name>`, possible values: `cookie:key`, `header:key` or `query:key`                                                          | `"cookie:session_id"` |
-| Domain     | `string`        | Cookie domain                                                                                                                                                                       | `""`                  |
-| Expiration | `time.Duration` | Session expiration time, possible values: `0` means no expiry (24 years), `-1` means when the browser closes, `>0` is the time.Duration which the session cookies should expire. | `12 * time.Hour`      |
-| Secure     | `bool`          | If the cookie should only be send over HTTPS                                                                                                                                        | `false`               |
-| Provider   | `Provider`      | Holds the provider interface                                                                                                                                                        | `memory.Provider`     |
-| Generator  | `func() []byte` | Generator is a function that generates an unique id                                                                                                                                 | `uuid`                |
-| GCInterval | `time.Duration` | Interval for the garbage collector                                                                                                                                                  | `uuid`                |
+| 属性         | 类型              | 说明                                                                                             | 默认                    |
+|:---------- |:--------------- |:---------------------------------------------------------------------------------------------- |:--------------------- |
+| Lookup     | `string`        | 获取 session id 的方式，可以使用的值有：`cookie:key`、`header:key` 或 `query:key`                              | `"cookie:session_id"` |
+| Domain     | `string`        | session id 一般通过 cookie 设置，该字段用于设置 cookie 的 domain 属性                                           | `""`                  |
+| Expiration | `time.Duration` | 定义 session 过期时间，`0` 表示不会过期（实际上 24 年过期），`-1` 表示浏览器关闭后过期，`>0` 的值通过 time.Duration 设置，表示具体过期时间。 | `12 * time.Hour`      |
+| Secure     | `bool`          | 设置 cookie 的 secure 属性，是否只在 HTTPS 环境下发送                                                         | `false`               |
+| Provider   | `Provider`      | 传入要使用的 provider                                                                                | `memory.Provider`     |
+| Generator  | `func() []byte` | 定义 session id 生成器                                                                              | `uuid`                |
+| GCInterval | `time.Duration` | 定义 GC（垃圾回收）周期                                                                                  | `uuid`                |
 
 **示例**
 
@@ -348,19 +348,19 @@ import (
 func main() {
   app := fiber.New()
 
-  // create session handler
+  // 创建 session 处理函数
   sessions := session.New()
 
   app.Get("/", func(c *fiber.Ctx) {
-    store := sessions.Get(c)    // get/create new session
+    store := sessions.Get(c)    // 获取/新建一个 session
     defer store.Save()
 
-    store.ID()                   // returns session id
-    store.Destroy()              // delete storage + cookie
-    store.Get("john")            // get from storage
-    store.Regenerate()           // generate new session id
-    store.Delete("john")         // delete from storage
-    store.Set("john", "doe")     // save to storage
+    store.ID()                   // 返回 session id
+    store.Destroy()              // 销毁 session，包括其关联的数据和 cookie
+    store.Get("john")            // 从 session 中读取数据
+    store.Regenerate()           // 新生成一个 session id
+    store.Delete("john")         // 将数据从 session 中删除
+    store.Set("john", "doe")     // 设置数据
   })
 
   app.Listen(3000)
@@ -369,7 +369,7 @@ func main() {
 
 ## Template
 
-By default Fiber comes with the [**default HTML template**](https://golang.org/pkg/html/template/) engine, but this middleware contains third party rendering engines.
+Fiber 本身自带一个[**默认的 HTML 模板**](https://golang.org/pkg/html/template/)引擎，相比之下，这个中间件包含了第三方的模板渲染引擎
 
 **安装**
 
@@ -383,9 +383,9 @@ go get -u github.com/gofiber/template
 template.Engine() func(raw string, bind interface{}) (out string, err error)
 ```
 
-**Template Engines**
+**模板引擎**
 
-| Keyword        | Engine                                                               |
+| 关键字            | 模板引擎                                                                 |
 |:-------------- |:-------------------------------------------------------------------- |
 | `Amber()`      | [github.com/eknkc/amber](https://github.com/eknkc/amber)             |
 | `Handlebars()` | [github.com/aymerick/raymond](https://github.com/aymerick/raymond)   |
@@ -429,7 +429,7 @@ func main() {
 
 ## WebSocket
 
-Fiber supports a websocket upgrade middleware. The `*Conn` struct has all the functionality from the [**gorilla/websocket**](https://github.com/gorilla/websocket) library.
+Fiber 支持 websocket 中间件。 `*Conn` 结构体包含了 [**gorilla/websocket**](https://github.com/gorilla/websocket) 里的所有功能
 
 **安装**
 
@@ -445,14 +445,14 @@ websocket.New(handler func(*Conn), config ...Config) func(*Ctx)
 
 **配置**
 
-| 属性                | 类型              | 说明                                                                                                                                                                                                                               | 默认              |
-|:----------------- |:--------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------- |
-| HandshakeTimeout  | `time.Duration` | Specifies the duration for the handshake to complete.                                                                                                                                                                            | `0`             |
-| Subprotocols      | `[]string`      | specifies the server's supported protocols in order of preference. If this field is not nil, then the Upgrade method negotiates a subprotocol by selecting the first match in this list with a protocol requested by the client. | `nil`           |
-| Origins           | `[]string`      | Origins is a string slice of origins that are acceptable, by default all origins are allowed.                                                                                                                                    | `[]string{"*"}` |
-| ReadBufferSize    | `int`           | ReadBufferSize specify I/O buffer sizes in bytes.                                                                                                                                                                                | `1024`          |
-| WriteBufferSize   | `int`           | WriteBufferSize specify I/O buffer sizes in bytes.                                                                                                                                                                               | `1024`          |
-| EnableCompression | `bool`          | EnableCompression specify if the server should attempt to negotiate per message compression \(RFC 7692\)                                                                                                                       | `false`         |
+| 属性                | 类型              | 说明                                                                                      | 默认              |
+|:----------------- |:--------------- |:--------------------------------------------------------------------------------------- |:--------------- |
+| HandshakeTimeout  | `time.Duration` | 握手阶段超时设置                                                                                | `0`             |
+| Subprotocols      | `[]string`      | 指定支持的协议，优先级按照定义顺序。 如果该设置不为空，在调用 Upgrade 方法时，会根据客户端指定的协议从列表中选出第一个符合的 subprotocol 作为协商结果。 | `nil`           |
+| Origins           | `[]string`      | 指定哪些只允许接受哪些 origin 的 websocket 请求，默认不作限制。                                               | `[]string{"*"}` |
+| ReadBufferSize    | `int`           | 指定“读缓存”的大小，单位为字节                                                                        | `1024`          |
+| WriteBufferSize   | `int`           | 指定“写缓存”的大小                                                                              | `1024`          |
+| EnableCompression | `bool`          | 是否尝试对每条消息进行压缩（依据 RFC 7692 规范）                                                           | `false`         |
 
 **示例**
 
@@ -474,7 +474,7 @@ func main() {
 
   app.Get("/ws", websocket.New(func(c *websocket.Conn) {
     fmt.Println(c.Locals("Hello")) // "World"
-    // Websocket logic...
+    // Websocket 相关逻辑...
     for {
       mt, msg, err := c.ReadMessage()
       if err != nil {
@@ -496,7 +496,7 @@ func main() {
 
 ## Request ID
 
-Request ID adds an identifier to the request using the `X-Request-ID` header
+Request ID 为每个请求添加 `X-Request-ID` 首部，并赋予一个标识符
 
 **安装**
 
@@ -512,10 +512,10 @@ requestid.New(config ...Config) func(*Ctx)
 
 **配置**
 
-| 属性        | 类型                        | 说明                                              | 默认                           |
-|:--------- |:------------------------- |:----------------------------------------------- |:---------------------------- |
-| Filter    | `func(*fiber.Ctx) bool`   | 定义跳过中间件的函数                                      | `nil`                        |
-| Generator | `func(*fiber.Ctx) string` | Generator defines a function to generate an ID. | `return uuid.New().String()` |
+| 属性        | 类型                        | 说明         | 默认                       |
+|:--------- |:------------------------- |:---------- |:------------------------ |
+| Filter    | `func(*fiber.Ctx) bool`   | 定义跳过中间件的函数 | `nil`                    |
+| Generator | `func(*fiber.Ctx) string` | 定义 ID 生成策略 | `返回 uuid.New().String()` |
 
 **示例**
 
@@ -542,7 +542,7 @@ func main() {
 
 ## Helmet
 
-Helmet middleware provides protection against cross-site scripting \(XSS\) attack, content type sniffing, clickjacking, insecure connection and other code injection attacks.
+Helmet 中间件主要提供跨站脚本攻击（XSS）、内容嗅探（content type sniffing）、点击劫持（clickjacking）、非安全连接和其他代码注入攻击的防护。
 
 **安装**
 
@@ -558,18 +558,18 @@ helmet.New(config ...Config) func(*Ctx)
 
 **配置**
 
-| 属性                    | 类型                      | 说明                                                                                                                                                                                                                                                                                                                             | 默认               |
-|:--------------------- |:----------------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |:---------------- |
-| Filter                | `func(*fiber.Ctx) bool` | 定义跳过中间件的函数                                                                                                                                                                                                                                                                                                                     | `nil`            |
-| XSSProtection         | `string`                | XSSProtection provides protection against cross-site scripting attack \(XSS\) by setting the `X-XSS-Protection` header.                                                                                                                                                                                                      | `1; mode=block"` |
-| ContentTypeNosniff    | `string`                | ContentTypeNosniff provides protection against overriding Content-Type header by setting the `X-Content-Type-Options` header.                                                                                                                                                                                                  | `"nosniff"`      |
-| XFrameOptions         | `string`                | XFrameOptions can be used to indicate whether or not a browser should be allowed to render a page in a ,  or . Sites can use this to avoid clickjacking attacks, by ensuring that their content is not embedded into other sites.provides protection against clickjacking. Possible values: `SAMEORIGIN, DENY, ALLOW-FROM uri` | `"SAMEORIGIN"`   |
-| HSTSMaxAge            | `int`                   | HSTSMaxAge sets the `Strict-Transport-Security` header to indicate how long \(in seconds\) browsers should remember that this site is only to be accessed using HTTPS. This reduces your exposure to some SSL-stripping man-in-the-middle \(MITM\) attacks.                                                                | `0`              |
-| HSTSExcludeSubdomains | `bool`                  | HSTSExcludeSubdomains won't include subdomains tag in the `Strict Transport Security` header, excluding all subdomains from security policy. It has no effect unless HSTSMaxAge is set to a non-zero value.                                                                                                                    | `false`          |
-| ContentSecurityPolicy | `string`                | ContentSecurityPolicy sets the `Content-Security-Policy` header providing security against cross-site scripting \(XSS\), clickjacking and other code injection attacks resulting from execution of malicious content in the trusted web page context                                                                         | `""`             |
-| CSPReportOnly         | `bool`                  |                                                                                                                                                                                                                                                                                                                                | `false`          |
-| HSTSPreloadEnabled    | `bool`                  |                                                                                                                                                                                                                                                                                                                                | `false`          |
-| ReferrerPolicy        | `string`                |                                                                                                                                                                                                                                                                                                                                | `""`             |
+| 属性                    | 类型                      | 说明                                                                                                                                              | 默认               |
+|:--------------------- |:----------------------- |:----------------------------------------------------------------------------------------------------------------------------------------------- |:---------------- |
+| Filter                | `func(*fiber.Ctx) bool` | 定义跳过中间件的函数                                                                                                                                      | `nil`            |
+| XSSProtection         | `string`                | 通过设置 `X-XSS-Protection` 首部提供 XSS 防护                                                                                                             | `1; mode=block"` |
+| ContentTypeNosniff    | `string`                | 通过设置 `X-Content-Type-Options` 首部防护 Content-Type 首部篡改。                                                                                           | `"nosniff"`      |
+| XFrameOptions         | `string`                | XFrameOptions 设置是否允许页面被嵌入到 &ltframe&gt、&ltiframe&gt 或 &ltobject&gt 中。 网站可以设置此选项来防止点击劫持，主要通过防止网站页面被嵌入到其他站点。 可选值：`SAMEORIGIN、DENY、ALLOW-FROM uri` | `"SAMEORIGIN"`   |
+| HSTSMaxAge            | `int`                   | 设置 `Strict-Transport-Security` 首部，让浏览器记住在多长时间内（秒为单位）都要使用 HTTPS 来访问当前网站。 这可以减少 SSL-stripping 和中间人攻击（MITM）的风险。                                    | `0`              |
+| HSTSExcludeSubdomains | `bool`                  | 设置为 true 将会排除 `Strict Transport Security` 首部中设置的子域名，将这些子域名排除在安全策略外。 如果 HSTSMaxAge 的值不为 0，那么此字段的设置无效。                                            | `false`          |
+| ContentSecurityPolicy | `string`                | 设置 `Content-Security-Policy` 首部来避免遭受 XSS、点击劫持和其他代码注入的攻击，防止在可信任的页面上展示/运行恶意内容/代码。                                                                 | `""`             |
+| CSPReportOnly         | `bool`                  |                                                                                                                                                 | `false`          |
+| HSTSPreloadEnabled    | `bool`                  |                                                                                                                                                 | `false`          |
+| ReferrerPolicy        | `string`                |                                                                                                                                                 | `""`             |
 
 **示例**
 
@@ -597,7 +597,7 @@ func main() {
 
 ## Redirect
 
-Redirects middleware provides an HTTP redirect to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code.
+提供 HTTP 跳转功能，根据配置定义跳转到一个指定的地址、返回指定的状态码。
 
 **Installation**
 
