@@ -148,7 +148,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## BodyParser
 
-Binds the request body to a struct. `BodyParser` supports decoding query parameters and the following content types based on the `Content-Type` header:
+Binduje body zapytania do structa. `BodyParser` supports decoding query parameters and the following content types based on the `Content-Type` header:
 
 * `application/json`
 * `application/xml`
