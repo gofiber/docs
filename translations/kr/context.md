@@ -556,10 +556,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## JSON
 
-Converts any **interface** or **string** to JSON using [Jsoniter](https://github.com/json-iterator/go).
+[Jsoniter](https://github.com/json-iterator/go)를 사용해 **인터페이스** 또는 **문자열**을 JSON으로 바꾸세요.
 
 {% hint style="info" %}
-JSON also sets the content header to **application/json**.
+JSON은 콘텐츠 헤더도 **application/json**으로 설정합니다.
 {% endhint %}
 
 {% code title="Signature" %}
