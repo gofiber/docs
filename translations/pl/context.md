@@ -37,7 +37,7 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-Fiber provides similar functions for the other accept headers.
+Fiber ma podobne funkcje dla innych accept-headerów.
 
 ```go
 // Accept-Charset: utf-8, iso-8859-1;q=0.2
