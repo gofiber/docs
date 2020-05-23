@@ -929,10 +929,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Redirect
 
-Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code.
+명시된 경로와, HTTP 상태 코드에 맞는 양의 정수인 명시된 상태에 해당하는 URL로 리다이렉트 합니다.
 
 {% hint style="info" %}
-If **not** specified, status defaults to **302 Found**.
+만약 명시되지 **않았다면**, 상태는 기본 값으로 **302 Found** 입니다.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -954,7 +954,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Render
 
-Renders a template with data and sends a `text/html` response. By default `Render` uses the default [**Go Template engine**](https://golang.org/pkg/html/template/). If you want to use another engine, please take a look at our [**Template middleware**](middleware.md#template).
+데이터와 함께 템플릿을 렌더링하고 `text/html` 응답을 보냅니다. 기본적으로 `Render`는 [**Go Template engine**](https://golang.org/pkg/html/template/)을 사용합니다. 만약 다른 엔진을 사용하고 싶으시다면, [**Template middleware**](middleware.md#template)를 봐주세요.
 
 {% code title="Signature" %}
 ```go
@@ -964,7 +964,7 @@ c.Render(file string, data interface{}) error
 
 ## Route
 
-Contains the matched [Route](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc#Route) struct.
+일치하는 [Route](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc#Route) 구조체를 가집니다.
 
 {% code title="Signature" %}
 ```go
@@ -990,7 +990,7 @@ app.Post("/:api?", func(c *fiber.Ctx) {
 
 ## SaveFile
 
-Method is used to save **any** multipart file to disk.
+**어떤** multipart 파일을 디스크에 저장할 때 사용되는 메소드 입니다.
 
 {% code title="Signature" %}
 ```go
