@@ -879,10 +879,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Query
 
-This property is an object containing a property for each query string parameter in the route.
+이 속성은 라우트 안의 각 쿼리 문자열 파라미터를 위한 속성을 담고 있는 객체 입니다.
 
 {% hint style="info" %}
-If there is **no** query string, it returns an **empty string**.
+만약 쿼리 문자열이 **없다면**, 그것은 **빈 문자열**을 반환합니다.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -904,7 +904,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Range
 
-An struct containg the type and a slice of ranges will be returned.
+반환 될 타입과 범위의 슬라이스를 갖고 있는 구조체 입니다.
 
 {% code title="Signature" %}
 ```go
