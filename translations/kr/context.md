@@ -726,7 +726,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## MultipartForm
 
-Multipart form 엔트리에 접근하기 위해, 여러분은 `MultipartForm()`으로 바이너리를 가져올 수 있습니다. This returns a `map[string][]string`, so given a key the value will be a string slice.
+Multipart form 엔트리에 접근하기 위해, 여러분은 `MultipartForm()`으로 바이너리를 가져올 수 있습니다. 이것은 `map[string][]string` 반환하며, 키가 주어지면 값은 문자열 슬라이스 입니다.
 
 {% code title="Signature" %}
 ```go
@@ -765,7 +765,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Next
 
-When **Next** is called, it executes the next method in the stack that matches the current route. You can pass an error struct within the method for custom error handling.
+**Next**가 호출되면, 이것은 현재 라우트에 맞는 스택에서 다음 매소드를 실행시킵니다. 여러분은 에러 처리를 커스텀하기 위해 메소드 안에 에러 구조체를 넣을 수 있습니다.
 
 {% code title="Signature" %}
 ```go
@@ -795,7 +795,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## OriginalURL
 
-Contains the original request URL.
+원본 요청 URL을 가집니다.
 
 {% code title="Signature" %}
 ```go
@@ -815,10 +815,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Params
 
-Method can be used to get the route parameters.
+라우트 파라미터를 가져오기 위해 사용되는 메소드입니다.
 
 {% hint style="info" %}
-Defaults to empty string \(`""`\), if the param **doesn't** exist.
+만약 파라미터가 존재하지 **않다면**, 기본 값은 빈 문자열 \(`""`\) 입니다.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -839,7 +839,7 @@ app.Get("/user/:name", func(c *fiber.Ctx) {
 
 ## Path
 
-Contains the path part of the request URL. Optionally, you could override the path by passing a string.
+요청 URL의 경로 부분을 가집니다. 선택적으로, 여러분은 문자열을 넣어서 경로를 오버라이드 할 수 있습니다.
 
 {% code title="Signature" %}
 ```go
@@ -859,7 +859,7 @@ app.Get("/users", func(c *fiber.Ctx) {
 
 ## Protocol
 
-Contains the request protocol string: `http` or `https` for **TLS** requests.
+요청 프로토콜 문자열을 가집니다: `http` 또는 **TLS** 요청을 위한 `https`.
 
 {% code title="Signature" %}
 ```go
