@@ -13,7 +13,7 @@ description: >-
 * **Pamięć RAM** 32GB
 * **GO** go1.13.6 linux/amd64
 * **OS** Linux
-* **NET** Dedicated Cisco 10-gigabit Ethernet switch.
+* **NET** Dedykowany 10-gigabitowy switch Ethernet Cisco.
 
 ### Plaintext
 
@@ -24,7 +24,7 @@ description: >-
 
 ![Fiber vs Express](.gitbook/assets/plaintext_express.png)
 
-### Data Updates
+### Aktualizowanie danych
 
 **Fiber** handled **11,846** responses  per second with an average latency of **42.8** ms.  
 **Express** handled **2,066** responses  per second with an average latency of **390.44** ms.
@@ -33,7 +33,7 @@ description: >-
 
 ![Fiber vs Express](.gitbook/assets/data_updates_express%20%281%29.png)
 
-### Multiple Queries
+### Wiele zapytań
 
 **Fiber** handled **19,664** responses per second with an average latency of **25.7** ms.  
 **Express** handled **4,302** responses  per second with an average latency of **117.2** ms.
@@ -42,7 +42,7 @@ description: >-
 
 ![Fiber vs Express](.gitbook/assets/multiple_queries_express.png)
 
-### Single Query
+### Pojedyncze zapytanie
 
 **Fiber** handled **368,647** responses per second with an average latency of **0.7** ms.  
 **Express** handled **57,880** responses  per second with an average latency of **4.4** ms.
@@ -51,7 +51,7 @@ description: >-
 
 ![Fiber vs Express](.gitbook/assets/single_query_express.png)
 
-### JSON Serialization
+### Serializacja JSON
 
 **Fiber** handled **1,146,667** responses per second with an average latency of **0.4** ms.  
 **Express** handled **244,847** responses  per second with an average latency of **1.1** ms.
@@ -65,7 +65,7 @@ description: >-
 🔗 [https://github.com/smallnest/go-web-framework-benchmark](https://github.com/smallnest/go-web-framework-benchmark)
 
 * **CPU** Intel\(R\) Xeon\(R\) Gold 6140 CPU @ 2.30GHz
-* **MEM** 4GB
+* **Pamięć RAM** 4GB
 * **GO** go1.13.6 linux/amd64
 * **OS** Linux
 
