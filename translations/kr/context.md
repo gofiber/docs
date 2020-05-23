@@ -556,7 +556,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## JSON
 
-[Jsoniter](https://github.com/json-iterator/go)를 사용해 **인터페이스** 또는 **문자열**을 JSON으로 바꾸세요.
+[Jsoniter](https://github.com/json-iterator/go)를 사용해 **인터페이스** 또는 **문자열**을 JSON으로 바꿉니다.
 
 {% hint style="info" %}
 JSON은 콘텐츠 헤더도 **application/json**으로 설정합니다.
@@ -598,7 +598,7 @@ app.Get("/json", func(c *fiber.Ctx) {
 
 ## JSONP
 
-Sends a JSON response with JSONP support. This method is identical to [JSON](context.md#json), except that it opts-in to JSONP callback support. By default, the callback name is simply callback.
+JSON 응답을 JSONP 지원과 함께 보냅니다. 이 메소드는 [JSON](context.md#json)과 동일하지만, JSONP 콜백 지원이 선택 가능합니다. 기본적으로, 콜백 이름은 단순하게 callback입니다.
 
 Override this by passing a **named string** in the method.
 
