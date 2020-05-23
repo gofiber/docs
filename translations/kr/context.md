@@ -707,8 +707,8 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Method
 
-Contains a string corresponding to the HTTP method of the request: `GET`, `POST`, `PUT` and so on.  
-Optionally, you could override the method by passing a string.
+요청의 HTTP 메소드에 해당하는 문자열을 갖고 있습니다: `GET`, `POST`, `PUT` 등.   
+선택적으로, 여러분은 문자열을 넣어 메소드를 오버라이드 할 수 있습니다.
 
 {% code title="Signature" %}
 ```go
@@ -726,7 +726,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## MultipartForm
 
-To access multipart form entries, you can parse the binary with `MultipartForm()`. This returns a `map[string][]string`, so given a key the value will be a string slice.
+Multipart form 엔트리에 접근하기 위해, 여러분은 `MultipartForm()`으로 바이너리를 가져올 수 있습니다. This returns a `map[string][]string`, so given a key the value will be a string slice.
 
 {% code title="Signature" %}
 ```go
