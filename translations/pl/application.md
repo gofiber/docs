@@ -38,7 +38,7 @@ Możesz ustanowić ustawienia aplikacji przy wywoływaniu `New`.
 {% code title="Example" %}
 ```go
 func main() {
-    // Przekaż ustawienia podczas tworzenia nowej instancji
+    // Pass Settings creating a new instance
     app := fiber.New(&fiber.Settings{
         Prefork:       true,
         CaseSensitive: true,
@@ -60,7 +60,7 @@ Lub zmień ustawienia po zainicjalizowaniu instancji `app`.
 func main() {
     app := fiber.New()
 
-    // Lub zmień ustawienia po utworzeniu instancji
+    // Or change Settings after creating an instance
     app.Settings.Prefork = true
     app.Settings.CaseSensitive = true
     app.Settings.StrictRouting = true
@@ -126,10 +126,10 @@ Aby serwować z wielu katalogów, po prostu możesz użyć metody **Static** wie
 
 {% code title="Example" %}
 ```go
-// Serwuj pliki z katalogu "./public":
+// Serve files from "./public" directory:
 app.Static("/", "./public")
 
-// Serwuj pliki z katalogu "./files":
+// Serve files from "./files" directory:
 app.Static("/", "./files")
 ```
 {% endcode %}
@@ -154,22 +154,22 @@ Jeżeli chcesz mieć trochę więcej kontroli nad ustawieniami serwowania assets
 
 {% code title="fiber.Static{}" %}
 ```go
-// Static reprezentuje ustawienia do serwowania plików
+// Static represents settings for serving static files
 type Static struct {
-    // Przejrzyście kompresuje odpowiedzi, jeżeli ustawiono true
-    // Działa inaczej niż middleware github.com/gofiber/compression 
-    // Serwer próbuje zminimalizować użycie CPU cache-ując skompresowane pliki.
-    // Dodaje suffix ".fiber.gz" do oryginalnej nazwy pliku.
-    // Opcjonalne. Domyślnie false
+    // Transparently compresses responses if set to true
+    // This works differently than the github.com/gofiber/compression middleware
+    // The server tries minimizing CPU usage by caching compressed files.
+    // It adds ".fiber.gz" suffix to the original file name.
+    // Optional. Default value false
     Compress bool
-    // Włącza zapytania byte range, jeżeli ustawione na true.
-    // Opcjonalne. Domyślnie false
+    // Enables byte range requests if set to true.
+    // Optional. Default value false
     ByteRange bool
-    // Włącza przeglądanie katalogów.
-    // Opcjonalne. Domyślnie false.
+    // Enable directory browsing.
+    // Optional. Default value false.
     Browse bool
-    // Index, główny plik dla serwowanego folderu.
-    // Opcjonalne. Domyślnie "index.html".
+    // Index file for serving a directory.
+    // Optional. Default value "index.html".
     Index string
 }
 ```
@@ -192,8 +192,8 @@ Przekierowuje zapytanie HTTP, gdzie **METHOD** jest [metodą HTTP](https://devel
 
 {% code title="Signatures" %}
 ```go
-// Metody HTTP wspierają parametry - :param, opcjonalne - :optional? i wildcardy - *wildcards
-// Musisz przekazać ścieżkę do każdej metody
+// HTTP methods support :param, :optional? and *wildcards
+// You are required to pass a path to each method
 app.All(path string, handlers ...func(*Ctx)) *Fiber
 app.Get
 app.Put
@@ -205,9 +205,9 @@ app.Delete
 app.Connect
 app.Options
 
-// Use() będzie tylko dopasowywało początek każdej ścieżki
-// np. "/john" złapie "/john/doe", "/johnnnn"
-// Use() nie wspiera :param i :optional? w ścieżce
+// Use() will only match the beggining of each path
+// i.e. "/john" will match "/john/doe", "/johnnnn"
+// Use() does not support :param & :optional? in path
 app.Use(handlers ...func(*Ctx))
 app.Use(prefix string, handlers ...func(*Ctx)) *Fiber
 ```
@@ -220,10 +220,10 @@ app.Use("/api", func(c *fiber.Ctx) {
   c.Next()
 })
 app.Get("/api/list", func(c *fiber.Ctx) {
-  c.Send("Jestem requestem GET!")
+  c.Send("I'm a GET request!")
 })
 app.Post("/api/register", func(c *fiber.Ctx) {
-  c.Send("Jestem requestem POST!")
+  c.Send("I'm a POST request!")
 })
 ```
 {% endcode %}
@@ -327,7 +327,7 @@ app.Test(req *http.Request, msTimeout ...int) (*http.Response, error)
 
 {% code title="Example" %}
 ```go
-// Utwórz route dla metody GET dla testu:
+// Create route with GET method for test:
 app.Get("/", func(c *Ctx) {
   fmt.Println(c.BaseURL())              // => http://google.com
   fmt.Println(c.Get("X-Custom-Header")) // => hi
@@ -342,7 +342,7 @@ req.Header.Set("X-Custom-Header", "hi")
 // http.Response
 resp, _ := app.Test(req)
 
-// Zrób coś z wynikami
+// Do something with results:
 if resp.StatusCode == 200 {
   body, _ := ioutil.ReadAll(resp.Body)
   fmt.Println(string(body)) // => Hello, World!
