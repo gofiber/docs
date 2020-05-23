@@ -1024,7 +1024,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Secure
 
-A boolean property, that is `true` , if a **TLS** connection is established.
+**TLS** 연결이 성립되면, `true`인 boolean 속성입니다.
 
 {% code title="Signature" %}
 ```go
