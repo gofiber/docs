@@ -600,7 +600,7 @@ app.Get("/json", func(c *fiber.Ctx) {
 
 JSON 응답을 JSONP 지원과 함께 보냅니다. 이 메소드는 [JSON](context.md#json)과 동일하지만, JSONP 콜백 지원이 선택 가능합니다. 기본적으로, 콜백 이름은 단순하게 callback입니다.
 
-Override this by passing a **named string** in the method.
+메소드 안에 **지정된 문자열**을 넣어서 오버라이드 하세요.
 
 {% code title="Signature" %}
 ```go
@@ -633,7 +633,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Links
 
-Joins the links followed by the property to populate the response’s [Link](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Link) HTTP header field.
+응답의 [Link](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Link) HTTP 헤더 필드를 덧붙이기 위해 속성으로 따라오는 링크를 연결합니다.
 
 {% code title="Signature" %}
 ```go
@@ -656,7 +656,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Locals
 
-Method that stores string variables scoped to the request and therefore available only to the routes that match the request.
+요청에 국한된 문자열 변수를 저장하여서 그 요청에 맞는 라우트에서만 사용될 수 있게 해주는 메소드입니다.
 
 {% hint style="success" %}
 This is useful, if you want to pass some **specific** data to the next middleware.
