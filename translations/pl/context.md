@@ -303,12 +303,12 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Fasthttp
 
-You can still **access** and use all **Fasthttp** methods and properties.
+Nadal masz **dostęp** do wszystkich metod i właściwości **Fasthttp**.
 
 **Signature**
 
 {% hint style="info" %}
-Please read the [Fasthttp Documentation](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) for more information.
+Aby uzyskać więcej informacji, sprawdź [dokumentację Fasthttp](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc).
 {% endhint %}
 
 **Przykład**
