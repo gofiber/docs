@@ -231,7 +231,7 @@ logger.new(config ...Config) func(*Ctx)
 | 属性         | 类型                      | 说明                                                                                                                                                    | 默认                                                 |
 |:---------- |:----------------------- |:----------------------------------------------------------------------------------------------------------------------------------------------------- |:-------------------------------------------------- |
 | Filter     | `func(*fiber.Ctx) bool` | 定义跳过中间件的函数                                                                                                                                            | `nil`                                              |
-| Format     | `string`                | 定义日志输出格式。可用的值： `time, ip, url, host, method, path, protocol, referer, ua, header:<key>, quer:<key>, form:<key>, cookie:<key>` | `"${time} - ${ip} - ${method} ${path}\t${ua}\n"` |
+| Format     | `string`                | 定义日志输出格式。可用的值： `time, ip, url, host, method, path, routePath, protocol, referer, ua, header:<key>, quer:<key>, form:<key>, cookie:<key>` | `"${time} - ${ip} - ${method} ${path}\t${ua}\n"` |
 | TimeFormat | `string`                | 时间格式 [在这里阅读更多](https://programming.guide/go/format-parse-string-time-date-example.html)                                                               | `15:04:05`                                         |
 | Output     | `io.Writer`             | 写入日志的 writter                                                                                                                                         | `os.Stderr`                                        |
 
