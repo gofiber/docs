@@ -111,7 +111,7 @@ app.Get("/api/*", func(c *fiber.Ctx) {
 
 ## Static files
 
-To serve static files such as **images**, **CSS** and **JavaScript** files, replace your function handler with a file or directory string.
+Aby serwować statyczne pliki takie jak **zdjęcia**, **arkusze CSS** czy **JavaScript**, zastąp swoją funkcję-handler na ścieżkę pliku lub katalogu.
 
 Function signature:
 
