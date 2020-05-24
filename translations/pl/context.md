@@ -7,10 +7,10 @@ description: >-
 
 ## Accepts
 
-Checks, if the specified **extensions** or **content** **types** are acceptable.
+Sprawdza, czy określone **rozszerzenie** lub **typ** **treści** jest dozwolony.
 
 {% hint style="info" %}
-Based on the request’s [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header.
+Oparte o nagłówek HTTP [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) zapytania.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -258,7 +258,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Cookies
 
-Get cookie value by key.
+Uzyskaj wartość cookie za pomocą klucza.
 
 **Signature**s
 
