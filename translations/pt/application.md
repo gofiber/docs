@@ -75,26 +75,24 @@ func main() {
 
 **Campos** **de configuração**
 
-| Propriedade               | Tipo                                                 | Descrição                                                                                                                                                                                                                                                                 | Valor Predefinido |
-|:------------------------- |:---------------------------------------------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
-| Prefork                   | `bool`                                               | Habilita o uso de socket com a opção [`SO_REUSEPORT`](https://lwn.net/Articles/542629/). Isso irá gerar multiplos processos Go que estarão escutando na mesma porta. Saiba mais sobre [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
-| ServerHeader              | `string`                                             | Habilita o header do `Server` HTTP com o valor atribuído.                                                                                                                                                                                                                 | `""`              |
-| StrictRouting             | `bool`                                               | Quando habilitado, o roteador (router) tratará `/foo` e `/foo/` como rotas diferentes. Caso contrário, o roteador (router) tratará `/foo` e `/foo/` como se fosse a mesma rota.                                                                                           | `false`           |
-| CaseSensitive             | `bool`                                               | Quando habilitado, `/Foo` e `/foo` serão tratadas como rotas diferentes. Quando desabilitado, `/Foo` e `/foo` serão tratadas com rotas iguais.                                                                                                                            | `false`           |
-| Immutable                 | `bool`                                               | Quando habilitado, todos os valores retornados pelos métodos que usam o context são imutáveis. Por padrão eles são válidos até você retornar algo do handler, veja o issue [#185](https://github.com/gofiber/fiber/issues/185).                                           | `false`           |
-| BodyLimit                 | `int`                                                | Define o tamanho máximo permitido no corpo (body) de uma requisição, se esse tamanho exceder o valor estabelecido, ele envia o código `413 - Request Entity Too Large` como resposta.                                                                                     | `4 * 1024 * 1024` |
-| Concurrency               | `int`                                                | Define número máximo de conexões simultâneas.                                                                                                                                                                                                                             | `256 * 1024`      |
-| DisableKeepalive          | `bool`                                               | Desabilita as conexões do tipo keep-alive, o servidor irá finalizar conexões que estão chegando depois que enviar a primeira resposta ao cliente.                                                                                                                         | `false`           |
-| DisableDefaultDate        | `bool`                                               | Quando definido como `true`, faz com que o header padrão seja excluído da resposta.                                                                                                                                                                                       | `false`           |
-| DisableDefaultContentType | `bool`                                               | Quando definido como `true`, faz com que o campo do header Content-Type seja excluido da resposta.                                                                                                                                                                        | `false`           |
-| DisableStartupMessage     | `bool`                                               | Quando definido como true, não será escrito o símbolo ASCII do Fiber nem "listening" na mensagem                                                                                                                                                                          | `false`           |
-| ETag                      | `bool`                                               | Habilita ou desabilita o gerador de header ETag, desde que ambas as etags fracas e fortes sejam geradas usando o mesmo método de hashing \(CRC-32\). ETags fracas são por padrão habilitadas.                                                                           | `false`           |
-| TemplateEngine            | `func(raw string, bind interface{}) (string, error)` | Você pode especificar uma função para renderizar um template personalizado em diferentes idiomas. Veja nosso [**Template Middleware**](middleware.md#template) _\*\*_para predefinições.                                                                            | `nil`             |
-| TemplateFolder            | `string`                                             | Um diretório para as views da aplicação. Se o diretório for definido, isso será um prefixo para todos os paths dos templates. `c.Render("home", data) -> ./views/home.pug`                                                                                             | `""`              |
-| TemplateExtension         | `string`                                             | Se você predefinir o arquivo da extensão do template, você não precisa colocar o nome completo do arquivo na função que renderiza: `c.Render("home", data) -> home.pug`                                                                                                | `""`              |
-| ReadTimeout               | `time.Duration`                                      | A quantidade de tempo permitida para ler a requisição completa, incluindo corpo (body). Tempo limite padrão é ilimitado.                                                                                                                                                  | `nil`             |
-| WriteTimeout              | `time.Duration`                                      | A duração máxima antes de expirar o tempo limite da resposta (response). Tempo limite padrão é ilimitado.                                                                                                                                                                 | `nil`             |
-| IdleTimeout               | `time.Duration`                                      | A quantidade máxima de tempo para esperar pela próxima requisição quando o keep-alive estiver ativado. Se IdleTimeout for zero, o valor do ReadTimeout será usado.                                                                                                        | `nil`             |
+| Propriedade               | Tipo            | Descrição                                                                                                                                                                                                                                                                 | Valor Predefinido |
+|:------------------------- |:--------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
+| Prefork                   | `bool`          | Habilita o uso de socket com a opção [`SO_REUSEPORT`](https://lwn.net/Articles/542629/). Isso irá gerar multiplos processos Go que estarão escutando na mesma porta. Saiba mais sobre [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
+| ServerHeader              | `string`        | Habilita o header do `Server` HTTP com o valor atribuído.                                                                                                                                                                                                                 | `""`              |
+| StrictRouting             | `bool`          | Quando habilitado, o roteador (router) tratará `/foo` e `/foo/` como rotas diferentes. Caso contrário, o roteador (router) tratará `/foo` e `/foo/` como se fosse a mesma rota.                                                                                           | `false`           |
+| CaseSensitive             | `bool`          | Quando habilitado, `/Foo` e `/foo` serão tratadas como rotas diferentes. Quando desabilitado, `/Foo` e `/foo` serão tratadas com rotas iguais.                                                                                                                            | `false`           |
+| Immutable                 | `bool`          | Quando habilitado, todos os valores retornados pelos métodos que usam o context são imutáveis. Por padrão eles são válidos até você retornar algo do handler, veja o issue [#185](https://github.com/gofiber/fiber/issues/185).                                           | `false`           |
+| BodyLimit                 | `int`           | Define o tamanho máximo permitido no corpo (body) de uma requisição, se esse tamanho exceder o valor estabelecido, ele envia o código `413 - Request Entity Too Large` como resposta.                                                                                     | `4 * 1024 * 1024` |
+| Concurrency               | `int`           | Define número máximo de conexões simultâneas.                                                                                                                                                                                                                             | `256 * 1024`      |
+| DisableKeepalive          | `bool`          | Desabilita as conexões do tipo keep-alive, o servidor irá finalizar conexões que estão chegando depois que enviar a primeira resposta ao cliente.                                                                                                                         | `false`           |
+| DisableDefaultDate        | `bool`          | Quando definido como `true`, faz com que o header padrão seja excluído da resposta.                                                                                                                                                                                       | `false`           |
+| DisableDefaultContentType | `bool`          | Quando definido como `true`, faz com que o campo do header Content-Type seja excluido da resposta.                                                                                                                                                                        | `false`           |
+| DisableStartupMessage     | `bool`          | Quando definido como true, não será escrito o símbolo ASCII do Fiber nem "listening" na mensagem                                                                                                                                                                          | `false`           |
+| ETag                      | `bool`          | Habilita ou desabilita o gerador de header ETag, desde que ambas as etags fracas e fortes sejam geradas usando o mesmo método de hashing \(CRC-32\). ETags fracas são por padrão habilitadas.                                                                           | `false`           |
+| Templates                 | `*Templates`    | Templates is the interface that wraps the Render function. See our [**Template Middleware**](middleware.md#template) for supported engines.                                                                                                                               | `nil`             |
+| ReadTimeout               | `time.Duration` | The amount of time allowed to read the full request including body. Default timeout is unlimited.                                                                                                                                                                         | `nil`             |
+| WriteTimeout              | `time.Duration` | The maximum duration before timing out writes of the response. Default timeout is unlimited.                                                                                                                                                                              | `nil`             |
+| IdleTimeout               | `time.Duration` | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used.                                                                                                                             | `nil`             |
 
 ## Static
 
@@ -192,9 +190,9 @@ Requisições das rotas HTTP, onde **METHOD** é o [método HTTP](https://develo
 
 {% code title="Signatures" %}
 ```go
-// Os métodos HTTP tem suporte a :param, :optional? e *curingas
-// Você precisa passar um caminho para cada método
-app.All(path string, handlers ...func(*Ctx)) *Fiber
+// Os métodos HTTP tem suporte a :param, :optional? and *wildcards
+// You are required to pass a path to each method
+app.All(path string, handlers ...func(*Ctx)) []*Route
 app.Get
 app.Put
 app.Post
@@ -205,11 +203,11 @@ app.Delete
 app.Connect
 app.Options
 
-// Use() corresponderá apenas ao início de cada caminho
-// por exemplo "/john" corresponderá a "/john/doe", "/johnnnn"
-// Use() não tem suporte a :param & :optional? no caminho
-app.Use(handlers ...func(*Ctx))
-app.Use(prefix string, handlers ...func(*Ctx)) *Fiber
+// Use() will only match the beggining of each path
+// i.e. "/john" will match "/john/doe", "/johnnnn"
+// Use() does not support :param & :optional? in path
+app.Use(handlers ...func(*Ctx)) *Route
+app.Use(prefix string, handlers ...func(*Ctx)) *Route
 ```
 {% endcode %}
 
@@ -301,7 +299,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** não possui suporte ao recurso ****[**Prefork** ](application.md#settings).
+**Serve** does not support the **\*\*\[**Prefork\*\* \]\(application.md\#settings\)feature.
 {% endhint %}
 
 {% code title="Example" %}
