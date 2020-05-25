@@ -323,15 +323,15 @@ session.New(config ...session.Config) *Session
 
 **Конфигурация**
 
-| Свойство   | Тип             | Описание                                                                                                                                                                             | По умолчанию          |
-|:---------- |:--------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |:--------------------- |
-| Lookup     | `string`        | Где искать идентификатор сессии `<source>:<name>`, возможные значения: `cookie:key`, `header:key` или `query:key`                                                        | `"cookie:session_id"` |
-| Domain     | `string`        | Cookie domain                                                                                                                                                                        | `""`                  |
-| Expiration | `time.Duration` | Время истечения сессии, возможные значения: `0` означает не истекает (24 года); `-1` означает, что при закрытии браузера; `>0` — время. Продолжительность действия cookie сессии. | `12 * time.Hour`      |
-| Secure     | `bool`          | Если куки должны быть отправлены только по HTTPS                                                                                                                                     | `false`               |
-| Provider   | `Provider`      | Содержит интерфейс провайдера                                                                                                                                                        | `memory.Provider`     |
-| Generator  | `func() []byte` | Генератор — это функция, которая генерирует уникальный id                                                                                                                            | `uuid`                |
-| GCInterval | `time.Duration` | Интервал для сборщика мусора                                                                                                                                                         | `uuid`                |
+| Свойство   | Тип             | Описание                                                                                                                                                                                | По умолчанию          |
+|:---------- |:--------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------------- |
+| Lookup     | `string`        | Где искать идентификатор сессии `<source>:<name>`, возможные значения: `cookie:key`, `header:key` или `query:key`                                                           | `"cookie:session_id"` |
+| Domain     | `string`        | Cookie domain                                                                                                                                                                           | `""`                  |
+| Expiration | `time.Duration` | Session expiration time, possible values: `0` means no expiry \(24 years\), `-1` means when the browser closes, `>0` is the time.Duration which the session cookies should expire. | `12 * time.Hour`      |
+| Secure     | `bool`          | Если куки должны быть отправлены только по HTTPS                                                                                                                                        | `false`               |
+| Provider   | `Provider`      | Содержит интерфейс провайдера                                                                                                                                                           | `memory.Provider`     |
+| Generator  | `func() []byte` | Генератор — это функция, которая генерирует уникальный id                                                                                                                               | `uuid`                |
+| GCInterval | `time.Duration` | Интервал для сборщика мусора                                                                                                                                                            | `uuid`                |
 
 **Пример**
 
