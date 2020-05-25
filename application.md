@@ -89,9 +89,7 @@ func main() {
 | DisableDefaultContentType | `bool` | When set to true, causes the default Content-Type header to be excluded from the Response. | `false` |
 | DisableStartupMessage | `bool` | When set to true, it will not print out the fiber ASCII and "listening" on message | `false` |
 | ETag | `bool` | Enable or disable ETag header generation, since both weak and strong etags are generated using the same hashing method \(CRC-32\). Weak ETags are the default when enabled. | `false` |
-| TemplateEngine | `func(raw string, bind interface{}) (string, error)` | You can specify a custom template function to render different template languages. See our [**Template Middleware**](middleware.md#template) _\*\*_for presets. | `nil` |
-| TemplateFolder | `string` | A directory for the application's views. If a directory is set, this will be the prefix for all template paths. `c.Render("home", data) -> ./views/home.pug` | `""` |
-| TemplateExtension | `string` | If you preset the template file extension, you do not need to provide the full filename in the Render function: `c.Render("home", data) -> home.pug` | `""` |
+| Templates | `*Templates` | Templates is the interface that wraps the Render function. See our [**Template Middleware**](middleware.md#template) for supported engines. | `nil` |
 | ReadTimeout | `time.Duration` | The amount of time allowed to read the full request including body. Default timeout is unlimited. | `nil` |
 | WriteTimeout | `time.Duration` | The maximum duration before timing out writes of the response. Default timeout is unlimited. | `nil` |
 | IdleTimeout | `time.Duration` | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used. | `nil` |
@@ -194,7 +192,7 @@ Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.
 ```go
 // HTTP methods support :param, :optional? and *wildcards
 // You are required to pass a path to each method
-app.All(path string, handlers ...func(*Ctx)) *Fiber
+app.All(path string, handlers ...func(*Ctx)) []*Route
 app.Get
 app.Put
 app.Post
@@ -208,8 +206,8 @@ app.Options
 // Use() will only match the beggining of each path
 // i.e. "/john" will match "/john/doe", "/johnnnn"
 // Use() does not support :param & :optional? in path
-app.Use(handlers ...func(*Ctx))
-app.Use(prefix string, handlers ...func(*Ctx)) *Fiber
+app.Use(handlers ...func(*Ctx)) *Route
+app.Use(prefix string, handlers ...func(*Ctx)) *Route
 ```
 {% endcode %}
 
@@ -302,7 +300,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** does not support the ****[**Prefork** ](application.md#settings)feature.
+**Serve** does not support the **\*\*\[**Prefork\*\* \]\(application.md\#settings\)feature.
 {% endhint %}
 
 {% code title="Example" %}
