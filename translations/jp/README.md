@@ -52,19 +52,19 @@ go run server.go
 各ルートは **複数のハンドラ関数**を持つことができ、そのルートが一致するときに実行されます。
 {% endhint %}
 
-Route definition takes the following structures:
+ルート定義は以下のような構造をとります：
 
 ```go
 // Function signature
 app.Method(path string, ...func(*fiber.Ctx))
 ```
 
-* `app` is an instance of **Fiber**.
-* `Method` is an [HTTP request method](https://fiber.wiki/application#methods), in capitalization: `Get`, `Put`, `Post`, etc.
-* `path` is a virtual path on the server.
-* `func(*fiber.Ctx)` is a callback function containing the [Context](https://fiber.wiki/context) executed when the route is matched.
+* `app`は**Fiber**のインスタンスです。
+* `Method`は[HTTP request method](https://fiber.wiki/application#methods)であり、`Get`, `Put`, `Post`などを大文字で表記します。
+* `path` はサーバ上の仮想パスです。
+* `func(*fiber.Ctx)` は、ルートが一致したときに実行される [コンテキスト](https://fiber.wiki/context) を含むコールバック関数です。
 
-**Simple route**
+**シンプルなルート**
 
 ```go
 // Respond with "Hello, World!" on root path, "/"
@@ -73,7 +73,7 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-**Parameters**
+**パラメータの表記**
 
 ```go
 // GET http://localhost:8080/hello%20world
@@ -84,7 +84,7 @@ app.Get("/:value", func(c *fiber.Ctx) {
 })
 ```
 
-**Optional parameter**
+**省略可能なパラメーターの表記**
 
 ```go
 // GET http://localhost:3000/john
@@ -99,7 +99,7 @@ app.Get("/:name?", func(c *fiber.Ctx) {
 })
 ```
 
-**Wildcards**
+**ワイルドカード**
 
 ```go
 // GET http://localhost:3000/api/user/john
@@ -112,7 +112,7 @@ app.Get("/api/*", func(c *fiber.Ctx) {
 
 ## Static files
 
-To serve static files such as **images**, **CSS** and **JavaScript** files, replace your function handler with a file or directory string.
+**画像**、 **CSS** および **JavaScript** ファイルなどの静的ファイルを扱うためには、 関数ハンドラをファイルまたはディレクトリの文字列に置き換えます。
 
 Function signature:
 
@@ -120,7 +120,7 @@ Function signature:
 app.Static(prefix, root string)
 ```
 
-Use the following code to serve files in a directory named `./public`:
+`./public` というディレクトリ内のファイルを扱うには、次のコードを使用します。
 
 ```go
 app := fiber.New()
@@ -130,7 +130,7 @@ app.Static("/", "./public")
 app.Listen(8080)
 ```
 
-Now, you can load the files that are in the `./public` directory:
+これで、`./public` ディレクトリにあるファイルを読み込むことができます。
 
 ```bash
 http://localhost:8080/hello.html
