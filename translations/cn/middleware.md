@@ -323,15 +323,15 @@ session.New(config ...session.Config) *Session
 
 **配置**
 
-| 属性         | 类型              | 说明                                                                                             | 默认                    |
-|:---------- |:--------------- |:---------------------------------------------------------------------------------------------- |:--------------------- |
-| Lookup     | `string`        | 获取 session id 的方式，可以使用的值有：`cookie:key`、`header:key` 或 `query:key`                              | `"cookie:session_id"` |
-| Domain     | `string`        | session id 一般通过 cookie 设置，该字段用于设置 cookie 的 domain 属性                                           | `""`                  |
-| Expiration | `time.Duration` | 定义 session 过期时间，`0` 表示不会过期（实际上 24 年过期），`-1` 表示浏览器关闭后过期，`>0` 的值通过 time.Duration 设置，表示具体过期时间。 | `12 * time.Hour`      |
-| Secure     | `bool`          | 设置 cookie 的 secure 属性，是否只在 HTTPS 环境下发送                                                         | `false`               |
-| Provider   | `Provider`      | 传入要使用的 provider                                                                                | `memory.Provider`     |
-| Generator  | `func() []byte` | 定义 session id 生成器                                                                              | `uuid`                |
-| GCInterval | `time.Duration` | 定义 GC（垃圾回收）周期                                                                                  | `uuid`                |
+| 属性         | 类型              | 说明                                                                                                                                                                                      | 默认                    |
+|:---------- |:--------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------------- |
+| Lookup     | `string`        | 获取 session id 的方式，可以使用的值有：`cookie:key`、`header:key` 或 `query:key`                                                                                                                       | `"cookie:session_id"` |
+| Domain     | `string`        | session id 一般通过 cookie 设置，该字段用于设置 cookie 的 domain 属性                                                                                                                                    | `""`                  |
+| Expiration | `time.Duration` | Session expiration time, possible values: `0` means no expiry \(24 years\), `-1` means when the browser closes, `>0` is the time.Duration which the session cookies should expire. | `12 * time.Hour`      |
+| Secure     | `bool`          | 设置 cookie 的 secure 属性，是否只在 HTTPS 环境下发送                                                                                                                                                  | `false`               |
+| Provider   | `Provider`      | 传入要使用的 provider                                                                                                                                                                         | `memory.Provider`     |
+| Generator  | `func() []byte` | 定义 session id 生成器                                                                                                                                                                       | `uuid`                |
+| GCInterval | `time.Duration` | 定义 GC（垃圾回收）周期                                                                                                                                                                           | `uuid`                |
 
 **示例**
 
