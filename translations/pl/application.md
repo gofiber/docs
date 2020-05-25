@@ -75,26 +75,24 @@ func main() {
 
 **Właściwości** **ustawień**
 
-| Właściwość                | Typ                                                  | Opis                                                                                                                                                                                                                                             | Domyślna wartość  |
-|:------------------------- |:---------------------------------------------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |:----------------- |
-| Prefork                   | `bool`                                               | Włącza opcję gniazd [`SO_REUSEPORT`](https://lwn.net/Articles/542629/). Uruchamia wiele procesów Go nasłuchujących na tym samym porcie. dowiedz się więcej o [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
-| ServerHeader              | `string`                                             | Ustawia nagłówek HTTP `Server` z daną wartością.                                                                                                                                                                                                 | `""`              |
-| StrictRouting             | `bool`                                               | Przełącza traktowanie `/foo` i `/foo/` jako innych routeów. Gdy wartość jest fałszywa, router traktuje `/foo` oraz `/foo/` jako takie same.                                                                                                      | `false`           |
-| CaseSensitive             | `bool`                                               | Gdy włączone, `/Foo` i `/foo` są innymi routeami. W przeciwnym razie `/Foo` i `/foo` są traktowane jako identyczne.                                                                                                                              | `false`           |
-| Immutable                 | `bool`                                               | Gdy włączone, wszystkie wartości zwrócone przez context są niezmienne. Domyślnie są prawidłowe dopóki ich nie zwrócisz z handlera, zobacz [\#185](https://github.com/gofiber/fiber/issues/185).                                                | `false`           |
-| BodyLimit                 | `int`                                                | Ustawia maksymalny dozwolony rozmiar body żądania, jeżeli rozmiar przekroczy ustawiony limit, wysyła `413 - Request Entity Too Large`.                                                                                                           | `4 * 1024 * 1024` |
-| Concurrency               | `int`                                                | Maksymalna liczba jednoczesnych połączeń.                                                                                                                                                                                                        | `256 * 1024`      |
-| DisableKeepalive          | `bool`                                               | Wyłącza utrzymywanie połączeń keep-alive, serwer będzie zamykał przychodzące połączenia po wysłaniu odpowiedzi do klienta                                                                                                                        | `false`           |
-| DisableDefaultDate        | `bool`                                               | Gdy ustawione na true, domyślny nagłówek z datą nie będzie załączany w odpowiedzi.                                                                                                                                                               | `false`           |
-| DisableDefaultContentType | `bool`                                               | Gdy ustawione na true, domyślny nagłówek Content-Type nie będzie uwzględniany w odpowiedzi.                                                                                                                                                      | `false`           |
-| DisableStartupMessage     | `bool`                                               | Gdy ustawione na true, Fiber nie będzie wyświetlał ASCII arta i wiadomości o nasłuchiwaniu                                                                                                                                                       | `false`           |
-| ETag                      | `bool`                                               | Wyłącza lub włącza generowanie nagłówków ETag, ponieważ zarówno słabe, jak i mocne ETagi są generowane tą samą metodą hashowania \(CRC-32\). Słabe ETagi są domyślnie ustawione, gdy włączone.                                                 | `false`           |
-| TemplateEngine            | `func(raw string, bind interface{}) (string, error)` | Możesz ustawić niestandardową funkcję szablonów, aby przetwarzać inne języki templatowania. Zobacz [**Template Middleware**](middleware.md#template)_\*\*_dla presetów.                                                                    | `nil`             |
-| TemplateFolder            | `string`                                             | Katalog na viewy do aplikacji. Jeżeli katalog jest ustawiony, będzie on prefixem dla wszystkich ścieżek dla szablonów. `c.Render("home", data) -> ./views/home.pug`                                                                           | `""`              |
-| TemplateExtension         | `string`                                             | Jeżeli wstępnie ustawisz rozszerzenie używane przez szablony, nie będzie potrzeby podawania pełnej nazwy z rozszerzeniem w funkcji Render: `c.Render("home", data) -> home.pug`                                                               | `""`              |
-| ReadTimeout               | `time.Duration`                                      | Dozwolona ilość czasu na przeczytanie pełnego requestu razem z jego body. Domyślnie jest nieograniczona.                                                                                                                                         | `nil`             |
-| WriteTimeout              | `time.Duration`                                      | Maksymalny czas trwania przed przedawnieniem zapisywania odpowiedzi. Domyślnie jest nieograniczona.                                                                                                                                              | `nil`             |
-| IdleTimeout               | `time.Duration`                                      | Maksymalna długość czasu dla czekania na następny request, kiedy keep-alive jest włączone. Jeżeli IdleTimeout ma wartość zerową, wartość ReadTimeout jest używana.                                                                               | `nil`             |
+| Właściwość                | Typ             | Opis                                                                                                                                                                                                                                             | Domyślna wartość  |
+|:------------------------- |:--------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |:----------------- |
+| Prefork                   | `bool`          | Włącza opcję gniazd [`SO_REUSEPORT`](https://lwn.net/Articles/542629/). Uruchamia wiele procesów Go nasłuchujących na tym samym porcie. dowiedz się więcej o [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
+| ServerHeader              | `string`        | Ustawia nagłówek HTTP `Server` z daną wartością.                                                                                                                                                                                                 | `""`              |
+| StrictRouting             | `bool`          | Przełącza traktowanie `/foo` i `/foo/` jako innych routeów. Gdy wartość jest fałszywa, router traktuje `/foo` oraz `/foo/` jako takie same.                                                                                                      | `false`           |
+| CaseSensitive             | `bool`          | Gdy włączone, `/Foo` i `/foo` są innymi routeami. W przeciwnym razie `/Foo` i `/foo` są traktowane jako identyczne.                                                                                                                              | `false`           |
+| Immutable                 | `bool`          | Gdy włączone, wszystkie wartości zwrócone przez context są niezmienne. Domyślnie są prawidłowe dopóki ich nie zwrócisz z handlera, zobacz [\#185](https://github.com/gofiber/fiber/issues/185).                                                | `false`           |
+| BodyLimit                 | `int`           | Ustawia maksymalny dozwolony rozmiar body żądania, jeżeli rozmiar przekroczy ustawiony limit, wysyła `413 - Request Entity Too Large`.                                                                                                           | `4 * 1024 * 1024` |
+| Concurrency               | `int`           | Maksymalna liczba jednoczesnych połączeń.                                                                                                                                                                                                        | `256 * 1024`      |
+| DisableKeepalive          | `bool`          | Wyłącza utrzymywanie połączeń keep-alive, serwer będzie zamykał przychodzące połączenia po wysłaniu odpowiedzi do klienta                                                                                                                        | `false`           |
+| DisableDefaultDate        | `bool`          | Gdy ustawione na true, domyślny nagłówek z datą nie będzie załączany w odpowiedzi.                                                                                                                                                               | `false`           |
+| DisableDefaultContentType | `bool`          | Gdy ustawione na true, domyślny nagłówek Content-Type nie będzie uwzględniany w odpowiedzi.                                                                                                                                                      | `false`           |
+| DisableStartupMessage     | `bool`          | Gdy ustawione na true, Fiber nie będzie wyświetlał ASCII arta i wiadomości o nasłuchiwaniu                                                                                                                                                       | `false`           |
+| ETag                      | `bool`          | Wyłącza lub włącza generowanie nagłówków ETag, ponieważ zarówno słabe, jak i mocne ETagi są generowane tą samą metodą hashowania \(CRC-32\). Słabe ETagi są domyślnie ustawione, gdy włączone.                                                 | `false`           |
+| Templates                 | `*Templates`    | Templates is the interface that wraps the Render function. See our [**Template Middleware**](middleware.md#template) for supported engines.                                                                                                      | `nil`             |
+| ReadTimeout               | `time.Duration` | The amount of time allowed to read the full request including body. Default timeout is unlimited.                                                                                                                                                | `nil`             |
+| WriteTimeout              | `time.Duration` | The maximum duration before timing out writes of the response. Default timeout is unlimited.                                                                                                                                                     | `nil`             |
+| IdleTimeout               | `time.Duration` | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used.                                                                                                    | `nil`             |
 
 ## Static
 
@@ -194,7 +192,7 @@ Przekierowuje zapytanie HTTP, gdzie **METHOD** jest [metodą HTTP](https://devel
 ```go
 // HTTP methods support :param, :optional? and *wildcards
 // You are required to pass a path to each method
-app.All(path string, handlers ...func(*Ctx)) *Fiber
+app.All(path string, handlers ...func(*Ctx)) []*Route
 app.Get
 app.Put
 app.Post
@@ -208,8 +206,8 @@ app.Options
 // Use() will only match the beggining of each path
 // i.e. "/john" will match "/john/doe", "/johnnnn"
 // Use() does not support :param & :optional? in path
-app.Use(handlers ...func(*Ctx))
-app.Use(prefix string, handlers ...func(*Ctx)) *Fiber
+app.Use(handlers ...func(*Ctx)) *Route
+app.Use(prefix string, handlers ...func(*Ctx)) *Route
 ```
 {% endcode %}
 
@@ -302,7 +300,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** nie wspiera ****[**Prefork**](application.md#settings).
+**Serve** does not support the **\*\*\[**Prefork\*\* \]\(application.md\#settings\)feature.
 {% endhint %}
 
 {% code title="Example" %}
