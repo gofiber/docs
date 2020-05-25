@@ -323,15 +323,15 @@ session.New(config ...session.Config) *Session
 
 **Config**
 
-| Proprietà  | Tipo            | Descrizione                                                                                                                                                                         | Predefinito           |
-|:---------- |:--------------- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------------- |
-| Lookup     | `string`        | Where to look for the session id `<source>:<name>`, possible values: `cookie:key`, `header:key` or `query:key`                                                          | `"cookie:session_id"` |
-| Domain     | `string`        | Cookie domain                                                                                                                                                                       | `""`                  |
-| Expiration | `time.Duration` | Session expiration time, possible values: `0` means no expiry (24 years), `-1` means when the browser closes, `>0` is the time.Duration which the session cookies should expire. | `12 * time.Hour`      |
-| Secure     | `bool`          | If the cookie should only be send over HTTPS                                                                                                                                        | `false`               |
-| Provider   | `Provider`      | Holds the provider interface                                                                                                                                                        | `memory.Provider`     |
-| Generator  | `func() []byte` | Generator is a function that generates an unique id                                                                                                                                 | `uuid`                |
-| GCInterval | `time.Duration` | Interval for the garbage collector                                                                                                                                                  | `uuid`                |
+| Proprietà  | Tipo            | Descrizione                                                                                                                                                                             | Predefinito           |
+|:---------- |:--------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------------- |
+| Lookup     | `string`        | Where to look for the session id `<source>:<name>`, possible values: `cookie:key`, `header:key` or `query:key`                                                              | `"cookie:session_id"` |
+| Domain     | `string`        | Cookie domain                                                                                                                                                                           | `""`                  |
+| Expiration | `time.Duration` | Session expiration time, possible values: `0` means no expiry \(24 years\), `-1` means when the browser closes, `>0` is the time.Duration which the session cookies should expire. | `12 * time.Hour`      |
+| Secure     | `bool`          | If the cookie should only be send over HTTPS                                                                                                                                            | `false`               |
+| Provider   | `Provider`      | Holds the provider interface                                                                                                                                                            | `memory.Provider`     |
+| Generator  | `func() []byte` | Generator is a function that generates an unique id                                                                                                                                     | `uuid`                |
+| GCInterval | `time.Duration` | Interval for the garbage collector                                                                                                                                                      | `uuid`                |
 
 **Esempio**
 
