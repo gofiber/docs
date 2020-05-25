@@ -12,7 +12,7 @@ description: An API documentation so you can start building web apps with Fiber.
 
 まず、 [ここ](https://golang.org/dl/)をダウンロードしてGoをインストールします。 `1.11` 以降が必要です。
 
-**Fiber**のインストールは [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) コマンドを使用します。
+そして、[`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) コマンドを使用してインストールします。
 
 ```bash
 go get -u github.com/gofiber/fiber
