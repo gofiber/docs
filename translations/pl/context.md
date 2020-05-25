@@ -148,7 +148,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## BodyParser
 
-Binduje body zapytania do structa. `BodyParser` supports decoding query parameters and the following content types based on the `Content-Type` header:
+Binduje body zapytania do structa. `BodyParser` wspiera dekodowanie parametrów zapytania i odpowiedniego typu zawartości bazując na nagłówku `Content-Type`:
 
 * `application/json`
 * `application/xml`
@@ -195,7 +195,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## ClearCookie
 
-Expire a client cookie \(_or all cookies if left empty\)_
+Przedawnia dane cookie klienta \(_lub wszystkie cookie, jeżeli pozostawione bez argumentów_\)
 
 {% code title="Signature" %}
 ```go
