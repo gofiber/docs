@@ -212,9 +212,9 @@ func main() {
 
 ## Logger
 
-Logger middleware logs the information about each HTTP request.
+Middleware Logger rejestruje informacje o każdym zapytaniu HTTP.
 
-**Installation**
+**Instalacja**
 
 ```bash
 go get -u github.com/gofiber/logger
@@ -226,7 +226,7 @@ go get -u github.com/gofiber/logger
 logger.new(config ...Config) func(*Ctx)
 ```
 
-**Config**
+**Konfiguracja**
 
 | Właściwość | Typ                     | Opis                                                                                                                                                     | Domyślna wartość                                   |
 |:---------- |:----------------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------- |:-------------------------------------------------- |
