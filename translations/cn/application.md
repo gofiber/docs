@@ -89,10 +89,10 @@ func main() {
 | DisableDefaultContentType | `bool`          | 当设置为 true时，默认内容类型头字段 Content-Type header 将被排除在响应之外。                                                                                                                       | `false`           |
 | DisableStartupMessage     | `bool`          | 当设置为 true时，它将不会在日志中打印 fiber 的 ASCII 图像和信息“监听”。                                                                                                                            | `false`           |
 | ETag                      | `bool`          | 启用或禁用 ETag 头字段，这是因为弱 Etags 和 强 Etags 都是使用相同的散列（哈希）方法 \(CRC-32\)。 启用时，默认使用弱 ETags。                                                                                       | `false`           |
-| Templates                 | `*Templates`    | 模板是用于包装渲染函数的接口。 See our [**Template Middleware**](middleware.md#template) for supported engines.                                                                          | `nil`             |
-| ReadTimeout               | `time.Duration` | The amount of time allowed to read the full request including body. Default timeout is unlimited.                                                                         | `nil`             |
-| WriteTimeout              | `time.Duration` | The maximum duration before timing out writes of the response. Default timeout is unlimited.                                                                              | `nil`             |
-| IdleTimeout               | `time.Duration` | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used.                             | `nil`             |
+| Templates                 | `*Templates`    | 模板是用于包装渲染函数的接口。 查看我们的 [**模板中间件**](middleware.md#template) 获取支持的引擎。                                                                                                        | `nil`             |
+| ReadTimeout               | `time.Duration` | 读取请求最大允许的时间 （包括读取 body）。 默认无超时限制。                                                                                                                                         | `nil`             |
+| WriteTimeout              | `time.Duration` | 写入响应最大允许的时间。默认无超时限制。 默认无超时限制。                                                                                                                                             | `nil`             |
+| IdleTimeout               | `time.Duration` | 开启保持存活时，等待下一次请求的最大允许时间。 如果IdleTimeout为零，则使用ReadTimeout的值。                                                                                                                 | `nil`             |
 
 ## Static
 
@@ -191,7 +191,7 @@ app.Static("/", "./public", fiber.Static{
 {% code title="Signatures" %}
 ```go
 // HTTP 方法支持 :param 参数, :optional？可选项 and *wildcards
-// You are required to pass a path to each method
+// 您需要为每个HTTP方法传入一个路径
 app.All(path string, handlers ...func(*Ctx)) []*Route
 app.Get
 app.Put
@@ -203,9 +203,9 @@ app.Delete
 app.Connect
 app.Options
 
-// Use() will only match the beggining of each path
-// i.e. "/john" will match "/john/doe", "/johnnnn"
-// Use() does not support :param & :optional? in path
+// Use() 只会匹配前段路径
+// 例如： "/john" 会匹配 "/john/doe", "/johnnnn"
+// Use() 不支持参数（:param） & 可选项（:optional?） 在路径使用
 app.Use(handlers ...func(*Ctx)) *Route
 app.Use(prefix string, handlers ...func(*Ctx)) *Route
 ```
@@ -300,7 +300,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** does not support the **\*\*\[**Prefork\*\* \]\(application.md\#settings\)feature.
+**Serve** 不支持 **\*\*\[**Prefork\*\* \]\(application.md\#settings\)特性.
 {% endhint %}
 
 {% code title="Example" %}
