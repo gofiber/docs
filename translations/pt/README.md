@@ -20,7 +20,7 @@ go get -u github.com/gofiber/fiber
 
 ## Hello, World!
 
-Embedded below is essentially simplest **Fiber** app, which you can create.
+Abaixo temos o exemplo mais simples de um app **Fiber** que você pode criar.
 
 ```go
 package main
