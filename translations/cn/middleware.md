@@ -483,7 +483,7 @@ func main() {
 
   app.Get("/ws", websocket.New(func(c *websocket.Conn) {
     fmt.Println(c.Locals("Hello")) // "World"
-    // Websocket 相关逻辑...
+    // Websocket logic...
     for {
       mt, msg, err := c.ReadMessage()
       if err != nil {
