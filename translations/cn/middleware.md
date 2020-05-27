@@ -323,15 +323,15 @@ session.New(config ...session.Config) *Session
 
 **配置**
 
-| 属性         | 类型              | 说明                                                                                             | 默认                    |
-|:---------- |:--------------- |:---------------------------------------------------------------------------------------------- |:--------------------- |
-| Lookup     | `string`        | 获取 session id 的方式，可以使用的值有：`cookie:key`、`header:key` 或 `query:key`                              | `"cookie:session_id"` |
-| Domain     | `string`        | session id 一般通过 cookie 设置，该字段用于设置 cookie 的 domain 属性                                           | `""`                  |
-| Expiration | `time.Duration` | 定义 session 过期时间，`0` 表示不会过期（实际上 24 年过期），`-1` 表示浏览器关闭后过期，`>0` 的值通过 time.Duration 设置，表示具体过期时间。 | `12 * time.Hour`      |
-| Secure     | `bool`          | 设置 cookie 的 secure 属性，是否只在 HTTPS 环境下发送                                                         | `false`               |
-| Provider   | `Provider`      | 传入要使用的 provider                                                                                | `memory.Provider`     |
-| Generator  | `func() []byte` | 定义 session id 生成器                                                                              | `uuid`                |
-| GCInterval | `time.Duration` | 定义 GC（垃圾回收）周期                                                                                  | `uuid`                |
+| 属性         | 类型              | 说明                                                                                   | 默认                    |
+|:---------- |:--------------- |:------------------------------------------------------------------------------------ |:--------------------- |
+| Lookup     | `string`        | 获取 session id 的方式，可以使用的值有：`cookie:key`、`header:key` 或 `query:key`                    | `"cookie:session_id"` |
+| Domain     | `string`        | session id 一般通过 cookie 设置，该字段用于设置 cookie 的 domain 属性                                 | `""`                  |
+| Expiration | `time.Duration` | 会话过期时间，可能的值： `0` 表示没有到期\(24年\)， `-1` 表示当浏览器关闭时， `>0` 表示会话过期的时间 （time.Duration）。 | `12 * time.Hour`      |
+| Secure     | `bool`          | 设置 cookie 的 secure 属性，是否只在 HTTPS 环境下发送                                               | `false`               |
+| Provider   | `Provider`      | 传入要使用的 provider                                                                      | `memory.Provider`     |
+| Generator  | `func() []byte` | 定义 session id 生成器                                                                    | `uuid`                |
+| GCInterval | `time.Duration` | 定义 GC（垃圾回收）周期                                                                        | `uuid`                |
 
 **示例**
 
@@ -369,7 +369,7 @@ func main() {
 
 ## Template
 
-Fiber 本身自带一个[**默认的 HTML 模板**](https://golang.org/pkg/html/template/)引擎，相比之下，这个中间件包含了第三方的模板渲染引擎
+This middleware package contains `8 template engines` that can be used with [Fiber v1.10.0](https://github.com/gofiber/fiber) using Go version `1.13` or higher is required.
 
 **安装**
 
@@ -380,17 +380,21 @@ go get -u github.com/gofiber/template
 **Signature**
 
 ```go
-template.Engine() func(raw string, bind interface{}) (out string, err error)
+<engine>.New(directory, extension string, funcmap ...map[string]interface{}) *Engine
 ```
 
 **模板引擎**
 
-| 关键字            | 模板引擎                                                                 |
-|:-------------- |:-------------------------------------------------------------------- |
-| `Amber()`      | [github.com/eknkc/amber](https://github.com/eknkc/amber)             |
-| `Handlebars()` | [github.com/aymerick/raymond](https://github.com/aymerick/raymond)   |
-| `Mustache()`   | [github.com/cbroglie/mustache](https://github.com/cbroglie/mustache) |
-| `Pug()`        | [github.com/Joker/jade](https://github.com/Joker/jade)               |
+| Engines      | Repo                                                                           |
+|:------------ |:------------------------------------------------------------------------------ |
+| `ace`        | [https://github.com/yosssi/ace](https://github.com/yosssi/ace)                 |
+| `amber`      | [https://github.com/eknkc/amber](https://github.com/eknkc/amber)               |
+| `django`     | [https://github.com/flosch/pongo2](https://github.com/flosch/pongo2)           |
+| `handlebars` | [https://github.com/aymerick/raymond](https://github.com/aymerick/raymond)     |
+| `jet`        | [https://github.com/CloudyKit/jet](https://github.com/CloudyKit/jet)           |
+| `mustache`   | [https://github.com/cbroglie/mustache](https://github.com/cbroglie/mustache)   |
+| `pug`        | [https://github.com/Joker/jade](https://github.com/Joker/jade)                 |
+| `html`       | [https://golang.org/pkg/html/template/](https://golang.org/pkg/html/template/) |
 
 **示例**
 
@@ -398,32 +402,37 @@ template.Engine() func(raw string, bind interface{}) (out string, err error)
 package main
 
 import (
-  "github.com/gofiber/fiber"
-  "github.com/gofiber/template"
+    "github.com/gofiber/fiber"
+
+    // "github.com/gofiber/template/ace"
+    // "github.com/gofiber/template/amber"
+    // "github.com/gofiber/template/django"
+    // "github.com/gofiber/template/handlebars"
+  // "github.com/gofiber/template/jet"
+    // "github.com/gofiber/template/mustache"
+    // "github.com/gofiber/template/pug"
+    "github.com/gofiber/template/html"
 )
 
 func main() {
-  app := fiber.New()
+    app := fiber.New()
 
-  app.Settings.TemplateEngine = template.Mustache()
-  // app.Settings.TemplateEngine = template.Amber()
-  // app.Settings.TemplateEngine = template.Handlebars()
-  // app.Settings.TemplateEngine = template.Pug()
+    // app.Settings.Templates = ace.New("./views", ".ace")
+    // app.Settings.Templates = amber.New("./views", ".amber")
+    // app.Settings.Templates = django.New("./views", ".django")
+    // app.Settings.Templates = handlebars.New("./views", ".hbs")
+  // app.Settings.Templates = jet.New("./views", ".jet")
+    // app.Settings.Templates = mustache.New("./views", ".mustache")
+    // app.Settings.Templates = pug.New("./views", ".pug")
+    app.Settings.Templates = html.New("./views", ".html")
 
-  app.Get("/", func(c *fiber.Ctx) {
-    bind := fiber.Map{
-      "name": "John",
-      "age":  35,
-    }
-    if err := c.Render("./views/index.mustache", bind); err != nil {
-      c.Status(500).Send(err.Error())
-    }
-    // <html><head><title>Template Demo</title></head>
-    // <body>Hi, my name is John and im 35 years old
-    // </body></html>
-  })
+    app.Get("/", func(c *fiber.Ctx) {
+        c.Render("index", fiber.Map{
+            "Title": "Hello, World!",
+        })
+    })
 
-  app.Listen(3000)
+    app.Listen(3000)
 }
 ```
 

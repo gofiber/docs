@@ -75,26 +75,25 @@ func main() {
 
 **پارامترهای** **تنظیمات**
 
-| ویژگی                     | نوع                                                  | توضیحات                                                                                                                                                                                                                                                                 | پیش‌فرض           |
-|:------------------------- |:---------------------------------------------------- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
-| Prefork                   | `bool`                                               | استفاده از گزینه سوکت [`SO_REUSEPORT`](https://lwn.net/Articles/542629/) را فعال می کند. این گزینه باعث می شود تا چندین پردازش Go از یک پورت استفاده کنند. در مورد [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/) بیشتر یاد بگیرید. | `false`           |
-| ServerHeader              | `string`                                             | هدر HTTP `Server` را با مقدار داده شده مقداردهی می کند.                                                                                                                                                                                                                 | `""`              |
-| StrictRouting             | `bool`                                               | در صورت فعال بودن، روتر برای `/foo` و `/foo/` تمایز قائل می شود. در غیر این صورت، روتر برای `/foo` و `/foo/` یکسان عمل می کند.                                                                                                                                          | `false`           |
-| CaseSensitive             | `bool`                                               | در صورت فعال بودن، `/Foo` و `/foo` مسیرهای متفاوتی هستند. در صورت غیرفعال بودن، `/Foo`و `/foo` یکسان تلقی می شوند.                                                                                                                                                      | `false`           |
-| Immutable                 | `bool`                                               | درصورت فعال بودن، تمام مقادیر به صورت تغییرناپذیر توسط context بازگشت داده می شوند. به صورت پیش‌فرض تمام مقادیر تا هنگامی که از هندلر برمی گردید معتبر هستند، این موضوع را ببینید [\#185](https://github.com/gofiber/fiber/issues/185).                               | `false`           |
-| BodyLimit                 | `int`                                                | حداکثر اندازه بدنه ی یک درخواست را تنظیم می کند، اگر اندازه از حد تنظیم شده تجاوز کند، خطای `413 - Request Entity Too Large` ارسال می کند.                                                                                                                              | `4 * 1024 * 1024` |
-| Concurrency               | `int`                                                | حداکثر تعداد کانکشن های همزمان.                                                                                                                                                                                                                                         | `256 * 1024`      |
-| DisableKeepalive          | `bool`                                               | با غیرفعال کردن کانکشن های keep-alive، سرور کانکشن های ورودی را بعد از ارسال اولین پاسخ به کلاینت خواهد بست                                                                                                                                                             | `false`           |
-| DisableDefaultDate        | `bool`                                               | در صورت مقداردهی با true، هدر پیش‌فرض تاریخ حذف می شود.                                                                                                                                                                                                                 | `false`           |
-| DisableDefaultContentType | `bool`                                               | در صورت مقداردهی با true، باعث می شود تا هدر Content-Type از ریسپانس حذف شود.                                                                                                                                                                                           | `false`           |
-| DisableStartupMessage     | `bool`                                               | در صورت مقداردهی با true، پیغام fiber ASCII و "listening" چاپ نمی شود                                                                                                                                                                                                   | `false`           |
-| ETag                      | `bool`                                               | فعال یا غیرفعال کردن ساختن هدر ETag، در صورت فعال بودن هر دو حالت ETag ضعیف و قوی با استفاده از یک متد هش یکسان ساخته می شوند \(CRC-32\). در صورت فعال بودن، ETagهای ضعیف پیش‌فرض هستند.                                                                              | `false`           |
-| TemplateEngine            | `func(raw string, bind interface{}) (string, error)` | شما می توانید یک تابع شخصی سازی شده قالب بندی، برای رندر کردن زبان های مختلف قالب بندی، مشخص کنید. [**میان افزار قالب بندی**](middleware.md#template) پیش فرض را ببینید.                                                                                                | `nil`             |
-| TemplateFolder            | `string`                                             | یک دایرکتوری برای تمپلیت های برنامه. اگر یک دایرکتوری تنظیم شود، به عنوان پیشوندی برای مسیر تمام تمپلیت ها نیز خواهد بود. `c.Render("home", data) -> ./views/home.pug`                                                                                               | `""`              |
-| TemplateExtension         | `string`                                             | اگر فرمت فایل تمپلیت را تنظیم کنید، نیازی به ارسال نام کامل فایل به تابع Render نخواهید داشت: `c.Render("home", data) -> home.pug`                                                                                                                                   | `""`              |
-| ReadTimeout               | `time.Duration`                                      | مقدار زمان مجاز به خواندن کامل درخواست شامل بدنه. مهلت پیش‌فرض نامحدود است.                                                                                                                                                                                             | `nil`             |
-| WriteTimeout              | `time.Duration`                                      | حداکثر مدت زمان قبل از پایان زمان نوشتن پاسخ. مهلت پیش‌فرض نامحدود است.                                                                                                                                                                                                 | `nil`             |
-| IdleTimeout               | `time.Duration`                                      | حداکثر مدت زمان برای منتظر ماندن تا درخواست بعدی هنگامی که keep-alive فعال شده است. اگر IdleTimeout صفر باشد، از مقدار ReadTimeout استفاده می شود.                                                                                                                      | `nil`             |
+| ویژگی                     | نوع             | توضیحات                                                                                                                                                                                                                                                                 | پیش‌فرض           |
+|:------------------------- |:--------------- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
+| Prefork                   | `bool`          | استفاده از گزینه سوکت [`SO_REUSEPORT`](https://lwn.net/Articles/542629/) را فعال می کند. این گزینه باعث می شود تا چندین پردازش Go از یک پورت استفاده کنند. در مورد [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/) بیشتر یاد بگیرید. | `false`           |
+| ServerHeader              | `string`        | هدر HTTP `Server` را با مقدار داده شده مقداردهی می کند.                                                                                                                                                                                                                 | `""`              |
+| StrictRouting             | `bool`          | در صورت فعال بودن، روتر برای `/foo` و `/foo/` تمایز قائل می شود. در غیر این صورت، روتر برای `/foo` و `/foo/` یکسان عمل می کند.                                                                                                                                          | `false`           |
+| CaseSensitive             | `bool`          | در صورت فعال بودن، `/Foo` و `/foo` مسیرهای متفاوتی هستند. در صورت غیرفعال بودن، `/Foo`و `/foo` یکسان تلقی می شوند.                                                                                                                                                      | `false`           |
+| Immutable                 | `bool`          | درصورت فعال بودن، تمام مقادیر به صورت تغییرناپذیر توسط context بازگشت داده می شوند. به صورت پیش‌فرض تمام مقادیر تا هنگامی که از هندلر برمی گردید معتبر هستند، این موضوع را ببینید [\#185](https://github.com/gofiber/fiber/issues/185).                               | `false`           |
+| BodyLimit                 | `int`           | حداکثر اندازه بدنه ی یک درخواست را تنظیم می کند، اگر اندازه از حد تنظیم شده تجاوز کند، خطای `413 - Request Entity Too Large` ارسال می کند.                                                                                                                              | `4 * 1024 * 1024` |
+| Concurrency               | `int`           | حداکثر تعداد کانکشن های همزمان.                                                                                                                                                                                                                                         | `256 * 1024`      |
+| DisableKeepalive          | `bool`          | با غیرفعال کردن کانکشن های keep-alive، سرور کانکشن های ورودی را بعد از ارسال اولین پاسخ به کلاینت خواهد بست                                                                                                                                                             | `false`           |
+| DisableDefaultDate        | `bool`          | در صورت مقداردهی با true، هدر پیش‌فرض تاریخ حذف می شود.                                                                                                                                                                                                                 | `false`           |
+| DisableDefaultContentType | `bool`          | در صورت مقداردهی با true، باعث می شود تا هدر Content-Type از ریسپانس حذف شود.                                                                                                                                                                                           | `false`           |
+| DisableStartupMessage     | `bool`          | در صورت مقداردهی با true، پیغام fiber ASCII و "listening" چاپ نمی شود                                                                                                                                                                                                   | `false`           |
+| DisableHeaderNormalizing  | `bool`          | By default all header names are normalized: conteNT-tYPE -&gt; Content-Type                                                                                                                                                                                       | `false`           |
+| ETag                      | `bool`          | Enable or disable ETag header generation, since both weak and strong etags are generated using the same hashing method \(CRC-32\). Weak ETags are the default when enabled.                                                                                           | `false`           |
+| Templates                 | `Templates`     | Templates is the interface that wraps the Render function. See our [**Template Middleware**](middleware.md#template) for supported engines.                                                                                                                             | `nil`             |
+| ReadTimeout               | `time.Duration` | The amount of time allowed to read the full request including body. Default timeout is unlimited.                                                                                                                                                                       | `nil`             |
+| WriteTimeout              | `time.Duration` | The maximum duration before timing out writes of the response. Default timeout is unlimited.                                                                                                                                                                            | `nil`             |
+| IdleTimeout               | `time.Duration` | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used.                                                                                                                           | `nil`             |
 
 ## Static
 
@@ -192,9 +191,9 @@ app.Static("/", "./public", fiber.Static{
 
 {% code title="Signatures" %}
 ```go
-// متدهای HTTP از param: ، :optional? و *wildcards
-// ارسال یک مسیر به هر متد اجباری است
-app.All(path string, handlers ...func(*Ctx)) *Fiber
+// متدهای HTTP از param: ، :optional? and *wildcards
+// You are required to pass a path to each method
+app.All(path string, handlers ...func(*Ctx)) []*Route
 app.Get
 app.Put
 app.Post
@@ -205,11 +204,11 @@ app.Delete
 app.Connect
 app.Options
 
-// ()Use فقط ابتدای هر مسیر را مطابقت می دهد
-// برای مثال "john/" این موارد را هم مطابقت می دهد "/john/doe", "/johnnnn"
-// ()Use از :param و :optional? پشتیبانی نمی کند 
-app.Use(handlers ...func(*Ctx))
-app.Use(prefix string, handlers ...func(*Ctx)) *Fiber
+// Use() will only match the beggining of each path
+// i.e. "/john" will match "/john/doe", "/johnnnn"
+// Use() does not support :param & :optional? in path
+app.Use(handlers ...func(*Ctx)) *Route
+app.Use(prefix string, handlers ...func(*Ctx)) *Route
 ```
 {% endcode %}
 
@@ -244,13 +243,13 @@ app.Group(prefix string, handlers ...func(*Ctx)) *Group
 func main() {
   app := fiber.New()
 
-  api := app.Group("/api", cors())  // /api
+  api := app.Group("/api", handler)  // /api
 
-  v1 := api.Group("/v1", mysql())   // /api/v1
+  v1 := api.Group("/v1", handler)   // /api/v1
   v1.Get("/list", handler)          // /api/v1/list
   v1.Get("/user", handler)          // /api/v1/user
 
-  v2 := api.Group("/v2", mongodb()) // /api/v2
+  v2 := api.Group("/v2", handler) // /api/v2
   v2.Get("/list", handler)          // /api/v2/list
   v2.Get("/user", handler)          // /api/v2/user
 
@@ -302,7 +301,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** does not support the ****[**Prefork** ](application.md#settings)feature.
+**Serve** does not support the **\*\*\[**Prefork\*\* \]\(application.md\#settings\)feature.
 {% endhint %}
 
 {% code title="Example" %}

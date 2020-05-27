@@ -75,26 +75,25 @@ func main() {
 
 **Einstellungen** **Felder**
 
-| Eigenschaft               | Typ                                                  | Beschreibung                                                                                                                                                                                                                                                               | Standardwert      |
-|:------------------------- |:---------------------------------------------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
-| Prefork                   | `bool`                                               | Aktiviert die Verwendung der[`SO_REUSEPORT`](https://lwn.net/Articles/542629/)Socket-Option. Dies erzeugt mehrere Go-Prozesse, die auf demselben Port lauschen. Erfahren Sie mehr über [Socket-Sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
-| ServerHeader              | `string`                                             | Aktiviert den `Server` HTTP-Header mit dem angegebenen Wert.                                                                                                                                                                                                               | `""`              |
-| StrictRouting             | `bool`                                               | Wenn aktiviert, behandelt der Router `/foo` und `/foo/` unterschiedlich. Ansonsten behandelt der Router `/foo` und `/foo/` gleich.                                                                                                                                         | `false`           |
-| CaseSensitive             | `bool`                                               | Wenn aktiviert, sind `/Foo` und `/foo` unterschiedliche Routen. Wenn deaktiviert, werden `/Foo`und `/foo` gleich behandelt.                                                                                                                                                | `false`           |
-| Immutable                 | `bool`                                               | Wenn aktiviert, sind alle Werte, die durch Kontext-Methoden zurückgegeben werden, unveränderbar. Standardmäßig sind sie gültig, bis Sie vom Handler zurückkehren. Siehe Problem [\#185](https://github.com/gofiber/fiber/issues/185).                                    | `false`           |
-| BodyLimit                 | `int`                                                | Legt die maximal zulässige Größe für einen Request-Body fest, falls die Größe das konfigurierte Limit überschreitet, wird eine `413 - Request Entity Too Large` Antwort gesendet.                                                                                          | `4 * 1024 * 1024` |
-| Concurrency               | `int`                                                | Maximale Anzahl gleichzeitiger Verbindungen.                                                                                                                                                                                                                               | `256 * 1024`      |
-| DisableKeepalive          | `bool`                                               | Deaktiviere "keep-alive"-Verbindungen, der Server schließt eingehende Verbindungen nach dem Senden der ersten Antwort an den Client                                                                                                                                        | `false`           |
-| DisableDefaultDate        | `bool`                                               | Wenn auf "true" gesetzt wird, wird der Standard-Datumskopf von der Antwort ausgeschlossen.                                                                                                                                                                                 | `false`           |
-| DisableDefaultContentType | `bool`                                               | Wenn der Wert auf "true" gesetzt wird, wird der Standard Content-Type Header von der Antwort ausgeschlossen.                                                                                                                                                               | `false`           |
-| DisableStartupMessage     | `bool`                                               | Wenn auf "true" gesetzt, wird die Fiber ASCII und "listen"  Nachricht nicht ausgegeben                                                                                                                                                                                     | `false`           |
-| ETag                      | `bool`                                               | Aktivieren oder deaktivieren Sie die ETag Header-Generation, da sowohl schwache als auch starke etags mit der gleichen Hashing-Methode \(CRC-32\) erzeugt werden. Schwache ETags sind die Standards, wenn aktiviert.                                                     | `false`           |
-| TemplateEngine            | `func(raw string, bind interface{}) (string, error)` | Sie können eine benutzerdefinierte Template-Funktion angeben, um verschiedene Template-Sprachen zu rendern. Schauen Sie sich unsere [**Template Middleware**](middleware.md#template) _\*\*_für Vorlagen an.                                                         | `nil`             |
-| TemplateFolder            | `string`                                             | Ein Verzeichnis für die Views der Anwendung. Wenn ein Verzeichnis gesetzt ist, wird dies das Präfix für alle Template-Pfade. `c.Render("home", data) -> ./views/home.pug`                                                                                               | `""`              |
-| TemplateExtension         | `string`                                             | Wenn Sie die Template-Dateiendung voreinstellen, müssen Sie in der Render-Funktion nicht den vollständigen Dateinamen angeben: `c.Render("home", data) -> home.pug`                                                                                                     | `""`              |
-| ReadTimeout               | `time.Duration`                                      | Die Zeitspanne, die erlaubt ist, die vollständige Anfrage einschließlich des Körpers zu lesen. Standard Timeout ist unbegrenzt.                                                                                                                                            | `nil`             |
-| WriteTimeout              | `time.Duration`                                      | Die maximale Zeitspanne für das Schreiben der Antwort. Standard Timeout ist unbegrenzt.                                                                                                                                                                                    | `nil`             |
-| IdleTimeout               | `time.Duration`                                      | Die maximale Zeitspanne, um auf die nächsten Anfrage zu warten, wenn 'keep-alive' aktiviert ist. Wenn IdleTimeout null ist, wird der Wert von ReadTimeout verwendet.                                                                                                       | `nil`             |
+| Eigenschaft               | Typ             | Beschreibung                                                                                                                                                                                                                                                               | Standardwert      |
+|:------------------------- |:--------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
+| Prefork                   | `bool`          | Aktiviert die Verwendung der[`SO_REUSEPORT`](https://lwn.net/Articles/542629/)Socket-Option. Dies erzeugt mehrere Go-Prozesse, die auf demselben Port lauschen. Erfahren Sie mehr über [Socket-Sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
+| ServerHeader              | `string`        | Aktiviert den `Server` HTTP-Header mit dem angegebenen Wert.                                                                                                                                                                                                               | `""`              |
+| StrictRouting             | `bool`          | Wenn aktiviert, behandelt der Router `/foo` und `/foo/` unterschiedlich. Ansonsten behandelt der Router `/foo` und `/foo/` gleich.                                                                                                                                         | `false`           |
+| CaseSensitive             | `bool`          | Wenn aktiviert, sind `/Foo` und `/foo` unterschiedliche Routen. Wenn deaktiviert, werden `/Foo`und `/foo` gleich behandelt.                                                                                                                                                | `false`           |
+| Immutable                 | `bool`          | Wenn aktiviert, sind alle Werte, die durch Kontext-Methoden zurückgegeben werden, unveränderbar. Standardmäßig sind sie gültig, bis Sie vom Handler zurückkehren. Siehe Problem [\#185](https://github.com/gofiber/fiber/issues/185).                                    | `false`           |
+| BodyLimit                 | `int`           | Legt die maximal zulässige Größe für einen Request-Body fest, falls die Größe das konfigurierte Limit überschreitet, wird eine `413 - Request Entity Too Large` Antwort gesendet.                                                                                          | `4 * 1024 * 1024` |
+| Concurrency               | `int`           | Maximale Anzahl gleichzeitiger Verbindungen.                                                                                                                                                                                                                               | `256 * 1024`      |
+| DisableKeepalive          | `bool`          | Deaktiviere "keep-alive"-Verbindungen, der Server schließt eingehende Verbindungen nach dem Senden der ersten Antwort an den Client                                                                                                                                        | `false`           |
+| DisableDefaultDate        | `bool`          | Wenn auf "true" gesetzt wird, wird der Standard-Datumskopf von der Antwort ausgeschlossen.                                                                                                                                                                                 | `false`           |
+| DisableDefaultContentType | `bool`          | Wenn der Wert auf "true" gesetzt wird, wird der Standard Content-Type Header von der Antwort ausgeschlossen.                                                                                                                                                               | `false`           |
+| DisableStartupMessage     | `bool`          | Wenn auf "true" gesetzt, wird die Fiber ASCII und "listen"  Nachricht nicht ausgegeben                                                                                                                                                                                     | `false`           |
+| DisableHeaderNormalizing  | `bool`          | By default all header names are normalized: conteNT-tYPE -&gt; Content-Type                                                                                                                                                                                          | `false`           |
+| ETag                      | `bool`          | Enable or disable ETag header generation, since both weak and strong etags are generated using the same hashing method \(CRC-32\). Weak ETags are the default when enabled.                                                                                              | `false`           |
+| Templates                 | `Templates`     | Templates is the interface that wraps the Render function. See our [**Template Middleware**](middleware.md#template) for supported engines.                                                                                                                                | `nil`             |
+| ReadTimeout               | `time.Duration` | The amount of time allowed to read the full request including body. Default timeout is unlimited.                                                                                                                                                                          | `nil`             |
+| WriteTimeout              | `time.Duration` | The maximum duration before timing out writes of the response. Default timeout is unlimited.                                                                                                                                                                               | `nil`             |
+| IdleTimeout               | `time.Duration` | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used.                                                                                                                              | `nil`             |
 
 ## Static
 
@@ -192,24 +191,24 @@ Routet eine HTTP-Anfrage, wobei **METHOD** die [HTTP-Methode](https://developer.
 
 {% code title="Signatures" %}
 ```go
-// HTTP Methoden unterstützen :param, :optional? und den "*" Platzhalter
-// Sie müssen einen Pfad zu jeder Methode übergeben
-app.All(path string, handlers ... unc(*Ctx)) *Fiber
+// HTTP Methoden unterstützen :param, :optional? and *wildcards
+// You are required to pass a path to each method
+app.All(path string, handlers ...func(*Ctx)) []*Route
 app.Get
-app.Setze
+app.Put
 app.Post
 app.Head
 app.Patch
-app. race
+app.Trace
 app.Delete
 app.Connect
 app.Options
 
-// Use() stimmt nur mit dem Beginn jedes Pfades überein
-// z.b. "/john" stimmt mit "/john/doe" und "/johnnnnn" überein
-// Use() unterstützt kein :param & :optional? im Pfad
-app.Use(handlers ...func(*Ctx))
-app.Use(prefix string, handlers ...func(*Ctx)) *Fiber
+// Use() will only match the beggining of each path
+// i.e. "/john" will match "/john/doe", "/johnnnn"
+// Use() does not support :param & :optional? in path
+app.Use(handlers ...func(*Ctx)) *Route
+app.Use(prefix string, handlers ...func(*Ctx)) *Route
 ```
 {% endcode %}
 
@@ -244,13 +243,13 @@ app.Group(prefix string, handlers ...func(*Ctx)) *Group
 func main() {
   app := fiber.New()
 
-  api := app.Group("/api", cors())  // /api
+  api := app.Group("/api", handler)  // /api
 
-  v1 := api.Group("/v1", mysql())   // /api/v1
+  v1 := api.Group("/v1", handler)   // /api/v1
   v1.Get("/list", handler)          // /api/v1/list
   v1.Get("/user", handler)          // /api/v1/user
 
-  v2 := api.Group("/v2", mongodb()) // /api/v2
+  v2 := api.Group("/v2", handler) // /api/v2
   v2.Get("/list", handler)          // /api/v2/list
   v2.Get("/user", handler)          // /api/v2/user
 
@@ -302,7 +301,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** unterstützt nicht das ****[**Prefork** ](application.md#settings)Feature.
+**Serve** does not support the **\*\*\[**Prefork\*\* \]\(application.md\#settings\)feature.
 {% endhint %}
 
 {% code title="Example" %}

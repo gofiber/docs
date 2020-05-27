@@ -75,26 +75,25 @@ func main() {
 
 **إعدادات** **حقول**
 
-| Property                  | Type                                                 | Description                                                                                                                                                                                                                      | Default           |
-|:------------------------- |:---------------------------------------------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
-| Prefork                   | `bool`                                               | تمكين استخدام[`SO_REUSEPORT`](https://lwn.net/Articles/542629/)خيار المقطع. هذا سوف يولد عدة عمليات اذهب للاستماع على نفس الميناء. اعرف المزيد عن [قصف المقبس](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
-| ServerHeader              | `string`                                             | تمكين `server` HTTP مع القيمة المحددة.                                                                                                                                                                                           | `""`              |
-| StrictRouting             | `bool`                                               | عند التمكين، يتعامل جهاز التوجيه مع `/foo` و `/foo/` باعتبارهما مختلفين. عند التمكين، يتعامل جهاز التوجيه مع `/foo` و `/foo/` باعتبارهما مختلفين.                                                                                | `false`           |
-| CaseSensitive             | `bool`                                               | عند التمكين، `/Foo` و `/foo` طرق مختلفة. عند التعطيل، يتم معاملة `/Foo`و `/foo` بنفس المعاملة.                                                                                                                                   | `false`           |
-| Immutable                 | `bool`                                               | عند التمكين، جميع القيم المرتجعة بأساليب السياق غير قابلة للتغيير. بشكل افتراضي تكون صالحة حتى تعود من المعالج ، انظر المشكلة [\#185](https://github.com/gofiber/fiber/issues/185).                                            | `false`           |
-| BodyLimit                 | `int`                                                | يعين الحد الأقصى المسموح به لحجم هيئة الطلب، إذا تجاوز الحجم الحد المكون، يرسل `413 - طلب كيان كبير جدا` رد.                                                                                                                     | `4 * 1024 * 1024` |
-| Concurrency               | `int`                                                | الحد الأقصى لعدد الاتصالات المتزامنة.                                                                                                                                                                                            | `256 * 1024`      |
-| DisableKeepalive          | `bool`                                               | تعطيل اتصالات البقاء على قيد الحياة، سيقوم الخادم بإغلاق الاتصالات الواردة بعد إرسال أول استجابة إلى العميل                                                                                                                      | `false`           |
-| DisableDefaultDate        | `bool`                                               | عند تعيين إلى حقيقة، يؤدي رأس التاريخ الافتراضي إلى استبعاده من الاستجابة.                                                                                                                                                       | `false`           |
-| DisableDefaultContentType | `bool`                                               | عند تعيين إلى صحيح، يؤدي إلى استبعاد رأس المحتوى الافتراضي من الاستجابة.                                                                                                                                                         | `false`           |
-| DisableStartupMessage     | `bool`                                               | When set to true, it will not print out the fiber ASCII and "listening" on message                                                                                                                                               | `false`           |
-| ETag                      | `bool`                                               | تمكين أو تعطيل توليد ترويسة الـ ETag ، لأن العلامات الضعيفة والقوية يتم إنشاؤها باستخدام نفس طريقة التجزئة \(CRC-32\). علامات Eags ضعيفة هي الافتراضية عند التمكين.                                                            | `false`           |
-| TemplateEngine            | `func(raw string, bind interface{}) (string, error)` | يمكنك تحديد وظيفة قالب مخصص لتقديم لغات قالب مختلفة. راجع [**منتصف القالب**](middleware.md#template) _\*\*_for presetts.                                                                                                   | `nil`             |
-| TemplateFolder            | `string`                                             | دليل لوجهات نظر التطبيق. إذا تم تعيين مجلد، هذا سيكون البادئة لجميع مسارات القالب. `c.Render("home", data) -> ./views/home.pug`                                                                                               | `""`              |
-| TemplateExtension         | `string`                                             | إذا قمت بتعيين ملحق ملف القالب مسبقاً، فأنت لست بحاجة إلى توفير اسم الملف الكامل في وظيفة إعادة التقديم: `c. ender("home", data) -> home.pug`                                                                                 | `""`              |
-| ReadTimeout               | `time.Duration`                                      | ومقدار الوقت المتاح لقراءة الطلب بأكمله، بما في ذلك الجسم. المهلة الافتراضية غير محدودة.                                                                                                                                         | `nil`             |
-| WriteTimeout              | `time.Duration`                                      | ويكرر الرد الحد الأقصى للمدة التي تسبق التوقيت. المهلة الافتراضية غير محدودة.                                                                                                                                                    | `nil`             |
-| IdleTimeout               | `time.Duration`                                      | الحد الأقصى من الوقت للانتظار للطلب التالي عند تمكين البقاء على قيد الحياة. If IdleTimeout is zero, the value of ReadTimeout is used.                                                                                            | `nil`             |
+| Property                  | Type            | Description                                                                                                                                                                                                                      | Default           |
+|:------------------------- |:--------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
+| Prefork                   | `bool`          | تمكين استخدام[`SO_REUSEPORT`](https://lwn.net/Articles/542629/)خيار المقطع. هذا سوف يولد عدة عمليات اذهب للاستماع على نفس الميناء. اعرف المزيد عن [قصف المقبس](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
+| ServerHeader              | `string`        | تمكين `server` HTTP مع القيمة المحددة.                                                                                                                                                                                           | `""`              |
+| StrictRouting             | `bool`          | عند التمكين، يتعامل جهاز التوجيه مع `/foo` و `/foo/` باعتبارهما مختلفين. عند التمكين، يتعامل جهاز التوجيه مع `/foo` و `/foo/` باعتبارهما مختلفين.                                                                                | `false`           |
+| CaseSensitive             | `bool`          | عند التمكين، `/Foo` و `/foo` طرق مختلفة. عند التعطيل، يتم معاملة `/Foo`و `/foo` بنفس المعاملة.                                                                                                                                   | `false`           |
+| Immutable                 | `bool`          | عند التمكين، جميع القيم المرتجعة بأساليب السياق غير قابلة للتغيير. بشكل افتراضي تكون صالحة حتى تعود من المعالج ، انظر المشكلة [\#185](https://github.com/gofiber/fiber/issues/185).                                            | `false`           |
+| BodyLimit                 | `int`           | يعين الحد الأقصى المسموح به لحجم هيئة الطلب، إذا تجاوز الحجم الحد المكون، يرسل `413 - طلب كيان كبير جدا` رد.                                                                                                                     | `4 * 1024 * 1024` |
+| Concurrency               | `int`           | الحد الأقصى لعدد الاتصالات المتزامنة.                                                                                                                                                                                            | `256 * 1024`      |
+| DisableKeepalive          | `bool`          | تعطيل اتصالات البقاء على قيد الحياة، سيقوم الخادم بإغلاق الاتصالات الواردة بعد إرسال أول استجابة إلى العميل                                                                                                                      | `false`           |
+| DisableDefaultDate        | `bool`          | عند تعيين إلى حقيقة، يؤدي رأس التاريخ الافتراضي إلى استبعاده من الاستجابة.                                                                                                                                                       | `false`           |
+| DisableDefaultContentType | `bool`          | عند تعيين إلى صحيح، يؤدي إلى استبعاد رأس المحتوى الافتراضي من الاستجابة.                                                                                                                                                         | `false`           |
+| DisableStartupMessage     | `bool`          | When set to true, it will not print out the fiber ASCII and "listening" on message                                                                                                                                               | `false`           |
+| DisableHeaderNormalizing  | `bool`          | By default all header names are normalized: conteNT-tYPE -&gt; Content-Type                                                                                                                                                | `false`           |
+| ETag                      | `bool`          | Enable or disable ETag header generation, since both weak and strong etags are generated using the same hashing method \(CRC-32\). Weak ETags are the default when enabled.                                                    | `false`           |
+| Templates                 | `Templates`     | Templates is the interface that wraps the Render function. See our [**Template Middleware**](middleware.md#template) for supported engines.                                                                                      | `nil`             |
+| ReadTimeout               | `time.Duration` | The amount of time allowed to read the full request including body. Default timeout is unlimited.                                                                                                                                | `nil`             |
+| WriteTimeout              | `time.Duration` | The maximum duration before timing out writes of the response. Default timeout is unlimited.                                                                                                                                     | `nil`             |
+| IdleTimeout               | `time.Duration` | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used.                                                                                    | `nil`             |
 
 ## Static
 
@@ -194,7 +193,7 @@ Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.
 ```go
 // HTTP methods support :param, :optional? and *wildcards
 // You are required to pass a path to each method
-app.All(path string, handlers ...func(*Ctx)) *Fiber
+app.All(path string, handlers ...func(*Ctx)) []*Route
 app.Get
 app.Put
 app.Post
@@ -208,8 +207,8 @@ app.Options
 // Use() will only match the beggining of each path
 // i.e. "/john" will match "/john/doe", "/johnnnn"
 // Use() does not support :param & :optional? in path
-app.Use(handlers ...func(*Ctx))
-app.Use(prefix string, handlers ...func(*Ctx)) *Fiber
+app.Use(handlers ...func(*Ctx)) *Route
+app.Use(prefix string, handlers ...func(*Ctx)) *Route
 ```
 {% endcode %}
 
@@ -244,13 +243,13 @@ app.Group(prefix string, handlers ...func(*Ctx)) *Group
 func main() {
   app := fiber.New()
 
-  api := app.Group("/api", cors())  // /api
+  api := app.Group("/api", handler)  // /api
 
-  v1 := api.Group("/v1", mysql())   // /api/v1
+  v1 := api.Group("/v1", handler)   // /api/v1
   v1.Get("/list", handler)          // /api/v1/list
   v1.Get("/user", handler)          // /api/v1/user
 
-  v2 := api.Group("/v2", mongodb()) // /api/v2
+  v2 := api.Group("/v2", handler) // /api/v2
   v2.Get("/list", handler)          // /api/v2/list
   v2.Get("/user", handler)          // /api/v2/user
 
@@ -302,7 +301,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** does not support the ****[**Prefork** ](application.md#settings)feature.
+**Serve** does not support the **\*\*\[**Prefork\*\* \]\(application.md\#settings\)feature.
 {% endhint %}
 
 {% code title="Example" %}

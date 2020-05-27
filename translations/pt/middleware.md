@@ -323,15 +323,15 @@ session.New(config ...session.Config) *Session
 
 **Configuração**
 
-| Propriedade | Tipo            | Descrição                                                                                                                                                                           | Valor Predefinido     |
-|:----------- |:--------------- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------------- |
-| Lookup      | `string`        | Where to look for the session id `<source>:<name>`, possible values: `cookie:key`, `header:key` or `query:key`                                                          | `"cookie:session_id"` |
-| Domain      | `string`        | Cookie domain                                                                                                                                                                       | `""`                  |
-| Expiration  | `time.Duration` | Session expiration time, possible values: `0` means no expiry (24 years), `-1` means when the browser closes, `>0` is the time.Duration which the session cookies should expire. | `12 * time.Hour`      |
-| Secure      | `bool`          | If the cookie should only be send over HTTPS                                                                                                                                        | `false`               |
-| Provider    | `Provider`      | Holds the provider interface                                                                                                                                                        | `memory.Provider`     |
-| Generator   | `func() []byte` | Generator is a function that generates an unique id                                                                                                                                 | `uuid`                |
-| GCInterval  | `time.Duration` | Interval for the garbage collector                                                                                                                                                  | `uuid`                |
+| Propriedade | Tipo            | Descrição                                                                                                                                                                               | Valor Predefinido     |
+|:----------- |:--------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------------- |
+| Lookup      | `string`        | Where to look for the session id `<source>:<name>`, possible values: `cookie:key`, `header:key` or `query:key`                                                              | `"cookie:session_id"` |
+| Domain      | `string`        | Cookie domain                                                                                                                                                                           | `""`                  |
+| Expiration  | `time.Duration` | Session expiration time, possible values: `0` means no expiry \(24 years\), `-1` means when the browser closes, `>0` is the time.Duration which the session cookies should expire. | `12 * time.Hour`      |
+| Secure      | `bool`          | If the cookie should only be send over HTTPS                                                                                                                                            | `false`               |
+| Provider    | `Provider`      | Holds the provider interface                                                                                                                                                            | `memory.Provider`     |
+| Generator   | `func() []byte` | Generator is a function that generates an unique id                                                                                                                                     | `uuid`                |
+| GCInterval  | `time.Duration` | Interval for the garbage collector                                                                                                                                                      | `uuid`                |
 
 **Exemplo**
 
@@ -369,7 +369,7 @@ func main() {
 
 ## Template
 
-By default Fiber comes with the [**default HTML template**](https://golang.org/pkg/html/template/) engine, but this middleware contains third party rendering engines.
+This middleware package contains `8 template engines` that can be used with [Fiber v1.10.0](https://github.com/gofiber/fiber) using Go version `1.13` or higher is required.
 
 **Installation**
 
@@ -380,17 +380,21 @@ go get -u github.com/gofiber/template
 **Assinatura**
 
 ```go
-template.Engine() func(raw string, bind interface{}) (out string, err error)
+<engine>.New(directory, extension string, funcmap ...map[string]interface{}) *Engine
 ```
 
 **Template Engines**
 
-| Keyword        | Engine                                                               |
-|:-------------- |:-------------------------------------------------------------------- |
-| `Amber()`      | [github.com/eknkc/amber](https://github.com/eknkc/amber)             |
-| `Handlebars()` | [github.com/aymerick/raymond](https://github.com/aymerick/raymond)   |
-| `Mustache()`   | [github.com/cbroglie/mustache](https://github.com/cbroglie/mustache) |
-| `Pug()`        | [github.com/Joker/jade](https://github.com/Joker/jade)               |
+| Engines      | Repo                                                                           |
+|:------------ |:------------------------------------------------------------------------------ |
+| `ace`        | [https://github.com/yosssi/ace](https://github.com/yosssi/ace)                 |
+| `amber`      | [https://github.com/eknkc/amber](https://github.com/eknkc/amber)               |
+| `django`     | [https://github.com/flosch/pongo2](https://github.com/flosch/pongo2)           |
+| `handlebars` | [https://github.com/aymerick/raymond](https://github.com/aymerick/raymond)     |
+| `jet`        | [https://github.com/CloudyKit/jet](https://github.com/CloudyKit/jet)           |
+| `mustache`   | [https://github.com/cbroglie/mustache](https://github.com/cbroglie/mustache)   |
+| `pug`        | [https://github.com/Joker/jade](https://github.com/Joker/jade)                 |
+| `html`       | [https://golang.org/pkg/html/template/](https://golang.org/pkg/html/template/) |
 
 **Exemplo**
 
@@ -398,32 +402,37 @@ template.Engine() func(raw string, bind interface{}) (out string, err error)
 package main
 
 import (
-  "github.com/gofiber/fiber"
-  "github.com/gofiber/template"
+    "github.com/gofiber/fiber"
+
+    // "github.com/gofiber/template/ace"
+    // "github.com/gofiber/template/amber"
+    // "github.com/gofiber/template/django"
+    // "github.com/gofiber/template/handlebars"
+  // "github.com/gofiber/template/jet"
+    // "github.com/gofiber/template/mustache"
+    // "github.com/gofiber/template/pug"
+    "github.com/gofiber/template/html"
 )
 
 func main() {
-  app := fiber.New()
+    app := fiber.New()
 
-  app.Settings.TemplateEngine = template.Mustache()
-  // app.Settings.TemplateEngine = template.Amber()
-  // app.Settings.TemplateEngine = template.Handlebars()
-  // app.Settings.TemplateEngine = template.Pug()
+    // app.Settings.Templates = ace.New("./views", ".ace")
+    // app.Settings.Templates = amber.New("./views", ".amber")
+    // app.Settings.Templates = django.New("./views", ".django")
+    // app.Settings.Templates = handlebars.New("./views", ".hbs")
+  // app.Settings.Templates = jet.New("./views", ".jet")
+    // app.Settings.Templates = mustache.New("./views", ".mustache")
+    // app.Settings.Templates = pug.New("./views", ".pug")
+    app.Settings.Templates = html.New("./views", ".html")
 
-  app.Get("/", func(c *fiber.Ctx) {
-    bind := fiber.Map{
-      "name": "John",
-      "age":  35,
-    }
-    if err := c.Render("./views/index.mustache", bind); err != nil {
-      c.Status(500).Send(err.Error())
-    }
-    // <html><head><title>Template Demo</title></head>
-    // <body>Hi, my name is John and im 35 years old
-    // </body></html>
-  })
+    app.Get("/", func(c *fiber.Ctx) {
+        c.Render("index", fiber.Map{
+            "Title": "Hello, World!",
+        })
+    })
 
-  app.Listen(3000)
+    app.Listen(3000)
 }
 ```
 

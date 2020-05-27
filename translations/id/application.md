@@ -74,26 +74,25 @@ func main() {
 
 **Parameter** **Pengaturan**
 
-| Properti                  | Tipe                                                 | Deskripsi                                                                                                                                                                                                                                                              | Nilai Bawaan      |
-|:------------------------- |:---------------------------------------------------- |:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
-| Prefork                   | `bool`                                               | Mengaktifkan penggunaan opsi [` SO_REUSEPORT`](https://lwn.net/Articles/542629/). Ini akan menjalankan banyak Go proses dan jalan di port yang sama. pelajari lebih lanjut tentang [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
-| ServerHeader              | `string`                                             | Mengaktifkan `Server` HTTP header dengan nilai yang bisa ditentukan.                                                                                                                                                                                                   | `""`              |
-| StrictRouting             | `bool`                                               | Ketika diaktifkan, router akan membaca `/foo` dan `/foo/` menjadi berbeda. Jika tidak, maka router memperlakukan `/foo` dan `/foo/` menjadi sama.                                                                                                                      | `false`           |
-| CaseSensitive             | `bool`                                               | Ketika diaktifkan, `/Foo` dan `/foo` menjadi route yang berbeda. Ketika dimatikan, `/Foo` dan `/foo` akan sama.                                                                                                                                                        | `false`           |
-| Immutable                 | `bool`                                               | Ketika diaktifkan, semua nilai yang di kembalikan oleh context method menjadi immutable. Secara default akan valid sampai kamu mengembalikan dari handler. lihat isu [\#185](https://github.com/gofiber/fiber/issues/185).                                           | `false`           |
-| BodyLimit                 | `int`                                                | Mengatur maksimal ukuran `request body` yang diperbolehkan, jika ukuran melebihi nilai yang telah di konfigurasi, maka akan mengirim respon `413 - Request Entity Too Large`.                                                                                        | `4 * 1024 * 1024` |
-| Concurrency               | `int`                                                | Maksimal angka untuk koneksi konkurensi.                                                                                                                                                                                                                               | `256 * 1024`      |
-| DisableKeepalive          | `bool`                                               | Mematikan `keep-alive` koneksi, server akan menutup koneksi yang datang setelah mengirim respon ke clien                                                                                                                                                             | `false`           |
-| DisableDefaultDate        | `bool`                                               | Ketika di set dengan `true`, nilai bawaan tanggal dari `header` akan di kecualikan dari respon.                                                                                                                                                                    | `false`           |
-| DisableDefaultContentType | `bool`                                               | Ketika di set dengan `true`, nilai bawaan dari header `Content-Type` akan di kecualikan dari respon.                                                                                                                                                               | `false`           |
-| DisableStartupMessage     | `bool`                                               | When set to true, it will not print out the fiber ASCII and "listening" on message                                                                                                                                                                                     | `false`           |
-| ETag                      | `bool`                                               | Enable or disable ETag header generation, since both weak and strong etags are generated using the same hashing method \(CRC-32\). Weak ETags are the default when enabled.                                                                                          | `false`           |
-| TemplateEngine            | `func(raw string, bind interface{}) (string, error)` | You can specify a custom template function to render different template languages. See our [**Template Middleware**](middleware.md#template) _\*\*_for presets.                                                                                                  | `nil`             |
-| TemplateFolder            | `string`                                             | A directory for the application's views. If a directory is set, this will be the prefix for all template paths. `c.Render("home", data) -> ./views/home.pug`                                                                                                        | `""`              |
-| TemplateExtension         | `string`                                             | If you preset the template file extension, you do not need to provide the full filename in the Render function: `c.Render("home", data) -> home.pug`                                                                                                                | `""`              |
-| ReadTimeout               | `time.Duration`                                      | The amount of time allowed to read the full request including body. Batas waktu default tidak terbatas.                                                                                                                                                                | `nil`             |
-| WriteTimeout              | `time.Duration`                                      | The maximum duration before timing out writes of the response. Batas waktu default tidak terbatas.                                                                                                                                                                     | `nil`             |
-| IdleTimeout               | `time.Duration`                                      | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used.                                                                                                                          | `nil`             |
+| Properti                  | Tipe            | Deskripsi                                                                                                                                                                                                                                                              | Nilai Bawaan      |
+|:------------------------- |:--------------- |:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
+| Prefork                   | `bool`          | Mengaktifkan penggunaan opsi [` SO_REUSEPORT`](https://lwn.net/Articles/542629/). Ini akan menjalankan banyak Go proses dan jalan di port yang sama. pelajari lebih lanjut tentang [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
+| ServerHeader              | `string`        | Mengaktifkan `Server` HTTP header dengan nilai yang bisa ditentukan.                                                                                                                                                                                                   | `""`              |
+| StrictRouting             | `bool`          | Ketika diaktifkan, router akan membaca `/foo` dan `/foo/` menjadi berbeda. Jika tidak, maka router memperlakukan `/foo` dan `/foo/` menjadi sama.                                                                                                                      | `false`           |
+| CaseSensitive             | `bool`          | Ketika diaktifkan, `/Foo` dan `/foo` menjadi route yang berbeda. Ketika dimatikan, `/Foo` dan `/foo` akan sama.                                                                                                                                                        | `false`           |
+| Immutable                 | `bool`          | Ketika diaktifkan, semua nilai yang di kembalikan oleh context method menjadi immutable. Secara default akan valid sampai kamu mengembalikan dari handler. lihat isu [\#185](https://github.com/gofiber/fiber/issues/185).                                           | `false`           |
+| BodyLimit                 | `int`           | Mengatur maksimal ukuran `request body` yang diperbolehkan, jika ukuran melebihi nilai yang telah di konfigurasi, maka akan mengirim respon `413 - Request Entity Too Large`.                                                                                        | `4 * 1024 * 1024` |
+| Concurrency               | `int`           | Maksimal angka untuk koneksi konkurensi.                                                                                                                                                                                                                               | `256 * 1024`      |
+| DisableKeepalive          | `bool`          | Mematikan `keep-alive` koneksi, server akan menutup koneksi yang datang setelah mengirim respon ke clien                                                                                                                                                             | `false`           |
+| DisableDefaultDate        | `bool`          | Ketika di set dengan `true`, nilai bawaan tanggal dari `header` akan di kecualikan dari respon.                                                                                                                                                                    | `false`           |
+| DisableDefaultContentType | `bool`          | Ketika di set dengan `true`, nilai bawaan dari header `Content-Type` akan di kecualikan dari respon.                                                                                                                                                               | `false`           |
+| DisableStartupMessage     | `bool`          | When set to true, it will not print out the fiber ASCII and "listening" on message                                                                                                                                                                                     | `false`           |
+| DisableHeaderNormalizing  | `bool`          | By default all header names are normalized: conteNT-tYPE -&gt; Content-Type                                                                                                                                                                                      | `false`           |
+| ETag                      | `bool`          | Enable or disable ETag header generation, since both weak and strong etags are generated using the same hashing method \(CRC-32\). Weak ETags are the default when enabled.                                                                                          | `false`           |
+| Templates                 | `Templates`     | Templates is the interface that wraps the Render function. See our [**Template Middleware**](middleware.md#template) for supported engines.                                                                                                                            | `nil`             |
+| ReadTimeout               | `time.Duration` | The amount of time allowed to read the full request including body. Default timeout is unlimited.                                                                                                                                                                      | `nil`             |
+| WriteTimeout              | `time.Duration` | The maximum duration before timing out writes of the response. Default timeout is unlimited.                                                                                                                                                                           | `nil`             |
+| IdleTimeout               | `time.Duration` | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used.                                                                                                                          | `nil`             |
 
 ## Static
 
@@ -193,7 +192,7 @@ Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.
 ```go
 // HTTP methods support :param, :optional? and *wildcards
 // You are required to pass a path to each method
-app.All(path string, handlers ...func(*Ctx)) *Fiber
+app.All(path string, handlers ...func(*Ctx)) []*Route
 app.Get
 app.Put
 app.Post
@@ -207,8 +206,8 @@ app.Options
 // Use() will only match the beggining of each path
 // i.e. "/john" will match "/john/doe", "/johnnnn"
 // Use() does not support :param & :optional? in path
-app.Use(handlers ...func(*Ctx))
-app.Use(prefix string, handlers ...func(*Ctx)) *Fiber
+app.Use(handlers ...func(*Ctx)) *Route
+app.Use(prefix string, handlers ...func(*Ctx)) *Route
 ```
 {% endcode %}
 
@@ -243,13 +242,13 @@ app.Group(prefix string, handlers ...func(*Ctx)) *Group
 func main() {
   app := fiber.New()
 
-  api := app.Group("/api", cors())  // /api
+  api := app.Group("/api", handler)  // /api
 
-  v1 := api.Group("/v1", mysql())   // /api/v1
+  v1 := api.Group("/v1", handler)   // /api/v1
   v1.Get("/list", handler)          // /api/v1/list
   v1.Get("/user", handler)          // /api/v1/user
 
-  v2 := api.Group("/v2", mongodb()) // /api/v2
+  v2 := api.Group("/v2", handler) // /api/v2
   v2.Get("/list", handler)          // /api/v2/list
   v2.Get("/user", handler)          // /api/v2/user
 
@@ -301,7 +300,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** does not support the ****[**Prefork** ](application.md#settings)feature.
+**Serve** does not support the **\*\*\[**Prefork\*\* \]\(application.md\#settings\)feature.
 {% endhint %}
 
 {% code title="Example" %}

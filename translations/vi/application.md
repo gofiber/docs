@@ -75,26 +75,25 @@ func main() {
 
 **Các trường** **cài đặt**
 
-| Thuộc tính                | Kiểu                                                 | Mô tả                                                                                                                                                                                                                                                         | Mặc định          |
-|:------------------------- |:---------------------------------------------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
-| Prefork                   | `bool`                                               | Cho phép sử dụng tùy chọn socket [`SO_REUSEPORT`](https://lwn.net/Articles/542629/). Khi bật sẽ tạo ra nhiều tiến trình Go lắng nghe trên cùng một cổng. tìm hiểu thêm về [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
-| ServerHeader              | `string`                                             | Cho phép thêm vào header của HTTP `Server` với giá trị đưa ra.                                                                                                                                                                                                | `""`              |
-| StrictRouting             | `bool`                                               | Khi bật, router sẽ xem `/foo` và `/foo/` là khác nhau. Trái lại, router xem `/foo` and `/foo/` là giống nhau.                                                                                                                                                 | `false`           |
-| CaseSensitive             | `bool`                                               | Khi bật, `/Foo` và `/foo` là những route khác nhau. Khi vô hiệu hóa, `/Foo`and `/foo` được xem là giống nhau.                                                                                                                                                 | `false`           |
-| Immutable                 | `bool`                                               | Khi bật, tất cả giá trị trả về bởi các phương thức ngữ cảnh là bất biến. Theo mặc định chúng là hợp lệ cho đến khi bạn trả về từ handler, xem issue [\#185](https://github.com/gofiber/fiber/issues/185).                                                   | `false`           |
-| BodyLimit                 | `int`                                                | Đặt kích thước tối đa được phép cho phần body một request, nếu kích thước vượt quá giới hạn được cấu hình, nó sẽ trả về lỗi `413 - Request Entity Too Large`.                                                                                                 | `4 * 1024 * 1024` |
-| Concurrency               | `int`                                                | Số lượng tối đa các kết nối đồng thời.                                                                                                                                                                                                                        | `256 * 1024`      |
-| DisableKeepalive          | `bool`                                               | Vô hiệu hóa các kết nối duy trì, server sẽ đóng các kết nối đến sau khi gửi phản hồi đầu tiên về cho client                                                                                                                                                   | `false`           |
-| DisableDefaultDate        | `bool`                                               | Khi được đặt thành true sẽ khiến trường mặc định date ở header sẽ bị bỏ khỏi response.                                                                                                                                                                        | `false`           |
-| DisableDefaultContentType | `bool`                                               | Khi được đặt thành true sẽ khiến trường mặc định Content-Type ở header bị bỏ khỏi Response.                                                                                                                                                                   | `false`           |
-| DisableStartupMessage     | `bool`                                               | When set to true, it will not print out the fiber ASCII and "listening" on message                                                                                                                                                                            | `false`           |
-| ETag                      | `bool`                                               | Enable or disable ETag header generation, since both weak and strong etags are generated using the same hashing method \(CRC-32\). Weak ETags are the default when enabled.                                                                                 | `false`           |
-| TemplateEngine            | `func(raw string, bind interface{}) (string, error)` | You can specify a custom template function to render different template languages. See our [**Template Middleware**](middleware.md#template) _\*\*_for presets.                                                                                         | `nil`             |
-| TemplateFolder            | `string`                                             | A directory for the application's views. If a directory is set, this will be the prefix for all template paths. `c.Render("home", data) -> ./views/home.pug`                                                                                               | `""`              |
-| TemplateExtension         | `string`                                             | If you preset the template file extension, you do not need to provide the full filename in the Render function: `c.Render("home", data) -> home.pug`                                                                                                       | `""`              |
-| ReadTimeout               | `time.Duration`                                      | The amount of time allowed to read the full request including body. Timeout mặc định là không giới hạn.                                                                                                                                                       | `nil`             |
-| WriteTimeout              | `time.Duration`                                      | The maximum duration before timing out writes of the response. Timeout mặc định là không giới hạn.                                                                                                                                                            | `nil`             |
-| IdleTimeout               | `time.Duration`                                      | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used.                                                                                                                 | `nil`             |
+| Thuộc tính                | Kiểu            | Mô tả                                                                                                                                                                                                                                                         | Mặc định          |
+|:------------------------- |:--------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
+| Prefork                   | `bool`          | Cho phép sử dụng tùy chọn socket [`SO_REUSEPORT`](https://lwn.net/Articles/542629/). Khi bật sẽ tạo ra nhiều tiến trình Go lắng nghe trên cùng một cổng. tìm hiểu thêm về [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
+| ServerHeader              | `string`        | Cho phép thêm vào header của HTTP `Server` với giá trị đưa ra.                                                                                                                                                                                                | `""`              |
+| StrictRouting             | `bool`          | Khi bật, router sẽ xem `/foo` và `/foo/` là khác nhau. Trái lại, router xem `/foo` and `/foo/` là giống nhau.                                                                                                                                                 | `false`           |
+| CaseSensitive             | `bool`          | Khi bật, `/Foo` và `/foo` là những route khác nhau. Khi vô hiệu hóa, `/Foo`and `/foo` được xem là giống nhau.                                                                                                                                                 | `false`           |
+| Immutable                 | `bool`          | Khi bật, tất cả giá trị trả về bởi các phương thức ngữ cảnh là bất biến. Theo mặc định chúng là hợp lệ cho đến khi bạn trả về từ handler, xem issue [\#185](https://github.com/gofiber/fiber/issues/185).                                                   | `false`           |
+| BodyLimit                 | `int`           | Đặt kích thước tối đa được phép cho phần body một request, nếu kích thước vượt quá giới hạn được cấu hình, nó sẽ trả về lỗi `413 - Request Entity Too Large`.                                                                                                 | `4 * 1024 * 1024` |
+| Concurrency               | `int`           | Số lượng tối đa các kết nối đồng thời.                                                                                                                                                                                                                        | `256 * 1024`      |
+| DisableKeepalive          | `bool`          | Vô hiệu hóa các kết nối duy trì, server sẽ đóng các kết nối đến sau khi gửi phản hồi đầu tiên về cho client                                                                                                                                                   | `false`           |
+| DisableDefaultDate        | `bool`          | Khi được đặt thành true sẽ khiến trường mặc định date ở header sẽ bị bỏ khỏi response.                                                                                                                                                                        | `false`           |
+| DisableDefaultContentType | `bool`          | Khi được đặt thành true sẽ khiến trường mặc định Content-Type ở header bị bỏ khỏi Response.                                                                                                                                                                   | `false`           |
+| DisableStartupMessage     | `bool`          | When set to true, it will not print out the fiber ASCII and "listening" on message                                                                                                                                                                            | `false`           |
+| DisableHeaderNormalizing  | `bool`          | By default all header names are normalized: conteNT-tYPE -&gt; Content-Type                                                                                                                                                                             | `false`           |
+| ETag                      | `bool`          | Enable or disable ETag header generation, since both weak and strong etags are generated using the same hashing method \(CRC-32\). Weak ETags are the default when enabled.                                                                                 | `false`           |
+| Templates                 | `Templates`     | Templates is the interface that wraps the Render function. See our [**Template Middleware**](middleware.md#template) for supported engines.                                                                                                                   | `nil`             |
+| ReadTimeout               | `time.Duration` | The amount of time allowed to read the full request including body. Default timeout is unlimited.                                                                                                                                                             | `nil`             |
+| WriteTimeout              | `time.Duration` | The maximum duration before timing out writes of the response. Default timeout is unlimited.                                                                                                                                                                  | `nil`             |
+| IdleTimeout               | `time.Duration` | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used.                                                                                                                 | `nil`             |
 
 ## Static
 
@@ -194,7 +193,7 @@ Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.
 ```go
 // HTTP methods support :param, :optional? and *wildcards
 // You are required to pass a path to each method
-app.All(path string, handlers ...func(*Ctx)) *Fiber
+app.All(path string, handlers ...func(*Ctx)) []*Route
 app.Get
 app.Put
 app.Post
@@ -208,8 +207,8 @@ app.Options
 // Use() will only match the beggining of each path
 // i.e. "/john" will match "/john/doe", "/johnnnn"
 // Use() does not support :param & :optional? in path
-app.Use(handlers ...func(*Ctx))
-app.Use(prefix string, handlers ...func(*Ctx)) *Fiber
+app.Use(handlers ...func(*Ctx)) *Route
+app.Use(prefix string, handlers ...func(*Ctx)) *Route
 ```
 {% endcode %}
 
@@ -244,13 +243,13 @@ app.Group(prefix string, handlers ...func(*Ctx)) *Group
 func main() {
   app := fiber.New()
 
-  api := app.Group("/api", cors())  // /api
+  api := app.Group("/api", handler)  // /api
 
-  v1 := api.Group("/v1", mysql())   // /api/v1
+  v1 := api.Group("/v1", handler)   // /api/v1
   v1.Get("/list", handler)          // /api/v1/list
   v1.Get("/user", handler)          // /api/v1/user
 
-  v2 := api.Group("/v2", mongodb()) // /api/v2
+  v2 := api.Group("/v2", handler) // /api/v2
   v2.Get("/list", handler)          // /api/v2/list
   v2.Get("/user", handler)          // /api/v2/user
 
@@ -302,7 +301,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** does not support the ****[**Prefork** ](application.md#settings)feature.
+**Serve** does not support the **\*\*\[**Prefork\*\* \]\(application.md\#settings\)feature.
 {% endhint %}
 
 {% code title="Example" %}
