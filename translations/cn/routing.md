@@ -37,7 +37,7 @@ app.Get("/random.txt", func(c *fiber.Ctx) {
 {% endhint %}
 
 {% hint style="danger" %}
-连线 \(`-`\)  **尚未** 能够当成字符直接处理。 计划实现在 **Fiber** v1.10。
+连线 \(`-`\)  **尚未** 能够当成字符直接处理。 Planned for **Fiber** v1.11.
 {% endhint %}
 
 **定义路由参数的示例**
