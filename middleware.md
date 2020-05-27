@@ -137,7 +137,7 @@ compression.New(config ...Config) func(*fiber.Ctx)
 ```go
 package main
 
-import 
+import (
   "github.com/gofiber/fiber"
   "github.com/gofiber/compression"
 )
@@ -470,7 +470,7 @@ websocket.New(handler func(*Conn), config ...Config) func(*Ctx)
 ```go
 package main
 
-import 
+import (
   "github.com/gofiber/fiber"
   "github.com/gofiber/websocket"
 )
