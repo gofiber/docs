@@ -88,11 +88,12 @@ func main() {
 | DisableDefaultDate        | `bool`          | Gdy ustawione na true, domyślny nagłówek z datą nie będzie załączany w odpowiedzi.                                                                                                                                                               | `false`           |
 | DisableDefaultContentType | `bool`          | Gdy ustawione na true, domyślny nagłówek Content-Type nie będzie uwzględniany w odpowiedzi.                                                                                                                                                      | `false`           |
 | DisableStartupMessage     | `bool`          | Gdy ustawione na true, Fiber nie będzie wyświetlał ASCII arta i wiadomości o nasłuchiwaniu                                                                                                                                                       | `false`           |
-| ETag                      | `bool`          | Wyłącza lub włącza generowanie nagłówków ETag, ponieważ zarówno słabe, jak i mocne ETagi są generowane tą samą metodą hashowania \(CRC-32\). Słabe ETagi są domyślnie ustawione, gdy włączone.                                                 | `false`           |
-| Templates                 | `*Templates`    | Templates to interfejs, który wrapuje funkcję Render. Zobacz wspierane silniki na [**Template Middleware**](middleware.md#template).                                                                                                             | `nil`             |
-| ReadTimeout               | `time.Duration` | Dozwolona ilość czasu na przeczytanie pełnego zapytania z body. Domyślnie jest nieograniczona.                                                                                                                                                   | `nil`             |
-| WriteTimeout              | `time.Duration` | Maksymalna ilość czasu na zapis odpowiedzi. Domyślnie jest nieograniczona.                                                                                                                                                                       | `nil`             |
-| IdleTimeout               | `time.Duration` | Maksymalny czas oczekiwania na kolejny request, kiedy keep-alive jest włączone. Jeżeli IdleTimeout ma wartość zero, używana jest wartość ReadTimeout.                                                                                            | `nil`             |
+| DisableHeaderNormalizing  | `bool`          | By default all header names are normalized: conteNT-tYPE -&gt; Content-Type                                                                                                                                                                | `false`           |
+| ETag                      | `bool`          | Enable or disable ETag header generation, since both weak and strong etags are generated using the same hashing method \(CRC-32\). Weak ETags are the default when enabled.                                                                    | `false`           |
+| Templates                 | `Templates`     | Templates is the interface that wraps the Render function. See our [**Template Middleware**](middleware.md#template) for supported engines.                                                                                                      | `nil`             |
+| ReadTimeout               | `time.Duration` | The amount of time allowed to read the full request including body. Domyślnie jest nieograniczona.                                                                                                                                               | `nil`             |
+| WriteTimeout              | `time.Duration` | The maximum duration before timing out writes of the response. Domyślnie jest nieograniczona.                                                                                                                                                    | `nil`             |
+| IdleTimeout               | `time.Duration` | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used.                                                                                                    | `nil`             |
 
 ## Static
 
@@ -242,13 +243,13 @@ app.Group(prefix string, handlers ...func(*Ctx)) *Group
 func main() {
   app := fiber.New()
 
-  api := app.Group("/api", cors())  // /api
+  api := app.Group("/api", handler)  // /api
 
-  v1 := api.Group("/v1", mysql())   // /api/v1
+  v1 := api.Group("/v1", handler)   // /api/v1
   v1.Get("/list", handler)          // /api/v1/list
   v1.Get("/user", handler)          // /api/v1/user
 
-  v2 := api.Group("/v2", mongodb()) // /api/v2
+  v2 := api.Group("/v2", handler) // /api/v2
   v2.Get("/list", handler)          // /api/v2/list
   v2.Get("/user", handler)          // /api/v2/user
 
