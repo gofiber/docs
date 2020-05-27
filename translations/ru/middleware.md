@@ -228,12 +228,12 @@ logger.new(config ...Config) func(*Ctx)
 
 **Конфигурация**
 
-| Свойство   | Тип                     | Описание                                                                                                                                                                                  | По умолчанию                                       |
-|:---------- |:----------------------- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:-------------------------------------------------- |
-| Filter     | `func(*fiber.Ctx) bool` | Определяет функцию для пропуска (skip) middleware                                                                                                                                         | `nil`                                              |
-| Format     | `string`                | Possible values: `time, ip, url, host, method, path, route, protocol, referer, ua, bytesSent, bytesReceived, header:<key>, query:<key>, form:<key>, cookie:<key>` | `"${time} - ${ip} - ${method} ${path}\t${ua}\n"` |
-| TimeFormat | `string`                | Подробнее про TimeFormat: [читайте тут](https://programming.guide/go/format-parse-string-time-date-example.html)                                                                          | `15:04:05`                                         |
-| Output     | `io.Writer`             | Это writer, в который записываются логи                                                                                                                                                   | `os.Stderr`                                        |
+| Свойство   | Тип                     | Описание                                                                                                                                                                                     | По умолчанию                                       |
+|:---------- |:----------------------- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:-------------------------------------------------- |
+| Filter     | `func(*fiber.Ctx) bool` | Определяет функцию для пропуска (skip) middleware                                                                                                                                            | `nil`                                              |
+| Format     | `string`                | Возможные значения: `time, ip, url, host, method, path, route, protocol, referer, ua, bytesSent, bytesReceived, header:<key>, query:<key>, form:<key>, cookie:<key>` | `"${time} - ${ip} - ${method} ${path}\t${ua}\n"` |
+| TimeFormat | `string`                | Подробнее про TimeFormat: [читайте тут](https://programming.guide/go/format-parse-string-time-date-example.html)                                                                             | `15:04:05`                                         |
+| Output     | `io.Writer`             | Это writer, в который записываются логи                                                                                                                                                      | `os.Stderr`                                        |
 
 **Пример**
 
@@ -323,15 +323,15 @@ session.New(config ...session.Config) *Session
 
 **Конфигурация**
 
-| Свойство   | Тип             | Описание                                                                                                                                                                                | По умолчанию          |
-|:---------- |:--------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------------- |
-| Lookup     | `string`        | Где искать идентификатор сессии `<source>:<name>`, возможные значения: `cookie:key`, `header:key` или `query:key`                                                           | `"cookie:session_id"` |
-| Domain     | `string`        | Cookie domain                                                                                                                                                                           | `""`                  |
-| Expiration | `time.Duration` | Session expiration time, possible values: `0` means no expiry \(24 years\), `-1` means when the browser closes, `>0` is the time.Duration which the session cookies should expire. | `12 * time.Hour`      |
-| Secure     | `bool`          | Если куки должны быть отправлены только по HTTPS                                                                                                                                        | `false`               |
-| Provider   | `Provider`      | Содержит интерфейс провайдера                                                                                                                                                           | `memory.Provider`     |
-| Generator  | `func() []byte` | Генератор — это функция, которая генерирует уникальный id                                                                                                                               | `uuid`                |
-| GCInterval | `time.Duration` | Интервал для сборщика мусора                                                                                                                                                            | `uuid`                |
+| Свойство   | Тип             | Описание                                                                                                                                                              | По умолчанию          |
+|:---------- |:--------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------------- |
+| Lookup     | `string`        | Где искать идентификатор сессии `<source>:<name>`, возможные значения: `cookie:key`, `header:key` или `query:key`                                         | `"cookie:session_id"` |
+| Domain     | `string`        | Cookie domain                                                                                                                                                         | `""`                  |
+| Expiration | `time.Duration` | Время истечения сессии, возможные значения: `0`, т.е. не истекает (24 года); `-1` истикает при закрытии браузера; `>0` — это time.Duration действия cookie сессии. | `12 * time.Hour`      |
+| Secure     | `bool`          | Если куки должны быть отправлены только по HTTPS                                                                                                                      | `false`               |
+| Provider   | `Provider`      | Содержит интерфейс провайдера                                                                                                                                         | `memory.Provider`     |
+| Generator  | `func() []byte` | Генератор — это функция, которая генерирует уникальный id                                                                                                             | `uuid`                |
+| GCInterval | `time.Duration` | Интервал для сборщика мусора                                                                                                                                          | `uuid`                |
 
 **Пример**
 
@@ -369,7 +369,7 @@ func main() {
 
 ## Template
 
-This middleware package contains `8 template engines` that can be used with [Fiber v1.10.0](https://github.com/gofiber/fiber) using Go version `1.13` or higher is required.
+Этот пакет middleware содержит `8 движков шаблонизации`, которые можно использовать с [Fiber v1.10.0](https://github.com/gofiber/fiber) с использованием версии Go `1.13` или выше.
 
 **Установка**
 
@@ -385,7 +385,7 @@ go get -u github.com/gofiber/template
 
 **Шаблонизаторы**
 
-| Engines      | Repo                                                                           |
+| Движки       | Репозиторий                                                                    |
 |:------------ |:------------------------------------------------------------------------------ |
 | `ace`        | [https://github.com/yosssi/ace](https://github.com/yosssi/ace)                 |
 | `amber`      | [https://github.com/eknkc/amber](https://github.com/eknkc/amber)               |
