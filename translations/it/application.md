@@ -88,8 +88,9 @@ func main() {
 | DisableDefaultDate        | `bool`          | Quando impostato in true causa all'intestazione della data predefinita di essere esclusa dalla risposta.                                                                                                                                                             | `false`           |
 | DisableDefaultContentType | `bool`          | Quando impostato a true, causa all'intestazione Tipo-Contenuto predefinita di essere esclusa dal Responso.                                                                                                                                                           | `false`           |
 | DisableStartupMessage     | `bool`          | Quando impostato a true, non stamperà il fiber ASCII ed sarà "in ascolto" sul messaggio                                                                                                                                                                              | `false`           |
-| ETag                      | `bool`          | Abilita o disabilita la generazione di intestazione ETag, poiché sia gli etag deboli che quelli forti sono generati usando lo stesso metodo di hashing \(CRC-32\). Gli ETag deboli sono predefiniti quando abilitati.                                              | `false`           |
-| Templates                 | `*Templates`    | Templates is the interface that wraps the Render function. See our [**Template Middleware**](middleware.md#template) for supported engines.                                                                                                                          | `nil`             |
+| DisableHeaderNormalizing  | `bool`          | By default all header names are normalized: conteNT-tYPE -&gt; Content-Type                                                                                                                                                                                    | `false`           |
+| ETag                      | `bool`          | Enable or disable ETag header generation, since both weak and strong etags are generated using the same hashing method \(CRC-32\). Weak ETags are the default when enabled.                                                                                        | `false`           |
+| Templates                 | `Templates`     | Templates is the interface that wraps the Render function. See our [**Template Middleware**](middleware.md#template) for supported engines.                                                                                                                          | `nil`             |
 | ReadTimeout               | `time.Duration` | The amount of time allowed to read the full request including body. Default timeout is unlimited.                                                                                                                                                                    | `nil`             |
 | WriteTimeout              | `time.Duration` | The maximum duration before timing out writes of the response. Default timeout is unlimited.                                                                                                                                                                         | `nil`             |
 | IdleTimeout               | `time.Duration` | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used.                                                                                                                        | `nil`             |
@@ -242,13 +243,13 @@ app.Group(prefix string, handlers ...func(*Ctx)) *Group
 func main() {
   app := fiber.New()
 
-  api := app.Group("/api", cors())  // /api
+  api := app.Group("/api", handler)  // /api
 
-  v1 := api.Group("/v1", mysql())   // /api/v1
+  v1 := api.Group("/v1", handler)   // /api/v1
   v1.Get("/list", handler)          // /api/v1/list
   v1.Get("/user", handler)          // /api/v1/user
 
-  v2 := api.Group("/v2", mongodb()) // /api/v2
+  v2 := api.Group("/v2", handler) // /api/v2
   v2.Get("/list", handler)          // /api/v2/list
   v2.Get("/user", handler)          // /api/v2/user
 
