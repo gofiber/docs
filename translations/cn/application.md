@@ -75,24 +75,25 @@ func main() {
 
 **设置** **字段**
 
-| 属性                        | 类型              | 说明                                                                                                                                                                        | 默认                |
-|:------------------------- |:--------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
-| Prefork                   | `bool`          | 启用[`SO_REUSEPORT`](https://lwn.net/Articles/542629/) socket 选项。 这将生成多个Go进程用于监听同一个端口。 了解更多关于 [socket 分片](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/)。 | `false`           |
-| ServerHeader              | `string`        | 启用 `Server` HTTP 头字段并设置为传入的值。                                                                                                                                             | `""`              |
-| StrictRouting             | `bool`          | 如果启用，路由器将区分 `/foo` 和 `/foo/` 为不同的路由。 否则，路由器将视 `/foo` 和 `/foo/` 为相同的路由。                                                                                                    | `false`           |
-| CaseSensitive             | `bool`          | 启用时， `/Foo` 和 `/foo` 是不同的路由。 当禁用时， `/Foo` 和 `/foo` 将被视为同一个路由。                                                                                                             | `false`           |
-| Immutable                 | `bool`          | 如果启用，上下文 context 方法返回的所有值都是不可变的。 默认情况下，直到您从处理器返回前，它们都是有效的，请查看问题 [\#185](https://github.com/gofiber/fiber/issues/185)。                                                   | `false`           |
-| BodyLimit                 | `int`           | 设置请求实体的最大允许限制，如果大小超过配置的限制， 发送 `413 - Request Entity Too Large` 请求实体太大的响应。                                                                                                 | `4 * 1024 * 1024` |
-| Concurrency               | `int`           | 设置并发联接的最大个数。                                                                                                                                                              | `256 * 1024`      |
-| DisableKeepalive          | `bool`          | 禁用保持存活连接，服务器将在向客户端发送首次响应后关闭传入的连接。                                                                                                                                         | `false`           |
-| DisableDefaultDate        | `bool`          | 当设置为 true 时，默认日期头字段 date header 将被排除在响应之外。                                                                                                                                | `false`           |
-| DisableDefaultContentType | `bool`          | 当设置为 true时，默认内容类型头字段 Content-Type header 将被排除在响应之外。                                                                                                                       | `false`           |
-| DisableStartupMessage     | `bool`          | 当设置为 true时，它将不会在日志中打印 fiber 的 ASCII 图像和信息“监听”。                                                                                                                            | `false`           |
-| ETag                      | `bool`          | 启用或禁用 ETag 头字段，这是因为弱 Etags 和 强 Etags 都是使用相同的散列（哈希）方法 \(CRC-32\)。 启用时，默认使用弱 ETags。                                                                                       | `false`           |
-| Templates                 | `*Templates`    | 模板是用于包装渲染函数的接口。 查看我们的 [**模板中间件**](middleware.md#template) 获取支持的引擎。                                                                                                        | `nil`             |
-| ReadTimeout               | `time.Duration` | 读取请求最大允许的时间 （包括读取 body）。 默认无超时限制。                                                                                                                                         | `nil`             |
-| WriteTimeout              | `time.Duration` | 写入响应最大允许的时间。默认无超时限制。 默认无超时限制。                                                                                                                                             | `nil`             |
-| IdleTimeout               | `time.Duration` | 开启保持存活时，等待下一次请求的最大允许时间。 如果IdleTimeout为零，则使用ReadTimeout的值。                                                                                                                 | `nil`             |
+| 属性                        | 类型              | 说明                                                                                                                                                                            | 默认                |
+|:------------------------- |:--------------- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
+| Prefork                   | `bool`          | 启用[`SO_REUSEPORT`](https://lwn.net/Articles/542629/) socket 选项。 这将生成多个Go进程用于监听同一个端口。 了解更多关于 [socket 分片](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/)。     | `false`           |
+| ServerHeader              | `string`        | 启用 `Server` HTTP 头字段并设置为传入的值。                                                                                                                                                 | `""`              |
+| StrictRouting             | `bool`          | 如果启用，路由器将区分 `/foo` 和 `/foo/` 为不同的路由。 否则，路由器将视 `/foo` 和 `/foo/` 为相同的路由。                                                                                                        | `false`           |
+| CaseSensitive             | `bool`          | 启用时， `/Foo` 和 `/foo` 是不同的路由。 当禁用时， `/Foo` 和 `/foo` 将被视为同一个路由。                                                                                                                 | `false`           |
+| Immutable                 | `bool`          | 如果启用，上下文 context 方法返回的所有值都是不可变的。 默认情况下，直到您从处理器返回前，它们都是有效的，请查看问题 [\#185](https://github.com/gofiber/fiber/issues/185)。                                                       | `false`           |
+| BodyLimit                 | `int`           | 设置请求实体的最大允许限制，如果大小超过配置的限制， 发送 `413 - Request Entity Too Large` 请求实体太大的响应。                                                                                                     | `4 * 1024 * 1024` |
+| Concurrency               | `int`           | 设置并发联接的最大个数。                                                                                                                                                                  | `256 * 1024`      |
+| DisableKeepalive          | `bool`          | 禁用保持存活连接，服务器将在向客户端发送首次响应后关闭传入的连接。                                                                                                                                             | `false`           |
+| DisableDefaultDate        | `bool`          | 当设置为 true 时，默认日期头字段 date header 将被排除在响应之外。                                                                                                                                    | `false`           |
+| DisableDefaultContentType | `bool`          | 当设置为 true时，默认内容类型头字段 Content-Type header 将被排除在响应之外。                                                                                                                           | `false`           |
+| DisableStartupMessage     | `bool`          | 当设置为 true时，它将不会在日志中打印 fiber 的 ASCII 图像和信息“监听”。                                                                                                                                | `false`           |
+| DisableHeaderNormalizing  | `bool`          | By default all header names are normalized: conteNT-tYPE -&gt; Content-Type                                                                                             | `false`           |
+| ETag                      | `bool`          | Enable or disable ETag header generation, since both weak and strong etags are generated using the same hashing method \(CRC-32\). Weak ETags are the default when enabled. | `false`           |
+| Templates                 | `Templates`     | Templates is the interface that wraps the Render function. See our [**Template Middleware**](middleware.md#template) for supported engines.                                   | `nil`             |
+| ReadTimeout               | `time.Duration` | The amount of time allowed to read the full request including body. 默认无超时限制。                                                                                                  | `nil`             |
+| WriteTimeout              | `time.Duration` | The maximum duration before timing out writes of the response. 默认无超时限制。                                                                                                       | `nil`             |
+| IdleTimeout               | `time.Duration` | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used.                                 | `nil`             |
 
 ## Static
 
@@ -242,13 +243,13 @@ app.Group(prefix string, handlers ...func(*Ctx)) *Group
 func main() {
   app := fiber.New()
 
-  api := app.Group("/api", cors())  // /api
+  api := app.Group("/api", handler)  // /api
 
-  v1 := api.Group("/v1", mysql())   // /api/v1
+  v1 := api.Group("/v1", handler)   // /api/v1
   v1.Get("/list", handler)          // /api/v1/list
   v1.Get("/user", handler)          // /api/v1/user
 
-  v2 := api.Group("/v2", mongodb()) // /api/v2
+  v2 := api.Group("/v2", handler) // /api/v2
   v2.Get("/list", handler)          // /api/v2/list
   v2.Get("/user", handler)          // /api/v2/user
 
