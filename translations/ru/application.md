@@ -88,12 +88,12 @@ func main() {
 | DisableDefaultDate        | `bool`          | Если установлено значение true, то заголовок даты по умолчанию будет исключён из ответа.                                                                                                                                                                                      | `false`           |
 | DisableDefaultContentType | `bool`          | Если установлено значение true, то заголовок Content-Type по умолчанию будет исключён из ответа.                                                                                                                                                                              | `false`           |
 | DisableStartupMessage     | `bool`          | Когда установлено значение true, не будет отображаться лого Fiber в ASCII-графике и сообщение «слушает на порту ...»                                                                                                                                                          | `false`           |
-| DisableHeaderNormalizing  | `bool`          | By default all header names are normalized: conteNT-tYPE -&gt; Content-Type                                                                                                                                                                                             | `false`           |
-| ETag                      | `bool`          | Enable or disable ETag header generation, since both weak and strong etags are generated using the same hashing method \(CRC-32\). Weak ETags are the default when enabled.                                                                                                 | `false`           |
-| Templates                 | `Templates`     | Templates is the interface that wraps the Render function. See our [**Template Middleware**](middleware.md#template) for supported engines.                                                                                                                                   | `nil`             |
-| ReadTimeout               | `time.Duration` | The amount of time allowed to read the full request including body. Default timeout is unlimited.                                                                                                                                                                             | `nil`             |
-| WriteTimeout              | `time.Duration` | The maximum duration before timing out writes of the response. Default timeout is unlimited.                                                                                                                                                                                  | `nil`             |
-| IdleTimeout               | `time.Duration` | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used.                                                                                                                                 | `nil`             |
+| DisableHeaderNormalizing  | `bool`          | По умолчанию, все заголовки нормализуются: conteNT-tYPE -&gt; Content-Type                                                                                                                                                                                              | `false`           |
+| ETag                      | `bool`          | Включение или отключение генерации заголовков ETag, так как слабые и сильные ETag генерируются с использованием одного и того же метода хэширования \(CRC-32\). Слабые ETags по умолчанию, когда включено.                                                                  | `false`           |
+| Templates                 | `Templates`     | Шаблоны — это интерфейс, который завершает Render функцию. Смотрите наш [**Template Middleware**](middleware.md#template) для поддерживаемых движков.                                                                                                                         | `nil`             |
+| ReadTimeout               | `time.Duration` | Время, отведенное на прочтение полного запроса, включая тело. Время ожидания по умолчанию не ограничено.                                                                                                                                                                      | `nil`             |
+| WriteTimeout              | `time.Duration` | Максимальная длительность до истечения времени записи ответа. Время ожидания по умолчанию не ограничено.                                                                                                                                                                      | `nil`             |
+| IdleTimeout               | `time.Duration` | Максимальное время ожидания следующего запроса при включенном keep-alive. Если IdleTimeout равен нулю, то используется значение ReadTimeout.                                                                                                                                  | `nil`             |
 
 ## Static
 
@@ -301,7 +301,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** does not support the **\*\*\[**Prefork\*\* \]\(application.md\#settings\)feature.
+**Serve** не поддерживает функцию **\*\*\[**Prefork\*\* \]\(application.md\#settings\)\.
 {% endhint %}
 
 {% code title="Example" %}

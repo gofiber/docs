@@ -37,7 +37,7 @@ app.Get("/random.txt", func(c *fiber.Ctx) {
 {% endhint %}
 
 {% hint style="danger" %}
-하이픈 \(`-`\) 은 아직 문자로 해석되지 **않습니다**. **Fiber** v1.10 에서 계획 중입니다.
+하이픈 \(`-`\) 은 아직 문자로 해석되지 **않습니다**. Planned for **Fiber** v1.11.
 {% endhint %}
 
 **라우트 파라미터를 사용한 라우트 정의 예제**

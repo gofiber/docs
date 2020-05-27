@@ -37,7 +37,7 @@ El nombre del parámetro de ruta debe estar compuesto de **caracteres** \(`[A-Za
 {% endhint %}
 
 {% hint style="danger" %}
-El guión \\(`-`\\) no está **interpretado literalmente**. Planeado para **Fiber** v1.10.
+El guión \\(`-`\\) no está **interpretado literalmente**. Planned for **Fiber** v1.11.
 {% endhint %}
 
 **Ejemplo de definir rutas con parámetros de ruta**

@@ -228,12 +228,12 @@ logger.new(config ...Config) func(*Ctx)
 
 **Configuração**
 
-| Propriedade | Tipo                    | Descrição                                                                                                                                                  | Valor Predefinido                                  |
-|:----------- |:----------------------- |:---------------------------------------------------------------------------------------------------------------------------------------------------------- |:-------------------------------------------------- |
-| Filter      | `func(*fiber.Ctx) bool` | Define uma função para ignorar o middleware                                                                                                                | `nil`                                              |
-| Format      | `string`                | Valores possíveis: `time, ip, url, host, method, path, route, protocol, referer, ua, bytesSent, bytesReceived, header:<key>, query:<key>, form:<key>, cookie:<key>` | `"${time} - ${ip} - ${method} ${path}\t${ua}\n"` |
-| TimeFormat  | `string`                | Formatação do horário [leia mais aqui](https://programming.guide/go/format-parse-string-time-date-example.html)                                            | `15:04:05`                                         |
-| Output      | `io.Writer`             | Output é um escritor onde os logs são escritos                                                                                                             | `os.Stderr`                                        |
+| Propriedade | Tipo                    | Descrição                                                                                                                                                                                 | Valor Predefinido                                  |
+|:----------- |:----------------------- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:-------------------------------------------------- |
+| Filter      | `func(*fiber.Ctx) bool` | Define uma função para ignorar o middleware                                                                                                                                               | `nil`                                              |
+| Format      | `string`                | Possible values: `time, ip, url, host, method, path, route, protocol, referer, ua, bytesSent, bytesReceived, header:<key>, query:<key>, form:<key>, cookie:<key>` | `"${time} - ${ip} - ${method} ${path}\t${ua}\n"` |
+| TimeFormat  | `string`                | Formatação do horário [leia mais aqui](https://programming.guide/go/format-parse-string-time-date-example.html)                                                                           | `15:04:05`                                         |
+| Output      | `io.Writer`             | Output é um escritor onde os logs são escritos                                                                                                                                            | `os.Stderr`                                        |
 
 **Exemplo**
 
@@ -651,4 +651,3 @@ func main() {
   app.Listen(3000)
 }
 ```
-

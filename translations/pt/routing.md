@@ -37,7 +37,7 @@ O nome do parâmetro de rota deve conter **caracteres** \(`[A-Za-z0-9_]`\).
 {% endhint %}
 
 {% hint style="danger" %}
-O hífen \(`-`\) não é **** interpretado ainda. Planejado para **Fiber** v1.10.
+O hífen \(`-`\) não é **** interpretado ainda. Planned for **Fiber** v1.11.
 {% endhint %}
 
 **Exemplo de rotas de definição com parâmetros**
