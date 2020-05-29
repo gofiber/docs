@@ -7,7 +7,7 @@ description: >-
 
 ## Paths
 
-Route paths, in combination with a request method, define the endpoints at which requests can be made. Route paths can be **strings** or **string patterns**.
+Ścieżki route, w połączeniu z metodą żądania, ustalają pod jakie endpointy można wykonać zapytania. Route paths can be **strings** or **string patterns**.
 
 **Examples of route paths based on strings**
 
@@ -87,7 +87,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Grouping
 
-If you have many endpoints, you can organize your routes using `Group`
+Jeżeli masz wiele endpointów, możesz je lepiej poukładać za pomocą `Group`
 
 ```go
 func main() {
