@@ -127,7 +127,11 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Body
 
-Contém o **corpo bruto** enviado em uma requisição **POST**.
+{% hint style="info" %}
+ _Returned value is only valid within the handler. Do not store any references. Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead_
+{% endhint %}
+
+Contains the **raw body** submitted in a **POST** request.
 
 {% code title="Signature" %}
 ```go
@@ -146,9 +150,12 @@ app.Post("/", func(c *fiber. tx) {
 ```
 {% endcode %}
 
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+
 ## BodyParser
 
-Vincula o corpo da solicitação a uma estrutura. `BodyParser` suporta a decodificação de parâmetros de consulta e os seguintes tipos de conteúdo baseados no cabeçalho `Content-Type`:
+Binds the request body to a struct. `BodyParser` supports decoding query parameters and the following content types based on the `Content-Type` header:
 
 * `application/json`
 * `application/xml`
@@ -195,7 +202,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## ClearCookie
 
-Expirar um cookie de cliente \(_ou todos os cookies se deixados vazios\)_
+Expire a client cookie \(_or all cookies if left empty\)_
 
 {% code title="Signature" %}
 ```go
@@ -218,9 +225,13 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
+## Context
+
+TODO
+
 ## Cookie
 
-Definir cookies
+Set cookie
 
 **Assinatura**
 
@@ -258,9 +269,9 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Cookies
 
-Obter valor de cookie por chave.
+Get cookie value by key.
 
-**Signature**s
+**Signatures**
 
 ```go
 c.Cookies(key string) string
@@ -275,13 +286,16 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+
 ## Download
 
-Transfere o arquivo do caminho como um `anexo`.
+Transfers the file from path as an `attachment`.
 
-Normalmente, os navegadores irão solicitar o download do usuário. Por padrão, o parâmetro [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header `filename=` é o caminho do arquivo \(_que geralmente aparece na caixa de diálogo do navegador_\).
+Typically, browsers will prompt the user for download. By default, the [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header `filename=` parameter is the filepath \(_this typically appears in the browser dialog_\).
 
-Sobrescrever esse padrão com o **parâmetro de nome do arquivo**.
+Override this default with the **filename** parameter.
 
 {% code title="Signature" %}
 ```go
@@ -303,12 +317,12 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Fasthttp
 
-Você ainda pode **acessar** e usar todos os métodos e propriedades **Fasthttp.**
+You can still **access** and use all **Fasthttp** methods and properties.
 
 **Assinatura**
 
 {% hint style="info" %}
-Por favor, leia a [Documentação Fasthttp](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) para obter mais informações.
+Please read the [Fasthttp Documentation](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) for more information.
 {% endhint %}
 
 **Exemplo**
@@ -325,7 +339,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Error
 
-Contém a informação de erro lançada por um `panic` ou transmitidas pelo método [`Next(err)`](https://github.com/gofiber/docs/tree/8d965e1e05fb67f965934586c78335ef29f52128/context/README.md#error).
+This contains the error information that thrown by a panic or passed via the [`Next(err)`](https://github.com/gofiber/docs/tree/8d965e1e05fb67f965934586c78335ef29f52128/context/README.md#error) method.
 
 {% code title="Signature" %}
 ```go
@@ -363,10 +377,10 @@ func main() {
 
 ## Format
 
-Com base no cabeçalho [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) da requisição HTTP. [Accepts](context.md#accepts) é usado para selecionar um formato adequado.
+Performs content-negotiation on the [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header. It uses [Accepts](context.md#accepts) to select a proper format.
 
 {% hint style="info" %}
-Se o cabeçalho **não** for especificado ou não houver **nenhum** formato adequado, **text/plain** será usado.
+If the header is **not** specified or there is **no** proper format, **text/plain** is used.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -395,7 +409,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## FormFile
 
-Os arquivos MultipartForm podem ser recuperados pelo nome, o **primeiro** arquivo da chave determinada é retornado.
+MultipartForm files can be retrieved by name, the **first** file from the given key is returned.
 
 {% code title="Signature" %}
 ```go
@@ -438,6 +452,9 @@ app.Post("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+
 ## Fresh
 
 [https://expressjs.com/en/4x/api.html\#req.fresh](https://expressjs.com/en/4x/api.html#req.fresh)
@@ -470,6 +487,9 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+
 ## Hostname
 
 Contains the hostname derived from the [Host](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host) HTTP header.
@@ -489,6 +509,9 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 {% endcode %}
+
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
 
 ## IP
 
@@ -819,6 +842,9 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+
 ## Params
 
 Method can be used to get the route parameters.
@@ -842,6 +868,9 @@ app.Get("/user/:name", func(c *fiber.Ctx) {
 })
 ```
 {% endcode %}
+
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
 
 ## Path
 
@@ -907,6 +936,9 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 {% endcode %}
+
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
 
 ## Range
 
