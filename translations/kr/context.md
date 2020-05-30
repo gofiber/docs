@@ -1072,7 +1072,7 @@ app.Get("/", func(c *fiber.Ctx) {
 Fiber는 원시 입력을 위한 `SendBytes`&`SendString` 메소드 역시 제공합니다.
 
 {% hint style="success" %}
-Use this, if you **don't need** type assertion, recommended for **faster** performance.
+만약 여러분이 타입 확정이 **필요하지 않다면**, **더 빠른** 성능을 위해 이것을 사용하는 것을 추천합니다.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1096,10 +1096,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## SendFile
 
-Transfers the file from the given path. Sets the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) response HTTP header field based on the **filenames** extension.
+주어진 경로의 파일을 전송합니다. 응답 HTTP 헤더 필드의 [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type)을 **파일 이름** 확장자를 기반으로 설정합니다.
 
 {% hint style="warning" %}
-Method use **gzipping** by default, set it to **true** to disable.
+메소드는 **gzipping**을 기본으로 사용하고, 사용하지 않으려면 **true**로 설정하세요.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1121,10 +1121,10 @@ app.Get("/not-found", func(c *fiber.Ctx) {
 
 ## SendStatus
 
-Sets the status code and the correct status message in the body, if the response body is **empty**.
+만약 응답 바디가 **비어있다면**, 상태 코드와 알맞는 상태 메시지를 바디에 설정합니다.
 
 {% hint style="success" %}
-You can find all used status codes and messages [here](https://github.com/gofiber/fiber/blob/dffab20bcdf4f3597d2c74633a7705a517d2c8c2/utils.go#L183-L244).
+여러분은 [여기](https://github.com/gofiber/fiber/blob/dffab20bcdf4f3597d2c74633a7705a517d2c8c2/utils.go#L183-L244)에서 모든 상태 코드와 메시지들을 찾을 수 있습니다.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1148,7 +1148,7 @@ app.Get("/not-found", func(c *fiber.Ctx) {
 
 ## Set
 
-Sets the response’s HTTP header field to the specified `key`, `value`.
+응답의 HTTP 헤더 필드를 명시된 `key`, `value`로 설정합니다.
 
 {% code title="Signature" %}
 ```go
@@ -1175,10 +1175,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Status
 
-Sets the HTTP status for the response.
+응답의 HTTP 상태를 설정합니다.
 
 {% hint style="info" %}
-Method is a **chainable**.
+메소드는 **chainable**입니다.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1199,7 +1199,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Subdomains
 
-An array of subdomains in the domain name of the request.
+요청의 도메인 이름안에 있는 서브도메인들의 배열입니다.
 
 The application property subdomain offset, which defaults to `2`, is used for determining the beginning of the subdomain segments.
 
