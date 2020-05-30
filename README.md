@@ -18,6 +18,29 @@ Installation is done using the [`go get`](https://golang.org/cmd/go/#hdr-Add_dep
 go get -u github.com/gofiber/fiber
 ```
 
+## :warning: Zero allocation behavior
+
+Because fiber is optimized for **high performance**, values returned from [fiber.Ctx](./context) are **not** immutable by default and **will** be re-used across requests. As a rule of thumb, you **must** only use context values within the handler, and you **must not** keep any references. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
+```go
+func handler(c *fiber.Ctx) {
+    result := c.Param("foo") // result is only valid within this method
+}
+```
+
+If you need to persist such values outside the handler, make copies of their **underlying buffer** using the [copy](https://golang.org/pkg/builtin/#copy) builtin. Here is an example for persisting a string:
+```go
+func handler(c *fiber.Ctx) {
+    result := c.Param("foo") // result is only valid within this method
+    newBuffer := make([]byte, len(result))
+    copy(newBuffer, result)
+    newResult := string(newBuffer) // newResult is immutable and valid forever
+}
+```
+
+Alternatively, you can also use the [Immutable setting](./application#settings). It will make all values returned from the context immutable, allowing you to persist them anywhere. Of course, this comes at the cost of performance.
+
+For more information, please check [#426](https://github.com/gofiber/fiber/issues/426) and [#185](https://github.com/gofiber/fiber/issues/185).
+
 ## Hello, World!
 
 Embedded below is essentially simplest **Fiber** app, which you can create.
