@@ -582,14 +582,20 @@ app.Get("/json", func(c *fiber.Ctx) {
     Age:  20,
   }
 
-  c.JSON(data)
+  if err := c.JSON(data); err != nil {
+    c.Status(500).Send(err)
+    return
+  }
   // => Content-Type: application/json
   // => "{"Name": "Grame", "Age": 20}"
 
-  c.JSON(fiber.Map{
+  if err := c.JSON(fiber.Map{
     "name": "Grame",
     "age": 20,
-  })
+  }); err != nil {
+    c.Status(500).Send(err)
+    return
+  }
   // => Content-Type: application/json
   // => "{"name": "Grame", "age": 20}"
 })
