@@ -58,10 +58,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Append
 
-Appends the specified **value** to the HTTP response header field.
+Dodaje podaną **wartość** do pola nagłówków HTTP odpowiedzi.
 
 {% hint style="warning" %}
-If the header is **not** already set, it creates the header with the specified value.
+Jeżeli nagłówek **nie** jest już ustawiony, stwarza nowy z podaną wartością.
 {% endhint %}
 
 {% code title="Signature" %}
