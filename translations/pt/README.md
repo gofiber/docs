@@ -4,7 +4,7 @@ description: Documentação da API para que você possa começar a criar aplica�
 
 # 📖 Guia de Introdução
 
- [![](https://img.shields.io/github/release/gofiber/fiber?style=flat-square)](https://github.com/gofiber/fiber/releases)  [![](https://img.shields.io/badge/go.dev-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc)   [![](https://goreportcard.com/badge/github.com/gofiber/fiber?style=flat-square)](https://goreportcard.com/report/github.com/gofiber/fiber)  [![](https://img.shields.io/badge/coverage-91-brightgreen?style=flat-square)](https://gocover.io/github.com/gofiber/fiber)  [![](https://img.shields.io/github/workflow/status/gofiber/fiber/Test?label=tests&style=flat-square)](https://github.com/gofiber/fiber/actions?query=workflow%3ATest)  [![](https://img.shields.io/github/workflow/status/gofiber/fiber/Gosec?label=gosec&style=flat-square)](https://github.com/gofiber/fiber/actions?query=workflow%3AGosec)
+[![](https://img.shields.io/github/release/gofiber/fiber?style=flat-square)](https://github.com/gofiber/fiber/releases) [![](https://img.shields.io/badge/go.dev-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc) [![](https://goreportcard.com/badge/github.com/gofiber/fiber?style=flat-square)](https://goreportcard.com/report/github.com/gofiber/fiber) [![](https://img.shields.io/badge/coverage-91-brightgreen?style=flat-square)](https://gocover.io/github.com/gofiber/fiber) [![](https://img.shields.io/github/workflow/status/gofiber/fiber/Test?label=tests&style=flat-square)](https://github.com/gofiber/fiber/actions?query=workflow%3ATest) [![](https://img.shields.io/github/workflow/status/gofiber/fiber/Gosec?label=gosec&style=flat-square)](https://github.com/gofiber/fiber/actions?query=workflow%3AGosec)
 
 **Fiber** é um **framework web** inspirado em [Express](https://github.com/expressjs/express), construído sobre o [FastHttp](https://github.com/valyala/fasthttp),  ecanismo HTTP **mais rápida** para [Go](https://golang.org/doc/). Projetado para **facilitar** as coisas para desenvolvimento **rápido** com **zero alocação de memória** e **desempenho** em mente.
 
@@ -18,9 +18,38 @@ A instalação é feita usando o comando[`go get`](https://golang.org/cmd/go/#hd
 go get -u github.com/gofiber/fiber
 ```
 
+## Zero Allocation
+
+{% hint style="warning" %}
+Values returned from [**fiber.Ctx**](context.md) are **not** immutable by default
+{% endhint %}
+
+Because fiber is optimized for **high performance**, values returned from [**fiber.Ctx**](context.md) are **not** immutable by default and **will** be re-used across requests. As a rule of thumb, you **must** only use context values within the handler, and you **must not** keep any references. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
+
+```go
+func handler(c *fiber.Ctx) {
+    result := c.Param("foo") // result is only valid within this method
+}
+```
+
+If you need to persist such values outside the handler, make copies of their **underlying buffer** using the [copy](https://golang.org/pkg/builtin/#copy) builtin. Here is an example for persisting a string:
+
+```go
+func handler(c *fiber.Ctx) {
+    result := c.Param("foo") // result is only valid within this method
+    newBuffer := make([]byte, len(result))
+    copy(newBuffer, result)
+    newResult := string(newBuffer) // newResult is immutable and valid forever
+}
+```
+
+Alternatively, you can also use the[ **Immutable setting**](application.md#settings). It will make all values returned from the context immutable, allowing you to persist them anywhere. Of course, this comes at the cost of performance.
+
+For more information, please check ****[**\#426**](https://github.com/gofiber/fiber/issues/426) and ****[**\#185**](https://github.com/gofiber/fiber/issues/185).
+
 ## Hello, World!
 
-Abaixo temos o exemplo mais simples de um app **Fiber** que você pode criar.
+Embedded below is essentially simplest **Fiber** app, which you can create.
 
 ```go
 package main
@@ -42,20 +71,20 @@ func main() {
 go run server.go
 ```
 
-Abrindo o navegador em `http://localhost:3000` você deveria ver `Hello, World!` na tela.
+Browse to `http://localhost:3000` and you should see `Hello, World!` on the page.
 
 ## Basic routing
 
-Roteamento refere-se a determinar como uma aplicação responde a uma requisição do cliente para um endpoint específico, que é um URI \(ou caminho\) e um método de requisição HTTP específico \(GET, PUT, POST e assim por diante\).
+Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI \(or path\) and a specific HTTP request method \(GET, PUT, POST and so on\).
 
 {% hint style="info" %}
-Cada rota pode ter **várias funções handler**, que são executadas quando a rota é combinada.
+Each route can have **multiple handler functions**, that are executed when the route is matched.
 {% endhint %}
 
-A definição de rota aceita as seguintes estruturas:
+Route definition takes the following structures:
 
 ```go
-// Assinatura da Função
+// Function signature
 app.Method(path string, ...func(*fiber.Ctx))
 ```
 
@@ -64,10 +93,10 @@ app.Method(path string, ...func(*fiber.Ctx))
 * `path` é um caminho virtual no servidor.
 * `func(*fiber.Ctx)` é uma função callback que contém o [Context](https://fiber.wiki/context) executando quando a rota é correspondente.
 
-**Rota simples**
+**Simple route**
 
 ```go
-// Resposta com "Hello, World!" na rota principal, "/"
+// Respond with "Hello, World!" on root path, "/"
 app.Get("/", func(c *fiber.Ctx) {
   c.Send("Hello, World!")
 })
@@ -84,7 +113,7 @@ app.Get("/:value", func(c *fiber.Ctx) {
 })
 ```
 
-**Parâmetros opcionais**
+**Optional parameter**
 
 ```go
 // GET http://localhost:3000/john
@@ -112,15 +141,15 @@ app.Get("/api/*", func(c *fiber.Ctx) {
 
 ## Static files
 
-Para servir arquivos estáticos como **imagens**, **CSS** e arquivos **JavaScript**, substituir sua função handler com por um arquivo ou string de diretório.
+To serve static files such as **images**, **CSS** and **JavaScript** files, replace your function handler with a file or directory string.
 
-Assinatura da função:
+Function signature:
 
 ```go
 app.Static(prefix, root string)
 ```
 
-Use o seguinte código para servir os arquivos do diretório chamado `./public`:
+Use the following code to serve files in a directory named `./public`:
 
 ```go
 app := fiber.New()
@@ -130,7 +159,7 @@ app.Static("/", "./public")
 app.Listen(8080)
 ```
 
-Agora, você pode carregar os arquivos que estão no diretório `./public`:
+Now, you can load the files that are in the `./public` directory:
 
 ```bash
 http://localhost:8080/hello.html
