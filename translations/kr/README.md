@@ -4,7 +4,7 @@ description: 여러분이 Fiber로 웹앱 만들기를 시작할 수 있는 API 
 
 # 📖 시작하기
 
- [![](https://img.shields.io/github/release/gofiber/fiber?style=flat-square)](https://github.com/gofiber/fiber/releases)  [![](https://img.shields.io/badge/go.dev-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc)   [![](https://goreportcard.com/badge/github.com/gofiber/fiber?style=flat-square)](https://goreportcard.com/report/github.com/gofiber/fiber)  [![](https://img.shields.io/badge/coverage-91%25-brightgreen?style=flat-square)](https://gocover.io/github.com/gofiber/fiber)  [![](https://img.shields.io/github/workflow/status/gofiber/fiber/Test?label=tests&style=flat-square)](https://github.com/gofiber/fiber/actions?query=workflow%3ATest)  [![](https://img.shields.io/github/workflow/status/gofiber/fiber/Gosec?label=gosec&style=flat-square)](https://github.com/gofiber/fiber/actions?query=workflow%3AGosec)
+[![](https://img.shields.io/github/release/gofiber/fiber?style=flat-square)](https://github.com/gofiber/fiber/releases) [![](https://img.shields.io/badge/go.dev-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc) [![](https://goreportcard.com/badge/github.com/gofiber/fiber?style=flat-square)](https://goreportcard.com/report/github.com/gofiber/fiber) [![](https://img.shields.io/badge/coverage-91%25-brightgreen?style=flat-square)](https://gocover.io/github.com/gofiber/fiber) [![](https://img.shields.io/github/workflow/status/gofiber/fiber/Test?label=tests&style=flat-square)](https://github.com/gofiber/fiber/actions?query=workflow%3ATest) [![](https://img.shields.io/github/workflow/status/gofiber/fiber/Gosec?label=gosec&style=flat-square)](https://github.com/gofiber/fiber/actions?query=workflow%3AGosec)
 
 **Fiber**는 [Express](https://github.com/expressjs/express)에서 영감을 받고, [Go](https://golang.org/doc/)를 위한 가장 빠른 HTTP 엔진인 [Fasthttp](https://github.com/valyala/fasthttp)를 토대로 만들어진 **웹 프레임워크** 입니다. **비 메모리 할당**과 **성능**을 고려한 **빠른** 개발을 위해 **손쉽게** 사용되도록 설계되었습니다.
 
@@ -18,9 +18,38 @@ description: 여러분이 Fiber로 웹앱 만들기를 시작할 수 있는 API 
 go get -u github.com/gofiber/fiber
 ```
 
+## Zero Allocation
+
+{% hint style="warning" %}
+Values returned from [**fiber.Ctx**](context.md) are **not** immutable by default
+{% endhint %}
+
+Because fiber is optimized for **high performance**, values returned from [**fiber.Ctx**](context.md) are **not** immutable by default and **will** be re-used across requests. As a rule of thumb, you **must** only use context values within the handler, and you **must not** keep any references. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
+
+```go
+func handler(c *fiber.Ctx) {
+    result := c.Param("foo") // result is only valid within this method
+}
+```
+
+If you need to persist such values outside the handler, make copies of their **underlying buffer** using the [copy](https://golang.org/pkg/builtin/#copy) builtin. Here is an example for persisting a string:
+
+```go
+func handler(c *fiber.Ctx) {
+    result := c.Param("foo") // result is only valid within this method
+    newBuffer := make([]byte, len(result))
+    copy(newBuffer, result)
+    newResult := string(newBuffer) // newResult is immutable and valid forever
+}
+```
+
+Alternatively, you can also use the[ **Immutable setting**](application.md#settings). It will make all values returned from the context immutable, allowing you to persist them anywhere. Of course, this comes at the cost of performance.
+
+For more information, please check ****[**\#426**](https://github.com/gofiber/fiber/issues/426) and ****[**\#185**](https://github.com/gofiber/fiber/issues/185).
+
 ## Hello, World!
 
-아래의 코드는 여러분이 만들 수 있는 가장 간단하고 기본적인 **Fiber** 앱입니다.
+Embedded below is essentially simplest **Fiber** app, which you can create.
 
 ```go
 package main
@@ -42,17 +71,17 @@ func main() {
 go run server.go
 ```
 
-`http://localhost:3000` 에 접속해보면 화면에 `Hello, World!` 가 보일 것 입니다.
+Browse to `http://localhost:3000` and you should see `Hello, World!` on the page.
 
 ## Basic routing
 
-라우팅은 어플리케이션이 URI \(또는 경로\) 와 구체적인 HTTP 요청 메소드 \(GET, PUT, POST 등\) 인 특정 엔드포인트의 클라이언트 요청에 대해 어떻게 응답할 것 인지를 결정하는 것을 나타냅니다.
+Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI \(or path\) and a specific HTTP request method \(GET, PUT, POST and so on\).
 
 {% hint style="info" %}
-각 라우트는 라우트가 매치될 때 실행되는 **여러 핸들러 함수들**을 가질 수 있습니다.
+Each route can have **multiple handler functions**, that are executed when the route is matched.
 {% endhint %}
 
-라우트 정의는 다음의 구조를 가집니다:
+Route definition takes the following structures:
 
 ```go
 // Function signature
@@ -112,7 +141,7 @@ app.Get("/api/*", func(c *fiber.Ctx) {
 
 ## Static files
 
-**이미지**, **CSS** 와 **자바스크립트** 파일들과 같은 static file들을 제공하기 위해서, 여러분의 함수 핸들러를 파일 또는 디렉토리 문자열로 대체하세요.
+To serve static files such as **images**, **CSS** and **JavaScript** files, replace your function handler with a file or directory string.
 
 Function signature:
 
@@ -120,7 +149,7 @@ Function signature:
 app.Static(prefix, root string)
 ```
 
-`./public` 디렉토리의 파일들을 제공하려면 다음의 코드를 사용하세요:
+Use the following code to serve files in a directory named `./public`:
 
 ```go
 app := fiber.New()
@@ -130,7 +159,7 @@ app.Static("/", "./public")
 app.Listen(8080)
 ```
 
-이제, 여러분은 `./public` 디렉토리의 파일들을 로드할 수 있습니다:
+Now, you can load the files that are in the `./public` directory:
 
 ```bash
 http://localhost:8080/hello.html
