@@ -1,6 +1,6 @@
 ---
 description: >-
-  Middleware is a function chained in the HTTP request cycle with access to the Context which it uses to perform a specific action, for example, logging every request or enabling CORS.
+  미들웨어는, 예를들어 매 요청의 로깅이나 CORS를 활성화하는, 특정 행동을 수행하기 위해 사용하는 Context에 대한 접근과 함께 HTTP 요청 사이클에서 체이닝되는 함수입니다.
 ---
 
 # 🧬 Middleware
