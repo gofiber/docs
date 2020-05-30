@@ -129,6 +129,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Body
 
+{% hint style="info" %}
+ _Returned value is only valid within the handler. Do not store any references. Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead_
+{% endhint %}
+
 Contains the **raw body** submitted in a **POST** request.
 
 {% code title="Signature" %}
@@ -147,6 +151,9 @@ app.Post("/", func(c *fiber.Ctx) {
 })
 ```
 {% endcode %}
+
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._
 
 ## BodyParser
 
@@ -262,7 +269,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 Get cookie value by key.
 
-**Signature**s
+**Signatures**
+
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_See more..._](./#zero-allocation)\_\_
 
 ```go
 c.Cookies(key string) string
