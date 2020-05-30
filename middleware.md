@@ -7,212 +7,37 @@ description: >-
 
 # 🧬 Middleware
 
-## Basic Auth
+## Official Middleware
 
-Basic auth middleware provides an HTTP basic authentication. It calls the next handler for valid credentials and `401 Unauthorized` for missing or invalid credentials.
+| Middleware | Description |
+| :--- | :--- |
+| \*\*\*\*[**adaptor**](https://github.com/gofiber/adaptor)\*\*\*\* | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. |
+| \*\*\*\*[**basicauth**](https://github.com/gofiber/keyauth)\*\*\*\* |  |
+| \*\*\*\*[**compression**](https://github.com/gofiber/compression)\*\*\*\* |  |
+| \*\*\*\*[**cors**](https://github.com/gofiber/keyauth)\*\*\*\* |  |
+| \*\*\*\*[**csrf**](https://github.com/gofiber/keyauth)\*\*\*\* |  |
+| \*\*\*\*[**embed**](https://github.com/gofiber/keyauth)\*\*\*\* |  |
+| \*\*\*\*[**helmet**](https://github.com/gofiber/keyauth)\*\*\*\* |  |
+| [**jwt**](https://github.com/gofiber/keyauth)\*\*\*\* |  |
+| [**keyauth**](https://github.com/gofiber/keyauth)\*\*\*\* |  |
+| [**limiter**](https://github.com/gofiber/keyauth)\*\*\*\* |  |
+| \*\*\*\*[**logger**](https://github.com/gofiber/keyauth)\*\*\*\* |  |
+| [**pprof**](https://github.com/gofiber/keyauth)\*\*\*\* |  |
+| [**recover**](https://github.com/gofiber/keyauth)\*\*\*\* |  |
+| [**requestid**](https://github.com/gofiber/keyauth)\*\*\*\* |  |
+| [**rewrite**](https://github.com/gofiber/keyauth)\*\*\*\* |  |
+| \*\*\*\*[**session**](https://github.com/gofiber/keyauth)\*\*\*\* |  |
+| \*\*\*\*[**websocket**](https://github.com/gofiber/keyauth)\*\*\*\* |  |
 
-**Installation**
+## Third-Party Middleware
 
-```bash
-go get -u github.com/gofiber/basicauth
-```
 
-**Signature**
 
-```go
-basicauth.New(config ...Config) func(*fiber.Ctx)
-```
+## Guidelines
 
-**Config**
-
-| Property | Type | Description | Default |
-| :--- | :--- | :--- | :--- |
-| Filter | `func(*fiber.Ctx) bool` | Defines a function to skip middleware | `nil` |
-| Users | `map[string][string]` | Users defines the allowed credentials | `nil` |
-| Realm | `string` | Realm is a string to define the realm attribute | `"Restricted"` |
-| Authorizer | `func(string, string) bool` | A function you can pass to check the credentials however you want. | `nil` |
-| Unauthorized | `func(*fiber.Ctx)` | Custom response body for unauthorized responses | `nil` |
-
-**Example**
-
-```go
-package main
-
-import (
-  "github.com/gofiber/fiber"
-  "github.com/gofiber/basicauth"
-)
-
-func main() {
-  app := fiber.New()
-
-  cfg := basicauth.Config{
-    Users: map[string]string{
-      "john":   "doe",
-      "admin":  "123456",
-    },
-  }
-  app.Use(basicauth.New(cfg))
-
-  app.Get("/", func(c *fiber.Ctx) {
-    c.Send("Welcome!")
-  })
-
-  app.Listen(3000)
-}
-```
-
-## CORS
-
-CORS middleware implements CORS specification. CORS gives web servers cross-domain access controls, which enable secure cross-domain data transfers.
-
-**Installation**
-
-```bash
-go get -u github.com/gofiber/cors
-```
-
-**Signature**
-
-```go
-cors.New(config ...Config) func(*fiber.Ctx)
-```
-
-**Config**
-
-| Property | Type | Description | Default |
-| :--- | :--- | :--- | :--- |
-| Filter | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
-| AllowOrigins | `[]string` | AllowOrigin defines a list of origins that may access the resource. | `[]string{"*"}` |
-| AllowMethods | `[]string` | AllowMethods defines a list methods allowed when accessing the resource. This is used in response to a preflight request. | `[]string{"GET", "POST", "HEAD", "PUT", "DELETE", "PATCH"}` |
-| AllowCredentials | `bool` | AllowCredentials indicates whether or not the response to the request can be exposed when the credentials flag is true. When used as part of a response to a preflight request, this indicates whether or not the actual request can be made using credentials. | `false` |
-| ExposeHeaders | `[]string` | ExposeHeaders defines a whitelist headers that clients are allowed to access. | `[]string{}` |
-| MaxAge | `int` | MaxAge indicates how long \(in seconds\) the results of a preflight request can be cached. | `0` |
-
-```go
-package main
-
-import (
-  "github.com/gofiber/fiber"
-  "github.com/gofiber/cors"
-)
-
-func main() {
-  app := fiber.New()
-
-  app.Use(cors.New())
-
-  app.Get("/", func(c *fiber.Ctx) {
-    c.Send("Welcome!")
-  })
-
-  app.Listen(3000)
-  // curl -H "Origin: http://example.com" --verbose http://localhost:3000
-}
-```
-
-## Compression
-
-This middleware allows dynamic compression for gzip & deflate if you your responses are bigger than 4kb. If you want to enable compression for static files only, please use the [**Compression** ](application.md#static)setting inside the [**Static** ](application.md#static)method.
-
-**Installation**
-
-```bash
-go get -u github.com/gofiber/compression
-```
-
-**Signature**
-
-```go
-compression.New(config ...Config) func(*fiber.Ctx)
-```
-
-**Config**
-
-| Property | Type | Description | Default |
-| :--- | :--- | :--- | :--- |
-| Filter | `func(*Ctx) bool` | Defines a function to skip middleware | `nil` |
-| Level | `int` | Level of compression, `0`, `1`, `2`, `3`, `4` | `0` |
-
-```go
-package main
-
-import (
-  "github.com/gofiber/fiber"
-  "github.com/gofiber/compression"
-)
-
-func main() {
-  app := fiber.New()
-
-  app.Use(compression.New())
-
-  app.Get("/", func(c *fiber.Ctx) {
-    c.Send("Welcome!")
-  })
-
-  app.Listen(3000)
-}
-```
-
-## Limiter
-
-Use to limit repeated requests to public APIs and/or endpoints such as password reset. This middleware does not share state with other processes/servers.
-
-**Installation**
-
-```bash
-go get -u github.com/gofiber/limiter
-```
-
-**Signature**
-
-```go
-limiter.New(config ...Config) func(*Ctx)
-```
-
-**Config**
-
-| Property | Type | Description | Default |
-| :--- | :--- | :--- | :--- |
-| Filter | `func(*fiber.Ctx) bool` | Defines a function to skip middleware | `nil` |
-| Timeout | `int` | Timeout in seconds on how long to keep records of requests in memory | `60` |
-| Max | `int` | Max number of recent connections during `Timeout` seconds before sending a 429 response | `10` |
-| Message | `string` | Response body | `"Too many requests, please try again later."` |
-| StatusCode | `int` | Response status code | `429` |
-| Key | `func(*Ctx) string` | A function that allows to create custom keys. By default `c.IP()` is used. | `nil` |
-| Handler | `func(*Ctx)` | Handler is called when a request hits the limit | `nil` |
-
-**Example**
-
-```go
-package main
-
-import (
-  "github.com/gofiber/fiber"
-  "github.com/gofiber/limiter"
-)
-
-func main() {
-  app := fiber.New()
-
-  // 3 requests per 10 seconds max
-  cfg := limiter.Config{
-    Timeout: 10,
-    Max: 3,
-  }
-
-  app.Use(limiter.New(cfg))
-
-  app.Get("/", func(c *fiber.Ctx) {
-    c.Send("Welcome!")
-  })
-
-  app.Listen(3000)
-}
-```
-
-## Logger
+{% hint style="warning" %}
+**Unfinished documentation** 
+{% endhint %}
 
 Logger middleware logs the information about each HTTP request.
 
