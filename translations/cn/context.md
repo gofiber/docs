@@ -127,10 +127,6 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Body
 
-{% hint style="info" %}
- _Returned value is only valid within the handler. Do not store any references. Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead_
-{% endhint %}
-
 Contains the **raw body** submitted in a **POST** request.
 
 {% code title="Signature" %}
@@ -150,8 +146,8 @@ app.Post("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.   
-> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+> _Returned value is only valid within the handler. Do not store any references.  
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## BodyParser
 
@@ -227,7 +223,13 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Context
 
-TODO
+Returns context.Context that carries a deadline, a cancellation signal, and other values across API boundaries.
+
+**Signature**
+
+```go
+c.Context() context.Context
+```
 
 ## Cookie
 
@@ -280,20 +282,20 @@ c.Cookies(key string) string
 {% code title="Example" %}
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  // 通过键获取 cookie:
+  // Get cookie by key:
   c.Cookies("name") // "john"
 })
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.   
-> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+> _Returned value is only valid within the handler. Do not store any references.  
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## Download
 
 Transfers the file from path as an `attachment`.
 
-Typically, browsers will prompt the user for download. By default, the [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header `filename=` parameter is the filepath \(_this typically appears in the browser dialog_\).
+Typically, browsers will prompt the user for download. By default, the [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header `filename=` parameter is the file path \(_this typically appears in the browser dialog_\).
 
 Override this default with the **filename** parameter.
 
@@ -307,10 +309,10 @@ c.Download(path, filename ...string)
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   c.Download("./files/report-12345.pdf")
-  // => 下载 report-12345.pdf
+  // => Download report-12345.pdf
 
   c.Download("./files/report-12345.pdf", "report.pdf")
-  // => 下载 report.pdf
+  // => Download report.pdf
 })
 ```
 {% endcode %}
@@ -420,10 +422,10 @@ c.FormFile(name string) (*multipart.FileHeader, error)
 {% code title="Example" %}
 ```go
 app.Post("/", func(c *fiber.Ctx) {
-  // 从表中的 "document" 获取第一个文件:
+  // Get first file from form field "document":
   file, err := c.FormFile("document")
 
-  // 检查错误:
+  // Check for errors:
   if err == nil {
     // Save file to root directory:
     c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
@@ -445,15 +447,15 @@ c.FormValue(name string) string
 {% code title="Example" %}
 ```go
 app.Post("/", func(c *fiber.Ctx) {
-  // 从表中的 "name" 获取第一个值:
+  // Get first value from form field "name":
   c.FormValue("name")
   // => "john" or "" if not exist
 })
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.   
-> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+> _Returned value is only valid within the handler. Do not store any references.  
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## Fresh
 
@@ -487,8 +489,8 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.   
-> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+> _Returned value is only valid within the handler. Do not store any references.  
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## Hostname
 
@@ -510,8 +512,8 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.   
-> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+> _Returned value is only valid within the handler. Do not store any references.  
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## IP
 
@@ -766,25 +768,25 @@ c.MultipartForm() (*multipart.Form, error)
 {% code title="Example" %}
 ```go
 app.Post("/", func(c *fiber.Ctx) {
-  // 解析多部分表单:
+  // Parse the multipart form:
   if form, err := c.MultipartForm(); err == nil {
     // => *multipart.Form
 
     if token := form.Value["token"]; len(token) > 0 {
-      // 获取键值:
+      // Get key value:
       fmt.Println(token[0])
     }
 
-    // 从 "documents" 键中获取所有文件:
+    // Get all files from "documents" key:
     files := form.File["documents"]
     // => []*multipart.FileHeader
 
-    // 遍历所有文件:
+    // Loop through files:
     for _, file := range files {
       fmt.Println(file.Filename, file.Size, file.Header["Content-Type"][0])
       // => "tutorial.pdf" 360641 "application/pdf"
 
-      // 储存文件:
+      // Save the files to disk:
       c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
     }
   }
@@ -842,8 +844,8 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.   
-> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+> _Returned value is only valid within the handler. Do not store any references.  
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## Params
 
@@ -869,7 +871,7 @@ app.Get("/user/:name", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.   
+> _Returned value is only valid within the handler. Do not store any references.  
 > Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
 
 ## Path
@@ -937,8 +939,8 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.   
-> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+> _Returned value is only valid within the handler. Do not store any references.  
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## Range
 
@@ -1072,7 +1074,7 @@ c.Secure() bool
 
 {% code title="Example" %}
 ```go
-// Secure() 方法等价于:
+// Secure() method is equivalent to:
 c.Protocol() == "https"
 ```
 {% endcode %}
@@ -1145,7 +1147,7 @@ c.SendFile(path string, gzip ...bool)
 app.Get("/not-found", func(c *fiber.Ctx) {
   c.SendFile("./public/404.html")
 
-  // 禁用 gzipping:
+  // Disable gzipping:
   c.SendFile("./static/index.html", true)
 })
 ```
@@ -1243,7 +1245,7 @@ c.Subdomains(offset ...int) []string
 
 {% code title="Example" %}
 ```go
-// 域名: "tobi.ferrets.example.com"
+// Host: "tobi.ferrets.example.com"
 
 app.Get("/", func(c *fiber.Ctx) {
   c.Subdomains()  // ["ferrets", "tobi"]
@@ -1293,7 +1295,7 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Vary("Origin")     // => Vary: Origin
   c.Vary("User-Agent") // => Vary: Origin, User-Agent
 
-  // 不能重复
+  // No duplicates
   c.Vary("Origin") // => Vary: Origin, User-Agent
 
   c.Vary("Accept-Encoding", "Accept")
