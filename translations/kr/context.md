@@ -1047,10 +1047,10 @@ c.Protocol() == "https"
 
 ## Send
 
-Sets the HTTP response body. The **Send** body can be of any type.
+HTTP 응답 바디를 설정합니다. **Send** 바디는 어떤 타입이든 가능합니다.
 
 {% hint style="warning" %}
-Send **doesn't** append like the [Write](https://fiber.wiki/context#write) method.
+Send는 [Write](https://fiber.wiki/context#write)메소드 처럼 덧붙이지 **않습니다**.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1069,7 +1069,7 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-Fiber also provides `SendBytes` & `SendString` methods for raw inputs.
+Fiber는 원시 입력을 위한 `SendBytes`&`SendString` 메소드 역시 제공합니다.
 
 {% hint style="success" %}
 Use this, if you **don't need** type assertion, recommended for **faster** performance.
