@@ -301,7 +301,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** does not support the **\*\*\[**Prefork\*\* \]\(application.md\#settings\)feature.
+**Serve** 는 **\*\*\[**Prefork\*\* \]\(application.md\#settings\)feature를 지원하지 않습니다.
 {% endhint %}
 
 {% code title="Example" %}
