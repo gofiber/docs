@@ -18,11 +18,11 @@ description: >-
 | [**csrf**](https://github.com/gofiber/csrf) |  |
 | [**embed**](https://github.com/gofiber/embed) | FileServer middleware for Fiber, special thanks and credits to Alireza Salary |
 | [**helmet**](https://github.com/gofiber/helmet) |  |
-| [**jwt**](https://github.com/gofiber/jwt) | JWT returns a JSON Web Token (JWT) auth middleware. |
+| [**jwt**](https://github.com/gofiber/jwt) | JWT returns a JSON Web Token \(JWT\) auth middleware. |
 | [**keyauth**](https://github.com/gofiber/keyauth) |  |
 | [**limiter**](https://github.com/gofiber/limiter) |  |
 | [**logger**](https://github.com/gofiber/logger) |  |
-| [**pprof**](https://github.com/gofiber/pprof) | Special thanks to Matthew Lee (@mthli) |
+| [**pprof**](https://github.com/gofiber/pprof) | Special thanks to Matthew Lee \(@mthli\) |
 | [**recover**](https://github.com/gofiber/recover) |  |
 | [**requestid**](https://github.com/gofiber/requestid) | Adds an indentifier to the response using the `X-Request-ID` header |
 | [**rewrite**](https://github.com/gofiber/rewrite) |  |
@@ -36,14 +36,14 @@ description: >-
 | [**fiber-swagger**](https://github.com/arsmn/fiber-swagger) |  |
 | [**fiber-casbin**](https://github.com/arsmn/fiber-casbin) |  |
 | [**fiber-introspect**](https://github.com/arsmn/fiber-introspect) |  |
-| [**fiber_tracing**](https://github.com/shareed2k/fiber_tracing) |  |
-| [**fiber_limiter**](https://github.com/shareed2k/fiber_limiter) |  |
+| [**fiber\_tracing**](https://github.com/shareed2k/fiber_tracing) |  |
+| [**fiber\_limiter**](https://github.com/shareed2k/fiber_limiter) |  |
 | [**fiber-boilerplate**](https://github.com/thomasvvugt/fiber-boilerplate) |  |
 | [**gqlgen**](https://github.com/arsmn/gqlgen) |  |
-
 
 ## Guidelines
 
 {% hint style="warning" %}
-**Unfinished documentation** 
+**Unfinished documentation**
 {% endhint %}
+
