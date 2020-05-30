@@ -127,10 +127,6 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Body
 
-{% hint style="info" %}
- _Returned value is only valid within the handler. Do not store any references. Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead_
-{% endhint %}
-
 Contains the **raw body** submitted in a **POST** request.
 
 {% code title="Signature" %}
@@ -150,8 +146,8 @@ app.Post("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.   
-> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+> _Returned value is only valid within the handler. Do not store any references.  
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## BodyParser
 
@@ -227,7 +223,13 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Context
 
-TODO
+Returns context.Context that carries a deadline, a cancellation signal, and other values across API boundaries.
+
+**Signature**
+
+```go
+c.Context() context.Context
+```
 
 ## Cookie
 
@@ -280,20 +282,20 @@ c.Cookies(key string) string
 {% code title="Example" %}
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  // Récupère la valeur d'un cookie par son nom :
+  // Get cookie by key:
   c.Cookies("name") // "john"
 })
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.   
-> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+> _Returned value is only valid within the handler. Do not store any references.  
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## Download
 
 Transfers the file from path as an `attachment`.
 
-Typically, browsers will prompt the user for download. By default, the [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header `filename=` parameter is the filepath \(_this typically appears in the browser dialog_\).
+Typically, browsers will prompt the user for download. By default, the [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header `filename=` parameter is the file path \(_this typically appears in the browser dialog_\).
 
 Override this default with the **filename** parameter.
 
@@ -307,10 +309,10 @@ c.Download(path, filename ...string)
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   c.Download("./files/report-12345.pdf")
-  // => Télécharge report-12345.pdf
+  // => Download report-12345.pdf
 
   c.Download("./files/report-12345.pdf", "report.pdf")
-  // => Télécharge report.pdf
+  // => Download report.pdf
 })
 ```
 {% endcode %}
@@ -372,9 +374,6 @@ func main() {
   })
   app.Listen(1337)
 }
- 
-Text
-XPath: /pre[25]/code
 ```
 {% endcode %}
 
@@ -423,12 +422,12 @@ c.FormFile(name string) (*multipart.FileHeader, error)
 {% code title="Example" %}
 ```go
 app.Post("/", func(c *fiber.Ctx) {
-  // Récupérer le premier fichier du formulaire nommé "document" :
+  // Get first file from form field "document":
   file, err := c.FormFile("document")
 
   // Check for errors:
   if err == nil {
-    // Sauvegarder le fichier à la racine du répertoire :
+    // Save file to root directory:
     c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
   }
 })
@@ -448,15 +447,15 @@ c.FormValue(name string) string
 {% code title="Example" %}
 ```go
 app.Post("/", func(c *fiber.Ctx) {
-  // Récupérer la première valeur du formulaire ayant comme nom "name" :
+  // Get first value from form field "name":
   c.FormValue("name")
   // => "john" or "" if not exist
 })
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.   
-> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+> _Returned value is only valid within the handler. Do not store any references.  
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## Fresh
 
@@ -485,13 +484,13 @@ c.Get(field string) string
 app.Get("/", func(c *fiber.Ctx) {
   c.Get("Content-Type") // "text/plain"
   c.Get("CoNtEnT-TypE") // "text/plain"
-  c.Get("quelque-chose")    // ""
+  c.Get("something")    // ""
 })
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.   
-> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+> _Returned value is only valid within the handler. Do not store any references.  
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## Hostname
 
@@ -513,8 +512,8 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.   
-> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+> _Returned value is only valid within the handler. Do not store any references.  
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## IP
 
@@ -573,9 +572,9 @@ c.Is(t string) bool
 // Content-Type: text/html; charset=utf-8
 
 app.Get("/", func(c *fiber.Ctx) {
-  c.Is("html")  // vrai
-  c.Is(".html") // vrai
-  c.Is("json")  // faux
+  c.Is("html")  // true
+  c.Is(".html") // true
+  c.Is("json")  // false
 })
 ```
 {% endcode %}
@@ -660,9 +659,6 @@ app.Get("/", func(c *fiber.Ctx) {
   c.JSONP(data, "customFunc")
   // => customFunc({"name": "Grame", "age": 20})
 })
- 
-Text
-XPath: /pre[45]/code
 ```
 {% endcode %}
 
@@ -712,7 +708,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 app.Get("/admin", func(c *fiber.Ctx) {
   if c.Locals("user") == "admin" {
-    c.Status(200).Send("Bienvenue, admin!")
+    c.Status(200).Send("Welcome, admin!")
   } else {
     c.SendStatus(403)
     // => 403 Forbidden
@@ -772,32 +768,29 @@ c.MultipartForm() (*multipart.Form, error)
 {% code title="Example" %}
 ```go
 app.Post("/", func(c *fiber.Ctx) {
-  // Analyser le formulaire multipart :
+  // Parse the multipart form:
   if form, err := c.MultipartForm(); err == nil {
     // => *multipart.Form
 
     if token := form.Value["token"]; len(token) > 0 {
-      // Récupère la valeur :
+      // Get key value:
       fmt.Println(token[0])
     }
 
-    // Récupérer tous les fichiers via la clé "documents" :
+    // Get all files from "documents" key:
     files := form.File["documents"]
     // => []*multipart.FileHeader
 
-    // Boucler sur les fichiers :
+    // Loop through files:
     for _, file := range files {
       fmt.Println(file.Filename, file.Size, file.Header["Content-Type"][0])
       // => "tutorial.pdf" 360641 "application/pdf"
 
-      // Sauvegarder les fichiers sur le disque :
+      // Save the files to disk:
       c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
     }
   }
 })
- 
-Text
-XPath: /pre[55]/code
 ```
 {% endcode %}
 
@@ -814,18 +807,18 @@ c.Next(err ...error)
 {% code title="Example" %}
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  fmt.Println("1ère route !")
+  fmt.Println("1st route!")
   c.Next()
 })
 
 app.Get("*", func(c *fiber.Ctx) {
-  fmt.Println("2ème route !")
-  c.Next(fmt.Errorf("une erreur"))
+  fmt.Println("2nd route!")
+  c.Next(fmt.Errorf("Some error"))
 })
 
 app.Get("/", func(c *fiber.Ctx) {
-  fmt.Println(c.Error()) // => "une erreur"
-  fmt.Println("3ème route !")
+  fmt.Println(c.Error()) // => "Some error"
+  fmt.Println("3rd route!")
   c.Send("Hello, World!")
 })
 ```
@@ -851,8 +844,8 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.   
-> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+> _Returned value is only valid within the handler. Do not store any references.  
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## Params
 
@@ -878,7 +871,7 @@ app.Get("/user/:name", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.   
+> _Returned value is only valid within the handler. Do not store any references.  
 > Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
 
 ## Path
@@ -946,8 +939,8 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.   
-> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+> _Returned value is only valid within the handler. Do not store any references.  
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## Range
 
@@ -1048,20 +1041,20 @@ c.SaveFile(fh *multipart.FileHeader, path string)
 {% code title="Example" %}
 ```go
 app.Post("/", func(c *fiber.Ctx) {
-  // Analyse le formulaire multipart :
+  // Parse the multipart form:
   if form, err := c.MultipartForm(); err == nil {
     // => *multipart.Form
 
-    // Récupère tous les fichiers depuis la clé "documents" :
+    // Get all files from "documents" key:
     files := form.File["documents"]
     // => []*multipart.FileHeader
 
-    // Boucle sur les fichiers :
+    // Loop through files:
     for _, file := range files {
       fmt.Println(file.Filename, file.Size, file.Header["Content-Type"][0])
       // => "tutorial.pdf" 360641 "application/pdf"
 
-      // Sauvegarde les fichiers sur le disque :
+      // Save the files to disk:
       c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
     }
   }
@@ -1081,7 +1074,7 @@ c.Secure() bool
 
 {% code title="Example" %}
 ```go
-// Secure() est l'équivalent de :
+// Secure() method is equivalent to:
 c.Protocol() == "https"
 ```
 {% endcode %}
@@ -1302,7 +1295,7 @@ app.Get("/", func(c *fiber.Ctx) {
   c.Vary("Origin")     // => Vary: Origin
   c.Vary("User-Agent") // => Vary: Origin, User-Agent
 
-  // Pas de doublon
+  // No duplicates
   c.Vary("Origin") // => Vary: Origin, User-Agent
 
   c.Vary("Accept-Encoding", "Accept")
