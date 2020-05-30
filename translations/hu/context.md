@@ -127,6 +127,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Body
 
+{% hint style="info" %}
+ _Returned value is only valid within the handler. Do not store any references. Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead_
+{% endhint %}
+
 Contains the **raw body** submitted in a **POST** request.
 
 {% code title="Signature" %}
@@ -145,6 +149,9 @@ app.Post("/", func(c *fiber.Ctx) {
 })
 ```
 {% endcode %}
+
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
 
 ## BodyParser
 
@@ -218,6 +225,10 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
+## Context
+
+TODO
+
 ## Cookie
 
 Set cookie
@@ -260,7 +271,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 Get cookie value by key.
 
-**Signature**s
+**Signatures**
 
 ```go
 c.Cookies(key string) string
@@ -274,6 +285,9 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 {% endcode %}
+
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
 
 ## Download
 
@@ -438,6 +452,9 @@ app.Post("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+
 ## Fresh
 
 [https://expressjs.com/en/4x/api.html\#req.fresh](https://expressjs.com/en/4x/api.html#req.fresh)
@@ -470,6 +487,9 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+
 ## Hostname
 
 Contains the hostname derived from the [Host](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host) HTTP header.
@@ -489,6 +509,9 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 {% endcode %}
+
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
 
 ## IP
 
@@ -819,6 +842,9 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+
 ## Params
 
 Method can be used to get the route parameters.
@@ -842,6 +868,9 @@ app.Get("/user/:name", func(c *fiber.Ctx) {
 })
 ```
 {% endcode %}
+
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
 
 ## Path
 
@@ -907,6 +936,9 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 {% endcode %}
+
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
 
 ## Range
 
