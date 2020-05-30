@@ -127,6 +127,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Body
 
+{% hint style="info" %}
+ _Returned value is only valid within the handler. Do not store any references. Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead_
+{% endhint %}
+
 Contains the **raw body** submitted in a **POST** request.
 
 {% code title="Signature" %}
@@ -146,9 +150,12 @@ app.Post("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+
 ## BodyParser
 
-Binduje body zapytania do structa. `BodyParser` wspiera dekodowanie parametrów zapytania i odpowiedniego typu zawartości bazując na nagłówku `Content-Type`:
+Binds the request body to a struct. `BodyParser` supports decoding query parameters and the following content types based on the `Content-Type` header:
 
 * `application/json`
 * `application/xml`
@@ -195,7 +202,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## ClearCookie
 
-Przedawnia dane cookie klienta \(_lub wszystkie cookie, jeżeli pozostawione bez argumentów_\)
+Expire a client cookie \(_or all cookies if left empty\)_
 
 {% code title="Signature" %}
 ```go
@@ -218,9 +225,13 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
+## Context
+
+TODO
+
 ## Cookie
 
-Ustaw cookie
+Set cookie
 
 **Signature**
 
@@ -258,9 +269,9 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Cookies
 
-Uzyskaj wartość cookie za pomocą klucza.
+Get cookie value by key.
 
-**Signature**s
+**Signatures**
 
 ```go
 c.Cookies(key string) string
@@ -275,13 +286,16 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+
 ## Download
 
 Transfers the file from path as an `attachment`.
 
 Typically, browsers will prompt the user for download. By default, the [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header `filename=` parameter is the filepath \(_this typically appears in the browser dialog_\).
 
-Zastąp ten domyślny parametr z **nazwą pliku**.
+Override this default with the **filename** parameter.
 
 {% code title="Signature" %}
 ```go
@@ -303,12 +317,12 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Fasthttp
 
-Nadal masz **dostęp** do wszystkich metod i właściwości **Fasthttp**.
+You can still **access** and use all **Fasthttp** methods and properties.
 
 **Signature**
 
 {% hint style="info" %}
-Aby uzyskać więcej informacji, sprawdź [dokumentację Fasthttp](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc).
+Please read the [Fasthttp Documentation](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) for more information.
 {% endhint %}
 
 **Przykład**
@@ -366,7 +380,7 @@ func main() {
 Performs content-negotiation on the [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header. It uses [Accepts](context.md#accepts) to select a proper format.
 
 {% hint style="info" %}
-Jeśli nagłówek **nie** jest określony lub jest w **niepoprawnym** formacie, używany jest **text/plain**.
+If the header is **not** specified or there is **no** proper format, **text/plain** is used.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -395,7 +409,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## FormFile
 
-Załączniki MultipartForm mogą być wyciągane po nazwie, zwracany jest **pierwszy** plik pod podanym kluczem.
+MultipartForm files can be retrieved by name, the **first** file from the given key is returned.
 
 {% code title="Signature" %}
 ```go
@@ -420,7 +434,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## FormValue
 
-Dostęp do wszystkich wartości w Form można uzyskać za pomocą ich nazwy, zwracana jest **pierwsza** wartość pod podanym kluczem.
+Any form values can be retrieved by name, the **first** value from the given key is returned.
 
 {% code title="Signature" %}
 ```go
@@ -438,20 +452,23 @@ app.Post("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+
 ## Fresh
 
 [https://expressjs.com/en/4x/api.html\#req.fresh](https://expressjs.com/en/4x/api.html#req.fresh)
 
 {% hint style="info" %}
-Jeszcze nie zostało zaimplementowane, pull requesty są mile widziane!
+Not implemented yet, pull requests are welcome!
 {% endhint %}
 
 ## Get
 
-Zwraca nagłówek HTTP żądania określony przez pole.
+Returns the HTTP request header specified by field.
 
 {% hint style="success" %}
-Matchowanie jest **case-insensitive**.
+The match is **case-insensitive**.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -470,9 +487,12 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+
 ## Hostname
 
-Zawiera hostname wzięty z nagłówka HTTP [Host](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host).
+Contains the hostname derived from the [Host](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host) HTTP header.
 
 {% code title="Signature" %}
 ```go
@@ -490,9 +510,12 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+
 ## IP
 
-Zwraca adres IP, z którego nadchodzi żądanie.
+Returns the remote IP address of the request.
 
 {% code title="Signature" %}
 ```go
@@ -771,7 +794,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Next
 
-Kiedy **Next** jest wyzwalane, uruchamiana jest następna metoda w stacku, odpowiadająca bieżącemu route. Możesz przekazać struct błędu w funkcji dla customowej obsługi błędów.
+When **Next** is called, it executes the next method in the stack that matches the current route. You can pass an error struct within the method for custom error handling.
 
 {% code title="Signature" %}
 ```go
@@ -801,7 +824,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## OriginalURL
 
-Zawiera oryginalny adres URL żądania.
+Contains the original request URL.
 
 {% code title="Signature" %}
 ```go
@@ -819,12 +842,15 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
+
 ## Params
 
-Metoda może być użyta do uzyskania parametrów route.
+Method can be used to get the route parameters.
 
 {% hint style="info" %}
-Domyślnie przyjmuje za wartość pusty string \(`""`\), jeżeli parametr **nie** istnieje.
+Defaults to empty string \(`""`\), if the param **doesn't** exist.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -842,6 +868,9 @@ app.Get("/user/:name", func(c *fiber.Ctx) {
 })
 ```
 {% endcode %}
+
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
 
 ## Path
 
@@ -907,6 +936,9 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 {% endcode %}
+
+> _Returned value is only valid within the handler. Do not store any references.   
+> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
 
 ## Range
 
@@ -1170,7 +1202,7 @@ app.Get("/", func(c *fiber.Ctx) {
 [https://expressjs.com/en/4x/api.html\#req.fresh](https://expressjs.com/en/4x/api.html#req.fresh)
 
 {% hint style="info" %}
-Jeszcze nie zostało zaimplementowane, pull requesty są mile widziane!
+Not implemented yet, pull requests are welcome!
 {% endhint %}
 
 ## Status
