@@ -16,11 +16,11 @@ description: >-
 | [**csrf**](https://github.com/gofiber/csrf)               |                                                                                                             |
 | [**embed**](https://github.com/gofiber/embed)             | Fiber를 위한 파일서버 미들웨어, Alireza Salary님에게 특별히 감사드립니다.                                                          |
 | [**helmet**](https://github.com/gofiber/helmet)           |                                                                                                             |
-| [**jwt**](https://github.com/gofiber/jwt)                 | JWT는 JSON Web Token (JWT) 인증 미들웨어를 반환합니다.                                                                   |
+| [**jwt**](https://github.com/gofiber/jwt)                 | JWT returns a JSON Web Token \(JWT\) auth middleware.                                                     |
 | [**keyauth**](https://github.com/gofiber/keyauth)         |                                                                                                             |
 | [**limiter**](https://github.com/gofiber/limiter)         |                                                                                                             |
 | [**logger**](https://github.com/gofiber/logger)           |                                                                                                             |
-| [**pprof**](https://github.com/gofiber/pprof)             | Matthew Lee님 (@mthli)에게 특별히 감사드립니다.                                                                         |
+| [**pprof**](https://github.com/gofiber/pprof)             | Special thanks to Matthew Lee \(@mthli\)                                                                  |
 | [**recover**](https://github.com/gofiber/recover)         |                                                                                                             |
 | [**requestid**](https://github.com/gofiber/requestid)     | `X-Request-ID` 헤더를 사용하여 응답에 식별자를 더합니다.                                                                      |
 | [**rewrite**](https://github.com/gofiber/rewrite)         |                                                                                                             |
@@ -34,14 +34,14 @@ description: >-
 | [**fiber-swagger**](https://github.com/arsmn/fiber-swagger)               |    |
 | [**fiber-casbin**](https://github.com/arsmn/fiber-casbin)                 |    |
 | [**fiber-introspect**](https://github.com/arsmn/fiber-introspect)         |    |
-| [**fiber_tracing**](https://github.com/shareed2k/fiber_tracing)           |    |
-| [**fiber_limiter**](https://github.com/shareed2k/fiber_limiter)           |    |
+| [**fiber\_tracing**](https://github.com/shareed2k/fiber_tracing)        |    |
+| [**fiber\_limiter**](https://github.com/shareed2k/fiber_limiter)        |    |
 | [**fiber-boilerplate**](https://github.com/thomasvvugt/fiber-boilerplate) |    |
 | [**gqlgen**](https://github.com/arsmn/gqlgen)                             |    |
-
 
 ## Guidelines
 
 {% hint style="warning" %}
 **Unfinished documentation**
 {% endhint %}
+
