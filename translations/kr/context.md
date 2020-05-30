@@ -1201,7 +1201,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 요청의 도메인 이름안에 있는 서브도메인들의 배열입니다.
 
-The application property subdomain offset, which defaults to `2`, is used for determining the beginning of the subdomain segments.
+기본 값으로 `2`인 어플리케이션 속성의 서브도메인 오프셋은 서브도메인 세그먼트의 시작점을 결정하는데 사용됩니다.
 
 {% code title="Signature" %}
 ```go
@@ -1222,7 +1222,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## 타입
 
-Sets the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP header to the MIME type listed [here](https://github.com/nginx/nginx/blob/master/conf/mime.types) specified by the file **extension**.
+[Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP 헤더를 [여기](https://github.com/nginx/nginx/blob/master/conf/mime.types)에 있고 파일 **확장자**에 명시된 MIME 타입으로 설정합니다.
 
 {% code title="Signature" %}
 ```go
@@ -1243,10 +1243,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Vary
 
-Adds the given header field to the [Vary](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary) response header. This will append the header, if not already listed, otherwise leaves it listed in the current location.
+주어진 헤더 필드를 [Vary](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary) 응답 헤더에 추가합니다. 이것은 만약 이미 목록에 있지 않으면 헤더를 덧붙이고, 그렇지 않으면 목록의 현재 위치에 그대로 둡니다.
 
 {% hint style="info" %}
-Multiple fields are **allowed**.
+여러 개의 필드들이 **허용됩니다**.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1272,7 +1272,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Write
 
-Appends **any** input to the HTTP body response.
+**어떤** 입력 값이든지 HTTP 파디 응답에 덧붙입니다.
 
 {% code title="Signature" %}
 ```go
@@ -1292,7 +1292,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## XHR
 
-A Boolean property, that is `true`, if the request’s [X-Requested-With](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers) header field is [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest), indicating that the request was issued by a client library \(such as [jQuery](https://api.jquery.com/jQuery.ajax/)\).
+불리언 속성으로, 만약 요청의 [X-Requested-With](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers) 헤더 필드가 [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest)이면 `true`이고, 이는 요청이 클라이언트 라이브러리 \([jQuery](https://api.jquery.com/jQuery.ajax/)같은\)에 의해 생성되었음을 나타냅니다.
 
 {% code title="Signature" %}
 ```go
