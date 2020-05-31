@@ -127,7 +127,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Body
 
-Contains the **raw body** submitted in a **POST** request.
+Содержит **raw body**, представленное в **POST** запросе.
 
 {% code title="Signature" %}
 ```go
@@ -146,12 +146,12 @@ app.Post("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
+> _Возвращаемое значение допустимо только внутри обработчика. Не храните ссылки.  
+> Сделайте копии или используйте параметр_ [_**`Immutable`**_](application.md#settings) _._ [_Подробнее..._](./#zero-allocation)
 
 ## BodyParser
 
-Binds the request body to a struct. `BodyParser` supports decoding query parameters and the following content types based on the `Content-Type` header:
+Привязывает тело запроса к структуре. `BodyParser` поддерживает декодирование параметров запроса (и последующих типов содержимого) на основе заголовка `Content-Type`:
 
 * `application/json`
 * `application/xml`
@@ -195,7 +195,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## ClearCookie
 
-Expire a client cookie \(_or all cookies if left empty\)_
+Истечение клиентского cookie \(_или всех cookie-файлов, если оставить пустым\)_
 
 {% code title="Signature" %}
 ```go
@@ -220,7 +220,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Context
 
-Returns context.Context that carries a deadline, a cancellation signal, and other values across API boundaries.
+Возвращает context.Context, который несет крайний срок, сигнал отмены и другие значения через границы API.
 
 **Signature**
 
@@ -230,7 +230,7 @@ c.Context() context.Context
 
 ## Cookie
 
-Set cookie
+Установить cookie
 
 **Signature**
 
@@ -268,9 +268,9 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Cookies
 
-Get cookie value by key.
+Получить значение cookie по ключу.
 
-**Signatures**
+**Сигнатура**
 
 ```go
 c.Cookies(key string) string
@@ -285,16 +285,16 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
+> _Возвращаемое значение допустимо только внутри обработчика. Не храните ссылки.  
+> Сделайте копии или используйте параметр_ [_**`Immutable`**_](application.md#settings) _._ [_Подробнее..._](./#zero-allocation)
 
 ## Download
 
-Transfers the file from path as an `attachment`.
+Передаёт файл из пути в качестве `вложения` (attachment).
 
-Typically, browsers will prompt the user for download. By default, the [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header `filename=` parameter is the file path \(_this typically appears in the browser dialog_\).
+Как правило, браузеры запрашивают скачивание у пользователя. По умолчанию, параметр [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header `filename=` – это путь к файлу \(_обычно, отображается в диалоговом окне браузера_\).
 
-Override this default with the **filename** parameter.
+Переопределить значение по умолчанию с помощью параметра **filename**.
 
 {% code title="Signature" %}
 ```go
@@ -316,12 +316,12 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Fasthttp
 
-You can still **access** and use all **Fasthttp** methods and properties.
+Вы все еще можете **получить доступ** и использовать все методы и свойства **Fasthttp**.
 
 **Signature**
 
 {% hint style="info" %}
-Please read the [Fasthttp Documentation](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) for more information.
+Пожалуйста, прочитайте [Fasthttp Documentation](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) для получения дополнительной информации.
 {% endhint %}
 
 **Пример**
@@ -338,7 +338,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Error
 
-This contains the error information that thrown by a panic or passed via the [`Next(err)`](https://github.com/gofiber/docs/tree/8d965e1e05fb67f965934586c78335ef29f52128/context/README.md#error) method.
+Содержит информацию об ошибке, вызванную паникой или передаваемую через метод [`Next(err)`](https://github.com/gofiber/docs/tree/8d965e1e05fb67f965934586c78335ef29f52128/context/README.md#error).
 
 {% code title="Signature" %}
 ```go
@@ -451,8 +451,8 @@ app.Post("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
+> _Возвращаемое значение допустимо только внутри обработчика. Не храните ссылки.  
+> Сделайте копии или используйте параметр_ [_**`Immutable`**_](application.md#settings) _._ [_Подробнее..._](./#zero-allocation)
 
 ## Fresh
 
@@ -486,8 +486,8 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
+> _Возвращаемое значение допустимо только внутри обработчика. Не храните ссылки.  
+> Сделайте копии или используйте параметр_ [_**`Immutable`**_](application.md#settings) _._ [_Подробнее..._](./#zero-allocation)
 
 ## Hostname
 
@@ -509,8 +509,8 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
+> _Возвращаемое значение допустимо только внутри обработчика. Не храните ссылки.  
+> Сделайте копии или используйте параметр_ [_**`Immutable`**_](application.md#settings) _._ [_Подробнее..._](./#zero-allocation)
 
 ## IP
 
@@ -841,8 +841,8 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
+> _Возвращаемое значение допустимо только внутри обработчика. Не храните ссылки.  
+> Сделайте копии или используйте параметр_ [_**`Immutable`**_](application.md#settings) _._ [_Подробнее..._](./#zero-allocation)
 
 ## Params
 
@@ -868,7 +868,7 @@ app.Get("/user/:name", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.  
+> _Возвращаемое значение допустимо только внутри обработчика. Do not store any references.  
 > Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
 
 ## Path
@@ -936,8 +936,8 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](application.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
+> _Возвращаемое значение допустимо только внутри обработчика. Не храните ссылки.  
+> Сделайте копии или используйте параметр_ [_**`Immutable`**_](application.md#settings) _._ [_Подробнее..._](./#zero-allocation)
 
 ## Range
 
