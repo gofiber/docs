@@ -6,8 +6,7 @@ description: 이 앱 인스턴스는 일반적으로 Fiber 어플리케이션을
 
 ## New
 
-이 메소드는 새로운 **App** 이라는 이름을 가진 인스턴스를 생성합니다.  
-여러분은 선택적인 [settings](application.md#settings) 를 새 인스턴스를 생성할 때 넣을 수 있습니다.
+This method creates a new **App** named instance. You can pass optional [settings ](application.md#settings)when creating a new instance
 
 {% code title="Signature" %}
 ```go
@@ -301,7 +300,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** 는 **\*\*\[**Prefork\*\* \]\(application.md\#settings\)feature를 지원하지 않습니다.
+**Serve** does not support the [**Prefork**](application.md#settings) feature.
 {% endhint %}
 
 {% code title="Example" %}
