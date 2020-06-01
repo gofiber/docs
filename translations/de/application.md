@@ -6,8 +6,7 @@ description: Die App-Instanz bezeichnet die Fiber-Anwendung.
 
 ## New
 
-Diese Methode erstellt eine neue **App** Instanz.  
-Sie können optionale [Einstellungen ](application.md#settings)beim Erstellen einer neuen Instanz übergeben
+This method creates a new **App** named instance. You can pass optional [settings ](application.md#settings)when creating a new instance
 
 {% code title="Signature" %}
 ```go
@@ -301,7 +300,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** does not support the **\*\*\[**Prefork\*\* \]\(application.md\#settings\)feature.
+**Serve** does not support the [**Prefork**](application.md#settings) feature.
 {% endhint %}
 
 {% code title="Example" %}
