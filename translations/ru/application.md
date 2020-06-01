@@ -6,8 +6,7 @@ description: Инстанс приложения, обычно, обознача
 
 ## New
 
-Этот метод создает новое **приложение** названного экземпляра.  
-Вы можете передать необязательные [параметры](application.md#settings) при создании новой копии
+This method creates a new **App** named instance. You can pass optional [settings ](application.md#settings)when creating a new instance
 
 {% code title="Signature" %}
 ```go
@@ -301,7 +300,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** не поддерживает функцию **\*\*\[**Prefork\*\* \]\(application.md\#settings\)\.
+**Serve** does not support the [**Prefork**](application.md#settings) feature.
 {% endhint %}
 
 {% code title="Example" %}
