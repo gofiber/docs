@@ -6,8 +6,7 @@ description: Thể hiện app thông thường biểu thị ứng dụng Fiber.
 
 ## New
 
-Phương thức này tạo mới một thể hiện của **App**  
-Bạn có thể truyền [các cài đặt](application.m#settings) tùy chọn khi tạo một thể hiện mới
+This method creates a new **App** named instance. You can pass optional [settings ](application.md#settings)when creating a new instance
 
 {% code title="Signature" %}
 ```go
@@ -301,7 +300,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** does not support the **\*\*\[**Prefork\*\* \]\(application.md\#settings\)feature.
+**Serve** does not support the [**Prefork**](application.md#settings) feature.
 {% endhint %}
 
 {% code title="Example" %}
