@@ -1103,7 +1103,7 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-Fiber also provides `SendBytes` & `SendString` methods for raw inputs.
+Fiber also provides `SendBytes` ,`SendString` and `SendStream` methods for raw inputs.
 
 {% hint style="success" %}
 Use this, if you **don't need** type assertion, recommended for **faster** performance.
@@ -1113,6 +1113,7 @@ Use this, if you **don't need** type assertion, recommended for **faster** perfo
 ```go
 c.SendBytes(b []byte)
 c.SendString(s string)
+c.SendStream(r io.Reader, s ...int)
 ```
 {% endcode %}
 
@@ -1123,6 +1124,9 @@ app.Get("/", func(c *fiber.Ctx) {
   // => "Hello, World!"
 
   c.SendString("Hello, World!")
+  // => "Hello, World!"
+
+  c.SendStream(bytes.NewReader([]byte("Hello, World!")))
   // => "Hello, World!"
 })
 ```
