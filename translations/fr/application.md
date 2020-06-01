@@ -6,8 +6,7 @@ description: L'instance app représente habituellement une application Fiber.
 
 ## New
 
-Cette méthode crée une nouvelle instance **App**.  
-Optionnellement, vous pouvez passer [settings](application.md#settings) lors de la création de la nouvelle instance
+This method creates a new **App** named instance. You can pass optional [settings ](application.md#settings)when creating a new instance
 
 {% code title="Signature" %}
 ```go
@@ -301,7 +300,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** does not support the **\*\*\[**Prefork\*\* \]\(application.md\#settings\)feature.
+**Serve** does not support the [**Prefork**](application.md#settings) feature.
 {% endhint %}
 
 {% code title="Example" %}
