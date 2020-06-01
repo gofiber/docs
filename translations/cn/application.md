@@ -6,8 +6,7 @@ description: 用于表示Fiber应用程序的实例。
 
 ## New
 
-这个方法创建了一个新的 **App** 命名实例。  
-创建一个新实例时，您可以选择性地传入设置 [settings ](application.md#settings)
+This method creates a new **App** named instance. You can pass optional [settings ](application.md#settings)when creating a new instance
 
 {% code title="Signature" %}
 ```go
@@ -301,7 +300,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** 不支持 **\*\*\[**Prefork\*\* \]\(application.md\#settings\)特性.
+**Serve** does not support the [**Prefork**](application.md#settings) feature.
 {% endhint %}
 
 {% code title="Example" %}
