@@ -6,7 +6,7 @@ description: Uygulama örneği geleneksel olarak Fiber uygulamasına delalet ede
 
 ## New
 
-Bu metot örnek isimli yeni bir **uygulama** oluşturur. Yeni bir örnek oluştururken isteğe bağlı [ayarları](application.md#settings) verebilirsiniz.
+This method creates a new **App** named instance. You can pass optional [settings ](application.md#settings)when creating a new instance
 
 {% code title="Signature" %}
 ```go
@@ -300,7 +300,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** does not support the **\*\*\[**Prefork\*\* \]\(application.md\#settings\)feature.
+**Serve** does not support the [**Prefork**](application.md#settings) feature.
 {% endhint %}
 
 {% code title="Example" %}
