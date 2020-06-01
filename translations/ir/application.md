@@ -6,8 +6,7 @@ description: کلمه app معمولا به یک برنامه Fiber اشاره �
 
 ## New
 
-این متد یک **App** جدید ایجاد می کند.  
-شما می توانید هنگام ایجاد یک app جدید [تنظیمات ](application.md#settings) اختیاری آن را ارسال کنید
+This method creates a new **App** named instance. You can pass optional [settings ](application.md#settings)when creating a new instance
 
 {% code title="Signature" %}
 ```go
@@ -301,7 +300,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** does not support the **\*\*\[**Prefork\*\* \]\(application.md\#settings\)feature.
+**Serve** does not support the [**Prefork**](application.md#settings) feature.
 {% endhint %}
 
 {% code title="Example" %}
