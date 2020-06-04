@@ -374,12 +374,12 @@ func main() {
 ```
 {% endcode %}
 
-## Format
+## Формат
 
-Performs content-negotiation on the [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header. It uses [Accepts](context.md#accepts) to select a proper format.
+Выполняет согласование содержимого [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) в HTTP-заголовке. Он использует [Accepts](context.md#accepts) для выбора соответствующего формата.
 
 {% hint style="info" %}
-If the header is **not** specified or there is **no** proper format, **text/plain** is used.
+Если заголовок **не** указан или **нет** подходящего формат, тогда используется **text/plain**.
 {% endhint %}
 
 {% code title="Signature" %}
