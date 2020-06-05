@@ -30,7 +30,7 @@ app.Get("/random.txt", func(c *fiber.Ctx) {
 
 ## パラメータの表記
 
-Route parameters are **named URL segments** that are used to capture the values specified at their position in the URL. The captured values can be retrieved using the [Params](https://fiber.wiki/context#params) function, with the name of the route parameter specified in the path as their respective keys.
+ルートパラメータは、URL 内の特定の位置で指定された値をキャプチャするために使用される **URL セグメント**です キャプチャされた値は、 [Params](https://fiber.wiki/context#params) 関数を使用して取得できます。 パス内で指定されたルートパラメータの名前をそれぞれのキーとして使用します。
 
 {% hint style="info" %}
 Route パラメータの名前は **文字** \(`[A-Za-z0-9_]` \) で構成されていなければなりません。
@@ -40,7 +40,7 @@ Route パラメータの名前は **文字** \(`[A-Za-z0-9_]` \) で構成され
 ハイフン\(`-`\) はまだ **解釈されません。** 対応は**Fiber** v1.11で予定されています。
 {% endhint %}
 
-**Example of define routes with route parameters**
+**ルートパラメータでルートを定義する例**
 
 ```go
 // Parameters
@@ -60,9 +60,9 @@ app.Get("/user/:name?", func(c *fiber.Ctx) {
 
 ## Middleware
 
-Functions, that are designed to make changes to the request or response, are called **middleware functions**. The [Next](https://github.com/gofiber/docs/tree/34729974f7d6c1d8363076e7e88cd71edc34a2ac/context/README.md#next) is a **Fiber** router function, when called, executes the **next** function that **matches** the current route.
+リクエストやレスポンスを変更するための関数を**ミドルウェア関数**と呼びます。 [Next](https://github.com/gofiber/docs/tree/34729974f7d6c1d8363076e7e88cd71edc34a2ac/context/README.md#next)は**Fiber**ルーターの機能で、呼ばれると現在のルートに**マッチ**した**next**関数を実行します。
 
-**Example of a middleware function**
+**ミドルウェア関数の例**
 
 ```go
 app.Use(func(c *fiber.Ctx) {
