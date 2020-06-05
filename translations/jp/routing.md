@@ -1,15 +1,15 @@
 ---
 description: >-
-  Routing refers to how an application's endpoints (URIs) respond to client requests.
+  ルーティングとは、アプリケーションのエンドポイント(URI) がクライアントリクエストにどのように応答するかを指します。
 ---
 
 # 🔌 ルーティング
 
 ## Paths
 
-Route paths, in combination with a request method, define the endpoints at which requests can be made. Route paths can be **strings** or **string patterns**.
+ルートパスはリクエストメソッドと組み合わせて、リクエストを作成できるエンドポイントを定義します。 ルートパスは **文字列** または **文字列パターン** を使用できます。
 
-**Examples of route paths based on strings**
+**文字列ベースのルートパスの例**
 
 ```go
 // This route path will match requests to the root route, "/":
@@ -33,11 +33,11 @@ app.Get("/random.txt", func(c *fiber.Ctx) {
 Route parameters are **named URL segments** that are used to capture the values specified at their position in the URL. The captured values can be retrieved using the [Params](https://fiber.wiki/context#params) function, with the name of the route parameter specified in the path as their respective keys.
 
 {% hint style="info" %}
-Name of the route parameter must be made up of **characters** \(`[A-Za-z0-9_]`\).
+Route パラメータの名前は **文字** \(`[A-Za-z0-9_]` \) で構成されていなければなりません。
 {% endhint %}
 
 {% hint style="danger" %}
-The hyphen \(`-`\) are **not** interpreted literally yet. Planned for **Fiber** v1.11.
+ハイフン\(`-`\) はまだ **解釈されません。** 対応は**Fiber** v1.11で予定されています。
 {% endhint %}
 
 **Example of define routes with route parameters**
@@ -87,7 +87,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Grouping
 
-If you have many endpoints, you can organize your routes using `Group`
+エンドポイントが多い場合は、 `Group`を使用してルートを整理できます。
 
 ```go
 func main() {
