@@ -136,7 +136,7 @@ app.Static("/", "./files")
 静的アセットを提供するパフォーマンスを向上させるために、 [**NGINX**](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) のようなリバースプロキシキャッシュを使用します。
 {% endhint %}
 
-You can use any virtual path prefix \(_where the path does not actually exist in the file system_\) for files that are served by the **Static** method, specify a prefix path for the static directory, as shown below:
+**Static** メソッドが提供するファイルには、任意のvirtual path prefix \(_ファイルシステムに実際に存在しないパス_\) を使用することができます。
 
 {% code title="Example" %}
 ```go
