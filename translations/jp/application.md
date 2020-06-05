@@ -6,7 +6,7 @@ description: Appインスタンスは、慣習的にFiberアプリケーショ�
 
 ## New
 
-このメソッドは、新しい**App**という名前のインスタンスを作成します。 You can pass optional [settings ](application.md#settings)when creating a new instance
+このメソッドは、新しい**App**という名前のインスタンスを作成します。 新しいインスタンスを作成するときにオプションの [設定 ](application.md#settings)を渡すことができます
 
 {% code title="Signature" %}
 ```go
@@ -32,7 +32,7 @@ func main() {
 
 ## Settings
 
-You can pass application settings when calling `New`.
+`New` を呼び出すときにアプリケーションの設定を渡すことができます。
 
 {% code title="Example" %}
 ```go
@@ -52,7 +52,7 @@ func main() {
 ```
 {% endcode %}
 
-Or change the settings after initializing an `app`.
+`app` を初期化した後に設定を変更することもできます。
 
 {% code title="Example" %}
 ```go
@@ -74,7 +74,7 @@ func main() {
 
 **Settings** **fields**
 
-| Property                  | Type            | Description                                                                                                                                                                                                                                               | Default           |
+| プロパティ                     | 型               | 説明                                                                                                                                                                                                                                                        | 既定                |
 |:------------------------- |:--------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
 | Prefork                   | `bool`          | Enables use of the[`SO_REUSEPORT`](https://lwn.net/Articles/542629/)socket option. This will spawn multiple Go processes listening on the same port. learn more about [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
 | ServerHeader              | `string`        | Enables the `Server` HTTP header with the given value.                                                                                                                                                                                                    | `""`              |
