@@ -69,7 +69,7 @@ description: >-
 * **GO** go1.13.6 linux/amd64
 * **OS** Linux
 
-最初のテストケースは、ハンドラーの処理時間**0ms**、**10ms**、**100ms**、**500ms**をモックします。
+The first test case is to mock **0 ms**, **10 ms**, **100 ms**, **500 ms** processing time in handlers.
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark.png)
 
