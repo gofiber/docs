@@ -120,7 +120,7 @@ app.Static("/", "./public")
 ```
 {% endcode %}
 
-To serve from multiple directories, you can use **Static** multiple times.
+複数のディレクトリから提供するために、 **Static** を複数回使用できます。
 
 {% code title="Example" %}
 ```go
@@ -133,7 +133,7 @@ app.Static("/", "./files")
 {% endcode %}
 
 {% hint style="info" %}
-Use a reverse proxy cache like [**NGINX**](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) to improve performance of serving static assets.
+静的アセットを提供するパフォーマンスを向上させるために、 [**NGINX**](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) のようなリバースプロキシキャッシュを使用します。
 {% endhint %}
 
 You can use any virtual path prefix \(_where the path does not actually exist in the file system_\) for files that are served by the **Static** method, specify a prefix path for the static directory, as shown below:
