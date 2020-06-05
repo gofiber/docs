@@ -7,7 +7,7 @@ description: >-
 
 ## Official Middleware
 
-| Middleware                                                | Description                                                                                                                                                           |
+| Middleware                                                | 説明                                                                                                                                                                    |
 |:--------------------------------------------------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [**adaptor**](https://github.com/gofiber/adaptor)         | Converter for net/http handlers to/from Fiber request handlers, special thanks to @arsmn!                                                                             |
 | [**basicauth**](https://github.com/gofiber/basicauth)     | Basic auth middleware provides an HTTP basic authentication. It calls the next handler for valid credentials and 401 Unauthorized for missing or invalid credentials. |
@@ -30,15 +30,15 @@ description: >-
 
 ## Third-Party Middleware
 
-| Middleware                                                                | Description |
-|:------------------------------------------------------------------------- |:----------- |
-| [**fiber-swagger**](https://github.com/arsmn/fiber-swagger)               |             |
-| [**fiber-casbin**](https://github.com/arsmn/fiber-casbin)                 |             |
-| [**fiber-introspect**](https://github.com/arsmn/fiber-introspect)         |             |
-| [**fiber\_tracing**](https://github.com/shareed2k/fiber_tracing)        |             |
-| [**fiber\_limiter**](https://github.com/shareed2k/fiber_limiter)        |             |
-| [**fiber-boilerplate**](https://github.com/thomasvvugt/fiber-boilerplate) |             |
-| [**gqlgen**](https://github.com/arsmn/gqlgen)                             |             |
+| Middleware                                                                | 説明 |
+|:------------------------------------------------------------------------- |:-- |
+| [**fiber-swagger**](https://github.com/arsmn/fiber-swagger)               |    |
+| [**fiber-casbin**](https://github.com/arsmn/fiber-casbin)                 |    |
+| [**fiber-introspect**](https://github.com/arsmn/fiber-introspect)         |    |
+| [**fiber\_tracing**](https://github.com/shareed2k/fiber_tracing)        |    |
+| [**fiber\_limiter**](https://github.com/shareed2k/fiber_limiter)        |    |
+| [**fiber-boilerplate**](https://github.com/thomasvvugt/fiber-boilerplate) |    |
+| [**gqlgen**](https://github.com/arsmn/gqlgen)                             |    |
 
 ## Guidelines
 
