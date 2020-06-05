@@ -88,18 +88,18 @@ func main() {
 | DisableDefaultContentType | `bool`          | true に設定すると、デフォルトの Content-Type ヘッダーがレスポンスから除外されます。                                                                                                                                           | `false`           |
 | DisableStartupMessage     | `bool`          | trueに設定すると、fiber ASCIIと"listening"がメッセージに出力されません                                                                                                                                              | `false`           |
 | DisableHeaderNormalizing  | `bool`          | デフォルトではすべてのヘッダ名は正規化されます: conteNT-tYPE -&gt; Content-Type                                                                                                                                | `false`           |
-| ETag                      | `bool`          | Enable or disable ETag header generation, since both weak and strong etags are generated using the same hashing method \(CRC-32\). Weak ETags are the default when enabled.                 | `false`           |
-| Templates                 | `Templates`     | Templates is the interface that wraps the Render function. See our [**Template Middleware**](middleware.md#template) for supported engines.                                                   | `nil`             |
-| ReadTimeout               | `time.Duration` | The amount of time allowed to read the full request including body. Default timeout is unlimited.                                                                                             | `nil`             |
-| WriteTimeout              | `time.Duration` | The maximum duration before timing out writes of the response. Default timeout is unlimited.                                                                                                  | `nil`             |
-| IdleTimeout               | `time.Duration` | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used.                                                 | `nil`             |
+| ETag                      | `bool`          | ETagヘッダの生成を有効または無効にします。弱いETagと強いETagの両方が同じハッシュメソッド \(CRC-32\)を使用して生成されるためです。 有効にすると、弱いETagがデフォルトになります。                                                                                      | `false`           |
+| Templates                 | `Templates`     | テンプレートは、Render 関数をラップするインターフェイスです。 サポートされているエンジンについては、 [**テンプレートミドルウェア**](middleware.md#template) をご覧ください。                                                                                    | `nil`             |
+| ReadTimeout               | `time.Duration` | リクエストボディを含む全てのリクエストを読むことができる時間。 デフォルトのタイムアウトは無制限です。                                                                                                                                           | `nil`             |
+| WriteTimeout              | `time.Duration` | レスポンスが書き込まれるタイミングをタイミングアウトするまでの最大時間。 デフォルトのタイムアウトは無制限です。                                                                                                                                      | `nil`             |
+| IdleTimeout               | `time.Duration` | keep-aliveが有効な場合に、次のリクエストを待つ最大時間。 IdleTimeout が 0 の場合、ReadTimeout の値が使用されます。                                                                                                                  | `nil`             |
 
 ## Static
 
-Use the **Static** method to serve static files such as **images**, **CSS** and **JavaScript**.
+**Static** メソッドを使用して、 **image**、 **CSS** および **JavaScript** などの静的ファイルを提供します。
 
 {% hint style="info" %}
-By default, **Static** will serve `index.html` files in response to a request on a directory.
+デフォルトでは、 **Static** は `index.html` ファイルをディレクトリのリクエストに応答して提供します。
 {% endhint %}
 
 {% code title="Signature" %}
@@ -108,7 +108,7 @@ app.Static(prefix, root string, config ...Static) // => with prefix
 ```
 {% endcode %}
 
-Use the following code to serve files in a directory named `./public`
+`./public` というディレクトリ内のファイルを扱うには、次のコードを使用します。
 
 {% code title="Example" %}
 ```go
