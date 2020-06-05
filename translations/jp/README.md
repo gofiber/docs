@@ -75,13 +75,13 @@ go run server.go
 
 ## 基本的なルーティング
 
-Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI \(or path\) and a specific HTTP request method \(GET, PUT, POST and so on\).
+ルーティングとは、特定のエンドポイントに対するクライアント要求に対してアプリケーションがどのように応答するかを決定することです。 これは、URI \(またはパス) と、特定の HTTP リクエストメソッド \(GET、PUT、POST など) からなります。
 
 {% hint style="info" %}
-Each route can have **multiple handler functions**, that are executed when the route is matched.
+各ルートは **複数のハンドラ関数**を持つことができ、ルートが一致したときに実行されます。
 {% endhint %}
 
-Route definition takes the following structures:
+ルート定義は以下のような構造をとります：
 
 ```go
 // Function signature
@@ -93,7 +93,7 @@ app.Method(path string, ...func(*fiber.Ctx))
 * `path` はサーバ上の仮想パスです。
 * `func(*fiber.Ctx)` は、ルートが一致したときに実行される [コンテキスト](https://fiber.wiki/context) を含むコールバック関数です。
 
-**Simple route**
+**シンプルなルート**
 
 ```go
 // Respond with "Hello, World!" on root path, "/"
@@ -113,7 +113,7 @@ app.Get("/:value", func(c *fiber.Ctx) {
 })
 ```
 
-**Optional parameter**
+**省略可能なパラメーターの表記**
 
 ```go
 // GET http://localhost:3000/john
