@@ -1,12 +1,12 @@
 ---
-description: The app instance conventionally denotes the Fiber application.
+description: Appインスタンスは、慣習的にFiberアプリケーション自身を表します。
 ---
 
-# 🚀 Application
+# 🚀 アプリケーション
 
 ## New
 
-This method creates a new **App** named instance. You can pass optional [settings ](application.md#settings)when creating a new instance
+このメソッドは、新しい**App**という名前のインスタンスを作成します。 You can pass optional [settings ](application.md#settings)when creating a new instance
 
 {% code title="Signature" %}
 ```go
