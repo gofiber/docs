@@ -75,7 +75,7 @@ Browse to `http://localhost:3000` and you should see `Hello, World!` on the page
 
 ## Базовая маршрутизация
 
-Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI \(or path\) and a specific HTTP request method \(GET, PUT, POST and so on\).
+Маршрутизация относится к определению того, как приложение отвечает на клиентский запрос на определенную конечную точку (endpoint), которая является URI \(или путь\) и определенным методом HTTP запроса \(GET, PUT, POST и так далее\).
 
 {% hint style="info" %}
 Each route can have **multiple handler functions**, that are executed when the route is matched.
