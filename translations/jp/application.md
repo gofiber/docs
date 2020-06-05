@@ -148,7 +148,7 @@ app.Static("/static", "./public")
 ```
 {% endcode %}
 
-If you want to have a little bit more control regarding the settings for serving static files. You could use the `fiber.Static` struct to enable specific settings.
+静的ファイルを提供するための設定について、もう少し制御したい場合、 `fiber.Static` 構造体を使用して特定の設定を有効にすることができます。
 
 {% code title="fiber.Static{}" %}
 ```go
@@ -186,7 +186,7 @@ app.Static("/", "./public", fiber.Static{
 
 ## HTTP Methods
 
-Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) of the request.
+HTTP リクエストをルーティングします。ここで、 **METHOD** は リクエストの [HTTP メソッド](https://developer. mozilla. org/en-US/docs/Web/HTTP/Methods) です。
 
 {% code title="Signatures" %}
 ```go
@@ -228,7 +228,7 @@ app.Post("/api/register", func(c *fiber.Ctx) {
 
 ## Group
 
-You can group routes by creating a `*Group` struct.
+`*Group` 構造体を作成することでルートをグループ化できます。
 
 **Signature**
 
@@ -258,7 +258,7 @@ func main() {
 
 ## Listen
 
-Binds and listens for connections on the specified address. This can be a `int` for port or `string` for address.
+指定されたアドレスの接続をバインドし、リッスンします。 ポートでは `int` 、アドレスでは `string` を指定できます。
 
 {% code title="Signature" %}
 ```go
@@ -275,7 +275,7 @@ app.Listen("127.0.0.1:8080")
 ```
 {% endcode %}
 
-To enable **TLS/HTTPS** you can append a [**TLS config**](https://golang.org/pkg/crypto/tls/#Config).
+**TLS/HTTPS** を有効にするには、 [**TLS config**](https://golang. org/pkg/crypto/tls/#Config) を追加します。
 
 {% code title="Example" %}
 ```go
@@ -291,7 +291,7 @@ app.Listen(443, config)
 
 ## Serve
 
-You can pass your own [`net.Listener`](https://golang.org/pkg/net/#Listener) using the `Serve` method.
+[`net.Listener`](https://golang.org/pkg/net/#Listener) は `Serve` メソッドを使用して渡すことができます。
 
 {% code title="Signature" %}
 ```go
@@ -300,7 +300,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** does not support the [**Prefork**](application.md#settings) feature.
+**Serve** は [**Prefork**](application.md#settings) 機能をサポートしていません。
 {% endhint %}
 
 {% code title="Example" %}
@@ -315,7 +315,7 @@ app.Serve(ln)
 
 ## Test
 
-Testing your application is done with the **Test** method. Use this method for creating `_test.go` files or when you need to debug your routing logic. The default timeout is `200ms` if you want to disable a timeout completely, pass `-1` as a second argument.
+アプリケーションのテストは、 **Test** メソッドで行います。 `_test.go` ファイルを作成する場合や、ルーティングのロジックをデバッグする場合は、このメソッドを使用します。 デフォルトのタイムアウト時間は `200ms` です。タイムアウトを完全に無効にしたい場合は、第2引数として `-1` を渡します。
 
 {% code title="Signature" %}
 ```go
