@@ -21,7 +21,7 @@ go get -u github.com/gofiber/fiber
 ## Zero Allocation
 
 {% hint style="warning" %}
-Values returned from [**fiber.Ctx**](context.md) are **not** immutable by default
+Значения, полученные от [**fiber.Ctx**](context.md) не являются **** неизменяемыми по умолчанию
 {% endhint %}
 
 Because fiber is optimized for **high performance**, values returned from [**fiber.Ctx**](context.md) are **not** immutable by default and **will** be re-used across requests. As a rule of thumb, you **must** only use context values within the handler, and you **must not** keep any references. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
@@ -73,7 +73,7 @@ go run server.go
 
 Browse to `http://localhost:3000` and you should see `Hello, World!` on the page.
 
-## Basic routing
+## Базовая маршрутизация
 
 Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI \(or path\) and a specific HTTP request method \(GET, PUT, POST and so on\).
 
