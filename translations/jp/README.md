@@ -1,5 +1,5 @@
 ---
-description: An API documentation so you can start building web apps with Fiber.
+description: Fiber を使用して Web アプリを構築するための API ドキュメントです。
 ---
 
 # 📖 さあ、はじめよう
@@ -21,10 +21,10 @@ go get -u github.com/gofiber/fiber
 ## Zero Allocation
 
 {% hint style="warning" %}
-Values returned from [**fiber.Ctx**](context.md) are **not** immutable by default
+[**fiber.Ctx**](context.md) から返される値は デフォルトで**不変ではありません**
 {% endhint %}
 
-Because fiber is optimized for **high performance**, values returned from [**fiber.Ctx**](context.md) are **not** immutable by default and **will** be re-used across requests. As a rule of thumb, you **must** only use context values within the handler, and you **must not** keep any references. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
+Fiber はハイパフォーマンスのために最適化されているため、 fiber.Ctx から返される値はデフォルトでは不変ではなく、リクエスト間で再利用されます。 As a rule of thumb, you **must** only use context values within the handler, and you **must not** keep any references. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
 
 ```go
 func handler(c *fiber.Ctx) {
