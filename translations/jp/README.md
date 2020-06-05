@@ -18,21 +18,21 @@ description: Fiber を使用して Web アプリを構築するための API ド
 go get -u github.com/gofiber/fiber
 ```
 
-## Zero Allocation
+## ゼロアロケーション
 
 {% hint style="warning" %}
 [**fiber.Ctx**](context.md) から返される値は デフォルトで**不変ではありません**
 {% endhint %}
 
-Fiber はハイパフォーマンスのために最適化されているため、 fiber.Ctx から返される値はデフォルトでは不変ではなく、リクエスト間で再利用されます。 As a rule of thumb, you **must** only use context values within the handler, and you **must not** keep any references. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
+Fiber はハイパフォーマンスのために最適化されているため、 fiber.Ctx から返される値はデフォルトでは不変ではなく、リクエスト間で再利用されます。 経験則として、ハンドラ内ではコンテキスト値のみを使用**するべきであり**、参照を保持**するべきではありません**。 ハンドラから戻るとすぐに、コンテキストから取得した値は今後のリクエストで再利用され、手元で変化します。 以下に例を示します:
 
 ```go
 func handler(c *fiber.Ctx) {
-    result := c.Param("foo") // result is only valid within this method
+    result := c.Param("foo") // result はこのメソッド内でのみ有効です。
 }
 ```
 
-If you need to persist such values outside the handler, make copies of their **underlying buffer** using the [copy](https://golang.org/pkg/builtin/#copy) builtin. Here is an example for persisting a string:
+このような値をハンドラの外部に永続化する必要がある場合は、[組み込みのコピー機能](https://golang.org/pkg/builtin/#copy)を使用して、その**基礎となるバッファ**のコピーを作成してください。ここでは、文字列を永続化する例を示します。 Here is an example for persisting a string:
 
 ```go
 func handler(c *fiber.Ctx) {
