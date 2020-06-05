@@ -1,6 +1,6 @@
 ---
 description: >-
-  This benchmarks aims to compare the performance of Fiber and other web frameworks.
+  このベンチマークは、Fiber と他のウェブフレームワークの性能を比較することを目的としています。
 ---
 
 # 🤖 ベンチマーク
@@ -15,7 +15,7 @@ description: >-
 * **OS** Linux
 * **NET** Dedicated Cisco 10-gigabit Ethernet switch.
 
-### Plaintext
+### プレーンテキスト
 
 **Fiber** handled **6,162,556** responses per second with an average latency of **2.0** ms.  
 **Express** handled **367,069** responses per second with an average latency of **354.1** ms.
@@ -24,7 +24,7 @@ description: >-
 
 ![Fiber vs Express](.gitbook/assets/plaintext_express.png)
 
-### Data Updates
+### データの更新
 
 **Fiber** handled **11,846** responses  per second with an average latency of **42.8** ms.  
 **Express** handled **2,066** responses  per second with an average latency of **390.44** ms.
@@ -33,7 +33,7 @@ description: >-
 
 ![Fiber vs Express](.gitbook/assets/data_updates_express%20%281%29.png)
 
-### Multiple Queries
+### 複数クエリ
 
 **Fiber** handled **19,664** responses per second with an average latency of **25.7** ms.  
 **Express** handled **4,302** responses  per second with an average latency of **117.2** ms.
@@ -42,7 +42,7 @@ description: >-
 
 ![Fiber vs Express](.gitbook/assets/multiple_queries_express.png)
 
-### Single Query
+### 単一クエリ
 
 **Fiber** handled **368,647** responses per second with an average latency of **0.7** ms.  
 **Express** handled **57,880** responses  per second with an average latency of **4.4** ms.
@@ -51,7 +51,7 @@ description: >-
 
 ![Fiber vs Express](.gitbook/assets/single_query_express.png)
 
-### JSON Serialization
+### JSON シリアライズ
 
 **Fiber** handled **1,146,667** responses per second with an average latency of **0.4** ms.  
 **Express** handled **244,847** responses  per second with an average latency of **1.1** ms.
@@ -69,7 +69,7 @@ description: >-
 * **GO** go1.13.6 linux/amd64
 * **OS** Linux
 
-The first test case is to mock **0 ms**, **10 ms**, **100 ms**, **500 ms** processing time in handlers.
+最初のテストケースは、ハンドラーの処理時間**0ms**、**10ms**、**100ms**、**500ms**をモックします。
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark.png)
 
