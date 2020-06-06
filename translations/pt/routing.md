@@ -37,7 +37,7 @@ O nome do parâmetro de rota deve conter **caracteres** \(`[A-Za-z0-9_]`\).
 {% endhint %}
 
 {% hint style="danger" %}
-O hífen \(`-`\) não é **** interpretado ainda. Planned for **Fiber** v1.11.
+O hífen \(`-`\) não é **** interpretado ainda. Planejado para o **Fiber** v1.11.x
 {% endhint %}
 
 **Exemplo de rotas de definição com parâmetros**
@@ -83,7 +83,7 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-`Use` method path is a **mount** or **prefix** path and limits middleware to only apply to any paths requested that begin with it. This means you cannot use `:params` on the `Use` method.
+O caminho do método ` Use ` é um caminho de montagem ou prefixo e limita o middleware a aplicar-se apenas a todos os caminhos solicitados que começam com ele. Isso significa que você não pode usar `:params ` no método ` Use `.
 
 ## Grouping
 
