@@ -50,6 +50,7 @@ Fiber provides a error handler by default. For a standard error, response is sen
 ```go
 app := fiber.New()
 
+// This is the default error handler
 app.Settings.ErrorHandler = func(ctx *Ctx, err error) {
 	code := StatusInternalServerError
 	if e, ok := err.(*Error); ok {
@@ -72,6 +73,7 @@ The following example shows how to display error pages for different type of err
 ```go
 app := fiber.New()
 
+// We override the default error handler
 app.Settings.ErrorHandler = func(ctx *Ctx, err error) {
 	code := StatusInternalServerError
 	if e, ok := err.(*Error); ok {
