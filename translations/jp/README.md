@@ -1,18 +1,17 @@
 ---
-description: Fiber を使用して Web アプリを構築するための API ドキュメントです。
+description: >-
+  An online API documentation with examples so you can start building web apps with Fiber right away!
 ---
 
 # 📖 さあ、はじめよう
 
-[![](https://img.shields.io/github/release/gofiber/fiber?style=flat-square)](https://github.com/gofiber/fiber/releases) [![](https://img.shields.io/badge/go.dev-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc) [![](https://goreportcard.com/badge/github.com/gofiber/fiber?style=flat-square)](https://goreportcard.com/report/github.com/gofiber/fiber) [![](https://img.shields.io/badge/coverage-91%25-brightgreen?style=flat-square)](https://gocover.io/github.com/gofiber/fiber) [![](https://img.shields.io/github/workflow/status/gofiber/fiber/Test?label=tests&style=flat-square)](https://github.com/gofiber/fiber/actions?query=workflow%3ATest) [![](https://img.shields.io/github/workflow/status/gofiber/fiber/Gosec?label=gosec&style=flat-square)](https://github.com/gofiber/fiber/actions?query=workflow%3AGosec)
-
-**Fiber**は[Express](https://github.com/expressjs/express)に触発された**web framework**です。[Go](https://golang.org/doc/)の**最速**なHTTP engineである[Fasthttp](https://github.com/valyala/fasthttp)によって作られています。 **ゼロメモリアロケーション**と**パフォーマンス** を念頭に置いて設計されており、迅速な開発をサポートします。
+**Fiber** is an [Express](https://github.com/expressjs/express) inspired **web framework** build on top of [Fasthttp](https://github.com/valyala/fasthttp), the **fastest** HTTP engine for [Go](https://golang.org/doc/). Designed to **ease** things up for **fast** development with **zero memory allocation** and **performance** in mind.
 
 ## Installation
 
-まず、 [ここ](https://golang.org/dl/)をダウンロードしてGoをインストールします。 `1.11` 以降が必要です。
+First of all, [download](https://golang.org/dl/) and install Go. `1.11` or higher is required.
 
-そして、[`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) コマンドを使用してインストールします。
+Installation is done using the [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) command:
 
 ```bash
 go get -u github.com/gofiber/fiber
@@ -21,10 +20,10 @@ go get -u github.com/gofiber/fiber
 ## ゼロアロケーション
 
 {% hint style="warning" %}
-[**fiber.Ctx**](context.md) から返される値は デフォルトで**変更不能ではありません**
+Some values returned from [**fiber.Ctx**](context.md) are **not** immutable by default
 {% endhint %}
 
-Fiber は**ハイパフォーマンス**を求めて最適化されているために、 [fiber.Ctx</strong>](context.md) から返される値はデフォルトでは**不変ではなく**、リクエスト間で再利用されるでしょう。 経験則として、ハンドラ内ではコンテキスト値のみを使用**するべきであり**、参照を保持**するべきではありません**。 ハンドラから戻るとすぐに、コンテキストから取得した値は今後のリクエストで再利用され、手元で変化します。 以下に例を示します:
+Because fiber is optimized for **high performance**, values returned from [**fiber.Ctx**](context.md) are **not** immutable by default and **will** be re-used across requests. As a rule of thumb, you **must** only use context values within the handler, and you **must not** keep any references. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
 
 ```go
 func handler(c *fiber.Ctx) {
@@ -32,7 +31,7 @@ func handler(c *fiber.Ctx) {
 }
 ```
 
-このような値をハンドラの外部に永続化する必要がある場合は、[組み込みのコピー機能](https://golang.org/pkg/builtin/#copy)を使用して、その**基礎となるバッファ**のコピーを作成してください。ここでは、文字列を永続化する例を示します。 以下は文字列を永続化させるための例です:
+If you need to persist such values outside the handler, make copies of their **underlying buffer** using the [copy](https://golang.org/pkg/builtin/#copy) builtin. Here is an example for persisting a string:
 
 ```go
 func handler(c *fiber.Ctx) {
@@ -43,13 +42,13 @@ func handler(c *fiber.Ctx) {
 }
 ```
 
-または、[ **イミュータブル設定**](application.md#settings) を使用することもできます。 コンテキストから返されるすべての値は変更不能になり、どこにでも永続化できます。 もちろん、これはパフォーマンスを犠牲にしています。
+Alternatively, you can also use the[ **Immutable setting**](application.md#settings). It will make all values returned from the context immutable, allowing you to persist them anywhere. Of course, this comes at the cost of performance.
 
-詳細については、 ****[**\#426**](https://github.com/gofiber/fiber/issues/426) と ****[**\#185**](https://github.com/gofiber/fiber/issues/185).をご確認ください
+For more information, please check ****[**\#426**](https://github.com/gofiber/fiber/issues/426) and ****[**\#185**](https://github.com/gofiber/fiber/issues/185).
 
 ## Hello world!
 
-以下は、基本的かつ最もシンプルな **Fiber** アプリです。
+Embedded below is essentially simplest **Fiber** app, which you can create.
 
 ```go
 package main
@@ -71,17 +70,17 @@ func main() {
 go run server.go
 ```
 
-`http://localhost:3000` にアクセスすると、 `Hello, World!` がページに表示されます。
+Browse to `http://localhost:3000` and you should see `Hello, World!` on the page.
 
 ## 基本的なルーティング
 
-ルーティングとは、特定のエンドポイントに対するクライアント要求に対してアプリケーションがどのように応答するかを決定することです。 これは、URI \(またはパス) と、特定の HTTP リクエストメソッド \(GET、PUT、POST など) からなります。
+Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI \(or path\) and a specific HTTP request method \(GET, PUT, POST and so on\).
 
 {% hint style="info" %}
-各ルートは **複数のハンドラ関数**を持つことができ、ルートが一致したときに実行されます。
+Each route can have **multiple handler functions**, that are executed when the route is matched.
 {% endhint %}
 
-ルート定義は以下のような構造をとります：
+Route definition takes the following structures:
 
 ```go
 // Function signature
@@ -93,7 +92,7 @@ app.Method(path string, ...func(*fiber.Ctx))
 * `path` はサーバ上の仮想パスです。
 * `func(*fiber.Ctx)` は、ルートが一致したときに実行される [コンテキスト](https://fiber.wiki/context) を含むコールバック関数です。
 
-**シンプルなルート**
+**Simple route**
 
 ```go
 // Respond with "Hello, World!" on root path, "/"
@@ -113,7 +112,7 @@ app.Get("/:value", func(c *fiber.Ctx) {
 })
 ```
 
-**省略可能なパラメーターの表記**
+**Optional parameter**
 
 ```go
 // GET http://localhost:3000/john
@@ -128,7 +127,7 @@ app.Get("/:name?", func(c *fiber.Ctx) {
 })
 ```
 
-**ワイルドカード**
+**Wildcards**
 
 ```go
 // GET http://localhost:3000/api/user/john
@@ -141,15 +140,15 @@ app.Get("/api/*", func(c *fiber.Ctx) {
 
 ## 静的ファイル
 
-**画像**、**CSS**、**JavaScript** ファイルなどの静的ファイルを提供するには、関数のハンドラをファイルまたはディレクトリを示す文字列に置き換えます。
+To serve static files such as **images**, **CSS** and **JavaScript** files, replace your function handler with a file or directory string.
 
-関数のシグネチャ:
+Function signature:
 
 ```go
 app.Static(prefix, root string)
 ```
 
-`./public` というディレクトリ内のファイルを扱うには、次のコードを使用します。
+Use the following code to serve files in a directory named `./public`:
 
 ```go
 app := fiber.New()
@@ -159,7 +158,7 @@ app.Static("/", "./public")
 app.Listen(8080)
 ```
 
-これで、`./public` ディレクトリにあるファイルを読み込むことができます。
+Now, you can load the files that are in the `./public` directory:
 
 ```bash
 http://localhost:8080/hello.html
