@@ -11,10 +11,11 @@
 ## Guide
 
 * [🔌 路由](routing.md)
-* [👪 Grouping](grouping.md)
+* [🎭 Grouping](grouping.md)
+* [📝 Templates](templates.md)
 * [🐛 Error Handling](error-handling.md)
 
-## Information
+## Misc <a id="miscellaneous"></a>
 
 * [🤔 FAQ](faq.md)
 * [📊 Benchmarks](benchmarks.md)
