@@ -8,5 +8,3 @@
 * [📊 Benchmarks](benchmarks.md)
 * [🍳 Examples](https://github.com/gofiber/recipes)
 
-## Links
-
