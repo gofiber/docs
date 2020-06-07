@@ -4,17 +4,19 @@
 
 ## API
 
-* [🚀 应用程序](api/app.md)
-* [🧠 上下文](api/ctx.md)
-* [🧬 中间件](api/middleware.md)
+* [🚀 应用程序](app.md)
+* [🧠 上下文](ctx.md)
+* [🧬 中间件](middleware.md)
 
 ## Guide
 
-* [🔌 路由](guide/routing.md)
-* [🐛 Error Handling](guide/error-handling.md)
+* [🔌 路由](routing.md)
+* [👪 Grouping](grouping.md)
+* [🐛 Error Handling](error-handling.md)
 
-## Extra
+## Information
 
-* [📊 Benchmarks](extra/benchmarks.md)
+* [🤔 FAQ](faq.md)
+* [📊 Benchmarks](benchmarks.md)
 * [🍳 Examples](https://github.com/gofiber/recipes)
 
