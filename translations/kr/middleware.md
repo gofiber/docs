@@ -1,44 +1,146 @@
 ---
 description: >-
-  미들웨어는, 예를들어 매 요청의 로깅이나 CORS를 활성화하는, 특정 행동을 수행하기 위해 사용하는 Context에 대한 접근과 함께 HTTP 요청 사이클에서 체이닝되는 함수입니다.
+  Middleware is a function chained in the HTTP request cycle with access to the Context which it uses to perform a specific action, for example, logging every request or enabling CORS.
 ---
 
 # 🧬 Middleware
 
-## Official Middleware
+## Fiber
 
-| Middleware                                                | 설명                                                                                                                  |
-|:--------------------------------------------------------- |:------------------------------------------------------------------------------------------------------------------- |
-| [**adaptor**](https://github.com/gofiber/adaptor)         | net/http 핸들러를 Fiber 요청 핸들러로 또는 그 반대로 변환해주는 변환기, @arsmn님에게 특별히 감사드립니다!                                               |
-| [**basicauth**](https://github.com/gofiber/basicauth)     | Basic auth 미들웨어는 HTTP 기본 인증을 제공합니다. 이것은 유효한 자격에 대해서는 다음 핸들러를 호출하고 자격이 없거나 유효하지 않으면 401 Unauthorized를 호출합니다.         |
-| [**compression**](https://github.com/gofiber/compression) |                                                                                                                     |
-| [**cors**](https://github.com/gofiber/cors)               |                                                                                                                     |
-| [**csrf**](https://github.com/gofiber/csrf)               |                                                                                                                     |
-| [**embed**](https://github.com/gofiber/embed)             | Fiber를 위한 파일서버 미들웨어, Alireza Salary님에게 특별히 감사드립니다.                                                                  |
-| [**helmet**](https://github.com/gofiber/helmet)           |                                                                                                                     |
-| [**jwt**](https://github.com/gofiber/jwt)                 | JWT returns a JSON Web Token \(JWT\) auth middleware.                                                             |
-| [**keyauth**](https://github.com/gofiber/keyauth)         |                                                                                                                     |
-| [**limiter**](https://github.com/gofiber/limiter)         |                                                                                                                     |
-| [**logger**](https://github.com/gofiber/logger)           |                                                                                                                     |
-| [**pprof**](https://github.com/gofiber/pprof)             | Special thanks to Matthew Lee \(@mthli\)                                                                          |
-| [**recover**](https://github.com/gofiber/recover)         |                                                                                                                     |
-| [**requestid**](https://github.com/gofiber/requestid)     | `X-Request-ID` 헤더를 사용하여 응답에 식별자를 더합니다.                                                                              |
-| [**rewrite**](https://github.com/gofiber/rewrite)         |                                                                                                                     |
-| [**session**](https://github.com/gofiber/session)         | 이 session 미들웨어는 @savsgio님의 fasthttp/session MIT를 기반으로 만들어졌습니다. 이 미들웨어에 도움을 주신 @thomassvvugt님에게 특별히 감사드립니다.          |
-| [**template**](https://github.com/gofiber/template)       | This package contains 8 template engines that can be used with Fiber v1.10.0 Go version 1.13 or higher is required. |
-| [**websocket**](https://github.com/gofiber/websocket)     | Based on Fasthttp WebSocket for Fiber with Locals support!                                                          |
+These middleware functions are available within the official Fiber framework
 
-## Third-Party Middleware
+{% code title="Example" %}
+```go
+package main
 
-| Middleware                                                                | 설명 |
-|:------------------------------------------------------------------------- |:-- |
-| [**fiber-swagger**](https://github.com/arsmn/fiber-swagger)               |    |
-| [**fiber-casbin**](https://github.com/arsmn/fiber-casbin)                 |    |
-| [**fiber-introspect**](https://github.com/arsmn/fiber-introspect)         |    |
-| [**fiber\_tracing**](https://github.com/shareed2k/fiber_tracing)        |    |
-| [**fiber\_limiter**](https://github.com/shareed2k/fiber_limiter)        |    |
-| [**fiber-boilerplate**](https://github.com/thomasvvugt/fiber-boilerplate) |    |
-| [**gqlgen**](https://github.com/arsmn/gqlgen)                             |    |
+import (
+    "github.com/gofiber/fiber"
+
+    // Import the middleware package
+    "github.com/gofiber/fiber/middleware"
+)
+
+func main() {
+    app := fiber.New()
+
+    // Register the middleware
+    app.Use(middleware.Logger())
+
+    app.Listen(3000)
+}
+```
+{% endcode %}
+
+### Logger
+
+Logs the information about each HTTP request.
+
+{% code title="Basic Usage" %}
+```go
+app.Use(middleware.Logger())
+// 08:33:22 GET /hello - 127.0.0.1 - 200 - 0.23ms
+```
+{% endcode %}
+
+{% code title="Custom Configuration" %}
+```go
+// Custom Format
+app.Use(middleware.Logger("${ip} - ${path} - ${latency}\n"))
+
+// Custom Format + Output
+app.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+    Format: "${ip} - ${path} - ${latency}\n",
+    Output: os.Stderr,
+}))
+```
+{% endcode %}
+
+{% code title="Config" %}
+```go
+type LoggerConfig struct {
+    // Next defines a function to skip this middleware.
+    Next func(ctx *fiber.Ctx) bool
+
+    // Format defines the logging tags
+    // 
+    // - time
+    // - ip
+    // - ips
+    // - url
+    // - host
+    // - method
+    // - path
+    // - protocol
+    // - route
+    // - referer
+    // - ua
+    // - latency
+    // - status
+    // - body
+    // - error
+    // - bytesSent
+    // - bytesReceived
+    // - header:<key>
+    // - query:<key>
+    // - form:<key>
+    // - cookie:<key>
+    // 
+    // Optional. Default: ${time} ${method} ${path} - ${ip} - ${status} - ${latency}\n
+    Format string
+
+    // TimeFormat https://programming.guide/go/format-parse-string-time-date-example.html
+    //
+    // Optional. Default: 15:04:05
+    TimeFormat string
+
+    // Output is a writter where logs are written
+    //
+    // Default: os.Stderr
+    Output io.Writer
+}
+```
+{% endcode %}
+
+### Recover
+
+Recover middleware
+
+### RequestID
+
+RequestID middleware
+
+
+
+## External
+
+| Middleware                                                | Description                                                                                                                                                           |
+|:--------------------------------------------------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [**adaptor**](https://github.com/gofiber/adaptor)         | Converter for net/http handlers to/from Fiber request handlers, special thanks to @arsmn!                                                                             |
+| [**basicauth**](https://github.com/gofiber/basicauth)     | Basic auth middleware provides an HTTP basic authentication. It calls the next handler for valid credentials and 401 Unauthorized for missing or invalid credentials. |
+| [**compression**](https://github.com/gofiber/compression) |                                                                                                                                                                       |
+| [**cors**](https://github.com/gofiber/cors)               |                                                                                                                                                                       |
+| [**csrf**](https://github.com/gofiber/csrf)               |                                                                                                                                                                       |
+| [**embed**](https://github.com/gofiber/embed)             | FileServer middleware for Fiber, special thanks and credits to Alireza Salary                                                                                         |
+| [**jwt**](https://github.com/gofiber/jwt)                 | JWT returns a JSON Web Token \(JWT\) auth middleware.                                                                                                               |
+| [**keyauth**](https://github.com/gofiber/keyauth)         |                                                                                                                                                                       |
+| [**limiter**](https://github.com/gofiber/limiter)         |                                                                                                                                                                       |
+| [**pprof**](https://github.com/gofiber/pprof)             | Special thanks to Matthew Lee \(@mthli\)                                                                                                                            |
+| [**rewrite**](https://github.com/gofiber/rewrite)         |                                                                                                                                                                       |
+| [**session**](https://github.com/gofiber/session)         | This session middleware is build on top of fasthttp/session by @savsgio MIT. Special thanks to @thomasvvugt for helping with this middleware.                         |
+| [**template**](https://github.com/gofiber/template)       | This package contains 8 template engines that can be used with Fiber v1.10.0 Go version 1.13 or higher is required.                                                   |
+| [**websocket**](https://github.com/gofiber/websocket)     | Based on Fasthttp WebSocket for Fiber with Locals support!                                                                                                            |
+
+## Third-Party
+
+| Middleware                                                                | Description |
+|:------------------------------------------------------------------------- |:----------- |
+| [**fiber-swagger**](https://github.com/arsmn/fiber-swagger)               |             |
+| [**fiber-casbin**](https://github.com/arsmn/fiber-casbin)                 |             |
+| [**fiber-introspect**](https://github.com/arsmn/fiber-introspect)         |             |
+| [**fiber\_tracing**](https://github.com/shareed2k/fiber_tracing)        |             |
+| [**fiber\_limiter**](https://github.com/shareed2k/fiber_limiter)        |             |
+| [**fiber-boilerplate**](https://github.com/thomasvvugt/fiber-boilerplate) |             |
+| [**gqlgen**](https://github.com/arsmn/gqlgen)                             |             |
 
 ## Guidelines
 
