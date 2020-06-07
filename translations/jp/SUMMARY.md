@@ -14,4 +14,5 @@
 * [📝 GitHub](https://github.com/gofiber/fiber)
 * [☕ コーヒーをおごる](https://www.buymeacoffee.com/fenny)
 * [💬 Discord](https://gofiber.io/discord)
+* [Discord](https://gofiber.io/discord)
 
