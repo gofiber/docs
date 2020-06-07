@@ -1,10 +1,17 @@
 # 目录
 
 * [📖 入门指南](README.md)
-* [🚀 应用程序](application.md)
-* [🧠 上下文](context.md)
-* [🧬 中间件](middleware.md)
-* [🔌 路由](routing.md)
-* [📊 Benchmarks](benchmarks.md)
+
+## API
+
+* [🚀 应用程序](api/app.md)
+* [🧠 上下文](api/ctx.md)
+* [🧬 中间件](api/middleware.md)
+
+## Guide
+
+* [🔌 路由](guide/routing.md)
+* [🐛 Error Handling](guide/error-handling.md)
+* [📊 Benchmarks](guide/benchmarks.md)
 * [🍳 Examples](https://github.com/gofiber/recipes)
 
