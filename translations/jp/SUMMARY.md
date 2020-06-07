@@ -4,17 +4,19 @@
 
 ## API
 
-* [🚀 アプリケーション](api/app.md)
-* [🧠 Context](api/ctx.md)
-* [🧬 ミドルウェア](api/middleware.md)
+* [🚀 アプリケーション](app.md)
+* [🧠 Context](ctx.md)
+* [🧬 ミドルウェア](middleware.md)
 
 ## Guide
 
-* [🔌 ルーティング](guide/routing.md)
-* [🐛 Error Handling](guide/error-handling.md)
+* [🔌 ルーティング](routing.md)
+* [👪 Grouping](grouping.md)
+* [🐛 Error Handling](error-handling.md)
 
-## Extra
+## Information
 
-* [📊 Benchmarks](extra/benchmarks.md)
+* [🤔 FAQ](faq.md)
+* [📊 Benchmarks](benchmarks.md)
 * [🍳 Examples](https://github.com/gofiber/recipes)
 
