@@ -1,6 +1,6 @@
 ---
 description: >-
-  Bu kriterler, Fiber ile diğer web frameworklerinin performanslarının karşılaştırmasını amaçlamaktadır.
+  This benchmarks aims to compare the performance of Fiber and other web frameworks.
 ---
 
 # 📊 Benchmarks
