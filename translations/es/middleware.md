@@ -30,9 +30,9 @@ description: >-
 | [**template**](https://github.com/gofiber/template)                                                                  | Este paquete contiene ocho motores de plantillas que pueden ser utilizados con Fiber v1.10.0. Se requiere la versión 1.13 o superior de Go.                       | -                              |
 | [**websocket**](https://github.com/gofiber/websocket)                                                                | Basado en Websocket Fasthttp para Fiber con soporte de variables locales.                                                                                         | -                              |
 
-## Third-Party Middleware
+## Middleware de terceros
 
-These are some additional popular middleware modules created by the community. Please open an [issue ](https://github.com/gofiber/fiber/issues)if you want to see yours.
+A continuación algunos módulos de los más populares creados por la comunidad. Por favor, abre un [informe de problema](https://github.com/gofiber/fiber/issues) si quieres ver el tuyo.
 
 <table>
   <thead>
@@ -45,20 +45,19 @@ These are some additional popular middleware modules created by the community. P
     <tr>
       <td style="text-align:left"><a href="https://github.com/arsmn/fiber-swagger"><b>fiber-swagger</b></a>
       </td>
-      <td style="text-align:left">Automatically generate RESTful API documentation with Swagger 2.0.</td>
+      <td style="text-align:left">Genera documentación automática de API RESTFUL con Swagger 2.0.</td>
     </tr>
     <tr>
       <td style="text-align:left"><a href="https://github.com/arsmn/fiber-casbin"><b>fiber-casbin</b></a>
       </td>
-      <td style="text-align:left">Casbin middleware for Fiber</td>
+      <td style="text-align:left">Middleware Casbin (autenticación) para Fiber.</td>
     </tr>
     <tr>
       <td style="text-align:left"><a href="https://github.com/arsmn/fiber-introspect"><b>fiber-introspect</b></a>
       </td>
       <td style="text-align:left">
-        <p>Introspection middleware for Fiber</p>
-        <p>Provides verifying an access token against a remote Introspection endpoint
-          (RFC7662)</p>
+        <p>Middleware de introspección.</p>
+        <p>Provee verificación de acceso por token contra un servidor remoto de introspección (RFC7662).</p>
       </td>
     </tr>
     <tr>
