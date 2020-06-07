@@ -27,28 +27,28 @@ Debido a que Fiber está optimizado para **alto rendimiento**, los valores devue
 
 ```go
 func handler(c *fiber.Ctx) {
-    result := c.Param("foo") // result is only valid within this method
+    result := c.Param("foo") // el resultado sólo es válido dentro de este método
 }
 ```
 
-If you need to persist such values outside the handler, make copies of their **underlying buffer** using the [copy](https://golang.org/pkg/builtin/#copy) builtin. Here is an example for persisting a string:
+Si necesita persistir estos valores fuera del manejador, haga copias de su **búfer subyacente** usando la [función copy](https://golang.org/pkg/builtin/#copy) del lenguaje. Este es un ejemplo para persistir una cadena:
 
 ```go
 func handler(c *fiber.Ctx) {
-    result := c.Param("foo") // result is only valid within this method
+    result := c. aram("foo") // el resultado sólo es válido dentro de este método
     newBuffer := make([]byte, len(result))
     copy(newBuffer, result)
-    newResult := string(newBuffer) // newResult is immutable and valid forever
+    newResult := string(newBuffer) // newResult es inmutable y válido para siempre
 }
 ```
 
-Alternatively, you can also use the[ **Immutable setting**](app.md#settings). It will make all values returned from the context immutable, allowing you to persist them anywhere. Of course, this comes at the cost of performance.
+Alternativamente, también puede usar el ajuste de [ **configuración inmutable**](app.md#settings). Esto hará que todos los valores devueltos desde el contexto sean inmutables, permitiéndole persistir en cualquier lugar. Por supuesto, esto ocurre a costa del rendimiento.
 
-For more information, please check ****[**\#426**](https://github.com/gofiber/fiber/issues/426) and ****[**\#185**](https://github.com/gofiber/fiber/issues/185).
+Para obtener más información, por favor, consulta ****[**\#426**](https://github.com/gofiber/fiber/issues/426) y ****[**\#185**](https://github.com/gofiber/fiber/issues/185).
 
-## Hello, World!
+## Hola mundo!
 
-Embedded below is essentially simplest **Fiber** app, which you can create.
+El siguiente códifo es esencialmente la aplicación más simple de **Fiber** que podrías crear:
 
 ```go
 package main
@@ -59,7 +59,7 @@ func main() {
   app := fiber.New()
 
   app.Get("/", func(c *fiber.Ctx) {
-    c.Send("Hello, World!")
+    c.Send("Hola, Mundo!")
   })
 
   app.Listen(3000)
@@ -70,20 +70,20 @@ func main() {
 go run server.go
 ```
 
-Browse to `http://localhost:3000` and you should see `Hello, World!` on the page.
+Apunta tu navegador a `http://localhost:3000` y deberías ver `¡Hola, Mundo!` en la página.
 
-## Basic routing
+## Enrutamiento básico
 
-Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI \(or path\) and a specific HTTP request method \(GET, PUT, POST and so on\).
+Con "enrutamiento" o "encaminamiento", nos referimos a la forma de determinar cómo responde una aplicación a una solicitud de cliente a un punto final, en inglés "endpoint", que es una URI, o ruta, y un método específico de petición HTTP como GET, PUT, POST, etc.
 
 {% hint style="info" %}
-Each route can have **multiple handler functions**, that are executed when the route is matched.
+Cada ruta puede tener **múltiples funciones manejadoras**, que se van ejecutando cuando concuerdan.
 {% endhint %}
 
-Route definition takes the following structures:
+La definición de ruta acepta las siguientes estructuras:
 
 ```go
-// Function signature
+// Firma de la función
 app.Method(path string, ...func(*fiber.Ctx))
 ```
 
@@ -92,7 +92,7 @@ app.Method(path string, ...func(*fiber.Ctx))
 * `path` es una ruta virtual en el servidor.
 * `func(*fiber.Ctx)` es una función de devolución de llamada que contiene el [Context](https://fiber.wiki/context) ejejecutado cuando la ruta es igualada.
 
-**Simple route**
+**Ruta simple**
 
 ```go
 // Respond with "Hello, World!" on root path, "/"
