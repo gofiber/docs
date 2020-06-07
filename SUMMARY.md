@@ -11,10 +11,12 @@
 ## Guide
 
 * [🔌 Routing](guide/routing.md)
+* [👪 Grouping](guide/grouping.md)
 * [🐛 Error Handling](guide/error-handling.md)
 
 ## Extra
 
-* [📊 Benchmarks](extra/benchmarks.md)
+* [🤔 FAQ](faq.md)
+* [📊 Benchmarks](benchmarks.md)
 * [🍳 Examples](https://github.com/gofiber/recipes)
 
