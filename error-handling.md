@@ -63,7 +63,7 @@ app.Settings.ErrorHandler = func(ctx *Ctx, err error) {
 
 Custom error handler can be set via `app.Settings.ErrorHandler`
 
-For most cases the default error handler should be sufficient. Hoever, a custom error handler can come handy if you want to capture different type of errors and take action accordingly e.g. send notification email or log error to a centralized system. You can also send customized response to the client e.g. error page or just a JSON response.
+For most cases the default error handler should be sufficient. However, a custom error handler can come in handy if you want to capture different type of errors and take action accordingly e.g. send notification email or log error to a centralized system. You can also send customized response to the client e.g. error page or just a JSON response.
 
 The following example shows how to display error pages for different type of errors.
 
