@@ -1,18 +1,17 @@
 ---
-description: Egy API dokumentáció, melynek segítségével webes alkalmazásokat hozhatsz létre a Fiber keretrendszerben.
+description: >-
+  An online API documentation with examples so you can start building web apps with Fiber right away!
 ---
 
 # 📖 Első lépések
 
-[![](https://img.shields.io/github/release/gofiber/fiber?style=flat-square)](https://github.com/gofiber/fiber/releases) [![](https://img.shields.io/badge/go.dev-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc) [![](https://goreportcard.com/badge/github.com/gofiber/fiber?style=flat-square)](https://goreportcard.com/report/github.com/gofiber/fiber) [![](https://img.shields.io/badge/coverage-91%25-brightgreen?style=flat-square)](https://gocover.io/github.com/gofiber/fiber) [![](https://img.shields.io/github/workflow/status/gofiber/fiber/Test?label=tests&style=flat-square)](https://github.com/gofiber/fiber/actions?query=workflow%3ATest) [![](https://img.shields.io/github/workflow/status/gofiber/fiber/Gosec?label=gosec&style=flat-square)](https://github.com/gofiber/fiber/actions?query=workflow%3AGosec)
-
-A **Fiber** egy [Express](https://github.com/expressjs/express) által inspirált **webes keretrendszer**, mely a **leggyorsabb** [Go-alapú](https://golang.org/doc/) HTTP motoron, a [Fasthttp](https://github.com/valyala/fasthttp)-n alapul. Designed to **ease** things up for **fast** development with **zero memory allocation** and **performance** in mind.
+**Fiber** is an [Express](https://github.com/expressjs/express) inspired **web framework** build on top of [Fasthttp](https://github.com/valyala/fasthttp), the **fastest** HTTP engine for [Go](https://golang.org/doc/). Designed to **ease** things up for **fast** development with **zero memory allocation** and **performance** in mind.
 
 ## Telepítés
 
-A legelső lépés a [Go programozási nyelv](https://golang.org/dl/) letöltése és telepítése. A minimális szükséges verzió az `1.11`.
+First of all, [download](https://golang.org/dl/) and install Go. `1.11` or higher is required.
 
-A telepítést a [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) paranccsal lehet megvalósítani:
+Installation is done using the [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) command:
 
 ```bash
 go get -u github.com/gofiber/fiber
@@ -21,7 +20,7 @@ go get -u github.com/gofiber/fiber
 ## Zero Allocation
 
 {% hint style="warning" %}
-Values returned from [**fiber.Ctx**](context.md) are **not** immutable by default
+Some values returned from [**fiber.Ctx**](context.md) are **not** immutable by default
 {% endhint %}
 
 Because fiber is optimized for **high performance**, values returned from [**fiber.Ctx**](context.md) are **not** immutable by default and **will** be re-used across requests. As a rule of thumb, you **must** only use context values within the handler, and you **must not** keep any references. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
