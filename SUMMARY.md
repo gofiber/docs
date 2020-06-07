@@ -4,17 +4,17 @@
 
 ## API
 
-* [🚀 Application](api/app.md)
-* [🧠 Context](api/ctx.md)
-* [🧬 Middleware](api/middleware.md)
+* [🚀 Application](app.md)
+* [🧠 Context](ctx.md)
+* [🧬 Middleware](middleware.md)
 
 ## Guide
 
-* [🔌 Routing](guide/routing.md)
-* [👪 Grouping](guide/grouping.md)
-* [🐛 Error Handling](guide/error-handling.md)
+* [🔌 Routing](routing.md)
+* [👪 Grouping](grouping.md)
+* [🐛 Error Handling](error-handling.md)
 
-## Info
+## Information
 
 * [🤔 FAQ](faq.md)
 * [📊 Benchmarks](benchmarks.md)

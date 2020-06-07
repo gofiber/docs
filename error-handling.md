@@ -9,7 +9,7 @@ description: >-
 Centralized error handler allows us to log errors to external services from a unified location and send a customized HTTP response to the client.
 
 {% hint style="success" %}
-You can pass a standard [**`error`**](https://golang.org/pkg/builtin/#error) or [**`fiber.*Error`**](https://godoc.org/github.com/gofiber/fiber#Error) into [**`ctx.Next(err)`**](../api/ctx.md#next)**\`\`**
+You can pass a standard [**`error`**](https://golang.org/pkg/builtin/#error) or [**`fiber.*Error`**](https://godoc.org/github.com/gofiber/fiber#Error) into [**`ctx.Next(err)`**](ctx.md#next)**\`\`**
 {% endhint %}
 
 You can also use [fiber.NewError\(\)](https://sourcegraph.com/-/godoc/refs?def=NewError&pkg=github.com%2Fgofiber%2Ffiber&repo=github.com%2Fgofiber%2Ffiber) without a message, in that case status text is used as an error message. For example, `404` will show `Not Found` as the body response.
