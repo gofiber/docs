@@ -1,12 +1,12 @@
 - - -
-description: List of frequently asked questions
+description: Lista de preguntas más frecuentes
 - - -
 
 # 🤔 FAQ
 
-## Can I become who I want to be?
+## ¿Puedo convertirme en quien quiero ser?
 
-That's a tough question but thankfully, our team is on it. Please bear with us while we're investigating.
+Es una pregunta difícil, pero por suerte nuestro equipo está en ella. Please bear with us while we're investigating.
 
 ## Have you had a chance to answer the previous question?
 
