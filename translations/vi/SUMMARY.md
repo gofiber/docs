@@ -5,14 +5,6 @@
 * [🧠 Context](context.md)
 * [🧬 Middleware](middleware.md)
 * [🔌 Routing](routing.md)
-* [🤖 Benchmarks](benchmarks.md)
-
-## Links
-
-* [🏠 Trang chủ](https://gofiber.io)
-* [🍳 Các ví dụ](https://github.com/gofiber/recipes)
-* [📝 Github](https://github.com/gofiber/fiber)
-* [☕ Ủng hộ](https://www.buymeacoffee.com/fenny)
-* [💬 Telegram](https://gofiber.io/discord)
-* [Discord](https://gofiber.io/discord)
+* [📊 Benchmarks](benchmarks.md)
+* [🍳 Examples](https://github.com/gofiber/recipes)
 
