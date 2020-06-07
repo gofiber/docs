@@ -4,17 +4,19 @@
 
 ## API
 
-* [🚀 Alkalmazás](api/app.md)
-* [🧠 Kontextus](api/ctx.md)
-* [🧬 Middleware](api/middleware.md)
+* [🚀 Alkalmazás](app.md)
+* [🧠 Kontextus](ctx.md)
+* [🧬 Middleware](middleware.md)
 
 ## Guide
 
-* [🔌 Útvonalak](guide/routing.md)
-* [🐛 Error Handling](guide/error-handling.md)
+* [🔌 Útvonalak](routing.md)
+* [👪 Grouping](grouping.md)
+* [🐛 Error Handling](error-handling.md)
 
-## Extra
+## Information
 
-* [📊 Benchmarks](extra/benchmarks.md)
+* [🤔 FAQ](faq.md)
+* [📊 Benchmarks](benchmarks.md)
 * [🍳 Examples](https://github.com/gofiber/recipes)
 
