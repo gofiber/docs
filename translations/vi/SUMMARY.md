@@ -14,4 +14,5 @@
 * [📝 Github](https://github.com/gofiber/fiber)
 * [☕ Ủng hộ](https://www.buymeacoffee.com/fenny)
 * [💬 Telegram](https://gofiber.io/discord)
+* [Discord](https://gofiber.io/discord)
 
