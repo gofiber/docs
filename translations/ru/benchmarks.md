@@ -1,6 +1,6 @@
 ---
 description: >-
-  Эти бенчмарки направлены на сравнение эффективности Fiber и других веб-фреймворков.
+  This benchmarks aims to compare the performance of Fiber and other web frameworks.
 ---
 
 # 📊 Benchmarks
@@ -15,46 +15,46 @@ description: >-
 * **OS** Linux
 * **NET** Dedicated Cisco 10-gigabit Ethernet switch.
 
-### Простой текст
+### Plaintext
 
-**Fiber** обрабатывает **6,162,556** ответов в секунду со средней задержкой **2.0** мс.  
-**Express** обрабатывает **367,069** ответов в секунду со средней задержкой **354.1** мс.
+**Fiber** handled **6,162,556** responses per second with an average latency of **2.0** ms.  
+**Express** handled **367,069** responses per second with an average latency of **354.1** ms.
 
 ![](.gitbook/assets/plaintext%20%281%29.png)
 
 ![Fiber vs Express](.gitbook/assets/plaintext_express.png)
 
-### Обновление данных
+### Data Updates
 
-**Fiber** обрабатывает **11,846** ответов в секунду со средней задержкой **42.8** мс.  
-**Express** обрабатывается **2,066** ответов в секунду со средней задержкой **390.44** мс.
+**Fiber** handled **11,846** responses  per second with an average latency of **42.8** ms.  
+**Express** handled **2,066** responses  per second with an average latency of **390.44** ms.
 
 ![](.gitbook/assets/data_updates.png)
 
 ![Fiber vs Express](.gitbook/assets/data_updates_express%20%281%29.png)
 
-### Множественные запросы
+### Multiple Queries
 
-**Fiber** обрабатывает **19,664** ответов в секунду со средней задержкой **25.7** мс.  
-**Express** обрабатывает **4,302** ответов в секунду со средней задержкой **117.2** мс.
+**Fiber** handled **19,664** responses per second with an average latency of **25.7** ms.  
+**Express** handled **4,302** responses  per second with an average latency of **117.2** ms.
 
 ![](.gitbook/assets/multiple_queries%20%281%29.png)
 
 ![Fiber vs Express](.gitbook/assets/multiple_queries_express.png)
 
-### Одиночный запрос
+### Single Query
 
-**Fiber** обрабатывает **368,647** ответов в секунду со средней задержкой **0.7** мс.  
-**Express** обрабатывает **57,880** ответов в секунду со средней задержкой **4.4** мс.
+**Fiber** handled **368,647** responses per second with an average latency of **0.7** ms.  
+**Express** handled **57,880** responses  per second with an average latency of **4.4** ms.
 
 ![](.gitbook/assets/single_query%20%282%29.png)
 
 ![Fiber vs Express](.gitbook/assets/single_query_express.png)
 
-### Сериализация JSON
+### JSON Serialization
 
-**Fiber** обрабатывает **1,146,667** ответов в секунду со средней задержкой **0.4** мс.  
-**Express** обрабатывает **244,847** ответов в секунду со средней задержкой **1.1** мс.
+**Fiber** handled **1,146,667** responses per second with an average latency of **0.4** ms.  
+**Express** handled **244,847** responses  per second with an average latency of **1.1** ms.
 
 ![](.gitbook/assets/json%20%281%29.png)
 
@@ -62,32 +62,32 @@ description: >-
 
 ## Go web framework benchmark
 
-🔗 [https://github.com/smallnest/go-web-framework-benchmark/](https://github.com/smallnest/go-web-framework-benchmark)
+🔗 [https://github.com/smallnest/go-web-framework-benchmark](https://github.com/smallnest/go-web-framework-benchmark)
 
 * **CPU** Intel\(R\) Xeon\(R\) Gold 6140 CPU @ 2.30GHz
 * **MEM** 4GB
 * **GO** go1.13.6 linux/amd64
 * **OS** Linux
 
-Первый тестовый случай — это симулирование времени обработки в обработчиках с **0 мс**, **10 мс**, **100 мс**, **500 мс**.
+The first test case is to mock **0 ms**, **10 ms**, **100 ms**, **500 ms** processing time in handlers.
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark.png)
 
-Параллелизм клиентов: **5000**.
+The concurrency clients are **5000**.
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark_latency.png)
 
-Задержка — это время реальной работы веб серверов. _Чем меньше — тем лучше._
+Latency is the time of real processing time by web servers. _The smaller is the better._
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark_alloc.png)
 
-Allocs — это перераспределение heap по веб серверам при выполнении теста. Единица измерения — Мб. _Чем меньше — тем лучше._
+Allocs is the heap allocations by web servers when test is running. The unit is MB. _The smaller is the better._
 
-Если мы включим **http pipelining**, то результат теста будет вот таким:
+If we enable **http pipelining**, test result as below:
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark-pipeline.png)
 
-Тест на концентрацию в **30 мс** время обработки, результат теста для **100**, **1000**, **5000** клиентов:
+Concurrency test in **30 ms** processing time, the test result for **100**, **1000**, **5000** clients is:
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency.png)
 
@@ -95,11 +95,11 @@ Allocs — это перераспределение heap по веб серве
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency_alloc.png)
 
-Если мы включим **http pipelining**, то результат теста будет вот таким:
+If we enable **http pipelining**, test result as below:
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency-pipeline.png)
 
-График зависимостей для `v1.9.0`
+Dependency graph for `v1.9.0`
 
 ![](.gitbook/assets/graph.svg)
 
