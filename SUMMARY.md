@@ -5,7 +5,7 @@
 ## API
 
 * [🚀 Application](api/app.md)
-* [🧠 Context](api/context.md)
+* [🧠 Context](api/ctx.md)
 * [🧬 Middleware](api/middleware.md)
 
 ## Guide
