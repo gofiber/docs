@@ -1,24 +1,30 @@
 ---
 description: >-
-  This benchmarks aims to compare the performance of Fiber and other web frameworks.
+  These benchmarks aim to compare the performance of Fiber and other web frameworks.
 ---
 
 # 📊 Benchmarks
 
 ## TechEmpower
 
-🔗 [https://www.techempower.com/benchmarks/](https://www.techempower.com/benchmarks/#section=test&runid=c7152e8f-5b33-4ae7-9e89-630af44bc8de&hw=ph&test=plaintext)
+[TechEmpower](https://www.techempower.com/benchmarks/#section=data-r19&hw=ph&test=composite) provides  a performance comparison of many web application frameworks executing fundamental tasks such as JSON serialization, database access, and server-side template composition.
 
-* **CPU** Intel Xeon Gold 5120
-* **MEM** 32GB
-* **GO** go1.13.6 linux/amd64
-* **OS** Linux
-* **NET** Dedicated Cisco 10-gigabit Ethernet switch.
+Each framework is operating in a realistic production configuration. Results are captured on cloud instances and on physical hardware. The test implementations are largely community-contributed and all source is available at the [GitHub repository](https://github.com/TechEmpower/FrameworkBenchmarks).
+
+* Fiber `v1.10.0`
+* 28 HT Cores Intel\(R\) Xeon\(R\) Gold 5120 CPU @ 2.20GHz
+* 32GB RAM
+* Ubuntu 18.04.3 4.15.0-88-generic
+* Dedicated Cisco 10-Gbit Ethernet switch.
 
 ### Plaintext
 
-**Fiber** handled **6,162,556** responses per second with an average latency of **2.0** ms.  
-**Express** handled **367,069** responses per second with an average latency of **354.1** ms.
+The Plaintext test is an exercise of the request-routing fundamentals only, designed to demonstrate the capacity of high-performance platforms in particular. Requests will be sent using HTTP pipelining. The response payload is still small, meaning good performance is still necessary in order to saturate the gigabit Ethernet of the test environment.
+
+See [Plaintext requirements](https://github.com/TechEmpower/FrameworkBenchmarks/wiki/Project-Information-Framework-Tests-Overview#single-database-query)
+
+**Fiber**      -   **6,162,556** responses per second with an average latency of     **2.0** ms.  
+**Express** -      **367,069** responses per second with an average latency of **354.1** ms.
 
 ![](.gitbook/assets/plaintext%20%281%29.png)
 
