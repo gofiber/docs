@@ -11,7 +11,8 @@
 ## Guide
 
 * [🔌 Routing](routing.md)
-* [👪 Grouping](grouping.md)
+* [🎭 Grouping](grouping.md)
+* [📝 Templates](templates.md)
 * [🐛 Error Handling](error-handling.md)
 
 ## Misc <a id="miscellaneous"></a>

@@ -1,4 +1,4 @@
-# 🎭 Grouping
+# 📝 Templates
 
 ## Getting Super Powers
 
