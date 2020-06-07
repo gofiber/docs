@@ -8,16 +8,16 @@
 * [🧠 Contexto](ctx.md)
 * [🧬 Middleware](middleware.md)
 
-## Guide
+## Guía
 
 * [🔌 Enrutamiento](routing.md)
-* [🎭 Grouping](grouping.md)
-* [📝 Templates](templates.md)
-* [🐛 Error Handling](error-handling.md)
+* [🎭 Agrupando](grouping.md)
+* [📝 Plantillas](templates.md)
+* [🐛 Manejo de errores](error-handling.md)
 
-## Misc <a id="miscellaneous"></a>
+## Otros <a id="miscellaneous"></a>
 
 * [🤔 FAQ](faq.md)
 * [📊 Benchmarks](benchmarks.md)
-* [🍳 Examples](https://github.com/gofiber/recipes)
+* [🍳 Ejemplos](https://github.com/gofiber/recipes)
 
