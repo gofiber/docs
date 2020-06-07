@@ -36,15 +36,61 @@ description: >-
 
 These are some additional popular middleware modules created by the community. Please open an [issue ](https://github.com/gofiber/fiber/issues)if you want to see yours.
 
-| Middleware | Description |
-| :--- | :--- |
-| [**fiber-swagger**](https://github.com/arsmn/fiber-swagger) |  |
-| [**fiber-casbin**](https://github.com/arsmn/fiber-casbin) |  |
-| [**fiber-introspect**](https://github.com/arsmn/fiber-introspect) |  |
-| [**fiber\_tracing**](https://github.com/shareed2k/fiber_tracing) |  |
-| [**fiber\_limiter**](https://github.com/shareed2k/fiber_limiter) |  |
-| [**fiber-boilerplate**](https://github.com/thomasvvugt/fiber-boilerplate) |  |
-| [**gqlgen**](https://github.com/arsmn/gqlgen) |  |
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Middleware</th>
+      <th style="text-align:left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left"><a href="https://github.com/arsmn/fiber-swagger"><b>fiber-swagger</b></a>
+      </td>
+      <td style="text-align:left">Automatically generate RESTful API documentation with Swagger 2.0.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><a href="https://github.com/arsmn/fiber-casbin"><b>fiber-casbin</b></a>
+      </td>
+      <td style="text-align:left">Casbin middleware for Fiber</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><a href="https://github.com/arsmn/fiber-introspect"><b>fiber-introspect</b></a>
+      </td>
+      <td style="text-align:left">
+        <p>Introspection middleware for Fiber</p>
+        <p>Provides verifying an access token against a remote Introspection endpoint
+          (RFC7662)</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><a href="https://github.com/shareed2k/fiber_tracing"><b>fiber_tracing</b></a>
+      </td>
+      <td style="text-align:left">Middleware that trace requests on <a href="https://gofiber.io/">Fiber framework</a> with
+        OpenTracing API. You can use every tracer that implement OpenTracing interface</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><a href="https://github.com/shareed2k/fiber_limiter"><b>fiber_limiter</b></a>
+      </td>
+      <td style="text-align:left">fiber_limiter using <a href="https://github.com/go-redis/redis">redis</a> as
+        store for rate limit with two algorithms for choosing sliding window, gcra
+        <a
+        href="https://en.wikipedia.org/wiki/Leaky_bucket">leaky bucket</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><a href="https://github.com/thomasvvugt/fiber-boilerplate"><b>fiber-boilerplate</b></a>
+      </td>
+      <td style="text-align:left">A boilerplate for the Fiber web framework</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><a href="https://github.com/arsmn/gqlgen"><b>gqlgen</b></a>
+      </td>
+      <td style="text-align:left">A Go library for building GraphQL servers without any fuss with Fasthttp
+        support</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Guidelines
 
