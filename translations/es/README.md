@@ -1,29 +1,29 @@
 ---
 description: >-
-  An online API documentation with examples so you can start building web apps with Fiber right away!
+  ¡Una documentación de API en línea con ejemplos para que puedas comenzar a construir aplicaciones web con Fiber de inmediato!
 ---
 
 # 📖 Primeros Pasos
 
-**Fiber** is an [Express](https://github.com/expressjs/express) inspired **web framework** build on top of [Fasthttp](https://github.com/valyala/fasthttp), the **fastest** HTTP engine for [Go](https://golang.org/doc/). Designed to **ease** things up for **fast** development with **zero memory allocation** and **performance** in mind.
+**Fiber** es un **framework web** inspirado en [Express](https://github.com/expressjs/express) desarollado sobre [Fasthttp](https://github.com/valyala/fasthttp), el motor HTTP **más rápido** para [Go](https://golang.org/doc/). Diseñado para **facilitar** las cosas logrando un **desarrollo rápido** teniendo en mente la **cero asignación de memoria** y el **rendimiento**.
 
 ## Installation
 
-First of all, [download](https://golang.org/dl/) and install Go. `1.11` or higher is required.
+En primer lugar, [descargue](https://golang.org/dl/) e instale Go. Es necesaria la version `1.11` o superior.
 
-Installation is done using the [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) command:
+La instalación se realiza utilizando el comando [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them):
 
 ```bash
 go get -u github.com/gofiber/fiber
 ```
 
-## Zero Allocation
+## Sin asignación de memoria
 
 {% hint style="warning" %}
-Some values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default
+Algunos valores devueltos por [**fiber.Ctx**](ctx.md) no son **** inmutables por defecto
 {% endhint %}
 
-Because fiber is optimized for **high performance**, values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default and **will** be re-used across requests. As a rule of thumb, you **must** only use context values within the handler, and you **must not** keep any references. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
+Debido a que Fiber está optimizado para **alto rendimiento**, los valores devueltos por [**fiber.Ctx**](ctx.md) no son **** inmutables por defecto y **serán** reutilizados entre peticiones. Como regla general, **solo debe** usar valores de contexto dentro del manejador, y **no debe** mantener ninguna referencia. Tan pronto como regreses del manejador, cualquier valor que hayas obtenido del contexto será reutilizado en futuras peticiones y cambiará sin que te des cuenta. Aquí tienes un ejemplo:
 
 ```go
 func handler(c *fiber.Ctx) {
