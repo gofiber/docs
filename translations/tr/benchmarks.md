@@ -3,7 +3,7 @@ description: >-
   Bu kriterler, Fiber ile diğer web frameworklerinin performanslarının karşılaştırmasını amaçlamaktadır.
 ---
 
-# 🤖 Benchmarks
+# 📊 Benchmarks
 
 ## TechEmpower
 
