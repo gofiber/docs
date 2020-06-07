@@ -3,7 +3,7 @@ description: >-
   このベンチマークは、Fiber と他のウェブフレームワークの性能を比較することを目的としています。
 ---
 
-# 🤖 ベンチマーク
+# 📊 Benchmarks
 
 ## TechEmpower
 
