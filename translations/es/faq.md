@@ -6,11 +6,11 @@ description: Lista de preguntas más frecuentes
 
 ## ¿Puedo convertirme en quien quiero ser?
 
-Es una pregunta difícil, pero por suerte nuestro equipo está en ella. Please bear with us while we're investigating.
+Es una pregunta difícil, pero por suerte nuestro equipo está en ella. Por favor, ten paciencia mientras estamos investigando.
 
-## Have you had a chance to answer the previous question?
+## ¿Ha sido posible responder la pregunta anterior?
 
-Yes, after a few months we finally found the answer. Sadly, Mike is on vacations right now so I'm afraid we are not able to provide the answer at this point.
+Sí, después de unos meses finalmente hemos encontrado la respuesta. Lamentablemente Mike está de vacaciones así que no podemos responder ahora mismo.
 
 
 
