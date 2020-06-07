@@ -14,7 +14,7 @@
 * [👪 Grouping](guide/grouping.md)
 * [🐛 Error Handling](guide/error-handling.md)
 
-## Extra
+## Info
 
 * [🤔 FAQ](faq.md)
 * [📊 Benchmarks](benchmarks.md)
