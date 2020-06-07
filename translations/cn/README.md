@@ -1,18 +1,17 @@
 ---
-description: 一个 API 文档，让您可以开始使用 Fiber 构建 Web 应用。
+description: >-
+  An online API documentation with examples so you can start building web apps with Fiber right away!
 ---
 
 # 📖 入门指南
 
-[![](https://img.shields.io/github/release/gofiber/fiber?style=flat-square)](https://github.com/gofiber/fiber/releases) [![](https://img.shields.io/badge/go.dev-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc) [![](https://goreportcard.com/badge/github.com/gofiber/fiber?style=flat-square)](https://goreportcard.com/report/github.com/gofiber/fiber) [![](https://img.shields.io/badge/coverage-91%25-brightgreen?style=flat-square)](https://gocover.io/github.com/gofiber/fiber) [![](https://img.shields.io/github/workflow/status/gofiber/fiber/Test?label=tests&style=flat-square)](https://github.com/gofiber/fiber/actions?query=workflow%3ATest) [![](https://img.shields.io/github/workflow/status/gofiber/fiber/Gosec?label=gosec&style=flat-square)](https://github.com/gofiber/fiber/actions?query=workflow%3AGosec)
-
-**Fiber** 是一个受 [Express](https://github.com/expressjs/express) 启发而生的 **网页框架**，基于 [Fasthttp](https://github.com/valyala/fasthttp)（**最快的**  [Go](https://golang.org/doc/) HTTP 引擎）而开发的。 设计初衷为 **简化** 一切以打造 **快速的** 开发环境并同时兼顾着 **零内存分配** 和 **性能为上** 的理念。
+**Fiber** is an [Express](https://github.com/expressjs/express) inspired **web framework** build on top of [Fasthttp](https://github.com/valyala/fasthttp), the **fastest** HTTP engine for [Go](https://golang.org/doc/). Designed to **ease** things up for **fast** development with **zero memory allocation** and **performance** in mind.
 
 ## Installation
 
-首先， [下载](https://golang.org/dl/) 并安装 Go。 需要 `1.11` 或以上的版本。
+First of all, [download](https://golang.org/dl/) and install Go. `1.11` or higher is required.
 
-使用 [`get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) 命令以完成安装：
+Installation is done using the [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) command:
 
 ```bash
 go get -u github.com/gofiber/fiber
@@ -21,7 +20,7 @@ go get -u github.com/gofiber/fiber
 ## Zero Allocation
 
 {% hint style="warning" %}
-Values returned from [**fiber.Ctx**](context.md) are **not** immutable by default
+Some values returned from [**fiber.Ctx**](context.md) are **not** immutable by default
 {% endhint %}
 
 Because fiber is optimized for **high performance**, values returned from [**fiber.Ctx**](context.md) are **not** immutable by default and **will** be re-used across requests. As a rule of thumb, you **must** only use context values within the handler, and you **must not** keep any references. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
