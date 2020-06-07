@@ -1,6 +1,6 @@
 ---
 description: >-
-  このベンチマークは、Fiber と他のウェブフレームワークの性能を比較することを目的としています。
+  This benchmarks aims to compare the performance of Fiber and other web frameworks.
 ---
 
 # 📊 Benchmarks
@@ -15,7 +15,7 @@ description: >-
 * **OS** Linux
 * **NET** Dedicated Cisco 10-gigabit Ethernet switch.
 
-### プレーンテキスト
+### Plaintext
 
 **Fiber** handled **6,162,556** responses per second with an average latency of **2.0** ms.  
 **Express** handled **367,069** responses per second with an average latency of **354.1** ms.
@@ -24,7 +24,7 @@ description: >-
 
 ![Fiber vs Express](.gitbook/assets/plaintext_express.png)
 
-### データの更新
+### Data Updates
 
 **Fiber** handled **11,846** responses  per second with an average latency of **42.8** ms.  
 **Express** handled **2,066** responses  per second with an average latency of **390.44** ms.
@@ -33,7 +33,7 @@ description: >-
 
 ![Fiber vs Express](.gitbook/assets/data_updates_express%20%281%29.png)
 
-### 複数クエリ
+### Multiple Queries
 
 **Fiber** handled **19,664** responses per second with an average latency of **25.7** ms.  
 **Express** handled **4,302** responses  per second with an average latency of **117.2** ms.
@@ -42,7 +42,7 @@ description: >-
 
 ![Fiber vs Express](.gitbook/assets/multiple_queries_express.png)
 
-### 単一クエリ
+### Single Query
 
 **Fiber** handled **368,647** responses per second with an average latency of **0.7** ms.  
 **Express** handled **57,880** responses  per second with an average latency of **4.4** ms.
@@ -51,7 +51,7 @@ description: >-
 
 ![Fiber vs Express](.gitbook/assets/single_query_express.png)
 
-### JSON シリアライズ
+### JSON Serialization
 
 **Fiber** handled **1,146,667** responses per second with an average latency of **0.4** ms.  
 **Express** handled **244,847** responses  per second with an average latency of **1.1** ms.
