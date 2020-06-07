@@ -11,7 +11,7 @@ description: >-
 
  The Fiber middleware modules listed here are maintained by the [Fiber team](https://github.com/orgs/gofiber/people).
 
-| Middleware | Description | Built-in |
+| Middleware | Description | Built-in `Fiber v1.11.x` |
 | :--- | :--- | :--- |
 | [**adaptor**](https://github.com/gofiber/adaptor) | Converter for net/http handlers to/from Fiber request handlers, special thanks to @arsmn! | - |
 | [**basicauth**](https://github.com/gofiber/basicauth) | Basic auth middleware provides an HTTP basic authentication. It calls the next handler for valid credentials and 401 Unauthorized for missing or invalid credentials. | - |
