@@ -27,7 +27,7 @@ description: >-
 | [**pprof**](https://github.com/gofiber/pprof) | Special thanks to Matthew Lee \(@mthli\) | - |
 | recover | Recover middleware recovers from panics anywhere in the stack chain and handles the control to the centralized[ ErrorHandler](error-handling.md). | `middleware.Recover()` |
 | [**rewrite**](https://github.com/gofiber/rewrite) | Rewrite middleware rewrites the URL path based on provided rules. It can be helpful for backward compatibility or just creating cleaner and more descriptive links. | - |
-| requestid | Request ID middleware generates a unique id for a request. | `middleware.RequestID()` |
+| \*\*\*\*[**requestid**](https://github.com/Fenny/fiber/blob/master/middleware/request_id.md)\*\*\*\* | Request ID middleware generates a unique id for a request. | \`\`[`middleware.RequestID()`](https://github.com/Fenny/fiber/blob/master/middleware/request_id.md)\`\` |
 | [**session**](https://github.com/gofiber/session) | This session middleware is build on top of fasthttp/session by @savsgio MIT. Special thanks to @thomasvvugt for helping with this middleware. | - |
 | [**template**](https://github.com/gofiber/template) | This package contains 8 template engines that can be used with Fiber v1.10.0 Go version 1.13 or higher is required. | - |
 | [**websocket**](https://github.com/gofiber/websocket) | Based on Fasthttp WebSocket for Fiber with Locals support! | - |
