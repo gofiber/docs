@@ -109,13 +109,12 @@ app.Settings.ErrorHandler = func(ctx *Ctx, err error) {
 		code = e.Code
 	}
 	
-	// Set statuscode
-	ctx.Status(code)
-	
 	// Send custom error page
 	err := ctx.SendFile(fmt.Sprintf("./%d.html", code))
 	if err != nil {
-		ctx.SendString("Internal Server Error")
+		ctx.Status(500).SendString("Internal Server Error")
+	} else {
+		ctx.Status(code)
 	}
 }
 ```
