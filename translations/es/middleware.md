@@ -63,35 +63,30 @@ A continuación algunos módulos de los más populares creados por la comunidad.
     <tr>
       <td style="text-align:left"><a href="https://github.com/shareed2k/fiber_tracing"><b>fiber_tracing</b></a>
       </td>
-      <td style="text-align:left">Middleware that trace requests on <a href="https://gofiber.io/">Fiber framework</a> with
-        OpenTracing API. You can use every tracer that implement OpenTracing interface</td>
+      <td style="text-align:left">Traza las peticiones en <a href="https://gofiber.io/">Fiber</a>  con OpenTracing API. Puedes utilizar cualquier trazador que implemente la interfaz OpenTracing.</td>
     </tr>
     <tr>
       <td style="text-align:left"><a href="https://github.com/shareed2k/fiber_limiter"><b>fiber_limiter</b></a>
       </td>
-      <td style="text-align:left">fiber_limiter using <a href="https://github.com/go-redis/redis">redis</a> as
-        store for rate limit with two algorithms for choosing sliding window, gcra
-        <a
-        href="https://en.wikipedia.org/wiki/Leaky_bucket">leaky bucket</a>
+      <td style="text-align:left">Limita el ratio de peticiones, usando Redis como almacenamiento y dos algoritmos: sliding window y gcra <a href="https://en.wikipedia.org/wiki/Leaky_bucket">leaky bucket</a>.
       </td>
     </tr>
     <tr>
       <td style="text-align:left"><a href="https://github.com/thomasvvugt/fiber-boilerplate"><b>fiber-boilerplate</b></a>
       </td>
-      <td style="text-align:left">A boilerplate for the Fiber web framework</td>
+      <td style="text-align:left">Una plantilla de proyecto con bastantes añadidos listos para utilizar.</td>
     </tr>
     <tr>
       <td style="text-align:left"><a href="https://github.com/arsmn/gqlgen"><b>gqlgen</b></a>
       </td>
-      <td style="text-align:left">A Go library for building GraphQL servers without any fuss with Fasthttp
-        support</td>
+      <td style="text-align:left">Una biblioteca Go para construir servidores GraphQL sin preocupaciones y con Fasthttp.</td>
     </tr>
   </tbody>
 </table>
 
-## Guidelines
+## Líneas generales
 
 {% hint style="warning" %}
-**Unfinished documentation**
+**Documentación sin terminar.**
 {% endhint %}
 
