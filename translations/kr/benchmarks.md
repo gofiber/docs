@@ -3,7 +3,7 @@ description: >-
   이 벤치마크는 Fiber와 다른 웹 프레임워크들을 비교하는 것에 목표를 둡니다.
 ---
 
-# 🤖 Benchmarks
+# 📊 Benchmarks
 
 ## TechEmpower
 
