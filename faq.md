@@ -46,7 +46,7 @@ We have a dedicated page explaining how error handling works in Fiber, see [Erro
 
 ## Which template engines does Fiber support?
 
-Fiber currently supports 8 template engines:
+Fiber currently supports 8 template engines in our [gofiber/template](https://github.com/gofiber/template) middleware:
 
 * [Ace](https://github.com/yosssi/ace)
 * [Amber](https://github.com/eknkc/amber)
