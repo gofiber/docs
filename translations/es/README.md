@@ -95,60 +95,60 @@ app.Method(path string, ...func(*fiber.Ctx))
 **Ruta simple**
 
 ```go
-// Respond with "Hello, World!" on root path, "/"
+// Responde con "Hola, Mundo!" en la ruta raíz, "/"
 app.Get("/", func(c *fiber.Ctx) {
-  c.Send("Hello, World!")
+  c.Send("Hola, Mundo!")
 })
 ```
 
 **Parámetros**
 
 ```go
-// GET http://localhost:8080/hello%20world
+// Get http://localhost:8080/hola%20mundo
 
 app.Get("/:value", func(c *fiber.Ctx) {
-  c.Send("Get request with value: " + c.Params("value"))
-  // => Get request with value: hello world
+  c.Send("Petición Get con valor: " + c.Params("value"))
+  // => Petición Get con valor: hola mundo
 })
 ```
 
-**Optional parameter**
+**Parámetro opcional**
 
 ```go
-// GET http://localhost:3000/john
+// GET http://localhost:3000/juan
 
 app.Get("/:name?", func(c *fiber.Ctx) {
   if c.Params("name") != "" {
-    c.Send("Hello " + c.Params("name"))
-    // => Hello john
+    c.Send("Hola " + c.Params("name"))
+    // => Hola juan
   } else {
-    c.Send("Where is john?")
+    c.Send("¿Dondé está Juan?")
   }
 })
 ```
 
-**Wildcards**
+**Comodines**
 
 ```go
-// GET http://localhost:3000/api/user/john
+// GET http://localhost:3000/api/user/juan
 
 app.Get("/api/*", func(c *fiber.Ctx) {
   c.Send("API path: " + c.Params("*"))
-  // => API path: user/john
+  // => API path: user/juan
 })
 ```
 
-## Static files
+## Archivos estáticos
 
-To serve static files such as **images**, **CSS** and **JavaScript** files, replace your function handler with a file or directory string.
+Para servir archivos estáticos como **imágenes**, **CSS** y **JavaScript**, reemplaza tu función de manejo con una cadena de archivo o directorio.
 
-Function signature:
+Firma de la función:
 
 ```go
 app.Static(prefix, root string)
 ```
 
-Use the following code to serve files in a directory named `./public`:
+Usa el siguiente código para servir archivos de directorio llamado `./public`:
 
 ```go
 app := fiber.New()
@@ -158,7 +158,7 @@ app.Static("/", "./public")
 app.Listen(8080)
 ```
 
-Now, you can load the files that are in the `./public` directory:
+Ahora puedes cargar los archivos que están en el directorio `./public`:
 
 ```bash
 http://localhost:8080/hello.html
