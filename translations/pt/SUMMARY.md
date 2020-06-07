@@ -4,17 +4,19 @@
 
 ## API
 
-* [🚀 Aplicação](api/app.md)
-* [🧠 Context](api/ctx.md)
-* [🧬 Middleware](api/middleware.md)
+* [🚀 Aplicação](app.md)
+* [🧠 Context](ctx.md)
+* [🧬 Middleware](middleware.md)
 
 ## Guide
 
-* [🔌 Routing](guide/routing.md)
-* [🐛 Error Handling](guide/error-handling.md)
+* [🔌 Routing](routing.md)
+* [👪 Grouping](grouping.md)
+* [🐛 Error Handling](error-handling.md)
 
-## Extra
+## Information
 
-* [📊 Benchmarks](extra/benchmarks.md)
+* [🤔 FAQ](faq.md)
+* [📊 Benchmarks](benchmarks.md)
 * [🍳 Examples](https://github.com/gofiber/recipes)
 
