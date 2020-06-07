@@ -1,58 +1,85 @@
 ---
 description: >-
-  Fiber supports centralized error handling by passing an error into the Next method from middleware and handlers.
+  Fiber supports centralized error handling by passing an error argument into the Next method which allows you to log errors to external services or send a customized HTTP response to the client.
 ---
 
 # 🐛 Error Handling
 
-Centralized error handler allows us to log errors to external services from a unified location and send a customized HTTP response to the client.
+## Catching Errors
 
-{% hint style="success" %}
-You can pass a standard [**`error`**](https://golang.org/pkg/builtin/#error) or [**`fiber.*Error`**](https://godoc.org/github.com/gofiber/fiber#Error) into [**`ctx.Next(err)`**](ctx.md#next)**\`\`**
-{% endhint %}
-
-You can also use [fiber.NewError\(\)](https://sourcegraph.com/-/godoc/refs?def=NewError&pkg=github.com%2Fgofiber%2Ffiber&repo=github.com%2Fgofiber%2Ffiber) without a message, in that case status text is used as an error message. For example, `404` will show `Not Found` as the body response.
+It’s important to ensure that Fiber catches all errors that occur while running route handlers and middleware. You must pass them to the `ctx.Next()` function, where Fiber will catch and process them.
 
 {% tabs %}
 {% tab title="Example" %}
 ```go
-app.Use(func(c *fiber.Ctx) {
-    // Handler logic
+app.Get("/", func(c *fiber.Ctx) {
+    err := c.SendFile("file-does-not-exist")
 
-    // If credentials are invalid, we call the ErrorHandler
-    if !valid {
-        // c.Next(errors.New("Invalid Credentials")
-        // 500 Invalid Credentials
-
-        // c.Next(fiber.Error(401))
-        // 401 Unauthorized
-
-        c.Next(fiber.Error(401, "Invalid Credentials))
-        // 401 Invalid Credentials
-        return
+    if err != nil {
+        c.Next(err) // Pass error to Fiber
     }
-
-    // Continue to the next handler
-    c.Next()
 })
 ```
 {% endtab %}
 {% endtabs %}
 
-## Default Error Handler
-
-Fiber provides a error handler by default. For a standard error, response is sent as **500 Internal Server Error**. If error is [fiber\*Error](https://godoc.org/github.com/gofiber/fiber#Error), response is sent with the provided status code and message.
+Fiber does not handle [panics](https://blog.golang.org/defer-panic-and-recover) by default. To recover from a panic thrown by any handler in the stack, you need to include the `Recover` middleware as shown below:
 
 {% code title="Example" %}
 ```go
-app := fiber.New()
+package main
 
+import (
+    "github.com/gofiber/fiber"
+    "github.com/gofiber/fiber/middleware"
+)
+
+func main() {
+    app := fiber.New()
+
+    app.Use(middleware.Recover())
+
+    app.Get("/", func(c *fiber.Ctx) {
+        panic("This panic is catched by the ErrorHandler")
+    })
+
+    log.Fatal(app.Listen(3000))
+}
+
+```
+{% endcode %}
+
+Because `ctx.Next()` accepts an `error` interface, you could use Fiber's custom error struct to pass an additional `statuscode` using `fiber.NewError()`. It's optional to pass an message, if this is left empty it will default to the statuscode message \(`404` equals `Not Found`\).
+
+{% code title="Example" %}
+```go
+app.Get("/", func(c *fiber.Ctx) {
+    err := fiber.NewError(503)
+    c.Next(err) // 503 Service Unavailable
+
+    err := fiber.NewError(404, "Sorry, not found!")
+    c.Next(err) // 404 Sorry, not found!
+})
+```
+{% endcode %}
+
+## Default Error Handler
+
+Fiber provides a error handler by default. For a standard error, response is sent as **500 Internal Server Error**. If error is of type [fiber\*Error](https://godoc.org/github.com/gofiber/fiber#Error), response is sent with the provided status code and message.
+
+{% code title="Example" %}
+```go
 // This is the default error handler
 app.Settings.ErrorHandler = func(ctx *Ctx, err error) {
+    // Statuscode defaults to 500
     code := StatusInternalServerError
+
+    // Retreive the custom statuscode if it's an fiber.*Error
     if e, ok := err.(*Error); ok {
         code = e.Code
     }
+
+    // Return HTTP response
     ctx.Status(code).SendString(err.Error())
 }
 ```
@@ -82,5 +109,5 @@ app.Settings.ErrorHandler = func(ctx *Ctx, err error) {
 ```
 {% endcode %}
 
-> Special thanks to the [Echo](https://echo.labstack.com/) framework
+> Special thanks to the [Echo](https://echo.labstack.com/) & [Express](https://expressjs.com/) framework for inspiration regarding error handling.
 
