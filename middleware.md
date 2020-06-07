@@ -40,7 +40,7 @@ Logs the information about each HTTP request.
 {% code title="Basic Usage" %}
 ```go
 app.Use(middleware.Logger())
-// {"time":"08:58:07","ip":"127.0.0.1","host":"localhost:1323","method":"GET","url":"/","status":200}
+// 08:33:22 GET /hello - 127.0.0.1 - 200 - 0.23ms
 ```
 {% endcode %}
 
