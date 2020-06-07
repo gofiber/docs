@@ -1,4 +1,4 @@
-# 📝 Templates
+# 📝 Plantillas
 
 ## Consiguiendo superpoderes
 
