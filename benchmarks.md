@@ -4,7 +4,7 @@ description: >-
   frameworks.
 ---
 
-# 🤖 Benchmarks
+# 📊 Benchmarks
 
 ## TechEmpower
 
