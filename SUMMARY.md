@@ -12,6 +12,6 @@
 
 * [🔌 Routing](guide/routing.md)
 * [🐛 Error Handling](guide/error-handling.md)
-* [🍳 Cookbook](https://github.com/gofiber/recipes)
 * [📊 Benchmarks](guide/benchmarks.md)
+* [🍳 Examples](https://github.com/gofiber/recipes)
 
