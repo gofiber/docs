@@ -22,7 +22,7 @@ In Fiber, 404 responses are not the result of an error, so the error handler wil
 
 All you need to do is add a middleware function at the very bottom of the stack \(below all other functions\) to handle a 404 response:
 
-{% code title="404 response" %}
+{% code title="Example" %}
 ```go
 app.Use(func(c *fiber.Ctx) {
     c.Status(fiber.StatusNotFound).SendString("Sorry can't find that!")
@@ -30,7 +30,17 @@ app.Use(func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-## How do I handle errors?
+## How do I setup an error handler?
+
+To override the default error handler, provide a custom handler to the `app.Settings.ErrorHandler`
+
+{% code title="Example" %}
+```go
+app.Settings.ErrorHandler = func(c *fiber.Ctx, err error) {
+    c.Status(500).SendString(err.Error())
+}
+```
+{% endcode %}
 
 We have a dedicated page explaining how error handling works in Fiber, see [Error Handling](error-handling.md).
 
