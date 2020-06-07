@@ -8,8 +8,6 @@ description: >-
 
 Centralized error handler allows us to log errors to external services from a unified location and send a customized HTTP response to the client.
 
-For example, when an user fails to authenticate it returns **401 Invalid Credentials,** aborting the current request.
-
 {% hint style="success" %}
 You can pass a standard [**`error`**](https://golang.org/pkg/builtin/#error) or [**`fiber.*Error`**](https://godoc.org/github.com/gofiber/fiber#Error) into [**`ctx.Next(err)`**](../api/ctx.md#next)**\`\`**
 {% endhint %}
