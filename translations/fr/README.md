@@ -1,54 +1,54 @@
 ---
 description: >-
-  An online API documentation with examples so you can start building web apps with Fiber right away!
+  Une documentation API en ligne avec des exemples pour que vous puissiez commencer à construire des applications web avec Fiber dès maintenant!
 ---
 
-# 📖 Getting started
+# 📖 Démarrage
 
-**Fiber** is an [Express](https://github.com/expressjs/express) inspired **web framework** build on top of [Fasthttp](https://github.com/valyala/fasthttp), the **fastest** HTTP engine for [Go](https://golang.org/doc/). Designed to **ease** things up for **fast** development with **zero memory allocation** and **performance** in mind.
+**Fiber** est un framework web [Express](https://github.com/expressjs/express) inspiré **web** construit au dessus de [Fasthttp](https://github.com/valyala/fasthttp), le **plus rapide** moteur HTTP pour [Go](https://golang.org/doc/). Conçu pour **faciliter** les choses pour un développement **rapide** avec **l'allocation de mémoire zéro** et **les performances** en tête.
 
 ## Installation
 
-First of all, [download](https://golang.org/dl/) and install Go. `1.11` or higher is required.
+Tout d'abord, [téléchargez](https://golang.org/dl/) et installez Go. `1.11` ou supérieur est requis.
 
-Installation is done using the [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) command:
+L'installation se fait en utilisant la commande [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them):
 
 ```bash
-go get -u github.com/gofiber/fiber
+aller chercher -u github.com/gofiber/fiber
 ```
 
-## Zero Allocation
+## Zéro allocation
 
 {% hint style="warning" %}
-Some values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default
+Certaines valeurs retournées à partir de [**fiber.Ctx**](ctx.md) ne sont **pas** immuables par défaut
 {% endhint %}
 
-Because fiber is optimized for **high performance**, values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default and **will** be re-used across requests. As a rule of thumb, you **must** only use context values within the handler, and you **must not** keep any references. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
+Because fiber is optimized for **high performance**, values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default and **will** be re-used across requests. En tant que règle de pouce, vous **ne devez** utiliser que des valeurs contextuelles dans le gestionnaire, et vous **ne devez pas** garder aucune référence. Dès que vous revenez du gestionnaire, toutes les valeurs que vous avez obtenues du contexte seront réutilisées dans les requêtes futures et changeront sous vos pieds. Voici un exemple :
 
 ```go
 func handler(c *fiber.Ctx) {
-    result := c.Param("foo") // result is only valid within this method
+    résultat := c.Param("foo") // le résultat n'est valide que dans cette méthode
 }
 ```
 
-If you need to persist such values outside the handler, make copies of their **underlying buffer** using the [copy](https://golang.org/pkg/builtin/#copy) builtin. Here is an example for persisting a string:
+Si vous avez besoin de persister de telles valeurs en dehors du gestionnaire, faites des copies de leur tampon **sous-jacent** en utilisant le [copier](https://golang.org/pkg/builtin/#copy) builtin. Voici un exemple pour persister dans une chaîne de caractères :
 
 ```go
 func handler(c *fiber.Ctx) {
-    result := c.Param("foo") // result is only valid within this method
+    résultat := c. aram("foo") // le résultat n'est valide que dans cette méthode
     newBuffer := make([]byte, len(result))
     copy(newBuffer, result)
-    newResult := string(newBuffer) // newResult is immutable and valid forever
+    newResult := string(newBuffer) // newResult est immuable et valide forever
 }
 ```
 
-Alternatively, you can also use the[ **Immutable setting**](app.md#settings). It will make all values returned from the context immutable, allowing you to persist them anywhere. Of course, this comes at the cost of performance.
+Alternativement, vous pouvez également utiliser le paramètre[ **Immutable**](app.md#settings). Il rendra toutes les valeurs retournées depuis le contexte immuable, vous permettant de les maintenir n'importe où. Bien sûr, cela se fait au détriment des performances.
 
-For more information, please check ****[**\#426**](https://github.com/gofiber/fiber/issues/426) and ****[**\#185**](https://github.com/gofiber/fiber/issues/185).
+Pour plus d'informations, veuillez consulter ****[**\#426**](https://github.com/gofiber/fiber/issues/426) et ****[**\#185**](https://github.com/gofiber/fiber/issues/185).
 
-## Hello, World!
+## Bonjour, Monde!
 
-Embedded below is essentially simplest **Fiber** app, which you can create.
+Incorporé ci-dessous est essentiellement l'application **Fiber** la plus simple, que vous pouvez créer.
 
 ```go
 package main
@@ -58,8 +58,8 @@ import "github.com/gofiber/fiber"
 func main() {
   app := fiber.New()
 
-  app.Get("/", func(c *fiber.Ctx) {
-    c.Send("Hello, World!")
+  . et("/", func(c *fiber.Ctx) {
+    c.Send("Bonjour, Monde !")
   })
 
   app.Listen(3000)
@@ -67,67 +67,67 @@ func main() {
 ```
 
 ```text
-go run server.go
+exécuter server.go
 ```
 
-Browse to `http://localhost:3000` and you should see `Hello, World!` on the page.
+Naviguez sur `http://localhost:3000` et vous devriez voir `Bonjour, Monde !` sur la page.
 
-## Basic routing
+## Routage de base
 
-Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI \(or path\) and a specific HTTP request method \(GET, PUT, POST and so on\).
+Le routage désigne la façon dont une application répond à une demande de client à un point de terminaison particulier, qui est une URI \\(ou un chemin\\) et une méthode spécifique de requête HTTP \\(GET, PUT, POST et ainsi de suite\\).
 
 {% hint style="info" %}
-Each route can have **multiple handler functions**, that are executed when the route is matched.
+Chaque route peut avoir **plusieurs fonctions de gestion**, qui sont exécutées lorsque la route est correspondante.
 {% endhint %}
 
-Route definition takes the following structures:
+La définition de la route prend les structures suivantes :
 
 ```go
-// Function signature
+// Signature de la fonction
 app.Method(path string, ...func(*fiber.Ctx))
 ```
 
-* `app` is an instance of **Fiber**.
-* `Method` is an [HTTP request method](https://fiber.wiki/application#methods), in capitalization: `Get`, `Put`, `Post`, etc.
-* `path` is a virtual path on the server.
-* `func(*fiber.Ctx)` is a callback function containing the [Context](https://fiber.wiki/context) executed when the route is matched.
+* `app` est une instance de **Fiber**.
+* `La méthode` est une [méthode de requête HTTP](https://fiber.wiki/application#methods), en capitalisation : `Obtenir`, `Mettre`, `Post`, etc.
+* `path` est un chemin virtuel sur le serveur.
+* `fonction(*fiber.Ctx)` est une fonction de callback contenant le [Contexte](https://fiber.wiki/context) exécuté lorsque la route est correspondante.
 
-**Simple route**
+**Route simple**
 
 ```go
-// Respond with "Hello, World!" on root path, "/"
+// Répondre avec "Bonjour, Monde!" sur le chemin de la racine, "/"
 app.Get("/", func(c *fiber.Ctx) {
-  c.Send("Hello, World!")
+  c.Send("Bonjour, Monde !")
 })
 ```
 
-**Parameters**
+**Paramètres**
 
 ```go
-// GET http://localhost:8080/hello%20world
+// GET http://localhost:8080/bonjour%20monde
 
 app.Get("/:value", func(c *fiber.Ctx) {
-  c.Send("Get request with value: " + c.Params("value"))
-  // => Get request with value: hello world
+  c. end("Obtenir la requête avec la valeur: " + c.Params("value"))
+  // => Obtenir la requête avec la valeur: bonjour le monde
 })
 ```
 
-**Optional parameter**
+**Paramètre optionnel**
 
 ```go
 // GET http://localhost:3000/john
 
 app.Get("/:name?", func(c *fiber.Ctx) {
   if c.Params("name") != "" {
-    c.Send("Hello " + c.Params("name"))
-    // => Hello john
+    c. end("Bonjour " + c. arams("name"))
+    // => Bonjour john
   } else {
-    c.Send("Where is john?")
+    c. end("Où est john?")
   }
 })
 ```
 
-**Wildcards**
+**Cartes jokers**
 
 ```go
 // GET http://localhost:3000/api/user/john
@@ -138,17 +138,17 @@ app.Get("/api/*", func(c *fiber.Ctx) {
 })
 ```
 
-## Static files
+## Fichiers statiques
 
-To serve static files such as **images**, **CSS** and **JavaScript** files, replace your function handler with a file or directory string.
+Pour servir les fichiers statiques tels que les **images**, **CSS** et **JavaScript** fichiers, remplacez votre gestionnaire de fonction par une chaîne de fichiers ou de répertoires.
 
-Function signature:
+Signature de la fonction :
 
 ```go
-app.Static(prefix, root string)
+app.Static(préfixe, chaîne racine)
 ```
 
-Use the following code to serve files in a directory named `./public`:
+Utilisez le code suivant pour servir les fichiers dans un répertoire nommé `./public`:
 
 ```go
 app := fiber.New()
@@ -158,7 +158,7 @@ app.Static("/", "./public")
 app.Listen(8080)
 ```
 
-Now, you can load the files that are in the `./public` directory:
+Maintenant, vous pouvez charger les fichiers qui se trouvent dans le répertoire `./public`:
 
 ```bash
 http://localhost:8080/hello.html
