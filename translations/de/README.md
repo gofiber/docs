@@ -5,13 +5,13 @@ description: >-
 
 # 📖 Erste Schritte
 
-**Fiber** is an [Express](https://github.com/expressjs/express) inspired **web framework** build on top of [Fasthttp](https://github.com/valyala/fasthttp), the **fastest** HTTP engine for [Go](https://golang.org/doc/). Designed to **ease** things up for **fast** development with **zero memory allocation** and **performance** in mind.
+**Fiber** ist ein an [Express](https://github.com/expressjs/express) angelehntes **Webframework**, welches auf [Fasthttp](https://github.com/valyala/fasthttp), der **schnellsten** HTTP-Engine für [Go](https://golang.org/doc/), aufbaut. Konzipiert, um die Voraussetzungen für eine **schnelle** und **einfache** Entwicklung mit **null Speicherzuweisung** und **hoher Leistung** zu schaffen.
 
 ## Installation
 
-First of all, [download](https://golang.org/dl/) and install Go. `1.11` or higher is required.
+Zunächst einmal musst du Go [downloaden](https://golang.org/dl/) und installieren. `1.11` oder höher wird benötigt.
 
-Installation is done using the [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) command:
+Die Installation erfolgt mit dem Befehl [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them):
 
 ```bash
 go get -u github.com/gofiber/fiber
@@ -48,7 +48,7 @@ For more information, please check ****[**\#426**](https://github.com/gofiber/fi
 
 ## Hello, World!
 
-Embedded below is essentially simplest **Fiber** app, which you can create.
+Eingebettet unten ist im Wesentlichen die einfachste **Fiber** App, die du erstellen kannst.
 
 ```go
 package main
@@ -70,20 +70,20 @@ func main() {
 go run server.go
 ```
 
-Browse to `http://localhost:3000` and you should see `Hello, World!` on the page.
+Besuche `http://localhost:3000` und du solltest ` Hello, World!` auf der Seite sehen.
 
 ## Basic routing
 
-Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI \(or path\) and a specific HTTP request method \(GET, PUT, POST and so on\).
+Routing bezieht sich darauf, wie eine Anwendung auf einen bestimmten Endpunkt antworten soll die eine URI \(oder path\) und eine bestimmte HTTP-Anfragemethode \(GET, PUT, POST usw.) ist.
 
 {% hint style="info" %}
-Each route can have **multiple handler functions**, that are executed when the route is matched.
+Jede Route kann **mehrere Handler-Funktionen**haben, die ausgeführt werden, wenn die Route übereinstimmt.
 {% endhint %}
 
-Route definition takes the following structures:
+Die Routendefinition benötigt folgende Strukturen:
 
 ```go
-// Function signature
+// Funktionssignatur
 app.Method(path string, ...func(*fiber.Ctx))
 ```
 
@@ -92,7 +92,7 @@ app.Method(path string, ...func(*fiber.Ctx))
 * `path` ist ein virtueller Pfad auf dem Server.
 * `func(*fiber.Ctx)` ist eine Callback-Funktion, die den [Kontext](https://fiber.wiki/context) enthält, der ausgeführt wird, wenn die Route übereinstimmt.
 
-**Simple route**
+**Einfache Route**
 
 ```go
 // Respond with "Hello, World!" on root path, "/"
@@ -112,7 +112,7 @@ app.Get("/:value", func(c *fiber.Ctx) {
 })
 ```
 
-**Optional parameter**
+**Optionale Parameter**
 
 ```go
 // GET http://localhost:3000/john
@@ -127,7 +127,7 @@ app.Get("/:name?", func(c *fiber.Ctx) {
 })
 ```
 
-**Wildcards**
+**Platzhalter**
 
 ```go
 // GET http://localhost:3000/api/user/john
@@ -140,15 +140,15 @@ app.Get("/api/*", func(c *fiber.Ctx) {
 
 ## Static files
 
-To serve static files such as **images**, **CSS** and **JavaScript** files, replace your function handler with a file or directory string.
+Um statische Dateien wie z. B. **Bilder**, **CSS** und **JavaScript** Dateien zu liefern muss man den Funktionshandler durch einen Datei- oder Verzeichnisstring ersetzen.
 
-Function signature:
+Funktionssignatur:
 
 ```go
 app.Static(prefix, root string)
 ```
 
-Use the following code to serve files in a directory named `./public`:
+Verwende folgenden Code, um Dateien in einem Verzeichnis mit dem Namen `./public` auszugeben:
 
 ```go
 app := fiber.New()
@@ -158,7 +158,7 @@ app.Static("/", "./public")
 app.Listen(8080)
 ```
 
-Now, you can load the files that are in the `./public` directory:
+Du kannst nun auf die Dateien im `./public` Verzeichnis zugreifen:
 
 ```bash
 http://localhost:8080/hello.html
