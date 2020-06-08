@@ -17,7 +17,7 @@ Each framework is operating in a realistic production configuration. Results are
 * Ubuntu 18.04.3 4.15.0-88-generic
 * Dedicated Cisco 10-Gbit Ethernet switch.
 
-### Plaintext
+### Einfacher Text
 
 The Plaintext test is an exercise of the request-routing fundamentals only, designed to demonstrate the capacity of high-performance platforms in particular. Requests will be sent using HTTP pipelining. The response payload is still small, meaning good performance is still necessary in order to saturate the gigabit Ethernet of the test environment.
 
@@ -28,43 +28,43 @@ See [Plaintext requirements](https://github.com/TechEmpower/FrameworkBenchmarks/
 
 ![](.gitbook/assets/plaintext%20%281%29.png)
 
-![Fiber vs Express](.gitbook/assets/plaintext_express.png)
+![Fiber gegen Express](.gitbook/assets/plaintext_express.png)
 
-### Data Updates
+### Datenaktualisierung
 
-**Fiber** handled **11,846** responses  per second with an average latency of **42.8** ms.  
-**Express** handled **2,066** responses  per second with an average latency of **390.44** ms.
+**Fiber** behandelte **11,846**</strong> Antworten pro Sekunde mit einer durchschnittlichen Latenz von **42.8** ms.  
+**Express** behandelte **2,066** Antworten pro Sekunde mit einer durchschnittlichen Latenz von **390.44** ms.
 
 ![](.gitbook/assets/data_updates.png)
 
-![Fiber vs Express](.gitbook/assets/data_updates_express%20%281%29.png)
+![Fiber gegen Express](.gitbook/assets/data_updates_express%20%281%29.png)
 
-### Multiple Queries
+### Mehrfach Abfragen
 
-**Fiber** handled **19,664** responses per second with an average latency of **25.7** ms.  
-**Express** handled **4,302** responses  per second with an average latency of **117.2** ms.
+**Fiber** behandelte **19,664** Antworten pro Sekunde mit einer durchschnittlichen Latenz von **25.7** ms.  
+**Express** behandelte **4,302** Antworten pro Sekunde mit einer durchschnittlichen Latenz von **117.2** ms.
 
 ![](.gitbook/assets/multiple_queries%20%281%29.png)
 
-![Fiber vs Express](.gitbook/assets/multiple_queries_express.png)
+![Fiber gegen Express](.gitbook/assets/multiple_queries_express.png)
 
-### Single Query
+### Einzel Abfrage
 
-**Fiber** handled **368,647** responses per second with an average latency of **0.7** ms.  
-**Express** handled **57,880** responses  per second with an average latency of **4.4** ms.
+**Fiber** behandelte **368,647** Antworten pro Sekunde mit einer durchschnittlichen Latenz von **0.7** ms.  
+**Express** behandelte **57,880** Antworten pro Sekunde mit einer durchschnittlichen Latenz von **4.4** ms.
 
 ![](.gitbook/assets/single_query%20%282%29.png)
 
-![Fiber vs Express](.gitbook/assets/single_query_express.png)
+![Fiber gegen Express](.gitbook/assets/single_query_express.png)
 
-### JSON Serialization
+### JSON-Serialisierung
 
-**Fiber** handled **1,146,667** responses per second with an average latency of **0.4** ms.  
-**Express** handled **244,847** responses  per second with an average latency of **1.1** ms.
+**Fiber** behandelte **1,146,667** Antworten pro Sekunde mit einer durchschnittlichen Latenz von **0.4** ms.  
+**Express** behandelte **244,847** Antworten pro Sekunde mit einer durchschnittlichen Latenz von **1.1** ms.
 
 ![](.gitbook/assets/json%20%281%29.png)
 
-![Fiber vs Express](.gitbook/assets/json_express.png)
+![Fiber gegen Express](.gitbook/assets/json_express.png)
 
 ## Go web framework benchmark
 
@@ -79,7 +79,7 @@ The first test case is to mock **0 ms**, **10 ms**, **100 ms**, **500 ms** proce
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark.png)
 
-The concurrency clients are **5000**.
+Die Parallele-Clients sind **5000**.
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark_latency.png)
 
@@ -89,7 +89,7 @@ Latency is the time of real processing time by web servers. _The smaller is the 
 
 Allocs is the heap allocations by web servers when test is running. The unit is MB. _The smaller is the better._
 
-If we enable **http pipelining**, test result as below:
+Wenn wir **http Pipelining** aktivieren, Testergebnis unten:
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark-pipeline.png)
 
@@ -101,7 +101,7 @@ Concurrency test in **30 ms** processing time, the test result for **100**, **10
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency_alloc.png)
 
-If we enable **http pipelining**, test result as below:
+Wenn wir **http Pipelining** aktivieren, Testergebnis unten:
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency-pipeline.png)
 
