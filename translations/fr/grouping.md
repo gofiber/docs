@@ -1,23 +1,23 @@
-# 🎭 Groupement
+# 🎭 Grouping
 
-## Obtention de super puissances
+## Getting Super Powers
 
-Devenir un super-héros est un processus tout à fait direct:
+Becoming a super hero is a fairly straight forward process:
 
 ```
-$ me donne des super-pouvoirs
+$ give me super-powers
 ```
 
 {% hint style="info" %}
- Les super-pouvoirs sont accordés au hasard. Veuillez donc soumettre un problème si vous n'êtes pas satisfait de la vôtre.
+ Super-powers are granted randomly so please submit an issue if you're not happy with yours.
 {% endhint %}
 
-Une fois que vous serez suffisamment fort, sauvez le monde :
+Once you're strong enough, save the world:
 
 {% code title="hello.sh" %}
 ```bash
-# N'est pas encore un code pour cela, désolé
-echo 'Tu dois me faire confiance, j'ai sauvé le monde'
+# Ain't no code for that yet, sorry
+echo 'You got to trust me on this, I saved the world'
 ```
 {% endcode %}
 
