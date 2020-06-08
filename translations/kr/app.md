@@ -261,9 +261,38 @@ func main() {
 }
 ```
 
+## Routes
+
+Routes returns all registered routes
+
+{% code title="Signature" %}
+```go
+app.Routes() []*Route
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+app := fiber.New()
+
+handler := func(c *fiber.Ctx) { }
+
+app.Get("/sample", handler)
+app.Post("/john", handler)
+app.Put("/doe", handler)
+
+for _, r := range app.Routes() {
+    fmt.Printf("%s\t%s\n", r.Method, r.Path)
+}
+// GET      /sample
+// POST     /john
+// PUT      /doe
+```
+{% endcode %}
+
 ## Listen
 
-특정 주소의 연결을 bind하고 listen합니다. 이것은 `int` 의 포트 또는 `string` 의 주소일 수 있습니다.
+Binds and listens for connections on the specified address. This can be a `int` for port or `string` for address.
 
 {% code title="Signature" %}
 ```go
@@ -280,7 +309,7 @@ app.Listen("127.0.0.1:8080")
 ```
 {% endcode %}
 
-**TLS/HTTPS** 를 사용하기 위해서 여러분은 [**TLS config**](https://golang.org/pkg/crypto/tls/#Config) 를 덧붙일 수 있습니다.
+To enable **TLS/HTTPS** you can append a [**TLS config**](https://golang.org/pkg/crypto/tls/#Config).
 
 {% code title="Example" %}
 ```go
@@ -320,7 +349,7 @@ app.Serve(ln)
 
 ## Test
 
-여러분의 어플리케이션을 테스트하는 것은 **Test** 메소드를 통해 진행됩니다. `_test.go` 파일들을 만들거나 여러분의 라우팅 로직을 디버그할 필요가 있을 때 이 메소드를 사용하세요. 기본 타임아웃은 `200ms` 이고 만약 여러분이 타임아웃을 완전히 비활성화하고 싶으면, 두 번째 인자로 `-1`을 넣으세요.
+Testing your application is done with the **Test** method. Use this method for creating `_test.go` files or when you need to debug your routing logic. The default timeout is `200ms` if you want to disable a timeout completely, pass `-1` as a second argument.
 
 {% code title="Signature" %}
 ```go
