@@ -1,122 +1,122 @@
 ---
 description: >-
-  Fiber supports centralized error handling by passing an error argument into the Next method which allows you to log errors to external services or send a customized HTTP response to the client.
+  Fiber supporte la gestion des erreurs centralisée en passant un argument d'erreur dans la méthode Next qui vous permet de consigner des erreurs à des services externes ou d'envoyer une réponse HTTP personnalisée au client.
 ---
 
-# 🐛 Error Handling
+# 🐛 Gestion des erreurs
 
-## Catching Errors
+## Erreurs de capture
 
-It’s important to ensure that Fiber catches all errors that occur while running route handlers and middleware. You must pass them to the `ctx.Next()` function, where Fiber will catch and process them.
+Il est important de s’assurer que la Fibre détecte toutes les erreurs qui se produisent lors de l’exécution des gestionnaires de routes et des middleware. Vous devez les passer au ctx `.La fonction Next()` , où les fibres les attraperont et les traiteront.
 
 {% tabs %}
 {% tab title="Example" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) {
+applicationGet("/", func(c *fiber.Ctx) {
     err := c.SendFile("file-does-not-exist")
 
     if err != nil {
-        c.Next(err) // Pass error to Fiber
+        c.Next(err) // Passer l'erreur à la Fibre
     }
 })
 ```
 {% endtab %}
 {% endtabs %}
 
-Fiber does not handle [panics](https://blog.golang.org/defer-panic-and-recover) by default. To recover from a panic thrown by any handler in the stack, you need to include the `Recover` middleware as shown below:
+Fibre ne gère pas les paniques [](https://blog.golang.org/defer-panic-and-recover) par défaut. Pour récupérer d'une panique émise par n'importe quel gestionnaire dans la pile, vous devez inclure le middleware `Recover` comme montré ci-dessous:
 
 {% code title="Example" %}
 ```go
-package main
+import du paquet principal
 
-import (
+(
     "github.com/gofiber/fiber"
     "github.com/gofiber/fiber/middleware"
 )
 
 func main() {
-    app := fiber.New()
+    app := fiber.Application
 
-    app.Use(middleware.Recover())
+    New() .Utiliser(middleware.Récupérer ())
 
-    app.Get("/", func(c *fiber.Ctx) {
-        panic("This panic is catched by the ErrorHandler")
+    l'application.Get("/", func(c *fiber.Ctx) {
+        panique ("Cette panique est attrapée par le ErrorHandler")
     })
 
-    log.Fatal(app.Listen(3000))
+    journal.Fatal(app.Écoute(3000))
 }
 
 ```
 {% endcode %}
 
-Because `ctx.Next()` accepts an `error` interface, you could use Fiber's custom error struct to pass an additional `statuscode` using `fiber.NewError()`. It's optional to pass an message, if this is left empty it will default to the statuscode message \(`404` equals `Not Found`\).
+Parce que `ctx.Next()` accepte une interface `erreur` , vous pouvez utiliser la structure d'erreur personnalisée de Fiber pour passer un `statuscode` supplémentaire en utilisant `fibre.NewError()`. Il est facultatif de passer un message si ce champ est laissé vide, le message par défaut \(`404` équivaut à `Non Trouvé`\).
 
 {% code title="Example" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) {
-    err := fiber.NewError(503)
-    c.Next(err) // 503 Service Unavailable
+applicationGet("/", func(c *fiber.Ctx) {
+    err := fibre.NewError(503)
+    c.Next(err) // 503 Service Indisponible
 
-    err := fiber.NewError(404, "Sorry, not found!")
-    c.Next(err) // 404 Sorry, not found!
+    err := fibre.NewError(404, "Désolé, pas trouvé !")
+    c.Next(err) // 404 Désolé, pas trouvé!
 })
 ```
 {% endcode %}
 
-## Default Error Handler
+## Gestionnaire d'erreur par défaut
 
-Fiber provides a error handler by default. For a standard error, response is sent as **500 Internal Server Error**. If error is of type [fiber\*Error](https://godoc.org/github.com/gofiber/fiber#Error), response is sent with the provided status code and message.
+Fiber fournit un gestionnaire d'erreur par défaut. Pour une erreur standard, la réponse est envoyée en tant que **500 Erreur interne du serveur**. Si l'erreur est de type [fiber\*Error](https://godoc.org/github.com/gofiber/fiber#Error), la réponse est envoyée avec le code de statut et le message fourni.
 
 {% code title="Example" %}
 ```go
-// This is the default error handler
-app.Settings.ErrorHandler = func(ctx *Ctx, err error) {
-    // Statuscode defaults to 500
+// Ceci est l'application
+de gestion des erreurs par défaut.Paramètres.Gestionnaire d'erreurs = func(ctx *Ctx, err error) {
+    // Statuscode par défaut à 500
     code := StatusInternalServerError
 
-    // Retreive the custom statuscode if it's an fiber.*Error
-    if e, ok := err.(*Error); ok {
+    // Retire le code d'état personnalisé s'il s'agit d'une fibre. Erreur
+    si e, ok := err.(*Erreur); ok {
         code = e.Code
     }
 
-    // Return HTTP response
-    ctx.Status(code).SendString(err.Error())
+    // Retourne une réponse HTTP
+    ctx.Statut(code).SendString(err.Erreur())
 }
 ```
 {% endcode %}
 
-## Custom Error Handler
+## Gestionnaire d'erreurs personnalisé
 
-Custom error handler can be set via `app.Settings.ErrorHandler`
+Le gestionnaire d'erreurs personnalisé peut être défini via l'application `.Paramètres.ErrorHandler`
 
-For most cases the default error handler should be sufficient. However, a custom error handler can come in handy if you want to capture different type of errors and take action accordingly e.g. send notification email or log error to a centralized system. You can also send customized response to the client e.g. error page or just a JSON response.
+Dans la plupart des cas, le gestionnaire d'erreur par défaut devrait être suffisant. Cependant, un gestionnaire d'erreurs personnalisé peut vous être utile si vous voulez capturer différents types d'erreurs et prendre des mesures en conséquence. . Envoyez un courriel de notification ou une erreur de log à un système centralisé. Vous pouvez également envoyer une réponse personnalisée au client, par exemple une page d'erreur ou juste une réponse JSON.
 
-The following example shows how to display error pages for different type of errors.
+L'exemple suivant montre comment afficher les pages d'erreur pour différents types d'erreurs.
 
 {% code title="Example" %}
 ```go
-app := fiber.New()
+app := fibre.New()
 
-// Setting a custom error handler
-app.Settings.ErrorHandler = func(ctx *Ctx, err error) {
-    // Statuscode defaults to 500
+// Définition d'un gestionnaire d'erreurs personnalisé
+application.Paramètres.Gestionnaire d'erreurs = func(ctx *Ctx, err error) {
+    // Statuscode par défaut à 500
     code := StatusInternalServerError
 
-    // Retreive the custom statuscode if it's an fiber.*Error
-    if e, ok := err.(*Error); ok {
+    // Retire le code d'état personnalisé s'il s'agit d'une fibre. Erreur
+    si e, ok := err.(*Erreur); ok {
         code = e.Code
     }
 
-    // Send custom error page
-    err := ctx.SendFile(fmt.Sprintf("./%d.html", code))
-    if err != nil {
-        ctx.Status(500).SendString("Internal Server Error")
-    } else {
-        ctx.Status(code)
+    // Envoyer une page d'erreur personnalisée
+    erreur := ctx.Envoyer un fichier (fmt.Sprintf("./%d.html", code))
+    si errr != nil {
+        ctx.Statut(500).SendString("Erreur de serveur interne")
+    } autre {
+        ctx.Statut(code)
     }
 }
 ```
 {% endcode %}
 
-> Special thanks to the [Echo](https://echo.labstack.com/) & [Express](https://expressjs.com/) framework for inspiration regarding error handling.
+> Remerciements spéciaux au framework [Echo](https://echo.labstack.com/) & [Express](https://expressjs.com/) pour l'inspiration concernant la gestion des erreurs.
 
