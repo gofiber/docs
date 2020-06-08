@@ -1,16 +1,16 @@
 ---
 description: >-
-  The Ctx struct represents the Context which hold the HTTP request and response. It has methods for the request query string, parameters, body, HTTP headers and so on.
+  Ctx 구조체는 HTTP 요청과 응답을 가지고 있는 Context를 나타냅니다. 그것은 요청 쿼리 문자열, 파라미터, 바디, HTTP 헤더 등을 위한 메소드들을 가지고 있습니다.
 ---
 
 # 🧠 Context
 
 ## Accepts
 
-Checks, if the specified **extensions** or **content** **types** are acceptable.
+**extensions** 또는 **content** **types** 가 허용 되는지 확인합니다.
 
 {% hint style="info" %}
-Based on the request’s [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header.
+요청의 [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP 헤더에 기반합니다.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -37,7 +37,7 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-Fiber provides similar functions for the other accept headers.
+Fiber는 다른 accept 헤더들을 위한 유사한 함수들도 제공합니다.
 
 ```go
 // Accept-Charset: utf-8, iso-8859-1;q=0.2
@@ -58,10 +58,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Append
 
-Appends the specified **value** to the HTTP response header field.
+명시된 **value** 를 HTTP 응답 헤더 영역에 덧붙입니다.
 
 {% hint style="warning" %}
-If the header is **not** already set, it creates the header with the specified value.
+만약 헤더가 이미 설정되지 **않았다면**, 그것은 명시된 값을 가진 헤더를 생성합니다.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -84,7 +84,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Attachment
 
-Sets the HTTP response [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header field to `attachment`.
+HTTP 응답 [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) 헤더 영역을 `attachment` 로 설정합니다.
 
 {% code title="Signature" %}
 ```go
@@ -126,7 +126,7 @@ app.Get("/bodylimit", func(c *fiber.Ctx) {
 
 ## BaseURL
 
-Returns base URL \(**protocol** + **host**\) as a `string`.
+Base URL \(**protocol** + **host**\) 을 `string`으로 반환합니다.
 
 {% code title="Signature" %}
 ```go
@@ -146,7 +146,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Body
 
-Contains the **raw body** submitted in a **POST** request.
+**POST** 요청으로 보내진 **raw body** 를 담고 있습니다.
 
 {% code title="Signature" %}
 ```go
@@ -170,7 +170,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## BodyParser
 
-Binds the request body to a struct. `BodyParser` supports decoding query parameters and the following content types based on the `Content-Type` header:
+요청 바디를 구조체로 바인드합니다. `BodyParser` 는 쿼리 파라미터 디코딩과 `Content-Type` 헤더에 기반한 다음의 content type들을 지원합니다:
 
 * `application/json`
 * `application/xml`
@@ -217,7 +217,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## ClearCookie
 
-Expire a client cookie \(_or all cookies if left empty\)_
+클라이언트 쿠키를 만료시킵니다 \(_또는 비어있는 모든 쿠키들\)_
 
 {% code title="Signature" %}
 ```go
@@ -252,7 +252,7 @@ c.Context() context.Context
 
 ## Cookie
 
-Set cookie
+쿠키를 설정합니다
 
 **Signature**
 
@@ -290,7 +290,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Cookies
 
-Get cookie value by key.
+키에 맞는 쿠키 값을 가져옵니다.
 
 **Signatures**
 
@@ -312,11 +312,11 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Download
 
-Transfers the file from path as an `attachment`.
+경로의 파일을 `attachment` 처럼 전송합니다.
 
-Typically, browsers will prompt the user for download. By default, the [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header `filename=` parameter is the file path \(_this typically appears in the browser dialog_\).
+일반적으로, 브라우저는 사용자가 다운로드를 하게 합니다. By default, the [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header `filename=` parameter is the file path \(_this typically appears in the browser dialog_\).
 
-Override this default with the **filename** parameter.
+이 기본값을 **filename** 파라미터와 함께 오버라이드합니다.
 
 {% code title="Signature" %}
 ```go
@@ -342,12 +342,12 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Fasthttp
 
-You can still **access** and use all **Fasthttp** methods and properties.
+여러분은 여전히 **Fasthttp** 메소드들과 속성들에 **접속**하고 사용할 수 있습니다.
 
 **Signature**
 
 {% hint style="info" %}
-Please read the [Fasthttp Documentation](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) for more information.
+더 많은 정보는 [Fasthttp Documentation](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) 을 읽어주세요.
 {% endhint %}
 
 **Example**
@@ -364,7 +364,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Error
 
-This contains the error information that thrown by a panic or passed via the [`Next(err)`](https://github.com/gofiber/docs/tree/8d965e1e05fb67f965934586c78335ef29f52128/context/README.md#error) method.
+이것은 패닉 또는 [`Next(err)`](https://github.com/gofiber/docs/tree/8d965e1e05fb67f965934586c78335ef29f52128/context/README.md#error) 메소드를 통해 던져진 에러 정보를 포함합니다.
 
 {% code title="Signature" %}
 ```go
@@ -402,10 +402,10 @@ func main() {
 
 ## Format
 
-Performs content-negotiation on the [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header. It uses [Accepts](ctx.md#accepts) to select a proper format.
+[Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP 헤더의 content-negotiation을 수행합니다. 그것은 적절한 포맷을 선택하기 위해 [Accepts](ctx.md#accepts) 를 사용합니다.
 
 {% hint style="info" %}
-If the header is **not** specified or there is **no** proper format, **text/plain** is used.
+만약 헤더가 명시되지 **않거나** 적절한 포맷이 **없으면**, **text/plain** 이 사용됩니다.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -434,7 +434,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## FormFile
 
-MultipartForm files can be retrieved by name, the **first** file from the given key is returned.
+MultipartForm 파일들은 이름을 통해 가져올 수 있으며, 주어진 키의 **첫 번째** 파일이 반환됩니다.
 
 {% code title="Signature" %}
 ```go
@@ -459,7 +459,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## FormValue
 
-Any form values can be retrieved by name, the **first** value from the given key is returned.
+Form 값들은 이름을 통해 가져올 수 있으며, 주어진 키의 **첫 번째** 파일이 반환됩니다.
 
 {% code title="Signature" %}
 ```go
@@ -485,15 +485,15 @@ app.Post("/", func(c *fiber.Ctx) {
 [https://expressjs.com/en/4x/api.html\#req.fresh](https://expressjs.com/en/4x/api.html#req.fresh)
 
 {% hint style="info" %}
-Not implemented yet, pull requests are welcome!
+아직 구현되지 않았습니다, pull request는 환영입니다!
 {% endhint %}
 
 ## Get
 
-Returns the HTTP request header specified by field.
+필드에 명시된 HTTP 요청 헤더를 반환합니다.
 
 {% hint style="success" %}
-The match is **case-insensitive**.
+비교는 **대소문자를 구분하지 않습니다**.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -517,7 +517,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Hostname
 
-Contains the hostname derived from the [Host](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host) HTTP header.
+[Host](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host) HTTP 헤더에서 가져온 호스트 네임을 포함합니다.
 
 {% code title="Signature" %}
 ```go
@@ -540,7 +540,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## IP
 
-Returns the remote IP address of the request.
+요청의 원격 IP 주소를 반환합니다.
 
 {% code title="Signature" %}
 ```go
@@ -558,7 +558,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## IPs
 
-Returns an array of IP addresses specified in the [X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For) request header.
+[X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For) 요청 헤더에 명시된 IP 주소들의 배열을 반환합니다.
 
 {% code title="Signature" %}
 ```go
@@ -578,10 +578,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Is
 
-Returns the matching **content type**, if the incoming request’s [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP header field matches the [MIME type](https://developer.mozilla.org/ru/docs/Web/HTTP/Basics_of_HTTP/MIME_types) specified by the type parameter.
+들어오는 요청의 [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP 헤더 영역이 타입 파라미터로 명시된 [MIME type](https://developer.mozilla.org/ru/docs/Web/HTTP/Basics_of_HTTP/MIME_types) 과 일치하는지를 통해, **content type** 일치하는지 여부를 반환합니다.
 
 {% hint style="info" %}
-If the request has **no** body, it returns **false**.
+만약 요청이 바디를 가지고 있지 **않다면**, **false**를 반환합니다.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -604,10 +604,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## JSON
 
-Converts any **interface** or **string** to JSON using [Jsoniter](https://github.com/json-iterator/go).
+[Jsoniter](https://github.com/json-iterator/go)를 사용해 **인터페이스** 또는 **문자열**을 JSON으로 바꿉니다.
 
 {% hint style="info" %}
-JSON also sets the content header to **application/json**.
+JSON은 콘텐츠 헤더도 **application/json**으로 설정합니다.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -652,9 +652,9 @@ app.Get("/json", func(c *fiber.Ctx) {
 
 ## JSONP
 
-Sends a JSON response with JSONP support. This method is identical to [JSON](ctx.md#json), except that it opts-in to JSONP callback support. By default, the callback name is simply callback.
+JSON 응답을 JSONP 지원과 함께 보냅니다. 이 메소드는 [JSON](ctx.md#json)과 동일하지만, JSONP 콜백 지원이 선택 가능합니다. 기본적으로, 콜백 이름은 단순하게 callback입니다.
 
-Override this by passing a **named string** in the method.
+메소드 안에 **지정된 문자열**을 넣어서 오버라이드 하세요.
 
 {% code title="Signature" %}
 ```go
@@ -687,7 +687,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Links
 
-Joins the links followed by the property to populate the response’s [Link](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Link) HTTP header field.
+응답의 [Link](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Link) HTTP 헤더 필드를 덧붙이기 위해 속성으로 따라오는 링크를 연결합니다.
 
 {% code title="Signature" %}
 ```go
@@ -710,10 +710,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Locals
 
-Method that stores string variables scoped to the request and therefore available only to the routes that match the request.
+요청에 국한된 문자열 변수를 저장하여서 그 요청에 맞는 라우트에서만 사용될 수 있게 해주는 메소드입니다.
 
 {% hint style="success" %}
-This is useful, if you want to pass some **specific** data to the next middleware.
+이것은 만약 여러분이 **특정** 데이터를 다음 미들웨어에 전달하고 싶을 때 유용합니다.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -742,7 +742,7 @@ app.Get("/admin", func(c *fiber.Ctx) {
 
 ## Location
 
-Sets the response [Location](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Location) HTTP header to the specified path parameter.
+응답의 [Location](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Location) HTTP 헤더를 특정 경로 파라미터로 설정합니다.
 
 {% code title="Signature" %}
 ```go
@@ -761,8 +761,8 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Method
 
-Contains a string corresponding to the HTTP method of the request: `GET`, `POST`, `PUT` and so on.  
-Optionally, you could override the method by passing a string.
+요청의 HTTP 메소드에 해당하는 문자열을 갖고 있습니다: `GET`, `POST`, `PUT` 등.   
+선택적으로, 여러분은 문자열을 넣어 메소드를 오버라이드 할 수 있습니다.
 
 {% code title="Signature" %}
 ```go
@@ -780,7 +780,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## MultipartForm
 
-To access multipart form entries, you can parse the binary with `MultipartForm()`. This returns a `map[string][]string`, so given a key the value will be a string slice.
+Multipart form 엔트리에 접근하기 위해, 여러분은 `MultipartForm()`으로 바이너리를 가져올 수 있습니다. 이것은 `map[string][]string` 반환하며, 키가 주어지면 값은 문자열 슬라이스 입니다.
 
 {% code title="Signature" %}
 ```go
@@ -819,7 +819,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Next
 
-When **Next** is called, it executes the next method in the stack that matches the current route. You can pass an error struct within the method for custom error handling.
+**Next**가 호출되면, 이것은 현재 라우트에 맞는 스택에서 다음 매소드를 실행시킵니다. 여러분은 에러 처리를 커스텀하기 위해 메소드 안에 에러 구조체를 넣을 수 있습니다.
 
 {% code title="Signature" %}
 ```go
@@ -849,7 +849,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## OriginalURL
 
-Contains the original request URL.
+원본 요청 URL을 가집니다.
 
 {% code title="Signature" %}
 ```go
@@ -872,10 +872,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Params
 
-Method can be used to get the route parameters.
+라우트 파라미터를 가져오기 위해 사용되는 메소드입니다.
 
 {% hint style="info" %}
-Defaults to empty string \(`""`\), if the param **doesn't** exist.
+만약 파라미터가 존재하지 **않다면**, 기본 값은 빈 문자열 \(`""`\) 입니다.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -899,7 +899,7 @@ app.Get("/user/:name", func(c *fiber.Ctx) {
 
 ## Path
 
-Contains the path part of the request URL. Optionally, you could override the path by passing a string.
+요청 URL의 경로 부분을 가집니다. 선택적으로, 여러분은 문자열을 넣어서 경로를 오버라이드 할 수 있습니다.
 
 {% code title="Signature" %}
 ```go
@@ -919,7 +919,7 @@ app.Get("/users", func(c *fiber.Ctx) {
 
 ## Protocol
 
-Contains the request protocol string: `http` or `https` for **TLS** requests.
+요청 프로토콜 문자열을 가집니다: `http` 또는 **TLS** 요청을 위한 `https`.
 
 {% code title="Signature" %}
 ```go
@@ -939,10 +939,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Query
 
-This property is an object containing a property for each query string parameter in the route.
+이 속성은 라우트 안의 각 쿼리 문자열 파라미터를 위한 속성을 담고 있는 객체 입니다.
 
 {% hint style="info" %}
-If there is **no** query string, it returns an **empty string**.
+만약 쿼리 문자열이 **없다면**, 그것은 **빈 문자열**을 반환합니다.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -967,7 +967,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Range
 
-An struct containg the type and a slice of ranges will be returned.
+반환 될 타입과 범위의 슬라이스를 갖고 있는 구조체 입니다.
 
 {% code title="Signature" %}
 ```go
@@ -992,10 +992,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Redirect
 
-Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code.
+명시된 경로와, HTTP 상태 코드에 맞는 양의 정수인 명시된 상태에 해당하는 URL로 리다이렉트 합니다.
 
 {% hint style="info" %}
-If **not** specified, status defaults to **302 Found**.
+만약 명시되지 **않았다면**, 상태는 기본 값으로 **302 Found** 입니다.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1017,7 +1017,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Render
 
-Renders a template with data and sends a `text/html` response. By default `Render` uses the default [**Go Template engine**](https://golang.org/pkg/html/template/). If you want to use another engine, please take a look at our [**Template middleware**](middleware.md#template).
+데이터와 함께 템플릿을 렌더링하고 `text/html` 응답을 보냅니다. 기본적으로 `Render`는 [**Go Template engine**](https://golang.org/pkg/html/template/)을 사용합니다. 만약 다른 엔진을 사용하고 싶으시다면, [**Template middleware**](middleware.md#template)를 봐주세요.
 
 {% code title="Signature" %}
 ```go
@@ -1027,7 +1027,7 @@ c.Render(file string, data interface{}) error
 
 ## Route
 
-Contains the matched [Route](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc#Route) struct.
+일치하는 [Route](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc#Route) 구조체를 가집니다.
 
 {% code title="Signature" %}
 ```go
@@ -1053,7 +1053,7 @@ app.Post("/:api?", func(c *fiber.Ctx) {
 
 ## SaveFile
 
-Method is used to save **any** multipart file to disk.
+**어떤** multipart 파일을 디스크에 저장할 때 사용되는 메소드 입니다.
 
 {% code title="Signature" %}
 ```go
@@ -1087,7 +1087,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Secure
 
-A boolean property, that is `true` , if a **TLS** connection is established.
+**TLS** 연결이 성립되면, `true`인 boolean 속성입니다.
 
 {% code title="Signature" %}
 ```go
@@ -1104,10 +1104,10 @@ c.Protocol() == "https"
 
 ## Send
 
-Sets the HTTP response body. The **Send** body can be of any type.
+HTTP 응답 바디를 설정합니다. **Send** 바디는 어떤 타입이든 가능합니다.
 
 {% hint style="warning" %}
-Send **doesn't** append like the [Write](https://fiber.wiki/context#write) method.
+Send는 [Write](https://fiber.wiki/context#write)메소드 처럼 덧붙이지 **않습니다**.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1129,7 +1129,7 @@ app.Get("/", func(c *fiber.Ctx) {
 Fiber also provides `SendBytes` ,`SendString` and `SendStream` methods for raw inputs.
 
 {% hint style="success" %}
-Use this, if you **don't need** type assertion, recommended for **faster** performance.
+만약 여러분이 타입 확정이 **필요하지 않다면**, **더 빠른** 성능을 위해 이것을 사용하는 것을 추천합니다.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1157,10 +1157,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## SendFile
 
-Transfers the file from the given path. Sets the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) response HTTP header field based on the **filenames** extension.
+주어진 경로의 파일을 전송합니다. 응답 HTTP 헤더 필드의 [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type)을 **파일 이름** 확장자를 기반으로 설정합니다.
 
 {% hint style="warning" %}
-Method use **gzipping** by default, set it to **true** to disable.
+메소드는 **gzipping**을 기본으로 사용하고, 사용하지 않으려면 **true**로 설정하세요.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1186,10 +1186,10 @@ app.Get("/not-found", func(c *fiber.Ctx) {
 
 ## SendStatus
 
-Sets the status code and the correct status message in the body, if the response body is **empty**.
+만약 응답 바디가 **비어있다면**, 상태 코드와 알맞는 상태 메시지를 바디에 설정합니다.
 
 {% hint style="success" %}
-You can find all used status codes and messages [here](https://github.com/gofiber/fiber/blob/dffab20bcdf4f3597d2c74633a7705a517d2c8c2/utils.go#L183-L244).
+여러분은 [여기](https://github.com/gofiber/fiber/blob/dffab20bcdf4f3597d2c74633a7705a517d2c8c2/utils.go#L183-L244)에서 모든 상태 코드와 메시지들을 찾을 수 있습니다.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1213,7 +1213,7 @@ app.Get("/not-found", func(c *fiber.Ctx) {
 
 ## Set
 
-Sets the response’s HTTP header field to the specified `key`, `value`.
+응답의 HTTP 헤더 필드를 명시된 `key`, `value`로 설정합니다.
 
 {% code title="Signature" %}
 ```go
@@ -1235,15 +1235,15 @@ app.Get("/", func(c *fiber.Ctx) {
 [https://expressjs.com/en/4x/api.html\#req.fresh](https://expressjs.com/en/4x/api.html#req.fresh)
 
 {% hint style="info" %}
-Not implemented yet, pull requests are welcome!
+아직 구현되지 않았습니다, pull request는 환영입니다!
 {% endhint %}
 
 ## Status
 
-Sets the HTTP status for the response.
+응답의 HTTP 상태를 설정합니다.
 
 {% hint style="info" %}
-Method is a **chainable**.
+메소드는 **chainable**입니다.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1264,9 +1264,9 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Subdomains
 
-An array of subdomains in the domain name of the request.
+요청의 도메인 이름안에 있는 서브도메인들의 배열입니다.
 
-The application property subdomain offset, which defaults to `2`, is used for determining the beginning of the subdomain segments.
+기본 값으로 `2`인 어플리케이션 속성의 서브도메인 오프셋은 서브도메인 세그먼트의 시작점을 결정하는데 사용됩니다.
 
 {% code title="Signature" %}
 ```go
@@ -1285,9 +1285,9 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-## Type
+## 타입
 
-Sets the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP header to the MIME type listed [here](https://github.com/nginx/nginx/blob/master/conf/mime.types) specified by the file **extension**.
+[Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP 헤더를 [여기](https://github.com/nginx/nginx/blob/master/conf/mime.types)에 있고 파일 **확장자**에 명시된 MIME 타입으로 설정합니다.
 
 {% code title="Signature" %}
 ```go
@@ -1308,10 +1308,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Vary
 
-Adds the given header field to the [Vary](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary) response header. This will append the header, if not already listed, otherwise leaves it listed in the current location.
+주어진 헤더 필드를 [Vary](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary) 응답 헤더에 추가합니다. 이것은 만약 이미 목록에 있지 않으면 헤더를 덧붙이고, 그렇지 않으면 목록의 현재 위치에 그대로 둡니다.
 
 {% hint style="info" %}
-Multiple fields are **allowed**.
+여러 개의 필드들이 **허용됩니다**.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1337,7 +1337,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Write
 
-Appends **any** input to the HTTP body response.
+**어떤** 입력 값이든지 HTTP 파디 응답에 덧붙입니다.
 
 {% code title="Signature" %}
 ```go
@@ -1357,7 +1357,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## XHR
 
-A Boolean property, that is `true`, if the request’s [X-Requested-With](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers) header field is [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest), indicating that the request was issued by a client library \(such as [jQuery](https://api.jquery.com/jQuery.ajax/)\).
+불리언 속성으로, 만약 요청의 [X-Requested-With](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers) 헤더 필드가 [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest)이면 `true`이고, 이는 요청이 클라이언트 라이브러리 \([jQuery](https://api.jquery.com/jQuery.ajax/)같은\)에 의해 생성되었음을 나타냅니다.
 
 {% code title="Signature" %}
 ```go
