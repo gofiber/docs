@@ -109,7 +109,7 @@ app.Static(prefix, root string, config ...Static) // => with prefix
 ```
 {% endcode %}
 
-Use the following code to serve files in a directory named `./public`
+Χρησιμοποιήστε τον ακόλουθο κώδικα για την προβολή αρχείων σε ένα κατάλογο με το όνομα `./public `
 
 {% code title="Example" %}
 ```go
