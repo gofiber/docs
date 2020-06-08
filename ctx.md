@@ -303,17 +303,21 @@ Override this default with the **filename** parameter.
 
 {% code title="Signature" %}
 ```go
-c.Download(path, filename ...string)
+c.Download(path, filename ...string) error
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  c.Download("./files/report-12345.pdf")
+  if err := c.Download("./files/report-12345.pdf"); err != nil {
+    c.Next(err) // Pass err to fiber
+  }
   // => Download report-12345.pdf
 
-  c.Download("./files/report-12345.pdf", "report.pdf")
+  if err := c.Download("./files/report-12345.pdf", "report.pdf"); err != nil {
+    c.Next(err) // Pass err to fiber
+  }
   // => Download report.pdf
 })
 ```
@@ -1144,17 +1148,21 @@ Method use **gzipping** by default, set it to **true** to disable.
 
 {% code title="Signature" %}
 ```go
-c.SendFile(path string, gzip ...bool)
+c.SendFile(path string, compress ...bool) error
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
 app.Get("/not-found", func(c *fiber.Ctx) {
-  c.SendFile("./public/404.html")
+  if err := c.SendFile("./public/404.html"); err != nil {
+    c.Next(err) // pass err to ErrorHandler
+  }
 
-  // Disable gzipping:
-  c.SendFile("./static/index.html", true)
+  // Enable compression
+  if err := c.SendFile("./static/index.html", true); err != nil {
+    c.Next(err) // pass err to ErrorHandler
+  }
 })
 ```
 {% endcode %}
