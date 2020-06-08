@@ -1,5 +1,5 @@
 ---
-description: The app instance conventionally denotes the Fiber application.
+description: Thể hiện app thông thường biểu thị ứng dụng Fiber.
 ---
 
 # 🚀 Application
@@ -32,7 +32,7 @@ func main() {
 
 ## Settings
 
-You can pass application settings when calling `New`.
+Bạn có thể truyền các cài đặt ứng dụng khi gọi `New`.
 
 {% code title="Example" %}
 ```go
@@ -52,7 +52,7 @@ func main() {
 ```
 {% endcode %}
 
-Or change the settings after initializing an `app`.
+Hoặc thay đổi các cài đặt sau khi khởi tạo một `app`.
 
 {% code title="Example" %}
 ```go
@@ -72,28 +72,28 @@ func main() {
 ```
 {% endcode %}
 
-**Settings** **fields**
+**Các trường** **cài đặt**
 
-| Property                  | Type            | Description                                                                                                                                                                                                                                               | Default           |
-|:------------------------- |:--------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
-| Prefork                   | `bool`          | Enables use of the[`SO_REUSEPORT`](https://lwn.net/Articles/542629/)socket option. This will spawn multiple Go processes listening on the same port. learn more about [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
-| ServerHeader              | `string`        | Enables the `Server` HTTP header with the given value.                                                                                                                                                                                                    | `""`              |
-| StrictRouting             | `bool`          | When enabled, the router treats `/foo` and `/foo/` as different. Otherwise, the router treats `/foo` and `/foo/` as the same.                                                                                                                             | `false`           |
-| CaseSensitive             | `bool`          | When enabled, `/Foo` and `/foo` are different routes. When disabled, `/Foo`and `/foo` are treated the same.                                                                                                                                               | `false`           |
-| Immutable                 | `bool`          | When enabled, all values returned by context methods are immutable. By default they are valid until you return from the handler, see issue [\#185](https://github.com/gofiber/fiber/issues/185).                                                        | `false`           |
-| BodyLimit                 | `int`           | Sets the maximum allowed size for a request body, if the size exceeds the configured limit, it sends `413 - Request Entity Too Large` response.                                                                                                           | `4 * 1024 * 1024` |
-| CompressedFileSuffix      | `string`        | Adds suffix to the original file name and tries saving the resulting compressed file under the new file name.                                                                                                                                             | `".fiber.gz"`     |
-| Concurrency               | `int`           | Maximum number of concurrent connections.                                                                                                                                                                                                                 | `256 * 1024`      |
-| DisableKeepalive          | `bool`          | Disable keep-alive connections, the server will close incoming connections after sending the first response to client                                                                                                                                     | `false`           |
-| DisableDefaultDate        | `bool`          | When set to true causes the default date header to be excluded from the response.                                                                                                                                                                         | `false`           |
-| DisableDefaultContentType | `bool`          | When set to true, causes the default Content-Type header to be excluded from the Response.                                                                                                                                                                | `false`           |
-| DisableStartupMessage     | `bool`          | When set to true, it will not print out the fiber ASCII and "listening" on message                                                                                                                                                                        | `false`           |
-| DisableHeaderNormalizing  | `bool`          | By default all header names are normalized: conteNT-tYPE -&gt; Content-Type                                                                                                                                                                         | `false`           |
-| ETag                      | `bool`          | Enable or disable ETag header generation, since both weak and strong etags are generated using the same hashing method \(CRC-32\). Weak ETags are the default when enabled.                                                                             | `false`           |
-| Templates                 | `Templates`     | Templates is the interface that wraps the Render function. See our [**Template Middleware**](middleware.md#template) for supported engines.                                                                                                               | `nil`             |
-| ReadTimeout               | `time.Duration` | The amount of time allowed to read the full request including body. Default timeout is unlimited.                                                                                                                                                         | `nil`             |
-| WriteTimeout              | `time.Duration` | The maximum duration before timing out writes of the response. Default timeout is unlimited.                                                                                                                                                              | `nil`             |
-| IdleTimeout               | `time.Duration` | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used.                                                                                                             | `nil`             |
+| Thuộc tính                | Kiểu            | Mô tả                                                                                                                                                                                                                                                         | Mặc định          |
+|:------------------------- |:--------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
+| Prefork                   | `bool`          | Cho phép sử dụng tùy chọn socket [`SO_REUSEPORT`](https://lwn.net/Articles/542629/). Khi bật sẽ tạo ra nhiều tiến trình Go lắng nghe trên cùng một cổng. tìm hiểu thêm về [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
+| ServerHeader              | `string`        | Cho phép thêm vào header của HTTP `Server` với giá trị đưa ra.                                                                                                                                                                                                | `""`              |
+| StrictRouting             | `bool`          | Khi bật, router sẽ xem `/foo` và `/foo/` là khác nhau. Trái lại, router xem `/foo` and `/foo/` là giống nhau.                                                                                                                                                 | `false`           |
+| CaseSensitive             | `bool`          | Khi bật, `/Foo` và `/foo` là những route khác nhau. Khi vô hiệu hóa, `/Foo`and `/foo` được xem là giống nhau.                                                                                                                                                 | `false`           |
+| Immutable                 | `bool`          | Khi bật, tất cả giá trị trả về bởi các phương thức ngữ cảnh là bất biến. Theo mặc định chúng là hợp lệ cho đến khi bạn trả về từ handler, xem issue [\#185](https://github.com/gofiber/fiber/issues/185).                                                   | `false`           |
+| BodyLimit                 | `int`           | Đặt kích thước tối đa được phép cho phần body một request, nếu kích thước vượt quá giới hạn được cấu hình, nó sẽ trả về lỗi `413 - Request Entity Too Large`.                                                                                                 | `4 * 1024 * 1024` |
+| CompressedFileSuffix      | `string`        | Adds suffix to the original file name and tries saving the resulting compressed file under the new file name.                                                                                                                                                 | `".fiber.gz"`     |
+| Concurrency               | `int`           | Số lượng tối đa các kết nối đồng thời.                                                                                                                                                                                                                        | `256 * 1024`      |
+| DisableKeepalive          | `bool`          | Vô hiệu hóa các kết nối duy trì, server sẽ đóng các kết nối đến sau khi gửi phản hồi đầu tiên về cho client                                                                                                                                                   | `false`           |
+| DisableDefaultDate        | `bool`          | Khi được đặt thành true sẽ khiến trường mặc định date ở header sẽ bị bỏ khỏi response.                                                                                                                                                                        | `false`           |
+| DisableDefaultContentType | `bool`          | Khi được đặt thành true sẽ khiến trường mặc định Content-Type ở header bị bỏ khỏi Response.                                                                                                                                                                   | `false`           |
+| DisableStartupMessage     | `bool`          | When set to true, it will not print out the fiber ASCII and "listening" on message                                                                                                                                                                            | `false`           |
+| DisableHeaderNormalizing  | `bool`          | By default all header names are normalized: conteNT-tYPE -&gt; Content-Type                                                                                                                                                                             | `false`           |
+| ETag                      | `bool`          | Enable or disable ETag header generation, since both weak and strong etags are generated using the same hashing method \(CRC-32\). Weak ETags are the default when enabled.                                                                                 | `false`           |
+| Templates                 | `Templates`     | Templates is the interface that wraps the Render function. See our [**Template Middleware**](middleware.md#template) for supported engines.                                                                                                                   | `nil`             |
+| ReadTimeout               | `time.Duration` | Lượng thời gian cho phép để đọc toàn bộ request bao gồm cả body. Timeout mặc định là không giới hạn.                                                                                                                                                          | `nil`             |
+| WriteTimeout              | `time.Duration` | Thời lượng tối đa trước khi hết thời gian ghi response. Timeout mặc định là không giới hạn.                                                                                                                                                                   | `nil`             |
+| IdleTimeout               | `time.Duration` | Khoảng thời gian tối đa để chờ request kế tiếp khi keep-alive được bật. Nếu IdleTimeout là 0, giá trị của ReadTimeout được sử dụng.                                                                                                                           | `nil`             |
 
 ## Static
 
