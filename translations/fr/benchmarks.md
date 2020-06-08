@@ -1,99 +1,99 @@
 ---
 description: >-
-  Ces benchmarks visent à comparer les performances de Fiber et d'autres frameworks web.
+  These benchmarks aim to compare the performance of Fiber and other web frameworks.
 ---
 
 # 📊 Benchmarks
 
 ## TechEmpower
 
-[TechEmpower](https://www.techempower.com/benchmarks/#section=data-r19&hw=ph&test=composite) fournit une comparaison de performances de nombreux frameworks Web exécutant des tâches fondamentales telles que la sérialisation JSON, l'accès à la base de données et la composition de modèles côté serveur.
+[TechEmpower](https://www.techempower.com/benchmarks/#section=data-r19&hw=ph&test=composite) provides  a performance comparison of many web application frameworks executing fundamental tasks such as JSON serialization, database access, and server-side template composition.
 
-Chaque framework fonctionne dans une configuration de production réaliste. Les résultats sont capturés sur des instances de nuage et sur du matériel physique. Les implémentations de test sont largement contribuées par la communauté et toutes les sources sont disponibles dans le dépôt [GitHub](https://github.com/TechEmpower/FrameworkBenchmarks).
+Each framework is operating in a realistic production configuration. Results are captured on cloud instances and on physical hardware. The test implementations are largely community-contributed and all source is available at the [GitHub repository](https://github.com/TechEmpower/FrameworkBenchmarks).
 
-* Fibre `v1.10.0`
-* format@@0 28 HT Core Intel\\(R\\) Xeon\\(R\\) Gold 5120 CPU @ 2,20GHz
+* Fiber `v1.10.0`
+* 28 HT Cores Intel\(R\) Xeon\(R\) Gold 5120 CPU @ 2.20GHz
 * 32GB RAM
-* Ubuntu 18.04.3 4.15.0-88-générique
-* Interrupteur Ethernet Cisco dédié à 10 Gbits.
+* Ubuntu 18.04.3 4.15.0-88-generic
+* Dedicated Cisco 10-Gbit Ethernet switch.
 
-### Texte en clair
+### Plaintext
 
-Le test en texte brut est un exercice des fondamentaux du routage de la demande uniquement conçu pour démontrer la capacité des plates-formes hautes performances en particulier. Les requêtes seront envoyées en utilisant le pipeline HTTP. La charge utile de réponse est encore petite, ce qui signifie que de bonnes performances sont toujours nécessaires pour saturer le réseau Ethernet gigabit de l'environnement de test.
+The Plaintext test is an exercise of the request-routing fundamentals only, designed to demonstrate the capacity of high-performance platforms in particular. Requests will be sent using HTTP pipelining. The response payload is still small, meaning good performance is still necessary in order to saturate the gigabit Ethernet of the test environment.
 
-Voir les [exigences en texte brut](https://github.com/TechEmpower/FrameworkBenchmarks/wiki/Project-Information-Framework-Tests-Overview#single-database-query)
+See [Plaintext requirements](https://github.com/TechEmpower/FrameworkBenchmarks/wiki/Project-Information-Framework-Tests-Overview#single-database-query)
 
-**Fibre**      -   **6,162, 56** réponses par seconde avec une latence moyenne de     **2.** ms.  
-**Express** -      **367, 69** réponse par seconde avec une latence moyenne de **354.** ms.
+**Fiber**      -   **6,162,556** responses per second with an average latency of     **2.0** ms.  
+**Express** -      **367,069** responses per second with an average latency of **354.1** ms.
 
 ![](.gitbook/assets/plaintext%20%281%29.png)
 
-![Fibre vs Express](.gitbook/assets/plaintext_express.png)
+![Fiber vs Express](.gitbook/assets/plaintext_express.png)
 
-### Mises à jour des données
+### Data Updates
 
-**Fibre** a géré **11 846** réponses par seconde avec une latence moyenne de **42.** ms.  
-**Express** gérée **2, 66** réponses par seconde avec une latence moyenne de **390. 4** ms.
+**Fiber** handled **11,846** responses  per second with an average latency of **42.8** ms.  
+**Express** handled **2,066** responses  per second with an average latency of **390.44** ms.
 
 ![](.gitbook/assets/data_updates.png)
 
-![Fibre vs Express](.gitbook/assets/data_updates_express%20%281%29.png)
+![Fiber vs Express](.gitbook/assets/data_updates_express%20%281%29.png)
 
-### Requêtes multiples
+### Multiple Queries
 
-**Fibre** a géré **19,664** réponses par seconde avec une latence moyenne de **25,7** ms.  
-**Express** géré **4, 02** réponses par seconde avec une latence moyenne de **117.** ms.
+**Fiber** handled **19,664** responses per second with an average latency of **25.7** ms.  
+**Express** handled **4,302** responses  per second with an average latency of **117.2** ms.
 
 ![](.gitbook/assets/multiple_queries%20%281%29.png)
 
-![Fibre vs Express](.gitbook/assets/multiple_queries_express.png)
+![Fiber vs Express](.gitbook/assets/multiple_queries_express.png)
 
-### Requête simple
+### Single Query
 
-**Fibre** a géré **368 647** réponses par seconde avec une latence moyenne de **0,7** ms.  
-**Express** géré **57, 80** réponses par seconde avec une latence moyenne de **4.** ms.
+**Fiber** handled **368,647** responses per second with an average latency of **0.7** ms.  
+**Express** handled **57,880** responses  per second with an average latency of **4.4** ms.
 
 ![](.gitbook/assets/single_query%20%282%29.png)
 
-![Fibre vs Express](.gitbook/assets/single_query_express.png)
+![Fiber vs Express](.gitbook/assets/single_query_express.png)
 
-### Sérialisation JSON
+### JSON Serialization
 
-**Fibre** a géré **1,146,667** réponses par seconde avec une latence moyenne de **0,4** ms.  
-**Express** géré **244, 47** réponses par seconde avec une latence moyenne de **1.** ms.
+**Fiber** handled **1,146,667** responses per second with an average latency of **0.4** ms.  
+**Express** handled **244,847** responses  per second with an average latency of **1.1** ms.
 
 ![](.gitbook/assets/json%20%281%29.png)
 
-![Fibre vs Express](.gitbook/assets/json_express.png)
+![Fiber vs Express](.gitbook/assets/json_express.png)
 
-## benchmark du framework web Go
+## Go web framework benchmark
 
 🔗 [https://github.com/smallnest/go-web-framework-benchmark](https://github.com/smallnest/go-web-framework-benchmark)
 
-* **CPU** Intel\\(R\\) Xeon\\(R\\) Gold 6140 CPU @ 2,30 GHz
+* **CPU** Intel\(R\) Xeon\(R\) Gold 6140 CPU @ 2.30GHz
 * **MEM** 4GB
 * **GO** go1.13.6 linux/amd64
 * **OS** Linux
 
-Le premier cas de test est de bouchonner **0 ms**, **10 ms**, **100 ms**, **500 ms** temps de traitement en gestionnaires.
+The first test case is to mock **0 ms**, **10 ms**, **100 ms**, **500 ms** processing time in handlers.
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark.png)
 
-Les clients concurrents sont **5000**.
+The concurrency clients are **5000**.
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark_latency.png)
 
-La latence est le temps de traitement réel par les serveurs web. _Le plus petit est le mieux._
+Latency is the time of real processing time by web servers. _The smaller is the better._
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark_alloc.png)
 
-Allocs est l'allocation de tas par serveurs web lorsque le test est en cours d'exécution. L'unité est MB. _Le plus petit est le mieux._
+Allocs is the heap allocations by web servers when test is running. The unit is MB. _The smaller is the better._
 
-Si nous activons **le pipeline http**, le résultat du test ci-dessous :
+If we enable **http pipelining**, test result as below:
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark-pipeline.png)
 
-Test de la monnaie en **30 ms** de temps de traitement, le résultat du test pour **100**, **1000**, **5000** clients est :
+Concurrency test in **30 ms** processing time, the test result for **100**, **1000**, **5000** clients is:
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency.png)
 
@@ -101,11 +101,11 @@ Test de la monnaie en **30 ms** de temps de traitement, le résultat du test pou
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency_alloc.png)
 
-Si nous activons **le pipeline http**, le résultat du test ci-dessous :
+If we enable **http pipelining**, test result as below:
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency-pipeline.png)
 
-Graphique de dépendance pour `v1.9.0`
+Dependency graph for `v1.9.0`
 
 ![](.gitbook/assets/graph.svg)
 
