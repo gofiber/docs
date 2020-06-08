@@ -148,7 +148,7 @@ Function signature:
 app.Static(prefix, root string)
 ```
 
-Use the following code to serve files in a directory named `./public`:
+از کد زیر برای پردازش فایل های یک دایرکتوری به اسم `./public` استفاده کنید:
 
 ```go
 app := fiber.New()
