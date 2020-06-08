@@ -261,9 +261,38 @@ func main() {
 }
 ```
 
+## Routes
+
+Routes returns all registered routes
+
+{% code title="Signature" %}
+```go
+app.Routes() []*Route
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+app := fiber.New()
+
+handler := func(c *fiber.Ctx) { }
+
+app.Get("/sample", handler)
+app.Post("/john", handler)
+app.Put("/doe", handler)
+
+for _, r := range app.Routes() {
+    fmt.Printf("%s\t%s\n", r.Method, r.Path)
+}
+// GET      /sample
+// POST     /john
+// PUT      /doe
+```
+{% endcode %}
+
 ## Listen
 
-绑定和监听指定地址的连接。 可以是 `int` 类型（端口）或 `string` 类型（地址）。
+Binds and listens for connections on the specified address. This can be a `int` for port or `string` for address.
 
 {% code title="Signature" %}
 ```go
@@ -280,7 +309,7 @@ app.Listen("127.0.0.1:8080")
 ```
 {% endcode %}
 
-要启用 **TLS/HTTPS** ，您可以添加一个 [**TLS 配置**](https://golang.org/pkg/crypto/tls/#Config)
+To enable **TLS/HTTPS** you can append a [**TLS config**](https://golang.org/pkg/crypto/tls/#Config).
 
 {% code title="Example" %}
 ```go
@@ -320,7 +349,7 @@ app.Serve(ln)
 
 ## Test
 
-通过 **Test** 方法可以测试您的应用程序。 使用此方法可以用于创建 `_test.go` 文件或当您需要调试路由逻辑也可使用。 默认超时限制是 `200ms` 如果您想要完全禁用超时限制，可以通过传入 `-1` 作为第二个参数。
+Testing your application is done with the **Test** method. Use this method for creating `_test.go` files or when you need to debug your routing logic. The default timeout is `200ms` if you want to disable a timeout completely, pass `-1` as a second argument.
 
 {% code title="Signature" %}
 ```go
