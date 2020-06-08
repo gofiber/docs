@@ -5,13 +5,13 @@ description: >-
 
 # 📖 Pierwsze kroki
 
-**Fiber** is an [Express](https://github.com/expressjs/express) inspired **web framework** build on top of [Fasthttp](https://github.com/valyala/fasthttp), the **fastest** HTTP engine for [Go](https://golang.org/doc/). Designed to **ease** things up for **fast** development with **zero memory allocation** and **performance** in mind.
+**Fiber** to framework do **tworzenia aplikacji internetowych**, inspirowany przez [Express](https://github.com/expressjs/express) oparty o [Fasthttp](https://github.com/valyala/fasthttp), **najszybszy** silnik HTTP dla [Go](https://golang.org/doc/). Zaprojektowany z myślą o **łatwym** i **szybkim** tworzeniu **wydajnych** i z **zerową alokacją pamięci** aplikacji.
 
 ## Installation
 
-First of all, [download](https://golang.org/dl/) and install Go. `1.11` or higher is required.
+Po pierwsze [pobierz](https://golang.org/dl/) i zainstaluj Go. Wymagana jest wersja `1.11` lub wyższa.
 
-Installation is done using the [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) command:
+Instalujacja jest wykonywana za pomocą [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them):
 
 ```bash
 go get -u github.com/gofiber/fiber
@@ -48,7 +48,7 @@ For more information, please check ****[**\#426**](https://github.com/gofiber/fi
 
 ## Hello, World!
 
-Embedded below is essentially simplest **Fiber** app, which you can create.
+Poniżej jest przedstawiona zasadniczo najprostsza aplikacja **Fiber**, która można stworzyć.
 
 ```go
 package main
@@ -70,20 +70,20 @@ func main() {
 go run server.go
 ```
 
-Browse to `http://localhost:3000` and you should see `Hello, World!` on the page.
+Przejdź do `http://localhost:3000` i na stronie powinno ci się ukazać `Hello, World!`.
 
 ## Basic routing
 
-Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI \(or path\) and a specific HTTP request method \(GET, PUT, POST and so on\).
+Routing określa jak aplikacja powinna odpowiedzieć na zapytanie na określony endpoint, którym jest URI \(lub ścieżka\) i metoda zapytania HTTP \(GET, PUT, POST i tym podobne\).
 
 {% hint style="info" %}
-Each route can have **multiple handler functions**, that are executed when the route is matched.
+Każdy route może mieć **wiele funkcji-handlerów**, które są uruchamiane, kiedy route jest poprawnie dopasowane.
 {% endhint %}
 
-Route definition takes the following structures:
+Definicja route przyjmuje następującą strukturę:
 
 ```go
-// Function signature
+// Podpis funkcji
 app.Method(path string, ...func(*fiber.Ctx))
 ```
 
@@ -92,7 +92,7 @@ app.Method(path string, ...func(*fiber.Ctx))
 * `path` to wirtualna ścieżka na serwerze.
 * `func(*Fiber.Ctx)` to funkcja-callback zawierająca [Context](https://fiber.wiki/context), która się uruchamia, kiedy route jest dopasowany.
 
-**Simple route**
+**Prosty route**
 
 ```go
 // Respond with "Hello, World!" on root path, "/"
@@ -112,7 +112,7 @@ app.Get("/:value", func(c *fiber.Ctx) {
 })
 ```
 
-**Optional parameter**
+**Opcjonalne parametry**
 
 ```go
 // GET http://localhost:3000/john
@@ -127,7 +127,7 @@ app.Get("/:name?", func(c *fiber.Ctx) {
 })
 ```
 
-**Wildcards**
+**Wildcardy**
 
 ```go
 // GET http://localhost:3000/api/user/john
@@ -140,7 +140,7 @@ app.Get("/api/*", func(c *fiber.Ctx) {
 
 ## Static files
 
-To serve static files such as **images**, **CSS** and **JavaScript** files, replace your function handler with a file or directory string.
+Aby serwować statyczne pliki takie jak **zdjęcia**, **arkusze CSS** czy **JavaScript**, zastąp swoją funkcję-handler na ścieżkę pliku lub katalogu.
 
 Function signature:
 
@@ -148,7 +148,7 @@ Function signature:
 app.Static(prefix, root string)
 ```
 
-Use the following code to serve files in a directory named `./public`:
+Użyj poniższego kodu, aby serwować pliki statyczne w katalogu o nazwie `./public`:
 
 ```go
 app := fiber.New()
@@ -158,7 +158,7 @@ app.Static("/", "./public")
 app.Listen(8080)
 ```
 
-Now, you can load the files that are in the `./public` directory:
+Teraz możesz ładować pliki, które znajdują się w katalogu `./public`:
 
 ```bash
 http://localhost:8080/hello.html
