@@ -107,6 +107,25 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
+## App
+
+Returns the [\*App](app.md#new) reference so you could easily access all application settings.
+
+{% code title="Signature" %}
+```go
+c.App() *App
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+app.Get("/bodylimit", func(c *fiber.Ctx) {
+  bodylimit := c.App().Settings.BodyLimit
+  c.Send(bodylimit)
+})
+```
+{% endcode %}
+
 ## BaseURL
 
 Returns base URL \(**protocol** + **host**\) as a `string`.
