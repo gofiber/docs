@@ -5,13 +5,13 @@ description: >-
 
 # 📖 Introduzione
 
-**Fiber** is an [Express](https://github.com/expressjs/express) inspired **web framework** build on top of [Fasthttp](https://github.com/valyala/fasthttp), the **fastest** HTTP engine for [Go](https://golang.org/doc/). Designed to **ease** things up for **fast** development with **zero memory allocation** and **performance** in mind.
+**Fiber** è un **web framework** ispirato da [Express](https://github.com/expressjs/express) e costruito su [Fasthttp](https://github.com/valyala/fasthttp), l'engine HTTP **più veloce** per [Go](https://golang.org/doc/). Creato per **semplificare** le cose per uno sviluppo **veloce**, con **zero memoria occupata** e **performance**.
 
 ## Installation
 
-First of all, [download](https://golang.org/dl/) and install Go. `1.11` or higher is required.
+Prima di tutto, [scarica](https://golang.org/dl/) e installa Go. La versione `1.11` o superiore è richiesta.
 
-Installation is done using the [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) command:
+L'installazione viene eseguita usando il comando [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them):
 
 ```bash
 go get -u github.com/gofiber/fiber
@@ -48,7 +48,7 @@ For more information, please check ****[**\#426**](https://github.com/gofiber/fi
 
 ## Hello, World!
 
-Embedded below is essentially simplest **Fiber** app, which you can create.
+Qui trovi l'app più semplice che puoi creare con **Fiber**.
 
 ```go
 package main
@@ -70,20 +70,20 @@ func main() {
 go run server.go
 ```
 
-Browse to `http://localhost:3000` and you should see `Hello, World!` on the page.
+Visita `http://localhost:3000` e dovresti vedere `Ciao, Mondo!` nella pagina.
 
 ## Basic routing
 
-Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI \(or path\) and a specific HTTP request method \(GET, PUT, POST and so on\).
+Il routing si riferisce alla determinazione di come un'applicazione risponde ad una richiesta di un client ad un determinato endpoint, che è un URI (o path) e un metodo di richiesta HTTP specifico (GET, PUT, POST e così via).
 
 {% hint style="info" %}
-Each route can have **multiple handler functions**, that are executed when the route is matched.
+Ogni route può avere **funzioni multiple di gestione**, che vengono eseguite quando la route è soddisfatta.
 {% endhint %}
 
-Route definition takes the following structures:
+La definizione di routes utilizza queste strutture:
 
 ```go
-// Function signature
+// Firma della funzione
 app.Method(path string, ...func(*fiber.Ctx))
 ```
 
@@ -92,7 +92,7 @@ app.Method(path string, ...func(*fiber.Ctx))
 * `path` è un percorso virtuale sul server.
 * `func(*fiber.Ctx)` è una funzione di callback contenente il [Contesto](https://fiber.wiki/context) eseguito quando il percorso è soddisfatto.
 
-**Simple route**
+**Route semplice**
 
 ```go
 // Respond with "Hello, World!" on root path, "/"
@@ -112,7 +112,7 @@ app.Get("/:value", func(c *fiber.Ctx) {
 })
 ```
 
-**Optional parameter**
+**Parametri opzionali**
 
 ```go
 // GET http://localhost:3000/john
@@ -140,15 +140,15 @@ app.Get("/api/*", func(c *fiber.Ctx) {
 
 ## Static files
 
-To serve static files such as **images**, **CSS** and **JavaScript** files, replace your function handler with a file or directory string.
+Per servire file statici come **immagini**, **CSS** e **JavaScript**, sostituisci il gestore dellea funzione con un file o una stringa di directory.
 
-Function signature:
+Firma della funzione:
 
 ```go
 app.Static(prefix, root string)
 ```
 
-Use the following code to serve files in a directory named `./public`:
+Usa il seguente codice per servire i file in una directory `./public`:
 
 ```go
 app := fiber.New()
@@ -158,7 +158,7 @@ app.Static("/", "./public")
 app.Listen(8080)
 ```
 
-Now, you can load the files that are in the `./public` directory:
+Ora puoi caricare i file che sono nella directory `./public`:
 
 ```bash
 http://localhost:8080/hello.html
