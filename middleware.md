@@ -15,11 +15,12 @@ description: >-
 | :--- | :--- | :--- |
 | [**adaptor**](https://github.com/gofiber/adaptor) | Converter for net/http handlers to/from Fiber request handlers, special thanks to @arsmn! | - |
 | [**basicauth**](https://github.com/gofiber/basicauth) | Basic auth middleware provides an HTTP basic authentication. It calls the next handler for valid credentials and 401 Unauthorized for missing or invalid credentials. | - |
-| [**compression**](https://github.com/gofiber/compression) | Compression middleware for Fiber, it supports `deflate`, `gzip` and `brotli` by default. | `middleware.Compress()` |
+| [**compression**](https://github.com/Fenny/fiber/blob/master/middleware/compress.md) | Compression middleware for Fiber, it supports `deflate`, `gzip` and `brotli` by default. | `middleware.Compress()` |
 | [**cors**](https://github.com/gofiber/cors) | Enable cross-origin resource sharing \(CORS\) with various options. | - |
 | [**csrf**](https://github.com/gofiber/csrf) | Protect from CSRF exploits. | - |
 | [**embed**](https://github.com/gofiber/embed) | FileServer middleware for Fiber, special thanks and credits to Alireza Salary | - |
-| \*\*\*\*[**helmet**](https://github.com/gofiber/fiber/blob/master/middleware/helmet.md)\*\*\*\* | Helps secure your apps by setting various HTTP headers. | - |
+| \*\*\*\*[**favicon**](https://github.com/gofiber/fiber/blob/master/middleware/favicon.md)\*\*\*\* | Ignore favicon from logs or serve from memory if a file path is provided. | `middleware.Favicon()` |
+| \*\*\*\*[**helmet**](https://github.com/gofiber/helmet)\*\*\*\* | Helps secure your apps by setting various HTTP headers. | - |
 | [**jwt**](https://github.com/gofiber/jwt) | JWT returns a JSON Web Token \(JWT\) auth middleware. | - |
 | [**keyauth**](https://github.com/gofiber/keyauth) | Key auth middleware provides a key based authentication. | - |
 | [**limiter**](https://github.com/gofiber/limiter) | Rate-limiting middleware for Fiber. Use to limit repeated requests to public APIs and/or endpoints such as password reset. | - |
