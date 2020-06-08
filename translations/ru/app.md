@@ -261,9 +261,38 @@ func main() {
 }
 ```
 
+## Routes
+
+Routes returns all registered routes
+
+{% code title="Signature" %}
+```go
+app.Routes() []*Route
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+app := fiber.New()
+
+handler := func(c *fiber.Ctx) { }
+
+app.Get("/sample", handler)
+app.Post("/john", handler)
+app.Put("/doe", handler)
+
+for _, r := range app.Routes() {
+    fmt.Printf("%s\t%s\n", r.Method, r.Path)
+}
+// GET      /sample
+// POST     /john
+// PUT      /doe
+```
+{% endcode %}
+
 ## Listen
 
-Привязки и прослушивание соединений по указанному адресу. Это может быть `int` для порта или `string` для адреса.
+Binds and listens for connections on the specified address. This can be a `int` for port or `string` for address.
 
 {% code title="Signature" %}
 ```go
@@ -280,7 +309,7 @@ app.Listen("127.0.0.1:8080")
 ```
 {% endcode %}
 
-Чтобы включить **TLS/HTTPS**, вы можете добавить [**TLS конфиг**](https://golang.org/pkg/crypto/tls/#Config).
+To enable **TLS/HTTPS** you can append a [**TLS config**](https://golang.org/pkg/crypto/tls/#Config).
 
 {% code title="Example" %}
 ```go
@@ -305,7 +334,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** не поддерживает функцию [**Prefork**](app.md#settings).
+**Serve** does not support the [**Prefork**](app.md#settings) feature.
 {% endhint %}
 
 {% code title="Example" %}
@@ -320,7 +349,7 @@ app.Serve(ln)
 
 ## Test
 
-Тестирование вашего приложения осуществляется методом **Test**. Используйте этот метод для создания `_test.go` файлов или когда вам нужно отладить вашу логику маршрутизации. По умолчанию тайм-аут `200 мс`. Если вы хотите полностью отключить тайм-аут, то передайте `-1` в качестве второго аргумента.
+Testing your application is done with the **Test** method. Use this method for creating `_test.go` files or when you need to debug your routing logic. The default timeout is `200ms` if you want to disable a timeout completely, pass `-1` as a second argument.
 
 {% code title="Signature" %}
 ```go
