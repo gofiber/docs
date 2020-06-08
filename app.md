@@ -82,6 +82,7 @@ func main() {
 | CaseSensitive | `bool` | When enabled, `/Foo` and `/foo` are different routes. When disabled, `/Foo`and `/foo` are treated the same. | `false` |
 | Immutable | `bool` | When enabled, all values returned by context methods are immutable. By default they are valid until you return from the handler, see issue [\#185](https://github.com/gofiber/fiber/issues/185). | `false` |
 | BodyLimit | `int` | Sets the maximum allowed size for a request body, if the size exceeds the configured limit, it sends `413 - Request Entity Too Large` response. | `4 * 1024 * 1024` |
+| CompressedFileSuffix | `string` | Adds suffix to the original file name and tries saving the resulting compressed file under the new file name. | `".fiber.gz"` |
 | Concurrency | `int` | Maximum number of concurrent connections. | `256 * 1024` |
 | DisableKeepalive | `bool` | Disable keep-alive connections, the server will close incoming connections after sending the first response to client | `false` |
 | DisableDefaultDate | `bool` | When set to true causes the default date header to be excluded from the response. | `false` |
