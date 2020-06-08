@@ -5,13 +5,13 @@ description: >-
 
 # 📖 Getting started
 
-**Fiber** is an [Express](https://github.com/expressjs/express) inspired **web framework** build on top of [Fasthttp](https://github.com/valyala/fasthttp), the **fastest** HTTP engine for [Go](https://golang.org/doc/). Designed to **ease** things up for **fast** development with **zero memory allocation** and **performance** in mind.
+**Fiber** est un **framework web** inspiré d'[Express](https://github.com/expressjs/express) et basé sur [Fasthttp](https://github.com/valyala/fasthttp), le moteur HTTP de [Go](https://golang.org/doc/) **le plus rapide**. Conçu pour **faciliter** un développement **rapide**, **sans allocation mémoire** et **performant**.
 
 ## Installation
 
-First of all, [download](https://golang.org/dl/) and install Go. `1.11` or higher is required.
+Tout d'abord, [téléchargez](https://golang.org/dl/) et installez Go. `1.11` ou supérieur est requise.
 
-Installation is done using the [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) command:
+L'installation se fait à l'aide de la commande [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them):
 
 ```bash
 go get -u github.com/gofiber/fiber
@@ -70,7 +70,7 @@ func main() {
 go run server.go
 ```
 
-Browse to `http://localhost:3000` and you should see `Hello, World!` on the page.
+Allez sur sur la page `http://localhost:3000` et vous devriez voir `Hello, World!`.
 
 ## Basic routing
 
@@ -148,7 +148,7 @@ Function signature:
 app.Static(prefix, root string)
 ```
 
-Use the following code to serve files in a directory named `./public`:
+Utilisez le code suivant pour servir les fichiers d'un répertoire nommé `./public`:
 
 ```go
 app := fiber.New()
