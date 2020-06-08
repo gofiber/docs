@@ -5,13 +5,13 @@ description: >-
 
 # 📖 시작하기
 
-**Fiber** is an [Express](https://github.com/expressjs/express) inspired **web framework** build on top of [Fasthttp](https://github.com/valyala/fasthttp), the **fastest** HTTP engine for [Go](https://golang.org/doc/). Designed to **ease** things up for **fast** development with **zero memory allocation** and **performance** in mind.
+**Fiber**는 [Express](https://github.com/expressjs/express)에서 영감을 받고, [Go](https://golang.org/doc/)를 위한 가장 빠른 HTTP 엔진인 [Fasthttp](https://github.com/valyala/fasthttp)를 토대로 만들어진 **웹 프레임워크** 입니다. **비 메모리 할당**과 **성능**을 고려한 **빠른** 개발을 위해 **손쉽게** 사용되도록 설계되었습니다.
 
 ## Installation
 
-First of all, [download](https://golang.org/dl/) and install Go. `1.11` or higher is required.
+우선, Go를 [다운로드](https://golang.org/dl/)하고 설치합니다. `1.11` 버전 이상이 요구됩니다.
 
-Installation is done using the [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) command:
+[`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) 명령어를 이용해 설치가 완료됩니다.
 
 ```bash
 go get -u github.com/gofiber/fiber
@@ -48,7 +48,7 @@ For more information, please check ****[**\#426**](https://github.com/gofiber/fi
 
 ## Hello, World!
 
-Embedded below is essentially simplest **Fiber** app, which you can create.
+아래의 코드는 여러분이 만들 수 있는 가장 간단하고 기본적인 **Fiber** 앱입니다.
 
 ```go
 package main
@@ -70,17 +70,17 @@ func main() {
 go run server.go
 ```
 
-Browse to `http://localhost:3000` and you should see `Hello, World!` on the page.
+`http://localhost:3000` 에 접속해보면 화면에 `Hello, World!` 가 보일 것 입니다.
 
 ## Basic routing
 
-Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI \(or path\) and a specific HTTP request method \(GET, PUT, POST and so on\).
+라우팅은 어플리케이션이 URI \(또는 경로\) 와 구체적인 HTTP 요청 메소드 \(GET, PUT, POST 등\) 인 특정 엔드포인트의 클라이언트 요청에 대해 어떻게 응답할 것 인지를 결정하는 것을 나타냅니다.
 
 {% hint style="info" %}
-Each route can have **multiple handler functions**, that are executed when the route is matched.
+각 라우트는 라우트가 매치될 때 실행되는 **여러 핸들러 함수들**을 가질 수 있습니다.
 {% endhint %}
 
-Route definition takes the following structures:
+라우트 정의는 다음의 구조를 가집니다:
 
 ```go
 // Function signature
@@ -140,7 +140,7 @@ app.Get("/api/*", func(c *fiber.Ctx) {
 
 ## Static files
 
-To serve static files such as **images**, **CSS** and **JavaScript** files, replace your function handler with a file or directory string.
+**이미지**, **CSS** 와 **자바스크립트** 파일들과 같은 static file들을 제공하기 위해서, 여러분의 함수 핸들러를 파일 또는 디렉토리 문자열로 대체하세요.
 
 Function signature:
 
@@ -148,7 +148,7 @@ Function signature:
 app.Static(prefix, root string)
 ```
 
-Use the following code to serve files in a directory named `./public`:
+`./public` 디렉토리의 파일들을 제공하려면 다음의 코드를 사용하세요:
 
 ```go
 app := fiber.New()
@@ -158,7 +158,7 @@ app.Static("/", "./public")
 app.Listen(8080)
 ```
 
-Now, you can load the files that are in the `./public` directory:
+이제, 여러분은 `./public` 디렉토리의 파일들을 로드할 수 있습니다:
 
 ```bash
 http://localhost:8080/hello.html
