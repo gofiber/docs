@@ -32,8 +32,8 @@ See [Plaintext requirements](https://github.com/TechEmpower/FrameworkBenchmarks/
 
 ### Data Updates
 
-**Fiber** handled **11,846** responses  per second with an average latency of **42.8** ms.  
-**Express** handled **2,066** responses  per second with an average latency of **390.44** ms.
+**Fiber** 는 초당 **11,846** 건의 응답과 평균 **42.8** ms의 지연 속도를 보였습니다.  
+**Express** 는 초당 **2,066** 건의 응답과 평균 **390.44** ms의 지연 속도를 보였습니다
 
 ![](.gitbook/assets/data_updates.png)
 
@@ -41,8 +41,8 @@ See [Plaintext requirements](https://github.com/TechEmpower/FrameworkBenchmarks/
 
 ### Multiple Queries
 
-**Fiber** handled **19,664** responses per second with an average latency of **25.7** ms.  
-**Express** handled **4,302** responses  per second with an average latency of **117.2** ms.
+**Fiber** 는 초당 **19,664** 건의 응답과 평균 **25.7** ms의 지연 속도를 보였습니다.  
+**Express** 는 초당 **4,302** 건의 응답과 평균 **117.2** ms의 지연 속도를 보였습니다.
 
 ![](.gitbook/assets/multiple_queries%20%281%29.png)
 
@@ -50,8 +50,8 @@ See [Plaintext requirements](https://github.com/TechEmpower/FrameworkBenchmarks/
 
 ### Single Query
 
-**Fiber** handled **368,647** responses per second with an average latency of **0.7** ms.  
-**Express** handled **57,880** responses  per second with an average latency of **4.4** ms.
+**Fiber** 는 초당 **368,647** 건의 응답과 평균 **0.7** ms의 지연 속도를 보였습니다.  
+**Express** 는 초당 **57,880** 건의 응답과 평균 **4.4** ms의 지연 속도를 보였습니다.
 
 ![](.gitbook/assets/single_query%20%282%29.png)
 
@@ -59,8 +59,8 @@ See [Plaintext requirements](https://github.com/TechEmpower/FrameworkBenchmarks/
 
 ### JSON Serialization
 
-**Fiber** handled **1,146,667** responses per second with an average latency of **0.4** ms.  
-**Express** handled **244,847** responses  per second with an average latency of **1.1** ms.
+**Fiber** 는 초당 **1,146,667** 건의 응답과 평균 **0.4** ms의 지연 속도를 보였습니다.  
+**Express** 는 초당 **244,847** 건의 응답과 평균 **1.1** ms의 지연 속도를 보였습니다.
 
 ![](.gitbook/assets/json%20%281%29.png)
 
@@ -75,25 +75,25 @@ See [Plaintext requirements](https://github.com/TechEmpower/FrameworkBenchmarks/
 * **GO** go1.13.6 linux/amd64
 * **OS** Linux
 
-The first test case is to mock **0 ms**, **10 ms**, **100 ms**, **500 ms** processing time in handlers.
+첫 번째 테스트 케이스는 **0ms**, **10ms**, **100ms**, **500ms** 의 처리 시간에 맞추어져 있습니다.
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark.png)
 
-The concurrency clients are **5000**.
+동시 접속 클라이언트들은 **5000**개 입니다.
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark_latency.png)
 
-Latency is the time of real processing time by web servers. _The smaller is the better._
+지연 속도는 웹 서버의 실제 처리 시간을 말합니다. _낮은 값이 좋습니다._
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark_alloc.png)
 
-Allocs is the heap allocations by web servers when test is running. The unit is MB. _The smaller is the better._
+할당량은 테스트 중 웹서버의 힙 할당량을 말합니다. 단위는 MB입니다. _낮은 값이 좋습니다._
 
-If we enable **http pipelining**, test result as below:
+만약 **http pipelining** 을 사용하게 되면, 테스트 결과는 다음과 같습니다:
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark-pipeline.png)
 
-Concurrency test in **30 ms** processing time, the test result for **100**, **1000**, **5000** clients is:
+**30 ms** 처리 시간 동안의 동시성 테스트이며, **100**, **1000**, **5000** 개의 클라이언트들에 대한 테스트 결과입니다:
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency.png)
 
@@ -101,7 +101,7 @@ Concurrency test in **30 ms** processing time, the test result for **100**, **10
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency_alloc.png)
 
-If we enable **http pipelining**, test result as below:
+만약 **http pipelining** 을 사용하게 되면, 테스트 결과는 다음과 같습니다:
 
 ![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency-pipeline.png)
 
