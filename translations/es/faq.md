@@ -12,25 +12,25 @@ Las rutas y otras lógicas específicas de la aplicación pueden repartirse por 
 
 * [gofiber/boilerplate](https://github.com/gofiber/boilerplate)
 * [thomasvvugt/fiber-boilerplate](https://github.com/thomasvvugt/fiber-boilerplate)
-* [Youtube - Building a REST API using Gorm and Fiber](https://www.youtube.com/watch?v=Iq2qT0fRhAA)
+* [Youtube - Construyendo una API REST con Gorm y Fiber](https://www.youtube.com/watch?v=Iq2qT0fRhAA)
 
-## How do I handle custom 404 responses?
+## ¿Cómo puedo manejar respuestas 404 personalizadas?
 
-In Fiber, 404 responses are not the result of an error, so the error handler will not capture them. This behavior is because a 404 response simply indicates the absence of additional work to do; in other words, Fiber has found no routes that match the request.
+En Fiber, las respuestas 404 no son el resultado de un error, por lo que el gestor de errores no las capturará. Esto se debe a que una respuesta 404 simplemente indica que no hay ningún trabajo adicional que realizar, ya que Fiber no ha encontrado rutas que coincidan con la petición.
 
-All you need to do is add a middleware function at the very bottom of the stack \(below all other functions\) to handle a 404 response:
+Todo lo que necesitas es añadir una función de middleware en la parte inferior de la pila, es decir, debajo del resto de las funciones, para manejar una respuesta 404:
 
 {% code title="Example" %}
 ```go
 app.Use(func(c *fiber.Ctx) {
-    c.Status(fiber.StatusNotFound).SendString("Sorry can't find that!")
+    c.Status(fiber.StatusNotFound).SendString("¡Recurso no encontrado!")
 })
 ```
 {% endcode %}
 
-## How do I setup an error handler?
+## ¿Cómo configuro un gestor de errores?
 
-To override the default error handler, provide a custom handler to the `app.Settings.ErrorHandler`
+Para sobreescribir el manejador de errores predeterminado debes proporcionar un manejador personalizado para la `aplicación.Settings.ErrorHandler`
 
 {% code title="Example" %}
 ```go
