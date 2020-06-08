@@ -17,7 +17,7 @@ Each framework is operating in a realistic production configuration. Results are
 * Ubuntu 18.04.3 4.15.0-88-generic
 * Dedicated Cisco 10-Gbit Ethernet switch.
 
-### Plaintext
+### プレーンテキスト
 
 The Plaintext test is an exercise of the request-routing fundamentals only, designed to demonstrate the capacity of high-performance platforms in particular. Requests will be sent using HTTP pipelining. The response payload is still small, meaning good performance is still necessary in order to saturate the gigabit Ethernet of the test environment.
 
@@ -30,7 +30,7 @@ See [Plaintext requirements](https://github.com/TechEmpower/FrameworkBenchmarks/
 
 ![Fiber vs Express](.gitbook/assets/plaintext_express.png)
 
-### Data Updates
+### データの更新
 
 **Fiber** handled **11,846** responses  per second with an average latency of **42.8** ms.  
 **Express** handled **2,066** responses  per second with an average latency of **390.44** ms.
@@ -39,7 +39,7 @@ See [Plaintext requirements](https://github.com/TechEmpower/FrameworkBenchmarks/
 
 ![Fiber vs Express](.gitbook/assets/data_updates_express%20%281%29.png)
 
-### Multiple Queries
+### 複数クエリ
 
 **Fiber** handled **19,664** responses per second with an average latency of **25.7** ms.  
 **Express** handled **4,302** responses  per second with an average latency of **117.2** ms.
@@ -48,7 +48,7 @@ See [Plaintext requirements](https://github.com/TechEmpower/FrameworkBenchmarks/
 
 ![Fiber vs Express](.gitbook/assets/multiple_queries_express.png)
 
-### Single Query
+### 単一クエリ
 
 **Fiber** handled **368,647** responses per second with an average latency of **0.7** ms.  
 **Express** handled **57,880** responses  per second with an average latency of **4.4** ms.
@@ -57,7 +57,7 @@ See [Plaintext requirements](https://github.com/TechEmpower/FrameworkBenchmarks/
 
 ![Fiber vs Express](.gitbook/assets/single_query_express.png)
 
-### JSON Serialization
+### JSON シリアライズ
 
 **Fiber** handled **1,146,667** responses per second with an average latency of **0.4** ms.  
 **Express** handled **244,847** responses  per second with an average latency of **1.1** ms.
