@@ -261,9 +261,38 @@ func main() {
 }
 ```
 
+## Routes
+
+Routes returns all registered routes
+
+{% code title="Signature" %}
+```go
+app.Routes() []*Route
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+app := fiber.New()
+
+handler := func(c *fiber.Ctx) { }
+
+app.Get("/sample", handler)
+app.Post("/john", handler)
+app.Put("/doe", handler)
+
+for _, r := range app.Routes() {
+    fmt.Printf("%s\t%s\n", r.Method, r.Path)
+}
+// GET      /sample
+// POST     /john
+// PUT      /doe
+```
+{% endcode %}
+
 ## Listen
 
-Configurer l'ip et le port d'écoute pour les connexions entrantes. Cela peut être juste un `nombre` pour le port ou une `chaîne de caractères` pour l'adresse.
+Binds and listens for connections on the specified address. This can be a `int` for port or `string` for address.
 
 {% code title="Signature" %}
 ```go
@@ -280,7 +309,7 @@ app.Listen("127.0.0.1:8080")
 ```
 {% endcode %}
 
-Pour activer **TLS/HTTPS** vous pouvez ajouter une [**configuration TLS**](https://golang.org/pkg/crypto/tls/#Config).
+To enable **TLS/HTTPS** you can append a [**TLS config**](https://golang.org/pkg/crypto/tls/#Config).
 
 {% code title="Example" %}
 ```go
@@ -320,7 +349,7 @@ app.Serve(ln)
 
 ## Test
 
-Les tests de votre application sont fait avec la méthode **Test**. Utilisez cette méthode pour créer des fichiers `_test.go` ou quand vous avez besoin de déboguer vos routes. Le timeout par défaut est fixé à `200ms`, si vous voulez entièrement désactiver les timeouts, passez comme valeur `1` en second argument.
+Testing your application is done with the **Test** method. Use this method for creating `_test.go` files or when you need to debug your routing logic. The default timeout is `200ms` if you want to disable a timeout completely, pass `-1` as a second argument.
 
 {% code title="Signature" %}
 ```go
