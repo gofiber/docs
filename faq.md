@@ -59,3 +59,8 @@ Fiber currently supports 8 template engines in our [gofiber/template](https://gi
 
 To learn more about using Templates in Fiber, see [Templates](templates.md).
 
+## Does Fiber have a community chat?
+
+Yes, we have our own [Discord ](https://gofiber.io/discord)server where we hang out. We have different rooms for every subject.  
+If you have questions or just want to hang out, feel free to join us via this [invite link](https://gofiber.io/discord).
+
