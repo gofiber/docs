@@ -7,10 +7,10 @@ description: >-
 
 ## Accepts
 
-Comprueba, si las **extensiones** especificadas o **tipos de** **contenido** son aceptables.
+Comprueba, si las **extensiones** especificadas o **el tipo de contenido** son aceptables.
 
 {% hint style="info" %}
-Basado en el encabezado HTTP [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) de la solicitud.
+Basado en la cabecera [HTTP Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) de la solicitud.
 {% endhint %}
 
 {% code title="Signature" %}
