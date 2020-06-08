@@ -191,22 +191,26 @@ Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.
 
 {% code title="Signatures" %}
 ```go
-// HTTP methods support :param, :optional? and *wildcards
-// You are required to pass a path to each method
-app.All(path string, handlers ...func(*Ctx)) []*Route
-app.Get
-app.Put
-app.Post
-app.Head
-app.Patch
-app.Trace
-app.Delete
-app.Connect
-app.Options
+// Add allows you to specifiy a method as value
+app.Add(method, path string, handlers ...func(*Ctx)) *Route
 
-// Use() will only match the beggining of each path
+// All will register the route on all methods
+app.All(path string, handlers ...func(*Ctx)) []*Route
+
+// HTTP methods
+app.Get(path string, handlers ...func(*Ctx)) *Route
+app.Put(path string, handlers ...func(*Ctx)) *Route
+app.Post(path string, handlers ...func(*Ctx)) *Route
+app.Head(path string, handlers ...func(*Ctx)) *Route
+app.Patch(path string, handlers ...func(*Ctx)) *Route
+app.Trace(path string, handlers ...func(*Ctx)) *Route
+app.Delete(path string, handlers ...func(*Ctx)) *Route
+app.Connect(path string, handlers ...func(*Ctx)) *Route
+app.Options(path string, handlers ...func(*Ctx)) *Route
+
+// Use is mostly used for middleware modules
+// These routes will only match the beggining of each path
 // i.e. "/john" will match "/john/doe", "/johnnnn"
-// Use() does not support :param & :optional? in path
 app.Use(handlers ...func(*Ctx)) *Route
 app.Use(prefix string, handlers ...func(*Ctx)) *Route
 ```
