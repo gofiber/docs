@@ -1,6 +1,6 @@
 ---
 description: >-
-  The Ctx struct represents the Context which hold the HTTP request and response. It has methods for the request query string, parameters, body, HTTP headers and so on.
+  Ctx 構造体は、HTTP リクエストとレスポンスを保持するコンテキストを表します。 これは、リクエストのクエリ文字列、パラメータ、ボディ、HTTPヘッダなどのメソッドを持っています。
 ---
 
 # 🧠 Context
@@ -1285,7 +1285,7 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-## Type
+## 型
 
 Sets the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP header to the MIME type listed [here](https://github.com/nginx/nginx/blob/master/conf/mime.types) specified by the file **extension**.
 
