@@ -339,7 +339,7 @@ app.Get("/", func(c *Ctx) {
 })
 
 // http.Request
-req, _ := http.NewRequest("GET", "http://google.com", nil)
+req := httptest.NewRequest("GET", "http://google.com", nil)
 req.Header.Set("X-Custom-Header", "hi")
 
 // http.Response
