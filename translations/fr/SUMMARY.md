@@ -1,23 +1,23 @@
-# Table des matières
+# Table of contents
 
-* [📖 Démarrage](README.md)
+* [📖 Getting started](README.md)
 
 ## API
 
 * [🚀 Application](app.md)
-* [🧠 Contexte](ctx.md)
+* [🧠 Context](ctx.md)
 * [🧬 Middleware](middleware.md)
 
-## Tutoriel
+## Guide
 
-* [🔌 Routage](routing.md)
-* [🎭 Groupement](grouping.md)
-* [Modèles 📝](templates.md)
-* [🐛 Gestion des erreurs](error-handling.md)
+* [🔌 Routing](routing.md)
+* [🎭 Grouping](grouping.md)
+* [📝 Templates](templates.md)
+* [🐛 Error Handling](error-handling.md)
 
-## Divers <a id="miscellaneous"></a>
+## Misc <a id="miscellaneous"></a>
 
 * [🤔 FAQ](faq.md)
 * [📊 Benchmarks](benchmarks.md)
-* [🍳 Exemples](https://github.com/gofiber/recipes)
+* [🍳 Examples](https://github.com/gofiber/recipes)
 
