@@ -1,5 +1,5 @@
 ---
-description: The app instance conventionally denotes the Fiber application.
+description: Uygulama örneği geleneksel olarak Fiber uygulamasına delalet eder.
 ---
 
 # 🚀 Application
@@ -32,7 +32,7 @@ func main() {
 
 ## Settings
 
-You can pass application settings when calling `New`.
+`New`'i çağırırken isteğe bağlı ayarları geçebilirsiniz.
 
 {% code title="Example" %}
 ```go
@@ -52,7 +52,7 @@ func main() {
 ```
 {% endcode %}
 
-Or change the settings after initializing an `app`.
+Veya bir `uygulama` başlattıktan sonra ayarları değiştir.
 
 {% code title="Example" %}
 ```go
@@ -72,28 +72,28 @@ func main() {
 ```
 {% endcode %}
 
-**Settings** **fields**
+**Ayar Alanları**
 
-| Property                  | Type            | Description                                                                                                                                                                                                                                               | Default           |
-|:------------------------- |:--------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
-| Prefork                   | `bool`          | Enables use of the[`SO_REUSEPORT`](https://lwn.net/Articles/542629/)socket option. This will spawn multiple Go processes listening on the same port. learn more about [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
-| ServerHeader              | `string`        | Enables the `Server` HTTP header with the given value.                                                                                                                                                                                                    | `""`              |
-| StrictRouting             | `bool`          | When enabled, the router treats `/foo` and `/foo/` as different. Otherwise, the router treats `/foo` and `/foo/` as the same.                                                                                                                             | `false`           |
-| CaseSensitive             | `bool`          | When enabled, `/Foo` and `/foo` are different routes. When disabled, `/Foo`and `/foo` are treated the same.                                                                                                                                               | `false`           |
-| Immutable                 | `bool`          | When enabled, all values returned by context methods are immutable. By default they are valid until you return from the handler, see issue [\#185](https://github.com/gofiber/fiber/issues/185).                                                        | `false`           |
-| BodyLimit                 | `int`           | Sets the maximum allowed size for a request body, if the size exceeds the configured limit, it sends `413 - Request Entity Too Large` response.                                                                                                           | `4 * 1024 * 1024` |
-| CompressedFileSuffix      | `string`        | Adds suffix to the original file name and tries saving the resulting compressed file under the new file name.                                                                                                                                             | `".fiber.gz"`     |
-| Concurrency               | `int`           | Maximum number of concurrent connections.                                                                                                                                                                                                                 | `256 * 1024`      |
-| DisableKeepalive          | `bool`          | Disable keep-alive connections, the server will close incoming connections after sending the first response to client                                                                                                                                     | `false`           |
-| DisableDefaultDate        | `bool`          | When set to true causes the default date header to be excluded from the response.                                                                                                                                                                         | `false`           |
-| DisableDefaultContentType | `bool`          | When set to true, causes the default Content-Type header to be excluded from the Response.                                                                                                                                                                | `false`           |
-| DisableStartupMessage     | `bool`          | When set to true, it will not print out the fiber ASCII and "listening" on message                                                                                                                                                                        | `false`           |
-| DisableHeaderNormalizing  | `bool`          | By default all header names are normalized: conteNT-tYPE -&gt; Content-Type                                                                                                                                                                         | `false`           |
-| ETag                      | `bool`          | Enable or disable ETag header generation, since both weak and strong etags are generated using the same hashing method \(CRC-32\). Weak ETags are the default when enabled.                                                                             | `false`           |
-| Templates                 | `Templates`     | Templates is the interface that wraps the Render function. See our [**Template Middleware**](middleware.md#template) for supported engines.                                                                                                               | `nil`             |
-| ReadTimeout               | `time.Duration` | The amount of time allowed to read the full request including body. Default timeout is unlimited.                                                                                                                                                         | `nil`             |
-| WriteTimeout              | `time.Duration` | The maximum duration before timing out writes of the response. Default timeout is unlimited.                                                                                                                                                              | `nil`             |
-| IdleTimeout               | `time.Duration` | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used.                                                                                                             | `nil`             |
+| Varlık                    | Tip             | Açıklama                                                                                                                                                                                                                                                                                        | Varsayılan Değer  |
+|:------------------------- |:--------------- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
+| Çatallama öncesi          | `bool`          | [` SO_REUSEPORT`](https://lwn.net/Articles/542629/) soket seçeneğinin kullanılmasını sağlar. Bu, aynı bağlantı noktasını dinleyen birden fazla Go işlemi oluşturacaktır. [ soket parçalama ](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/) hakkında daha fazla bilgi edinin. | `false`           |
+| Sunucu Başlığı            | `string`        | ` Sunucu ` HTTP başlığı verilen değerle etkinleştirir.                                                                                                                                                                                                                                          | `""`              |
+| Sıkı Yönlendirme          | `bool`          | Etkinleştirildiğinde, yönlendirici ` / foo `'a ve ` / foo / `'a farklı gibi davranır. Aksi takdirde, yönlendirici ` / foo ` ve ` / foo / ` öğelerine aynı şekilde davranır.                                                                                                                     | `false`           |
+| CaseSensitive             | `bool`          | Etkinleştirildiğinde, `/Foo` ve `/foo` için ayrı yönlendirmeler kullanılabilir. Aksi taktirde, `/Foo` ve `/foo`'nin ikisi de aynı yönlendirmeyi ifade eder.                                                                                                                                     | `false`           |
+| Immutable                 | `bool`          | When enabled, all values returned by context methods are immutable. By default they are valid until you return from the handler, see issue [\#185](https://github.com/gofiber/fiber/issues/185).                                                                                              | `false`           |
+| BodyLimit                 | `int`           | Sets the maximum allowed size for a request body, if the size exceeds the configured limit, it sends `413 - Request Entity Too Large` response.                                                                                                                                                 | `4 * 1024 * 1024` |
+| CompressedFileSuffix      | `string`        | Adds suffix to the original file name and tries saving the resulting compressed file under the new file name.                                                                                                                                                                                   | `".fiber.gz"`     |
+| Concurrency               | `int`           | Maximum number of concurrent connections.                                                                                                                                                                                                                                                       | `256 * 1024`      |
+| DisableKeepalive          | `bool`          | Disable keep-alive connections, the server will close incoming connections after sending the first response to client                                                                                                                                                                           | `false`           |
+| DisableDefaultDate        | `bool`          | When set to true causes the default date header to be excluded from the response.                                                                                                                                                                                                               | `false`           |
+| DisableDefaultContentType | `bool`          | When set to true, causes the default Content-Type header to be excluded from the Response.                                                                                                                                                                                                      | `false`           |
+| DisableStartupMessage     | `bool`          | When set to true, it will not print out the fiber ASCII and "listening" on message                                                                                                                                                                                                              | `false`           |
+| DisableHeaderNormalizing  | `bool`          | By default all header names are normalized: conteNT-tYPE -&gt; Content-Type                                                                                                                                                                                                               | `false`           |
+| ETag                      | `bool`          | Enable or disable ETag header generation, since both weak and strong etags are generated using the same hashing method \(CRC-32\). Weak ETags are the default when enabled.                                                                                                                   | `false`           |
+| Templates                 | `Templates`     | Templates is the interface that wraps the Render function. See our [**Template Middleware**](middleware.md#template) for supported engines.                                                                                                                                                     | `nil`             |
+| ReadTimeout               | `time.Duration` | The amount of time allowed to read the full request including body. Default timeout is unlimited.                                                                                                                                                                                               | `nil`             |
+| WriteTimeout              | `time.Duration` | The maximum duration before timing out writes of the response. Default timeout is unlimited.                                                                                                                                                                                                    | `nil`             |
+| IdleTimeout               | `time.Duration` | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used.                                                                                                                                                   | `nil`             |
 
 ## Static
 
