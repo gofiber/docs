@@ -1,14 +1,14 @@
 - - -
-description: >- List of frequently asked questions. Feel free to open an issue to add your question on this page.
+description: > Lista de preguntas más frecuentes. Siéntete libre de abrir un informe de problema para añadir tu pregunta en esta página.
 - - -
 
 # 🤔 FAQ
 
-## How should I structure my application?
+## ¿Cómo debo estructurar mi aplicación?
 
-There is no definitive answer to this question. The answer depends on the scale of your application and the team that is involved. To be as flexible as possible, Fiber makes no assumptions in terms of structure.
+No hay una respuesta definitiva a esta pregunta. La respuesta depende de la escala de su solicitud y del equipo involucrado. Para ser lo más flexible posible, Fiber no hace suposiciones en términos de estructura.
 
-Routes and other application-specific logic can live in as many files as you wish, in any directory structure you prefer. View the following examples for inspiration:
+Las rutas y otras lógicas específicas de la aplicación pueden repartirse por tantos ficheros como desee, y en cualquier estructura de directorios. Mira los siguientes ejemplos para inspirarte:
 
 * [gofiber/boilerplate](https://github.com/gofiber/boilerplate)
 * [thomasvvugt/fiber-boilerplate](https://github.com/thomasvvugt/fiber-boilerplate)
