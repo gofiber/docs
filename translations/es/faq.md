@@ -40,11 +40,11 @@ app.Settings.ErrorHandler = func(c *fiber.Ctx, err error) {
 ```
 {% endcode %}
 
-We have a dedicated page explaining how error handling works in Fiber, see [Error Handling](error-handling.md).
+Tenemos una página dedicada explicando cómo funciona el manejo de errores en Fiber, consulta [Manejo de errores](error-handling.md).
 
-## Which template engines does Fiber support?
+## ¿Qué motores de plantillas soporta Fiber?
 
-Fiber currently supports 8 template engines in our [gofiber/template](https://github.com/gofiber/template) middleware:
+Actualmente Fiber soporta ocho motores en nuestro middleware [gofiber/template](https://github.com/gofiber/template):
 
 * [Ace](https://github.com/yosssi/ace)
 * [Amber](https://github.com/eknkc/amber)
@@ -55,12 +55,12 @@ Fiber currently supports 8 template engines in our [gofiber/template](https://gi
 * [Mustache](https://github.com/cbroglie/mustache)
 * [Pug](https://github.com/Joker/jade)
 
-To learn more about using Templates in Fiber, see [Templates](templates.md).
+Para saber más sobre el uso de plantillas en fibra, consulta [Plantillas](templates.md).
 
-## Does Fiber have a community chat?
+## ¿Tiene Fiber un chat para su comunidad?
 
-Yes, we have our own [Discord ](https://gofiber.io/discord)server where we hang out. We have different rooms for every subject.  
-If you have questions or just want to have a chat, feel free to join us via this **&gt;** [**invite link**](https://gofiber.io/discord) **&lt;**.
+Sí, tenemos nuestro propio servidor [Discord](https://gofiber.io/discord) donde pasamos el rato. Disponemos de diferentes salas para todos los temas.  
+Únete a nosotros, a través de esta **&gt;** [**invitación**](https://gofiber.io/discord) **&lt;**., si tienes dudas o sencillamente quieres charlar sobre el tema.
 
 ![](.gitbook/assets/2020-06-08-03_06_27-support-discord.png)
 
