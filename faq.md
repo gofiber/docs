@@ -62,5 +62,7 @@ To learn more about using Templates in Fiber, see [Templates](templates.md).
 ## Does Fiber have a community chat?
 
 Yes, we have our own [Discord ](https://gofiber.io/discord)server where we hang out. We have different rooms for every subject.  
-If you have questions or just want to hang out, feel free to join us via this [invite link](https://gofiber.io/discord).
+If you have questions or just want to have a chat, feel free to join us via this **&gt;** [**invite link**](https://gofiber.io/discord) **&lt;**.
+
+![](.gitbook/assets/2020-06-08-03_06_27-support-discord.png)
 
