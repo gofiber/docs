@@ -2,22 +2,22 @@
 
 * [📖 Erste Schritte](README.md)
 
-## API
+## Schnittstelle (API)
 
 * [🚀 Anwendung](app.md)
 * [🧠 Kontext](ctx.md)
 * [🧬 Middleware](middleware.md)
 
-## Guide
+## Anleitung
 
 * [🔌 Routing](routing.md)
-* [🎭 Grouping](grouping.md)
+* [🎭 Gruppierung](grouping.md)
 * [📝 Templates](templates.md)
-* [🐛 Error Handling](error-handling.md)
+* [🐛 Fehler-Behandlung](error-handling.md)
 
-## Misc <a id="miscellaneous"></a>
+## Sonstiges<a id="miscellaneous"></a>
 
 * [🤔 FAQ](faq.md)
 * [📊 Benchmarks](benchmarks.md)
-* [🍳 Examples](https://github.com/gofiber/recipes)
+* [🍳 Beispiele](https://github.com/gofiber/recipes)
 
