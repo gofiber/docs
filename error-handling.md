@@ -71,17 +71,16 @@ Fiber provides a error handler by default. For a standard error, response is sen
 
 {% code title="Example" %}
 ```go
-// This is the default error handler
-app.Settings.ErrorHandler = func(ctx *Ctx, err error) {
+// Default error handler
+app.Settings.ErrorHandler = func(ctx *fiber.Ctx, err error) {
 	// Statuscode defaults to 500
-	code := StatusInternalServerError
-	
-	// Retreive the custom statuscode if it's an fiber.*Error
-	if e, ok := err.(*Error); ok {
+	code := fiber.StatusInternalServerError
+	// Check if it's an fiber.Error type
+	if e, ok := err.(*fiber.Error); ok {
 		code = e.Code
 	}
-	
 	// Return HTTP response
+	ctx.Set(fiber.HeaderContentType, fiber.MIMETextPlainCharsetUTF8)
 	ctx.Status(code).SendString(err.Error())
 }
 ```
