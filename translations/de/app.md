@@ -6,7 +6,7 @@ description: Die App-Instanz bezeichnet die Fiber-Anwendung.
 
 ## New
 
-This method creates a new **App** named instance. You can pass optional [settings ](app.md#settings)when creating a new instance
+Diese Methode erzeugt eine neue **App** namens Instanz. Sie können optionale [Einstellungen](app.md#settings) übergeben wenn Sie eine neue Instanz erstellen
 
 {% code title="Signature" %}
 ```go
@@ -30,14 +30,14 @@ func main() {
 ```
 {% endcode %}
 
-## Settings
+## Einstellungen
 
 Sie können die Anwendungseinstellungen übergeben, wenn Sie `New` aufrufen.
 
 {% code title="Example" %}
 ```go
 func main() {
-    // Pass Settings creating a new instance
+    // Einstellungen and die neue Instanz übergeben
     app := fiber.New(&fiber.Settings{
         Prefork:       true,
         CaseSensitive: true,
@@ -59,7 +59,7 @@ Oder ändern Sie die Einstellungen nach der Initialisierung einer `app`.
 func main() {
     app := fiber.New()
 
-    // Or change Settings after creating an instance
+    // Oder ändern Sie die Einstellungen nach dem Erstellen einer Instanz
     app.Settings.Prefork = true
     app.Settings.CaseSensitive = true
     app.Settings.StrictRouting = true
@@ -82,25 +82,25 @@ func main() {
 | CaseSensitive             | `bool`          | Wenn aktiviert, sind `/Foo` und `/foo` unterschiedliche Routen. Wenn deaktiviert, werden `/Foo`und `/foo` gleich behandelt.                                                                                                                                                | `false`           |
 | Immutable                 | `bool`          | Wenn aktiviert, sind alle Werte, die durch Kontext-Methoden zurückgegeben werden, unveränderbar. Standardmäßig sind sie gültig, bis Sie vom Handler zurückkehren. Siehe Problem [\#185](https://github.com/gofiber/fiber/issues/185).                                    | `false`           |
 | BodyLimit                 | `int`           | Legt die maximal zulässige Größe für einen Request-Body fest, falls die Größe das konfigurierte Limit überschreitet, wird eine `413 - Request Entity Too Large` Antwort gesendet.                                                                                          | `4 * 1024 * 1024` |
-| CompressedFileSuffix      | `string`        | Adds suffix to the original file name and tries saving the resulting compressed file under the new file name.                                                                                                                                                              | `".fiber.gz"`     |
+| CompressedFileSuffix      | `string`        | Fügt das Suffix zum ursprünglichen Dateinamen hinzu und versucht die resultierende komprimierte Datei unter dem neuen Dateinamen zu speichern.                                                                                                                             | `".fiber.gz"`     |
 | Concurrency               | `int`           | Maximale Anzahl gleichzeitiger Verbindungen.                                                                                                                                                                                                                               | `256 * 1024`      |
 | DisableKeepalive          | `bool`          | Deaktiviere "keep-alive"-Verbindungen, der Server schließt eingehende Verbindungen nach dem Senden der ersten Antwort an den Client                                                                                                                                        | `false`           |
 | DisableDefaultDate        | `bool`          | Wenn auf "true" gesetzt wird, wird der Standard-Datumskopf von der Antwort ausgeschlossen.                                                                                                                                                                                 | `false`           |
 | DisableDefaultContentType | `bool`          | Wenn der Wert auf "true" gesetzt wird, wird der Standard Content-Type Header von der Antwort ausgeschlossen.                                                                                                                                                               | `false`           |
 | DisableStartupMessage     | `bool`          | Wenn auf "true" gesetzt, wird die Fiber ASCII und "listen"  Nachricht nicht ausgegeben                                                                                                                                                                                     | `false`           |
-| DisableHeaderNormalizing  | `bool`          | By default all header names are normalized: conteNT-tYPE -&gt; Content-Type                                                                                                                                                                                          | `false`           |
+| DisableHeaderNormalizing  | `bool`          | Standardmäßig werden alle Headernamen normalisiert: conteNT-tYPE -&gt; Content-Type                                                                                                                                                                                  | `false`           |
 | ETag                      | `bool`          | Aktivieren oder deaktivieren Sie die ETag Header-Generation, da sowohl schwache als auch starke etags mit der gleichen Hashing-Methode \(CRC-32\) erzeugt werden. Schwache ETags sind die Standards, wenn aktiviert.                                                     | `false`           |
-| Templates                 | `Templates`     | Templates is the interface that wraps the Render function. See our [**Template Middleware**](middleware.md#template) for supported engines.                                                                                                                                | `nil`             |
+| Templates                 | `Templates`     | Templates ist das Interface, welches die Render-Funktion beinhaltet. Schauen Sie sich unsere [**Template Middleware**](middleware.md#template) für die unterstützte Engines an.                                                                                            | `nil`             |
 | ReadTimeout               | `time.Duration` | Die Zeitspanne, die erlaubt ist, die vollständige Anfrage einschließlich des Körpers zu lesen. Standard Timeout ist unbegrenzt.                                                                                                                                            | `nil`             |
 | WriteTimeout              | `time.Duration` | Die maximale Zeitspanne für das Schreiben der Antwort. Standard Timeout ist unbegrenzt.                                                                                                                                                                                    | `nil`             |
 | IdleTimeout               | `time.Duration` | Die maximale Zeitspanne, um auf die nächsten Anfrage zu warten, wenn 'keep-alive' aktiviert ist. Wenn IdleTimeout null ist, wird der Wert von ReadTimeout verwendet.                                                                                                       | `nil`             |
 
-## Static
+## Statische Auslieferung
 
 Verwenden Sie die **Static** Methode, um statische Dateien wie **Bilder**, **CSS** und **JavaScript** auszuliefern.
 
 {% hint style="info" %}
-By default, **Static** will serve `index.html` files in response to a request on a directory.
+Standardmäßig liefert **Static** `index.html` Dateien als Antwort auf eine Anfrage in einem Verzeichnis.
 {% endhint %}
 
 {% code title="Signature" %}
