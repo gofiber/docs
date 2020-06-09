@@ -105,7 +105,7 @@ Standardmäßig liefert **Static** `index.html` Dateien als Antwort auf eine Anf
 
 {% code title="Signature" %}
 ```go
-app.Static(prefix, root string, config ...Static) // => with prefix
+app.Static(prefix, root string, config ...Static) // => mit Präfix
 ```
 {% endcode %}
 
@@ -125,10 +125,10 @@ Um mehrere Verzeichnisse zu bedienen, können Sie **Static** mehrfach verwenden.
 
 {% code title="Example" %}
 ```go
-// Serve files from "./public" directory:
+// Dateien aus dem Verzeichnis "./public" ausliefern:
 app.Static("/", "./public")
 
-// Serve files from "./files" directory:
+// Dateinen aus den Verzeichnis "./files" ausliefern:
 app.Static("/", "./files")
 ```
 {% endcode %}
@@ -149,7 +149,7 @@ app.Static("/static", "./public")
 ```
 {% endcode %}
 
-Wenn Sie ein bisschen mehr Kontrolle über die Einstellungen für das Bereitstellen statischer Dateien haben möchten. You could use the `fiber.Static` struct to enable specific settings.
+Wenn Sie ein bisschen mehr Kontrolle über die Einstellungen für das Bereitstellen statischer Dateien haben möchten. Du kannst auch `fiber.static` verwenden um bestimmte Einstellungen zu aktivieren.
 
 {% code title="fiber.Static{}" %}
 ```go
