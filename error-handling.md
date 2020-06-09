@@ -98,22 +98,20 @@ The following example shows how to display error pages for different type of err
 ```go
 app := fiber.New()
 
-// Setting a custom error handler
-app.Settings.ErrorHandler = func(ctx *Ctx, err error) {
+// Custom error handler
+app.Settings.ErrorHandler = func(ctx *fiber.Ctx, err error) {
 	// Statuscode defaults to 500
-	code := StatusInternalServerError
-	
+	code := fiber.StatusInternalServerError
+
 	// Retreive the custom statuscode if it's an fiber.*Error
-	if e, ok := err.(*Error); ok {
+	if e, ok := err.(*fiber.Error); ok {
 		code = e.Code
 	}
-	
+
 	// Send custom error page
-	err := ctx.SendFile(fmt.Sprintf("./%d.html", code))
+	err = ctx.Status(code).SendFile(fmt.Sprintf("./%d.html", code))
 	if err != nil {
 		ctx.Status(500).SendString("Internal Server Error")
-	} else {
-		ctx.Status(code)
 	}
 }
 ```
