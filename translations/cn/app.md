@@ -325,7 +325,7 @@ app.Listen(443, config)
 
 ## Serve
 
-您可以传入自定义的 [`net.Listener`](https://golang.org/pkg/net/#Listener) using the `Serve` method.
+您可以传入自定义的 [`net.Listener`](https://golang.org/pkg/net/#Listener) 对象，只需使用 `Serve` 方法。
 
 {% code title="Signature" %}
 ```go
@@ -334,7 +334,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** does not support the [**Prefork**](app.md#settings) feature.
+**Serve** 不支持 [**Prefork**](app.md#settings) 功能。
 {% endhint %}
 
 {% code title="Example" %}
@@ -347,9 +347,9 @@ app.Serve(ln)
 ```
 {% endcode %}
 
-## Test
+## 测试
 
-Testing your application is done with the **Test** method. Use this method for creating `_test.go` files or when you need to debug your routing logic. The default timeout is `200ms` if you want to disable a timeout completely, pass `-1` as a second argument.
+使用 **Test** 方法对您的应用进行测试。 该方法可以用于创建 `_test.go` 测试文件，也可以用于调试路由逻辑。 默认的测试超时是 `200ms`，如果想去除这个限制，在第二个参数位传入 `-1`。
 
 {% code title="Signature" %}
 ```go
