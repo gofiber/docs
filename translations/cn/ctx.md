@@ -1017,7 +1017,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Render
 
-渲染一个带有数据的模板并发送一个 `text/html` 响应。 默认情况下 `Render` 使用 [**Go 模版引擎**](https://golang.org/pkg/html/template/)。 如果您想要使用其他的模版引擎，请查看我们的 [**模板中间件**](middleware.md#template)。
+渲染一个带有数据的模板并发送一个 `text/html` 响应。 默认情况下 `Render` 使用 [**Go 模版引擎**](https://golang.org/pkg/html/template/)。 If you want to use another engine, please take a look at our [**Template middleware**]().
 
 {% code title="Signature" %}
 ```go
