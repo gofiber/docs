@@ -107,7 +107,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## App
 
-Returns the [\*App](app.md#new) reference so you could easily access all application settings.
+返回 [\*App](app.md#new) 的引用，方便查看整个应用的配置。
 
 {% code title="Signature" %}
 ```go
@@ -165,8 +165,8 @@ app.Post("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
+> _方法的返回值只在 handler 内部有效。 不要在其他地方保存其引用值。  
+> 您应当拷贝其值，或使用_ [_**`Immutable`**_](app.md#settings) _设置。_[_点击了解详情_](./#zero-allocation)
 
 ## BodyParser
 
@@ -242,7 +242,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Context
 
-Returns context.Context that carries a deadline, a cancellation signal, and other values across API boundaries.
+返回一个 context.Context that carries a deadline, a cancellation signal, and other values across API boundaries.
 
 **Signature**
 
@@ -307,8 +307,8 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
+> _方法的返回值只在 handler 内部有效。 不要在其他地方保存其引用值。  
+> 您应当拷贝其值，或使用_ [_**`Immutable`**_](app.md#settings) _设置。_[_点击了解详情_](./#zero-allocation)
 
 ## Download
 
@@ -477,8 +477,8 @@ app.Post("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
+> _方法的返回值只在 handler 内部有效。 不要在其他地方保存其引用值。  
+> 您应当拷贝其值，或使用_ [_**`Immutable`**_](app.md#settings) _设置。_[_点击了解详情_](./#zero-allocation)
 
 ## Fresh
 
@@ -512,8 +512,8 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
+> _方法的返回值只在 handler 内部有效。 不要在其他地方保存其引用值。  
+> 您应当拷贝其值，或使用_ [_**`Immutable`**_](app.md#settings) _设置。_[_点击了解详情_](./#zero-allocation)
 
 ## Hostname
 
@@ -535,8 +535,8 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
+> _方法的返回值只在 handler 内部有效。 不要在其他地方保存其引用值。  
+> 您应当拷贝其值，或使用_ [_**`Immutable`**_](app.md#settings) _设置。_[_点击了解详情_](./#zero-allocation)
 
 ## IP
 
@@ -867,8 +867,8 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
+> _方法的返回值只在 handler 内部有效。 不要在其他地方保存其引用值。  
+> 您应当拷贝其值，或使用_ [_**`Immutable`**_](app.md#settings) _设置。_[_点击了解详情_](./#zero-allocation)
 
 ## Params
 
@@ -894,7 +894,7 @@ app.Get("/user/:name", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.  
+> _方法的返回值只在 handler 内部有效。 Do not store any references.  
 > Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
 
 ## Path
@@ -962,8 +962,8 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-> _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
+> _方法的返回值只在 handler 内部有效。 不要在其他地方保存其引用值。  
+> 您应当拷贝其值，或使用_ [_**`Immutable`**_](app.md#settings) _设置。_[_点击了解详情_](./#zero-allocation)
 
 ## Range
 
