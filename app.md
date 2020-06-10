@@ -90,7 +90,7 @@ func main() {
 | DisableStartupMessage | `bool` | When set to true, it will not print out the fiber ASCII and "listening" on message | `false` |
 | DisableHeaderNormalizing | `bool` | By default all header names are normalized: conteNT-tYPE -&gt; Content-Type | `false` |
 | ETag | `bool` | Enable or disable ETag header generation, since both weak and strong etags are generated using the same hashing method \(CRC-32\). Weak ETags are the default when enabled. | `false` |
-| Templates | `Templates` | Templates is the interface that wraps the Render function. See our [**Template Middleware**](middleware.md#template) for supported engines. | `nil` |
+| Templates | `Templates` | Templates is the interface that wraps the Render function. See our [**Template Middleware**]() for supported engines. | `nil` |
 | ReadTimeout | `time.Duration` | The amount of time allowed to read the full request including body. Default timeout is unlimited. | `nil` |
 | WriteTimeout | `time.Duration` | The maximum duration before timing out writes of the response. Default timeout is unlimited. | `nil` |
 | IdleTimeout | `time.Duration` | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used. | `nil` |
