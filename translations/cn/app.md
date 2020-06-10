@@ -235,7 +235,7 @@ app.Post("/api/register", func(c *fiber.Ctx) {
 
 您可以通过创建 `*Group` struct 结构来为路由分组。
 
-**Signature**
+**方法签名**
 
 ```go
 app.Group(prefix string, handlers ...func(*Ctx)) *Group
