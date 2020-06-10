@@ -242,9 +242,9 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Context
 
-返回一个 context.Context that carries a deadline, a cancellation signal, and other values across API boundaries.
+返回一个 context.Context 对象，它包含了 deadline、cancellation 信号或者其他设置的值，可以跨 API 层访问。
 
-**Signature**
+**方法签名**
 
 ```go
 c.Context() context.Context
@@ -254,7 +254,7 @@ c.Context() context.Context
 
 设置 Cookie
 
-**Signature**
+**方法签名**
 
 ```text
 c.Cookie(*Cookie)
@@ -314,7 +314,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 将文件从路径传送为 `附件`。
 
-通常情况下，浏览器会提示用户下载。 By default, the [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header `filename=` parameter is the file path \(_this typically appears in the browser dialog_\).
+通常情况下，浏览器会提示用户下载。 默认情况下，[Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) 首部的 `filename=` 的参数值为要发送的文件路径\(_这个名称一般会显示在浏览器的下载页_\)。
 
 用 **filename** 参数覆盖此默认值。
 
@@ -344,7 +344,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 您仍然可以 **访问** 并使用所有 **Fasthttp** 方法和属性。
 
-**Signature**
+**方法签名**
 
 {% hint style="info" %}
 请阅读 [Fasthttp文档](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) 了解更多详情。
@@ -995,7 +995,7 @@ app.Get("/", func(c *fiber.Ctx) {
 重定向到指定路径的 URL ，且具有指定的状态，是一个对应于HTTP状态代码的正整数。
 
 {% hint style="info" %}
-If **not** specified, status defaults to **302 Found**.
+如果**没有**指定路径，状态码默认设置为 **302 Found**。
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1126,7 +1126,7 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-Fiber also provides `SendBytes` ,`SendString` and `SendStream` methods for raw inputs.
+Fiber 也提供了诸如 `SendBytes`、`SendString` 和 `SendStream` 这些方法处理原生数据。
 
 {% hint style="success" %}
 如果您 **不需要** 类型断言，建议使用以获取 **更快** 的性能。
