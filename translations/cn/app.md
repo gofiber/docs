@@ -263,7 +263,7 @@ func main() {
 
 ## 路由
 
-Routes returns all registered routes
+Routes 方法会返回所有已注册的路由
 
 {% code title="Signature" %}
 ```go
@@ -292,7 +292,7 @@ for _, r := range app.Routes() {
 
 ## Listen
 
-Binds and listens for connections on the specified address. This can be a `int` for port or `string` for address.
+绑定监听地址，接受连接。 可以接受 `int` 类型参数指定监听端口，也可以传入 `string` 类型指定具体地址。
 
 {% code title="Signature" %}
 ```go
@@ -309,7 +309,7 @@ app.Listen("127.0.0.1:8080")
 ```
 {% endcode %}
 
-To enable **TLS/HTTPS** you can append a [**TLS config**](https://golang.org/pkg/crypto/tls/#Config).
+如果想要开启 **TLS/HTTPS**，可以在创建时追加一份 [**TLS 配置**](https://golang.org/pkg/crypto/tls/#Config)。
 
 {% code title="Example" %}
 ```go
@@ -325,7 +325,7 @@ app.Listen(443, config)
 
 ## Serve
 
-You can pass your own [`net.Listener`](https://golang.org/pkg/net/#Listener) using the `Serve` method.
+您可以传入自定义的 [`net.Listener`](https://golang.org/pkg/net/#Listener) using the `Serve` method.
 
 {% code title="Signature" %}
 ```go
