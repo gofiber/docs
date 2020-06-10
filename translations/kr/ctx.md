@@ -1017,7 +1017,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Render
 
-데이터와 함께 템플릿을 렌더링하고 `text/html` 응답을 보냅니다. 기본적으로 `Render`는 [**Go Template engine**](https://golang.org/pkg/html/template/)을 사용합니다. 만약 다른 엔진을 사용하고 싶으시다면, [**Template middleware**](middleware.md#template)를 봐주세요.
+데이터와 함께 템플릿을 렌더링하고 `text/html` 응답을 보냅니다. 기본적으로 `Render`는 [**Go Template engine**](https://golang.org/pkg/html/template/)을 사용합니다. If you want to use another engine, please take a look at our [**Template middleware**]().
 
 {% code title="Signature" %}
 ```go
