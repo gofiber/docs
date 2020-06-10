@@ -7,7 +7,7 @@ description: >-
 
 ## Middleware de Fiber
 
- Los módulos de middleware de Fiber listados aquí son mantenidos por el [equipo de Fiber](https://github.com/orgs/gofiber/people).
+Los módulos de middleware de Fiber listados aquí son mantenidos por el [equipo de Fiber](https://github.com/orgs/gofiber/people).
 
 | Middleware                                                                                                           | Descripción                                                                                                                                                       | Middleware interno       |
 |:-------------------------------------------------------------------------------------------------------------------- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------- |:------------------------ |
