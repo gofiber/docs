@@ -1017,7 +1017,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Render
 
-Affiche un modèle avec des données et envoie une réponse `text/html`. Par défaut `Render` utilise le [**moteur de modèle Go**](https://golang.org/pkg/html/template/). Si vous voulez utiliser un autre moteur, veuillez jeter un coup d'oeil au [**middleware modèle**](middleware.md#template).
+Affiche un modèle avec des données et envoie une réponse `text/html`. Par défaut `Render` utilise le [**moteur de modèle Go**](https://golang.org/pkg/html/template/). If you want to use another engine, please take a look at our [**Template middleware**]().
 
 {% code title="Signature" %}
 ```go
