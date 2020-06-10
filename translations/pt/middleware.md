@@ -7,7 +7,7 @@ description: >-
 
 ## Fiber Middleware
 
- The Fiber middleware modules listed here are maintained by the [Fiber team](https://github.com/orgs/gofiber/people).
+The Fiber middleware modules listed here are maintained by the [Fiber team](https://github.com/orgs/gofiber/people).
 
 | Middleware                                                                                                           | Descrição                                                                                                                                                                          | Built-in middleware      |
 |:-------------------------------------------------------------------------------------------------------------------- |:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:------------------------ |
