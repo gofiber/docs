@@ -1017,7 +1017,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Render
 
-Отображает шаблон с данными и отправляет ответ `text/html`. По умолчанию, метод `Render` использует стандартный [**движок шаблонов Go**](https://golang.org/pkg/html/template/). Если вы хотите использовать другой движок, то, пожалуйста, посмотрите примеры в [**Template middleware**](middleware.md#template).
+Отображает шаблон с данными и отправляет ответ `text/html`. По умолчанию, метод `Render` использует стандартный [**движок шаблонов Go**](https://golang.org/pkg/html/template/). If you want to use another engine, please take a look at our [**Template middleware**]().
 
 {% code title="Signature" %}
 ```go
