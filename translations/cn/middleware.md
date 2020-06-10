@@ -5,17 +5,17 @@ description: >-
 
 # 🧬 中间件
 
-## Fiber Middleware
+## Fiber 中间件
 
- The Fiber middleware modules listed here are maintained by the [Fiber team](https://github.com/orgs/gofiber/people).
+ 以下是 [Fiber 团队](https://github.com/orgs/gofiber/people)维护的中间件模块。
 
-| Middleware                                                                                                           | 说明                                                                                                                                                                  | Built-in middleware      |
+| 中间件                                                                                                                  | 说明                                                                                                                                                                  | 内置实现                     |
 |:-------------------------------------------------------------------------------------------------------------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:------------------------ |
-| [**adaptor**](https://github.com/gofiber/adaptor)                                                                    | Converter for net/http handlers to/from Fiber request handlers, special thanks to @arsmn!                                                                           | -                        |
-| [**basicauth**](https://github.com/gofiber/basicauth)                                                                | 基本验证中间件提供一个 HTTP 基本验证。 It calls the next handler for valid credentials and 401 Unauthorized for missing or invalid credentials.                                     | -                        |
-| [**compression**](https://github.com/Fenny/fiber/blob/master/middleware/compress.md)                                 | Compression middleware for Fiber, it supports `deflate`, `gzip` and `brotli` by default.                                                                            | `middleware.Compress()`  |
-| [**cors**](https://github.com/gofiber/cors)                                                                          | Enable cross-origin resource sharing \(CORS\) with various options.                                                                                               | -                        |
-| [**csrf**](https://github.com/gofiber/csrf)                                                                          | Protect from CSRF exploits.                                                                                                                                         | -                        |
+| [**adaptor**](https://github.com/gofiber/adaptor)                                                                    | 支持从 net/http 处理器到 Fiber 处理器之间的双向转换，此处鸣谢 @arsmn                                                                                                                      | -                        |
+| [**basicauth**](https://github.com/gofiber/basicauth)                                                                | 基本验证中间件提供一个 HTTP 基本验证。 如果提供的是有效的验证消息，那么自动调用 next 进入下一步；否则返回 401 Unauthorized 表示找不到验证信息或验证信息无效。                                                                      | -                        |
+| [**compression**](https://github.com/Fenny/fiber/blob/master/middleware/compress.md)                                 | Fiber 的压缩中间件，默认支持 `deflate`、`gzip` 和 `brotli` 这几种压缩方式。                                                                                                              | `middleware.Compress()`  |
+| [**cors**](https://github.com/gofiber/cors)                                                                          | 支持 cross-origin 资源访问\(CORS\)，提供了一系列参数用于自定义。                                                                                                                       | -                        |
+| [**csrf**](https://github.com/gofiber/csrf)                                                                          | 提供 CSRF 防护。                                                                                                                                                         | -                        |
 | [**embed**](https://github.com/gofiber/embed)                                                                        | FileServer middleware for Fiber, special thanks and credits to Alireza Salary                                                                                       | -                        |
 | \*\*\*\*[**favicon**](https://github.com/gofiber/fiber/blob/master/middleware/favicon.md)\*\*\*\*    | Ignore favicon from logs or serve from memory if a file path is provided.                                                                                           | `middleware.Favicon()`   |
 | \*\*\*\*[**helmet**](https://github.com/gofiber/helmet)\*\*\*\*                                      | Helps secure your apps by setting various HTTP headers.                                                                                                             | -                        |
@@ -38,7 +38,7 @@ These are some additional popular middleware modules created by the community. P
 <table>
   <thead>
     <tr>
-      <th style="text-align:left">Middleware</th>
+      <th style="text-align:left">中间件</th>
       <th style="text-align:left">说明</th>
     </tr>
   </thead>
