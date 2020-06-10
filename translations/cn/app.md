@@ -6,7 +6,7 @@ description: 用于表示Fiber应用程序的实例。
 
 ## New
 
-This method creates a new **App** named instance. You can pass optional [settings ](app.md#settings)when creating a new instance
+此方法创建一个新的 **App** 实例。 您可以在创建时传入可选的[配置项](app.md#settings)
 
 {% code title="Signature" %}
 ```go
@@ -30,7 +30,7 @@ func main() {
 ```
 {% endcode %}
 
-## Settings
+## 配置
 
 当调用 `New` 时，您可以传入应用设置。
 
@@ -82,20 +82,20 @@ func main() {
 | CaseSensitive             | `bool`          | 启用时， `/Foo` 和 `/foo` 是不同的路由。 当禁用时， `/Foo` 和 `/foo` 将被视为同一个路由。                                                                                                             | `false`           |
 | Immutable                 | `bool`          | 如果启用，上下文 context 方法返回的所有值都是不可变的。 默认情况下，直到您从处理器返回前，它们都是有效的，请查看问题 [\#185](https://github.com/gofiber/fiber/issues/185)。                                                   | `false`           |
 | BodyLimit                 | `int`           | 设置请求实体的最大允许限制，如果大小超过配置的限制， 发送 `413 - Request Entity Too Large` 请求实体太大的响应。                                                                                                 | `4 * 1024 * 1024` |
-| CompressedFileSuffix      | `string`        | Adds suffix to the original file name and tries saving the resulting compressed file under the new file name.                                                             | `".fiber.gz"`     |
+| CompressedFileSuffix      | `string`        | 在原始文件名后添加指定后缀，并尝试用新的文件名保存生成的压缩文件。                                                                                                                                         | `".fiber.gz"`     |
 | Concurrency               | `int`           | 设置并发联接的最大个数。                                                                                                                                                              | `256 * 1024`      |
 | DisableKeepalive          | `bool`          | 禁用保持存活连接，服务器将在向客户端发送首次响应后关闭传入的连接。                                                                                                                                         | `false`           |
 | DisableDefaultDate        | `bool`          | 当设置为 true 时，默认日期头字段 date header 将被排除在响应之外。                                                                                                                                | `false`           |
 | DisableDefaultContentType | `bool`          | 当设置为 true时，默认内容类型头字段 Content-Type header 将被排除在响应之外。                                                                                                                       | `false`           |
 | DisableStartupMessage     | `bool`          | 当设置为 true时，它将不会在日志中打印 fiber 的 ASCII 图像和信息“监听”。                                                                                                                            | `false`           |
-| DisableHeaderNormalizing  | `bool`          | By default all header names are normalized: conteNT-tYPE -&gt; Content-Type                                                                                         | `false`           |
+| DisableHeaderNormalizing  | `bool`          | 默认情况下，会对所有的首部名进行标准化，例如：conteNT-tYPE -&gt; Content-Type                                                                                                              | `false`           |
 | ETag                      | `bool`          | 启用或禁用 ETag 头字段，这是因为弱 Etags 和 强 Etags 都是使用相同的散列（哈希）方法 \(CRC-32\)。 启用时，默认使用弱 ETags。                                                                                       | `false`           |
 | Templates                 | `Templates`     | 模板是用于包装渲染函数的接口。 查看我们的 [**模板中间件**](middleware.md#template) 获取支持的引擎。                                                                                                        | `nil`             |
 | ReadTimeout               | `time.Duration` | 读取请求最大允许的时间 （包括读取 body）。 默认无超时限制。                                                                                                                                         | `nil`             |
 | WriteTimeout              | `time.Duration` | 写出响应最大允许的时间。默认无超时限制。 默认无超时限制。                                                                                                                                             | `nil`             |
 | IdleTimeout               | `time.Duration` | 开启保持存活时，等待下一次请求的最大允许时间。 如果IdleTimeout为零，则使用ReadTimeout的值。                                                                                                                 | `nil`             |
 
-## Static
+## 静态服务
 
 使用 **Static** 静态方法来为提供静态文件，例如 **图片**, **CSS** 和 **JavaScript**。
 
@@ -149,7 +149,7 @@ app.Static("/static", "./public")
 ```
 {% endcode %}
 
-如果您想要更多控制静态文件的设置， You could use the `fiber.Static` struct to enable specific settings.
+如果您想要更多控制静态文件的设置， 您可以使用 `fiber.Static` 结构体进行具体配置。
 
 {% code title="fiber.Static{}" %}
 ```go
@@ -185,7 +185,7 @@ app.Static("/", "./public", fiber.Static{
 ```
 {% endcode %}
 
-## HTTP Methods
+## HTTP 方法
 
 路由一个 HTTP 请求，其中 **METHOD** 是请求的 [HTTP 方法](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods)
 
@@ -231,7 +231,7 @@ app.Post("/api/register", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-## Group
+## 分组
 
 您可以通过创建 `*Group` struct 结构来为路由分组。
 
@@ -261,7 +261,7 @@ func main() {
 }
 ```
 
-## Routes
+## 路由
 
 Routes returns all registered routes
 
