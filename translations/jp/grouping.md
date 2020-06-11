@@ -1,4 +1,4 @@
-# 🎭 Grouping
+# 🎭 グループ化
 
 ## Getting Super Powers
 
