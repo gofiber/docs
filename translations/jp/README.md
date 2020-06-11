@@ -20,7 +20,7 @@ go get -u github.com/gofiber/fiber
 ## ゼロアロケーション
 
 {% hint style="warning" %}
-Some values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default
+[**fiber.Ctx**](ctx.md) から返される値は デフォルトで**変更不能ではありません**
 {% endhint %}
 
 Fiber は**ハイパフォーマンス**を求めて最適化されているために、 [fiber.Ctx</strong>](ctx.md) から返される値はデフォルトでは**不変ではなく**、リクエスト間で再利用されるでしょう。 経験則として、ハンドラ内ではコンテキスト値のみを使用**するべきであり**、参照を保持**するべきではありません**。 ハンドラから戻るとすぐに、コンテキストから取得した値は今後のリクエストで再利用され、手元で変化します。 以下に例を示します:
