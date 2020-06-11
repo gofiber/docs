@@ -1,4 +1,4 @@
-# 📝 Templates
+# 📝 テンプレート
 
 ## Getting Super Powers
 
