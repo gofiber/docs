@@ -8,16 +8,16 @@
 * [🧠 Context](ctx.md)
 * [🧬 ミドルウェア](middleware.md)
 
-## Guide
+## ガイド
 
 * [🔌 ルーティング](routing.md)
-* [🎭 Grouping](grouping.md)
-* [📝 Templates](templates.md)
-* [🐛 Error Handling](error-handling.md)
+* [🎭 グループ化](grouping.md)
+* [📝 テンプレート](templates.md)
+* [🐛 エラー処理](error-handling.md)
 
-## Misc <a id="miscellaneous"></a>
+## その他 <a id="miscellaneous"></a>
 
 * [🤔 FAQ](faq.md)
 * [📊 Benchmarks](benchmarks.md)
-* [🍳 Examples](https://github.com/gofiber/recipes)
+* [🍳 サンプル](https://github.com/gofiber/recipes)
 
