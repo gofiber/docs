@@ -166,3 +166,7 @@ http://localhost:8080/js/jquery.js
 http://localhost:8080/css/style.css
 ```
 
+
+## Note
+
+For more information on how to build APIs in Go with Fiber, please check out this awesome article [on building an express-style API in Go with Fiber](https://blog.logrocket.com/express-style-api-go-fiber/)
