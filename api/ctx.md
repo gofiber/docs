@@ -1019,11 +1019,11 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Render
 
-Renders a template with data and sends a `text/html` response. By default `Render` uses the default [**Go Template engine**](https://golang.org/pkg/html/template/). If you want to use another engine, please take a look at our [**Template middleware**]().
+Renders a view with data and sends a `text/html` response. By default `Render` uses the default [**Go Template engine**](https://golang.org/pkg/html/template/). If you want to use another engine, please take a look at our [**Template middleware**](https://github.com/gofiber/template).
 
 {% code title="Signature" %}
 ```go
-c.Render(file string, data interface{}) error
+c.Render(file string, data interface{}, layout ...string) error
 ```
 {% endcode %}
 
