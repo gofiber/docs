@@ -4,20 +4,20 @@
 
 ## API
 
-* [🚀 Приложение](app.md)
-* [🧠 Контекст](ctx.md)
-* [🧬 Middleware](middleware.md)
+* [🚀 Приложение](api/app.md)
+* [🧠 Контекст](api/ctx.md)
+* [🧬 Middleware](api/middleware.md)
 
 ## Guide
 
-* [🔌 Маршрутизация](routing.md)
-* [🎭 Grouping](grouping.md)
-* [📝 Templates](templates.md)
-* [🐛 Error Handling](error-handling.md)
+* [🔌 Маршрутизация](guide/routing.md)
+* [🎭 Grouping](guide/grouping.md)
+* [📝 Templates](guide/templates.md)
+* [🐛 Error Handling](guide/error-handling.md)
 
 ## Misc <a id="miscellaneous"></a>
 
-* [🤔 FAQ](faq.md)
-* [📊 Benchmarks](benchmarks.md)
+* [🤔 FAQ](miscellaneous/faq.md)
+* [📊 Benchmarks](miscellaneous/benchmarks.md)
 * [🍳 Examples](https://github.com/gofiber/recipes)
 
