@@ -4,20 +4,20 @@
 
 ## Schnittstelle (API)
 
-* [🚀 Anwendung](app.md)
-* [🧠 Kontext](ctx.md)
-* [🧬 Middleware](middleware.md)
+* [🚀 Anwendung](api/app.md)
+* [🧠 Kontext](api/ctx.md)
+* [🧬 Middleware](api/middleware.md)
 
 ## Anleitung
 
-* [🔌 Routing](routing.md)
-* [🎭 Gruppierung](grouping.md)
-* [📝 Templates](templates.md)
-* [🐛 Fehler-Behandlung](error-handling.md)
+* [🔌 Routing](guide/routing.md)
+* [🎭 Gruppierung](guide/grouping.md)
+* [📝 Templates](guide/templates.md)
+* [🐛 Fehler-Behandlung](guide/error-handling.md)
 
 ## Sonstiges<a id="miscellaneous"></a>
 
-* [🤔 FAQ](faq.md)
-* [📊 Benchmarks](benchmarks.md)
+* [🤔 FAQ](miscellaneous/faq.md)
+* [📊 Benchmarks](miscellaneous/benchmarks.md)
 * [🍳 Beispiele](https://github.com/gofiber/recipes)
 
