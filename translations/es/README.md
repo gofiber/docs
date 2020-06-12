@@ -20,10 +20,10 @@ go get -u github.com/gofiber/fiber
 ## Sin asignación de memoria
 
 {% hint style="warning" %}
-Algunos valores devueltos por [**fiber.Ctx**](ctx.md) no son **** inmutables por defecto
+Some values returned from [**fiber.Ctx**](api/ctx.md) are **not** immutable by default
 {% endhint %}
 
-Debido a que Fiber está optimizado para **alto rendimiento**, los valores devueltos por [**fiber.Ctx**](ctx.md) no son **** inmutables por defecto y **serán** reutilizados entre peticiones. Como regla general, **solo debe** usar valores de contexto dentro del manejador, y **no debe** mantener ninguna referencia. Tan pronto como regreses del manejador, cualquier valor que hayas obtenido del contexto será reutilizado en futuras peticiones y cambiará sin que te des cuenta. Aquí tienes un ejemplo:
+Because fiber is optimized for **high performance**, values returned from [**fiber.Ctx**](api/ctx.md) are **not** immutable by default and **will** be re-used across requests. Como regla general, **solo debe** usar valores de contexto dentro del manejador, y **no debe** mantener ninguna referencia. Tan pronto como regreses del manejador, cualquier valor que hayas obtenido del contexto será reutilizado en futuras peticiones y cambiará sin que te des cuenta. Aquí tienes un ejemplo:
 
 ```go
 func handler(c *fiber.Ctx) {
@@ -42,9 +42,9 @@ func handler(c *fiber.Ctx) {
 }
 ```
 
-Alternativamente, también puede usar el ajuste de [ **configuración inmutable**](app.md#settings). Esto hará que todos los valores devueltos desde el contexto sean inmutables, permitiéndole persistir en cualquier lugar. Por supuesto, esto ocurre a costa del rendimiento.
+Alternatively, you can also use the[ **Immutable setting**](api/app.md#settings). Esto hará que todos los valores devueltos desde el contexto sean inmutables, permitiéndole persistir en cualquier lugar. Por supuesto, esto ocurre a costa del rendimiento.
 
-Para obtener más información, por favor, consulta ****[**\#426**](https://github.com/gofiber/fiber/issues/426) y ****[**\#185**](https://github.com/gofiber/fiber/issues/185).
+For more information, please check **\*\*\[**\#426**\]\(**[https://github.com/gofiber/fiber/issues/426](https://github.com/gofiber/fiber/issues/426)**\) and \*\***[**\#185**](https://github.com/gofiber/fiber/issues/185).
 
 ## Hola mundo!
 
@@ -166,7 +166,7 @@ http://localhost:8080/js/jquery.js
 http://localhost:8080/css/style.css
 ```
 
-
 ## Note
 
 For more information on how to build APIs in Go with Fiber, please check out this awesome article [on building an express-style API in Go with Fiber](https://blog.logrocket.com/express-style-api-go-fiber/)
+
