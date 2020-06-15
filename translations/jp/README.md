@@ -20,10 +20,10 @@ go get -u github.com/gofiber/fiber
 ## ゼロアロケーション
 
 {% hint style="warning" %}
-Some values returned from [**fiber.Ctx**](api/ctx.md) are **not** immutable by default
+Some values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default
 {% endhint %}
 
-Because fiber is optimized for **high performance**, values returned from [**fiber.Ctx**](api/ctx.md) are **not** immutable by default and **will** be re-used across requests. 経験則として、ハンドラ内ではコンテキスト値のみを使用**するべきであり**、参照を保持**するべきではありません**。 ハンドラから戻るとすぐに、コンテキストから取得した値は今後のリクエストで再利用され、手元で変化します。 以下に例を示します:
+Because fiber is optimized for **high performance**, values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default and **will** be re-used across requests. 経験則として、ハンドラ内ではコンテキスト値のみを使用**するべきであり**、参照を保持**するべきではありません**。 ハンドラから戻るとすぐに、コンテキストから取得した値は今後のリクエストで再利用され、手元で変化します。 以下に例を示します:
 
 ```go
 func handler(c *fiber.Ctx) {
@@ -42,7 +42,7 @@ func handler(c *fiber.Ctx) {
 }
 ```
 
-Alternatively, you can also use the[ **Immutable setting**](api/app.md#settings). コンテキストから返されるすべての値は変更不能になり、どこにでも永続化できます。 もちろん、これはパフォーマンスを犠牲にしています。
+Alternatively, you can also use the[ **Immutable setting**](app.md#settings). コンテキストから返されるすべての値は変更不能になり、どこにでも永続化できます。 もちろん、これはパフォーマンスを犠牲にしています。
 
 For more information, please check **\*\*\[**\#426**\]\(**[https://github.com/gofiber/fiber/issues/426](https://github.com/gofiber/fiber/issues/426)**\) and \*\***[**\#185**](https://github.com/gofiber/fiber/issues/185).
 
