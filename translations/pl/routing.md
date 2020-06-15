@@ -1,13 +1,13 @@
 ---
 description: >-
-  Routing określa jak aplikacja powinna reagować na zapytania pod konkretne endpointy (URI).
+  Routing refers to how an application's endpoints (URIs) respond to client requests.
 ---
 
 # 🔌 Routing
 
 ## Paths
 
-Ścieżki route, w połączeniu z metodą żądania, ustalają pod jakie endpointy można wykonać zapytania. Route paths can be **strings** or **string patterns**.
+Route paths, in combination with a request method, define the endpoints at which requests can be made. Route paths can be **strings** or **string patterns**.
 
 **Examples of route paths based on strings**
 
@@ -36,10 +36,6 @@ Route parameters are **named URL segments** that are used to capture the values 
 Name of the route parameter must be made up of **characters** \(`[A-Za-z0-9_]`\).
 {% endhint %}
 
-{% hint style="danger" %}
-The hyphen \(`-`\) are **not** interpreted literally yet. Planned for **Fiber** v1.11.
-{% endhint %}
-
 **Example of define routes with route parameters**
 
 ```go
@@ -55,6 +51,26 @@ app.Get("/user/*", func(c *fiber.Ctx) {
 // Optional parameter
 app.Get("/user/:name?", func(c *fiber.Ctx) {
   c.Send(c.Params("name"))
+})
+```
+
+{% hint style="info" %}
+ Since the hyphen \(`-`\) and the dot \(`.`\) are interpreted literally, they can be used along with route parameters for useful purposes.
+{% endhint %}
+
+```go
+// http://localhost:3000/plantae/prunus.persica
+app.Get("/plantae/:genus.:species", func(c *fiber.Ctx) {
+  c.Params("genus")   // prunus
+  c.Params("species") // persica
+})
+```
+
+```go
+// http://localhost:3000/flights/LAX-SFO
+app.Get("/flights/:from-:to", func(c *fiber.Ctx) {
+  c.Params("from")   // LAX
+  c.Params("to")     // SFO
 })
 ```
 
@@ -87,7 +103,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Grouping
 
-Jeżeli masz wiele endpointów, możesz je lepiej poukładać za pomocą `Group`
+If you have many endpoints, you can organize your routes using `Group`
 
 ```go
 func main() {
