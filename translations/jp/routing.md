@@ -1,15 +1,15 @@
 ---
 description: >-
-  ルーティングとは、アプリケーションのエンドポイント(URI) がクライアントリクエストにどのように応答するかを指します。
+  Routing refers to how an application's endpoints (URIs) respond to client requests.
 ---
 
 # 🔌 ルーティング
 
 ## Paths
 
-ルートパスはリクエストメソッドと組み合わせて、リクエストを作成できるエンドポイントを定義します。 ルートパスは **文字列** または **文字列パターン** を使用できます。
+Route paths, in combination with a request method, define the endpoints at which requests can be made. Route paths can be **strings** or **string patterns**.
 
-**文字列ベースのルートパスの例**
+**Examples of route paths based on strings**
 
 ```go
 // This route path will match requests to the root route, "/":
@@ -30,17 +30,13 @@ app.Get("/random.txt", func(c *fiber.Ctx) {
 
 ## パラメータの表記
 
-ルートパラメータは、URL 内の特定の位置で指定された値をキャプチャするために使用される **URL セグメント**です キャプチャされた値は、 [Params](https://fiber.wiki/context#params) 関数を使用して取得できます。 パス内で指定されたルートパラメータの名前をそれぞれのキーとして使用します。
+Route parameters are **named URL segments** that are used to capture the values specified at their position in the URL. The captured values can be retrieved using the [Params](https://fiber.wiki/context#params) function, with the name of the route parameter specified in the path as their respective keys.
 
 {% hint style="info" %}
-Route パラメータの名前は **文字** \(`[A-Za-z0-9_]` \) で構成されていなければなりません。
+Name of the route parameter must be made up of **characters** \(`[A-Za-z0-9_]`\).
 {% endhint %}
 
-{% hint style="danger" %}
-ハイフン\(`-`\) はまだ **解釈されません。** 対応は**Fiber** v1.11で予定されています。
-{% endhint %}
-
-**ルートパラメータでルートを定義する例**
+**Example of define routes with route parameters**
 
 ```go
 // Parameters
@@ -58,11 +54,31 @@ app.Get("/user/:name?", func(c *fiber.Ctx) {
 })
 ```
 
+{% hint style="info" %}
+ Since the hyphen \(`-`\) and the dot \(`.`\) are interpreted literally, they can be used along with route parameters for useful purposes.
+{% endhint %}
+
+```go
+// http://localhost:3000/plantae/prunus.persica
+app.Get("/plantae/:genus.:species", func(c *fiber.Ctx) {
+  c.Params("genus")   // prunus
+  c.Params("species") // persica
+})
+```
+
+```go
+// http://localhost:3000/flights/LAX-SFO
+app.Get("/flights/:from-:to", func(c *fiber.Ctx) {
+  c.Params("from")   // LAX
+  c.Params("to")     // SFO
+})
+```
+
 ## Middleware
 
-リクエストやレスポンスを変更するための関数を**ミドルウェア関数**と呼びます。 [Next](https://github.com/gofiber/docs/tree/34729974f7d6c1d8363076e7e88cd71edc34a2ac/context/README.md#next)は**Fiber**ルーターの機能で、呼ばれると現在のルートに**マッチ**した**next**関数を実行します。
+Functions, that are designed to make changes to the request or response, are called **middleware functions**. The [Next](https://github.com/gofiber/docs/tree/34729974f7d6c1d8363076e7e88cd71edc34a2ac/context/README.md#next) is a **Fiber** router function, when called, executes the **next** function that **matches** the current route.
 
-**ミドルウェア関数の例**
+**Example of a middleware function**
 
 ```go
 app.Use(func(c *fiber.Ctx) {
@@ -83,11 +99,11 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-`Use` メソッドパスは **マウント** または **プレフィックス** パスであり、ミドルウェアが要求されたパスにのみ適用されるように制限します。 これは `Use` メソッドに `:params` を使用できないことを意味します。
+`Use` method path is a **mount** or **prefix** path and limits middleware to only apply to any paths requested that begin with it. This means you cannot use `:params` on the `Use` method.
 
 ## Grouping
 
-エンドポイントが多い場合は、 `Group`を使用してルートを整理できます。
+If you have many endpoints, you can organize your routes using `Group`
 
 ```go
 func main() {
