@@ -1,12 +1,12 @@
 ---
-description: Инстанс приложения, обычно, обозначает Fiber приложение.
+description: The app instance conventionally denotes the Fiber application.
 ---
 
 # 🚀 Приложение
 
 ## New
 
-Этот метод создает новый экземпляр **Приложения**. Вы можете указать дополнительные [настройки](app.md#settings) при создании нового экземпляра
+This method creates a new **App** named instance. You can pass optional [settings ](app.md#settings)when creating a new instance
 
 {% code title="Signature" %}
 ```go
@@ -32,7 +32,7 @@ func main() {
 
 ## Settings
 
-Вы можете передать настройки приложения при вызове метода `New`.
+You can pass application settings when calling `New`.
 
 {% code title="Example" %}
 ```go
@@ -52,7 +52,7 @@ func main() {
 ```
 {% endcode %}
 
-Или измените настройки после инициализации `приложения`.
+Or change the settings after initializing an `app`.
 
 {% code title="Example" %}
 ```go
@@ -72,35 +72,37 @@ func main() {
 ```
 {% endcode %}
 
-**Настройки** **полей**
+**Settings** **fields**
 
-| Свойство                  | Тип             | Описание                                                                                                                                                                                                                                                                      | По умолчанию      |
-|:------------------------- |:--------------- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
-| Prefork                   | `bool`          | Позволяет использовать опцию сокета[`SO_REUSEPORT`](https://lwn.net/Articles/542629/). Это приведет к появлению нескольких Go процессов прослушивания на одном порту. узнайте больше о [сокетах в шардинге](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
-| ServerHeader              | `string`        | Включает HTTP-заголовок `Server` с заданным значением.                                                                                                                                                                                                                        | `""`              |
-| StrictRouting             | `bool`          | Если этот параметр включен, маршрутизатор обрабатывает `/foo` и `/foo/`, как разные маршруты. В противном случае, маршрутизатор обрабатывает `/foo` и `/foo/`, как одинаковые маршруты.                                                                                       | `false`           |
-| CaseSensitive             | `bool`          | Если включено, `/Foo` и `/foo` являются разными маршрутами. Когда отключено, `/Foo` и `/foo` обрабатываются одинаково.                                                                                                                                                        | `false`           |
-| Immutable                 | `bool`          | Когда включено, все значения, возвращаемые методами контекста, не изменяются. По умолчанию они действительны до тех пор, пока вы не вернетесь из обработчика, см. проблему [\#185](https://github.com/gofiber/fiber/issues/185).                                            | `false`           |
-| BodyLimit                 | `int`           | Устанавливает максимально допустимый размер для тела запроса. Если размер превышает сконфигурированный предел, то он отправляет `413 - Request Entity Too Large` в качестве ответа.                                                                                           | `4 * 1024 * 1024` |
-| CompressedFileSuffix      | `string`        | Adds suffix to the original file name and tries saving the resulting compressed file under the new file name.                                                                                                                                                                 | `".fiber.gz"`     |
-| Concurrency               | `int`           | Максимальное количество одновременных подключений.                                                                                                                                                                                                                            | `256 * 1024`      |
-| DisableKeepalive          | `bool`          | Отключение keep-alive соединений, приведет к закрытию входящих соединений после отправки первого ответа клиенту                                                                                                                                                               | `false`           |
-| DisableDefaultDate        | `bool`          | Если установлено значение true, то заголовок даты по умолчанию будет исключён из ответа.                                                                                                                                                                                      | `false`           |
-| DisableDefaultContentType | `bool`          | Если установлено значение true, то заголовок Content-Type по умолчанию будет исключён из ответа.                                                                                                                                                                              | `false`           |
-| DisableStartupMessage     | `bool`          | Когда установлено значение true, не будет отображаться лого Fiber в ASCII-графике и сообщение «слушает на порту ...»                                                                                                                                                          | `false`           |
-| DisableHeaderNormalizing  | `bool`          | По умолчанию, все заголовки нормализуются: conteNT-tYPE -&gt; Content-Type                                                                                                                                                                                              | `false`           |
-| ETag                      | `bool`          | Включение или отключение генерации заголовков ETag, так как слабые и сильные ETag генерируются с использованием одного и того же метода хэширования \(CRC-32\). Слабые ETags по умолчанию, когда включено.                                                                  | `false`           |
-| Templates                 | `Templates`     | Шаблоны — это интерфейс, который завершает Render функцию. See our [**Template Middleware**]() for supported engines.                                                                                                                                                         | `nil`             |
-| ReadTimeout               | `time.Duration` | Время, отведенное на прочтение полного запроса, включая тело. Время ожидания по умолчанию не ограничено.                                                                                                                                                                      | `nil`             |
-| WriteTimeout              | `time.Duration` | Максимальная длительность до истечения времени записи ответа. Время ожидания по умолчанию не ограничено.                                                                                                                                                                      | `nil`             |
-| IdleTimeout               | `time.Duration` | Максимальное время ожидания следующего запроса при включенном keep-alive. Если IdleTimeout равен нулю, то используется значение ReadTimeout.                                                                                                                                  | `nil`             |
+| Property                  | Type            | Description                                                                                                                                                                                                                                               | Default           |
+|:------------------------- |:--------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
+| Prefork                   | `bool`          | Enables use of the[`SO_REUSEPORT`](https://lwn.net/Articles/542629/)socket option. This will spawn multiple Go processes listening on the same port. learn more about [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
+| ServerHeader              | `string`        | Enables the `Server` HTTP header with the given value.                                                                                                                                                                                                    | `""`              |
+| StrictRouting             | `bool`          | When enabled, the router treats `/foo` and `/foo/` as different. Otherwise, the router treats `/foo` and `/foo/` as the same.                                                                                                                             | `false`           |
+| CaseSensitive             | `bool`          | When enabled, `/Foo` and `/foo` are different routes. When disabled, `/Foo`and `/foo` are treated the same.                                                                                                                                               | `false`           |
+| Immutable                 | `bool`          | When enabled, all values returned by context methods are immutable. By default they are valid until you return from the handler, see issue [\#185](https://github.com/gofiber/fiber/issues/185).                                                        | `false`           |
+| BodyLimit                 | `int`           | Sets the maximum allowed size for a request body, if the size exceeds the configured limit, it sends `413 - Request Entity Too Large` response.                                                                                                           | `4 * 1024 * 1024` |
+| CompressedFileSuffix      | `string`        | Adds suffix to the original file name and tries saving the resulting compressed file under the new file name.                                                                                                                                             | `".fiber.gz"`     |
+| Concurrency               | `int`           | Maximum number of concurrent connections.                                                                                                                                                                                                                 | `256 * 1024`      |
+| DisableKeepalive          | `bool`          | Disable keep-alive connections, the server will close incoming connections after sending the first response to client                                                                                                                                     | `false`           |
+| DisableDefaultDate        | `bool`          | When set to true causes the default date header to be excluded from the response.                                                                                                                                                                         | `false`           |
+| DisableDefaultContentType | `bool`          | When set to true, causes the default Content-Type header to be excluded from the Response.                                                                                                                                                                | `false`           |
+| DisableStartupMessage     | `bool`          | When set to true, it will not print out the fiber ASCII and "listening" on message                                                                                                                                                                        | `false`           |
+| DisableHeaderNormalizing  | `bool`          | By default all header names are normalized: conteNT-tYPE -&gt; Content-Type                                                                                                                                                                         | `false`           |
+| ETag                      | `bool`          | Enable or disable ETag header generation, since both weak and strong etags are generated using the same hashing method \(CRC-32\). Weak ETags are the default when enabled.                                                                             | `false`           |
+| Views                     | `Views`         | Views is the interface that wraps the Render function. See our **Template Middleware** for supported engines.                                                                                                                                             | `nil`             |
+| ReadTimeout               | `time.Duration` | The amount of time allowed to read the full request including body. Default timeout is unlimited.                                                                                                                                                         | `nil`             |
+| WriteTimeout              | `time.Duration` | The maximum duration before timing out writes of the response. Default timeout is unlimited.                                                                                                                                                              | `nil`             |
+| IdleTimeout               | `time.Duration` | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used.                                                                                                             | `nil`             |
+| ReadBufferSize            | `int`           | Per-connection buffer size for requests' reading. This also limits the maximum header size. Increase this buffer if your clients send multi-KB RequestURIs and/or multi-KB headers \(for example, BIG cookies\).                                        | `4096`            |
+| WriteBufferSize           | `int`           | Per-connection buffer size for responses' writing.                                                                                                                                                                                                        | `4096`            |
 
 ## Static
 
-Используйте метод **Static** для обработки статических файлов, таких как **изображения**, **CSS** и **JavaScript**.
+Use the **Static** method to serve static files such as **images**, **CSS** and **JavaScript**.
 
 {% hint style="info" %}
-По умолчанию, **Static** будет обрабатывать`index.html` файл в ответ на запрос в каталоге.
+By default, **Static** will serve `index.html` files in response to a request on a directory.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -109,7 +111,7 @@ app.Static(prefix, root string, config ...Static) // => with prefix
 ```
 {% endcode %}
 
-Используйте следующий код для отображения файлов в каталоге `./public`
+Use the following code to serve files in a directory named `./public`
 
 {% code title="Example" %}
 ```go
@@ -121,7 +123,7 @@ app.Static("/", "./public")
 ```
 {% endcode %}
 
-Чтобы обслуживать файлы из нескольких каталогов, вы можете использовать метод **Static** несколько раз.
+To serve from multiple directories, you can use **Static** multiple times.
 
 {% code title="Example" %}
 ```go
@@ -134,10 +136,10 @@ app.Static("/", "./files")
 {% endcode %}
 
 {% hint style="info" %}
-Используйте кэш реверсивных прокси, типа [**NGINX**](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/), для улучшения производительности статических ассетов.
+Use a reverse proxy cache like [**NGINX**](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) to improve performance of serving static assets.
 {% endhint %}
 
-Вы можете использовать любой виртуальный префикс пути \(_где путь фактически не существует в файловой системе_\) для файлов, которые обслуживаются методом **Static**, указав путь префикса для статического каталога, как показано ниже:
+You can use any virtual path prefix \(_where the path does not actually exist in the file system_\) for files that are served by the **Static** method, specify a prefix path for the static directory, as shown below:
 
 {% code title="Example" %}
 ```go
@@ -149,7 +151,7 @@ app.Static("/static", "./public")
 ```
 {% endcode %}
 
-Если вы хотите иметь немного больше контроля над настройками для обработки статических файлов. You could use the `fiber.Static` struct to enable specific settings.
+If you want to have a little bit more control regarding the settings for serving static files. You could use the `fiber.Static` struct to enable specific settings.
 
 {% code title="fiber.Static{}" %}
 ```go
@@ -158,17 +160,17 @@ type Static struct {
     // Transparently compresses responses if set to true
     // This works differently than the github.com/gofiber/compression middleware
     // The server tries minimizing CPU usage by caching compressed files.
-    // Добавляется суффикс ".fiber.gz" к оригинальному имени файла.
-    // Необязательный. Значение по умолчанию false
+    // It adds ".fiber.gz" suffix to the original file name.
+    // Optional. Default value false
     Compress bool
-    // Включает запросы диапазона байтов, если установлено значение true.
-    // Необязательный. Значение по умолчанию false
+    // Enables byte range requests if set to true.
+    // Optional. Default value false
     ByteRange bool
-    // Разрешить просмотр каталогов.
-    // Необязательный. Значение по умолчанию: false.
+    // Enable directory browsing.
+    // Optional. Default value false.
     Browse bool
-    // Индексный файл для работы с каталогом.
-    // Необязательный. Значение по умолчанию "index.html".
+    // Index file for serving a directory.
+    // Optional. Default value "index.html".
     Index string
 }
 ```
@@ -187,7 +189,7 @@ app.Static("/", "./public", fiber.Static{
 
 ## HTTP Methods
 
-Маршрутизирует HTTP-запрос, где **METHOD** является [HTTP методом](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) запроса.
+Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) of the request.
 
 {% code title="Signatures" %}
 ```go
@@ -233,15 +235,15 @@ app.Post("/api/register", func(c *fiber.Ctx) {
 
 ## Group
 
-Вы можете группировать маршруты, создав структуру `*Group`.
+You can group routes by creating a `*Group` struct.
 
-**Сигнатура**
+**Signature**
 
 ```go
 app.Group(prefix string, handlers ...func(*Ctx)) *Group
 ```
 
-**Пример**
+**Example**
 
 ```go
 func main() {
