@@ -94,6 +94,8 @@ func main() {
 | ReadTimeout | `time.Duration` | The amount of time allowed to read the full request including body. Default timeout is unlimited. | `nil` |
 | WriteTimeout | `time.Duration` | The maximum duration before timing out writes of the response. Default timeout is unlimited. | `nil` |
 | IdleTimeout | `time.Duration` | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used. | `nil` |
+| ReadBufferSize | `int` | Per-connection buffer size for requests' reading. This also limits the maximum header size. Increase this buffer if your clients send multi-KB RequestURIs and/or multi-KB headers \(for example, BIG cookies\). | `4096` |
+| WriteBufferSize | `int` | Per-connection buffer size for responses' writing. | `4096` |
 
 ## Static
 
