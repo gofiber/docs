@@ -37,10 +37,6 @@ Route parameters are **named URL segments** that are used to capture the values 
 Name of the route parameter must be made up of **characters** \(`[A-Za-z0-9_]`\).
 {% endhint %}
 
-{% hint style="danger" %}
-The hyphen \(`-`\) & \( . \) are **not** interpreted literally yet. Planned for **Fiber** v1.12.x
-{% endhint %}
-
 **Example of define routes with route parameters**
 
 ```go
@@ -56,6 +52,26 @@ app.Get("/user/*", func(c *fiber.Ctx) {
 // Optional parameter
 app.Get("/user/:name?", func(c *fiber.Ctx) {
   c.Send(c.Params("name"))
+})
+```
+
+{% hint style="info" %}
+ Since the hyphen \(`-`\) and the dot \(`.`\) are interpreted literally, they can be used along with route parameters for useful purposes.
+{% endhint %}
+
+```go
+// http://localhost:3000/plantae/prunus.persica
+app.Get("/plantae/:genus.:species", func(c *fiber.Ctx) {
+  c.Params("genus")   // prunus
+  c.Params("species") // persica
+})
+```
+
+```go
+// http://localhost:3000/flights/LAX-SFO
+app.Get("/flights/:from-:to", func(c *fiber.Ctx) {
+  c.Params("from")   // LAX
+  c.Params("to")     // SFO
 })
 ```
 
