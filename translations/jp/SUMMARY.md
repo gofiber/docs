@@ -4,18 +4,25 @@
 
 ## API
 
+---
+
 * [🚀 アプリケーション](app.md)
 * [🧠 Context](ctx.md)
 * [🧬 ミドルウェア](middleware.md)
 
 ## ガイド
 
+---
+
 * [🔌 ルーティング](routing.md)
 * [🎭 グループ化](grouping.md)
 * [📝 テンプレート](templates.md)
-* [🐛 エラー処理](error-handling.md)
+* [🔎 Validating](validating.md)
+* [🐛 Error Handling](error-handling.md)
 
 ## その他 <a id="miscellaneous"></a>
+
+---
 
 * [🤔 FAQ](faq.md)
 * [📊 Benchmarks](benchmarks.md)
