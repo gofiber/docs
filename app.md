@@ -32,7 +32,7 @@ func main() {
 
 ## Settings
 
-You can pass application settings when calling `New.`
+You can pass application settings when calling `New`.
 
 {% code title="Example" %}
 ```go
@@ -52,7 +52,7 @@ func main() {
 ```
 {% endcode %}
 
-Or change the settings after initializing an `app.`
+Or change the settings after initializing an `app`.
 
 {% code title="Example" %}
 ```go
