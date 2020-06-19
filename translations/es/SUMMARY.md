@@ -4,18 +4,25 @@
 
 ## API
 
+---
+
 * [🚀 Aplicación](app.md)
 * [🧠 Contexto](ctx.md)
 * [🧬 Middleware](middleware.md)
 
 ## Guía
 
+---
+
 * [🔌 Enrutamiento](routing.md)
 * [🎭 Agrupando](grouping.md)
 * [📝 Plantillas](templates.md)
-* [🐛 Manejo de errores](error-handling.md)
+* [🔎 Validating](validating.md)
+* [🐛 Error Handling](error-handling.md)
 
 ## Otros <a id="miscellaneous"></a>
+
+---
 
 * [🤔 FAQ](faq.md)
 * [📊 Benchmarks](benchmarks.md)
