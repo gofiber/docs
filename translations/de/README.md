@@ -1,11 +1,11 @@
 ---
 description: >-
-  An online API documentation with examples so you can start building web apps with Fiber right away!
+  Eine Online-API-Dokumentation mit Beispielen, damit Sie sofort mit dem Erstellen von Web-Apps mit Fiber beginnen können!
 ---
 
 # 📖 Erste Schritte
 
-**Fiber** ist ein an [Express](https://github.com/expressjs/express) angelehntes **Webframework**, welches auf [Fasthttp](https://github.com/valyala/fasthttp), der **schnellsten** HTTP-Engine für [Go](https://golang.org/doc/), aufbaut. Konzipiert, um die Voraussetzungen für eine **schnelle** und **einfache** Entwicklung mit **null Speicherzuweisung** und **hoher Leistung** zu schaffen.
+**Fiber** ist ein [Express](https://github.com/expressjs/express) angelehntes **Webframework**, welches auf [Fasthttp](https://github.com/valyala/fasthttp), der **schnellsten** HTTP-Engine für [Go](https://golang.org/doc/), aufbaut. Konzipiert, um die Voraussetzungen für eine **schnelle** und **einfache** Entwicklung mit **null Speicherzuweisung** und **hoher Leistung** zu schaffen.
 
 ## Installation
 
