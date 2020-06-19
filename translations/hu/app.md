@@ -80,7 +80,7 @@ func main() {
 | ServerHeader              | `string`        | Enables the `Server` HTTP header with the given value.                                                                                                                                                                                                    | `""`              |
 | StrictRouting             | `bool`          | When enabled, the router treats `/foo` and `/foo/` as different. Otherwise, the router treats `/foo` and `/foo/` as the same.                                                                                                                             | `false`           |
 | CaseSensitive             | `bool`          | When enabled, `/Foo` and `/foo` are different routes. When disabled, `/Foo`and `/foo` are treated the same.                                                                                                                                               | `false`           |
-| Immutable                 | `bool`          | When enabled, all values returned by context methods are immutable. By default they are valid until you return from the handler, see issue [\#185](https://github.com/gofiber/fiber/issues/185).                                                        | `false`           |
+| Immutable                 | `bool`          | When enabled, all values returned by context methods are immutable. By default, they are valid until you return from the handler; see the issue [\#185](https://github.com/gofiber/fiber/issues/185).                                                   | `false`           |
 | BodyLimit                 | `int`           | Sets the maximum allowed size for a request body, if the size exceeds the configured limit, it sends `413 - Request Entity Too Large` response.                                                                                                           | `4 * 1024 * 1024` |
 | CompressedFileSuffix      | `string`        | Adds suffix to the original file name and tries saving the resulting compressed file under the new file name.                                                                                                                                             | `".fiber.gz"`     |
 | Concurrency               | `int`           | Maximum number of concurrent connections.                                                                                                                                                                                                                 | `256 * 1024`      |
@@ -91,10 +91,10 @@ func main() {
 | DisableHeaderNormalizing  | `bool`          | By default all header names are normalized: conteNT-tYPE -&gt; Content-Type                                                                                                                                                                         | `false`           |
 | ETag                      | `bool`          | Enable or disable ETag header generation, since both weak and strong etags are generated using the same hashing method \(CRC-32\). Weak ETags are the default when enabled.                                                                             | `false`           |
 | Views                     | `Views`         | Views is the interface that wraps the Render function. See our **Template Middleware** for supported engines.                                                                                                                                             | `nil`             |
-| ReadTimeout               | `time.Duration` | The amount of time allowed to read the full request including body. Default timeout is unlimited.                                                                                                                                                         | `nil`             |
-| WriteTimeout              | `time.Duration` | The maximum duration before timing out writes of the response. Default timeout is unlimited.                                                                                                                                                              | `nil`             |
+| ReadTimeout               | `time.Duration` | The amount of time allowed to read the full request, including body. The default timeout is unlimited.                                                                                                                                                    | `nil`             |
+| WriteTimeout              | `time.Duration` | The maximum duration before timing out writes of the response. The default timeout is unlimited.                                                                                                                                                          | `nil`             |
 | IdleTimeout               | `time.Duration` | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used.                                                                                                             | `nil`             |
-| ReadBufferSize            | `int`           | Per-connection buffer size for requests' reading. This also limits the maximum header size. Increase this buffer if your clients send multi-KB RequestURIs and/or multi-KB headers \(for example, BIG cookies\).                                        | `4096`            |
+| ReadBufferSize            | `int`           | per-connection buffer size for requests' reading. This also limits the maximum header size. Increase this buffer if your clients send multi-KB RequestURIs and/or multi-KB headers \(for example, BIG cookies\).                                        | `4096`            |
 | WriteBufferSize           | `int`           | Per-connection buffer size for responses' writing.                                                                                                                                                                                                        | `4096`            |
 
 ## Static
@@ -123,7 +123,7 @@ app.Static("/", "./public")
 ```
 {% endcode %}
 
-To serve from multiple directories, you can use **Static** multiple times.
+To serve from multiple directories, you can use **Static** numerous times.
 
 {% code title="Example" %}
 ```go
@@ -163,13 +163,13 @@ type Static struct {
     // It adds ".fiber.gz" suffix to the original file name.
     // Optional. Default value false
     Compress bool
-    // Enables byte range requests if set to true.
+    // Enables byte-range requests if set to true.
     // Optional. Default value false
     ByteRange bool
     // Enable directory browsing.
     // Optional. Default value false.
     Browse bool
-    // Index file for serving a directory.
+    // File to serve when requesting a directory path.
     // Optional. Default value "index.html".
     Index string
 }
@@ -265,7 +265,7 @@ func main() {
 
 ## Routes
 
-Routes returns all registered routes
+This method returns all registered routes.
 
 {% code title="Signature" %}
 ```go
@@ -294,7 +294,7 @@ for _, r := range app.Routes() {
 
 ## Listen
 
-Binds and listens for connections on the specified address. This can be a `int` for port or `string` for address.
+Binds and listens for connections on the specified address. This can be an `int` for port or `string` for address.
 
 {% code title="Signature" %}
 ```go
@@ -351,7 +351,7 @@ app.Serve(ln)
 
 ## Test
 
-Testing your application is done with the **Test** method. Use this method for creating `_test.go` files or when you need to debug your routing logic. The default timeout is `200ms` if you want to disable a timeout completely, pass `-1` as a second argument.
+Testing your application is done with the **Test** method. Use this method for creating `_test.go` files or when you need to debug your routing logic. The default timeout is `200ms` if you want to disable a timeout altogether, pass `-1` as a second argument.
 
 {% code title="Signature" %}
 ```go
@@ -383,4 +383,3 @@ if resp.StatusCode == 200 {
 }
 ```
 {% endcode %}
-
