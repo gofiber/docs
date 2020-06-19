@@ -4,18 +4,25 @@
 
 ## Schnittstelle (API)
 
+---
+
 * [🚀 Anwendung](app.md)
 * [🧠 Kontext](ctx.md)
 * [🧬 Middleware](middleware.md)
 
 ## Anleitung
 
+---
+
 * [🔌 Routing](routing.md)
 * [🎭 Gruppierung](grouping.md)
 * [📝 Templates](templates.md)
-* [🐛 Fehler-Behandlung](error-handling.md)
+* [🔎 Validating](validating.md)
+* [🐛 Error Handling](error-handling.md)
 
 ## Sonstiges<a id="miscellaneous"></a>
+
+---
 
 * [🤔 FAQ](faq.md)
 * [📊 Benchmarks](benchmarks.md)
