@@ -93,6 +93,9 @@ app.Use(func(c *fiber.Ctx) {
 
   // Go to next middleware:
   c.Next()
+  
+  // End of the chain
+  fmt.Println("Bye 👋!")
 })
 
 app.Get("/", func(c *fiber.Ctx) {
