@@ -9,17 +9,17 @@ description: >-
 
 ## Catching Errors
 
-It’s essential to ensure that Fiber catches all errors that occur while running route handlers and middleware. You must pass them to the `ctx.Next()` function, where Fiber will catch and process them. 
+It’s essential to ensure that Fiber catches all errors that occur while running route handlers and middleware. You must pass them to the `ctx.Next()` function, where Fiber will catch and process them.
 
 {% tabs %}
 {% tab title="Example" %}
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-	err := c.SendFile("file-does-not-exist")
+    err := c.SendFile("file-does-not-exist")
 
-	if err != nil {
-		c.Next(err) // Pass error to Fiber
-	}
+    if err != nil {
+        c.Next(err) // Pass error to Fiber
+    }
 })
 ```
 {% endtab %}
@@ -32,22 +32,21 @@ Fiber does not handle [panics](https://blog.golang.org/defer-panic-and-recover) 
 package main
 
 import (
-	"github.com/gofiber/fiber"
-	"github.com/gofiber/fiber/middleware"
+    "github.com/gofiber/fiber"
+    "github.com/gofiber/fiber/middleware"
 )
 
 func main() {
-	app := fiber.New()
+    app := fiber.New()
 
-	app.Use(middleware.Recover())
+    app.Use(middleware.Recover())
 
-	app.Get("/", func(c *fiber.Ctx) {
-		panic("This panic is catched by the ErrorHandler")
-	})
+    app.Get("/", func(c *fiber.Ctx) {
+        panic("This panic is catched by the ErrorHandler")
+    })
 
-	log.Fatal(app.Listen(3000))
+    log.Fatal(app.Listen(3000))
 }
-
 ```
 {% endcode %}
 
@@ -73,17 +72,17 @@ Fiber provides an error handler by default. For a standard error, the response i
 ```go
 // Default error handler
 app.Settings.ErrorHandler = func(ctx *fiber.Ctx, err error) {
-	// Statuscode defaults to 500
-	code := fiber.StatusInternalServerError
-	
-	// Check if it's an fiber.Error type
-	if e, ok := err.(*fiber.Error); ok {
-		code = e.Code
-	}
-	
-	// Return HTTP response
-	ctx.Set(fiber.HeaderContentType, fiber.MIMETextPlainCharsetUTF8)
-	ctx.Status(code).SendString(err.Error())
+    // Statuscode defaults to 500
+    code := fiber.StatusInternalServerError
+
+    // Check if it's an fiber.Error type
+    if e, ok := err.(*fiber.Error); ok {
+        code = e.Code
+    }
+
+    // Return HTTP response
+    ctx.Set(fiber.HeaderContentType, fiber.MIMETextPlainCharsetUTF8)
+    ctx.Status(code).SendString(err.Error())
 }
 ```
 {% endcode %}
@@ -102,21 +101,22 @@ app := fiber.New()
 
 // Custom error handler
 app.Settings.ErrorHandler = func(ctx *fiber.Ctx, err error) {
-	// Statuscode defaults to 500
-	code := fiber.StatusInternalServerError
+    // Statuscode defaults to 500
+    code := fiber.StatusInternalServerError
 
-	// Retreive the custom statuscode if it's an fiber.*Error
-	if e, ok := err.(*fiber.Error); ok {
-		code = e.Code
-	}
+    // Retreive the custom statuscode if it's an fiber.*Error
+    if e, ok := err.(*fiber.Error); ok {
+        code = e.Code
+    }
 
-	// Send custom error page
-	err = ctx.Status(code).SendFile(fmt.Sprintf("./%d.html", code))
-	if err != nil {
-		ctx.Status(500).SendString("Internal Server Error")
-	}
+    // Send custom error page
+    err = ctx.Status(code).SendFile(fmt.Sprintf("./%d.html", code))
+    if err != nil {
+        ctx.Status(500).SendString("Internal Server Error")
+    }
 }
 ```
 {% endcode %}
 
 > Special thanks to the [Echo](https://echo.labstack.com/) & [Express](https://expressjs.com/) framework for inspiration regarding error handling.
+

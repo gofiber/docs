@@ -1,6 +1,7 @@
 ---
 description: >-
-  The Ctx struct represents the Context which hold the HTTP request and response. It has methods for the request query string, parameters, body, HTTP
+  The Ctx struct represents the Context which hold the HTTP request and
+  response. It has methods for the request query string, parameters, body, HTTP
   headers, and so on.
 ---
 
@@ -127,7 +128,7 @@ app.Get("/bodylimit", func(c *fiber.Ctx) {
 
 ## BaseURL
 
-Returns base URL \(**protocol** + **host**\) as a `string`.
+Returns the base URL \(**protocol** + **host**\) as a `string`.
 
 {% code title="Signature" %}
 ```go
@@ -243,8 +244,8 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Context
 
-Returns context.Context that carries a deadline, a cancellation signal, and other values across API boundaries.  
-  
+Returns context.Context that carries a deadline, a cancellation signal, and other values across API boundaries.
+
 **Signature**
 
 ```go
@@ -1149,7 +1150,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
   c.SendString("Hello, World!")
   // => "Hello, World!"
-  
+
   c.SendStream(bytes.NewReader([]byte("Hello, World!")))
   // => "Hello, World!"
 })

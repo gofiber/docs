@@ -1,6 +1,7 @@
 ---
 description: >-
-  List of frequently asked questions. Feel free to open an issue to add your question to this page.
+  List of frequently asked questions. Feel free to open an issue to add your
+  question to this page.
 ---
 
 # 🤔 FAQ
@@ -64,3 +65,4 @@ Yes, we have our own [Discord ](https://gofiber.io/discord)server, where we hang
 If you have questions or just want to have a chat, feel free to join us via this **&gt;** [**invite link**](https://gofiber.io/discord) **&lt;**.
 
 ![](.gitbook/assets/2020-06-08-03_06_27-support-discord.png)
+

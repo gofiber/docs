@@ -56,7 +56,7 @@ app.Get("/user/:name?", func(c *fiber.Ctx) {
 ```
 
 {% hint style="info" %}
- Since the hyphen \(`-`\) and the dot \(`.`\) are interpreted literally, they can be used along with route parameters for useful purposes.
+Since the hyphen \(`-`\) and the dot \(`.`\) are interpreted literally, they can be used along with route parameters for useful purposes.
 {% endhint %}
 
 ```go
@@ -93,7 +93,7 @@ app.Use(func(c *fiber.Ctx) {
 
   // Go to next middleware:
   c.Next()
-  
+
   // End of the chain
   fmt.Println("Bye 👋!")
 })
@@ -112,7 +112,7 @@ If you have many endpoints, you can organize your routes using `Group`.
 ```go
 func main() {
   app := fiber.New()
-  
+
   api := app.Group("/api", cors())  // /api
 
   v1 := api.Group("/v1", mysql())   // /api/v1
@@ -122,7 +122,7 @@ func main() {
   v2 := api.Group("/v2", mongodb()) // /api/v2
   v2.Get("/list", handler)          // /api/v2/list
   v2.Get("/user", handler)          // /api/v2/user
-  
+
   app.Listen(3000)
 }
 ```
