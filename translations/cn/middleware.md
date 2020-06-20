@@ -88,6 +88,11 @@ These are some additional popular middleware modules created by the community. P
       <td style="text-align:left">A Go library for building GraphQL servers without any fuss with Fasthttp
         support</td>
     </tr>
+    <tr>
+      <td style="text-align:left"><a href="https://github.com/kiyonlin/fiber_limiter"><b>fiber_limiter</b></a>
+      </td>
+      <td style="text-align:left">fiber_limiter is implemented with delay calculate of <a href="https://en.wikipedia.org/wiki/Token_bucket">token bucket</a></td>
+    </tr>
   </tbody>
 </table>
 
