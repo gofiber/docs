@@ -1,6 +1,6 @@
 ---
 description: >-
-  The Ctx struct represents the Context which hold the HTTP request and response. It has methods for the request query string, parameters, body, HTTP headers and so on.
+  The Ctx struct represents the Context which hold the HTTP request and response. It has methods for the request query string, parameters, body, HTTP headers, and so on.
 ---
 
 # 🧠 Context
@@ -126,7 +126,7 @@ app.Get("/bodylimit", func(c *fiber.Ctx) {
 
 ## BaseURL
 
-Returns base URL \(**protocol** + **host**\) as a `string`.
+Returns the base URL \(**protocol** + **host**\) as a `string`.
 
 {% code title="Signature" %}
 ```go
@@ -146,7 +146,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Body
 
-Contains the **raw body** submitted in a **POST** request.
+Returns the request **body**.
 
 {% code title="Signature" %}
 ```go
@@ -314,7 +314,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 Transfers the file from path as an `attachment`.
 
-Typically, browsers will prompt the user for download. By default, the [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header `filename=` parameter is the file path \(_this typically appears in the browser dialog_\).
+Typically, browsers will prompt the user to download. By default, the [Content-Disposition](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition) header `filename=` parameter is the file path \(_this typically appears in the browser dialog_\).
 
 Override this default with the **filename** parameter.
 
@@ -490,7 +490,7 @@ Not implemented yet, pull requests are welcome!
 
 ## Get
 
-Returns the HTTP request header specified by field.
+Returns the HTTP request header specified by the field.
 
 {% hint style="success" %}
 The match is **case-insensitive**.
@@ -517,7 +517,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Hostname
 
-Contains the hostname derived from the [Host](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host) HTTP header.
+Returns the hostname derived from the [Host](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host) HTTP header.
 
 {% code title="Signature" %}
 ```go
@@ -710,10 +710,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Locals
 
-Method that stores string variables scoped to the request and therefore available only to the routes that match the request.
+Method that stores string variables scoped to the request and, therefore, is available only to the routes that match the request.
 
 {% hint style="success" %}
-This is useful, if you want to pass some **specific** data to the next middleware.
+This is useful if you want to pass some **specific** data to the next middleware.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -761,7 +761,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Method
 
-Contains a string corresponding to the HTTP method of the request: `GET`, `POST`, `PUT` and so on.  
+Returns a string corresponding to the HTTP method of the request: `GET`, `POST`, `PUT`, and so on.  
 Optionally, you could override the method by passing a string.
 
 {% code title="Signature" %}
@@ -780,7 +780,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## MultipartForm
 
-To access multipart form entries, you can parse the binary with `MultipartForm()`. This returns a `map[string][]string`, so given a key the value will be a string slice.
+To access multipart form entries, you can parse the binary with `MultipartForm()`. This returns a `map[string][]string`, so given a key, the value will be a string slice.
 
 {% code title="Signature" %}
 ```go
@@ -849,7 +849,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## OriginalURL
 
-Contains the original request URL.
+Returns the original request URL.
 
 {% code title="Signature" %}
 ```go
@@ -967,7 +967,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Range
 
-An struct containg the type and a slice of ranges will be returned.
+A struct containing the type and a slice of ranges will be returned.
 
 {% code title="Signature" %}
 ```go
@@ -1017,17 +1017,17 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Render
 
-Renders a template with data and sends a `text/html` response. By default `Render` uses the default [**Go Template engine**](https://golang.org/pkg/html/template/). If you want to use another engine, please take a look at our [**Template middleware**]().
+Renders a view with data and sends a `text/html` response. By default `Render` uses the default [**Go Template engine**](https://golang.org/pkg/html/template/). If you want to use another View engine, please take a look at our [**Template middleware**](https://github.com/gofiber/template).
 
 {% code title="Signature" %}
 ```go
-c.Render(file string, data interface{}) error
+c.Render(file string, data interface{}, layout ...string) error
 ```
 {% endcode %}
 
 ## Route
 
-Contains the matched [Route](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc#Route) struct.
+Returns the matched [Route](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc#Route) struct.
 
 {% code title="Signature" %}
 ```go
@@ -1087,7 +1087,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Secure
 
-A boolean property, that is `true` , if a **TLS** connection is established.
+A boolean property that is `true` , if a **TLS** connection is established.
 
 {% code title="Signature" %}
 ```go
@@ -1129,7 +1129,7 @@ app.Get("/", func(c *fiber.Ctx) {
 Fiber also provides `SendBytes` ,`SendString` and `SendStream` methods for raw inputs.
 
 {% hint style="success" %}
-Use this, if you **don't need** type assertion, recommended for **faster** performance.
+Use this if you **don't need** type assertion, recommended for **faster** performance.
 {% endhint %}
 
 {% code title="Signature" %}
@@ -1264,7 +1264,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Subdomains
 
-An array of subdomains in the domain name of the request.
+Returns a string slice of subdomains in the domain name of the request.
 
 The application property subdomain offset, which defaults to `2`, is used for determining the beginning of the subdomain segments.
 
