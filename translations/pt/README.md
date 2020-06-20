@@ -23,7 +23,7 @@ go get -u github.com/gofiber/fiber
 Some values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default
 {% endhint %}
 
-Because fiber is optimized for **high performance**, values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default and **will** be re-used across requests. As a rule of thumb, you **must** only use context values within the handler, and you **must not** keep any references. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
+Because fiber is optimized for  **high-performance**, values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default and **will** be re-used across requests. As a rule of thumb, you **must** only use context values within the handler, and you **must not** keep any references. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
 
 ```go
 func handler(c *fiber.Ctx) {
@@ -48,7 +48,7 @@ For more information, please check **\*\*\[**\#426**\]\(**[https://github.com/go
 
 ## Hello, World!
 
-Abaixo temos o exemplo mais simples de um app **Fiber** que você pode criar.
+Embedded below is essentially the most straightforward **Fiber** app, which you can create.
 
 ```go
 package main
@@ -70,14 +70,14 @@ func main() {
 go run server.go
 ```
 
-Abrindo o navegador em `http://localhost:3000` você deveria ver `Hello, World!` na tela.
+Browse to `http://localhost:3000,` and you should see `Hello, World!` on the page.
 
 ## Basic routing
 
 Roteamento refere-se a determinar como uma aplicação responde a uma requisição do cliente para um endpoint específico, que é um URI \(ou caminho\) e um método de requisição HTTP específico \(GET, PUT, POST e assim por diante\).
 
 {% hint style="info" %}
-Cada rota pode ter **várias funções handler**, que são executadas quando a rota é combinada.
+Each route can have **multiple handler functions**, that is executed when the route is matched.
 {% endhint %}
 
 A definição de rota aceita as seguintes estruturas:
@@ -140,7 +140,7 @@ app.Get("/api/*", func(c *fiber.Ctx) {
 
 ## Static files
 
-Para servir arquivos estáticos como **imagens**, **CSS** e arquivos **JavaScript**, substituir sua função handler com por um arquivo ou string de diretório.
+To serve static files such as **images**, **CSS**, and **JavaScript** files, replace your function handler with a file or directory string.
 
 Assinatura da função:
 
@@ -168,5 +168,5 @@ http://localhost:8080/css/style.css
 
 ## Note
 
-For more information on how to build APIs in Go with Fiber, please check out this awesome article [on building an express-style API in Go with Fiber](https://blog.logrocket.com/express-style-api-go-fiber/)
+For more information on how to build APIs in Go with Fiber, please check out this excellent article [on building an express-style API in Go with Fiber](https://blog.logrocket.com/express-style-api-go-fiber/)
 
