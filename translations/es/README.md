@@ -23,7 +23,7 @@ go get -u github.com/gofiber/fiber
 Some values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default
 {% endhint %}
 
-Because fiber is optimized for **high performance**, values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default and **will** be re-used across requests. Como regla general, **solo debe** usar valores de contexto dentro del manejador, y **no debe** mantener ninguna referencia. Tan pronto como regreses del manejador, cualquier valor que hayas obtenido del contexto será reutilizado en futuras peticiones y cambiará sin que te des cuenta. Aquí tienes un ejemplo:
+Because fiber is optimized for  **high-performance**, values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default and **will** be re-used across requests. Como regla general, **solo debe** usar valores de contexto dentro del manejador, y **no debe** mantener ninguna referencia. Tan pronto como regreses del manejador, cualquier valor que hayas obtenido del contexto será reutilizado en futuras peticiones y cambiará sin que te des cuenta. Aquí tienes un ejemplo:
 
 ```go
 func handler(c *fiber.Ctx) {
@@ -48,7 +48,7 @@ For more information, please check **\*\*\[**\#426**\]\(**[https://github.com/go
 
 ## Hola mundo!
 
-El siguiente códifo es esencialmente la aplicación más simple de **Fiber** que podrías crear:
+Embedded below is essentially the most straightforward **Fiber** app, which you can create.
 
 ```go
 package main
@@ -70,14 +70,14 @@ func main() {
 go run server.go
 ```
 
-Apunta tu navegador a `http://localhost:3000` y deberías ver `¡Hola, Mundo!` en la página.
+Browse to `http://localhost:3000,` and you should see `Hello, World!` on the page.
 
 ## Enrutamiento básico
 
 Con "enrutamiento" o "encaminamiento", nos referimos a la forma de determinar cómo responde una aplicación a una solicitud de cliente a un punto final, en inglés "endpoint", que es una URI, o ruta, y un método específico de petición HTTP como GET, PUT, POST, etc.
 
 {% hint style="info" %}
-Cada ruta puede tener **múltiples funciones manejadoras**, que se van ejecutando cuando concuerdan.
+Each route can have **multiple handler functions**, that is executed when the route is matched.
 {% endhint %}
 
 La definición de ruta acepta las siguientes estructuras:
@@ -140,7 +140,7 @@ app.Get("/api/*", func(c *fiber.Ctx) {
 
 ## Archivos estáticos
 
-Para servir archivos estáticos como **imágenes**, **CSS** y **JavaScript**, reemplaza tu función de manejo con una cadena de archivo o directorio.
+To serve static files such as **images**, **CSS**, and **JavaScript** files, replace your function handler with a file or directory string.
 
 Firma de la función:
 
@@ -168,5 +168,5 @@ http://localhost:8080/css/style.css
 
 ## Note
 
-For more information on how to build APIs in Go with Fiber, please check out this awesome article [on building an express-style API in Go with Fiber](https://blog.logrocket.com/express-style-api-go-fiber/)
+For more information on how to build APIs in Go with Fiber, please check out this excellent article [on building an express-style API in Go with Fiber](https://blog.logrocket.com/express-style-api-go-fiber/)
 
