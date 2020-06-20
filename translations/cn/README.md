@@ -23,7 +23,7 @@ go get -u github.com/gofiber/fiber
 Some values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default
 {% endhint %}
 
-Because fiber is optimized for **high performance**, values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default and **will** be re-used across requests. As a rule of thumb, you **must** only use context values within the handler, and you **must not** keep any references. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
+Because fiber is optimized for  **high-performance**, values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default and **will** be re-used across requests. As a rule of thumb, you **must** only use context values within the handler, and you **must not** keep any references. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
 
 ```go
 func handler(c *fiber.Ctx) {
@@ -48,7 +48,7 @@ For more information, please check **\*\*\[**\#426**\]\(**[https://github.com/go
 
 ## Hello, World!
 
-你可以参照以下示例创建一个最简单的 **Fiber** 应用程序。
+Embedded below is essentially the most straightforward **Fiber** app, which you can create.
 
 ```go
 package main
@@ -70,14 +70,14 @@ func main() {
 go run server.go
 ```
 
-打开 `http://localhost:3000` ，您应该看到 `Hello, World!` 在页面上。
+Browse to `http://localhost:3000,` and you should see `Hello, World!` on the page.
 
 ## Basic routing
 
 路由是指应用程序应该如何响应客户端请求的。 例如一个 URI \(或路径\) 和特定的 HTTP 请求方法 \(GET, PUT, POST 等等)
 
 {% hint style="info" %}
-每个路由可以拥有 **多个处理器函数**，他们将在路由匹配时执行。
+Each route can have **multiple handler functions**, that is executed when the route is matched.
 {% endhint %}
 
 路由定义采用以下结构：
@@ -140,7 +140,7 @@ app.Get("/api/*", func(c *fiber.Ctx) {
 
 ## Static files
 
-若要提供静态文件，例如 **图像**, **CSS** 和 **JavaScript** 等文件, 需要用文件或目录字符串来替换处理器函数。
+To serve static files such as **images**, **CSS**, and **JavaScript** files, replace your function handler with a file or directory string.
 
 Function signature:
 
@@ -168,5 +168,5 @@ http://localhost:8080/css/style.css
 
 ## Note
 
-For more information on how to build APIs in Go with Fiber, please check out this awesome article [on building an express-style API in Go with Fiber](https://blog.logrocket.com/express-style-api-go-fiber/)
+For more information on how to build APIs in Go with Fiber, please check out this excellent article [on building an express-style API in Go with Fiber](https://blog.logrocket.com/express-style-api-go-fiber/)
 
