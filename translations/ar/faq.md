@@ -1,6 +1,7 @@
-- - -
-description: >- List of frequently asked questions. Feel free to open an issue to add your question on this page.
-- - -
+---
+description: >-
+  List of frequently asked questions. Feel free to open an issue to add your question to this page.
+---
 
 # 🤔 FAQ
 
@@ -28,7 +29,7 @@ app.Use(func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
-## How do I setup an error handler?
+## How do I set up an error handler?
 
 To override the default error handler, provide a custom handler to the `app.Settings.ErrorHandler`
 
@@ -59,7 +60,7 @@ To learn more about using Templates in Fiber, see [Templates](templates.md).
 
 ## Does Fiber have a community chat?
 
-Yes, we have our own [Discord ](https://gofiber.io/discord)server where we hang out. We have different rooms for every subject.  
+Yes, we have our own [Discord ](https://gofiber.io/discord)server, where we hang out. We have different rooms for every subject.  
 If you have questions or just want to have a chat, feel free to join us via this **&gt;** [**invite link**](https://gofiber.io/discord) **&lt;**.
 
 ![](.gitbook/assets/2020-06-08-03_06_27-support-discord.png)
