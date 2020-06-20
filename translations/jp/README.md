@@ -23,7 +23,7 @@ go get -u github.com/gofiber/fiber
 Some values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default
 {% endhint %}
 
-Because fiber is optimized for **high performance**, values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default and **will** be re-used across requests. 経験則として、ハンドラ内ではコンテキスト値のみを使用**するべきであり**、参照を保持**するべきではありません**。 ハンドラから戻るとすぐに、コンテキストから取得した値は今後のリクエストで再利用され、手元で変化します。 以下に例を示します:
+Because fiber is optimized for  **high-performance**, values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default and **will** be re-used across requests. 経験則として、ハンドラ内ではコンテキスト値のみを使用**するべきであり**、参照を保持**するべきではありません**。 ハンドラから戻るとすぐに、コンテキストから取得した値は今後のリクエストで再利用され、手元で変化します。 以下に例を示します:
 
 ```go
 func handler(c *fiber.Ctx) {
@@ -48,7 +48,7 @@ For more information, please check **\*\*\[**\#426**\]\(**[https://github.com/go
 
 ## Hello world!
 
-以下に埋め込まれているのは、基本的かつ最もシンプルな **Fiber** アプリです。
+Embedded below is essentially the most straightforward **Fiber** app, which you can create.
 
 ```go
 package main
@@ -70,14 +70,14 @@ func main() {
 go run server.go
 ```
 
-`http://localhost:3000` にアクセスすると、 `Hello, World!` がページに表示されます。
+Browse to `http://localhost:3000,` and you should see `Hello, World!` on the page.
 
 ## 基本的なルーティング
 
 ルーティングとは、特定のエンドポイントに対するクライアント要求に対してアプリケーションがどのように応答するかを決定することです。 これは、URI \(またはパス) と、特定の HTTP リクエストメソッド \(GET、PUT、POST など) です。
 
 {% hint style="info" %}
-各ルートは **複数のハンドラ関数**を持つことができ、そのルートが一致するときに実行されます。
+Each route can have **multiple handler functions**, that is executed when the route is matched.
 {% endhint %}
 
 ルート定義は以下のような構造をとります：
@@ -140,7 +140,7 @@ app.Get("/api/*", func(c *fiber.Ctx) {
 
 ## 静的ファイル
 
-**画像**、 **CSS** および **JavaScript** ファイルなどの静的ファイルを扱うためには、 関数ハンドラをファイルまたはディレクトリの文字列に置き換えます。
+To serve static files such as **images**, **CSS**, and **JavaScript** files, replace your function handler with a file or directory string.
 
 関数のシグネチャ:
 
@@ -168,5 +168,5 @@ http://localhost:8080/css/style.css
 
 ## Note
 
-For more information on how to build APIs in Go with Fiber, please check out this awesome article [on building an express-style API in Go with Fiber](https://blog.logrocket.com/express-style-api-go-fiber/)
+For more information on how to build APIs in Go with Fiber, please check out this excellent article [on building an express-style API in Go with Fiber](https://blog.logrocket.com/express-style-api-go-fiber/)
 
