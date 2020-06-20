@@ -8,7 +8,7 @@ description: >-
 
 ## Paths
 
-Route paths, in combination with a request method, define the endpoints at which requests can be made. Route paths can be **strings** or **string patterns**.
+Route paths, combined with a request method, define the endpoints at which requests can be made. Route paths can be **strings** or **string patterns**.
 
 **Examples of route paths based on strings**
 
@@ -31,10 +31,10 @@ app.Get("/random.txt", func(c *fiber.Ctx) {
 
 ## Parameters
 
-Route parameters are **named URL segments** that are used to capture the values specified at their position in the URL. The captured values can be retrieved using the [Params](https://fiber.wiki/context#params) function, with the name of the route parameter specified in the path as their respective keys.
+Route parameters are **named URL segments** that are used to capture the values specified at their position in the URL. The obtained values can be retrieved using the [Params](https://fiber.wiki/context#params) function, with the name of the route parameter specified in the path as their respective keys.
 
 {% hint style="info" %}
-Name of the route parameter must be made up of **characters** \(`[A-Za-z0-9_]`\).
+The name of the route parameter must be made up of **characters** \(`[A-Za-z0-9_]`\).
 {% endhint %}
 
 **Example of define routes with route parameters**
@@ -77,7 +77,7 @@ app.Get("/flights/:from-:to", func(c *fiber.Ctx) {
 
 ## Middleware
 
-Functions, that are designed to make changes to the request or response, are called **middleware functions**. The [Next](https://github.com/gofiber/docs/tree/34729974f7d6c1d8363076e7e88cd71edc34a2ac/context/README.md#next) is a **Fiber** router function, when called, executes the **next** function that **matches** the current route.
+Functions that are designed to make changes to the request or response are called **middleware functions**. The [Next](https://github.com/gofiber/docs/tree/34729974f7d6c1d8363076e7e88cd71edc34a2ac/context/README.md#next) is a **Fiber** router function, when called, executes the **next** function that **matches** the current route.
 
 **Example of a middleware function**
 
@@ -103,11 +103,11 @@ app.Get("/", func(c *fiber.Ctx) {
 })
 ```
 
-`Use` method path is a **mount** or **prefix** path and limits middleware to only apply to any paths requested that begin with it. This means you cannot use `:params` on the `Use` method.
+`Use` method path is a **mount**, or **prefix** path, and limits middleware to only apply to any paths requested that begin with it.
 
 ## Grouping
 
-If you have many endpoints, you can organize your routes using `Group`
+If you have many endpoints, you can organize your routes using `Group`.
 
 ```go
 func main() {
