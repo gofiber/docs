@@ -712,7 +712,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Locals
 
-Method that stores string variables scoped to the request and, therefore, is available only to the routes that match the request.
+A method that stores variables scoped to the request and, therefore, are available only to the routes that match the request.
 
 {% hint style="success" %}
 This is useful if you want to pass some **specific** data to the next middleware.
@@ -726,7 +726,7 @@ c.Locals(key string, value ...interface{}) interface{}
 
 {% code title="Example" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) {
+app.Use(func(c *fiber.Ctx) {
   c.Locals("user", "admin")
   c.Next()
 })
