@@ -735,8 +735,7 @@ app.Get("/admin", func(c *fiber.Ctx) {
   if c.Locals("user") == "admin" {
     c.Status(200).Send("Welcome, admin!")
   } else {
-    c.SendStatus(403)
-    // => 403 Forbidden
+    c.SendStatus(403) // => 403 Forbidden
   }
 })
 ```
