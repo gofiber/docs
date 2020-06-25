@@ -81,6 +81,7 @@ func main() {
 | StrictRouting | `bool` | When enabled, the router treats `/foo` and `/foo/` as different. Otherwise, the router treats `/foo` and `/foo/` as the same. | `false` |
 | CaseSensitive | `bool` | When enabled, `/Foo` and `/foo` are different routes. When disabled, `/Foo`and `/foo` are treated the same. | `false` |
 | Immutable | `bool` | When enabled, all values returned by context methods are immutable. By default, they are valid until you return from the handler; see the issue [\#185](https://github.com/gofiber/fiber/issues/185). | `false` |
+| UnescapePath | `bool` | Converts all encoded characters in the route back before setting the path for the context, so that the routing can also work with urlencoded special characters | `false` |
 | BodyLimit | `int` | Sets the maximum allowed size for a request body, if the size exceeds the configured limit, it sends `413 - Request Entity Too Large` response. | `4 * 1024 * 1024` |
 | CompressedFileSuffix | `string` | Adds suffix to the original file name and tries saving the resulting compressed file under the new file name. | `".fiber.gz"` |
 | Concurrency | `int` | Maximum number of concurrent connections. | `256 * 1024` |
