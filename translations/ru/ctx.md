@@ -290,19 +290,20 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Cookies
 
-Get cookie value by key.
+Get cookie value by key, you could pass an optional default value that will be returned if the cookie key does not exist.
 
 **Signatures**
 
 ```go
-c.Cookies(key string) string
+c.Cookies(key string, defaultValue ...string) string
 ```
 
 {% code title="Example" %}
 ```go
 app.Get("/", func(c *fiber.Ctx) {
   // Get cookie by key:
-  c.Cookies("name") // "john"
+  c.Cookies("name")         // "john"
+  c.Cookies("empty", "doe") // "doe"
 })
 ```
 {% endcode %}
@@ -871,7 +872,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Params
 
-Method can be used to get the route parameters.
+Method can be used to get the route parameters, you could pass an optional default value that will be returned if the param key does not exist.
 
 {% hint style="info" %}
 Defaults to empty string \(`""`\), if the param **doesn't** exist.
@@ -879,7 +880,7 @@ Defaults to empty string \(`""`\), if the param **doesn't** exist.
 
 {% code title="Signature" %}
 ```go
-c.Params(param string) string
+c.Params(param string, defaultValue ...string) string
 ```
 {% endcode %}
 
@@ -888,7 +889,8 @@ c.Params(param string) string
 // GET http://example.com/user/fenny
 
 app.Get("/user/:name", func(c *fiber.Ctx) {
-  c.Params("name") // "fenny"
+  c.Params("name")      // "fenny"
+  c.Params("age", "21") // "21"
 })
 ```
 {% endcode %}
@@ -938,7 +940,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Query
 
-This property is an object containing a property for each query string parameter in the route.
+This property is an object containing a property for each query string parameter in the route, you could pass an optional default value that will be returned if the query key does not exist.
 
 {% hint style="info" %}
 If there is **no** query string, it returns an **empty string**.
@@ -946,7 +948,7 @@ If there is **no** query string, it returns an **empty string**.
 
 {% code title="Signature" %}
 ```go
-c.Query(parameter string) string
+c.Query(parameter string, defaultValue ...string) string
 ```
 {% endcode %}
 
@@ -955,8 +957,9 @@ c.Query(parameter string) string
 // GET http://example.com/shoes?order=desc&brand=nike
 
 app.Get("/", func(c *fiber.Ctx) {
-  c.Query("order") // "desc"
-  c.Query("brand") // "nike"
+  c.Query("order")         // "desc"
+  c.Query("brand")         // "nike"
+  c.Query("empty", "nike") // "nike"
 })
 ```
 {% endcode %}
