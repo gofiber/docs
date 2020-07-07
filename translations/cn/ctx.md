@@ -1008,6 +1008,18 @@ c.Redirect(path string, status ...int)
 
 {% code title="Example" %}
 ```go
+app.Get("/coffee", func(c *fiber.Ctx) {
+  c.Redirect("/teapot")
+})
+
+app.Get("/teapot", func(c *fiber.Ctx) {
+  c.Status(fiber.StatusTeapot).Send("🍵 short and stout 🍵")
+})
+```
+{% endcode %}
+
+{% code title="More examples" %}
+```go
 app.Get("/", func(c *fiber.Ctx) {
   c.Redirect("/foo/bar")
   c.Redirect("../login")
