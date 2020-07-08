@@ -1055,15 +1055,13 @@ c.Route() *Route
 ```go
 // http://localhost:8080/hello
 
-app.Get("/hello", func(c *fiber.Ctx) {
+handler := func(c *fiber.Ctx) {
   r := c.Route()
-  fmt.Println(r.Method, r.Path, r.Params, r.Regexp, r.Handler)
-})
+  fmt.Println(r.Method, r.Path, r.Name r.Params)
+  // GET /hello/:name handler [name] 
+}
 
-app.Post("/:api?", func(c *fiber.Ctx) {
-  c.Route()
-  // => {GET /hello [] nil 0x7b49e0}
-})
+app.Get("/hello/:name", handler )
 ```
 {% endcode %}
 
