@@ -42,6 +42,15 @@ func handler(c *fiber.Ctx) {
 }
 ```
 
+We created a custom `ImmutableString` function that does the above and is available in the [gofiber/utils](https://github.com/gofiber/utils) package.
+
+```go
+app.Get("/:foo", func(c *fiber.Ctx) {
+    result := utils.ImmutableString(c.Param("foo")) 
+    // result is now immutable
+}
+```
+
 Alternatively, you can also use the[ **Immutable setting**](app.md#settings). It will make all values returned from the context immutable, allowing you to persist them anywhere. Of course, this comes at the cost of performance.
 
 For more information, please check **\*\*\[**\#426**\]\(**[https://github.com/gofiber/fiber/issues/426](https://github.com/gofiber/fiber/issues/426)**\) and \*\***[**\#185**](https://github.com/gofiber/fiber/issues/185).
@@ -148,7 +157,7 @@ Function signature:
 app.Static(prefix, root string)
 ```
 
-از کد زیر برای پردازش فایل های یک دایرکتوری به اسم `./public` استفاده کنید:
+Use the following code to serve files in a directory named `./public`:
 
 ```go
 app := fiber.New()
