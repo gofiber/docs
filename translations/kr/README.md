@@ -42,6 +42,15 @@ func handler(c *fiber.Ctx) {
 }
 ```
 
+We created a custom `ImmutableString` function that does the above and is available in the [gofiber/utils](https://github.com/gofiber/utils) package.
+
+```go
+app.Get("/:foo", func(c *fiber.Ctx) {
+    result := utils.ImmutableString(c.Param("foo")) 
+    // result is now immutable
+}
+```
+
 Alternatively, you can also use the[ **Immutable setting**](app.md#settings). It will make all values returned from the context immutable, allowing you to persist them anywhere. Of course, this comes at the cost of performance.
 
 For more information, please check **\*\*\[**\#426**\]\(**[https://github.com/gofiber/fiber/issues/426](https://github.com/gofiber/fiber/issues/426)**\) and \*\***[**\#185**](https://github.com/gofiber/fiber/issues/185).
@@ -74,13 +83,13 @@ Browse to `http://localhost:3000,` and you should see `Hello, World!` on the pag
 
 ## Basic routing
 
-라우팅은 어플리케이션이 URI \(또는 경로\) 와 구체적인 HTTP 요청 메소드 \(GET, PUT, POST 등\) 인 특정 엔드포인트의 클라이언트 요청에 대해 어떻게 응답할 것 인지를 결정하는 것을 나타냅니다.
+Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI \(or path\) and a specific HTTP request method \(GET, PUT, POST and so on\).
 
 {% hint style="info" %}
 Each route can have **multiple handler functions**, that is executed when the route is matched.
 {% endhint %}
 
-라우트 정의는 다음의 구조를 가집니다:
+Route definition takes the following structures:
 
 ```go
 // Function signature
@@ -148,7 +157,7 @@ Function signature:
 app.Static(prefix, root string)
 ```
 
-`./public` 디렉토리의 파일들을 제공하려면 다음의 코드를 사용하세요:
+Use the following code to serve files in a directory named `./public`:
 
 ```go
 app := fiber.New()
@@ -158,7 +167,7 @@ app.Static("/", "./public")
 app.Listen(8080)
 ```
 
-이제, 여러분은 `./public` 디렉토리의 파일들을 로드할 수 있습니다:
+Now, you can load the files that are in the `./public` directory:
 
 ```bash
 http://localhost:8080/hello.html
