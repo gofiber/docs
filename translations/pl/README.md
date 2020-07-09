@@ -42,6 +42,15 @@ func handler(c *fiber.Ctx) {
 }
 ```
 
+We created a custom `ImmutableString` function that does the above and is available in the [gofiber/utils](https://github.com/gofiber/utils) package.
+
+```go
+app.Get("/:foo", func(c *fiber.Ctx) {
+    result := utils.ImmutableString(c.Param("foo")) 
+    // result is now immutable
+}
+```
+
 Alternatively, you can also use the[ **Immutable setting**](app.md#settings). It will make all values returned from the context immutable, allowing you to persist them anywhere. Of course, this comes at the cost of performance.
 
 For more information, please check **\*\*\[**\#426**\]\(**[https://github.com/gofiber/fiber/issues/426](https://github.com/gofiber/fiber/issues/426)**\) and \*\***[**\#185**](https://github.com/gofiber/fiber/issues/185).
@@ -74,16 +83,16 @@ Browse to `http://localhost:3000,` and you should see `Hello, World!` on the pag
 
 ## Basic routing
 
-Routing określa jak aplikacja powinna odpowiedzieć na zapytanie na określony endpoint, którym jest URI \(lub ścieżka\) i metoda zapytania HTTP \(GET, PUT, POST i tym podobne\).
+Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI \(or path\) and a specific HTTP request method \(GET, PUT, POST and so on\).
 
 {% hint style="info" %}
 Each route can have **multiple handler functions**, that is executed when the route is matched.
 {% endhint %}
 
-Definicja route przyjmuje następującą strukturę:
+Route definition takes the following structures:
 
 ```go
-// Podpis funkcji
+// Function signature
 app.Method(path string, ...func(*fiber.Ctx))
 ```
 
@@ -92,7 +101,7 @@ app.Method(path string, ...func(*fiber.Ctx))
 * `path` to wirtualna ścieżka na serwerze.
 * `func(*Fiber.Ctx)` to funkcja-callback zawierająca [Context](https://fiber.wiki/context), która się uruchamia, kiedy route jest dopasowany.
 
-**Prosty route**
+**Simple route**
 
 ```go
 // Respond with "Hello, World!" on root path, "/"
@@ -112,7 +121,7 @@ app.Get("/:value", func(c *fiber.Ctx) {
 })
 ```
 
-**Opcjonalne parametry**
+**Optional parameter**
 
 ```go
 // GET http://localhost:3000/john
@@ -127,7 +136,7 @@ app.Get("/:name?", func(c *fiber.Ctx) {
 })
 ```
 
-**Wildcardy**
+**Wildcards**
 
 ```go
 // GET http://localhost:3000/api/user/john
@@ -148,7 +157,7 @@ Function signature:
 app.Static(prefix, root string)
 ```
 
-Użyj poniższego kodu, aby serwować pliki statyczne w katalogu o nazwie `./public`:
+Use the following code to serve files in a directory named `./public`:
 
 ```go
 app := fiber.New()
@@ -158,7 +167,7 @@ app.Static("/", "./public")
 app.Listen(8080)
 ```
 
-Teraz możesz ładować pliki, które znajdują się w katalogu `./public`:
+Now, you can load the files that are in the `./public` directory:
 
 ```bash
 http://localhost:8080/hello.html
