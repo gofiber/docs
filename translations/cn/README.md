@@ -42,6 +42,15 @@ func handler(c *fiber.Ctx) {
 }
 ```
 
+We created a custom `ImmutableString` function that does the above and is available in the [gofiber/utils](https://github.com/gofiber/utils) package.
+
+```go
+app.Get("/:foo", func(c *fiber.Ctx) {
+    result := utils.ImmutableString(c.Param("foo")) 
+    // result is now immutable
+}
+```
+
 Alternatively, you can also use the[ **Immutable setting**](app.md#settings). It will make all values returned from the context immutable, allowing you to persist them anywhere. Of course, this comes at the cost of performance.
 
 For more information, please check **\*\*\[**\#426**\]\(**[https://github.com/gofiber/fiber/issues/426](https://github.com/gofiber/fiber/issues/426)**\) and \*\***[**\#185**](https://github.com/gofiber/fiber/issues/185).
@@ -74,16 +83,16 @@ Browse to `http://localhost:3000,` and you should see `Hello, World!` on the pag
 
 ## Basic routing
 
-路由是指应用程序应该如何响应客户端请求的。 例如一个 URI \(或路径\) 和特定的 HTTP 请求方法 \(GET, PUT, POST 等等)
+Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI \(or path\) and a specific HTTP request method \(GET, PUT, POST and so on\).
 
 {% hint style="info" %}
 Each route can have **multiple handler functions**, that is executed when the route is matched.
 {% endhint %}
 
-路由定义采用以下结构：
+Route definition takes the following structures:
 
 ```go
-// 函数签名
+// Function signature
 app.Method(path string, ...func(*fiber.Ctx))
 ```
 
@@ -92,7 +101,7 @@ app.Method(path string, ...func(*fiber.Ctx))
 * `path` 是服务器上的虚拟路径。
 * `function(*fiberCtx)` 是一个包含 [Context](https://fiber.wiki/context) 上下文的回调函数，会在路由匹配时执行。
 
-**一个简单的路由**
+**Simple route**
 
 ```go
 // Respond with "Hello, World!" on root path, "/"
@@ -112,7 +121,7 @@ app.Get("/:value", func(c *fiber.Ctx) {
 })
 ```
 
-**可选参数**
+**Optional parameter**
 
 ```go
 // GET http://localhost:3000/john
@@ -127,7 +136,7 @@ app.Get("/:name?", func(c *fiber.Ctx) {
 })
 ```
 
-**通配符**
+**Wildcards**
 
 ```go
 // GET http://localhost:3000/api/user/john
@@ -148,7 +157,7 @@ Function signature:
 app.Static(prefix, root string)
 ```
 
-使用以下代码提取在 `./public` 路径下的文件。
+Use the following code to serve files in a directory named `./public`:
 
 ```go
 app := fiber.New()
@@ -158,7 +167,7 @@ app.Static("/", "./public")
 app.Listen(8080)
 ```
 
-现在，您可以加载在 `./public` 目录中的文件：
+Now, you can load the files that are in the `./public` directory:
 
 ```bash
 http://localhost:8080/hello.html
