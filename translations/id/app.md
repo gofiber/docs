@@ -156,7 +156,7 @@ Jika membutuhkan kontrol yang lebih untuk melakukan setting pada static file. Gu
 
 {% code title="fiber.Static{}" %}
 ```go
-// Static merepresentasikan settings untuk menyajikan file statis
+// Static merepresentasikan settings dalam menyajikan file statis
 type Static struct {
     // Secara transparant mengompres responses jika diset ke true
     // Cara kerjanya berbeda dari github.com/gofiber/compression middleware
@@ -197,7 +197,7 @@ Routes HTTP request, dimana **METHOD** adalah sebuah [HTTP method](https://devel
 // Add mengizinkan penggunaan method sebagai value
 app.Add(method, path string, handlers ...func(*Ctx)) *Route
 
-// All will register the route on all methods
+// All akan me-register route pada semua methods
 app.All(path string, handlers ...func(*Ctx)) []*Route
 
 // HTTP methods
@@ -211,9 +211,9 @@ app.Delete(path string, handlers ...func(*Ctx)) *Route
 app.Connect(path string, handlers ...func(*Ctx)) *Route
 app.Options(path string, handlers ...func(*Ctx)) *Route
 
-// Use is mostly used for middleware modules
-// These routes will only match the beggining of each path
-// i.e. "/john" will match "/john/doe", "/johnnnn"
+// Use biasanya digunakan untuk middleware modules
+// Routes ini hanya akan match dengan awalan pada masing-masing path
+// misalnya "/john" akan match dengan "/john/doe", "/johnnnn"
 app.Use(handlers ...func(*Ctx)) *Route
 app.Use(prefix string, handlers ...func(*Ctx)) *Route
 ```
@@ -236,7 +236,7 @@ app.Post("/api/register", func(c *fiber.Ctx) {
 
 ## Group
 
-You can group routes by creating a `*Group` struct.
+Group routes dapat dibuat dengan `*Group` struct.
 
 **Signature**
 
@@ -244,7 +244,7 @@ You can group routes by creating a `*Group` struct.
 app.Group(prefix string, handlers ...func(*Ctx)) *Group
 ```
 
-**Example**
+**Contoh**
 
 ```go
 func main() {
@@ -266,7 +266,7 @@ func main() {
 
 ## Routes
 
-This method returns all registered routes.
+Method ini menampilkan semua route yang terdaftar.
 
 {% code title="Signature" %}
 ```go
@@ -295,7 +295,7 @@ for _, r := range app.Routes() {
 
 ## Listen
 
-Binds and listens for connections on the specified address. This can be an `int` for port or `string` for address.
+Binds dan listens untuk koneksi pada address yang ditentukan. Ini dapat berupa `int` untuk port atau `string` untuk address.
 
 {% code title="Signature" %}
 ```go
@@ -312,7 +312,7 @@ app.Listen("127.0.0.1:8080")
 ```
 {% endcode %}
 
-To enable **TLS/HTTPS** you can append a [**TLS config**](https://golang.org/pkg/crypto/tls/#Config).
+Untuk mengaktifkan **TLS/HTTPS** tambahkan [**TLS config**](https://golang.org/pkg/crypto/tls/#Config).
 
 {% code title="Example" %}
 ```go
@@ -328,7 +328,7 @@ app.Listen(443, config)
 
 ## Serve
 
-You can pass your own [`net.Listener`](https://golang.org/pkg/net/#Listener) using the `Serve` method.
+Anda dapat menggunakan [`net milik Anda.Listener`](https://golang.org/pkg/net/#Listener) menggunakan `Serve` method.
 
 {% code title="Signature" %}
 ```go
@@ -337,7 +337,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** does not support the [**Prefork**](app.md#settings) feature.
+**Serve** tidak mendukung [**Prefork**](app.md#settings) fitur.
 {% endhint %}
 
 {% code title="Example" %}
@@ -352,7 +352,7 @@ app.Serve(ln)
 
 ## Test
 
-Testing your application is done with the **Test** method. Use this method for creating `_test.go` files or when you need to debug your routing logic. The default timeout is `200ms` if you want to disable a timeout altogether, pass `-1` as a second argument.
+Testing aplikasi dapat dilakukan cukup dengan **Test** method. Gunakan method ini untuk membuat file `_test.go` atau saat Anda butuh men-debug routing logic. Default timeout adalah `200ms` jika Anda ingin men-disable timeout keseluruhan gunakan `-1` sebagai argument kedua.
 
 {% code title="Signature" %}
 ```go
@@ -362,7 +362,7 @@ app.Test(req *http.Request, msTimeout ...int) (*http.Response, error)
 
 {% code title="Example" %}
 ```go
-// Create route with GET method for test:
+// Buat route dengan GET method untuk tes:
 app.Get("/", func(c *Ctx) {
   fmt.Println(c.BaseURL())              // => http://google.com
   fmt.Println(c.Get("X-Custom-Header")) // => hi
@@ -377,7 +377,7 @@ req.Header.Set("X-Custom-Header", "hi")
 // http.Response
 resp, _ := app.Test(req)
 
-// Do something with results:
+// Lakukan sesuatu dengan results:
 if resp.StatusCode == 200 {
   body, _ := ioutil.ReadAll(resp.Body)
   fmt.Println(string(body)) // => Hello, World!
