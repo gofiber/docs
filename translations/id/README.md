@@ -5,7 +5,7 @@ description: >-
 
 # 📖 Pengenalan
 
-Fiber Dirancang untuk memudahkan dan sangat cepat dalam membangun aplikasi dengan alokasi memori nol dan kinerja yang sangat baik. Fiber Dirancang untuk memudahkan dan sangat cepat dalam membangun aplikasi dengan alokasi memori nol dan kinerja yang sangat baik.
+**Fiber** adalah **web framework** yang terinspirasi dari [Express](https://github.com/expressjs/express) yang dibangun di atas [Fasthttp](https://github.com/valyala/fasthttp), HTTP engine **Tercepat** untuk [Go](https://golang.org/doc/). Fiber Dirancang untuk memudahkan dan sangat cepat dalam membangun aplikasi dengan alokasi memori nol dan kinerja yang sangat baik.
 
 ## Installation
 
