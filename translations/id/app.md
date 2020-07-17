@@ -6,7 +6,7 @@ description: The app instance conventionally denotes the Fiber application.
 
 ## New
 
-Method ini untuk membuat named instance **App** baru. Opsional [setting ](app.md#settings) bisa diterapkan saat membuat instance
+Method New digunakan untuk membuat named instance **App** baru. Opsional [setting ](app.md#settings) bisa diterapkan saat membuat instance ini
 
 {% code title="Signature" %}
 ```go
@@ -59,7 +59,7 @@ Atau ubah settings setelah inisialisasi `app`.
 func main() {
     app := fiber.New()
 
-    // Atau ubah settings setelah inisialisasi instance
+    // Ubah settings setelah inisialisasi instance
     app.Settings.Prefork = true
     app.Settings.CaseSensitive = true
     app.Settings.StrictRouting = true
@@ -77,9 +77,9 @@ func main() {
 | Property                  | Type            | Description                                                                                                                                                                                                                                               | Default           |
 |:------------------------- |:--------------- |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:----------------- |
 | Prefork                   | `bool`          | Enables use of the[`SO_REUSEPORT`](https://lwn.net/Articles/542629/)socket option. This will spawn multiple Go processes listening on the same port. learn more about [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false`           |
-| ServerHeader              | `string`        | Enables the `Server` HTTP header with the given value.                                                                                                                                                                                                    | `""`              |
-| StrictRouting             | `bool`          | When enabled, the router treats `/foo` and `/foo/` as different. Otherwise, the router treats `/foo` and `/foo/` as the same.                                                                                                                             | `false`           |
-| CaseSensitive             | `bool`          | When enabled, `/Foo` and `/foo` are different routes. When disabled, `/Foo`and `/foo` are treated the same.                                                                                                                                               | `false`           |
+| ServerHeader              | `string`        | Izinkan `Server` HTTP header sesuai value yang diisi.                                                                                                                                                                                                     | `""`              |
+| StrictRouting             | `bool`          | Saat diaktifkan, router membaca `/foo` dan `/foo/` sebagai sesuatu yang berbeda. Jika tidak, router menganggap `/foo` dan `/foo/` adalah sama.                                                                                                            | `false`           |
+| CaseSensitive             | `bool`          | Jika Diaktifkan, `/Foo` dan `/foo` adalah routes yang berbeda. Jika disabled, `/Foo`dan `/foo` dianggap sama.                                                                                                                                             | `false`           |
 | Immutable                 | `bool`          | When enabled, all values returned by context methods are immutable. By default, they are valid until you return from the handler; see the issue [\#185](https://github.com/gofiber/fiber/issues/185).                                                   | `false`           |
 | UnescapePath              | `bool`          | Converts all encoded characters in the route back before setting the path for the context, so that the routing can also work with urlencoded special characters                                                                                           | `false`           |
 | BodyLimit                 | `int`           | Sets the maximum allowed size for a request body, if the size exceeds the configured limit, it sends `413 - Request Entity Too Large` response.                                                                                                           | `4 * 1024 * 1024` |
@@ -160,14 +160,14 @@ Jika membutuhkan kontrol yang lebih untuk melakukan setting pada static file. Gu
 type Static struct {
     // Secara transparant mengompres responses jika diset ke true
     // Cara kerjanya berbeda dari github.com/gofiber/compression middleware
-    // Server mencoba meminimalkan penggunaan CPU dengan caching compressed files.
+    // Server mencoba meminimalkan penggunaan CPU dengan men-cache compressed files.
     // Ini akan menambahkan akhiran ".fiber.gz" pada nama asli file.
     // Opsional. Default value false
     Compress bool
     // Aktifkan byte-range requests jika diset ke true.
     // Opsional. Default value false
     ByteRange bool
-    // Izinkan pencarian di directori.
+    // Izinkan pencarian dalam direktori.
     // Opsional. Default value false.
     Browse bool
     // File yang digunakan saat request ke direktori.
@@ -212,8 +212,8 @@ app.Connect(path string, handlers ...func(*Ctx)) *Route
 app.Options(path string, handlers ...func(*Ctx)) *Route
 
 // Use biasanya digunakan untuk middleware modules
-// Routes ini hanya akan match dengan awalan pada masing-masing path
-// misalnya "/john" akan match dengan "/john/doe", "/johnnnn"
+// Routes ini hanya akan melakukan pencocokan dengan awalan pada masing-masing path
+// misalnya "/john" akan cocok dengan "/john/doe", "/johnnnn"
 app.Use(handlers ...func(*Ctx)) *Route
 app.Use(prefix string, handlers ...func(*Ctx)) *Route
 ```
@@ -295,7 +295,7 @@ for _, r := range app.Routes() {
 
 ## Listen
 
-Binds dan listens untuk koneksi pada address yang ditentukan. Ini dapat berupa `int` untuk port atau `string` untuk address.
+Binds dan listens untuk koneksi pada address yang ditentukan. Dapat berupa `int` untuk port atau `string` untuk address.
 
 {% code title="Signature" %}
 ```go
@@ -328,7 +328,7 @@ app.Listen(443, config)
 
 ## Serve
 
-Anda dapat menggunakan [`net milik Anda.Listener`](https://golang.org/pkg/net/#Listener) menggunakan `Serve` method.
+Anda dapat menggunakan [`net.Listener`](https://golang.org/pkg/net/#Listener) yang telah dibuat menggunakan `Serve` method.
 
 {% code title="Signature" %}
 ```go
@@ -337,7 +337,7 @@ app.Serve(ln net.Listener, tls ...*tls.Config) error
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** tidak mendukung [**Prefork**](app.md#settings) fitur.
+**Serve** tidak mendukung fitur [**Prefork**](app.md#settings).
 {% endhint %}
 
 {% code title="Example" %}
