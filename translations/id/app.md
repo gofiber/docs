@@ -140,7 +140,7 @@ app.Static("/", "./files")
 Gunakan reverse proxy cache seperti [**NGINX**](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) untuk meningkatkan performa penggunaan assets static.
 {% endhint %}
 
-You can use any virtual path prefix \(_where the path does not actually exist in the file system_\) for files that are served by the **Static** method, specify a prefix path for the static directory, as shown below:
+Virtual path prefix \(_dimana path tidak benar-benar tersedia di file system_\) dapat digunakan untuk file yang disediakan oleh **Static** method, tentukan prefix path untuk direktori static, seperti di bawah ini:
 
 {% code title="Example" %}
 ```go
@@ -152,7 +152,7 @@ app.Static("/static", "./public")
 ```
 {% endcode %}
 
-If you want to have a little bit more control regarding the settings for serving static files. You could use the `fiber.Static` struct to enable specific settings.
+Jika membutuhkan kontrol yang lebih untuk melakukan setting pada static file. Gunakan `fiber.Static` struct untuk mengaktifkan spesifik settings.
 
 {% code title="fiber.Static{}" %}
 ```go
