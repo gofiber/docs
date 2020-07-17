@@ -6,7 +6,7 @@ description: The app instance conventionally denotes the Fiber application.
 
 ## New
 
-Method ini untuk membuat named instance **App** baru. Opsional [setting ](app.md#settings) bisa diterapkan saat membuat instance baru
+Method ini untuk membuat named instance **App** baru. Opsional [setting ](app.md#settings) bisa diterapkan saat membuat instance
 
 {% code title="Signature" %}
 ```go
@@ -37,7 +37,7 @@ Application settings dapat diterapkan saat memanggil `New`.
 {% code title="Example" %}
 ```go
 func main() {
-    // Pass Settings creating a new instance
+    // Terapkan settings saat membuat instance
     app := fiber.New(&fiber.Settings{
         Prefork:       true,
         CaseSensitive: true,
@@ -108,11 +108,11 @@ By default, **Static** will serve `index.html` files in response to a request on
 
 {% code title="Signature" %}
 ```go
-app.Static(prefix, root string, config ...Static) // => with prefix
+app.Static(prefix, root string, config ...Static) // => dengan prefix
 ```
 {% endcode %}
 
-Use the following code to serve files in a directory named `./public`
+Gunakan code ini untuk menggunakan file di direktori `./public`
 
 {% code title="Example" %}
 ```go
@@ -124,20 +124,20 @@ app.Static("/", "./public")
 ```
 {% endcode %}
 
-To serve from multiple directories, you can use **Static** numerous times.
+Untuk menggunakan lebih dari satu direktori, gunakan **Static** beberapa kali.
 
 {% code title="Example" %}
 ```go
-// Serve files from "./public" directory:
+// Gunakan file dari direktori "./public":
 app.Static("/", "./public")
 
-// Serve files from "./files" directory:
+// Gunakan file dari direktori "./files":
 app.Static("/", "./files")
 ```
 {% endcode %}
 
 {% hint style="info" %}
-Use a reverse proxy cache like [**NGINX**](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) to improve performance of serving static assets.
+Gunakan reverse proxy cache seperti [**NGINX**](https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/) untuk meningkatkan performa penggunaan assets static.
 {% endhint %}
 
 You can use any virtual path prefix \(_where the path does not actually exist in the file system_\) for files that are served by the **Static** method, specify a prefix path for the static directory, as shown below:
