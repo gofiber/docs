@@ -156,22 +156,22 @@ Jika membutuhkan kontrol yang lebih untuk melakukan setting pada static file. Gu
 
 {% code title="fiber.Static{}" %}
 ```go
-// Static represents settings for serving static files
+// Static merepresentasikan settings untuk menyajikan file statis
 type Static struct {
-    // Transparently compresses responses if set to true
-    // This works differently than the github.com/gofiber/compression middleware
-    // The server tries minimizing CPU usage by caching compressed files.
-    // It adds ".fiber.gz" suffix to the original file name.
-    // Optional. Default value false
+    // Secara transparant mengompres responses jika diset ke true
+    // Cara kerjanya berbeda dari github.com/gofiber/compression middleware
+    // Server mencoba meminimalkan penggunaan CPU dengan caching compressed files.
+    // Ini akan menambahkan akhiran ".fiber.gz" pada nama asli file.
+    // Opsional. Default value false
     Compress bool
-    // Enables byte-range requests if set to true.
-    // Optional. Default value false
+    // Aktifkan byte-range requests jika diset ke true.
+    // Opsional. Default value false
     ByteRange bool
-    // Enable directory browsing.
-    // Optional. Default value false.
+    // Izinkan pencarian di directori.
+    // Opsional. Default value false.
     Browse bool
-    // File to serve when requesting a directory path.
-    // Optional. Default value "index.html".
+    // File yang digunakan saat request ke direktori.
+    // Opsional. Default value "index.html".
     Index string
 }
 ```
@@ -190,11 +190,11 @@ app.Static("/", "./public", fiber.Static{
 
 ## HTTP Methods
 
-Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) of the request.
+Routes HTTP request, dimana **METHOD** adalah sebuah [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) dari request.
 
 {% code title="Signatures" %}
 ```go
-// Add allows you to specifiy a method as value
+// Add mengizinkan penggunaan method sebagai value
 app.Add(method, path string, handlers ...func(*Ctx)) *Route
 
 // All will register the route on all methods
