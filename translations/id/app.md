@@ -100,10 +100,10 @@ func main() {
 
 ## Static
 
-Use the **Static** method to serve static files such as **images**, **CSS** and **JavaScript**.
+Gunakan method **Static** untuk menggunakan file static seperti **images**, **CSS** and **JavaScript**.
 
 {% hint style="info" %}
-By default, **Static** will serve `index.html` files in response to a request on a directory.
+Secara default, **Static** akan menggunakan file `index.html` saat merespon request pada sebuah direktori.
 {% endhint %}
 
 {% code title="Signature" %}
