@@ -6,7 +6,7 @@ description: The app instance conventionally denotes the Fiber application.
 
 ## New
 
-This method creates a new **App** named instance. You can pass optional [settings ](app.md#settings)when creating a new instance
+Method ini untuk membuat named instance **App** baru. Opsional [setting ](app.md#settings) bisa diterapkan saat membuat instance baru
 
 {% code title="Signature" %}
 ```go
@@ -32,7 +32,7 @@ func main() {
 
 ## Settings
 
-You can pass application settings when calling `New`.
+Application settings dapat diterapkan saat memanggil `New`.
 
 {% code title="Example" %}
 ```go
@@ -52,14 +52,14 @@ func main() {
 ```
 {% endcode %}
 
-Or change the settings after initializing an `app`.
+Atau ubah settings setelah inisialisasi `app`.
 
 {% code title="Example" %}
 ```go
 func main() {
     app := fiber.New()
 
-    // Or change Settings after creating an instance
+    // Atau ubah settings setelah inisialisasi instance
     app.Settings.Prefork = true
     app.Settings.CaseSensitive = true
     app.Settings.StrictRouting = true
