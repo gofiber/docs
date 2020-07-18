@@ -969,6 +969,10 @@ app.Get("/", func(c *fiber.Ctx) {
 > _Returned value is only valid within the handler. Do not store any references.  
 > Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
 
+## QueryParser
+
+This method is similar to [BodyParser](ctx.md#bodyparser), but for query parameters.
+
 ## Range
 
 A struct containing the type and a slice of ranges will be returned.
