@@ -295,7 +295,7 @@ for _, r := range app.Routes() {
 
 ## Listen
 
-Binds and listens for connections on the specified address. This can be an `int` for port or `string` for address. This will listen either on `tcp4` or `tcp6` depending on the address input \(i.e. `:3000` / `[1::]:3000` \).
+Binds and listens for connections on the specified address. This can be an `int` for port or `string` for address. This will listen either on `tcp4` or `tcp6` depending on the address input \(i.e. `:3000` / `[::1]:3000` \).
 
 {% code title="Signature" %}
 ```go
@@ -309,6 +309,7 @@ app.Listen(8080)
 app.Listen("8080")
 app.Listen(":8080")
 app.Listen("127.0.0.1:8080")
+app.Listen("[::1]:8080")
 ```
 {% endcode %}
 
