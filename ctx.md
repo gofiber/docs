@@ -189,8 +189,8 @@ c.BodyParser(out interface{}) error
 ```go
 // Field names should start with an uppercase letter
 type Person struct {
-    Name string `json:"name" xml:"name" form:"name" query:"name"`
-    Pass string `json:"pass" xml:"pass" form:"pass" query:"pass"`
+    Name string `json:"name" xml:"name" form:"name"`
+    Pass string `json:"pass" xml:"pass" form:"pass"`
 }
 
 app.Post("/", func(c *fiber.Ctx) {
@@ -972,6 +972,36 @@ app.Get("/", func(c *fiber.Ctx) {
 ## QueryParser
 
 This method is similar to [BodyParser](ctx.md#bodyparser), but for query parameters.
+
+{% code title="Signature" %}
+```go
+c.QueryParser(out interface{}) error
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+// Field names should start with an uppercase letter
+type Person struct {
+    Name string `schema:"name"`
+    Pass string `schema:"pass"`
+}
+
+app.Post("/", func(c *fiber.Ctx) {
+        p := new(Person)
+
+        if err := c.QueryParser(p); err != nil {
+            log.Fatal(err)
+        }
+
+        log.Println(p.Name) // john
+        log.Println(p.Pass) // doe
+})
+// Run tests with the following curl command
+
+// curl -X POST "http://localhost:3000/?name=john&pass=doe"
+```
+{% endcode %}
 
 ## Range
 
