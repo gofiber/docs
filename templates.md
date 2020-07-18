@@ -6,17 +6,7 @@ description: Fiber supports server-side template engines.
 
 ## Template interfaces
 
-Fiber provides two interfaces for template engines:
-
-{% tabs %}
-{% tab title="Templates" %}
-```go
-type Templates interface {
-    Render(io.Writer, string, interface{}) error
-}
-```
-{% endtab %}
-{% endtabs %}
+Fiber provides a Views interface to provide your own template engine:
 
 {% tabs %}
 {% tab title="Views" %}
@@ -29,12 +19,24 @@ type Views interface {
 {% endtab %}
 {% endtabs %}
 
-`Templates` interface is deprecated since `v1.11.1`, it still backward compatible but it does not support the new features. So it's prefered that you use `Views` interface:
+`Views` interface contains a `Load` and `Render` method, `Load` is executed by Fiber on app initialization to load/parse the templates.
 
 ```go
 // Pass engine to Fiber's Views Engine
 app := fiber.New(&fiber.Settings{
     Views: engine,
+})
+```
+
+The `Render` method is linked to the [**ctx.Render\(\)**](ctx.md#render) function that accepts a template name and binding data.
+
+```go
+app.Get("/", func(c *fiber.Ctx) {
+    if err := c.Render("index", fiber.Map{
+        "hello": "world",
+    }); err != nil {
+        c.Next(err)
+    }
 })
 ```
 
@@ -70,7 +72,7 @@ func main() {
     })
     app.Get("/", func(c *fiber.Ctx) {
         // Render index template
-        c.Render("index", fiber.Map{
+        _ = c.Render("index", fiber.Map{
             "Title": "Hello, World!",
         })
     })
