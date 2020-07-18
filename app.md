@@ -295,7 +295,7 @@ for _, r := range app.Routes() {
 
 ## Listen
 
-Binds and listens for connections on the specified address. This can be an `int` for port or `string` for address.
+Binds and listens for connections on the specified address. This can be an `int` for port or `string` for address. This will listen either on `tcp4` or `tcp6` depending on the address input \(i.e. `:3000` / `[1::]:3000` \).
 
 {% code title="Signature" %}
 ```go
@@ -326,27 +326,27 @@ app.Listen(443, config)
 ```
 {% endcode %}
 
-## Serve
+## Listener
 
 You can pass your own [`net.Listener`](https://golang.org/pkg/net/#Listener) using the `Serve` method.
 
 {% code title="Signature" %}
 ```go
-app.Serve(ln net.Listener, tls ...*tls.Config) error
+app.Listener(ln net.Listener, tls ...*tls.Config) error
 ```
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** does not support the [**Prefork**](app.md#settings) feature.
+**Listener** does not support the [**Prefork**](app.md#settings) feature.
 {% endhint %}
 
 {% code title="Example" %}
 ```go
-if ln, err = net.Listen("tcp4", ":8080"); err != nil {
+if ln, err = net.Listen("tcp", ":8080"); err != nil {
     log.Fatal(err)
 }
 
-app.Serve(ln)
+app.Listener(ln)
 ```
 {% endcode %}
 
