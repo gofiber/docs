@@ -983,8 +983,8 @@ c.QueryParser(out interface{}) error
 ```go
 // Field names should start with an uppercase letter
 type Person struct {
-    Name string `schema:"name"`
-    Pass string `schema:"pass"`
+    Name string `query:"name"`
+    Pass string `query:"pass"`
 }
 
 app.Post("/", func(c *fiber.Ctx) {
