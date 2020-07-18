@@ -53,7 +53,7 @@ app.Get("/:foo", func(c *fiber.Ctx) {
 
 Alternatively, you can also use the[ **Immutable setting**](app.md#settings). It will make all values returned from the context immutable, allowing you to persist them anywhere. Of course, this comes at the cost of performance.
 
-For more information, please check **\*\*\[**\#426**\]\(**[https://github.com/gofiber/fiber/issues/426](https://github.com/gofiber/fiber/issues/426)**\) and \*\***[**\#185**](https://github.com/gofiber/fiber/issues/185).
+For more information, please check [**\#426**](https://github.com/gofiber/fiber/issues/426) ****and ****[**\#185**](https://github.com/gofiber/fiber/issues/185).
 
 ## Hola mundo!
 
