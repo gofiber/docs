@@ -295,7 +295,7 @@ for _, r := range app.Routes() {
 
 ## Listen
 
-Binds dan listens untuk koneksi pada address yang ditentukan. Dapat berupa `int` untuk port atau `string` untuk address.
+Binds dan listens untuk koneksi pada address yang ditentukan. Dapat berupa `int` untuk port atau `string` untuk address. This will listen either on `tcp4` or `tcp6` depending on the address input \(i.e. `:3000` / `[::1]:3000` \).
 
 {% code title="Signature" %}
 ```go
@@ -309,6 +309,7 @@ app.Listen(8080)
 app.Listen("8080")
 app.Listen(":8080")
 app.Listen("127.0.0.1:8080")
+app.Listen("[::1]:8080")
 ```
 {% endcode %}
 
@@ -326,27 +327,27 @@ app.Listen(443, config)
 ```
 {% endcode %}
 
-## Serve
+## Listener
 
 Anda dapat menggunakan [`net.Listener`](https://golang.org/pkg/net/#Listener) yang telah dibuat menggunakan `Serve` method.
 
 {% code title="Signature" %}
 ```go
-app.Serve(ln net.Listener, tls ...*tls.Config) error
+app.Listener(ln net.Listener, tls ...*tls.Config) error
 ```
 {% endcode %}
 
 {% hint style="warning" %}
-**Serve** tidak mendukung fitur [**Prefork**](app.md#settings).
+**Listener** does not support the [**Prefork**](app.md#settings) feature.
 {% endhint %}
 
 {% code title="Example" %}
 ```go
-if ln, err = net.Listen("tcp4", ":8080"); err != nil {
+if ln, err = net.Listen("tcp", ":8080"); err != nil {
     log.Fatal(err)
 }
 
-app.Serve(ln)
+app.Listener(ln)
 ```
 {% endcode %}
 
