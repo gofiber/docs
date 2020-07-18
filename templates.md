@@ -1,6 +1,5 @@
 ---
-description: >-
-  Fiber supports server-side template engines.
+description: Fiber supports server-side template engines.
 ---
 
 # 📝 Templates
@@ -35,7 +34,7 @@ type Views interface {
 ```go
 // Pass engine to Fiber's Views Engine
 app := fiber.New(&fiber.Settings{
-	Views: engine,
+    Views: engine,
 })
 ```
 
@@ -43,14 +42,14 @@ app := fiber.New(&fiber.Settings{
 
 Fiber team maintains [templates](https://github.com/gofiber/template) package that provides wrappers for multiple template engines:
 
-- [html](https://github.com/gofiber/template/tree/master/html)
-- [ace](https://github.com/gofiber/template/tree/master/ace)
-- [amber](https://github.com/gofiber/template/tree/master/amber)
-- [django](https://github.com/gofiber/template/tree/master/django)
-- [handlebars](https://github.com/gofiber/template/tree/master/handlebars)
-- [jet](https://github.com/gofiber/template/tree/master/jet)
-- [mustache](https://github.com/gofiber/template/tree/master/mustache)
-- [pug](https://github.com/gofiber/template/tree/master/pug)
+* [html](https://github.com/gofiber/template/tree/master/html)
+* [ace](https://github.com/gofiber/template/tree/master/ace)
+* [amber](https://github.com/gofiber/template/tree/master/amber)
+* [django](https://github.com/gofiber/template/tree/master/django)
+* [handlebars](https://github.com/gofiber/template/tree/master/handlebars)
+* [jet](https://github.com/gofiber/template/tree/master/jet)
+* [mustache](https://github.com/gofiber/template/tree/master/mustache)
+* [pug](https://github.com/gofiber/template/tree/master/pug)
 
 {% tabs %}
 {% tab title="example" %}
@@ -58,8 +57,8 @@ Fiber team maintains [templates](https://github.com/gofiber/template) package th
 package main
 
 import (
-	"github.com/gofiber/fiber"
-	"github.com/gofiber/template/html"
+    "github.com/gofiber/fiber"
+    "github.com/gofiber/template/html"
 )
 
 func main() {
@@ -69,19 +68,20 @@ func main() {
     app := fiber.New(&fiber.Settings{
         Views: engine,
     })
-	app.Get("/", func(c *fiber.Ctx) {
-		// Render index template
-		c.Render("index", fiber.Map{
-			"Title": "Hello, World!",
-		})
-	})
+    app.Get("/", func(c *fiber.Ctx) {
+        // Render index template
+        c.Render("index", fiber.Map{
+            "Title": "Hello, World!",
+        })
+    })
 
     app.Listen(3000)
 }
 ```
 {% endtab %}
+
 {% tab title="views/index.html" %}
-```html
+```markup
 <!DOCTYPE html>
 <body>
     <h1>{{.Title}}</h1>
@@ -90,3 +90,4 @@ func main() {
 ```
 {% endtab %}
 {% endtabs %}
+
