@@ -329,7 +329,7 @@ app.Listen(443, config)
 
 ## Listener
 
-You can pass your own [`net.Listener`](https://golang.org/pkg/net/#Listener) using the `Serve` method.
+You can pass your own [`net.Listener`](https://golang.org/pkg/net/#Listener) using the `Listener` method.
 
 {% code title="Signature" %}
 ```go
