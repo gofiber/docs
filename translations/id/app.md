@@ -329,7 +329,7 @@ app.Listen(443, config)
 
 ## Listener
 
-Anda dapat menggunakan [`net.Listener`](https://golang.org/pkg/net/#Listener) yang telah dibuat menggunakan `Serve` method.
+Anda dapat menggunakan [`net.Listener`](https://golang.org/pkg/net/#Listener) using the `Listener` method.
 
 {% code title="Signature" %}
 ```go
