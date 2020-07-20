@@ -31,6 +31,14 @@ The Fiber middleware modules listed here are maintained by the [Fiber team](http
 | [**template**](https://github.com/gofiber/template)                                  | This package contains 8 template engines that can be used with Fiber `v1.10.x` Go version 1.13 or higher is required.                                                 | -                        |
 | [**websocket**](https://github.com/gofiber/websocket)                                | Based on Fasthttp WebSocket for Fiber with Locals support!                                                                                                            | -                        |
 
+### Timeout
+
+...
+
+### Logger
+
+...
+
 ## Third-Party Middleware
 
 These are some additional popular middleware modules created by the community. Please open an [issue ](https://github.com/gofiber/fiber/issues)if you want to see yours.
