@@ -264,13 +264,13 @@ func main() {
 }
 ```
 
-## Routes
+## Stack
 
-Method ini menampilkan semua route yang terdaftar.
+This method returns the original router stack
 
 {% code title="Signature" %}
 ```go
-app.Routes() []*Route
+app.Stack() [][]*Route
 ```
 {% endcode %}
 
@@ -284,12 +284,7 @@ app.Get("/sample", handler)
 app.Post("/john", handler)
 app.Put("/doe", handler)
 
-for _, r := range app.Routes() {
-    fmt.Printf("%s\t%s\n", r.Method, r.Path)
-}
-// GET      /sample
-// POST     /john
-// PUT      /doe
+fmt.Println(app.Stack())
 ```
 {% endcode %}
 
