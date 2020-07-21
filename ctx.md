@@ -1091,7 +1091,7 @@ c.Route() *Route
 
 handler := func(c *fiber.Ctx) {
   r := c.Route()
-  fmt.Println(r.Method, r.Path, r.Name r.Params)
+  fmt.Println(r.Method, r.Path, r.Params, r.Handlers)
   // GET /hello/:name handler [name] 
 }
 
