@@ -195,27 +195,27 @@ Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.
 {% code title="Signatures" %}
 ```go
 // Add allows you to specifiy a method as value
-app.Add(method, path string, handlers ...func(*Ctx)) *Route
+app.Add(method, path string, handlers ...func(*Ctx)) Router
 
 // All will register the route on all methods
-app.All(path string, handlers ...func(*Ctx)) []*Route
+app.All(path string, handlers ...func(*Ctx)) Router
 
 // HTTP methods
-app.Get(path string, handlers ...func(*Ctx)) *Route
-app.Put(path string, handlers ...func(*Ctx)) *Route
-app.Post(path string, handlers ...func(*Ctx)) *Route
-app.Head(path string, handlers ...func(*Ctx)) *Route
-app.Patch(path string, handlers ...func(*Ctx)) *Route
-app.Trace(path string, handlers ...func(*Ctx)) *Route
-app.Delete(path string, handlers ...func(*Ctx)) *Route
-app.Connect(path string, handlers ...func(*Ctx)) *Route
-app.Options(path string, handlers ...func(*Ctx)) *Route
+app.Get(path string, handlers ...func(*Ctx)) Router
+app.Put(path string, handlers ...func(*Ctx)) Router
+app.Post(path string, handlers ...func(*Ctx)) Router
+app.Head(path string, handlers ...func(*Ctx)) Router
+app.Patch(path string, handlers ...func(*Ctx)) Router
+app.Trace(path string, handlers ...func(*Ctx)) Router
+app.Delete(path string, handlers ...func(*Ctx)) Router
+app.Connect(path string, handlers ...func(*Ctx)) Router
+app.Options(path string, handlers ...func(*Ctx)) Router
 
 // Use is mostly used for middleware modules
 // These routes will only match the beggining of each path
 // i.e. "/john" will match "/john/doe", "/johnnnn"
-app.Use(handlers ...func(*Ctx)) *Route
-app.Use(prefix string, handlers ...func(*Ctx)) *Route
+app.Use(handlers ...func(*Ctx)) Router
+app.Use(prefix string, handlers ...func(*Ctx)) Router
 ```
 {% endcode %}
 
