@@ -278,13 +278,15 @@ app.Stack() [][]*Route
 ```go
 app := fiber.New()
 
-handler := func(c *fiber.Ctx) { }
+app.Use(handler)
+app.Get("/john", handler)
+app.Post("/register", handler)
+app.Get("/v1/users", handler)
+app.Put("/user/:id", handler)
+app.Head("/xhr", handler)
 
-app.Get("/sample", handler)
-app.Post("/john", handler)
-app.Put("/doe", handler)
-
-fmt.Println(app.Stack())
+data, _ := json.MarshalIndent(app.Stack(), "", "  ")
+fmt.Println(string(data))
 ```
 {% endcode %}
 
