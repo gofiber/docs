@@ -195,27 +195,27 @@ Routes an HTTP request, where **METHOD** is the [HTTP method](https://developer.
 {% code title="Signatures" %}
 ```go
 // Add allows you to specifiy a method as value
-app.Add(method, path string, handlers ...func(*Ctx)) *Route
+app.Add(method, path string, handlers ...func(*Ctx)) Router
 
 // All will register the route on all methods
-app.All(path string, handlers ...func(*Ctx)) []*Route
+app.All(path string, handlers ...func(*Ctx)) Router
 
 // HTTP methods
-app.Get(path string, handlers ...func(*Ctx)) *Route
-app.Put(path string, handlers ...func(*Ctx)) *Route
-app.Post(path string, handlers ...func(*Ctx)) *Route
-app.Head(path string, handlers ...func(*Ctx)) *Route
-app.Patch(path string, handlers ...func(*Ctx)) *Route
-app.Trace(path string, handlers ...func(*Ctx)) *Route
-app.Delete(path string, handlers ...func(*Ctx)) *Route
-app.Connect(path string, handlers ...func(*Ctx)) *Route
-app.Options(path string, handlers ...func(*Ctx)) *Route
+app.Get(path string, handlers ...func(*Ctx)) Router
+app.Put(path string, handlers ...func(*Ctx)) Router
+app.Post(path string, handlers ...func(*Ctx)) Router
+app.Head(path string, handlers ...func(*Ctx)) Router
+app.Patch(path string, handlers ...func(*Ctx)) Router
+app.Trace(path string, handlers ...func(*Ctx)) Router
+app.Delete(path string, handlers ...func(*Ctx)) Router
+app.Connect(path string, handlers ...func(*Ctx)) Router
+app.Options(path string, handlers ...func(*Ctx)) Router
 
 // Use is mostly used for middleware modules
 // These routes will only match the beggining of each path
 // i.e. "/john" will match "/john/doe", "/johnnnn"
-app.Use(handlers ...func(*Ctx)) *Route
-app.Use(prefix string, handlers ...func(*Ctx)) *Route
+app.Use(handlers ...func(*Ctx)) Router
+app.Use(prefix string, handlers ...func(*Ctx)) Router
 ```
 {% endcode %}
 
@@ -241,7 +241,7 @@ You can group routes by creating a `*Group` struct.
 **Signature**
 
 ```go
-app.Group(prefix string, handlers ...func(*Ctx)) *Group
+app.Group(prefix string, handlers ...func(*Ctx)) Router
 ```
 
 **Example**
@@ -278,13 +278,15 @@ app.Stack() [][]*Route
 ```go
 app := fiber.New()
 
-handler := func(c *fiber.Ctx) { }
+app.Use(handler)
+app.Get("/john", handler)
+app.Post("/register", handler)
+app.Get("/v1/users", handler)
+app.Put("/user/:id", handler)
+app.Head("/xhr", handler)
 
-app.Get("/sample", handler)
-app.Post("/john", handler)
-app.Put("/doe", handler)
-
-fmt.Println(app.Stack())
+data, _ := json.MarshalIndent(app.Stack(), "", "  ")
+fmt.Println(string(data))
 ```
 {% endcode %}
 
