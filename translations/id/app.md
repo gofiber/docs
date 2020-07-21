@@ -195,27 +195,27 @@ Routes HTTP request, dimana **METHOD** adalah sebuah [HTTP method](https://devel
 {% code title="Signatures" %}
 ```go
 // Add mengizinkan penggunaan method sebagai value
-app.Add(method, path string, handlers ...func(*Ctx)) *Route
+app.Add(method, path string, handlers ...func(*Ctx)) Router
 
-// All akan me-register route pada semua methods
-app.All(path string, handlers ...func(*Ctx)) []*Route
+// All will register the route on all methods
+app.All(path string, handlers ...func(*Ctx)) Router
 
 // HTTP methods
-app.Get(path string, handlers ...func(*Ctx)) *Route
-app.Put(path string, handlers ...func(*Ctx)) *Route
-app.Post(path string, handlers ...func(*Ctx)) *Route
-app.Head(path string, handlers ...func(*Ctx)) *Route
-app.Patch(path string, handlers ...func(*Ctx)) *Route
-app.Trace(path string, handlers ...func(*Ctx)) *Route
-app.Delete(path string, handlers ...func(*Ctx)) *Route
-app.Connect(path string, handlers ...func(*Ctx)) *Route
-app.Options(path string, handlers ...func(*Ctx)) *Route
+app.Get(path string, handlers ...func(*Ctx)) Router
+app.Put(path string, handlers ...func(*Ctx)) Router
+app.Post(path string, handlers ...func(*Ctx)) Router
+app.Head(path string, handlers ...func(*Ctx)) Router
+app.Patch(path string, handlers ...func(*Ctx)) Router
+app.Trace(path string, handlers ...func(*Ctx)) Router
+app.Delete(path string, handlers ...func(*Ctx)) Router
+app.Connect(path string, handlers ...func(*Ctx)) Router
+app.Options(path string, handlers ...func(*Ctx)) Router
 
-// Use biasanya digunakan untuk middleware modules
-// Routes ini hanya akan melakukan pencocokan dengan awalan pada masing-masing path
-// misalnya "/john" akan cocok dengan "/john/doe", "/johnnnn"
-app.Use(handlers ...func(*Ctx)) *Route
-app.Use(prefix string, handlers ...func(*Ctx)) *Route
+// Use is mostly used for middleware modules
+// These routes will only match the beggining of each path
+// i.e. "/john" will match "/john/doe", "/johnnnn"
+app.Use(handlers ...func(*Ctx)) Router
+app.Use(prefix string, handlers ...func(*Ctx)) Router
 ```
 {% endcode %}
 
@@ -241,7 +241,7 @@ Group routes dapat dibuat dengan `*Group` struct.
 **Signature**
 
 ```go
-app.Group(prefix string, handlers ...func(*Ctx)) *Group
+app.Group(prefix string, handlers ...func(*Ctx)) Router
 ```
 
 **Contoh**
@@ -278,13 +278,15 @@ app.Stack() [][]*Route
 ```go
 app := fiber.New()
 
-handler := func(c *fiber.Ctx) { }
+app.Use(handler)
+app.Get("/john", handler)
+app.Post("/register", handler)
+app.Get("/v1/users", handler)
+app.Put("/user/:id", handler)
+app.Head("/xhr", handler)
 
-app.Get("/sample", handler)
-app.Post("/john", handler)
-app.Put("/doe", handler)
-
-fmt.Println(app.Stack())
+data, _ := json.MarshalIndent(app.Stack(), "", "  ")
+fmt.Println(string(data))
 ```
 {% endcode %}
 
