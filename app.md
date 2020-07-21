@@ -241,7 +241,7 @@ You can group routes by creating a `*Group` struct.
 **Signature**
 
 ```go
-app.Group(prefix string, handlers ...func(*Ctx)) *Group
+app.Group(prefix string, handlers ...func(*Ctx)) Router
 ```
 
 **Example**
