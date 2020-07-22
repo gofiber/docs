@@ -98,3 +98,5 @@ app.Use(middleware.Compress(middleware.CompressConfig{
 
 ## FileSystem
 
+## Favicon
+
