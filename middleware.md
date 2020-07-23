@@ -9,13 +9,6 @@ description: >-
 
 **Fiber ships with multiple middleware modules by default:**
 
-```go
-import (
-  "github.com/gofiber/fiber"
-  "github.com/gofiber/fiber/middleware"
-)
-```
-
 * \*\*\*\*[**Compress**](middleware.md#compress) Compress middleware that supports `deflate`, `gzip` and `brotli` compression.
 * \*\*\*\*[**FileSystem**](middleware.md#filesystem) FileSystem middleware for Fiber, special thanks and credits to Alireza Salary
 * **Favicon** Ignore favicon from logs or serve from memory if a file path is provided.
@@ -25,13 +18,6 @@ import (
 * **RequestID** Request ID middleware generates a unique id for a request.
 
 **Fiber also maintains external middleware modules, these have to be installed separately:**
-
-```go
-import (
-  "github.com/gofiber/fiber"
-  "github.com/gofiber/<module>"
-)
-```
 
 * **gofiber/adaptor** Converter for net/http handlers to/from Fiber request handlers.
 * **gofiber/basicauth** Basic auth middleware provides an HTTP basic authentication. It calls the next handler for valid credentials and 401 Unauthorized for missing or invalid credentials.
@@ -51,54 +37,91 @@ import (
 Compress middleware for with support for `deflate`, `gzip` and `brotli`compression.  
 It will use the fastest compression method depending on the request header `Accept-Encoding`value.
 
+{% code title="Import" %}
+```go
+import (
+  "github.com/gofiber/fiber"
+  "github.com/gofiber/fiber/middleware"
+)
+```
+{% endcode %}
+
 {% code title="Signature" %}
 ```go
 func Compress(options ...interface{}) fiber.Handler {}
 ```
 {% endcode %}
 
-{% code title="Config" %}
-```go
-type CompressConfig struct {
-  // Next defines a function to skip this middleware.
-  // Default: nil
-  Next func(*fiber.Ctx) bool
 
-  // Compression level for brotli, gzip and deflate
-  // CompressLevelDisabled        = -1
-  // CompressLevelDefault         = 0
-  // CompressLevelBestSpeed       = 1
-  // CompressLevelBestCompression = 2
-  // Default: CompressLevelDefault
-  Level int
-}
-```
-{% endcode %}
-
+We maintain an simplified method initiation, this means we determine the arguments by type.
 {% code title="Example" %}
 ```go
-// Compression handler with default settings
+// Initiate default settings
 app.Use(middleware.Compress())
 
-// Provide a custom compression level
-app.Use(middleware.Compress(2))
-
-// Pass a next function to skip specific requests
-app.Use(middleware.Compress(func(c *fiber.Ctx) bool {
-    return c.Path() == "/dontcompress"
-}))
-
-// Provide a full Config
-app.Use(middleware.Compress(middleware.CompressConfig{
+// Custom config
+var config = middleware.CompressConfig{
+  // Next defines a function to skip this middleware.
+  // Default: nil
   Next:  func(c *fiber.Ctx) bool {
     return c.Path() == "/dontcompress"
   },
-  Level: CompressLevelDefault,
-})
+  // Compression level that supports brotli, gzip and deflate
+  // Accepts: -1 (Disabled), 0 (Default), 1 (BestSpeed), 2 (BestCompression)
+  // Default: 0
+  Level: 2,
+}
+
+// Specify a config
+app.Use(middleware.Compress(config)
+
+// Specify a custom compression level ( -1, 0, 1, 2 )
+app.Use(middleware.Compress(config.Level))
+
+// Specify a Next fn, if the conditions match it will be skipped
+app.Use(middleware.Compress(config.Next))
+
+// Specify multiple config options, order does not matter
+app.Use(middleware.Compress(config.Next, config.Level))
+
 ```
 {% endcode %}
 
 ## FileSystem
 
 ## Favicon
+
+## Logger
+
+## Pprof
+
+## Recover
+
+## RequestID
+
+
+
+## Adaptor
+
+## BasicAuth
+
+## Cors
+
+## CSRF
+
+## Helmet
+
+## JWT
+
+## KeyAuth
+
+## Limiter
+
+## Rewrite
+
+## Session
+
+## Template
+
+## Websocket
 
