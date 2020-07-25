@@ -981,8 +981,9 @@ c.QueryParser(out interface{}) error
 ```go
 // Field names should start with an uppercase letter
 type Person struct {
-    Name string `query:"name"`
-    Pass string `query:"pass"`
+    Name     string     `query:"name"`
+    Pass     string     `query:"pass"`
+    Products []string   `query:"products"`
 }
 
 app.Post("/", func(c *fiber.Ctx) {
@@ -992,12 +993,13 @@ app.Post("/", func(c *fiber.Ctx) {
             log.Fatal(err)
         }
 
-        log.Println(p.Name) // john
-        log.Println(p.Pass) // doe
+        log.Println(p.Name)     // john
+        log.Println(p.Pass)     // doe
+        log.Println(p.Products) // [shoe, hat]
 })
 // Run tests with the following curl command
 
-// curl -X POST "http://localhost:3000/?name=john&pass=doe"
+// curl -X POST "http://localhost:3000/?name=john&pass=doe&products=shoe,hat"
 ```
 {% endcode %}
 
