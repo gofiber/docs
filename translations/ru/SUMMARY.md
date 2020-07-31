@@ -15,10 +15,10 @@
 ---
 
 * [🔌 Маршрутизация](routing.md)
-* [🎭 Grouping](grouping.md)
-* [📝 Templates](templates.md)
-* [🔎 Validating](validating.md)
-* [🐛 Error Handling](error-handling.md)
+* [🎭 Группировка](grouping.md)
+* [📝 Шаблоны](templates.md)
+* [🔎 Проверка](validating.md)
+* [🐛 Обработка ошибок](error-handling.md)
 
 ## Misc <a id="miscellaneous"></a>
 
@@ -26,5 +26,5 @@
 
 * [🤔 FAQ](faq.md)
 * [📊 Benchmarks](benchmarks.md)
-* [🍳 Examples](https://github.com/gofiber/recipes)
+* [🍳 Примеры](https://github.com/gofiber/recipes)
 
