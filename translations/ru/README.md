@@ -1,6 +1,6 @@
 ---
 description: >-
-  An online API documentation with examples so you can start building web apps with Fiber right away!
+  Онлайн документация по API с примерами, так что вы можете начать создавать веб-приложения с Fiber прямо сейчас!
 ---
 
 # 📖 Приступая к работе
