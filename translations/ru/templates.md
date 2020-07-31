@@ -1,12 +1,12 @@
 - - -
-description: Fiber supports server-side template engines.
+description: Fiber поддерживает серверные движки шаблонов.
 - - -
 
-# 📝 Templates
+# 📝 Шаблоны
 
-## Template interfaces
+## Интерфейсы шаблонов
 
-Fiber provides a Views interface to provide your own template engine:
+Fiber предоставляет интерфейс Views для предоставления вашего собственного движка шаблонов:
 
 {% tabs %}
 {% tab title="Views" %}
@@ -19,7 +19,7 @@ type Views interface {
 {% endtab %}
 {% endtabs %}
 
-`Views` interface contains a `Load` and `Render` method, `Load` is executed by Fiber on app initialization to load/parse the templates.
+`Views` интерфейс содержит `Load` и `Render` методы. `Load` выполняется Fiber при инициализации приложения для загрузки/разбора шаблонов.
 
 ```go
 // Pass engine to Fiber's Views Engine
@@ -28,7 +28,7 @@ app := fiber.New(&fiber.Settings{
 })
 ```
 
-The `Render` method is linked to the [**ctx.Render\(\)**](ctx.md#render) function that accepts a template name and binding data.
+Метод `Render` связан с [**ctx.Render\(\)**](ctx.md#render) функцией, принимающей имя шаблона и данные привязки.
 
 ```go
 app.Get("/", func(c *fiber.Ctx) {
@@ -42,7 +42,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Engines
 
-Fiber team maintains [templates](https://github.com/gofiber/template) package that provides wrappers for multiple template engines:
+Fiber поддерживает пакет  [templates](https://github.com/gofiber/template), обеспечивающий обертку для нескольких движков шаблонов:
 
 * [html](https://github.com/gofiber/template/tree/master/html)
 * [ace](https://github.com/gofiber/template/tree/master/ace)
