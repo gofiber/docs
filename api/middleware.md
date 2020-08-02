@@ -21,7 +21,7 @@ import (
 * **Favicon** Ignore favicon from logs or serve from memory if a file path is provided.
 * **Logger** HTTP request/response logger.
 * **Pprof** HTTP server runtime profiling
-* **Recover** Recover middleware recovers from panics anywhere in the stack chain and handles the control to the centralized[ ErrorHandler](error-handling.md).
+* **Recover** Recover middleware recovers from panics anywhere in the stack chain and handles the control to the centralized[ ErrorHandler](../guide/error-handling.md).
 * **RequestID** Request ID middleware generates a unique id for a request.
 
 **Fiber also maintains external middleware modules, these have to be installed separately:**
