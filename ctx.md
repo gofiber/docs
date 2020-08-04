@@ -243,7 +243,7 @@ app.Get("/", func(c *fiber.Ctx) {
 {% endcode %}
 
 {% hint style="warning" %}
-Web browsers and other compliant clients will only clear the cookie if the given options are identical to those when creating the cookie, excluding the expires property.
+Web browsers and other compliant clients will only clear the cookie if the given options are identical to those when creating the cookie, excluding expires and maxAge. ClearCookie will not set these values for you - a technique similar to the one shown below should be used to ensure your cookie is deleted.
 {% endhint %}
 
 {% code title="Example" %}
