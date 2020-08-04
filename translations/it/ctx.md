@@ -240,6 +240,34 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
+{% hint style="warning" %}
+Web browsers and other compliant clients will only clear the cookie if the given options are identical to those when creating the cookie, excluding expires and maxAge. ClearCookie will not set these values for you - a technique similar to the one shown below should be used to ensure your cookie is deleted.
+{% endhint %}
+
+{% code title="Example" %}
+```go
+app.Get("/set", func(c *fiber.Ctx) {
+    c.Cookie(&fiber.Cookie{
+        Name:     "token",
+        Value:    "randomvalue",
+        Expires:  time.Now().Add(24 * time.Hour),
+        HTTPOnly: true,
+        SameSite: "lax",
+    })
+})
+
+app.Get("/delete", func(c *fiber.Ctx) {
+    c.Cookie(&fiber.Cookie{
+        Name:     "token",
+        // Set expiry date to the past
+        Expires:  time.Now().Add(-(time.Hour * 2)),
+        HTTPOnly: true,
+        SameSite: "lax",
+    })
+})
+```
+{% endcode %}
+
 ## Context
 
 Returns context.Context that carries a deadline, a cancellation signal, and other values across API boundaries.
