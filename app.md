@@ -4,17 +4,16 @@ description: The app instance conventionally denotes the Fiber application.
 
 # 🚀 Application
 
+## Default
+
 ## New
 
-This method creates a new **App** named instance. You can pass optional [settings ](app.md#settings)when creating a new instance
+This method creates a new **App** named instance with a custom configuration.
 
-{% code title="Signature" %}
 ```go
-fiber.New(config Config) *App
+func New(config Config) *App
 ```
-{% endcode %}
 
-{% code title="Example" %}
 ```go
 package main
 
@@ -22,7 +21,10 @@ import "github.com/gofiber/fiber"
 
 func main() {
     app := fiber.New(fiber.Config{
+        Prefork:       true,
+        CaseSensitive: true,
         StrictRouting: true,
+        ServerHeader:  "Fiber",
     })
 
     // ...
@@ -32,11 +34,10 @@ func main() {
     }
 }
 ```
-{% endcode %}
 
-## Settings
+## Config
 
-You can pass application settings when calling `New`.
+When creating a new Fiber instance, you can use different configurations for your application.
 
 {% code title="Example" %}
 ```go
