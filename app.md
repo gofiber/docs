@@ -10,7 +10,7 @@ This method creates a new **App** named instance. You can pass optional [setting
 
 {% code title="Signature" %}
 ```go
-fiber.New(settings ...*Settings) *App
+fiber.New(config Config) *App
 ```
 {% endcode %}
 
@@ -21,11 +21,15 @@ package main
 import "github.com/gofiber/fiber"
 
 func main() {
-    app := fiber.New()
+    app := fiber.New(fiber.Config{
+        StrictRouting: true,
+    })
 
     // ...
 
-    app.Listen(3000)
+    if err := app.Listen(":3000"); err != nil {
+        println(err)
+    }
 }
 ```
 {% endcode %}
