@@ -10,7 +10,7 @@
 * [🧠 Контекст](ctx.md)
 * [🧬 Middleware](middleware.md)
 
-## Guide
+## Руководства
 
 ---
 
@@ -20,7 +20,7 @@
 * [🔎 Проверка](validating.md)
 * [🐛 Обработка ошибок](error-handling.md)
 
-## Misc <a id="miscellaneous"></a>
+## Прочее<a id="miscellaneous"></a>
 
 ---
 
