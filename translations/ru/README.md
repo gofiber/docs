@@ -20,7 +20,7 @@ go get -u github.com/gofiber/fiber
 ## Zero Allocation
 
 {% hint style="warning" %}
-Some values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default
+Значения, полученные из [**fiber.Ctx**](ctx.md), **не являются ** неизменяемыми по умолчанию.
 {% endhint %}
 
 Because fiber is optimized for  **high-performance**, values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default and **will** be re-used across requests. As a rule of thumb, you **must** only use context values within the handler, and you **must not** keep any references. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
@@ -57,7 +57,7 @@ For more information, please check [**\#426**](https://github.com/gofiber/fiber/
 
 ## Hello, World!
 
-Embedded below is essentially the most straightforward **Fiber** app, which you can create.
+Показанный ниже пример — это самое простое **Fiber** приложение, которое вы можете создать.
 
 ```go
 package main
@@ -79,17 +79,17 @@ func main() {
 go run server.go
 ```
 
-Browse to `http://localhost:3000,` and you should see `Hello, World!` on the page.
+Перейдите по адресу `http://localhost:3000` в вашем браузере и вы увидите `Hello, World!` на странице.
 
 ## Базовая маршрутизация
 
-Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI \(or path\) and a specific HTTP request method \(GET, PUT, POST and so on\).
+Маршрутизация относится к определению того, как приложение отвечает на клиентский запрос на определенную конечную точку (endpoint), которая является URI \(или путь\) и определенным методом HTTP запроса \(GET, PUT, POST и так далее\).
 
 {% hint style="info" %}
-Each route can have **multiple handler functions**, that is executed when the route is matched.
+Каждый маршрут может иметь **функции обработчика**, который выполняется при совпадении маршрута.
 {% endhint %}
 
-Route definition takes the following structures:
+Определение маршрута принимает следующие структуры:
 
 ```go
 // Function signature
@@ -101,7 +101,7 @@ app.Method(path string, ...func(*fiber.Ctx))
 * `path` — это виртуальный путь на сервере.
 * `func(*fiber.Ctx)` является функцией обратного вызова (callback), содержащей [Context](https://fiber.wiki/context), который выполняется при совпадении маршрута.
 
-**Simple route**
+**Простой маршрут**
 
 ```go
 // Respond with "Hello, World!" on root path, "/"
@@ -121,7 +121,7 @@ app.Get("/:value", func(c *fiber.Ctx) {
 })
 ```
 
-**Optional parameter**
+**Необязательные параметры**
 
 ```go
 // GET http://localhost:3000/john
@@ -136,7 +136,7 @@ app.Get("/:name?", func(c *fiber.Ctx) {
 })
 ```
 
-**Wildcards**
+**Шаблоны (wildcards)**
 
 ```go
 // GET http://localhost:3000/api/user/john
@@ -147,17 +147,17 @@ app.Get("/api/*", func(c *fiber.Ctx) {
 })
 ```
 
-## Static files
+## Статические файлы
 
-To serve static files such as **images**, **CSS**, and **JavaScript** files, replace your function handler with a file or directory string.
+Для обработки статических файлов, таких как **изображения**, **CSS** и **JavaScript**, замените ваш обработчик функции на строку файла или каталога.
 
-Function signature:
+Сигнатура функции:
 
 ```go
 app.Static(prefix, root string)
 ```
 
-Use the following code to serve files in a directory named `./public`:
+Используйте следующий код для отображения файлов в каталоге `./public`:
 
 ```go
 app := fiber.New()
@@ -167,7 +167,7 @@ app.Static("/", "./public")
 app.Listen(8080)
 ```
 
-Now, you can load the files that are in the `./public` directory:
+Теперь вы можете получить доступ к файлам, которые находятся в папке `./public`, вот так:
 
 ```bash
 http://localhost:8080/hello.html
@@ -175,7 +175,7 @@ http://localhost:8080/js/jquery.js
 http://localhost:8080/css/style.css
 ```
 
-## Note
+## Примечание
 
-For more information on how to build APIs in Go with Fiber, please check out this excellent article [on building an express-style API in Go with Fiber](https://blog.logrocket.com/express-style-api-go-fiber/)
+Для получения дополнительной информации о том, как строить API в Go с Fiber, пожалуйста, посмотрите эту отличную статью [о построении API в Express-стиле на Go с Fiber](https://blog.logrocket.com/express-style-api-go-fiber/)
 
