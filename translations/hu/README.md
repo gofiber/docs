@@ -23,7 +23,7 @@ go get -u github.com/gofiber/fiber
 Some values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default
 {% endhint %}
 
-Because fiber is optimized for  **high-performance**, values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default and **will** be re-used across requests. As a rule of thumb, you **must** only use context values within the handler, and you **must not** keep any references. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
+Because fiber is optimized for **high-performance**, values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default and **will** be re-used across requests. As a rule of thumb, you **must** only use context values within the handler, and you **must not** keep any references. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
 
 ```go
 func handler(c *fiber.Ctx) {
@@ -48,12 +48,12 @@ We created a custom `ImmutableString` function that does the above and is availa
 app.Get("/:foo", func(c *fiber.Ctx) {
     result := utils.ImmutableString(c.Param("foo")) 
     // result is now immutable
-}
+})
 ```
 
 Alternatively, you can also use the[ **Immutable setting**](app.md#settings). It will make all values returned from the context immutable, allowing you to persist them anywhere. Of course, this comes at the cost of performance.
 
-For more information, please check [**\#426**](https://github.com/gofiber/fiber/issues/426) ****and ****[**\#185**](https://github.com/gofiber/fiber/issues/185).
+For more information, please check [**\#426**](https://github.com/gofiber/fiber/issues/426) **and** [**\#185**](https://github.com/gofiber/fiber/issues/185).
 
 ## Helló világ!
 
