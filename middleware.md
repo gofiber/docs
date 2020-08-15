@@ -104,17 +104,14 @@ app.Use(middleware.Compress(middleware.CompressConfig{
 When adding middleware to your application, you can also specify when the middleware should be activated and when it should not through a function passed when initialising the middleware using a function passed in the configuration for the middleware.
 
 {% code title="Signature" %}
-
 ```go
 func (*fiber.Ctx) bool
 ```
-
 {% endcode %}
 
 This function should return `true` if the middleware should be deactivated. For example, if you would like admin users to be exempt from rate-limiting, you could do something like this:
 
 {% code title="Example" %}
-
 ```go
 app.Use(limiter.New(limiter.Config{
     Timeout: 10,
@@ -126,14 +123,12 @@ app.Use(limiter.New(limiter.Config{
     }
 }))
 ```
-
 {% endcode %}
 
 {% hint style="warning" %}
-If you are using middleware that is included with Fiber by default (for example Compress or Logger), you should use the `Next` field instead of the `Filter` field. For example:
+If you are using middleware that is included with Fiber by default \(for example Compress or Logger\), you should use the `Next` field instead of the `Filter` field. For example:
 
 {% code title="Example" %}
-
 ```go
 app.Use(middleware.Logger(middleware.LoggerConfig{
     Format:     "${time} ${method} ${path}",
@@ -146,9 +141,7 @@ app.Use(middleware.Logger(middleware.LoggerConfig{
     }
 }))
 ```
-
 {% endcode %}
-
 {% endhint %}
 
 ## FileSystem
