@@ -23,6 +23,7 @@ import (
 * **Pprof** HTTP server runtime profiling
 * **Recover** Recover middleware recovers from panics anywhere in the stack chain and handles the control to the centralized[ ErrorHandler](../guide/error-handling.md).
 * **RequestID** Request ID middleware generates a unique id for a request.
+* **Timeout** A wrapper function for handlers which will raise an error if the handler takes longer than a set amount of time to return
 
 **Fiber also maintains external middleware modules, these have to be installed separately:**
 
@@ -97,6 +98,51 @@ app.Use(middleware.Compress(middleware.CompressConfig{
 })
 ```
 {% endcode %}
+
+## Skipping middleware execution
+
+When adding middleware to your application, you can also specify when the middleware should be activated and when it should not through a function passed when initialising the middleware using a function passed in the configuration for the middleware.
+
+{% code title="Signature" %}
+```go
+func (*fiber.Ctx) bool
+```
+{% endcode %}
+
+This function should return `true` if the middleware should be deactivated. For example, if you would like admin users to be exempt from rate-limiting, you could do something like this:
+
+{% code title="Example" %}
+```go
+app.Use(limiter.New(limiter.Config{
+    Timeout: 10,
+    Max: 3,
+    Filter: func (c *fiber.Ctx) bool {
+        var isUserAdmin bool
+        // Your logic here
+        return isUserAdmin
+    }
+}))
+```
+{% endcode %}
+
+{% hint style="warning" %}
+If you are using middleware that is included with Fiber by default \(for example Compress or Logger\), you should use the `Next` field instead of the `Filter` field. For example:
+
+{% code title="Example" %}
+```go
+app.Use(middleware.Logger(middleware.LoggerConfig{
+    Format:     "${time} ${method} ${path}",
+    TimeFormat: "15:04:05",
+    TimeZone:   "Asia/Chongqing",
+    Next: func (c *fiber.Ctx) bool {
+        var isUserAdmin bool
+        // Your logic here
+        return isUserAdmin
+    }
+}))
+```
+{% endcode %}
+{% endhint %}
 
 ## FileSystem
 

@@ -49,7 +49,7 @@ We created a custom `ImmutableString` function that does the above and is availa
 app.Get("/:foo", func(c *fiber.Ctx) {
     result := utils.ImmutableString(c.Param("foo")) 
     // result is now immutable
-}
+})
 ```
 
 Alternatively, you can also use the[ **Immutable setting**](api/app.md#settings). It will make all values returned from the context immutable, allowing you to persist them anywhere. Of course, this comes at the cost of performance.

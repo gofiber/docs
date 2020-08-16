@@ -242,6 +242,34 @@ app.Get("/", func(c *fiber.Ctx) {
 ```
 {% endcode %}
 
+{% hint style="warning" %}
+Web browsers and other compliant clients will only clear the cookie if the given options are identical to those when creating the cookie, excluding expires and maxAge. ClearCookie will not set these values for you - a technique similar to the one shown below should be used to ensure your cookie is deleted.
+{% endhint %}
+
+{% code title="Example" %}
+```go
+app.Get("/set", func(c *fiber.Ctx) {
+    c.Cookie(&fiber.Cookie{
+        Name:     "token",
+        Value:    "randomvalue",
+        Expires:  time.Now().Add(24 * time.Hour),
+        HTTPOnly: true,
+        SameSite: "lax",
+    })
+})
+
+app.Get("/delete", func(c *fiber.Ctx) {
+    c.Cookie(&fiber.Cookie{
+        Name:     "token",
+        // Set expiry date to the past
+        Expires:  time.Now().Add(-(time.Hour * 2)),
+        HTTPOnly: true,
+        SameSite: "lax",
+    })
+})
+```
+{% endcode %}
+
 ## Context
 
 Returns context.Context that carries a deadline, a cancellation signal, and other values across API boundaries.
@@ -821,7 +849,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Next
 
-When **Next** is called, it executes the next method in the stack that matches the current route. You can pass an error struct within the method for custom error handling.
+When **Next** is called, it executes the next method in the stack that matches the current route. You can pass an error struct within the method that will end the chaining and call the [error handler](error-handling.md).
 
 {% code title="Signature" %}
 ```go
@@ -838,11 +866,10 @@ app.Get("/", func(c *fiber.Ctx) {
 
 app.Get("*", func(c *fiber.Ctx) {
   fmt.Println("2nd route!")
-  c.Next(fmt.Errorf("Some error"))
+  c.Next()
 })
 
 app.Get("/", func(c *fiber.Ctx) {
-  fmt.Println(c.Error()) // => "Some error"
   fmt.Println("3rd route!")
   c.Send("Hello, World!")
 })
