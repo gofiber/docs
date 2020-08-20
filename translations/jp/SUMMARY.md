@@ -4,27 +4,21 @@
 
 ## API
 
----
-
-* [🚀 アプリケーション](app.md)
-* [🧠 Context](ctx.md)
-* [🧬 ミドルウェア](middleware.md)
+* [🚀 アプリケーション](api/app.md)
+* [🧠 Context](api/ctx.md)
+* [🧬 ミドルウェア](api/middleware.md)
 
 ## ガイド
 
----
-
-* [🔌 ルーティング](routing.md)
-* [🎭 グループ化](grouping.md)
-* [📝 テンプレート](templates.md)
-* [🔎 Validating](validating.md)
-* [🐛 Error Handling](error-handling.md)
+* [🔌 ルーティング](guide/routing.md)
+* [🎭 グループ化](guide/grouping.md)
+* [📝 テンプレート](guide/templates.md)
+* [🔎 Validating](guide/validating.md)
+* [🐛 Error Handling](guide/error-handling.md)
 
 ## その他 <a id="miscellaneous"></a>
 
----
-
-* [🤔 FAQ](faq.md)
-* [📊 Benchmarks](benchmarks.md)
+* [🤔 FAQ](miscellaneous/faq.md)
+* [📊 Benchmarks](miscellaneous/benchmarks.md)
 * [🍳 サンプル](https://github.com/gofiber/recipes)
 
