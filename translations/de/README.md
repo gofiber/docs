@@ -5,11 +5,11 @@ description: >-
 
 # 📖 Erste Schritte
 
-**Fiber** ist ein [Express](https://github.com/expressjs/express) angelehntes **Webframework**, welches auf [Fasthttp](https://github.com/valyala/fasthttp), der **schnellsten** HTTP-Engine für [Go](https://golang.org/doc/), aufbaut. Konzipiert, um die Voraussetzungen für eine **schnelle** und **einfache** Entwicklung mit **null Speicherzuweisung** und **hoher Leistung** zu schaffen.
+**Fiber** ist ein an [Express](https://github.com/expressjs/express) angelehntes **Webframework**, welches auf [Fasthttp](https://github.com/valyala/fasthttp), der **schnellsten** HTTP-Engine für [Go](https://golang.org/doc/), aufbaut. Konzipiert, um die Voraussetzungen für eine **schnelle** und **einfache** Entwicklung mit **null Speicherzuweisung** und **hoher Leistung** zu schaffen.
 
 ## Installation
 
-Zunächst einmal musst du Go [downloaden](https://golang.org/dl/) und installieren. `1.11` oder höher wird benötigt.
+Zuerst einmal musst du Go [herunterladen](https://golang.org/dl/) und installieren. `1.11` oder höher wird benötigt.
 
 Die Installation erfolgt mit dem Befehl [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them):
 
@@ -17,7 +17,7 @@ Die Installation erfolgt mit dem Befehl [`go get`](https://golang.org/cmd/go/#hd
 go get -u github.com/gofiber/fiber
 ```
 
-## Zero Allocation
+## Keine Speicherzuweisung
 
 {% hint style="warning" %}
 Some values returned from [**fiber.Ctx**](ctx.md) are **not** immutable by default
