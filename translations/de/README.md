@@ -23,15 +23,15 @@ go get -u github.com/gofiber/fiber
 Manche Werte die von [**fiber.Ctx**](ctx.md) zurückgegeben werden, sind standardmäßig **nicht** unveränderlich
 {% endhint %}
 
-Weil fiber für **Hochleistung** optimiert ist, sind zurückgegebene Werte von [**fiber.Ctx**](ctx.md) standardmäßig **nicht** unveränderlich und **werden** zwischen Anfragen wiederverwendet. Als eine Faustregel, du **darfst** Kontext Werte nur im Anfragen Handler benutzen, und du **darfst keine** Referenzen auf diese Werte speichern. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
+Weil fiber für **Hochleistung** optimiert ist, sind zurückgegebene Werte von [**fiber.Ctx**](ctx.md) standardmäßig **nicht** unveränderlich und **werden** zwischen Anfragen wiederverwendet. Als eine Faustregel, du **darfst** Kontext Werte nur im Anfragen Handler benutzen, und du **darfst keine** Referenzen auf diese Werte speichern. Sobald du vom Anfragen Handler zurückkehrst, werden alle Werte die du vom Kontext erhalten hast, in späteren Anfragen wiederverwendet und werden sich spontan ändern. Hier ein Beispiel:
 
 ```go
 func handler(c *fiber.Ctx) {
-    result := c.Param("foo") // result is only valid within this method
+    result := c.Param("foo") // Ergebnis ist nur innerhalb dieser Methode gültig
 }
 ```
 
-If you need to persist such values outside the handler, make copies of their **underlying buffer** using the [copy](https://golang.org/pkg/builtin/#copy) builtin. Here is an example for persisting a string:
+Wenn Sie solche Werte außerhalb des Handlers weiterverwenden möchten, erstellen Sie Kopien ihres **darunterliegenden Puffers** unter Verwendung der Funktion [copy](https://golang.org/pkg/builtin/#copy). Here is an example for persisting a string:
 
 ```go
 func handler(c *fiber.Ctx) {
