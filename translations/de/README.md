@@ -47,11 +47,11 @@ Wir haben eine benutzerdefinierte Funktion `ImmutableString` erstellt, die das o
 ```go
 app.Get("/:foo", func(c *fiber.Ctx) {
     result := utils.ImmutableString(c.Param("foo")) 
-    // result is now immutable
+    // result ist jetzt unveränderbar
 })
 ```
 
-Alternatively, you can also use the[ **Immutable setting**](app.md#settings). It will make all values returned from the context immutable, allowing you to persist them anywhere. Of course, this comes at the cost of performance.
+Alternativ kannst du auch das [**Immutable Option**](app.md#settings) benutzen. Es wird alle Werte die man vom Kontext erhält unveränderbar machen, was dir erlaubt sie überall zu benutzen/speichern. Natürlich kommt das auf Kosten von Geschwindigkeit.
 
 For more information, please check [**\#426**](https://github.com/gofiber/fiber/issues/426) **and** [**\#185**](https://github.com/gofiber/fiber/issues/185).
 
