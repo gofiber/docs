@@ -8,7 +8,7 @@ description: >-
 
 ## TechEmpower
 
-[TechEmpower](https://www.techempower.com/benchmarks/#section=data-r19&hw=ph&test=composite) provides  a performance comparison of many web application frameworks executing fundamental tasks such as JSON serialization, database access, and server-side template composition. 
+[TechEmpower](https://www.techempower.com/benchmarks/#section=data-r19&hw=ph&test=composite) provides a performance comparison of many web application frameworks executing fundamental tasks such as JSON serialization, database access, and server-side template composition.
 
 Each framework is operating in a realistic production configuration. Results are captured on cloud instances and on physical hardware. The test implementations are largely community-contributed and all source is available at the [GitHub repository](https://github.com/TechEmpower/FrameworkBenchmarks).
 
@@ -24,48 +24,48 @@ The Plaintext test is an exercise of the request-routing fundamentals only, desi
 
 See [Plaintext requirements](https://github.com/TechEmpower/FrameworkBenchmarks/wiki/Project-Information-Framework-Tests-Overview#single-database-query)
 
-**Fiber**      -   **6,162,556** responses per second with an average latency of     **2.0** ms.  
-**Express** -      **367,069** responses per second with an average latency of **354.1** ms.
+**Fiber** - **6,162,556** responses per second with an average latency of **2.0** ms.  
+**Express** - **367,069** responses per second with an average latency of **354.1** ms.
 
-![](.gitbook/assets/plaintext%20%281%29.png)
+![](../.gitbook/assets/plaintext%20%281%29.png)
 
-![Fiber vs Express](.gitbook/assets/plaintext_express.png)
+![Fiber vs Express](../.gitbook/assets/plaintext_express.png)
 
 ### Data Updates
 
-**Fiber** handled **11,846** responses  per second with an average latency of **42.8** ms.  
-**Express** handled **2,066** responses  per second with an average latency of **390.44** ms.
+**Fiber** handled **11,846** responses per second with an average latency of **42.8** ms.  
+**Express** handled **2,066** responses per second with an average latency of **390.44** ms.
 
-![](.gitbook/assets/data_updates.png)
+![](../.gitbook/assets/data_updates.png)
 
-![Fiber vs Express](.gitbook/assets/data_updates_express%20%281%29.png)
+![Fiber vs Express](../.gitbook/assets/data_updates_express%20%281%29.png)
 
 ### Multiple Queries
 
 **Fiber** handled **19,664** responses per second with an average latency of **25.7** ms.  
-**Express** handled **4,302** responses  per second with an average latency of **117.2** ms.
+**Express** handled **4,302** responses per second with an average latency of **117.2** ms.
 
-![](.gitbook/assets/multiple_queries%20%281%29.png)
+![](../.gitbook/assets/multiple_queries%20%281%29.png)
 
-![Fiber vs Express](.gitbook/assets/multiple_queries_express.png)
+![Fiber vs Express](../.gitbook/assets/multiple_queries_express.png)
 
 ### Single Query
 
 **Fiber** handled **368,647** responses per second with an average latency of **0.7** ms.  
-**Express** handled **57,880** responses  per second with an average latency of **4.4** ms.
+**Express** handled **57,880** responses per second with an average latency of **4.4** ms.
 
-![](.gitbook/assets/single_query%20%282%29.png)
+![](../.gitbook/assets/single_query%20%282%29.png)
 
-![Fiber vs Express](.gitbook/assets/single_query_express.png)
+![Fiber vs Express](../.gitbook/assets/single_query_express.png)
 
 ### JSON Serialization
 
 **Fiber** handled **1,146,667** responses per second with an average latency of **0.4** ms.  
-**Express** handled **244,847** responses  per second with an average latency of **1.1** ms.
+**Express** handled **244,847** responses per second with an average latency of **1.1** ms.
 
-![](.gitbook/assets/json%20%281%29.png)
+![](../.gitbook/assets/json%20%281%29.png)
 
-![Fiber vs Express](.gitbook/assets/json_express.png)
+![Fiber vs Express](../.gitbook/assets/json_express.png)
 
 ## Go web framework benchmark
 
@@ -108,5 +108,5 @@ If we enable **http pipelining**, test result as below:
 
 Dependency graph for `v1.9.0`
 
-![](.gitbook/assets/graph.svg)
+![](../.gitbook/assets/graph.svg)
 
