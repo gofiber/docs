@@ -168,7 +168,7 @@ app.Post("/", func(c *fiber.Ctx) {
 {% endcode %}
 
 > _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](../#zero-allocation)
+> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## BodyParser
 
@@ -339,7 +339,7 @@ app.Get("/", func(c *fiber.Ctx) {
 {% endcode %}
 
 > _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](../#zero-allocation)
+> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## Download
 
@@ -509,7 +509,7 @@ app.Post("/", func(c *fiber.Ctx) {
 {% endcode %}
 
 > _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](../#zero-allocation)
+> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## Fresh
 
@@ -544,7 +544,7 @@ app.Get("/", func(c *fiber.Ctx) {
 {% endcode %}
 
 > _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](../#zero-allocation)
+> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## Hostname
 
@@ -567,7 +567,7 @@ app.Get("/", func(c *fiber.Ctx) {
 {% endcode %}
 
 > _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](../#zero-allocation)
+> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## IP
 
@@ -849,7 +849,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Next
 
-When **Next** is called, it executes the next method in the stack that matches the current route. You can pass an error struct within the method that will end the chaining and call the [error handler](error-handling.md).
+When **Next** is called, it executes the next method in the stack that matches the current route. You can pass an error struct within the method that will end the chaining and call the [error handler](https://github.com/gofiber/docs/tree/aa2680660c0b661b8e9d215b32cb03e766277131/api/error-handling.md).
 
 {% code title="Signature" %}
 ```go
@@ -897,7 +897,7 @@ app.Get("/", func(c *fiber.Ctx) {
 {% endcode %}
 
 > _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](../#zero-allocation)
+> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## Params
 
@@ -925,7 +925,7 @@ app.Get("/user/:name", func(c *fiber.Ctx) {
 {% endcode %}
 
 > _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](../#zero-allocation)\_\_
+> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)\_\_
 
 ## Path
 
@@ -994,7 +994,7 @@ app.Get("/", func(c *fiber.Ctx) {
 {% endcode %}
 
 > _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](../#zero-allocation)
+> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## QueryParser
 

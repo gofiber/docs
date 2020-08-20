@@ -1,6 +1,6 @@
 # 🎭 Grouping
 
-### Paths
+## Paths
 
 Like **Routing**, groups can also have paths that belong to a cluster.
 
@@ -46,26 +46,26 @@ func main() {
 Running **/api**, **/v1** or **/v2** will result in **404** error, make sure you have the errors set.
 {% endhint %}
 
-### Group Handlers
+## Group Handlers
 
 Group handlers can also be used as a routing path but they must have **Next** added to them so that the flow can continue.
 
 ```go
 func main() {
-	app := fiber.New()
+    app := fiber.New()
 
-	api := app.Group("/api") // /api
+    api := app.Group("/api") // /api
 
-	v1 := api.Group("/v1", func(c *fiber.Ctx) {
-		c.JSON(fiber.Map{
-			"message": "v1",
-		})
-		c.Next()
-	})                       // /api/v1
-	v1.Get("/list", handler) // /api/v1/list
-	v1.Get("/user", handler) // /api/v1/user
+    v1 := api.Group("/v1", func(c *fiber.Ctx) {
+        c.JSON(fiber.Map{
+            "message": "v1",
+        })
+        c.Next()
+    })                       // /api/v1
+    v1.Get("/list", handler) // /api/v1/list
+    v1.Get("/user", handler) // /api/v1/user
 
-	app.Listen(3000)
+    app.Listen(3000)
 }
 ```
 
