@@ -17,14 +17,14 @@
 * [🔌 Routing](routing.md)
 * [🎭 Gruppierung](grouping.md)
 * [📝 Templates](templates.md)
-* [🔎 Validating](validating.md)
-* [🐛 Error Handling](error-handling.md)
+* [🔎 Validierung](validating.md)
+* [🐛Fehlerbehanldung](error-handling.md)
 
 ## Sonstiges<a id="miscellaneous"></a>
 
 ---
 
 * [🤔 FAQ](faq.md)
-* [📊 Benchmarks](benchmarks.md)
+* [📊 Benchmarks (Leistungstests)](benchmarks.md)
 * [🍳 Beispiele](https://github.com/gofiber/recipes)
 
