@@ -53,11 +53,11 @@ app.Get("/:foo", func(c *fiber.Ctx) {
 
 Alternativ kannst du auch das [**Immutable Option**](app.md#settings) benutzen. Es wird alle Werte die man vom Kontext erhält unveränderbar machen, was dir erlaubt sie überall zu benutzen/speichern. Natürlich kommt das auf Kosten von Geschwindigkeit.
 
-For more information, please check [**\#426**](https://github.com/gofiber/fiber/issues/426) **and** [**\#185**](https://github.com/gofiber/fiber/issues/185).
+Weitere Informationen finden Sie unter [**\#426**](https://github.com/gofiber/fiber/issues/426) **und** [**\#185**](https://github.com/gofiber/fiber/issues/185).
 
 ## Hello, World!
 
-Embedded below is essentially the most straightforward **Fiber** app, which you can create.
+Unten eingebettet ist im Wesentlichen die einfachste **Fiber** Applikation, die du erstellen kannst.
 
 ```go
 package main
@@ -67,7 +67,7 @@ import "github.com/gofiber/fiber"
 func main() {
   app := fiber.New()
 
-  app.Get("/", func(c *fiber.Ctx) {
+  app. et("/", func(c *fiber.Ctx) {
     c.Send("Hello, World!")
   })
 
@@ -79,20 +79,20 @@ func main() {
 go run server.go
 ```
 
-Browse to `http://localhost:3000,` and you should see `Hello, World!` on the page.
+Besuche `http://localhost:3000` im Browser und du solltest `Hello, World!` auf der Seite sehen.
 
-## Basic routing
+## Grundlegendes Routing
 
-Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI \(or path\) and a specific HTTP request method \(GET, PUT, POST and so on\).
+Routing bezieht sich darauf, wie eine Anwendung auf einen bestimmten Endpunkt antworten soll die eine URI \(oder path\) und eine bestimmte HTTP-Anfragemethode \(GET, PUT, POST usw.) ist.
 
 {% hint style="info" %}
-Each route can have **multiple handler functions**, that is executed when the route is matched.
+Jede Route kann **mehrere Handler-Funktionen**haben, die ausgeführt werden, wenn die Route übereinstimmt.
 {% endhint %}
 
-Route definition takes the following structures:
+Eine Routendefinition benötigt folgende Strukturen:
 
 ```go
-// Function signature
+// Funktionssignatur
 app.Method(path string, ...func(*fiber.Ctx))
 ```
 
@@ -101,7 +101,7 @@ app.Method(path string, ...func(*fiber.Ctx))
 * `path` ist ein virtueller Pfad auf dem Server.
 * `func(*fiber.Ctx)` ist eine Callback-Funktion, die den [Kontext](https://fiber.wiki/context) enthält, der ausgeführt wird, wenn die Route übereinstimmt.
 
-**Simple route**
+**Einfache Route**
 
 ```go
 // Respond with "Hello, World!" on root path, "/"
