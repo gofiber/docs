@@ -55,7 +55,7 @@ Alternativ kannst du auch das [**Immutable Option**](app.md#settings) benutzen. 
 
 Weitere Informationen finden Sie unter [**\#426**](https://github.com/gofiber/fiber/issues/426) **und** [**\#185**](https://github.com/gofiber/fiber/issues/185).
 
-## Hello, World!
+## Hallo, Welt!
 
 Unten eingebettet ist im Wesentlichen die einfachste **Fiber** Applikation, die du erstellen kannst.
 
@@ -68,7 +68,7 @@ func main() {
   app := fiber.New()
 
   app. et("/", func(c *fiber.Ctx) {
-    c.Send("Hello, World!")
+    c.Send("Hallo, Welt!")
   })
 
   app.Listen(3000)
@@ -86,7 +86,7 @@ Besuche `http://localhost:3000` im Browser und du solltest `Hello, World!` auf d
 Routing bezieht sich darauf, wie eine Anwendung auf einen bestimmten Endpunkt antworten soll die eine URI \(oder path\) und eine bestimmte HTTP-Anfragemethode \(GET, PUT, POST usw.) ist.
 
 {% hint style="info" %}
-Jede Route kann **mehrere Handler-Funktionen**haben, die ausgeführt werden, wenn die Route übereinstimmt.
+Jede Route kann **mehrere Händler-Funktionen**haben, die ausgeführt werden, wenn die Route übereinstimmt.
 {% endhint %}
 
 Eine Routendefinition benötigt folgende Strukturen:
@@ -104,39 +104,39 @@ app.Method(path string, ...func(*fiber.Ctx))
 **Einfache Route**
 
 ```go
-// Respond with "Hello, World!" on root path, "/"
+// Antworte mit "Hallo, Welt!" am Root-Pfad, "/"
 app.Get("/", func(c *fiber.Ctx) {
-  c.Send("Hello, World!")
+  c.Send("Hallo, Welt!")
 })
 ```
 
 **Parameter**
 
 ```go
-// GET http://localhost:8080/hello%20world
+// GET http://localhost:8080/Hallo%20Welt
 
 app.Get("/:value", func(c *fiber.Ctx) {
-  c.Send("Get request with value: " + c.Params("value"))
-  // => Get request with value: hello world
+  c.Send("Anfrage mit Wert holen: " + c.Params("value"))
+  // => Anfrage mit Wert holen: Hallo Welt
 })
 ```
 
-**Optional parameter**
+**Optionaler Parameter**
 
 ```go
 // GET http://localhost:3000/john
 
 app.Get("/:name?", func(c *fiber.Ctx) {
   if c.Params("name") != "" {
-    c.Send("Hello " + c.Params("name"))
-    // => Hello john
+    c.Send("Hallo " + c.Params("name"))
+    // => Hallo john
   } else {
-    c.Send("Where is john?")
+    c.Send("Wo ist john?")
   }
 })
 ```
 
-**Wildcards**
+**Platzhalter (Wildcards)**
 
 ```go
 // GET http://localhost:3000/api/user/john
@@ -147,17 +147,17 @@ app.Get("/api/*", func(c *fiber.Ctx) {
 })
 ```
 
-## Static files
+## Statische Dateien
 
-To serve static files such as **images**, **CSS**, and **JavaScript** files, replace your function handler with a file or directory string.
+Um statische Dateien wie z.B. **Bilder**, **CSS** und **JavaScript** Dateien zu liefern, muss man den Funktionshändler durch einen Datei- oder Verzeichnisstring ersetzen.
 
-Function signature:
+Funktionssignatur:
 
 ```go
 app.Static(prefix, root string)
 ```
 
-Use the following code to serve files in a directory named `./public`:
+Verwende den folgenden Code, um Dateien in einem Verzeichnis mit dem Namen `./public` auszugeben:
 
 ```go
 app := fiber.New()
@@ -167,7 +167,7 @@ app.Static("/", "./public")
 app.Listen(8080)
 ```
 
-Now, you can load the files that are in the `./public` directory:
+Du kannst nun auf die Dateien im `./public` Verzeichnis zugreifen:
 
 ```bash
 http://localhost:8080/hello.html
@@ -175,7 +175,7 @@ http://localhost:8080/js/jquery.js
 http://localhost:8080/css/style.css
 ```
 
-## Note
+## Notiz
 
-For more information on how to build APIs in Go with Fiber, please check out this excellent article [on building an express-style API in Go with Fiber](https://blog.logrocket.com/express-style-api-go-fiber/)
+Für weitere Informationen, wie man APIs in Go mit Fiber baut, bitte schaue dir diesen ausgezeichneten Artikel [an, um eine Express-Style-API in Go mit Fiber zu erstellen](https://blog.logrocket.com/express-style-api-go-fiber/)
 
