@@ -20,10 +20,10 @@ go get -u github.com/gofiber/fiber
 ## Keine Speicherzuweisung
 
 {% hint style="warning" %}
-Manche Werte die von [**fiber.Ctx**](ctx.md) zurückgegeben werden, sind standardmäßig **nicht** unveränderlich
+Manche Werte die von [**fiber.Ctx**](ctx.md) zurückgegeben werden, sind standardmäßig **nicht** unveränderbar
 {% endhint %}
 
-Weil fiber für **Hochleistung** optimiert ist, sind zurückgegebene Werte von [**fiber.Ctx**](ctx.md) standardmäßig **nicht** unveränderlich und **werden** zwischen Anfragen wiederverwendet. Als eine Faustregel, du **darfst** Kontext Werte nur im Anfragen Handler benutzen, und du **darfst keine** Referenzen auf diese Werte speichern. Sobald du vom Anfragen Handler zurückkehrst, werden alle Werte die du vom Kontext erhalten hast, in späteren Anfragen wiederverwendet und werden sich spontan ändern. Hier ein Beispiel:
+Weil fiber für **Hochleistung** optimiert ist, sind zurückgegebene Werte von [**fiber.Ctx**](ctx.md) standardmäßig **nicht** unveränderbar und **werden** zwischen Anfragen wiederverwendet. Als eine Faustregel, du **darfst** Kontext Werte nur im Anfragen Handler benutzen, und du **darfst keine** Referenzen auf diese Werte speichern. Sobald du vom Anfragen Handler zurückkehrst, werden alle Werte die du vom Kontext erhalten hast, in späteren Anfragen wiederverwendet und werden sich spontan ändern. Hier ein Beispiel:
 
 ```go
 func handler(c *fiber.Ctx) {
@@ -31,18 +31,18 @@ func handler(c *fiber.Ctx) {
 }
 ```
 
-Wenn Sie solche Werte außerhalb des Handlers weiterverwenden möchten, erstellen Sie Kopien ihres **darunterliegenden Puffers** unter Verwendung der Funktion [copy](https://golang.org/pkg/builtin/#copy). Here is an example for persisting a string:
+Wenn Sie solche Werte außerhalb des Handlers weiterverwenden möchten, erstellen Sie Kopien ihres **darunterliegenden Puffers** unter Verwendung der Funktion [copy](https://golang.org/pkg/builtin/#copy). Hier ist ein Beispiel für das Fortbestehen einer Zeichenkette (String):
 
 ```go
 func handler(c *fiber.Ctx) {
-    result := c.Param("foo") // result is only valid within this method
+    result := c. aram("foo") // Ergebnis ist nur gültig innerhalb dieser Methode
     newBuffer := make([]byte, len(result))
-    copy(newBuffer, result)
-    newResult := string(newBuffer) // newResult is immutable and valid forever
+    copy(newBuffer, Ergebnis)
+    newResult := string(newBuffer) // newResult ist unveränderbar und gültig für immer
 }
 ```
 
-We created a custom `ImmutableString` function that does the above and is available in the [gofiber/utils](https://github.com/gofiber/utils) package.
+Wir haben eine benutzerdefinierte Funktion `ImmutableString` erstellt, die das obige tut und im Paket [gofiber/utils](https://github.com/gofiber/utils) verfügbar ist.
 
 ```go
 app.Get("/:foo", func(c *fiber.Ctx) {
