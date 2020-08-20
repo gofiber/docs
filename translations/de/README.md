@@ -23,7 +23,7 @@ go get -u github.com/gofiber/fiber
 Manche Werte die von [**fiber.Ctx**](ctx.md) zurückgegeben werden, sind standardmäßig **nicht** unveränderlich
 {% endhint %}
 
-Weil fiber für **Hochleistung** optimiert ist, sind zurückgegebene Werte von [**fiber.Ctx**](ctx.md) standardmäßig **nicht** unveränderlich und **werden** zwischen Anfragen wiederverwendet. As a rule of thumb, you **must** only use context values within the handler, and you **must not** keep any references. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
+Weil fiber für **Hochleistung** optimiert ist, sind zurückgegebene Werte von [**fiber.Ctx**](ctx.md) standardmäßig **nicht** unveränderlich und **werden** zwischen Anfragen wiederverwendet. Als eine Faustregel, du **darfst** Kontext Werte nur im Anfragen Handler benutzen, und du **darfst keine** Referenzen auf diese Werte speichern. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
 
 ```go
 func handler(c *fiber.Ctx) {
