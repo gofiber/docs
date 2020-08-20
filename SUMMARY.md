@@ -16,8 +16,8 @@
 
 * [🔌 Routing](routing.md)
 * [🎭 Grouping](grouping.md)
-* [🔎 Validating](validating/README.md)
-  * [📝 Templates](validating/templates.md)
+* [📝 Templates](templates.md)
+* [🔎 Validating](validating.md)
 * [🐛 Error Handling](error-handling.md)
 
 ## Misc <a id="miscellaneous"></a>
