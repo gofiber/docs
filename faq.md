@@ -57,7 +57,7 @@ Fiber currently supports 8 template engines in our [gofiber/template](https://gi
 * [Mustache](https://github.com/cbroglie/mustache)
 * [Pug](https://github.com/Joker/jade)
 
-To learn more about using Templates in Fiber, see [Templates]().
+To learn more about using Templates in Fiber, see [Templates](faq.md).
 
 ## Does Fiber have a community chat?
 
