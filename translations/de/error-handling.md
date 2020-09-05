@@ -3,7 +3,7 @@ description: >-
   Fiber supports centralized error handling by passing an error argument into the Next method which allows you to log errors to external services or send a customized HTTP response to the client.
 ---
 
-# 🐛 Error Handling
+# 🐛Fehlerbehanldung
 
 ## Catching Errors
 
@@ -102,7 +102,7 @@ app.Settings.ErrorHandler = func(ctx *fiber.Ctx, err error) {
     // Statuscode defaults to 500
     code := fiber.StatusInternalServerError
 
-    // Retreive the custom statuscode if it's an fiber.*Error
+    // Retrieve the custom statuscode if it's an fiber.*Error
     if e, ok := err.(*fiber.Error); ok {
         code = e.Code
     }
