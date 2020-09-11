@@ -20,10 +20,10 @@ go get -u github.com/gofiber/fiber
 ## Keine Speicherzuweisung
 
 {% hint style="warning" %}
-Manche Werte die von [**fiber.Ctx**](ctx.md) zurückgegeben werden, sind standardmäßig **nicht** unveränderbar
+Some values returned from [**fiber.Ctx**](api/ctx.md) are **not** immutable by default
 {% endhint %}
 
-Weil fiber für **Hochleistung** optimiert ist, sind zurückgegebene Werte von [**fiber.Ctx**](ctx.md) standardmäßig **nicht** unveränderbar und **werden** zwischen Anfragen wiederverwendet. Als eine Faustregel, du **darfst** Kontext Werte nur im Anfragen Handler benutzen, und du **darfst keine** Referenzen auf diese Werte speichern. Sobald du vom Anfragen Handler zurückkehrst, werden alle Werte die du vom Kontext erhalten hast, in späteren Anfragen wiederverwendet und werden sich spontan ändern. Hier ein Beispiel:
+Because fiber is optimized for **high-performance**, values returned from [**fiber.Ctx**](api/ctx.md) are **not** immutable by default and **will** be re-used across requests. Als eine Faustregel, du **darfst** Kontext Werte nur im Anfragen Handler benutzen, und du **darfst keine** Referenzen auf diese Werte speichern. Sobald du vom Anfragen Handler zurückkehrst, werden alle Werte die du vom Kontext erhalten hast, in späteren Anfragen wiederverwendet und werden sich spontan ändern. Hier ein Beispiel:
 
 ```go
 func handler(c *fiber.Ctx) {
@@ -51,7 +51,7 @@ app.Get("/:foo", func(c *fiber.Ctx) {
 })
 ```
 
-Alternativ kannst du auch das [**Immutable Option**](app.md#settings) benutzen. Es wird alle Werte die man vom Kontext erhält unveränderbar machen, was dir erlaubt sie überall zu benutzen/speichern. Natürlich kommt das auf Kosten von Geschwindigkeit.
+Alternatively, you can also use the[ **Immutable setting**](api/app.md#settings). Es wird alle Werte die man vom Kontext erhält unveränderbar machen, was dir erlaubt sie überall zu benutzen/speichern. Natürlich kommt das auf Kosten von Geschwindigkeit.
 
 Weitere Informationen finden Sie unter [**\#426**](https://github.com/gofiber/fiber/issues/426) **und** [**\#185**](https://github.com/gofiber/fiber/issues/185).
 
