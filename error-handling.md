@@ -14,11 +14,11 @@ It’s essential to ensure that Fiber catches all errors that occur while runnin
 {% tabs %}
 {% tab title="Example" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
     err := c.SendFile("file-does-not-exist")
 
     if err != nil {
-        c.Next(err) // Pass error to Fiber
+        return err // Pass error to Fiber
     }
 })
 ```
@@ -33,19 +33,19 @@ package main
 
 import (
     "github.com/gofiber/fiber"
-    "github.com/gofiber/fiber/middleware"
+    "github.com/gofiber/fiber/recover"
 )
 
 func main() {
     app := fiber.New()
 
-    app.Use(middleware.Recover())
+    app.Use(recover.New())
 
-    app.Get("/", func(c *fiber.Ctx) {
+    app.Get("/", func(c *fiber.Ctx) error {
         panic("This panic is catched by the ErrorHandler")
     })
 
-    log.Fatal(app.Listen(3000))
+    log.Fatal(app.Listen(":3000"))
 }
 ```
 {% endcode %}
@@ -54,12 +54,11 @@ Because `ctx.Next()` accepts an `error` interface, you could use Fiber's custom 
 
 {% code title="Example" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) {
-    err := fiber.NewError(503)
-    c.Next(err) // 503 Service Unavailable
+app.Get("/", func(c *fiber.Ctx) error {
+    return fiber.ErrServiceUnavailable // 503 Service Unavailable
 
-    err := fiber.NewError(404, "Sorry, not found!")
-    c.Next(err) // 404 Sorry, not found!
+    return fiber.NewError(503, "On vacation!")
+    // 503 On vacation!
 })
 ```
 {% endcode %}
@@ -71,18 +70,13 @@ Fiber provides an error handler by default. For a standard error, the response i
 {% code title="Example" %}
 ```go
 // Default error handler
-app.Settings.ErrorHandler = func(ctx *fiber.Ctx, err error) {
-    // Statuscode defaults to 500
-    code := fiber.StatusInternalServerError
-
-    // Check if it's an fiber.Error type
-    if e, ok := err.(*fiber.Error); ok {
-        code = e.Code
-    }
-
-    // Return HTTP response
-    ctx.Set(fiber.HeaderContentType, fiber.MIMETextPlainCharsetUTF8)
-    ctx.Status(code).SendString(err.Error())
+var DefaultErrorHandler = func(c *Ctx, err error) {
+	code := StatusInternalServerError
+	if e, ok := err.(*Error); ok {
+		code = e.Code
+	}
+	c.Set(HeaderContentType, MIMETextPlainCharsetUTF8)
+	_ = c.Status(code).SendString(err.Error())
 }
 ```
 {% endcode %}
@@ -100,11 +94,11 @@ The following example shows how to display error pages for different types of er
 app := fiber.New()
 
 // Custom error handler
-app.Settings.ErrorHandler = func(ctx *fiber.Ctx, err error) {
+app.Errors(func(ctx *fiber.Ctx, err error) {
     // Statuscode defaults to 500
     code := fiber.StatusInternalServerError
 
-    // Retrieve the custom statuscode if it's an fiber.*Error
+    // Retreive the custom statuscode if it's an fiber.*Error
     if e, ok := err.(*fiber.Error); ok {
         code = e.Code
     }
@@ -114,7 +108,7 @@ app.Settings.ErrorHandler = func(ctx *fiber.Ctx, err error) {
     if err != nil {
         ctx.Status(500).SendString("Internal Server Error")
     }
-}
+})
 ```
 {% endcode %}
 

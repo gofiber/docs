@@ -8,15 +8,15 @@ Like **Routing**, groups can also have paths that belong to a cluster.
 func main() {
   app := fiber.New()
 
-  api := app.Group("/api", cors())  // /api
+  api := app.Group("/api", middleware) // /api
 
-  v1 := api.Group("/v1", mysql())   // /api/v1
-  v1.Get("/list", handler)          // /api/v1/list
-  v1.Get("/user", handler)          // /api/v1/user
+  v1 := api.Group("/v1", middleware)   // /api/v1
+  v1.Get("/list", handler)             // /api/v1/list
+  v1.Get("/user", handler)             // /api/v1/user
 
-  v2 := api.Group("/v2", mongodb()) // /api/v2
-  v2.Get("/list", handler)          // /api/v2/list
-  v2.Get("/user", handler)          // /api/v2/user
+  v2 := api.Group("/v2", middleware)   // /api/v2
+  v2.Get("/list", handler)             // /api/v2/list
+  v2.Get("/user", handler)             // /api/v2/user
 
   app.Listen(3000)
 }
@@ -28,15 +28,15 @@ A **Group** of paths can have an optional handler.
 func main() {
   app := fiber.New()
 
-  api := app.Group("/api")  // /api
+  api := app.Group("/api")      // /api
 
-  v1 := api.Group("/v1")   // /api/v1
-  v1.Get("/list", handler)          // /api/v1/list
-  v1.Get("/user", handler)          // /api/v1/user
+  v1 := api.Group("/v1")        // /api/v1
+  v1.Get("/list", handler)      // /api/v1/list
+  v1.Get("/user", handler)      // /api/v1/user
 
-  v2 := api.Group("/v2") // /api/v2
-  v2.Get("/list", handler)          // /api/v2/list
-  v2.Get("/user", handler)          // /api/v2/user
+  v2 := api.Group("/v2")        // /api/v2
+  v2.Get("/list", handler)      // /api/v2/list
+  v2.Get("/user", handler)      // /api/v2/user
 
   app.Listen(3000)
 }
@@ -56,11 +56,11 @@ func main() {
 
     api := app.Group("/api") // /api
 
-    v1 := api.Group("/v1", func(c *fiber.Ctx) {
+    v1 := api.Group("/v1", func(c *fiber.Ctx) error {
         c.JSON(fiber.Map{
             "message": "v1",
         })
-        c.Next()
+        return c.Next()
     })                       // /api/v1
     v1.Get("/list", handler) // /api/v1/list
     v1.Get("/user", handler) // /api/v1/user

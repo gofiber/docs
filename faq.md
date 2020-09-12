@@ -24,25 +24,25 @@ All you need to do is add a middleware function at the very bottom of the stack 
 
 {% code title="Example" %}
 ```go
-app.Use(func(c *fiber.Ctx) {
-    c.Status(fiber.StatusNotFound).SendString("Sorry can't find that!")
+app.Use(func(c *fiber.Ctx) error {
+    return c.Status(fiber.StatusNotFound).SendString("Sorry can't find that!")
 })
 ```
 {% endcode %}
 
 ## How do I set up an error handler?
 
-To override the default error handler, provide a custom handler to the `app.Settings.ErrorHandler`
+To override the default error handler, provide a custom handler to the `app.Errors`
 
 {% code title="Example" %}
 ```go
-app.Settings.ErrorHandler = func(c *fiber.Ctx, err error) {
+app.Errors(func(c *fiber.Ctx, err error) {
     c.Status(500).SendString(err.Error())
-}
+})
 ```
 {% endcode %}
 
-We have a dedicated page explaining how error handling works in Fiber, see [Error Handling](../guide/error-handling.md).
+We have a dedicated page explaining how error handling works in Fiber, see [Error Handling](error-handling.md).
 
 ## Which template engines does Fiber support?
 
@@ -64,5 +64,5 @@ To learn more about using Templates in Fiber, see [Templates](faq.md).
 Yes, we have our own [Discord ](https://gofiber.io/discord)server, where we hang out. We have different rooms for every subject.  
 If you have questions or just want to have a chat, feel free to join us via this **&gt;** [**invite link**](https://gofiber.io/discord) **&lt;**.
 
-![](../.gitbook/assets/2020-06-08-03_06_27-support-discord.png)
+![](.gitbook/assets/2020-06-08-03_06_27-support-discord.png)
 
