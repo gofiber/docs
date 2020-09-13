@@ -8,8 +8,8 @@ Import the compress package that is shipped with the Fiber web framework
 
 ```go
 import (
-  "github.com/gofiber/fiber"
-  "github.com/gofiber/fiber/middleware/compress"
+  "github.com/gofiber/fiber/v2"
+  "github.com/gofiber/fiber/v2/middleware/compress"
 )
 ```
 
