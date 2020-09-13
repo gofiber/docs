@@ -63,7 +63,7 @@ app.Get("/", func(c *fiber.Ctx) error {
 
 ## Default Error Handler
 
-Fiber provides an error handler by default. For a standard error, the response is sent as **500 Internal Server Error**. If error is of type [fiber\*Error](https://godoc.org/github.com/gofiber/fiber#Error), response is sent with the provided status code and message.
+Fiber provides an error handler by default. For a standard error, the response is sent as **500 Internal Server Error**. If the error is of type [fiber.Error](https://godoc.org/github.com/gofiber/fiber#Error), the response is sent with the provided status code and message.
 
 {% code title="Example" %}
 ```go
@@ -87,7 +87,7 @@ var DefaultErrorHandler = func(c *Ctx, err error) error {
 
 ## Custom Error Handler
 
-A custom error handler can be set via `app.Settings.ErrorHandler`
+A custom error handler can be set using a [Config ](fiber.md#config)when initializing a fiber instance.
 
 In most cases, the default error handler should be sufficient. However, a custom error handler can come in handy if you want to capture different types of errors and take action accordingly e.g., send a notification email or log an error to the centralized system. You can also send customized responses to the client e.g., error page or just a JSON response.
 
@@ -95,24 +95,29 @@ The following example shows how to display error pages for different types of er
 
 {% code title="Example" %}
 ```go
-app := fiber.New()
-
-// Custom error handler
-app.Errors(func(ctx *fiber.Ctx, err error) {
-    // Statuscode defaults to 500
-    code := fiber.StatusInternalServerError
-
-    // Retreive the custom statuscode if it's an fiber.*Error
-    if e, ok := err.(*fiber.Error); ok {
-        code = e.Code
-    }
-
-    // Send custom error page
-    err = ctx.Status(code).SendFile(fmt.Sprintf("./%d.html", code))
-    if err != nil {
-        ctx.Status(500).SendString("Internal Server Error")
+app := fiber.New(fiber.Config{
+    ErrorHandler: func(ctx *fiber.Ctx, err error) error {
+        // Statuscode defaults to 500
+        code := fiber.StatusInternalServerError
+    
+        // Retreive the custom statuscode if it's an fiber.*Error
+        if e, ok := err.(*fiber.Error); ok {
+            code = e.Code
+        }
+    
+        // Send custom error page
+        err = ctx.Status(code).SendFile(fmt.Sprintf("./%d.html", code))
+        if err != nil {
+            // In case the SendFile fails
+            return ctx.Status(500).SendString("Internal Server Error")
+        }
+        
+        // Return from handler
+        return nil
     }
 })
+
+// ...
 ```
 {% endcode %}
 
