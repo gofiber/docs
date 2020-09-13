@@ -5,7 +5,7 @@ Basic Authentication middleware for [Fiber](https://github.com/gofiber/fiber) th
 ## Signatures
 
 ```go
-func New(config ...Config) fiber.Handler
+func New(config Config) fiber.Handler
 ```
 
 ## Examples

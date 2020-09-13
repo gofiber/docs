@@ -1,33 +1,48 @@
----
-description: >-
-  Compression middleware for Fiber that supports gzip, deflate and brotli
-  compression depending on the Accept-Encoding header.
----
-
 # Compress
 
-## Getting Started
+Compression middleware for [Fiber](https://github.com/gofiber/fiber) that will compress the response using `gzip`, `deflate` and `brotli` compression depending on the [Accept-Encoding](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Encoding) header.
 
-Import the compress package that is shipped with the Fiber web framework
+## Signatures
 
-```go
-import (
-  "github.com/gofiber/fiber"
-  "github.com/gofiber/fiber/middleware/compress"
-)
-```
-
-You can pass an optional Config struct to create a new middleware handler.
-
-{% code title="signature" %}
 ```go
 func New(config ...Config) fiber.Handler
 ```
-{% endcode %}
 
-The following configurations are possible
+## Examples
+
+Import the middleware package that is part of the [Fiber web framework](https://github.com/gofiber/fiber)
 
 ```go
+import (
+  "github.com/gofiber/fiber/v2"
+  "github.com/gofiber/fiber/v2/middleware/compress"
+)
+```
+
+After you initiate your Fiber app, you can use the following possibilities:
+
+```go
+// Default middleware config
+app.Use(compress.New())
+
+// Provide a custom compression level
+app.Use(compress.New(compress.Config{
+    Level: compress.LevelBestSpeed, // 1
+}))
+
+// Skip middleware for specific routes
+app.Use(compress.New(compress.Config{
+  Next:  func(c *fiber.Ctx) bool {
+    return c.Path() == "/dont_compress"
+  },
+  Level: compress.LevelBestSpeed, // 1
+}))
+```
+
+## Config
+
+```go
+// Config defines the config for middleware.
 type Config struct {
 	// Next defines a function to skip this middleware when returned true.
 	//
@@ -45,25 +60,12 @@ type Config struct {
 }
 ```
 
-{% code title="example" %}
+## Default Config
+
 ```go
-// Default compression config
-app.Use(compress.New())
-
-// Provide a custom compression level
-app.Use(compress.New(compress.Config{
-    Level: compress.LevelBestSpeed, // 1
-}))
-
-// Skip compression for specific routes
-app.Use(compress.New(compress.Config{
-  Next:  func(c *fiber.Ctx) bool {
-    return c.Path() == "/dont_compress"
-  },
-  Level: compress.LevelBestSpeed, // 1
-}))
+var ConfigDefault = Config{
+	Next:  nil,
+	Level: LevelDefault,
+}
 ```
-{% endcode %}
-
-
 

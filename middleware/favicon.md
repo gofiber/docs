@@ -1,25 +1,61 @@
 # Favicon
 
-## Getting Super Powers
+Favicon middleware for [Fiber](https://github.com/gofiber/fiber) that ignores favicon requests or caches a provided icon in memory to improve performance by skipping disk access. User agents request favicon.ico frequently and indiscriminately, so you may wish to exclude these requests from your logs by using this middleware before your logger middleware.
 
-Becoming a super hero is a fairly straight forward process:
+**Note** This middleware is exclusively for serving the default, implicit favicon, which is GET /favicon.ico.
 
+## Signatures
+
+```go
+func New(config ...Config) fiber.Handler
 ```
-$ give me super-powers
+
+## Examples
+
+Import the middleware package that is part of the [Fiber web framework](https://github.com/gofiber/fiber)
+
+```go
+import (
+  "github.com/gofiber/fiber/v2"
+  "github.com/gofiber/fiber/v2/middleware/favicon"
+)
 ```
 
-{% hint style="info" %}
- Super-powers are granted randomly so please submit an issue if you're not happy with yours.
-{% endhint %}
+After you initiate your Fiber app, you can use the following possibilities:
 
-Once you're strong enough, save the world:
+```go
+// Default config
+app.Use(favicon.New())
 
-{% code title="hello.sh" %}
-```bash
-# Ain't no code for that yet, sorry
-echo 'You got to trust me on this, I saved the world'
+// Or extend your config for customization
+app.Use(favicon.New(favicon.Config{
+	File: "./favicon.ico"
+}))
 ```
-{% endcode %}
 
+## Config
 
+```go
+// Config defines the config for middleware.
+type Config struct {
+	// Next defines a function to skip this middleware when returned true.
+	//
+	// Optional. Default: nil
+	Next func(c *fiber.Ctx) bool
+
+	// File holds the path to an actual favicon that will be cached
+	//
+	// Optional. Default: ""
+	File string
+}
+```
+
+## Default Config
+
+```go
+var ConfigDefault = Config{
+	Next: nil,
+	File:	""
+}
+```
 
