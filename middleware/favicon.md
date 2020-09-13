@@ -29,7 +29,7 @@ app.Use(favicon.New())
 
 // Or extend your config for customization
 app.Use(favicon.New(favicon.Config{
-	File: "./favicon.ico"
+    File: "./favicon.ico"
 }))
 ```
 
@@ -38,15 +38,15 @@ app.Use(favicon.New(favicon.Config{
 ```go
 // Config defines the config for middleware.
 type Config struct {
-	// Next defines a function to skip this middleware when returned true.
-	//
-	// Optional. Default: nil
-	Next func(c *fiber.Ctx) bool
+    // Next defines a function to skip this middleware when returned true.
+    //
+    // Optional. Default: nil
+    Next func(c *fiber.Ctx) bool
 
-	// File holds the path to an actual favicon that will be cached
-	//
-	// Optional. Default: ""
-	File string
+    // File holds the path to an actual favicon that will be cached
+    //
+    // Optional. Default: ""
+    File string
 }
 ```
 
@@ -54,8 +54,8 @@ type Config struct {
 
 ```go
 var ConfigDefault = Config{
-	Next: nil,
-	File:	""
+    Next: nil,
+    File:    ""
 }
 ```
 

@@ -27,17 +27,17 @@ app.Use(limiter.New())
 
 // Or extend your config for customization
 app.Use(limiter.New(limiter.Config{
-	Next: func(c *fiber.Ctx) bool {
-		return c.IP() == "127.0.0.1"
-	},
-	Max:          20,
-	Duration:     30 * time.Second,
-	Key:          func(c *fiber.Ctx) string {
-		return c.Get("x-forwarded-for")
-	},
-	LimitReached: func(c *fiber.Ctx) error {
-		return c.SendFile("./toofast.html")
-	},
+    Next: func(c *fiber.Ctx) bool {
+        return c.IP() == "127.0.0.1"
+    },
+    Max:          20,
+    Duration:     30 * time.Second,
+    Key:          func(c *fiber.Ctx) string {
+        return c.Get("x-forwarded-for")
+    },
+    LimitReached: func(c *fiber.Ctx) error {
+        return c.SendFile("./toofast.html")
+    },
 }))
 ```
 
@@ -46,34 +46,34 @@ app.Use(limiter.New(limiter.Config{
 ```go
 // Config defines the config for middleware.
 type Config struct {
-	// Next defines a function to skip this middleware when returned true.
-	//
-	// Optional. Default: nil
-	Next func(c *fiber.Ctx) bool
+    // Next defines a function to skip this middleware when returned true.
+    //
+    // Optional. Default: nil
+    Next func(c *fiber.Ctx) bool
 
-	// Max number of recent connections during `Duration` seconds before sending a 429 response
-	//
-	// Default: 5
-	Max int
+    // Max number of recent connections during `Duration` seconds before sending a 429 response
+    //
+    // Default: 5
+    Max int
 
-	// Duration is the time on how long to keep records of requests in memory
-	//
-	// Default: time.Minute
-	Duration time.Duration
+    // Duration is the time on how long to keep records of requests in memory
+    //
+    // Default: time.Minute
+    Duration time.Duration
 
-	// Key allows you to generate custom keys, by default c.IP() is used
-	//
-	// Default: func(c *fiber.Ctx) string {
-	//   return c.IP()
-	// }
-	Key func(*fiber.Ctx) string
+    // Key allows you to generate custom keys, by default c.IP() is used
+    //
+    // Default: func(c *fiber.Ctx) string {
+    //   return c.IP()
+    // }
+    Key func(*fiber.Ctx) string
 
-	// LimitReached is called when a request hits the limit
-	//
-	// Default: func(c *fiber.Ctx) error {
-	//   return c.SendStatus(fiber.StatusTooManyRequests)
-	// }
-	LimitReached fiber.Handler
+    // LimitReached is called when a request hits the limit
+    //
+    // Default: func(c *fiber.Ctx) error {
+    //   return c.SendStatus(fiber.StatusTooManyRequests)
+    // }
+    LimitReached fiber.Handler
 }
 ```
 
@@ -81,15 +81,15 @@ type Config struct {
 
 ```go
 var ConfigDefault = Config{
-	Next:     nil,
-	Max:      5,
-	Duration: time.Minute,
-	Key: func(c *fiber.Ctx) string {
-		return c.IP()
-	},
-	LimitReached: func(c *fiber.Ctx) error {
-		return c.SendStatus(fiber.StatusTooManyRequests)
-	},
+    Next:     nil,
+    Max:      5,
+    Duration: time.Minute,
+    Key: func(c *fiber.Ctx) string {
+        return c.IP()
+    },
+    LimitReached: func(c *fiber.Ctx) error {
+        return c.SendStatus(fiber.StatusTooManyRequests)
+    },
 }
 ```
 

@@ -27,7 +27,7 @@ app.Use(recover.New())
 
 // This panic will be catch by the middleware
 app.Get("/", func(c *fiber.Ctx) error {
-	panic("I'm an error")
+    panic("I'm an error")
 })
 ```
 
@@ -36,10 +36,10 @@ app.Get("/", func(c *fiber.Ctx) error {
 ```go
 // Config defines the config for middleware.
 type Config struct {
-	// Next defines a function to skip this middleware when returned true.
-	//
-	// Optional. Default: nil
-	Next func(c *fiber.Ctx) bool
+    // Next defines a function to skip this middleware when returned true.
+    //
+    // Optional. Default: nil
+    Next func(c *fiber.Ctx) bool
 }
 ```
 
@@ -47,7 +47,7 @@ type Config struct {
 
 ```go
 var ConfigDefault = Config{
-	Next: nil,
+    Next: nil,
 }
 ```
 

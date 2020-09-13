@@ -23,7 +23,7 @@ After you initiate your Fiber app, you can use the following possibilities:
 
 ```go
 handler := func(ctx *fiber.Ctx) {
-	ctx.Send("Hello, World 👋!")
+    ctx.Send("Hello, World 👋!")
 }
 
 app.Get("/foo", timeout.New(handler, 5 * time.Second))
