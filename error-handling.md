@@ -15,11 +15,8 @@ It’s essential to ensure that Fiber catches all errors that occur while runnin
 {% tab title="Example" %}
 ```go
 app.Get("/", func(c *fiber.Ctx) error {
-    err := c.SendFile("file-does-not-exist")
-
-    if err != nil {
-        return err // Pass error to Fiber
-    }
+    // Pass error to Fiber
+    return c.SendFile("file-does-not-exist")
 })
 ```
 {% endtab %}
@@ -32,8 +29,8 @@ Fiber does not handle [panics](https://blog.golang.org/defer-panic-and-recover) 
 package main
 
 import (
-    "github.com/gofiber/fiber"
-    "github.com/gofiber/fiber/recover"
+    "github.com/gofiber/fiber/v2"
+    "github.com/gofiber/fiber/v2/middleware/recover"
 )
 
 func main() {
@@ -55,10 +52,11 @@ Because `ctx.Next()` accepts an `error` interface, you could use Fiber's custom 
 {% code title="Example" %}
 ```go
 app.Get("/", func(c *fiber.Ctx) error {
-    return fiber.ErrServiceUnavailable // 503 Service Unavailable
+    // 503 Service Unavailable
+    return fiber.ErrServiceUnavailable
 
-    return fiber.NewError(503, "On vacation!")
     // 503 On vacation!
+    return fiber.NewError(503, "On vacation!")
 })
 ```
 {% endcode %}
@@ -70,13 +68,19 @@ Fiber provides an error handler by default. For a standard error, the response i
 {% code title="Example" %}
 ```go
 // Default error handler
-var DefaultErrorHandler = func(c *Ctx, err error) {
+var DefaultErrorHandler = func(c *Ctx, err error) error {
+	// Default 500 statuscode
 	code := StatusInternalServerError
+	
 	if e, ok := err.(*Error); ok {
+		// Override status code if fiber.Error type
 		code = e.Code
 	}
+	// Set Content-Type: text/plain; charset=utf-8
 	c.Set(HeaderContentType, MIMETextPlainCharsetUTF8)
-	_ = c.Status(code).SendString(err.Error())
+	
+	// Return statuscode with error message
+	return c.Status(code).SendString(err.Error())
 }
 ```
 {% endcode %}
