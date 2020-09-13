@@ -95,6 +95,7 @@ The following example shows how to display error pages for different types of er
 
 {% code title="Example" %}
 ```go
+// Create a new fiber instance with custom config
 app := fiber.New(fiber.Config{
     // Override default error handler
     ErrorHandler: func(ctx *fiber.Ctx, err error) error {
