@@ -47,7 +47,7 @@ func main() {
 ```
 {% endcode %}
 
-Because `ctx.Next()` accepts an `error` interface, you could use Fiber's custom error struct to pass an additional `status code` using `fiber.NewError()`. It's optional to pass a message; if this is left empty, it will default to the status code message \(`404` equals `Not Found`\).
+You could use Fiber's custom error struct to pass an additional `status code` using `fiber.NewError()`. It's optional to pass a message; if this is left empty, it will default to the status code message \(`404` equals `Not Found`\).
 
 {% code title="Example" %}
 ```go
@@ -56,7 +56,7 @@ app.Get("/", func(c *fiber.Ctx) error {
     return fiber.ErrServiceUnavailable
 
     // 503 On vacation!
-    return fiber.NewError(503, "On vacation!")
+    return fiber.NewError(fiber.ErrServiceUnavailable, "On vacation!")
 })
 ```
 {% endcode %}
