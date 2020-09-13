@@ -96,6 +96,7 @@ The following example shows how to display error pages for different types of er
 {% code title="Example" %}
 ```go
 app := fiber.New(fiber.Config{
+    // Override default error handler
     ErrorHandler: func(ctx *fiber.Ctx, err error) error {
         // Statuscode defaults to 500
         code := fiber.StatusInternalServerError
