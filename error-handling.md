@@ -9,7 +9,7 @@ description: >-
 
 ## Catching Errors
 
-It’s essential to ensure that Fiber catches all errors that occur while running route handlers and middleware. You must pass them to the `ctx.Next()` function, where Fiber will catch and process them.
+It’s essential to ensure that Fiber catches all errors that occur while running route handlers and middleware. You must return them to the handler function, where Fiber will catch and process them.
 
 {% tabs %}
 {% tab title="Example" %}
