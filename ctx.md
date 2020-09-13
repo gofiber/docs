@@ -5,7 +5,7 @@ description: >-
   headers, and so on.
 ---
 
-# 🧠 Ctx
+# 🧠 Context
 
 ## Accepts
 

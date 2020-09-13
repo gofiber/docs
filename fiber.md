@@ -2,7 +2,7 @@
 description: Fiber represents the fiber package where you start to create an instance.
 ---
 
-# 🚀 Fiber
+# 📦 Fiber
 
 ## New
 
