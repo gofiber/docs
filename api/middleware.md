@@ -41,7 +41,7 @@ It will use the fastest compression method depending on the request header `Acce
 {% code title="Import" %}
 ```go
 import (
-  "github.com/gofiber/fiber"
+  "github.com/gofiber/fiber/v2"
   "github.com/gofiber/fiber/middleware"
 )
 ```
