@@ -9,7 +9,7 @@ description: >-
 **Fiber** is an [Express](https://github.com/expressjs/express) inspired **web framework** build on top of [Fasthttp](https://github.com/valyala/fasthttp), the **fastest** HTTP engine for [Go](https://golang.org/doc/). Designed to **ease** things up for **fast** development with **zero memory allocation** and **performance** in mind.
 
 {% hint style="warning" %}
-These docs are for **Fiber v2**, which was released on **September 15th, 2020**.   
+These docs are for **Fiber v2**, which was released on **September 15th, 2020**.  
 You can view the **v1** documentation [**here**](https://docs.gofiber.io/v/1.x/).
 {% endhint %}
 
@@ -35,7 +35,7 @@ Because fiber is optimized for **high-performance**, values returned from **fibe
 func handler(c *fiber.Ctx) error {
     // Variable is only valid within this handler
     result := c.Params("foo") 
-    
+
     // ...
 }
 ```
@@ -46,13 +46,13 @@ If you need to persist such values outside the handler, make copies of their **u
 func handler(c *fiber.Ctx) error {
     // Variable is only valid within this handler
     result := c.Params("foo")
-    
+
     // Make a copy
     buffer := make([]byte, len(result))
     copy(buffer, result)
     resultCopy := string(buffer) 
     // Variable is now valid forever
-    
+
     // ...
 }
 ```
@@ -63,12 +63,12 @@ We created a custom `ImmutableString` a function that does the above and is avai
 app.Get("/:foo", func(c *fiber.Ctx) error {
     // Variable is now immutable
     result := utils.ImmutableString(c.Params("foo")) 
-    
+
     // ...
 })
 ```
 
-Alternatively, you can also use the[ **Immutable setting**](). It will make all values returned from the context immutable, allowing you to persist them anywhere. Of course, this comes at the cost of performance.
+Alternatively, you can also use the[ **Immutable setting**](./). It will make all values returned from the context immutable, allowing you to persist them anywhere. Of course, this comes at the cost of performance.
 
 For more information, please check [**\#426**](https://github.com/gofiber/fiber/issues/426) **and** [**\#185**](https://github.com/gofiber/fiber/issues/185).
 
