@@ -39,7 +39,7 @@ basicauth.New(config ...Config) func(*fiber.Ctx)
 package main
 
 import (
-  "github.com/gofiber/fiber"
+  "github.com/gofiber/fiber/v2"
   "github.com/gofiber/basicauth"
 )
 
@@ -93,7 +93,7 @@ cors.New(config ...Config) func(*fiber.Ctx)
 package main
 
 import (
-  "github.com/gofiber/fiber"
+  "github.com/gofiber/fiber/v2"
   "github.com/gofiber/cors"
 )
 
@@ -138,7 +138,7 @@ compression.New(config ...Config) func(*fiber.Ctx)
 package main
 
 import 
-  "github.com/gofiber/fiber"
+  "github.com/gofiber/fiber/v2"
   "github.com/gofiber/compression"
 )
 
@@ -189,7 +189,7 @@ limiter.New(config ...Config) func(*Ctx)
 package main
 
 import (
-  "github.com/gofiber/fiber"
+  "github.com/gofiber/fiber/v2"
   "github.com/gofiber/limiter"
 )
 
@@ -243,7 +243,7 @@ logger.new(config ...Config) func(*Ctx)
 package main
 
 import (
-  "github.com/gofiber/fiber"
+  "github.com/gofiber/fiber/v2"
   "github.com/gofiber/logger"
 )
 
@@ -282,7 +282,7 @@ recover.New(config ...Config) func(*Ctx)
 package main
 
 import (
-    "github.com/gofiber/fiber"
+    "github.com/gofiber/fiber/v2"
     "github.com/gofiber/recover"
 )
 
@@ -338,7 +338,7 @@ template.Engine() func(raw string, bind interface{}) (out string, err error)
 package main
 
 import (
-  "github.com/gofiber/fiber"
+  "github.com/gofiber/fiber/v2"
   "github.com/gofiber/template"
 )
 
@@ -400,7 +400,7 @@ websocket.New(handler func(*Conn), config ...Config) func(*Ctx)
 package main
 
 import 
-  "github.com/gofiber/fiber"
+  "github.com/gofiber/fiber/v2"
   "github.com/gofiber/websocket"
 )
 
@@ -463,7 +463,7 @@ requestid.New(config ...Config) func(*Ctx)
 package main
 
 import (
-  "github.com/gofiber/fiber"
+  "github.com/gofiber/fiber/v2"
   "github.com/gofiber/requestid"
 )
 
@@ -517,7 +517,7 @@ helmet.New(config ...Config) func(*Ctx)
 package main
 
 import (
-  "github.com/gofiber/fiber"
+  "github.com/gofiber/fiber/v2"
   "github.com/gofiber/helmet"
 )
 
@@ -557,7 +557,7 @@ redirect.New(config ...Config) func(*Ctx)
 package main
 
 import (
-  "github.com/gofiber/fiber"
+  "github.com/gofiber/fiber/v2"
   "github.com/gofiber/redirect"
 )
 

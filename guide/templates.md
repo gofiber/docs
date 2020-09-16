@@ -59,7 +59,7 @@ Fiber team maintains [templates](https://github.com/gofiber/template) package th
 package main
 
 import (
-    "github.com/gofiber/fiber"
+    "github.com/gofiber/fiber/v2"
     "github.com/gofiber/template/html"
 )
 

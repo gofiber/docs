@@ -32,7 +32,7 @@ Fiber does not handle [panics](https://blog.golang.org/defer-panic-and-recover) 
 package main
 
 import (
-    "github.com/gofiber/fiber"
+    "github.com/gofiber/fiber/v2"
     "github.com/gofiber/fiber/middleware"
 )
 
