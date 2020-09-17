@@ -91,7 +91,7 @@ app.Static("/", "./public", fiber.Static{
 
 ## Route Handlers
 
-Registeres a route bound to a specific [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods).
+Registers a route bound to a specific [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) and the path.
 
 {% code title="Signatures" %}
 ```go
@@ -129,11 +129,11 @@ app.Post("/api/register", func(c *fiber.Ctx) error {
 ```
 {% endcode %}
 
-**Use** can be used for middleware packages and prefix catchers. These routes will only match the beggining of each path i.e. "/john" will match "/john/doe", "/johnnnn"
+**Use** can be used for middleware packages and prefix catchers. These routes will only match the beginning of each path i.e. "/john" will match "/john/doe", "/johnnnn"
 
 {% code title="Signatures" %}
 ```text
-
+func (app *App) Use(args ...interface{}) Router
 ```
 {% endcode %}
 
@@ -161,7 +161,7 @@ app.Use("/api",func(c *fiber.Ctx) error {
 
 ## Group
 
-You can group routes by creating a `*Group` struct.
+You can group routes by calling `Group` method.
 
 **Signature**
 
@@ -259,7 +259,7 @@ func (app *App) Config() Config
 
 ## Handler
 
-Handler returns the server handler that can be used to serve custom \*fasthttp.RequestCtx requests.
+Handler returns the server handler that can be used to serve custom `*fasthttp.RequestCtx` requests.
 
 {% code title="Signature" %}
 ```go
@@ -279,7 +279,7 @@ func (app *App) Listen(addr string) error
 
 {% code title="Examples" %}
 ```go
-// Listen on port :8080 
+// Listen on port 0.0.0.0:8080 
 app.Listen(":8080")
 
 // Custom host
@@ -311,7 +311,7 @@ app.Listener(ln)
 
 ## Test
 
-Testing your application is done with the **Test** method. Use this method for creating `_test.go` files or when you need to debug your routing logic. The default timeout is `200ms` if you want to disable a timeout altogether, pass `-1` as a second argument.
+Testing your application is done with the **Test** method. Use this method for creating `_test.go` files or when you need to debug your routing logic. The default timeout is `1000ms` if you want to disable a timeout altogether, pass `-1` as the `msTimeout` argument.
 
 {% code title="Signature" %}
 ```go

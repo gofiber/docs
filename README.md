@@ -8,11 +8,6 @@ description: >-
 
 **Fiber** is an [Express](https://github.com/expressjs/express) inspired **web framework** build on top of [Fasthttp](https://github.com/valyala/fasthttp), the **fastest** HTTP engine for [Go](https://golang.org/doc/). Designed to **ease** things up for **fast** development with **zero memory allocation** and **performance** in mind.
 
-{% hint style="warning" %}
-These docs are for **Fiber v2**, which was released on **September 15th, 2020**.   
-You can view the **v1** documentation [**here**](https://docs.gofiber.io/v/1.x/).
-{% endhint %}
-
 ## Installation
 
 First of all, [download](https://golang.org/dl/) and install Go. `1.14` or higher is required.
@@ -29,7 +24,7 @@ go get github.com/gofiber/fiber/v2
 Some values returned from \***fiber.Ctx** are **not** immutable by default
 {% endhint %}
 
-Because fiber is optimized for **high-performance**, values returned from **fiber.Ctx** are **not** immutable by default and **will** be re-used across requests. As a rule of thumb, you **must** only use context values within the handler, and you **must not** keep any references. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
+Because fiber is optimized for **high-performance**, values returned from \***fiber.Ctx** are **not** immutable by default and **will** be re-used across requests. As a rule of thumb, you **must** only use context values within the handler, and you **must not** keep any references. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
 
 ```go
 func handler(c *fiber.Ctx) error {
@@ -76,6 +71,7 @@ For more information, please check [**\#426**](https://github.com/gofiber/fiber/
 
 Embedded below is essentially the most straightforward **Fiber** app, which you can create.
 
+{% code title="server.go" %}
 ```go
 package main
 
@@ -91,6 +87,7 @@ func main() {
   app.Listen(":3000")
 }
 ```
+{% endcode %}
 
 ```text
 go run server.go
