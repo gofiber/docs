@@ -24,7 +24,7 @@ After you initiate your Fiber app, you can use the following possibilities:
 ```go
 // Provide a minimal config
 app.Use(filesystem.New(filesystem.Config{
-    Root: http.Dir("./assets")
+    Root: http.Dir("./assets"),
 }))
 
 // Or extend your config for customization
