@@ -69,18 +69,18 @@ Fiber provides an error handler by default. For a standard error, the response i
 ```go
 // Default error handler
 var DefaultErrorHandler = func(c *Ctx, err error) error {
-	// Default 500 statuscode
-	code := StatusInternalServerError
-	
-	if e, ok := err.(*Error); ok {
-		// Override status code if fiber.Error type
-		code = e.Code
-	}
-	// Set Content-Type: text/plain; charset=utf-8
-	c.Set(HeaderContentType, MIMETextPlainCharsetUTF8)
-	
-	// Return statuscode with error message
-	return c.Status(code).SendString(err.Error())
+    // Default 500 statuscode
+    code := StatusInternalServerError
+
+    if e, ok := err.(*Error); ok {
+        // Override status code if fiber.Error type
+        code = e.Code
+    }
+    // Set Content-Type: text/plain; charset=utf-8
+    c.Set(HeaderContentType, MIMETextPlainCharsetUTF8)
+
+    // Return statuscode with error message
+    return c.Status(code).SendString(err.Error())
 }
 ```
 {% endcode %}
@@ -101,19 +101,19 @@ app := fiber.New(fiber.Config{
     ErrorHandler: func(ctx *fiber.Ctx, err error) error {
         // Statuscode defaults to 500
         code := fiber.StatusInternalServerError
-    
+
         // Retreive the custom statuscode if it's an fiber.*Error
         if e, ok := err.(*fiber.Error); ok {
             code = e.Code
         }
-    
+
         // Send custom error page
         err = ctx.Status(code).SendFile(fmt.Sprintf("./%d.html", code))
         if err != nil {
             // In case the SendFile fails
             return ctx.Status(500).SendString("Internal Server Error")
         }
-        
+
         // Return from handler
         return nil
     }

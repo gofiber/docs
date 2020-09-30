@@ -44,7 +44,7 @@ app := fiber.New(fiber.Config{
 ```
 {% endcode %}
 
-We have a dedicated page explaining how error handling works in Fiber, see [Error Handling](error-handling.md).
+We have a dedicated page explaining how error handling works in Fiber, see [Error Handling]().
 
 ## Which template engines does Fiber support?
 
