@@ -56,7 +56,7 @@ app.Get("/", func(c *fiber.Ctx) error {
     return fiber.ErrServiceUnavailable
 
     // 503 On vacation!
-    return fiber.NewError(fiber.ErrServiceUnavailable, "On vacation!")
+    return fiber.NewError(fiber.StatusServiceUnavailable, "On vacation!")
 })
 ```
 {% endcode %}
