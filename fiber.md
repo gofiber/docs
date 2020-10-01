@@ -61,10 +61,10 @@ app := fiber.New(fiber.Config{
 | ReadBufferSize | `int` | per-connection buffer size for requests' reading. This also limits the maximum header size. Increase this buffer if your clients send multi-KB RequestURIs and/or multi-KB headers \(for example, BIG cookies\). | `4096` |
 | WriteBufferSize | `int` | Per-connection buffer size for responses' writing. | `4096` |
 | CompressedFileSuffix | `string` | Adds a suffix to the original file name and tries saving the resulting compressed file under the new file name. | `".fiber.gz"` |
-| ProxyHeader | `string` | This will enable `c.IP()` to return the value of the given header key. By default `c.IP()` will return the Remote IP from the TCP connection, this property can be useful if you are behind a load balancer e.g. _X-Forwarded-\*_. | `""` |
+| ProxyHeader | `string` | This will enable `c.IP()` to return the value of the given header key. By default `c.IP()`will return the Remote IP from the TCP connection, this property can be useful if you are behind a load balancer e.g. _X-Forwarded-\*_. | `""` |
 | GETOnly | `bool` | Rejects all non-GET requests if set to true. This option is useful as anti-DoS protection for servers accepting only GET requests. The request size is limited by ReadBufferSize if GETOnly is set. | `false` |
 | ErrorHandler | `ErrorHandler` | ErrorHandler is executed when an error is returned from fiber.Handler. | `DefaultErrorHandler` |
-| DisableKeepalive | `bool` | Disable keep-alive connections, the server will close incoming connections after sending the first response to client | `false` |
+| DisableKeepalive | `bool` | Disable keep-alive connections, the server will close incoming connections after sending the first response to the client | `false` |
 | DisableDefaultDate | `bool` | When set to true causes the default date header to be excluded from the response. | `false` |
 | DisableDefaultContentType | `bool` | When set to true, causes the default Content-Type header to be excluded from the Response. | `false` |
 | DisableHeaderNormalizing | `bool` | By default all header names are normalized: conteNT-tYPE -&gt; Content-Type | `false` |
