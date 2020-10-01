@@ -189,6 +189,25 @@ func main() {
 }
 ```
 
+## Server
+
+Server returns the underlying [fasthttp server](https://godoc.org/github.com/valyala/fasthttp#Server)
+
+```go
+func (app *App) Server() *fasthttp.Server
+```
+
+```go
+
+func main() {
+    app := fiber.New()
+
+    app.Server().MaxConnsPerIP = 1
+    
+    // ...
+}
+```
+
 ## Stack
 
 This method returns the original router stack
