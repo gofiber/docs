@@ -6,7 +6,7 @@ description: Fiber represents the fiber package where you start to create an ins
 
 ## New
 
-This method creates a new **App** named instance. You can pass optional [settings ](app.md#settings)when creating a new instance
+This method creates a new **App** named instance. You can pass optional [settings ](app.md#settings)when creating a new instance.
 
 {% code title="Signature" %}
 ```go
@@ -72,7 +72,7 @@ app := fiber.New(fiber.Config{
 
 ## NewError
 
-NewError creates a new HTTPError instance with an optional message
+NewError creates a new HTTPError instance with an optional message.
 
 {% code title="Signature" %}
 ```go
@@ -90,7 +90,7 @@ app.Get(func(c *fiber.Ctx) error {
 
 ## IsChild
 
-IsChild determines if the current process is a result of Prefork
+IsChild determines if the current process is a result of Prefork.
 
 {% code title="Signature" %}
 ```go
