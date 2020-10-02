@@ -314,6 +314,7 @@ type Cookie struct {
     Value    string
     Path     string
     Domain   string
+    MaxAge   int
     Expires  time.Time
     Secure   bool
     HTTPOnly bool
