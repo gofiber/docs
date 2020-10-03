@@ -4,40 +4,34 @@
 
 ## API
 
----
-
-* [📦 Fiber](fiber.md)
-* [🚀 App](app.md)
-* [🧠 Context](ctx.md)
-* [🧬 Middleware](middleware/README.md)
-  * [BasicAuth](middleware/basicauth.md)
-  * [Compress](middleware/compress.md)
-  * [CORS](middleware/cors.md)
-  * [CSRF](middleware/csrf.md)
-  * [Favicon](middleware/favicon.md)
-  * [FileSystem](middleware/filesystem.md)
-  * [Limiter](middleware/limiter.md)
-  * [Logger](middleware/logger.md)
-  * [Pprof](middleware/pprof.md)
-  * [Proxy](middleware/proxy.md)
-  * [Recover](middleware/recover.md)
-  * [RequestID](middleware/requestid.md)
-  * [Timeout](middleware/timeout.md)
+* [📦 Fiber](api/fiber.md)
+* [🚀 App](api/app.md)
+* [🧠 Context](api/ctx.md)
+* [🧬 Middleware](api/middleware/README.md)
+  * [BasicAuth](api/middleware/basicauth.md)
+  * [Compress](api/middleware/compress.md)
+  * [CORS](api/middleware/cors.md)
+  * [CSRF](api/middleware/csrf.md)
+  * [Favicon](api/middleware/favicon.md)
+  * [FileSystem](api/middleware/filesystem.md)
+  * [Limiter](api/middleware/limiter.md)
+  * [Logger](api/middleware/logger.md)
+  * [Pprof](api/middleware/pprof.md)
+  * [Proxy](api/middleware/proxy.md)
+  * [Recover](api/middleware/recover.md)
+  * [RequestID](api/middleware/requestid.md)
+  * [Timeout](api/middleware/timeout.md)
 
 ## Guide
 
----
-
-* [🔌 Routing](routing.md)
-* [🎭 Grouping](grouping.md)
-* [📝 Templates](templates.md)
-* [🐛 Error Handling](error-handling.md)
+* [🔌 Routing](guide/routing.md)
+* [🎭 Grouping](guide/grouping.md)
+* [📝 Templates](guide/templates.md)
+* [🐛 Error Handling](guide/error-handling.md)
 
 ## Misc <a id="miscellaneous"></a>
 
----
-
-* [🤔 FAQ](faq.md)
-* [📊 Benchmarks](benchmarks.md)
+* [🤔 FAQ](miscellaneous/faq.md)
+* [📊 Benchmarks](miscellaneous/benchmarks.md)
 * [🍳 Examples](https://github.com/gofiber/recipes)
 

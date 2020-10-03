@@ -17,10 +17,10 @@ Based on the request’s [Accept](https://developer.mozilla.org/en-US/docs/Web/H
 
 {% code title="Signature" %}
 ```go
-c.Accepts(types ...string)                 string
-c.AcceptsCharsets(charsets ...string)      string
-c.AcceptsEncodings(encodings ...string)    string
-c.AcceptsLanguages(langs ...string)        string
+func (c *Ctx) Accepts(offers ...string)          string
+func (c *Ctx) AcceptsCharsets(offers ...string)  string
+func (c *Ctx) AcceptsEncodings(offers ...string) string
+func (c *Ctx) AcceptsLanguages(offers ...string) string
 ```
 {% endcode %}
 
@@ -28,13 +28,14 @@ c.AcceptsLanguages(langs ...string)        string
 ```go
 // Accept: text/*, application/json
 
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   c.Accepts("html")             // "html"
   c.Accepts("text/html")        // "text/html"
   c.Accepts("json", "text")     // "json"
   c.Accepts("application/json") // "application/json"
   c.Accepts("image/png")        // ""
   c.Accepts("png")              // ""
+  // ...
 })
 ```
 {% endcode %}
@@ -46,7 +47,7 @@ Fiber provides similar functions for the other accept headers.
 // Accept-Encoding: gzip, compress;q=0.2
 // Accept-Language: en;q=0.8, nl, ru
 
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   c.AcceptsCharsets("utf-16", "iso-8859-1") 
   // "iso-8859-1"
 
@@ -55,6 +56,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
   c.AcceptsLanguages("pt", "nl", "ru") 
   // "nl"
+  // ...
 })
 ```
 
@@ -68,18 +70,20 @@ If the header is **not** already set, it creates the header with the specified v
 
 {% code title="Signature" %}
 ```go
-c.Append(field, values ...string)
+func (c *Ctx) Append(field string, values ...string)
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   c.Append("Link", "http://google.com", "http://localhost")
   // => Link: http://localhost, http://google.com
 
   c.Append("Link", "Test")
   // => Link: http://localhost, http://google.com, Test
+
+  // ...
 })
 ```
 {% endcode %}
@@ -90,38 +94,39 @@ Sets the HTTP response [Content-Disposition](https://developer.mozilla.org/en-US
 
 {% code title="Signature" %}
 ```go
-c.Attachment(file ...string)
+func (c *Ctx) Attachment(filename ...string)
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   c.Attachment()
   // => Content-Disposition: attachment
 
   c.Attachment("./upload/images/logo.png")
   // => Content-Disposition: attachment; filename="logo.png"
   // => Content-Type: image/png
+
+  // ...
 })
 ```
 {% endcode %}
 
 ## App
 
-Returns the [\*App](app.md#new) reference so you could easily access all application settings.
+Returns the [\*App](ctx.md) reference so you could easily access all application settings.
 
 {% code title="Signature" %}
 ```go
-c.App() *App
+func (c *Ctx) App() *App
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Get("/bodylimit", func(c *fiber.Ctx) {
-  bodylimit := c.App().Settings.BodyLimit
-  c.Send(bodylimit)
+app.Get("/stack", func(c *fiber.Ctx) error {
+  return c.JSON(c.App().Stack())
 })
 ```
 {% endcode %}
@@ -132,7 +137,7 @@ Returns the base URL \(**protocol** + **host**\) as a `string`.
 
 {% code title="Signature" %}
 ```go
-c.BaseURL() string
+func (c *Ctx) BaseURL() string
 ```
 {% endcode %}
 
@@ -140,19 +145,20 @@ c.BaseURL() string
 ```go
 // GET https://example.com/page#chapter-1
 
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   c.BaseURL() // https://example.com
+  // ...
 })
 ```
 {% endcode %}
 
 ## Body
 
-Returns the request **body**.
+Returns the raw request **body**.
 
 {% code title="Signature" %}
 ```go
-c.Body() string
+func (c *Ctx) Body() []byte
 ```
 {% endcode %}
 
@@ -160,15 +166,15 @@ c.Body() string
 ```go
 // curl -X POST http://localhost:8080 -d user=john
 
-app.Post("/", func(c *fiber.Ctx) {
+app.Post("/", func(c *fiber.Ctx) error {
   // Get raw body from POST request:
-  c.Body() // user=john
+  return c.Send(c.Body()) // []byte("user=john")
 })
 ```
 {% endcode %}
 
 > _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](../#zero-allocation)
+> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](../#zero-allocation)
 
 ## BodyParser
 
@@ -181,7 +187,7 @@ Binds the request body to a struct. `BodyParser` supports decoding query paramet
 
 {% code title="Signature" %}
 ```go
-c.BodyParser(out interface{}) error
+func (c *Ctx) BodyParser(out interface{}) error
 ```
 {% endcode %}
 
@@ -193,16 +199,19 @@ type Person struct {
     Pass string `json:"pass" xml:"pass" form:"pass"`
 }
 
-app.Post("/", func(c *fiber.Ctx) {
+app.Post("/", func(c *fiber.Ctx) error {
         p := new(Person)
 
         if err := c.BodyParser(p); err != nil {
-            log.Fatal(err)
+            return err
         }
 
         log.Println(p.Name) // john
         log.Println(p.Pass) // doe
+
+        // ...
 })
+
 // Run tests with the following curl commands
 
 // curl -X POST -H "Content-Type: application/json" --data "{\"name\":\"john\",\"pass\":\"doe\"}" localhost:3000
@@ -223,13 +232,13 @@ Expire a client cookie \(_or all cookies if left empty\)_
 
 {% code title="Signature" %}
 ```go
-c.ClearCookie(key ...string)
+func (c *Ctx) ClearCookie(key ...string)
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   // Clears all cookies:
   c.ClearCookie()
 
@@ -238,6 +247,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
   // Expire multiple cookies by names:
   c.ClearCookie("token", "session", "track_id", "version")
+  // ...
 })
 ```
 {% endcode %}
@@ -248,7 +258,7 @@ Web browsers and other compliant clients will only clear the cookie if the given
 
 {% code title="Example" %}
 ```go
-app.Get("/set", func(c *fiber.Ctx) {
+app.Get("/set", func(c *fiber.Ctx) error {
     c.Cookie(&fiber.Cookie{
         Name:     "token",
         Value:    "randomvalue",
@@ -256,9 +266,11 @@ app.Get("/set", func(c *fiber.Ctx) {
         HTTPOnly: true,
         SameSite: "lax",
     })
+
+    // ...
 })
 
-app.Get("/delete", func(c *fiber.Ctx) {
+app.Get("/delete", func(c *fiber.Ctx) error {
     c.Cookie(&fiber.Cookie{
         Name:     "token",
         // Set expiry date to the past
@@ -266,46 +278,53 @@ app.Get("/delete", func(c *fiber.Ctx) {
         HTTPOnly: true,
         SameSite: "lax",
     })
+
+    // ...
 })
 ```
 {% endcode %}
 
 ## Context
 
-Returns context.Context that carries a deadline, a cancellation signal, and other values across API boundaries.
+Returns [\*fasthttp.RequestCtx](https://godoc.org/github.com/valyala/fasthttp#RequestCtx) that is compatible with the context.Context interface that requires a deadline, a cancellation signal, and other values across API boundaries.
 
-**Signature**
-
+{% code title="Signature" %}
 ```go
-c.Context() context.Context
+func (c *Ctx) Context() *fasthttp.RequestCtx
 ```
+{% endcode %}
+
+{% hint style="info" %}
+Please read the [Fasthttp Documentation](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) for more information.
+{% endhint %}
 
 ## Cookie
 
 Set cookie
 
-**Signature**
-
-```text
-c.Cookie(*Cookie)
+{% code title="Signature" %}
+```go
+func (c *Ctx) Cookie(cookie *Cookie)
 ```
+{% endcode %}
 
 ```go
 type Cookie struct {
-    Name     string
-    Value    string
-    Path     string
-    Domain   string
-    Expires  time.Time
-    Secure   bool
-    HTTPOnly bool
-    SameSite string // lax, strict, none
+	Name     string    `json:"name"`
+	Value    string    `json:"value"`
+	Path     string    `json:"path"`
+	Domain   string    `json:"domain"`
+	MaxAge   int       `json:"max_age"`
+	Expires  time.Time `json:"expires"`
+	Secure   bool      `json:"secure"`
+	HTTPOnly bool      `json:"http_only"`
+	SameSite string    `json:"same_site"`
 }
 ```
 
 {% code title="Example" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   // Create cookie
   cookie := new(fiber.Cookie)
   cookie.Name = "john"
@@ -314,6 +333,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
   // Set cookie
   c.Cookie(cookie)
+  // ...
 })
 ```
 {% endcode %}
@@ -325,21 +345,22 @@ Get cookie value by key, you could pass an optional default value that will be r
 **Signatures**
 
 ```go
-c.Cookies(key string, defaultValue ...string) string
+func (c *Ctx) Cookies(key string, defaultValue ...string) string
 ```
 
 {% code title="Example" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   // Get cookie by key:
   c.Cookies("name")         // "john"
   c.Cookies("empty", "doe") // "doe"
+  // ...
 })
 ```
 {% endcode %}
 
 > _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](../#zero-allocation)
+> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](../#zero-allocation)
 
 ## Download
 
@@ -351,85 +372,63 @@ Override this default with the **filename** parameter.
 
 {% code title="Signature" %}
 ```go
-c.Download(path, filename ...string) error
+func (c *Ctx) Download(file string, filename ...string) error
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) {
-  if err := c.Download("./files/report-12345.pdf"); err != nil {
-    c.Next(err) // Pass err to fiber
-  }
+app.Get("/", func(c *fiber.Ctx) error {
+  return c.Download("./files/report-12345.pdf");
   // => Download report-12345.pdf
 
-  if err := c.Download("./files/report-12345.pdf", "report.pdf"); err != nil {
-    c.Next(err) // Pass err to fiber
-  }
+  return c.Download("./files/report-12345.pdf", "report.pdf");
   // => Download report.pdf
 })
 ```
 {% endcode %}
 
-## Fasthttp
+## Request
 
-You can still **access** and use all **Fasthttp** methods and properties.
+Request return the [\*fasthttp.Request](https://godoc.org/github.com/valyala/fasthttp#Request) pointer
 
 **Signature**
 
-{% hint style="info" %}
-Please read the [Fasthttp Documentation](https://pkg.go.dev/github.com/valyala/fasthttp?tab=doc) for more information.
-{% endhint %}
+{% code title="Signature" %}
+```go
+func (c *Ctx) Request() *fasthttp.Request
+```
+{% endcode %}
 
 **Example**
 
 ```go
-app.Get("/", func(c *fiber.Ctx) {
-  c.Fasthttp.Request.Header.Method()
+app.Get("/", func(c *fiber.Ctx) error {
+  c.Request().Header.Method()
   // => []byte("GET")
-
-  c.Fasthttp.Response.Write([]byte("Hello, World!"))
-  // => "Hello, World!"
 })
 ```
 
-## Error
+## Response
 
-This contains the error information that thrown by a panic or passed via the [`Next(err)`](https://github.com/gofiber/docs/tree/8d965e1e05fb67f965934586c78335ef29f52128/context/README.md#error) method.
+Request return the [\*fasthttp.Response](https://godoc.org/github.com/valyala/fasthttp#Response) pointer
+
+**Signature**
 
 {% code title="Signature" %}
 ```go
-c.Error() error
+func (c *Ctx) Response() *fasthttp.Response
 ```
 {% endcode %}
 
-{% code title="Example" %}
+**Example**
+
 ```go
-func main() {
-  app := fiber.New()
-  app.Post("/api/register", func (c *fiber.Ctx) {
-    if err := c.JSON(&User); err != nil {
-      c.Next(err)
-    }
-  })
-  app.Get("/api/user", func (c *fiber.Ctx) {
-    if err := c.JSON(&User); err != nil {
-      c.Next(err)
-    }
-  })
-  app.Put("/api/update", func (c *fiber.Ctx) {
-    if err := c.JSON(&User); err != nil {
-      c.Next(err)
-    }
-  })
-  app.Use("/api", func(c *fiber.Ctx) {
-    c.Set("Content-Type", "application/json")
-    c.Status(500).Send(c.Error())
-  })
-  app.Listen(1337)
-}
+app.Get("/", func(c *fiber.Ctx) error {
+  c.Response().Write([]byte("Hello, World!"))
+  // => "Hello, World!"
+})
 ```
-{% endcode %}
 
 ## Format
 
@@ -441,13 +440,13 @@ If the header is **not** specified or there is **no** proper format, **text/plai
 
 {% code title="Signature" %}
 ```go
-c.Format(body interface{})
+func (c *Ctx) Format(body interface{}) error
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   // Accept: text/plain
   c.Format("Hello, World!")
   // => Hello, World!
@@ -459,6 +458,7 @@ app.Get("/", func(c *fiber.Ctx) {
   // Accept: application/json
   c.Format("Hello, World!")
   // => "Hello, World!"
+  // ..
 })
 ```
 {% endcode %}
@@ -469,21 +469,18 @@ MultipartForm files can be retrieved by name, the **first** file from the given 
 
 {% code title="Signature" %}
 ```go
-c.FormFile(name string) (*multipart.FileHeader, error)
+func (c *Ctx) FormFile(key string) (*multipart.FileHeader, error)
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Post("/", func(c *fiber.Ctx) {
+app.Post("/", func(c *fiber.Ctx) error {
   // Get first file from form field "document":
   file, err := c.FormFile("document")
 
-  // Check for errors:
-  if err == nil {
-    // Save file to root directory:
-    c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
-  }
+  // Save file to root directory:
+  return c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
 })
 ```
 {% endcode %}
@@ -494,30 +491,34 @@ Any form values can be retrieved by name, the **first** value from the given key
 
 {% code title="Signature" %}
 ```go
-c.FormValue(name string) string
+func (c *Ctx) FormValue(key string, defaultValue ...string) string
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Post("/", func(c *fiber.Ctx) {
+app.Post("/", func(c *fiber.Ctx) error {
   // Get first value from form field "name":
   c.FormValue("name")
   // => "john" or "" if not exist
+
+  // ..
 })
 ```
 {% endcode %}
 
 > _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](../#zero-allocation)
+> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](../#zero-allocation)
 
 ## Fresh
 
 [https://expressjs.com/en/4x/api.html\#req.fresh](https://expressjs.com/en/4x/api.html#req.fresh)
 
-{% hint style="info" %}
-Not implemented yet, pull requests are welcome!
-{% endhint %}
+{% code title="Signature" %}
+```go
+func (c *Ctx) Fresh() bool
+```
+{% endcode %}
 
 ## Get
 
@@ -529,22 +530,23 @@ The match is **case-insensitive**.
 
 {% code title="Signature" %}
 ```go
-c.Get(field string) string
+func (c *Ctx) Get(key string, defaultValue ...string) string
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) {
-  c.Get("Content-Type") // "text/plain"
-  c.Get("CoNtEnT-TypE") // "text/plain"
-  c.Get("something")    // ""
+app.Get("/", func(c *fiber.Ctx) error {
+  c.Get("Content-Type")       // "text/plain"
+  c.Get("CoNtEnT-TypE")       // "text/plain"
+  c.Get("something", "john")  // "john"
+  // ..
 })
 ```
 {% endcode %}
 
 > _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](../#zero-allocation)
+> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](../#zero-allocation)
 
 ## Hostname
 
@@ -552,7 +554,7 @@ Returns the hostname derived from the [Host](https://developer.mozilla.org/en-US
 
 {% code title="Signature" %}
 ```go
-c.Hostname() string
+func (c *Ctx) Hostname() string
 ```
 {% endcode %}
 
@@ -560,14 +562,16 @@ c.Hostname() string
 ```go
 // GET http://google.com/search
 
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   c.Hostname() // "google.com"
+
+  // ...
 })
 ```
 {% endcode %}
 
 > _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](../#zero-allocation)
+> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](../#zero-allocation)
 
 ## IP
 
@@ -575,14 +579,16 @@ Returns the remote IP address of the request.
 
 {% code title="Signature" %}
 ```go
-c.IP() string
+func (c *Ctx) IP() string
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   c.IP() // "127.0.0.1"
+
+  // ...
 })
 ```
 {% endcode %}
@@ -593,7 +599,7 @@ Returns an array of IP addresses specified in the [X-Forwarded-For](https://deve
 
 {% code title="Signature" %}
 ```go
-c.IPs() []string
+func (c *Ctx) IPs() []string
 ```
 {% endcode %}
 
@@ -601,8 +607,10 @@ c.IPs() []string
 ```go
 // X-Forwarded-For: proxy1, 127.0.0.1, proxy3
 
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   c.IPs() // ["proxy1", "127.0.0.1", "proxy3"]
+
+  // ...
 })
 ```
 {% endcode %}
@@ -617,7 +625,7 @@ If the request has **no** body, it returns **false**.
 
 {% code title="Signature" %}
 ```go
-c.Is(t string) bool
+func (c *Ctx) Is(extension string) bool
 ```
 {% endcode %}
 
@@ -625,10 +633,12 @@ c.Is(t string) bool
 ```go
 // Content-Type: text/html; charset=utf-8
 
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   c.Is("html")  // true
   c.Is(".html") // true
   c.Is("json")  // false
+
+  // ...
 })
 ```
 {% endcode %}
@@ -643,7 +653,7 @@ JSON also sets the content header to **application/json**.
 
 {% code title="Signature" %}
 ```go
-c.JSON(v interface{}) error
+func (c *Ctx) JSON(data interface{}) error
 ```
 {% endcode %}
 
@@ -654,27 +664,21 @@ type SomeStruct struct {
   Age  uint8
 }
 
-app.Get("/json", func(c *fiber.Ctx) {
+app.Get("/json", func(c *fiber.Ctx) error {
   // Create data struct:
   data := SomeStruct{
     Name: "Grame",
     Age:  20,
   }
 
-  if err := c.JSON(data); err != nil {
-    c.Status(500).Send(err)
-    return
-  }
+  return c.JSON(data)
   // => Content-Type: application/json
   // => "{"Name": "Grame", "Age": 20}"
 
-  if err := c.JSON(fiber.Map{
+  return c.JSON(fiber.Map{
     "name": "Grame",
     "age": 20,
-  }); err != nil {
-    c.Status(500).Send(err)
-    return
-  }
+  })
   // => Content-Type: application/json
   // => "{"name": "Grame", "age": 20}"
 })
@@ -689,7 +693,7 @@ Override this by passing a **named string** in the method.
 
 {% code title="Signature" %}
 ```go
-c.JSONP(v interface{}, callback ...string) error
+func (c *Ctx) JSONP(data interface{}, callback ...string) error
 ```
 {% endcode %}
 
@@ -700,17 +704,17 @@ type SomeStruct struct {
   age  uint8
 }
 
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   // Create data struct:
   data := SomeStruct{
     name: "Grame",
     age:  20,
   }
 
-  c.JSONP(data)
+  return c.JSONP(data)
   // => callback({"name": "Grame", "age": 20})
 
-  c.JSONP(data, "customFunc")
+  return c.JSONP(data, "customFunc")
   // => customFunc({"name": "Grame", "age": 20})
 })
 ```
@@ -722,19 +726,21 @@ Joins the links followed by the property to populate the response’s [Link](htt
 
 {% code title="Signature" %}
 ```go
-c.Links(link ...string)
+func (c *Ctx) Links(link ...string)
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   c.Link(
     "http://api.example.com/users?page=2", "next",
     "http://api.example.com/users?page=5", "last",
   )
   // Link: <http://api.example.com/users?page=2>; rel="next",
   //       <http://api.example.com/users?page=5>; rel="last"
+
+  // ...
 })
 ```
 {% endcode %}
@@ -749,23 +755,23 @@ This is useful if you want to pass some **specific** data to the next middleware
 
 {% code title="Signature" %}
 ```go
-c.Locals(key string, value ...interface{}) interface{}
+func (c *Ctx) Locals(key string, value ...interface{}) interface{}
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Use(func(c *fiber.Ctx) {
+app.Use(func(c *fiber.Ctx) error {
   c.Locals("user", "admin")
-  c.Next()
+  return c.Next()
 })
 
-app.Get("/admin", func(c *fiber.Ctx) {
+app.Get("/admin", func(c *fiber.Ctx) error {
   if c.Locals("user") == "admin" {
-    c.Status(200).Send("Welcome, admin!")
-  } else {
-    c.SendStatus(403) // => 403 Forbidden
+    return c.Status(200).SendString("Welcome, admin!")
   }
+  return c.SendStatus(403)
+
 })
 ```
 {% endcode %}
@@ -776,15 +782,16 @@ Sets the response [Location](https://developer.mozilla.org/ru/docs/Web/HTTP/Head
 
 {% code title="Signature" %}
 ```go
-c.Location(path string)
+func (c *Ctx) Location(path string)
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Post("/", func(c *fiber.Ctx) {
-  c.Location("http://example.com")
-  c.Location("/foo/bar")
+app.Post("/", func(c *fiber.Ctx) error {
+  return c.Location("http://example.com")
+
+  return c.Location("/foo/bar")
 })
 ```
 {% endcode %}
@@ -796,14 +803,19 @@ Optionally, you could override the method by passing a string.
 
 {% code title="Signature" %}
 ```go
-c.Method(override ...string) string
+func (c *Ctx) Method(override ...string) string
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Post("/", func(c *fiber.Ctx) {
+app.Post("/", func(c *fiber.Ctx) error {
   c.Method() // "POST"
+
+  c.Method("GET")
+  c.Method() // GET
+
+  // ...
 })
 ```
 {% endcode %}
@@ -814,13 +826,13 @@ To access multipart form entries, you can parse the binary with `MultipartForm()
 
 {% code title="Signature" %}
 ```go
-c.MultipartForm() (*multipart.Form, error)
+func (c *Ctx) MultipartForm() (*multipart.Form, error)
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Post("/", func(c *fiber.Ctx) {
+app.Post("/", func(c *fiber.Ctx) error {
   // Parse the multipart form:
   if form, err := c.MultipartForm(); err == nil {
     // => *multipart.Form
@@ -840,9 +852,13 @@ app.Post("/", func(c *fiber.Ctx) {
       // => "tutorial.pdf" 360641 "application/pdf"
 
       // Save the files to disk:
-      c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
+      if err := c.SaveFile(file, fmt.Sprintf("./%s", file.Filename)); err != nil {
+        return err
+      }
     }
   }
+
+  return err
 })
 ```
 {% endcode %}
@@ -853,25 +869,25 @@ When **Next** is called, it executes the next method in the stack that matches t
 
 {% code title="Signature" %}
 ```go
-c.Next(err ...error)
+func (c *Ctx) Next() error
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   fmt.Println("1st route!")
-  c.Next()
+  return c.Next()
 })
 
-app.Get("*", func(c *fiber.Ctx) {
+app.Get("*", func(c *fiber.Ctx) error {
   fmt.Println("2nd route!")
-  c.Next()
+  return c.Next()
 })
 
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   fmt.Println("3rd route!")
-  c.Send("Hello, World!")
+  return c.SendString("Hello, World!")
 })
 ```
 {% endcode %}
@@ -882,7 +898,7 @@ Returns the original request URL.
 
 {% code title="Signature" %}
 ```go
-c.OriginalURL() string
+func (c *Ctx) OriginalURL() string
 ```
 {% endcode %}
 
@@ -890,14 +906,16 @@ c.OriginalURL() string
 ```go
 // GET http://example.com/search?q=something
 
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   c.OriginalURL() // "/search?q=something"
+
+  // ...
 })
 ```
 {% endcode %}
 
 > _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](../#zero-allocation)
+> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](../#zero-allocation)
 
 ## Params
 
@@ -909,23 +927,52 @@ Defaults to empty string \(`""`\), if the param **doesn't** exist.
 
 {% code title="Signature" %}
 ```go
-c.Params(param string, defaultValue ...string) string
+func (c *Ctx) Params(key string, defaultValue ...string) string
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
 // GET http://example.com/user/fenny
+app.Get("/user/:name", func(c *fiber.Ctx) error {
+  c.Params("name") // "fenny"
 
-app.Get("/user/:name", func(c *fiber.Ctx) {
-  c.Params("name")      // "fenny"
-  c.Params("age", "21") // "21"
+  // ...
+})
+
+// GET http://example.com/user/fenny/123
+app.Get("/user/*", func(c *fiber.Ctx) error {
+  c.Params("*")  // "fenny/123"
+  c.Params("*1") // "fenny/123"
+
+  // ...
+})
+```
+{% endcode %}
+
+Unnamed route parameters\(\*, +\) can be fetched by the **character** and the **counter** in the route.
+
+{% code title="Example" %}
+```go
+// ROUTE: /v1/*/shop/*
+// GET:   /v1/brand/4/shop/blue/xs
+c.Params("*1")  // "brand/4"
+c.Params("*2")  // "blue/xs"
+```
+{% endcode %}
+
+For reasons of **downward compatibility**, the first parameter segment for the parameter character can also be accessed without the counter.
+
+{% code title="Example" %}
+```go
+app.Get("/v1/*/shop/*", func(c *fiber.Ctx) error {
+  c.Params("*") // outputs the values of the first wildcard segment
 })
 ```
 {% endcode %}
 
 > _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](../#zero-allocation)\_\_
+> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](../#zero-allocation)
 
 ## Path
 
@@ -933,7 +980,7 @@ Contains the path part of the request URL. Optionally, you could override the pa
 
 {% code title="Signature" %}
 ```go
-c.Path(override ...string) string
+func (c *Ctx) Path(override ...string) string
 ```
 {% endcode %}
 
@@ -941,8 +988,13 @@ c.Path(override ...string) string
 ```go
 // GET http://example.com/users?sort=desc
 
-app.Get("/users", func(c *fiber.Ctx) {
+app.Get("/users", func(c *fiber.Ctx) error {
   c.Path() // "/users"
+
+  c.Path("/john")
+  c.Path() // "/john"
+
+  // ...
 })
 ```
 {% endcode %}
@@ -953,7 +1005,7 @@ Contains the request protocol string: `http` or `https` for **TLS** requests.
 
 {% code title="Signature" %}
 ```go
-c.Protocol() string
+func (c *Ctx) Protocol() string
 ```
 {% endcode %}
 
@@ -961,8 +1013,10 @@ c.Protocol() string
 ```go
 // GET http://example.com
 
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   c.Protocol() // "http"
+
+  // ...
 })
 ```
 {% endcode %}
@@ -977,7 +1031,7 @@ If there is **no** query string, it returns an **empty string**.
 
 {% code title="Signature" %}
 ```go
-c.Query(parameter string, defaultValue ...string) string
+func (c *Ctx) Query(key string, defaultValue ...string) string
 ```
 {% endcode %}
 
@@ -985,16 +1039,18 @@ c.Query(parameter string, defaultValue ...string) string
 ```go
 // GET http://example.com/shoes?order=desc&brand=nike
 
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   c.Query("order")         // "desc"
   c.Query("brand")         // "nike"
   c.Query("empty", "nike") // "nike"
+
+  // ...
 })
 ```
 {% endcode %}
 
 > _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](app.md#settings) _setting instead._ [_Read more..._](../#zero-allocation)
+> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](../#zero-allocation)
 
 ## QueryParser
 
@@ -1002,7 +1058,7 @@ This method is similar to [BodyParser](ctx.md#bodyparser), but for query paramet
 
 {% code title="Signature" %}
 ```go
-c.QueryParser(out interface{}) error
+func (c *Ctx) QueryParser(out interface{}) error
 ```
 {% endcode %}
 
@@ -1015,16 +1071,18 @@ type Person struct {
     Products []string   `query:"products"`
 }
 
-app.Post("/", func(c *fiber.Ctx) {
+app.Post("/", func(c *fiber.Ctx) error {
         p := new(Person)
 
         if err := c.QueryParser(p); err != nil {
-            log.Fatal(err)
+            return err
         }
 
         log.Println(p.Name)     // john
         log.Println(p.Pass)     // doe
         log.Println(p.Products) // [shoe, hat]
+
+        // ...
 })
 // Run tests with the following curl command
 
@@ -1038,14 +1096,14 @@ A struct containing the type and a slice of ranges will be returned.
 
 {% code title="Signature" %}
 ```go
-c.Range(int size)
+func (c *Ctx) Range(size int) (Range, error)
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
 // Range: bytes=500-700, 700-900
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   b := c.Range(1000)
   if b.Type == "bytes" {
       for r := range r.Ranges {
@@ -1067,17 +1125,17 @@ If **not** specified, status defaults to **302 Found**.
 
 {% code title="Signature" %}
 ```go
-c.Redirect(path string, status ...int)
+func (c *Ctx) Redirect(location string, status ...int) error
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Get("/coffee", func(c *fiber.Ctx) {
+app.Get("/coffee", func(c *fiber.Ctx) error {
   c.Redirect("/teapot")
 })
 
-app.Get("/teapot", func(c *fiber.Ctx) {
+app.Get("/teapot", func(c *fiber.Ctx) error {
   c.Status(fiber.StatusTeapot).Send("🍵 short and stout 🍵")
 })
 ```
@@ -1085,11 +1143,11 @@ app.Get("/teapot", func(c *fiber.Ctx) {
 
 {% code title="More examples" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) {
-  c.Redirect("/foo/bar")
-  c.Redirect("../login")
-  c.Redirect("http://example.com")
-  c.Redirect("http://example.com", 301)
+app.Get("/", func(c *fiber.Ctx) error {
+  return c.Redirect("/foo/bar")
+  return c.Redirect("../login")
+  return c.Redirect("http://example.com")
+  return c.Redirect("http://example.com", 301)
 })
 ```
 {% endcode %}
@@ -1100,7 +1158,7 @@ Renders a view with data and sends a `text/html` response. By default `Render` u
 
 {% code title="Signature" %}
 ```go
-c.Render(file string, data interface{}, layout ...string) error
+func (c *Ctx) Render(name string, bind interface{}, layouts ...string) error
 ```
 {% endcode %}
 
@@ -1110,7 +1168,7 @@ Returns the matched [Route](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc#
 
 {% code title="Signature" %}
 ```go
-c.Route() *Route
+func (c *Ctx) Route() *Route
 ```
 {% endcode %}
 
@@ -1118,13 +1176,14 @@ c.Route() *Route
 ```go
 // http://localhost:8080/hello
 
-handler := func(c *fiber.Ctx) {
+
+app.Get("/hello/:name", func(c *fiber.Ctx) error {
   r := c.Route()
   fmt.Println(r.Method, r.Path, r.Params, r.Handlers)
   // GET /hello/:name handler [name] 
-}
 
-app.Get("/hello/:name", handler )
+  // ...
+})
 ```
 {% endcode %}
 
@@ -1134,13 +1193,13 @@ Method is used to save **any** multipart file to disk.
 
 {% code title="Signature" %}
 ```go
-c.SaveFile(fh *multipart.FileHeader, path string)
+func (c *Ctx) SaveFile(fh *multipart.FileHeader, path string) error
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Post("/", func(c *fiber.Ctx) {
+app.Post("/", func(c *fiber.Ctx) error {
   // Parse the multipart form:
   if form, err := c.MultipartForm(); err == nil {
     // => *multipart.Form
@@ -1155,8 +1214,11 @@ app.Post("/", func(c *fiber.Ctx) {
       // => "tutorial.pdf" 360641 "application/pdf"
 
       // Save the files to disk:
-      c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
+      if err := c.SaveFile(file, fmt.Sprintf("./%s", file.Filename)); err != nil {
+        return err
+      }
     }
+    return err
   }
 })
 ```
@@ -1168,7 +1230,7 @@ A boolean property that is `true` , if a **TLS** connection is established.
 
 {% code title="Signature" %}
 ```go
-c.Secure() bool
+func (c *Ctx) Secure() bool
 ```
 {% endcode %}
 
@@ -1181,29 +1243,23 @@ c.Protocol() == "https"
 
 ## Send
 
-Sets the HTTP response body. The **Send** body can be of any type.
-
-{% hint style="warning" %}
-Send **doesn't** append like the [Write](https://fiber.wiki/context#write) method.
-{% endhint %}
+Sets the HTTP response body.
 
 {% code title="Signature" %}
 ```go
-c.Send(body ...interface{})
+func (c *Ctx) Send(body []byte) error
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) {
-  c.Send("Hello, World!")         // => "Hello, World!"
-  c.Send([]byte("Hello, World!")) // => "Hello, World!"
-  c.Send(123)                     // => 123
+app.Get("/", func(c *fiber.Ctx) error {
+  return c.Send([]byte("Hello, World!")) // => "Hello, World!"
 })
 ```
 {% endcode %}
 
-Fiber also provides `SendBytes` ,`SendString` and `SendStream` methods for raw inputs.
+Fiber also provides `SendString` and `SendStream` methods for raw inputs.
 
 {% hint style="success" %}
 Use this if you **don't need** type assertion, recommended for **faster** performance.
@@ -1211,22 +1267,18 @@ Use this if you **don't need** type assertion, recommended for **faster** perfor
 
 {% code title="Signature" %}
 ```go
-c.SendBytes(b []byte)
-c.SendString(s string)
-c.SendStream(r io.Reader, s ...int)
+func (c *Ctx) SendString(body string) error
+func (c *Ctx) SendStream(stream io.Reader, size ...int) error
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) {
-  c.SendByte([]byte("Hello, World!"))
+app.Get("/", func(c *fiber.Ctx) error {
+  return c.SendString("Hello, World!")
   // => "Hello, World!"
 
-  c.SendString("Hello, World!")
-  // => "Hello, World!"
-
-  c.SendStream(bytes.NewReader([]byte("Hello, World!")))
+  return c.SendStream(bytes.NewReader([]byte("Hello, World!")))
   // => "Hello, World!"
 })
 ```
@@ -1242,21 +1294,17 @@ Method use **gzipping** by default, set it to **true** to disable.
 
 {% code title="Signature" %}
 ```go
-c.SendFile(path string, compress ...bool) error
+func (c *Ctx) SendFile(file string, compress ...bool) error
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Get("/not-found", func(c *fiber.Ctx) {
-  if err := c.SendFile("./public/404.html"); err != nil {
-    c.Next(err) // pass err to ErrorHandler
-  }
+app.Get("/not-found", func(c *fiber.Ctx) error {
+  return c.SendFile("./public/404.html");
 
-  // Enable compression
-  if err := c.SendFile("./static/index.html", true); err != nil {
-    c.Next(err) // pass err to ErrorHandler
-  }
+  // Disable compression
+  return c.SendFile("./static/index.html", false);
 })
 ```
 {% endcode %}
@@ -1271,18 +1319,18 @@ You can find all used status codes and messages [here](https://github.com/gofibe
 
 {% code title="Signature" %}
 ```go
-c.SendStatus(status int)
+func (c *Ctx) SendStatus(status int) error
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Get("/not-found", func(c *fiber.Ctx) {
-  c.SendStatus(415)
+app.Get("/not-found", func(c *fiber.Ctx) error {
+  return c.SendStatus(415)
   // => 415 "Unsupported Media Type"
 
-  c.Send("Hello, World!")
-  c.SendStatus(415)
+  c.SendString("Hello, World!")
+  return c.SendStatus(415)
   // => 415 "Hello, World!"
 })
 ```
@@ -1294,26 +1342,30 @@ Sets the response’s HTTP header field to the specified `key`, `value`.
 
 {% code title="Signature" %}
 ```go
-c.Set(field, value string)
+func (c *Ctx) Set(key string, val string)
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   c.Set("Content-Type", "text/plain")
   // => "Content-type: text/plain"
+
+  // ...
 })
 ```
 {% endcode %}
 
 ## Stale
 
-[https://expressjs.com/en/4x/api.html\#req.fresh](https://expressjs.com/en/4x/api.html#req.fresh)
+[https://expressjs.com/en/4x/api.html\#req.stale](https://expressjs.com/en/4x/api.html#req.stale)
 
-{% hint style="info" %}
-Not implemented yet, pull requests are welcome!
-{% endhint %}
+{% code title="Signature" %}
+```go
+func (c *Ctx) Stale() bool
+```
+{% endcode %}
 
 ## Status
 
@@ -1325,16 +1377,19 @@ Method is a **chainable**.
 
 {% code title="Signature" %}
 ```go
-c.Status(status int)
+func (c *Ctx) Status(status int) *Ctx
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   c.Status(200)
-  c.Status(400).Send("Bad Request")
-  c.Status(404).SendFile("./public/gopher.png")
+  return nil
+
+  return c.Status(400).Send("Bad Request")
+
+  return c.Status(404).SendFile("./public/gopher.png")
 })
 ```
 {% endcode %}
@@ -1347,7 +1402,7 @@ The application property subdomain offset, which defaults to `2`, is used for de
 
 {% code title="Signature" %}
 ```go
-c.Subdomains(offset ...int) []string
+func (c *Ctx) Subdomains(offset ...int) []string
 ```
 {% endcode %}
 
@@ -1355,9 +1410,11 @@ c.Subdomains(offset ...int) []string
 ```go
 // Host: "tobi.ferrets.example.com"
 
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   c.Subdomains()  // ["ferrets", "tobi"]
   c.Subdomains(1) // ["tobi"]
+
+  // ...
 })
 ```
 {% endcode %}
@@ -1368,17 +1425,20 @@ Sets the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Header
 
 {% code title="Signature" %}
 ```go
-c.Type(t string) string
+func (c *Ctx) Type(ext string, charset ...string) *Ctx
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   c.Type(".html") // => "text/html"
   c.Type("html")  // => "text/html"
-  c.Type("json")  // => "application/json"
   c.Type("png")   // => "image/png"
+
+  c.Type("json", "utf-8")  // => "application/json; charset=utf-8"
+
+  // ...
 })
 ```
 {% endcode %}
@@ -1393,13 +1453,13 @@ Multiple fields are **allowed**.
 
 {% code title="Signature" %}
 ```go
-c.Vary(field ...string)
+func (c *Ctx) Vary(fields ...string)
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   c.Vary("Origin")     // => Vary: Origin
   c.Vary("User-Agent") // => Vary: Origin, User-Agent
 
@@ -1408,26 +1468,28 @@ app.Get("/", func(c *fiber.Ctx) {
 
   c.Vary("Accept-Encoding", "Accept")
   // => Vary: Origin, User-Agent, Accept-Encoding, Accept
+
+  // ...
 })
 ```
 {% endcode %}
 
 ## Write
 
-Appends **any** input to the HTTP body response.
+Write adopts the Writer interface
 
 {% code title="Signature" %}
 ```go
-c.Write(body ...interface{})
+func (c *Ctx) Write(p []byte) (n int, err error)
 ```
 {% endcode %}
 
 {% code title="Example" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) {
-  c.Write("Hello, ")         // => "Hello, "
-  c.Write([]byte("World! ")) // => "Hello, World! "
-  c.Write(123)               // => "Hello, World! 123"
+app.Get("/", func(c *fiber.Ctx) error {
+  c.Write([]byte("Hello, World!")) // => "Hello, World!"
+
+  fmt.Fprintf(c, "%s\n", "Hello, World!") // "Hello, World!Hello, World!"
 })
 ```
 {% endcode %}
@@ -1438,7 +1500,7 @@ A Boolean property, that is `true`, if the request’s [X-Requested-With](https:
 
 {% code title="Signature" %}
 ```go
-c.XHR() bool
+func (c *Ctx) XHR() bool
 ```
 {% endcode %}
 
@@ -1446,8 +1508,10 @@ c.XHR() bool
 ```go
 // X-Requested-With: XMLHttpRequest
 
-app.Get("/", func(c *fiber.Ctx) {
+app.Get("/", func(c *fiber.Ctx) error {
   c.XHR() // true
+
+  // ...
 })
 ```
 {% endcode %}

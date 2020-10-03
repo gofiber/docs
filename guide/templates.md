@@ -23,20 +23,18 @@ type Views interface {
 
 ```go
 // Pass engine to Fiber's Views Engine
-app := fiber.New(&fiber.Settings{
+app := fiber.New(fiber.Config{
     Views: engine,
 })
 ```
 
-The `Render` method is linked to the [**ctx.Render\(\)**](../api/ctx.md#render) function that accepts a template name and binding data.
+The `Render` method is linked to the [**ctx.Render\(\)**]() function that accepts a template name and binding data.
 
 ```go
-app.Get("/", func(c *fiber.Ctx) {
-    if err := c.Render("index", fiber.Map{
+app.Get("/", func(c *fiber.Ctx) error {
+    return c.Render("index", fiber.Map{
         "hello": "world",
-    }); err != nil {
-        c.Next(err)
-    }
+    });
 })
 ```
 
@@ -67,17 +65,17 @@ func main() {
     // Initialize standard Go html template engine
     engine := html.New("./views", ".html")
 
-    app := fiber.New(&fiber.Settings{
+    app := fiber.New(fiber.Config{
         Views: engine,
     })
-    app.Get("/", func(c *fiber.Ctx) {
+    app.Get("/", func(c *fiber.Ctx) error {
         // Render index template
-        _ = c.Render("index", fiber.Map{
+        return c.Render("index", fiber.Map{
             "Title": "Hello, World!",
         })
     })
 
-    app.Listen(3000)
+    app.Listen(":3000")
 }
 ```
 {% endtab %}
