@@ -1,7 +1,6 @@
 ---
 description: >-
-  Fiber supports centralized error handling by passing an error argument into
-  the Next method which allows you to log errors to external services or send a
+  Fiber supports centralized error handling by returning an error to the handler which allows you to log errors to external services or send a
   customized HTTP response to the client.
 ---
 
