@@ -73,6 +73,10 @@ type Static struct {
     // File to serve when requesting a directory path.
     // Optional. Default value "index.html".
     Index string
+    // The value for the Cache-Control HTTP-header
+    // that is set on the file response. MaxAge is defined in seconds.
+    // Optional. Default value 0.
+    MaxAge int
 }
 ```
 {% endcode %}
