@@ -1132,11 +1132,11 @@ func (c *Ctx) Redirect(location string, status ...int) error
 {% code title="Example" %}
 ```go
 app.Get("/coffee", func(c *fiber.Ctx) error {
-  c.Redirect("/teapot")
+  return c.Redirect("/teapot")
 })
 
 app.Get("/teapot", func(c *fiber.Ctx) error {
-  c.Status(fiber.StatusTeapot).Send("🍵 short and stout 🍵")
+  return c.Status(fiber.StatusTeapot).Send("🍵 short and stout 🍵")
 })
 ```
 {% endcode %}
