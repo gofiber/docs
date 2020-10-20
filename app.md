@@ -170,6 +170,8 @@ You can Mount Fiber instance by creating a `*Mount`
 func (a *App) Mount(prefix string, app *fiber.App) fiber.Router
 ```
 
+**Example**
+
 ```go
 func main() {
 	micro := fiber.New()
@@ -183,7 +185,7 @@ func main() {
 	app.Listen(":3000")
 }
 ```
-**Example**
+
 
 ## Group
 
