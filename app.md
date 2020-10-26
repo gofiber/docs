@@ -167,7 +167,7 @@ You can Mount Fiber instance by creating a `*Mount`
 **Signature**
 
 ```go
-func (a *App) Mount(prefix string, app *fiber.App) fiber.Router
+func (a *App) Mount(prefix string, app *App) Router
 ```
 
 **Example**
