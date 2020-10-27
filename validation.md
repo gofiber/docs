@@ -32,7 +32,7 @@ type ErrorResponse struct {
 
 func ValidateStruct(user User) []*ErrorResponse {
     var errors []*ErrorResponse
-    validate = validator.New()
+    validate := validator.New()
     err := validate.Struct(user)
     if err != nil {
         for _, err := range err.(validator.ValidationErrors) {
