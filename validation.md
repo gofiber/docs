@@ -50,7 +50,7 @@ func AddUser(c *fiber.Ctx) {
     //Connect to database
     user := new(User)
     if err := c.BodyParser(user); err != nil {
-        errors := ValidateStruct()
+        errors := ValidateStruct(*user)
     if errors != nil {
         c.JSON(errors)
         return
