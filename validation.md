@@ -32,7 +32,7 @@ type ErrorResponse struct {
 
 func ValidateStruct(user User) []*ErrorResponse {
     var errors []*ErrorResponse
-    validate = validator.New()
+    validate := validator.New()
     err := validate.Struct(user)
     if err != nil {
         for _, err := range err.(validator.ValidationErrors) {
@@ -50,7 +50,7 @@ func AddUser(c *fiber.Ctx) {
     //Connect to database
     user := new(User)
     if err := c.BodyParser(user); err != nil {
-        errors := ValidateStruct()
+        errors := ValidateStruct(*user)
     if errors != nil {
         c.JSON(errors)
         return
