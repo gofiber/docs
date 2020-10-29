@@ -31,7 +31,7 @@ app.Use(limiter.New(limiter.Config{
         return c.IP() == "127.0.0.1"
     },
     Max:          20,
-    Duration:     30 * time.Second,
+    Expiration:     30 * time.Second,
     Key:          func(c *fiber.Ctx) string {
         return c.Get("x-forwarded-for")
     },
@@ -56,10 +56,10 @@ type Config struct {
     // Default: 5
     Max int
 
-    // Duration is the time on how long to keep records of requests in memory
+    // Expiration is the time on how long to keep records of requests in memory
     //
     // Default: time.Minute
-    Duration time.Duration
+    Expiration time.Duration
 
     // Key allows you to generate custom keys, by default c.IP() is used
     //
@@ -83,7 +83,7 @@ type Config struct {
 var ConfigDefault = Config{
     Next:     nil,
     Max:      5,
-    Duration: time.Minute,
+    Expiration: time.Minute,
     Key: func(c *fiber.Ctx) string {
         return c.IP()
     },
