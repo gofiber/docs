@@ -285,7 +285,7 @@ if err != nil {
 }
 config := &tls.Config{Certificates: []tls.Certificate{cer}}
 
-app.Listen(443, config)
+app.Listen(":443", config)
 ```
 {% endcode %}
 

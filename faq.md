@@ -32,7 +32,7 @@ app.Use(func(c *fiber.Ctx) error {
 
 ## How do I set up an error handler?
 
-To override the default error handler, you can override the default when providing a [Config ](fiber.md#config)when initiating a new [Fiber instance](fiber.md#new).
+To override the default error handler, you can override the default when providing a [Config ]()when initiating a new [Fiber instance]().
 
 {% code title="Example" %}
 ```go

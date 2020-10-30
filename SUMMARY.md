@@ -32,6 +32,7 @@
 * [🎭 Grouping](grouping.md)
 * [📝 Templates](templates.md)
 * [🐛 Error Handling](error-handling.md)
+* [🔎 Validation](validation.md)
 
 ## Misc <a id="miscellaneous"></a>
 
