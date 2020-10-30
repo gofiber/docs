@@ -45,7 +45,7 @@ func main() {
         panic("This panic is catched by the ErrorHandler")
     })
 
-    log.Fatal(app.Listen(3000))
+    log.Fatal(app.Listen(":3000"))
 }
 ```
 {% endcode %}
