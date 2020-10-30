@@ -26,7 +26,7 @@ func main() {
 
     // ...
 
-    app.Listen(3000)
+    app.Listen(":3000")
 }
 ```
 {% endcode %}
@@ -48,7 +48,7 @@ func main() {
 
     // ...
 
-    app.Listen(3000)
+    app.Listen(":3000")
 }
 ```
 {% endcode %}
@@ -68,7 +68,7 @@ func main() {
 
     // ...
 
-    app.Listen(3000)
+    app.Listen(":3000")
 }
 ```
 {% endcode %}
@@ -252,23 +252,23 @@ func main() {
   v2.Get("/list", handler)          // /api/v2/list
   v2.Get("/user", handler)          // /api/v2/user
 
-  app.Listen(3000)
+  app.Listen(":3000")
 }
 ```
 
 ## Listen
 
-Binds and listens for connections on the specified address. This can be a `int` for port or `string` for address.
+Binds and listens for connections on the specified address.
 
 {% code title="Signature" %}
 ```go
-app.Listen(address interface{}, tls ...*tls.Config) error
+app.Listen(address string, tls ...*tls.Config) error
 ```
 {% endcode %}
 
 {% code title="Examples" %}
 ```go
-app.Listen(8080)
+app.Listen(":8080")
 app.Listen("8080")
 app.Listen(":8080")
 app.Listen("127.0.0.1:8080")
@@ -285,7 +285,7 @@ if err != nil {
 }
 config := &tls.Config{Certificates: []tls.Certificate{cer}}
 
-app.Listen(443, config)
+app.Listen(":443", config)
 ```
 {% endcode %}
 

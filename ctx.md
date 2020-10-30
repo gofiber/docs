@@ -174,7 +174,7 @@ app.Post("/", func(c *fiber.Ctx) error {
 {% endcode %}
 
 > _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](../#zero-allocation)
+> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## BodyParser
 
@@ -310,15 +310,15 @@ func (c *Ctx) Cookie(cookie *Cookie)
 
 ```go
 type Cookie struct {
-	Name     string    `json:"name"`
-	Value    string    `json:"value"`
-	Path     string    `json:"path"`
-	Domain   string    `json:"domain"`
-	MaxAge   int       `json:"max_age"`
-	Expires  time.Time `json:"expires"`
-	Secure   bool      `json:"secure"`
-	HTTPOnly bool      `json:"http_only"`
-	SameSite string    `json:"same_site"`
+    Name     string    `json:"name"`
+    Value    string    `json:"value"`
+    Path     string    `json:"path"`
+    Domain   string    `json:"domain"`
+    MaxAge   int       `json:"max_age"`
+    Expires  time.Time `json:"expires"`
+    Secure   bool      `json:"secure"`
+    HTTPOnly bool      `json:"http_only"`
+    SameSite string    `json:"same_site"`
 }
 ```
 
@@ -360,7 +360,7 @@ app.Get("/", func(c *fiber.Ctx) error {
 {% endcode %}
 
 > _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](../#zero-allocation)
+> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## Download
 
@@ -508,7 +508,7 @@ app.Post("/", func(c *fiber.Ctx) error {
 {% endcode %}
 
 > _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](../#zero-allocation)
+> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## Fresh
 
@@ -546,7 +546,7 @@ app.Get("/", func(c *fiber.Ctx) error {
 {% endcode %}
 
 > _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](../#zero-allocation)
+> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## Hostname
 
@@ -571,7 +571,7 @@ app.Get("/", func(c *fiber.Ctx) error {
 {% endcode %}
 
 > _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](../#zero-allocation)
+> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## IP
 
@@ -915,7 +915,7 @@ app.Get("/", func(c *fiber.Ctx) error {
 {% endcode %}
 
 > _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](../#zero-allocation)
+> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## Params
 
@@ -972,7 +972,7 @@ app.Get("/v1/*/shop/*", func(c *fiber.Ctx) error {
 {% endcode %}
 
 > _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](../#zero-allocation)
+> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## Path
 
@@ -1050,7 +1050,7 @@ app.Get("/", func(c *fiber.Ctx) error {
 {% endcode %}
 
 > _Returned value is only valid within the handler. Do not store any references.  
-> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](../#zero-allocation)
+> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](./#zero-allocation)
 
 ## QueryParser
 
@@ -1132,11 +1132,11 @@ func (c *Ctx) Redirect(location string, status ...int) error
 {% code title="Example" %}
 ```go
 app.Get("/coffee", func(c *fiber.Ctx) error {
-  c.Redirect("/teapot")
+  return c.Redirect("/teapot")
 })
 
 app.Get("/teapot", func(c *fiber.Ctx) error {
-  c.Status(fiber.StatusTeapot).Send("🍵 short and stout 🍵")
+  return c.Status(fiber.StatusTeapot).Send("🍵 short and stout 🍵")
 })
 ```
 {% endcode %}

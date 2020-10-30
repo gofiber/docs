@@ -161,7 +161,7 @@ func main() {
   v2.Get("/list", handler)             // /api/v2/list
   v2.Get("/user", handler)             // /api/v2/user
 
-  app.Listen(3000)
+  app.Listen(":3000")
 }
 ```
 

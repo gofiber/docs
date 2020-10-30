@@ -159,6 +159,34 @@ app.Use("/api",func(c *fiber.Ctx) error {
 ```
 {% endcode %}
 
+
+## Mount
+
+You can Mount Fiber instance by creating a `*Mount`
+
+**Signature**
+
+```go
+func (a *App) Mount(prefix string, app *App) Router
+```
+
+**Example**
+
+```go
+func main() {
+	micro := fiber.New()
+	micro.Get("/doe", func(c *fiber.Ctx) error {
+		return c.SendStatus(fiber.StatusOK)
+	})
+
+	app := fiber.New()
+	app.Mount("/john", micro) // GET /john/doe -> 200 OK
+
+	app.Listen(":3000")
+}
+```
+
+
 ## Group
 
 You can group routes by creating a `*Group` struct.
@@ -185,7 +213,7 @@ func main() {
   v2.Get("/list", handler)          // /api/v2/list
   v2.Get("/user", handler)          // /api/v2/user
 
-  app.Listen(3000)
+  app.Listen(":3000")
 }
 ```
 

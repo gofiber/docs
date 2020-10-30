@@ -18,7 +18,7 @@ func main() {
   v2.Get("/list", handler)             // /api/v2/list
   v2.Get("/user", handler)             // /api/v2/user
 
-  app.Listen(3000)
+  app.Listen(":3000")
 }
 ```
 
@@ -38,7 +38,7 @@ func main() {
   v2.Get("/list", handler)      // /api/v2/list
   v2.Get("/user", handler)      // /api/v2/user
 
-  app.Listen(3000)
+  app.Listen(":3000")
 }
 ```
 
@@ -65,7 +65,7 @@ func main() {
     v1.Get("/list", handler) // /api/v1/list
     v1.Get("/user", handler) // /api/v1/user
 
-    app.Listen(3000)
+    app.Listen(":3000")
 }
 ```
 

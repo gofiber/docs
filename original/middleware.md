@@ -58,7 +58,7 @@ func main() {
     c.Send("Welcome!")
   })
 
-  app.Listen(3000)
+  app.Listen(":3000")
 }
 ```
 
@@ -106,7 +106,7 @@ func main() {
     c.Send("Welcome!")
   })
 
-  app.Listen(3000)
+  app.Listen(":3000")
   // curl -H "Origin: http://example.com" --verbose http://localhost:3000
 }
 ```
@@ -151,7 +151,7 @@ func main() {
     c.Send("Welcome!")
   })
 
-  app.Listen(3000)
+  app.Listen(":3000")
 }
 ```
 
@@ -208,7 +208,7 @@ func main() {
     c.Send("Welcome!")
   })
 
-  app.Listen(3000)
+  app.Listen(":3000")
 }
 ```
 
@@ -256,7 +256,7 @@ func main() {
     c.Send("Welcome!")
   })
 
-  app.Listen(3000)
+  app.Listen(":3000")
 }
 ```
 
@@ -303,7 +303,7 @@ func main() {
         panic("Hi, I'm a error!")
     })
 
-    app.Listen(3000)
+    app.Listen(":3000")
 }
 ```
 
@@ -363,7 +363,7 @@ func main() {
     // </body></html>
   })
 
-  app.Listen(3000)
+  app.Listen(":3000")
 }
 ```
 
@@ -430,7 +430,7 @@ func main() {
     }
   }))
 
-  app.Listen(3000) // ws://localhost:3000/ws
+  app.Listen(":3000") // ws://localhost:3000/ws
 }
 ```
 
@@ -476,7 +476,7 @@ func main() {
     c.Send(requestid.Get(c))
   })
 
-  app.Listen(3000)
+  app.Listen(":3000")
 }
 ```
 
@@ -530,7 +530,7 @@ func main() {
     c.Send("Welcome!")
   })
 
-  app.Listen(3000)
+  app.Listen(":3000")
   // curl -I http://localhost:3000
 }
 ```
@@ -579,7 +579,7 @@ func main() {
     c.Send("Wildcard: ", c.Params("*"))
   })
 
-  app.Listen(3000)
+  app.Listen(":3000")
 }
 ```
 
