@@ -34,7 +34,7 @@ func main() {
     c.Send("Hello, World!")
   })
 
-  app.Listen(3000)
+  app.Listen(":3000")
 }
 ```
 
@@ -127,7 +127,7 @@ app := fiber.New()
 
 app.Static("/", "./public") 
 
-app.Listen(8080)
+app.Listen(":8080")
 ```
 
 Now, you can load the files that are in the `./public` directory:
