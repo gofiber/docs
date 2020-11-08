@@ -4,7 +4,7 @@
 
 Fiber can make _great_ use of the validator package to ensure correct validation of data to store.
 
-* [Official valitador github page \(Installation, use, examples..\).](https://github.com/go-playground/validator)
+* [Official validator Github page \(Installation, use, examples..\).](https://github.com/go-playground/validator)
 
 You can find the detailed descriptions of the _validations_ used in the fields contained on the structs below:
 
