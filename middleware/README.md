@@ -5,5 +5,7 @@ description: >-
   request or enabling CORS.
 ---
 
+This section contains information about first-party Fiber middleware. For documentation about writing your own middleware, see [Routing/Middleware](/guide/routing#middleware).
+
 # 🧬 Middleware
 
