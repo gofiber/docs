@@ -159,7 +159,6 @@ app.Use("/api",func(c *fiber.Ctx) error {
 ```
 {% endcode %}
 
-
 ## Mount
 
 You can Mount Fiber instance by creating a `*Mount`
@@ -174,18 +173,17 @@ func (a *App) Mount(prefix string, app *App) Router
 
 ```go
 func main() {
-	micro := fiber.New()
-	micro.Get("/doe", func(c *fiber.Ctx) error {
-		return c.SendStatus(fiber.StatusOK)
-	})
+    micro := fiber.New()
+    micro.Get("/doe", func(c *fiber.Ctx) error {
+        return c.SendStatus(fiber.StatusOK)
+    })
 
-	app := fiber.New()
-	app.Mount("/john", micro) // GET /john/doe -> 200 OK
+    app := fiber.New()
+    app.Mount("/john", micro) // GET /john/doe -> 200 OK
 
-	app.Listen(":3000")
+    app.Listen(":3000")
 }
 ```
-
 
 ## Group
 
@@ -226,12 +224,11 @@ func (app *App) Server() *fasthttp.Server
 ```
 
 ```go
-
 func main() {
     app := fiber.New()
 
     app.Server().MaxConnsPerIP = 1
-    
+
     // ...
 }
 ```
