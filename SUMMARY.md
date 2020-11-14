@@ -33,9 +33,9 @@
 * [🐛 Error Handling](guide/error-handling.md)
 * [🔎 Validation](guide/validation.md)
 
-## Misc <a id="miscellaneous"></a>
+## Extra
 
-* [🤔 FAQ](miscellaneous/faq.md)
-* [📊 Benchmarks](miscellaneous/benchmarks.md)
+* [🤔 FAQ](extra/faq.md)
+* [📊 Benchmarks](extra/benchmarks.md)
 * [🍳 Examples](https://github.com/gofiber/recipes)
 
