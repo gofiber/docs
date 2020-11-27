@@ -56,23 +56,36 @@ If you want to have a little bit more control regarding the settings for serving
 
 {% code title="fiber.Static{}" %}
 ```go
-// Static represents settings for serving static files
+// Static defines configuration options when defining static assets.
 type Static struct {
-    // Transparently compresses responses if set to true
-    // This works differently than the github.com/gofiber/compression middleware
-    // The server tries minimizing CPU usage by caching compressed files.
-    // It adds ".fiber.gz" suffix to the original file name.
-    // Optional. Default value false
-    Compress bool
-    // Enables byte-range requests if set to true.
-    // Optional. Default value false
-    ByteRange bool
-    // Enable directory browsing.
-    // Optional. Default value false.
-    Browse bool
-    // File to serve when requesting a directory path.
-    // Optional. Default value "index.html".
-    Index string
+	// When set to true, the server tries minimizing CPU usage by caching compressed files.
+	// This works differently than the github.com/gofiber/compression middleware.
+	// Optional. Default value false
+	Compress bool `json:"compress"`
+
+	// When set to true, enables byte range requests.
+	// Optional. Default value false
+	ByteRange bool `json:"byte_range"`
+
+	// When set to true, enables directory browsing.
+	// Optional. Default value false.
+	Browse bool `json:"browse"`
+
+	// The name of the index file for serving a directory.
+	// Optional. Default value "index.html".
+	Index string `json:"index"`
+
+	// Expiration duration for inactive file handlers.
+	// Use a negative time.Duration to disable it.
+	//
+	// Optional. Default value 10 * time.Second.
+	CacheDuration time.Duration `json:"cache_duration"`
+
+	// The value for the Cache-Control HTTP-header
+	// that is set on the file response. MaxAge is defined in seconds.
+	//
+	// Optional. Default value 0.
+	MaxAge int `json:"max_age"`
 }
 ```
 {% endcode %}
@@ -81,10 +94,12 @@ type Static struct {
 ```go
 // Custom config
 app.Static("/", "./public", fiber.Static{
-  Compress:   true,
-  ByteRange:  true,
-  Browse:     true,
-  Index:      "john.html"
+  Compress:      true,
+  ByteRange:     true,
+  Browse:        true,
+  Index:         "john.html"
+  CacheDuration: 10 * time.Second,
+  MaxAge:        3600,
 })
 ```
 {% endcode %}
