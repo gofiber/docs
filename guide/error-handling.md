@@ -116,7 +116,7 @@ app := fiber.New(fiber.Config{
 
         // Return from handler
         return nil
-    }
+    },
 })
 
 // ...
