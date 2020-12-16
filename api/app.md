@@ -346,9 +346,25 @@ app.Listen("127.0.0.1:8080")
 ```
 {% endcode %}
 
+## ListenTLS
+
+ListenTLS serves HTTPs requests from the given address using certFile and keyFile paths to as TLS certificate and key file.
+
+{% code title="Signature" %}
+```go
+func (app *App) ListenTLS(addr, certFile, keyFile string) error
+```
+{% endcode %}
+
+{% code title="Examples" %}
+```go
+app.ListenTLS(":443", "./cert.pem", "./cert.key");
+```
+{% endcode %}
+
 ## Listener
 
-You can pass your own [`net.Listener`](https://golang.org/pkg/net/#Listener) using the `Listener` method. This method can be used to enable **TLS/HTTPS**.
+You can pass your own [`net.Listener`](https://golang.org/pkg/net/#Listener) using the `Listener` method. This method can be used to enable **TLS/HTTPS** with a custom tls.Config.
 
 {% code title="Signature" %}
 ```go
