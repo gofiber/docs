@@ -362,6 +362,20 @@ app.ListenTLS(":443", "./cert.pem", "./cert.key");
 ```
 {% endcode %}
 
+Using `ListenTLS` defaults to the following config \( use `Listener` to provide your own config \)
+
+{% code title="Default \*tls.Config" %}
+```go
+&tls.Config{
+	MinVersion:               tls.VersionTLS12,
+	PreferServerCipherSuites: true,
+	Certificates: []tls.Certificate{
+		cert,
+	},
+}
+```
+{% endcode %}
+
 ## Listener
 
 You can pass your own [`net.Listener`](https://golang.org/pkg/net/#Listener) using the `Listener` method. This method can be used to enable **TLS/HTTPS** with a custom tls.Config.
