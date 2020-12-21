@@ -4,13 +4,14 @@
 
 Fiber can make _great_ use of the validator package to ensure correct validation of data to store.
 
-* [Official validator Github page \(Installation, use, examples..\).](https://github.com/go-playground/validator)
+- [Official validator Github page \(Installation, use, examples..\).](https://github.com/go-playground/validator)
 
 You can find the detailed descriptions of the _validations_ used in the fields contained on the structs below:
 
-* [Detailed docs](https://pkg.go.dev/github.com/go-playground/validator?tab=doc)
+- [Detailed docs](https://pkg.go.dev/github.com/go-playground/validator?tab=doc)
 
 {% code title="Validation Example" %}
+
 ```go
 type Job struct{
     Type          string `validate:"required,min=3,max=32"`
@@ -48,27 +49,33 @@ func ValidateStruct(user User) []*ErrorResponse {
 
 func AddUser(c *fiber.Ctx) {
     //Connect to database
+
     user := new(User)
+
     if err := c.BodyParser(user); err != nil {
-        errors := ValidateStruct(*user)
+        c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+            message: err.Error(),
+        })
+        return
+    }
+
+    errors := ValidateStruct(*user)
     if errors != nil {
         c.JSON(errors)
         return
     }
-    }
+
     //Do something else here
 
-  //Return user
+    //Return user
     c.JSON(user)
 }
 
 // Running a test with the following curl commands
-
 // curl -X POST -H "Content-Type: application/json" --data "{\"name\":\"john\",\"isactive\":\"True\"}" http://localhost:8080/register/user
 
-// Results in 
-
+// Results in
 // [{"FailedField":"User.Email","Tag":"required","Value":""},{"FailedField":"User.Job.Salary","Tag":"required","Value":""},{"FailedField":"User.Job.Type","Tag":"required","Value":""}]⏎
 ```
-{% endcode %}
 
+{% endcode %}
