@@ -4,14 +4,13 @@
 
 Fiber can make _great_ use of the validator package to ensure correct validation of data to store.
 
-- [Official validator Github page \(Installation, use, examples..\).](https://github.com/go-playground/validator)
+* [Official validator Github page \(Installation, use, examples..\).](https://github.com/go-playground/validator)
 
 You can find the detailed descriptions of the _validations_ used in the fields contained on the structs below:
 
-- [Detailed docs](https://pkg.go.dev/github.com/go-playground/validator?tab=doc)
+* [Detailed docs](https://pkg.go.dev/github.com/go-playground/validator?tab=doc)
 
 {% code title="Validation Example" %}
-
 ```go
 type Job struct{
     Type          string `validate:"required,min=3,max=32"`
@@ -77,5 +76,5 @@ func AddUser(c *fiber.Ctx) {
 // Results in
 // [{"FailedField":"User.Email","Tag":"required","Value":""},{"FailedField":"User.Job.Salary","Tag":"required","Value":""},{"FailedField":"User.Job.Type","Tag":"required","Value":""}]⏎
 ```
-
 {% endcode %}
+
