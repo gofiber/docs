@@ -733,7 +733,7 @@ func (c *Ctx) Links(link ...string)
 {% code title="Example" %}
 ```go
 app.Get("/", func(c *fiber.Ctx) error {
-  c.Link(
+  c.Links(
     "http://api.example.com/users?page=2", "next",
     "http://api.example.com/users?page=5", "last",
   )
@@ -1071,7 +1071,7 @@ type Person struct {
     Products []string   `query:"products"`
 }
 
-app.Post("/", func(c *fiber.Ctx) error {
+app.Get("/", func(c *fiber.Ctx) error {
         p := new(Person)
 
         if err := c.QueryParser(p); err != nil {
