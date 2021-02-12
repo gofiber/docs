@@ -381,6 +381,32 @@ Using `ListenTLS` defaults to the following config \( use `Listener` to provide 
 ```
 {% endcode %}
 
+## ListenConfigTLS
+
+ListenConfigTLS serves HTTPS requests from the given address using a custom tls.Config.
+
+{% code title="Signature" %}
+```go
+func (app *App) ListenConfigTLS(addr string, conf *tls.Config) error
+```
+{% endcode %}
+
+{% code title="Examples" %}
+```go
+crt, err := tls.LoadX509KeyPair("./cert.pem", "./cert.key")
+
+if err != nil {
+    log.Fatal(err)
+}
+
+// Tweak according to your needs.
+cfg := &tls.Config{
+    Certificates: []tls.Certificate{crt},
+}
+
+log.Fatal(app.ListenConfigTLS(":443", cfg))
+```
+
 ## Listener
 
 You can pass your own [`net.Listener`](https://golang.org/pkg/net/#Listener) using the `Listener` method. This method can be used to enable **TLS/HTTPS** with a custom tls.Config.
