@@ -77,7 +77,7 @@ var DefaultErrorHandler = func(c *Ctx, err error) error {
         code = e.Code
     }
     // Set Content-Type: text/plain; charset=utf-8
-    c.Set(HeaderContentType, MIMETextPlainCharsetUTF8)
+    c.Set("HeaderContentType", fiber.MIMETextPlainCharsetUTF8)
 
     // Return statuscode with error message
     return c.Status(code).SendString(err.Error())
