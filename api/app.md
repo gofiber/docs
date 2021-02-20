@@ -58,39 +58,39 @@ If you want to have a little bit more control regarding the settings for serving
 ```go
 // Static defines configuration options when defining static assets.
 type Static struct {
-	// When set to true, the server tries minimizing CPU usage by caching compressed files.
-	// This works differently than the github.com/gofiber/compression middleware.
-	// Optional. Default value false
-	Compress bool `json:"compress"`
+    // When set to true, the server tries minimizing CPU usage by caching compressed files.
+    // This works differently than the github.com/gofiber/compression middleware.
+    // Optional. Default value false
+    Compress bool `json:"compress"`
 
-	// When set to true, enables byte range requests.
-	// Optional. Default value false
-	ByteRange bool `json:"byte_range"`
+    // When set to true, enables byte range requests.
+    // Optional. Default value false
+    ByteRange bool `json:"byte_range"`
 
-	// When set to true, enables directory browsing.
-	// Optional. Default value false.
-	Browse bool `json:"browse"`
+    // When set to true, enables directory browsing.
+    // Optional. Default value false.
+    Browse bool `json:"browse"`
 
-	// The name of the index file for serving a directory.
-	// Optional. Default value "index.html".
-	Index string `json:"index"`
+    // The name of the index file for serving a directory.
+    // Optional. Default value "index.html".
+    Index string `json:"index"`
 
-	// Expiration duration for inactive file handlers.
-	// Use a negative time.Duration to disable it.
-	//
-	// Optional. Default value 10 * time.Second.
-	CacheDuration time.Duration `json:"cache_duration"`
+    // Expiration duration for inactive file handlers.
+    // Use a negative time.Duration to disable it.
+    //
+    // Optional. Default value 10 * time.Second.
+    CacheDuration time.Duration `json:"cache_duration"`
 
-	// The value for the Cache-Control HTTP-header
-	// that is set on the file response. MaxAge is defined in seconds.
-	//
-	// Optional. Default value 0.
-	MaxAge int `json:"max_age"`
+    // The value for the Cache-Control HTTP-header
+    // that is set on the file response. MaxAge is defined in seconds.
+    //
+    // Optional. Default value 0.
+    MaxAge int `json:"max_age"`
 
-	// Next defines a function to skip this middleware when returned true.
-	//
-	// Optional. Default: nil
-	Next func(c *Ctx) bool
+    // Next defines a function to skip this middleware when returned true.
+    //
+    // Optional. Default: nil
+    Next func(c *Ctx) bool
 }
 ```
 {% endcode %}
@@ -372,11 +372,11 @@ Using `ListenTLS` defaults to the following config \( use `Listener` to provide 
 {% code title="Default \*tls.Config" %}
 ```go
 &tls.Config{
-	MinVersion:               tls.VersionTLS12,
-	PreferServerCipherSuites: true,
-	Certificates: []tls.Certificate{
-		cert,
-	},
+    MinVersion:               tls.VersionTLS12,
+    PreferServerCipherSuites: true,
+    Certificates: []tls.Certificate{
+        cert,
+    },
 }
 ```
 {% endcode %}

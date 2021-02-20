@@ -137,8 +137,8 @@ const (
     TagUA            = "ua"
     TagLatency       = "latency"
     TagStatus        = "status"        // response status
-    TagResBody				= "resBody"	// response body
-    TagQueryStringParams			= "queryParams"	// request query parameters
+    TagResBody                = "resBody"    // response body
+    TagQueryStringParams            = "queryParams"    // request query parameters
     TagBody          = "body"          // request body
     TagBytesSent     = "bytesSent"
     TagBytesReceived = "bytesReceived"

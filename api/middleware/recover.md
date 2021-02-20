@@ -43,20 +43,20 @@ app.Get("/", func(c *fiber.Ctx) error {
 ```go
 // Config defines the config for middleware.
 type Config struct {
-	// Next defines a function to skip this middleware when returned true.
-	//
-	// Optional. Default: nil
-	Next func(c *fiber.Ctx) bool
+    // Next defines a function to skip this middleware when returned true.
+    //
+    // Optional. Default: nil
+    Next func(c *fiber.Ctx) bool
 
-	// EnableStackTrace enables handling stack trace
-	//
-	// Optional. Default: false
-	EnableStackTrace bool
+    // EnableStackTrace enables handling stack trace
+    //
+    // Optional. Default: false
+    EnableStackTrace bool
 
-	// StackTraceHandler defines a function to handle stack trace
-	//
-	// Optional. Default: defaultStackTraceHandler
-	StackTraceHandler func(e interface{})
+    // StackTraceHandler defines a function to handle stack trace
+    //
+    // Optional. Default: defaultStackTraceHandler
+    StackTraceHandler func(e interface{})
 }
 ```
 
@@ -64,9 +64,9 @@ type Config struct {
 
 ```go
 var ConfigDefault = Config{
-	Next:              nil,
-	EnableStackTrace:  false,
-	StackTraceHandler: defaultStackTraceHandler,
+    Next:              nil,
+    EnableStackTrace:  false,
+    StackTraceHandler: defaultStackTraceHandler,
 }
 ```
 
