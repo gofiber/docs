@@ -57,6 +57,7 @@ Fiber team maintains [templates](https://github.com/gofiber/template) package th
 package main
 
 import (
+	"log"
     "github.com/gofiber/fiber/v2"
     "github.com/gofiber/template/html"
 )
@@ -75,7 +76,7 @@ func main() {
         })
     })
 
-    app.Listen(":3000")
+    log.Fatal(app.Listen(":3000"))
 }
 ```
 {% endtab %}
