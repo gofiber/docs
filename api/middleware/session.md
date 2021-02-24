@@ -52,7 +52,7 @@ app.Get("/", func(c *fiber.Ctx) error {
     // Delete key
     sess.Delete("name")
 
-    // Destry session
+    // Destroy session
     if err := sess.Destroy(); err != nil {
         panic(err)
     }
