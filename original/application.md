@@ -48,7 +48,7 @@ func main() {
 
     // ...
 
-    app.Listen(":3000")
+    log.Fatal(app.Listen(":3000"))
 }
 ```
 {% endcode %}
@@ -68,7 +68,7 @@ func main() {
 
     // ...
 
-    app.Listen(":3000")
+    log.Fatal(app.Listen(":3000"))
 }
 ```
 {% endcode %}
@@ -252,7 +252,7 @@ func main() {
   v2.Get("/list", handler)          // /api/v2/list
   v2.Get("/user", handler)          // /api/v2/user
 
-  app.Listen(":3000")
+  log.Fatal(app.Listen(":3000"))
 }
 ```
 
