@@ -1,6 +1,8 @@
 ---
 description: >-
-  The Client struct represents the HTTP Client. It has methods like Get, Post, etc, they'll create a new Agent instance and parse request url automatically.
+  The Client struct represents the Fiber HTTP Client.
+  
+  
 ---
 
 # ⚡ Client
@@ -21,10 +23,10 @@ func (c *Client) Delete(url string) *Agent
 {% endcode %}
 
 ## ✨ Agent
-`Agent` is on top of [fasthttp `HostClient`](https://github.com/valyala/fasthttp/blob/master/client.go#L603) which has lots of convenient helper methods and several `send request` methods.
+`Agent` is built on top of FastHTTP's [`HostClient`](https://github.com/valyala/fasthttp/blob/master/client.go#L603) which has lots of convenient helper methods such as dedicated methods for request methods.
 
 ### Parse
-Parse initializes URI and HostClient.
+Parse initializes a HostClient.
 
 {% code title="Parse" %}
 ```go
@@ -42,7 +44,7 @@ code, body, errs := a.Bytes() // ...
 {% endcode %}
 
 ### Set
-Set sets the given 'key: value' header.
+Set sets the given `key: value` header.
 
 {% code title="Signature" %}
 ```go
@@ -65,7 +67,7 @@ agent.Set("k1", "v1").
 {% endcode %}
 
 ### Add
-Add adds the given 'key: value' header. Multiple headers with the same key may be added with this function.
+Add adds the given `key: value` header. Multiple headers with the same key may be added with this function.
 
 {% code title="Signature" %}
 ```go
@@ -83,12 +85,16 @@ agent.Add("k1", "v1").
     AddBytesK([]byte("k1"), "v1").
     AddBytesV("k1", []byte("v1")).
     AddBytesKV([]byte("k2"), []byte("v2"))
-// ...
+// Headers:
+// K1: v1
+// K1: v1
+// K1: v1
+// K2: v2
 ```
 {% endcode %}
 
 ### ConnectionClose
-ConnectionClose sets 'Connection: close' header.
+ConnectionClose adds the `Connection: close` header.
 
 {% code title="Signature" %}
 ```go
@@ -104,7 +110,7 @@ agent.ConnectionClose()
 {% endcode %}
 
 ### UserAgent
-UserAgent sets User-Agent header value.
+UserAgent sets `User-Agent` header value.
 
 {% code title="Signature" %}
 ```go
@@ -121,7 +127,7 @@ agent.UserAgent("fiber")
 {% endcode %}
 
 ### Cookie
-Cookie sets 'key: value' cookie.
+Cookie sets a cookie in `key: value` form. `Cookies` can be used to set multiple cookies.
 
 {% code title="Signature" %}
 ```go
@@ -142,7 +148,7 @@ agent.Cookies("k1", "v1", "k2", "v2")
 {% endcode %}
 
 ### Referer
-Referer sets Referer header value.
+Referer sets the Referer header value.
 
 {% code title="Signature" %}
 ```go
@@ -176,7 +182,7 @@ agent.ContentType("custom-type")
 {% endcode %}
 
 ### Host
-Host sets host for the uri.
+Host sets the Host header.
 
 {% code title="Signature" %}
 ```go
@@ -193,7 +199,7 @@ agent.Host("example.com")
 {% endcode %}
 
 ### QueryString
-QueryString sets URI query string.
+QueryString sets the URI query string.
 
 {% code title="Signature" %}
 ```go
@@ -210,7 +216,7 @@ agent.QueryString("foo=bar")
 {% endcode %}
 
 ### BasicAuth
-BasicAuth sets URI username and password.
+BasicAuth sets the URI username and password using HTTP Basic Auth.
 
 {% code title="Signature" %}
 ```go
@@ -259,7 +265,7 @@ agent.BodyStream(strings.NewReader("body=stream"), -1)
 {% endcode %}
 
 ### JSON
-JSON sends a JSON request with `application/json` content type.
+JSON sends a JSON request by setting the Content-Type header to `application/json`.
 
 {% code title="Signature" %}
 ```go
@@ -275,7 +281,7 @@ agent.JSON(fiber.Map{"success": true})
 {% endcode %}
 
 ### XML
-XML sends an XML request with `application/xml` content type.
+XML sends an XML request by setting the Content-Type header to `application/xml`.
 
 {% code title="Signature" %}
 ```go
@@ -291,7 +297,7 @@ agent.XML(fiber.Map{"success": true})
 {% endcode %}
 
 ### Form
-Form sends form request with `application/x-www-form-urlencoded` content type.
+Form sends a form request by setting the Content-Type header to `application/x-www-form-urlencoded`.
 
 {% code title="Signature" %}
 ```go
@@ -315,13 +321,13 @@ ReleaseArgs(args)
 {% endcode %}
 
 ### MultipartForm
-MultipartForm sends multipart form request with `multipart/form-data` content type, k-v and files.
+MultipartForm sends multipart form request by setting the Content-Type header to `multipart/form-data`. These requests can include key-value's and files.
 
 {% code title="Signature" %}
 ```go
 // MultipartForm sends multipart form request with k-v and files.
 //
-// It is recommended obtaining args via AcquireArgs and release it
+// It is recommended to obtain args via AcquireArgs and release it
 // manually in performance-critical code.
 func (a *Agent) Form(args *Args) *Agent
 ```
@@ -358,7 +364,7 @@ agent.Boundary("myBoundary")
 {% endcode %}
 
 #### SendFile(s)
-SendFile(s) read file(s) and appends it(them) to multipart form request.
+SendFile read a file and appends it to a multipart form request. Sendfiles can be used to append multiple files.
 
 {% code title="Signature" %}
 ```go
