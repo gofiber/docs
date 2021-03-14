@@ -53,19 +53,19 @@ Group handlers can also be used as a routing path but they must have **Next** ad
 ```go
 func main() {
     app := fiber.New()
-    
+
     handler := func(c *fiber.Ctx) error {
         return c.SendStatus(fiber.StatusOK)
     }
     api := app.Group("/api") // /api
-    
+
     v1 := api.Group("/v1", func(c *fiber.Ctx) error { // middleware for /api/v1
         c.Set("Version", "v1")
         return c.Next()
     })
     v1.Get("/list", handler) // /api/v1/list
     v1.Get("/user", handler) // /api/v1/user
-    
+
     log.Fatal(app.Listen(":3000"))
 }
 ```
