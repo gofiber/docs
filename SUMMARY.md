@@ -24,7 +24,7 @@
   * [RequestID](api/middleware/requestid.md)
   * [Session](api/middleware/session.md)
   * [Timeout](api/middleware/timeout.md)
-* [Untitled](api/untitled.md)
+* [🌎 Client](api/client.md)
 
 ## Guide
 
