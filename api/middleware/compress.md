@@ -1,10 +1,22 @@
 # Compress
 
-Compression middleware for Fiber that supports gzip, deflate and brotli compression depending on the Accept-Encoding header.
+Compression middleware for [Fiber](https://github.com/gofiber/fiber) that will compress the response using `gzip`, `deflate` and `brotli` compression depending on the [Accept-Encoding](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Encoding) header.
 
-## Getting Started
+* [Signatures](compress.md#signatures)
+* [Examples](compress.md#examples)
+* [Config](compress.md#config)
+* [Default Config](compress.md#default-config)
+* [Constants](compress.md#config)
 
-Import the compress package that is shipped with the Fiber web framework
+## Signatures
+
+```go
+func New(config ...Config) fiber.Handler
+```
+
+## Examples
+
+Import the middleware package that is part of the Fiber web framework
 
 ```go
 import (
@@ -13,37 +25,10 @@ import (
 )
 ```
 
-You can pass an optional Config struct to create a new middleware handler.
-
-{% code title="signature" %}
-```go
-func New(config ...Config) fiber.Handler
-```
-{% endcode %}
-
-The following configurations are possible
+After you initiate your Fiber app, you can use the following possibilities:
 
 ```go
-type Config struct {
-	// Next defines a function to skip this middleware when returned true.
-	//
-	// Optional. Default: nil
-	Next func(c *fiber.Ctx) bool
-
-	// CompressLevel determines the compression algoritm
-	//
-	// Optional. Default: LevelDefault
-	// LevelDisabled:         -1
-	// LevelDefault:          0
-	// LevelBestSpeed:        1
-	// LevelBestCompression:  2
-	Level int
-}
-```
-
-{% code title="example" %}
-```go
-// Default compression config
+// Default middleware config
 app.Use(compress.New())
 
 // Provide a custom compression level
@@ -51,7 +36,7 @@ app.Use(compress.New(compress.Config{
     Level: compress.LevelBestSpeed, // 1
 }))
 
-// Skip compression for specific routes
+// Skip middleware for specific routes
 app.Use(compress.New(compress.Config{
   Next:  func(c *fiber.Ctx) bool {
     return c.Path() == "/dont_compress"
@@ -59,7 +44,46 @@ app.Use(compress.New(compress.Config{
   Level: compress.LevelBestSpeed, // 1
 }))
 ```
-{% endcode %}
 
+## Config
 
+```go
+// Config defines the config for middleware.
+type Config struct {
+    // Next defines a function to skip this middleware when returned true.
+    //
+    // Optional. Default: nil
+    Next func(c *fiber.Ctx) bool
+
+    // CompressLevel determines the compression algoritm
+    //
+    // Optional. Default: LevelDefault
+    // LevelDisabled:         -1
+    // LevelDefault:          0
+    // LevelBestSpeed:        1
+    // LevelBestCompression:  2
+    Level int
+}
+```
+
+## Default Config
+
+```go
+var ConfigDefault = Config{
+    Next:  nil,
+    Level: LevelDefault,
+}
+```
+
+## Constants
+
+```go
+// Compression levels
+const (
+    LevelDisabled        = -1
+    LevelDefault         = 0
+    LevelBestSpeed       = 1
+    LevelBestCompression = 2
+)
+```
 

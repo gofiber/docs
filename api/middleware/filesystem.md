@@ -2,15 +2,24 @@
 
 Filesystem middleware for [Fiber](https://github.com/gofiber/fiber) that enables you to serve files from a directory.
 
-## Signatures
+⚠️ **`:params` & `:optionals?` within the prefix path are not supported!**
+
+### Table of Contents
+
+* [Signatures](filesystem.md#signatures)
+* [Examples](filesystem.md#examples)
+* [Config](filesystem.md#config)
+* [Default Config](filesystem.md#default-config)
+
+### Signatures
 
 ```go
 func New(config Config) fiber.Handler
 ```
 
-## Examples
+### Examples
 
-Import the middleware package that is part of the [Fiber web framework](https://github.com/gofiber/fiber)
+Import the middleware package that is part of the Fiber web framework
 
 ```go
 import (
@@ -24,59 +33,41 @@ After you initiate your Fiber app, you can use the following possibilities:
 ```go
 // Provide a minimal config
 app.Use(filesystem.New(filesystem.Config{
-    Root: http.Dir("./assets"),
+    Root: http.Dir("./assets")
 }))
 
 // Or extend your config for customization
 app.Use(filesystem.New(filesystem.Config{
     Root:         http.Dir("./assets"),
-    Index:        "index.html",
     Browse:       true,
-    NotFoundFile: "404.html"
+    Index:        "index.html",
+    NotFoundFile: "404.html",
+    MaxAge:       3600,
 }))
 ```
 
-## Config
+## pkger
+
+[https://github.com/markbates/pkger](https://github.com/markbates/pkger)
 
 ```go
-// Config defines the config for middleware.
-type Config struct {
-    // Next defines a function to skip this middleware when returned true.
-    //
-    // Optional. Default: nil
-    Next func(c *fiber.Ctx) bool
+package main
 
-    // Root is a FileSystem that provides access
-    // to a collection of files and directories.
-    //
-    // Required. Default: nil
-    Root http.FileSystem
+import (
+    "github.com/gofiber/fiber/v2"
+    "github.com/gofiber/fiber/v2/middleware/filesystem"
 
-    // Index file for serving a directory.
-    //
-    // Optional. Default: "index.html"
-    Index string
+    "github.com/markbates/pkger"
+)
 
-    // Enable directory browsing.
-    //
-    // Optional. Default: false
-    Browse bool
+func main() {
+    app := fiber.New()
 
-    // File to return if path is not found. Useful for SPA's.
-    //
-    // Optional. Default: ""
-    NotFoundFile string
-}
-```
+    app.Use("/assets", filesystem.New(filesystem.Config{
+        Root: pkger.Dir("/assets"),
+    })
 
-## Default Config
-
-```go
-var ConfigDefault = Config{
-    Next:   nil,
-    Root:   nil,
-    Index:  "/index.html",
-    Browse: false,
+    log.Fatal(app.Listen(":3000"))
 }
 ```
 
@@ -101,7 +92,7 @@ func main() {
         Root: packr.New("Assets Box", "/assets"),
     })
 
-    app.Listen(":3000")
+    log.Fatal(app.Listen(":3000"))
 }
 ```
 
@@ -126,7 +117,7 @@ func main() {
         Root: rice.MustFindBox("assets").HTTPBox(),
     })
 
-    app.Listen(":3000")
+    log.Fatal(app.Listen(":3000"))
 }
 ```
 
@@ -151,7 +142,7 @@ func main() {
         Root: myEmbeddedFiles.HTTP,
     })
 
-    app.Listen(":3000")
+    log.Fatal(app.Listen(":3000"))
 }
 ```
 
@@ -182,7 +173,58 @@ func main() {
         Root: statikFS,
     })
 
-    app.Listen(":3000")
+    log.Fatal(app.Listen(":3000"))
+}
+```
+
+### Config
+
+```go
+// Config defines the config for middleware.
+type Config struct {
+    // Next defines a function to skip this middleware when returned true.
+    //
+    // Optional. Default: nil
+    Next func(c *fiber.Ctx) bool
+
+    // Root is a FileSystem that provides access
+    // to a collection of files and directories.
+    //
+    // Required. Default: nil
+    Root http.FileSystem `json:"-"`
+
+    // Enable directory browsing.
+    //
+    // Optional. Default: false
+    Browse bool `json:"browse"`
+
+    // Index file for serving a directory.
+    //
+    // Optional. Default: "index.html"
+    Index string `json:"index"`
+
+    // The value for the Cache-Control HTTP-header
+    // that is set on the file response. MaxAge is defined in seconds.
+    //
+    // Optional. Default value 0.
+    MaxAge    int `json:"max_age"`
+
+    // File to return if path is not found. Useful for SPA's.
+    //
+    // Optional. Default: ""
+    NotFoundFile string `json:"not_found_file"`
+}
+```
+
+### Default Config
+
+```go
+var ConfigDefault = Config{
+    Next:   nil,
+    Root:   nil,
+    Browse: false,
+    Index:  "/index.html",
+    MaxAge: 0,
 }
 ```
 

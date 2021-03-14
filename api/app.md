@@ -56,27 +56,41 @@ If you want to have a little bit more control regarding the settings for serving
 
 {% code title="fiber.Static{}" %}
 ```go
-// Static represents settings for serving static files
+// Static defines configuration options when defining static assets.
 type Static struct {
-    // Transparently compresses responses if set to true
-    // This works differently than the github.com/gofiber/compression middleware
-    // The server tries minimizing CPU usage by caching compressed files.
-    // It adds ".fiber.gz" suffix to the original file name.
+    // When set to true, the server tries minimizing CPU usage by caching compressed files.
+    // This works differently than the github.com/gofiber/compression middleware.
     // Optional. Default value false
-    Compress bool
-    // Enables byte-range requests if set to true.
+    Compress bool `json:"compress"`
+
+    // When set to true, enables byte range requests.
     // Optional. Default value false
-    ByteRange bool
-    // Enable directory browsing.
+    ByteRange bool `json:"byte_range"`
+
+    // When set to true, enables directory browsing.
     // Optional. Default value false.
-    Browse bool
-    // File to serve when requesting a directory path.
+    Browse bool `json:"browse"`
+
+    // The name of the index file for serving a directory.
     // Optional. Default value "index.html".
-    Index string
+    Index string `json:"index"`
+
+    // Expiration duration for inactive file handlers.
+    // Use a negative time.Duration to disable it.
+    //
+    // Optional. Default value 10 * time.Second.
+    CacheDuration time.Duration `json:"cache_duration"`
+
     // The value for the Cache-Control HTTP-header
     // that is set on the file response. MaxAge is defined in seconds.
+    //
     // Optional. Default value 0.
-    MaxAge int
+    MaxAge int `json:"max_age"`
+
+    // Next defines a function to skip this middleware when returned true.
+    //
+    // Optional. Default: nil
+    Next func(c *Ctx) bool
 }
 ```
 {% endcode %}
@@ -85,10 +99,12 @@ type Static struct {
 ```go
 // Custom config
 app.Static("/", "./public", fiber.Static{
-  Compress:   true,
-  ByteRange:  true,
-  Browse:     true,
-  Index:      "john.html"
+  Compress:      true,
+  ByteRange:     true,
+  Browse:        true,
+  Index:         "john.html"
+  CacheDuration: 10 * time.Second,
+  MaxAge:        3600,
 })
 ```
 {% endcode %}
@@ -163,6 +179,32 @@ app.Use("/api",func(c *fiber.Ctx) error {
 ```
 {% endcode %}
 
+## Mount
+
+You can Mount Fiber instance by creating a `*Mount`
+
+**Signature**
+
+```go
+func (a *App) Mount(prefix string, app *App) Router
+```
+
+**Example**
+
+```go
+func main() {
+    micro := fiber.New()
+    micro.Get("/doe", func(c *fiber.Ctx) error {
+        return c.SendStatus(fiber.StatusOK)
+    })
+
+    app := fiber.New()
+    app.Mount("/john", micro) // GET /john/doe -> 200 OK
+
+    log.Fatal(app.Listen(":3000"))
+}
+```
+
 ## Group
 
 You can group routes by creating a `*Group` struct.
@@ -189,7 +231,7 @@ func main() {
   v2.Get("/list", handler)          // /api/v2/list
   v2.Get("/user", handler)          // /api/v2/user
 
-  app.Listen(3000)
+  log.Fatal(app.Listen(":3000"))
 }
 ```
 
@@ -202,12 +244,11 @@ func (app *App) Server() *fasthttp.Server
 ```
 
 ```go
-
 func main() {
     app := fiber.New()
 
     app.Server().MaxConnsPerIP = 1
-    
+
     // ...
 }
 ```
@@ -310,9 +351,39 @@ app.Listen("127.0.0.1:8080")
 ```
 {% endcode %}
 
+## ListenTLS
+
+ListenTLS serves HTTPs requests from the given address using certFile and keyFile paths to as TLS certificate and key file.
+
+{% code title="Signature" %}
+```go
+func (app *App) ListenTLS(addr, certFile, keyFile string) error
+```
+{% endcode %}
+
+{% code title="Examples" %}
+```go
+app.ListenTLS(":443", "./cert.pem", "./cert.key");
+```
+{% endcode %}
+
+Using `ListenTLS` defaults to the following config \( use `Listener` to provide your own config \)
+
+{% code title="Default \*tls.Config" %}
+```go
+&tls.Config{
+    MinVersion:               tls.VersionTLS12,
+    PreferServerCipherSuites: true,
+    Certificates: []tls.Certificate{
+        cert,
+    },
+}
+```
+{% endcode %}
+
 ## Listener
 
-You can pass your own [`net.Listener`](https://golang.org/pkg/net/#Listener) using the `Listener` method. This method can be used to enable **TLS/HTTPS**.
+You can pass your own [`net.Listener`](https://golang.org/pkg/net/#Listener) using the `Listener` method. This method can be used to enable **TLS/HTTPS** with a custom tls.Config.
 
 {% code title="Signature" %}
 ```go

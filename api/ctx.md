@@ -310,15 +310,15 @@ func (c *Ctx) Cookie(cookie *Cookie)
 
 ```go
 type Cookie struct {
-	Name     string    `json:"name"`
-	Value    string    `json:"value"`
-	Path     string    `json:"path"`
-	Domain   string    `json:"domain"`
-	MaxAge   int       `json:"max_age"`
-	Expires  time.Time `json:"expires"`
-	Secure   bool      `json:"secure"`
-	HTTPOnly bool      `json:"http_only"`
-	SameSite string    `json:"same_site"`
+    Name     string    `json:"name"`
+    Value    string    `json:"value"`
+    Path     string    `json:"path"`
+    Domain   string    `json:"domain"`
+    MaxAge   int       `json:"max_age"`
+    Expires  time.Time `json:"expires"`
+    Secure   bool      `json:"secure"`
+    HTTPOnly bool      `json:"http_only"`
+    SameSite string    `json:"same_site"`
 }
 ```
 
@@ -645,7 +645,7 @@ app.Get("/", func(c *fiber.Ctx) error {
 
 ## JSON
 
-Converts any **interface** or **string** to JSON using [Jsoniter](https://github.com/json-iterator/go).
+Converts any **interface** or **string** to JSON using the [segmentio/encoding](https://github.com/segmentio/encoding%20) package.
 
 {% hint style="info" %}
 JSON also sets the content header to **application/json**.
@@ -733,7 +733,7 @@ func (c *Ctx) Links(link ...string)
 {% code title="Example" %}
 ```go
 app.Get("/", func(c *fiber.Ctx) error {
-  c.Link(
+  c.Links(
     "http://api.example.com/users?page=2", "next",
     "http://api.example.com/users?page=5", "last",
   )
@@ -1071,7 +1071,7 @@ type Person struct {
     Products []string   `query:"products"`
 }
 
-app.Post("/", func(c *fiber.Ctx) error {
+app.Get("/", func(c *fiber.Ctx) error {
         p := new(Person)
 
         if err := c.QueryParser(p); err != nil {
@@ -1132,11 +1132,11 @@ func (c *Ctx) Redirect(location string, status ...int) error
 {% code title="Example" %}
 ```go
 app.Get("/coffee", func(c *fiber.Ctx) error {
-  c.Redirect("/teapot")
+  return c.Redirect("/teapot")
 })
 
 app.Get("/teapot", func(c *fiber.Ctx) error {
-  c.Status(fiber.StatusTeapot).Send("🍵 short and stout 🍵")
+  return c.Status(fiber.StatusTeapot).Send("🍵 short and stout 🍵")
 })
 ```
 {% endcode %}

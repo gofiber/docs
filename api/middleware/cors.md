@@ -1,6 +1,13 @@
 # CORS
 
-CORS middleware for [Fiber](https://github.com/gofiber/fiber) that can be used to enable [Cross-Origin Resource Sharing](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) with various options.
+CORS middleware for [Fiber](https://github.com/gofiber/fiber) that that can be used to enable [Cross-Origin Resource Sharing](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) with various options.
+
+## Table of Contents
+
+* [Signatures](cors.md#signatures)
+* [Examples](cors.md#examples)
+* [Config](cors.md#config)
+* [Default Config](cors.md#default-config)
 
 ## Signatures
 
@@ -10,7 +17,7 @@ func New(config ...Config) fiber.Handler
 
 ## Examples
 
-Import the middleware package that is part of the [Fiber web framework](https://github.com/gofiber/fiber)
+Import the middleware package that is part of the Fiber web framework
 
 ```go
 import (
@@ -28,7 +35,7 @@ app.Use(cors.New())
 // Or extend your config for customization
 app.Use(cors.New(cors.Config{
     AllowOrigins: "https://gofiber.io, https://gofiber.net",
-    AllowHeader:  "Origin, Content-Type, Accept",
+    AllowHeaders:  "Origin, Content-Type, Accept",
 }))
 ```
 

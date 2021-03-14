@@ -2,6 +2,13 @@
 
 Recover middleware for [Fiber](https://github.com/gofiber/fiber) that recovers from panics anywhere in the stack chain and handles the control to the centralized [ErrorHandler](https://docs.gofiber.io/error-handling).
 
+## Table of Contents
+
+* [Signatures](recover.md#signatures)
+* [Examples](recover.md#examples)
+* [Config](recover.md#config)
+* [Default Config](recover.md#default-config)
+
 ## Signatures
 
 ```go
@@ -10,7 +17,7 @@ func New(config ...Config) fiber.Handler
 
 ## Examples
 
-Import the middleware package that is part of the [Fiber web framework](https://github.com/gofiber/fiber)
+Import the middleware package that is part of the Fiber web framework
 
 ```go
 import (
@@ -40,6 +47,16 @@ type Config struct {
     //
     // Optional. Default: nil
     Next func(c *fiber.Ctx) bool
+
+    // EnableStackTrace enables handling stack trace
+    //
+    // Optional. Default: false
+    EnableStackTrace bool
+
+    // StackTraceHandler defines a function to handle stack trace
+    //
+    // Optional. Default: defaultStackTraceHandler
+    StackTraceHandler func(e interface{})
 }
 ```
 
@@ -47,7 +64,9 @@ type Config struct {
 
 ```go
 var ConfigDefault = Config{
-    Next: nil,
+    Next:              nil,
+    EnableStackTrace:  false,
+    StackTraceHandler: defaultStackTraceHandler,
 }
 ```
 

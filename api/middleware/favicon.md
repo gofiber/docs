@@ -1,8 +1,15 @@
 # Favicon
 
-Favicon middleware for [Fiber](https://github.com/gofiber/fiber) that ignores favicon requests or caches a provided icon in memory to improve performance by skipping disk access. User agents request `/favicon.ico` frequently and indiscriminately, so you may wish to exclude these requests from your logs by using this middleware before your logger middleware.
+Favicon middleware for [Fiber](https://github.com/gofiber/fiber) that ignores favicon requests or caches a provided icon in memory to improve performance by skipping disk access. User agents request favicon.ico frequently and indiscriminately, so you may wish to exclude these requests from your logs by using this middleware before your logger middleware.
 
 **Note** This middleware is exclusively for serving the default, implicit favicon, which is GET /favicon.ico.
+
+## Table of Contents
+
+* [Signatures](favicon.md#signatures)
+* [Examples](favicon.md#examples)
+* [Config](favicon.md#config)
+* [Default Config](favicon.md#default-config)
 
 ## Signatures
 
@@ -12,7 +19,7 @@ func New(config ...Config) fiber.Handler
 
 ## Examples
 
-Import the middleware package that is part of the [Fiber web framework](https://github.com/gofiber/fiber)
+Import the middleware package that is part of the Fiber web framework
 
 ```go
 import (
@@ -24,12 +31,12 @@ import (
 After you initiate your Fiber app, you can use the following possibilities:
 
 ```go
-// Default config
+// Provide a minimal config
 app.Use(favicon.New())
 
 // Or extend your config for customization
 app.Use(favicon.New(favicon.Config{
-    File: "./favicon.ico"
+    File: "./favicon.ico",
 }))
 ```
 

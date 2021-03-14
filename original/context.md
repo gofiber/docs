@@ -358,7 +358,7 @@ func main() {
     c.Set("Content-Type", "application/json")
     c.Status(500).Send(c.Error())
   })
-  app.Listen(1337)
+  app.Listen(":1337")
 }
 ```
 {% endcode %}

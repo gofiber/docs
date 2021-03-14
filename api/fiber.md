@@ -45,7 +45,7 @@ app := fiber.New(fiber.Config{
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| Prefork | `bool` | Enables use of the[`SO_REUSEPORT`](https://lwn.net/Articles/542629/)socket option. This will spawn multiple Go processes listening on the same port. learn more about [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). | `false` |
+| Prefork | `bool` | Enables use of the[`SO_REUSEPORT`](https://lwn.net/Articles/542629/)socket option. This will spawn multiple Go processes listening on the same port. learn more about [socket sharding](https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/). **NOTE: if enabled, the application will need to be ran through a shell because prefork mode sets environment variables. If you're using Docker, make sure the app is ran with `CMD ./app` or `CMD ["sh", "-c", "/app"]`. For more info, see** [**this**](https://github.com/gofiber/fiber/issues/1021#issuecomment-730537971) **issue comment.** | `false` |
 | ServerHeader | `string` | Enables the `Server` HTTP header with the given value. | `""` |
 | StrictRouting | `bool` | When enabled, the router treats `/foo` and `/foo/` as different. Otherwise, the router treats `/foo` and `/foo/` as the same. | `false` |
 | CaseSensitive | `bool` | When enabled, `/Foo` and `/foo` are different routes. When disabled, `/Foo`and `/foo` are treated the same. | `false` |
@@ -82,7 +82,7 @@ func NewError(code int, message ...string) *Error
 
 {% code title="Example" %}
 ```go
-app.Get(func(c *fiber.Ctx) error {
+app.Get("/", func(c *fiber.Ctx) error {
     return fiber.NewError(782, "Custom error message")
 })
 ```

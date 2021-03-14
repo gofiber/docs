@@ -2,6 +2,13 @@
 
 RequestID middleware for [Fiber](https://github.com/gofiber/fiber) that adds an indentifier to the response.
 
+## Table of Contents
+
+* [Signatures](requestid.md#signatures)
+* [Examples](requestid.md#examples)
+* [Config](requestid.md#config)
+* [Default Config](requestid.md#default-config)
+
 ## Signatures
 
 ```go
@@ -10,7 +17,7 @@ func New(config ...Config) fiber.Handler
 
 ## Examples
 
-Import the middleware package that is part of the [Fiber web framework](https://github.com/gofiber/fiber)
+Import the middleware package that is part of the Fiber web framework
 
 ```go
 import (
@@ -28,9 +35,9 @@ app.Use(requestid.New())
 // Or extend your config for customization
 app.Use(requestid.New(requestid.Config{
     Header:    "X-Custom-Header",
-    Generetor: func() string {
+    Generator: func() string {
         return "static-id"
-    }
+    },
 }))
 ```
 
@@ -51,10 +58,14 @@ type Config struct {
 
     // Generator defines a function to generate the unique identifier.
     //
-    // Optional. Default: func() string {
-    //   return utils.UUID()
-    // }
+    // Optional. Default: utils.UUID
     Generator func() string
+
+    // ContextKey defines the key used when storing the request ID in
+    // the locals for a specific request.
+    //
+    // Optional. Default: requestid
+    ContextKey string
 }
 ```
 
@@ -62,11 +73,12 @@ type Config struct {
 
 ```go
 var ConfigDefault = Config{
-    Next:      nil,
-    Header:    fiber.HeaderXRequestID,
-    Generator: func() string {
+    Next:       nil,
+    Header:     fiber.HeaderXRequestID,
+    Generator:  func() string {
         return utils.UUID()
     },
+    ContextKey: "requestid"
 }
 ```
 

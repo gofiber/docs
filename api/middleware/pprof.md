@@ -2,6 +2,9 @@
 
 Pprof middleware for [Fiber](https://github.com/gofiber/fiber) that serves via its HTTP server runtime profiling data in the format expected by the pprof visualization tool. The package is typically only imported for the side effect of registering its HTTP handlers. The handled paths all begin with /debug/pprof/.
 
+* [Signatures](pprof.md#signatures)
+* [Examples](pprof.md#examples)
+
 ## Signatures
 
 ```go
@@ -10,7 +13,7 @@ func New() fiber.Handler
 
 ## Examples
 
-Import the middleware package that is part of the [Fiber web framework](https://github.com/gofiber/fiber)
+Import the middleware package that is part of the Fiber web framework
 
 ```go
 import (

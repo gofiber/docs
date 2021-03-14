@@ -2,6 +2,13 @@
 
 Basic Authentication middleware for [Fiber](https://github.com/gofiber/fiber) that provides an HTTP basic authentication. It calls the next handler for valid credentials and [401 Unauthorized](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401) or a custom response for missing or invalid credentials.
 
+## Table of Contents
+
+* [Signatures](basicauth.md#signatures)
+* [Examples](basicauth.md#examples)
+* [Config](basicauth.md#config)
+* [Default Config](basicauth.md#default-config)
+
 ## Signatures
 
 ```go
@@ -10,7 +17,7 @@ func New(config Config) fiber.Handler
 
 ## Examples
 
-Import the middleware package that is part of the [Fiber web framework](https://github.com/gofiber/fiber)
+Import the middleware package that is part of the Fiber web framework
 
 ```go
 import (
@@ -86,8 +93,7 @@ type Config struct {
     Authorizer func(string, string) bool
 
     // Unauthorized defines the response body for unauthorized responses.
-    // By default it will return with a 401 Unauthorized and the correct 
-    // WWW-Auth header
+    // By default it will return with a 401 Unauthorized and the correct WWW-Auth header
     //
     // Optional. Default: nil
     Unauthorized fiber.Handler

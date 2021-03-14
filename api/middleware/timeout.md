@@ -2,6 +2,11 @@
 
 Timeout middleware for [Fiber](https://github.com/gofiber/fiber) wraps a `fiber.Handler` with a timeout. If the handler takes longer than the given duration to return, the timeout error is set and forwarded to the centralized [ErrorHandler](https://docs.gofiber.io/error-handling).
 
+## Table of Contents
+
+* [Signatures](timeout.md#signatures)
+* [Examples](timeout.md#examples)
+
 ## Signatures
 
 ```go
@@ -10,7 +15,7 @@ func New(h fiber.Handler, t time.Duration) fiber.Handler
 
 ## Examples
 
-Import the middleware package that is part of the [Fiber web framework](https://github.com/gofiber/fiber)
+Import the middleware package that is part of the Fiber web framework
 
 ```go
 import (
