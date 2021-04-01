@@ -987,7 +987,7 @@ Defaults to empty string \(`""`\), if the param **doesn't** exist.
 
 {% code title="Signature" %}
 ```go
-func (c *Ctx) Params(key string, defaultValue ...string) string
+func (c *Ctx) Params(key string) (int, error)
 ```
 {% endcode %}
 
