@@ -974,6 +974,37 @@ app.Get("/v1/*/shop/*", func(c *fiber.Ctx) error {
 > _Returned value is only valid within the handler. Do not store any references.  
 > Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](../#zero-allocation)
 
+## ParamsInt
+
+Method can be used to get an integer from the route parameters.
+Please note if that parameter is not in the request, zero
+will be returned. If the parameter is NOT a number, zero and an error
+will be returned
+
+{% hint style="info" %}
+Defaults to empty string \(`""`\), if the param **doesn't** exist.
+{% endhint %}
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) Params(key string, defaultValue ...string) string
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+// GET http://example.com/user/123
+app.Get("/user/:name", func(c *fiber.Ctx) error {
+  id, err := c.ParamsInt("id") // int 123 and no error
+
+  // ...
+})
+
+```
+{% endcode %}
+
+This method is equivalent of using `atoi` with ctx.Params
+
 ## Path
 
 Contains the path part of the request URL. Optionally, you could override the path by passing a string.
