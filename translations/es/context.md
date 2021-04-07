@@ -633,7 +633,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Links
 
-Une los enlaces seguidos por la propiedad para rellenar el campo de encabezado HTTP [Link](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Link) de la respuesta.
+Une los enlaces seguidos por la propiedad para rellenar el campo de encabezado HTTP [Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link) de la respuesta.
 
 {% code title="Signature" %}
 ```go

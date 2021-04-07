@@ -718,7 +718,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Links
 
-Joins the links followed by the property to populate the response’s [Link](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Link) HTTP header field.
+Joins the links followed by the property to populate the response’s [Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link) HTTP header field.
 
 {% code title="Signature" %}
 ```go
@@ -849,7 +849,7 @@ app.Post("/", func(c *fiber.Ctx) {
 
 ## Next
 
-When **Next** is called, it executes the next method in the stack that matches the current route. You can pass an error struct within the method that will end the chaining and call the [error handler](https://github.com/gofiber/docs/tree/aa2680660c0b661b8e9d215b32cb03e766277131/api/error-handling.md).
+When **Next** is called, it executes the next method in the stack that matches the current route. You can pass an error struct within the method that will end the chaining and call the [error handler](https://docs.gofiber.io/guide/error-handling).
 
 {% code title="Signature" %}
 ```go

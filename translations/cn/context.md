@@ -633,7 +633,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Links
 
-集合所有在属性中定义的链接来填充响应的 [Link](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Link) HTTP 头字段.
+集合所有在属性中定义的链接来填充响应的 [Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link) HTTP 头字段.
 
 {% code title="Signature" %}
 ```go

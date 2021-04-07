@@ -630,7 +630,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Links
 
-Присоединяется к ссылкам, за которыми следует свойство для заполнения поля заголовка ответа [Link](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Link).
+Присоединяется к ссылкам, за которыми следует свойство для заполнения поля заголовка ответа [Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link).
 
 {% code title="Signature" %}
 ```go

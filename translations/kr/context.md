@@ -633,7 +633,7 @@ app.Get("/", func(c *fiber.Ctx) {
 
 ## Links
 
-응답의 [Link](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Link) HTTP 헤더 필드를 덧붙이기 위해 속성으로 따라오는 링크를 연결합니다.
+응답의 [Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link) HTTP 헤더 필드를 덧붙이기 위해 속성으로 따라오는 링크를 연결합니다.
 
 {% code title="Signature" %}
 ```go

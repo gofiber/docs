@@ -639,7 +639,7 @@ XPath: /pre[45]/code
 
 ## Links
 
-Rejoint les liens suivis par la propriété pour remplir l'en-tête HTTP [Link](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Link) de la réponse.
+Rejoint les liens suivis par la propriété pour remplir l'en-tête HTTP [Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link) de la réponse.
 
 {% code title="Signature" %}
 ```go
