@@ -28,7 +28,7 @@ app := fiber.New(fiber.Config{
 })
 ```
 
-The `Render` method is linked to the [**ctx.Render\(\)**]() function that accepts a template name and binding data.
+The `Render` method is linked to the [**ctx.Render\(\)**](templates.md) function that accepts a template name and binding data.
 
 ```go
 app.Get("/", func(c *fiber.Ctx) error {
@@ -57,7 +57,7 @@ Fiber team maintains [templates](https://github.com/gofiber/template) package th
 package main
 
 import (
-	"log"
+    "log"
     "github.com/gofiber/fiber/v2"
     "github.com/gofiber/template/html"
 )

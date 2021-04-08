@@ -1,13 +1,11 @@
 ---
-description: >-
-  The Client struct represents the Fiber HTTP Client.
-  
-  
+description: The Client struct represents the Fiber HTTP Client.
 ---
 
-# ⚡ Client
+# 🌎 Client
 
 ## Start request
+
 Start a http request with http method and url.
 
 {% code title="Signatures" %}
@@ -23,9 +21,11 @@ func (c *Client) Delete(url string) *Agent
 {% endcode %}
 
 ## ✨ Agent
+
 `Agent` is built on top of FastHTTP's [`HostClient`](https://github.com/valyala/fasthttp/blob/master/client.go#L603) which has lots of convenient helper methods such as dedicated methods for request methods.
 
 ### Parse
+
 Parse initializes a HostClient.
 
 {% code title="Parse" %}
@@ -36,7 +36,7 @@ req.Header.SetMethod(MethodGet)
 req.SetRequestURI("http://example.com")
 
 if err := a.Parse(); err != nil {
-	panic(err)
+    panic(err)
 }
 
 code, body, errs := a.Bytes() // ...
@@ -44,6 +44,7 @@ code, body, errs := a.Bytes() // ...
 {% endcode %}
 
 ### Set
+
 Set sets the given `key: value` header.
 
 {% code title="Signature" %}
@@ -57,7 +58,6 @@ func (a *Agent) SetBytesKV(k []byte, v []byte) *Agent
 
 {% code title="Example" %}
 ```go
-
 agent.Set("k1", "v1").
     SetBytesK([]byte("k1"), "v1").
     SetBytesV("k1", []byte("v1")).
@@ -67,6 +67,7 @@ agent.Set("k1", "v1").
 {% endcode %}
 
 ### Add
+
 Add adds the given `key: value` header. Multiple headers with the same key may be added with this function.
 
 {% code title="Signature" %}
@@ -80,7 +81,6 @@ func (a *Agent) AddBytesKV(k []byte, v []byte) *Agent
 
 {% code title="Example" %}
 ```go
-
 agent.Add("k1", "v1").
     AddBytesK([]byte("k1"), "v1").
     AddBytesV("k1", []byte("v1")).
@@ -94,6 +94,7 @@ agent.Add("k1", "v1").
 {% endcode %}
 
 ### ConnectionClose
+
 ConnectionClose adds the `Connection: close` header.
 
 {% code title="Signature" %}
@@ -110,6 +111,7 @@ agent.ConnectionClose()
 {% endcode %}
 
 ### UserAgent
+
 UserAgent sets `User-Agent` header value.
 
 {% code title="Signature" %}
@@ -127,6 +129,7 @@ agent.UserAgent("fiber")
 {% endcode %}
 
 ### Cookie
+
 Cookie sets a cookie in `key: value` form. `Cookies` can be used to set multiple cookies.
 
 {% code title="Signature" %}
@@ -148,6 +151,7 @@ agent.Cookies("k1", "v1", "k2", "v2")
 {% endcode %}
 
 ### Referer
+
 Referer sets the Referer header value.
 
 {% code title="Signature" %}
@@ -165,6 +169,7 @@ agent.Referer("https://docs.gofiber.io")
 {% endcode %}
 
 ### ContentType
+
 ContentType sets Content-Type header value.
 
 {% code title="Signature" %}
@@ -182,6 +187,7 @@ agent.ContentType("custom-type")
 {% endcode %}
 
 ### Host
+
 Host sets the Host header.
 
 {% code title="Signature" %}
@@ -199,6 +205,7 @@ agent.Host("example.com")
 {% endcode %}
 
 ### QueryString
+
 QueryString sets the URI query string.
 
 {% code title="Signature" %}
@@ -216,6 +223,7 @@ agent.QueryString("foo=bar")
 {% endcode %}
 
 ### BasicAuth
+
 BasicAuth sets the URI username and password using HTTP Basic Auth.
 
 {% code title="Signature" %}
@@ -233,6 +241,7 @@ agent.BasicAuth("foo", "bar")
 {% endcode %}
 
 ### Body
+
 There are several ways to set request body.
 
 {% code title="Signature" %}
@@ -265,6 +274,7 @@ agent.BodyStream(strings.NewReader("body=stream"), -1)
 {% endcode %}
 
 ### JSON
+
 JSON sends a JSON request by setting the Content-Type header to `application/json`.
 
 {% code title="Signature" %}
@@ -281,6 +291,7 @@ agent.JSON(fiber.Map{"success": true})
 {% endcode %}
 
 ### XML
+
 XML sends an XML request by setting the Content-Type header to `application/xml`.
 
 {% code title="Signature" %}
@@ -297,6 +308,7 @@ agent.XML(fiber.Map{"success": true})
 {% endcode %}
 
 ### Form
+
 Form sends a form request by setting the Content-Type header to `application/x-www-form-urlencoded`.
 
 {% code title="Signature" %}
@@ -321,6 +333,7 @@ ReleaseArgs(args)
 {% endcode %}
 
 ### MultipartForm
+
 MultipartForm sends multipart form request by setting the Content-Type header to `multipart/form-data`. These requests can include key-value's and files.
 
 {% code title="Signature" %}
@@ -329,7 +342,7 @@ MultipartForm sends multipart form request by setting the Content-Type header to
 //
 // It is recommended to obtain args via AcquireArgs and release it
 // manually in performance-critical code.
-func (a *Agent) Form(args *Args) *Agent
+func (a *Agent) MultipartForm(args *Args) *Agent
 ```
 {% endcode %}
 
@@ -344,9 +357,10 @@ ReleaseArgs(args)
 ```
 {% endcode %}
 
-Fiber provides several methods for sending files. Note that they must be called before `MultipartForm`. 
+Fiber provides several methods for sending files. Note that they must be called before `MultipartForm`.
 
 #### Boundary
+
 Boundary sets boundary for multipart form request.
 
 {% code title="Signature" %}
@@ -363,7 +377,8 @@ agent.Boundary("myBoundary")
 ```
 {% endcode %}
 
-#### SendFile(s)
+#### SendFile\(s\)
+
 SendFile read a file and appends it to a multipart form request. Sendfiles can be used to append multiple files.
 
 {% code title="Signature" %}
@@ -383,6 +398,7 @@ agent.SendFile("f", "field name")
 {% endcode %}
 
 #### FileData
+
 FileData appends file data for multipart form request.
 
 ```go
@@ -418,7 +434,8 @@ agent.FileData(ff1, ff2).
 {% endcode %}
 
 ### Debug
-Debug mode enables logging request and response detail to `io.writer`(default is `os.Stdout`).
+
+Debug mode enables logging request and response detail to `io.writer`\(default is `os.Stdout`\).
 
 {% code title="Signature" %}
 ```go
@@ -434,6 +451,7 @@ agent.Debug()
 {% endcode %}
 
 ### Timeout
+
 Timeout sets request timeout duration.
 
 {% code title="Signature" %}
@@ -450,6 +468,7 @@ agent.Timeout(time.Second)
 {% endcode %}
 
 ### Reuse
+
 Reuse enables the Agent instance to be used again after one request. If agent is reusable, then it should be released manually when it is no longer used.
 
 {% code title="Signature" %}
@@ -466,6 +485,7 @@ agent.Reuse()
 {% endcode %}
 
 ### InsecureSkipVerify
+
 InsecureSkipVerify controls whether the Agent verifies the server certificate chain and host name.
 
 {% code title="Signature" %}
@@ -482,6 +502,7 @@ agent.InsecureSkipVerify()
 {% endcode %}
 
 ### TLSConfig
+
 TLSConfig sets tls config.
 
 {% code title="Signature" %}
@@ -505,6 +526,7 @@ agent.TLSConfig(config)
 {% endcode %}
 
 ### MaxRedirectsCount
+
 MaxRedirectsCount sets max redirect count for GET and HEAD.
 
 {% code title="Signature" %}
@@ -521,6 +543,7 @@ agent.MaxRedirectsCount(7)
 {% endcode %}
 
 ### JSONEncoder
+
 JSONEncoder sets custom json encoder.
 
 {% code title="Signature" %}
@@ -537,6 +560,7 @@ agent.JSONEncoder(json.Marshal)
 {% endcode %}
 
 ### JSONDecoder
+
 JSONDecoder sets custom json decoder.
 
 {% code title="Signature" %}
@@ -553,6 +577,7 @@ agent.JSONDecoder(json.Unmarshal)
 {% endcode %}
 
 ### Request
+
 Request returns Agent request instance.
 
 {% code title="Signature" %}
@@ -569,6 +594,7 @@ req := agent.Request()
 {% endcode %}
 
 ### SetResponse
+
 SetResponse sets custom response for the Agent instance. It is recommended obtaining custom response via AcquireResponse and release it manually in performance-critical code.
 
 {% code title="Signature" %}
@@ -587,6 +613,7 @@ ReleaseResponse(resp)
 {% endcode %}
 
 ### Dest
+
 Dest sets custom dest. The contents of dest will be replaced by the response body, if the dest is too small a new slice will be allocated.
 
 {% code title="Signature" %}
@@ -603,6 +630,7 @@ agent.Dest(nil)
 {% endcode %}
 
 ### Bytes
+
 Bytes returns the status code, bytes body and errors of url.
 
 {% code title="Signature" %}
@@ -619,6 +647,7 @@ code, body, errs := agent.Bytes()
 {% endcode %}
 
 ### String
+
 String returns the status code, string body and errors of url.
 
 {% code title="Signature" %}
@@ -635,6 +664,7 @@ code, body, errs := agent.String()
 {% endcode %}
 
 ### Struct
+
 Struct returns the status code, bytes body and errors of url. And bytes body will be unmarshalled to given v.
 
 {% code title="Signature" %}
@@ -650,3 +680,4 @@ code, body, errs := agent.Struct(&d)
 // ...
 ```
 {% endcode %}
+

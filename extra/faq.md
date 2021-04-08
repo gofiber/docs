@@ -15,6 +15,7 @@ Routes and other application-specific logic can live in as many files as you wis
 * [gofiber/boilerplate](https://github.com/gofiber/boilerplate)
 * [thomasvvugt/fiber-boilerplate](https://github.com/thomasvvugt/fiber-boilerplate)
 * [Youtube - Building a REST API using Gorm and Fiber](https://www.youtube.com/watch?v=Iq2qT0fRhAA)
+* [embedmode/fiberseed](https://github.com/embedmode/fiberseed)
 
 ## How do I handle custom 404 responses?
 
