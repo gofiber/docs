@@ -25,7 +25,7 @@ Embedded below is essentially simplest **Fiber** app, which you can create.
 ```go
 package main
 
-import "github.com/gofiber/fiber"
+import "github.com/gofiber/fiber/v2"
 
 func main() {
   app := fiber.New()
@@ -34,7 +34,7 @@ func main() {
     c.Send("Hello, World!")
   })
 
-  app.Listen(3000)
+  app.Listen(":3000")
 }
 ```
 
@@ -127,7 +127,7 @@ app := fiber.New()
 
 app.Static("/", "./public") 
 
-app.Listen(8080)
+app.Listen(":8080")
 ```
 
 Now, you can load the files that are in the `./public` directory:

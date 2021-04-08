@@ -39,7 +39,8 @@ basicauth.New(config ...Config) func(*fiber.Ctx)
 package main
 
 import (
-  "github.com/gofiber/fiber"
+  "log"
+  "github.com/gofiber/fiber/v2"
   "github.com/gofiber/basicauth"
 )
 
@@ -58,7 +59,7 @@ func main() {
     c.Send("Welcome!")
   })
 
-  app.Listen(3000)
+  log.Fatal(app.Listen(":3000"))
 }
 ```
 
@@ -93,7 +94,8 @@ cors.New(config ...Config) func(*fiber.Ctx)
 package main
 
 import (
-  "github.com/gofiber/fiber"
+  "log"
+  "github.com/gofiber/fiber/v2"
   "github.com/gofiber/cors"
 )
 
@@ -106,7 +108,7 @@ func main() {
     c.Send("Welcome!")
   })
 
-  app.Listen(3000)
+  log.Fatal(app.Listen(":3000"))
   // curl -H "Origin: http://example.com" --verbose http://localhost:3000
 }
 ```
@@ -137,8 +139,9 @@ compression.New(config ...Config) func(*fiber.Ctx)
 ```go
 package main
 
-import 
-  "github.com/gofiber/fiber"
+import
+  "log"
+  "github.com/gofiber/fiber/v2"
   "github.com/gofiber/compression"
 )
 
@@ -151,7 +154,7 @@ func main() {
     c.Send("Welcome!")
   })
 
-  app.Listen(3000)
+  log.Fatal(app.Listen(":3000"))
 }
 ```
 
@@ -189,7 +192,8 @@ limiter.New(config ...Config) func(*Ctx)
 package main
 
 import (
-  "github.com/gofiber/fiber"
+  "log"
+  "github.com/gofiber/fiber/v2"
   "github.com/gofiber/limiter"
 )
 
@@ -208,7 +212,7 @@ func main() {
     c.Send("Welcome!")
   })
 
-  app.Listen(3000)
+  log.Fatal(app.Listen(":3000"))
 }
 ```
 
@@ -243,7 +247,8 @@ logger.new(config ...Config) func(*Ctx)
 package main
 
 import (
-  "github.com/gofiber/fiber"
+  "log"
+  "github.com/gofiber/fiber/v2"
   "github.com/gofiber/logger"
 )
 
@@ -256,7 +261,7 @@ func main() {
     c.Send("Welcome!")
   })
 
-  app.Listen(3000)
+  log.Fatal(app.Listen(":3000"))
 }
 ```
 
@@ -282,14 +287,15 @@ recover.New(config ...Config) func(*Ctx)
 package main
 
 import (
-    "github.com/gofiber/fiber"
+    "log"
+    "github.com/gofiber/fiber/v2"
     "github.com/gofiber/recover"
 )
 
 func main() {
     app := fiber.New()
 
-  // Optional
+    // Optional
     cfg := recover.Config{
         Handler: func(c *fiber.Ctx, err error) {
             c.SendString(err.Error())
@@ -303,7 +309,7 @@ func main() {
         panic("Hi, I'm a error!")
     })
 
-    app.Listen(3000)
+    log.Fatal(app.Listen(":3000"))
 }
 ```
 
@@ -338,7 +344,8 @@ template.Engine() func(raw string, bind interface{}) (out string, err error)
 package main
 
 import (
-  "github.com/gofiber/fiber"
+  "log"
+  "github.com/gofiber/fiber/v2"
   "github.com/gofiber/template"
 )
 
@@ -363,7 +370,7 @@ func main() {
     // </body></html>
   })
 
-  app.Listen(3000)
+  log.Fatal(app.Listen(":3000"))
 }
 ```
 
@@ -399,8 +406,9 @@ websocket.New(handler func(*Conn), config ...Config) func(*Ctx)
 ```go
 package main
 
-import 
-  "github.com/gofiber/fiber"
+import (
+  "log"
+  "github.com/gofiber/fiber/v2"
   "github.com/gofiber/websocket"
 )
 
@@ -430,7 +438,7 @@ func main() {
     }
   }))
 
-  app.Listen(3000) // ws://localhost:3000/ws
+  log.Fatal(app.Listen(":3000")) // ws://localhost:3000/ws
 }
 ```
 
@@ -463,7 +471,8 @@ requestid.New(config ...Config) func(*Ctx)
 package main
 
 import (
-  "github.com/gofiber/fiber"
+  "log"
+  "github.com/gofiber/fiber/v2"
   "github.com/gofiber/requestid"
 )
 
@@ -476,7 +485,7 @@ func main() {
     c.Send(requestid.Get(c))
   })
 
-  app.Listen(3000)
+  log.Fatal(app.Listen(":3000"))
 }
 ```
 
@@ -517,7 +526,8 @@ helmet.New(config ...Config) func(*Ctx)
 package main
 
 import (
-  "github.com/gofiber/fiber"
+  "log"
+  "github.com/gofiber/fiber/v2"
   "github.com/gofiber/helmet"
 )
 
@@ -530,7 +540,7 @@ func main() {
     c.Send("Welcome!")
   })
 
-  app.Listen(3000)
+  log.Fatal(app.Listen(":3000"))
   // curl -I http://localhost:3000
 }
 ```
@@ -557,7 +567,8 @@ redirect.New(config ...Config) func(*Ctx)
 package main
 
 import (
-  "github.com/gofiber/fiber"
+  "log"
+  "github.com/gofiber/fiber/v2"
   "github.com/gofiber/redirect"
 )
 
@@ -579,7 +590,7 @@ func main() {
     c.Send("Wildcard: ", c.Params("*"))
   })
 
-  app.Listen(3000)
+  log.Fatal(app.Listen(":3000"))
 }
 ```
 

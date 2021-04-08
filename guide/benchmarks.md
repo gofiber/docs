@@ -10,10 +10,10 @@ description: >-
 
 🔗 [https://www.techempower.com/benchmarks/](https://www.techempower.com/benchmarks/#section=test&runid=c7152e8f-5b33-4ae7-9e89-630af44bc8de&hw=ph&test=plaintext)
 
-* **CPU** Intel Xeon Gold 5120
+* **CPU** Intel Xeon Gold 5120 @ 2.20GHz
 * **MEM** 32GB
-* **GO** go1.13.6 linux/amd64
-* **OS** Linux
+* **GO** go1.14 linux/amd64
+* **OS** Ubuntu 18.04.3 4.15.0-88-generic
 * **NET** Dedicated Cisco 10-gigabit Ethernet switch.
 
 ### Plaintext
@@ -27,78 +27,78 @@ description: >-
 
 ### Data Updates
 
-**Fiber** handled **11,846** responses  per second with an average latency of **42.8** ms.  
-**Express** handled **2,066** responses  per second with an average latency of **390.44** ms.
+**Fiber** handled **11,906** responses  per second with an average latency of **42.8** ms.  
+**Express** handled **1,474** responses  per second with an average latency of **390.44** ms.
 
-![](../.gitbook/assets/data_updates.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/static/benchmarks/techempower-updates.png)
 
-![Fiber vs Express](../.gitbook/assets/data_updates_express%20%281%29.png)
+![Fiber vs Express](https://raw.githubusercontent.com/gofiber/docs/master/static/benchmarks/js_data_updates.png)
 
 ### Multiple Queries
 
-**Fiber** handled **19,664** responses per second with an average latency of **25.7** ms.  
-**Express** handled **4,302** responses  per second with an average latency of **117.2** ms.
+**Fiber** handled **19,865** responses per second with an average latency of **25.7** ms.  
+**Express** handled **4,700** responses  per second with an average latency of **117.2** ms.
 
-![](../.gitbook/assets/multiple_queries%20%281%29.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/static/benchmarks/techempower-multiple-queries.png)
 
-![Fiber vs Express](../.gitbook/assets/multiple_queries_express.png)
+![Fiber vs Express](https://raw.githubusercontent.com/gofiber/docs/master/static/benchmarks/js_multiple_queries.png)
 
 ### Single Query
 
-**Fiber** handled **368,647** responses per second with an average latency of **0.7** ms.  
-**Express** handled **57,880** responses  per second with an average latency of **4.4** ms.
+**Fiber** handled **378,318** responses per second with an average latency of **0.7** ms.  
+**Express** handled **59,282** responses  per second with an average latency of **4.4** ms.
 
-![](../.gitbook/assets/single_query%20%282%29.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/static/benchmarks/techempower-single-query.png)
 
-![Fiber vs Express](../.gitbook/assets/single_query_express.png)
+![Fiber vs Express](https://raw.githubusercontent.com/gofiber/docs/master/static/benchmarks/js_db_access.png)
 
 ### JSON Serialization
 
-**Fiber** handled **1,146,667** responses per second with an average latency of **0.4** ms.  
-**Express** handled **244,847** responses  per second with an average latency of **1.1** ms.
+**Fiber** handled **1,304,842** responses per second with an average latency of **0.4** ms.  
+**Express** handled **245,540** responses  per second with an average latency of **1.1** ms.
 
-![](../.gitbook/assets/json%20%281%29.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/static/benchmarks/json_serialization.png)
 
-![Fiber vs Express](../.gitbook/assets/json_express.png)
+![Fiber vs Express](https://raw.githubusercontent.com/gofiber/docs/master/static/benchmarks/js_json_serialization.png)
 
 ## Go web framework benchmark
 
 🔗 [https://github.com/smallnest/go-web-framework-benchmark](https://github.com/smallnest/go-web-framework-benchmark)
 
-* **CPU** Intel\(R\) Xeon\(R\) Gold 6140 CPU @ 2.30GHz
-* **MEM** 4GB
-* **GO** go1.13.6 linux/amd64
-* **OS** Linux
+* **CPU** Intel\(R\) Xeon\(R\) CPU E5-2630 v4 @ 2.20GHz
+* **MEM** 32GB
+* **GO** go1.12.7 linux/amd64
+* **OS** CentOS Linux release 7.3.1611 (Core)
 
-The first test case is to mock **0 ms**, **10 ms**, **100 ms**, **500 ms** processing time in handlers.
+The first test case mocks **0 ms**, **10 ms**, **100 ms** and **500 ms** processing time in handlers.
 
-![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/static/benchmarks/benchmark.png)
 
 The concurrency clients are **5000**.
 
-![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark_latency.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/static/benchmarks/benchmark_latency.png)
 
-Latency is the time of real processing time by web servers. _The smaller is the better._
+Latency is the time of real processing time by web servers. _The smaller the better._
 
-![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark_alloc.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/static/benchmarks/benchmark_alloc.png)
 
-Allocs is the heap allocations by web servers when test is running. The unit is MB. _The smaller is the better._
+Allocs is the heap allocations by web servers when test is running. The unit is MB. _The smaller the better._
 
 If we enable **http pipelining**, test result as below:
 
-![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/benchmark-pipeline.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/static/benchmarks/benchmark-pipeline.png)
 
 Concurrency test in **30 ms** processing time, the test result for **100**, **1000**, **5000** clients is:
 
-![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/static/benchmarks/concurrency.png)
 
-![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency_latency.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/static/benchmarks/concurrency_latency.png)
 
-![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency_alloc.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/static/benchmarks/concurrency_alloc.png)
 
 If we enable **http pipelining**, test result as below:
 
-![](https://raw.githubusercontent.com/gofiber/docs/master/.gitbook/assets/concurrency-pipeline.png)
+![](https://raw.githubusercontent.com/gofiber/docs/master/static/benchmarks/concurrency-pipeline.png)
 
 Dependency graph for `v1.9.0`
 
