@@ -62,10 +62,19 @@ app.Get("/user/:name?", func(c *fiber.Ctx) error {
 app.Get("/user/*", func(c *fiber.Ctx) error {
     return c.SendString(c.Params("*"))
 })
+
+// This route path will match requests to "/v1/some/resource/name:customVerb", since the parameter character is escaped
+app.Get("/v1/some/resource/name\\:customVerb", func(c *fiber.Ctx) error {
+    return c.SendString("Hello, Community")
+})
 ```
 
 {% hint style="info" %}
 Since the hyphen \(`-`\) and the dot \(`.`\) are interpreted literally, they can be used along with route parameters for useful purposes.
+{% endhint %}
+
+{% hint style="info" %}
+All special parameter characters can also be escaped with `"\\"` and lose their value, so you can use them in the route if you want, like in the custom methods of the [google api design guide](https://cloud.google.com/apis/design/custom_methods).
 {% endhint %}
 
 ```go
