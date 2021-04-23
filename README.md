@@ -113,9 +113,9 @@ app.Method(path string, ...func(*fiber.Ctx) error)
 ```
 
 * `app` is an instance of **Fiber**.
-* `Method` is an [HTTP request method](https://fiber.wiki/application#methods), in capitalization: `Get`, `Put`, `Post`, etc.
+* `Method` is an [HTTP request method](https://docs.gofiber.io/api/app#route-handlers), in capitalization: `Get`, `Put`, `Post`, etc.
 * `path` is a virtual path on the server.
-* `func(*fiber.Ctx) error` is a callback function containing the [Context](https://fiber.wiki/context) executed when the route is matched.
+* `func(*fiber.Ctx) error` is a callback function containing the [Context](https://docs.gofiber.io/api/ctx) executed when the route is matched.
 
 **Simple route**
 
