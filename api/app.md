@@ -405,7 +405,7 @@ app.Listener(ln)
 
 ## Test
 
-Testing your application is done with the **Test** method. Use this method for creating `_test.go` files or when you need to debug your routing logic. The default timeout is `200ms` if you want to disable a timeout altogether, pass `-1` as a second argument.
+Testing your application is done with the **Test** method. Use this method for creating `_test.go` files or when you need to debug your routing logic. The default timeout is `1s` if you want to disable a timeout altogether, pass `-1` as a second argument.
 
 {% code title="Signature" %}
 ```go
