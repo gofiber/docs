@@ -2,7 +2,7 @@
 
 Logger middleware for [Fiber](https://github.com/gofiber/fiber) that logs HTTP request/response details.
 
-### Table of Contents
+## Table of Contents
 
 * [Signatures](logger.md#signatures)
 * [Examples](logger.md#examples)
@@ -10,7 +10,7 @@ Logger middleware for [Fiber](https://github.com/gofiber/fiber) that logs HTTP r
 * [Default Config](logger.md#default-config)
 * [Constants](logger.md#constants)
 
-### Signatures
+## Signatures
 
 ```go
 func New(config ...Config) fiber.Handler
@@ -27,14 +27,14 @@ import (
 )
 ```
 
-#### **Initialization / Default Config**
+### **Initialization / Default Config**
 
 ```go
 // Default middleware config
 app.Use(logger.New())
 ```
 
-#### **Logging Request ID**
+### **Logging Request ID**
 
 ```go
 app.Use(requestid.New())
@@ -45,7 +45,7 @@ app.Use(requestid.New())
 }))
 ```
 
-#### **Changing TimeZone & TimeFormat**
+### **Changing TimeZone & TimeFormat**
 
 ```go
 app.Use(logger.New(logger.Config{
@@ -55,7 +55,7 @@ app.Use(logger.New(logger.Config{
 }))
 ```
 
-#### **Custom File Writer**
+### **Custom File Writer**
 
 ```go
 file, err := os.OpenFile("./123.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
@@ -69,7 +69,7 @@ app.Use(logger.New(logger.Config{
 }))
 ```
 
-### Config
+## Config
 
 ```go
 // Config defines the config for middleware.
@@ -106,7 +106,7 @@ type Config struct {
 }
 ```
 
-### Default Config
+## Default Config
 
 ```go
 var ConfigDefault = Config{
@@ -119,7 +119,7 @@ var ConfigDefault = Config{
 }
 ```
 
-### Constants
+## Constants
 
 ```go
 // Logger variables
@@ -162,4 +162,3 @@ const (
     TagReset         = "reset"
 )
 ```
-
