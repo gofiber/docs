@@ -1414,12 +1414,16 @@ func (c *Ctx) Status(status int) *Ctx
 
 {% code title="Example" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) error {
+app.Get("/fiber", func(c *fiber.Ctx) error {
   c.Status(200)
   return nil
+}
 
-  return c.Status(400).Send("Bad Request")
+app.Get("/hello", func(c *fiber.Ctx) error {
+  return c.Status(400).SendString("Bad Request")
+}
 
+app.Get("/world", func(c *fiber.Ctx) error {
   return c.Status(404).SendFile("./public/gopher.png")
 })
 ```
