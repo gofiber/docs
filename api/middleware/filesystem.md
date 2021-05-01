@@ -4,20 +4,20 @@ Filesystem middleware for [Fiber](https://github.com/gofiber/fiber) that enables
 
 ⚠️ **`:params` & `:optionals?` within the prefix path are not supported!**
 
-### Table of Contents
+## Table of Contents
 
 * [Signatures](filesystem.md#signatures)
 * [Examples](filesystem.md#examples)
 * [Config](filesystem.md#config)
 * [Default Config](filesystem.md#default-config)
 
-### Signatures
+## Signatures
 
 ```go
 func New(config Config) fiber.Handler
 ```
 
-### Examples
+## Examples
 
 Import the middleware package that is part of the Fiber web framework
 
@@ -46,7 +46,7 @@ app.Use(filesystem.New(filesystem.Config{
 }))
 ```
 
-## pkger
+### pkger
 
 [https://github.com/markbates/pkger](https://github.com/markbates/pkger)
 
@@ -71,7 +71,7 @@ func main() {
 }
 ```
 
-## packr
+### packr
 
 [https://github.com/gobuffalo/packr](https://github.com/gobuffalo/packr)
 
@@ -96,7 +96,7 @@ func main() {
 }
 ```
 
-## go.rice
+### go.rice
 
 [https://github.com/GeertJohan/go.rice](https://github.com/GeertJohan/go.rice)
 
@@ -121,7 +121,7 @@ func main() {
 }
 ```
 
-## fileb0x
+### fileb0x
 
 [https://github.com/UnnoTed/fileb0x](https://github.com/UnnoTed/fileb0x)
 
@@ -146,7 +146,7 @@ func main() {
 }
 ```
 
-## statik
+### statik
 
 [https://github.com/rakyll/statik](https://github.com/rakyll/statik)
 
@@ -177,7 +177,7 @@ func main() {
 }
 ```
 
-### Config
+## Config
 
 ```go
 // Config defines the config for middleware.
@@ -216,7 +216,7 @@ type Config struct {
 }
 ```
 
-### Default Config
+## Default Config
 
 ```go
 var ConfigDefault = Config{
