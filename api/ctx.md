@@ -1388,6 +1388,28 @@ app.Get("/", func(c *fiber.Ctx) error {
 ```
 {% endcode %}
 
+## SetUserContext
+
+Sets the user specified implementation for context interface.
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) SetUserContext(ctx context.Context)
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+app.Get("/", func(c *fiber.Ctx) error {
+  ctx := context.Background()
+  c.SetUserContext(ctx)
+  //Here ctx could be any context implementation
+
+  // ...
+})
+```
+{% endcode %}
+
 ## Stale
 
 [https://expressjs.com/en/4x/api.html\#req.stale](https://expressjs.com/en/4x/api.html#req.stale)
@@ -1472,6 +1494,28 @@ app.Get("/", func(c *fiber.Ctx) error {
   c.Type("png")   // => "image/png"
 
   c.Type("json", "utf-8")  // => "application/json; charset=utf-8"
+
+  // ...
+})
+```
+{% endcode %}
+
+## UserContext
+
+UserContext returns a context implementation that was set by user earlier
+or returns a non-nil, empty context, if it was not set earlier.
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) UserContext() context.Context
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+app.Get("/", func(c *fiber.Ctx) error {
+  ctx :=c.UserContext()
+  //ctx is context implementation set by user
 
   // ...
 })
