@@ -1514,8 +1514,8 @@ func (c *Ctx) UserContext() context.Context
 {% code title="Example" %}
 ```go
 app.Get("/", func(c *fiber.Ctx) error {
-  ctx :=c.UserContext()
-  //ctx is context implementation set by user
+  ctx := c.UserContext()
+  // ctx is context implementation set by user
 
   // ...
 })
