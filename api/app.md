@@ -265,16 +265,18 @@ func (app *App) Stack() [][]*Route
 
 {% code title="Example" %}
 ```go
-var handler = func(c *fiber.Ctx) {}
+var handler = func(c *fiber.Ctx) error { return nil }
 
 func main() {
-    app := fiber.New()
+	app := fiber.New()
 
-    app.Get("/john", handler)
-    app.Post("/register", handler)
+	app.Get("/john/:age", handler)
+	app.Post("/register", handler)
 
-    data, _ := json.MarshalIndent(app.Stack(), "", "  ")
-    fmt.Println(string(data))
+	data, _ := json.MarshalIndent(app.Stack(), "", "  ")
+	fmt.Println(string(data))
+
+	app.Listen(":3000")
 }
 ```
 {% endcode %}
