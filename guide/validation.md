@@ -46,28 +46,28 @@ func ValidateStruct(user User) []*ErrorResponse {
     return errors
 }
 
-func AddUser(c *fiber.Ctx) {
+func AddUser(c *fiber.Ctx) error {
     //Connect to database
 
     user := new(User)
 
     if err := c.BodyParser(user); err != nil {
-        c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
             message: err.Error(),
         })
-        return
+       
     }
 
     errors := ValidateStruct(*user)
     if errors != nil {
-        c.JSON(errors)
-        return
+       return c.JSON(errors)
+        
     }
 
     //Do something else here
 
     //Return user
-    c.JSON(user)
+   return c.JSON(user)
 }
 
 // Running a test with the following curl commands
