@@ -1403,7 +1403,7 @@ func (c *Ctx) SetUserContext(ctx context.Context)
 app.Get("/", func(c *fiber.Ctx) error {
   ctx := context.Background()
   c.SetUserContext(ctx)
-  //Here ctx could be any context implementation
+  // Here ctx could be any context implementation
 
   // ...
 })
@@ -1594,4 +1594,3 @@ app.Get("/", func(c *fiber.Ctx) error {
 })
 ```
 {% endcode %}
-
