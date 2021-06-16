@@ -25,10 +25,12 @@ type Views interface {
 // Pass engine to Fiber's Views Engine
 app := fiber.New(fiber.Config{
     Views: engine,
+    // Views Layout is the global layout for all template render until override on Render function.
+    ViewsLayout: "layouts/main"
 })
 ```
 
-The `Render` method is linked to the [**ctx.Render\(\)**](templates.md) function that accepts a template name and binding data.
+The `Render` method is linked to the [**ctx.Render\(\)**](templates.md) function that accepts a template name and binding data. It will use global layout if layout is not being defined in `Render` function
 
 ```go
 app.Get("/", func(c *fiber.Ctx) error {
