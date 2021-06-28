@@ -1117,7 +1117,7 @@ app.Get("/", func(c *fiber.Ctx) error {
 })
 // Run tests with the following curl command
 
-// curl -X POST "http://localhost:3000/?name=john&pass=doe&products=shoe,hat"
+// curl "http://localhost:3000/?name=john&pass=doe&products=shoe,hat"
 ```
 {% endcode %}
 
