@@ -1218,6 +1218,23 @@ app.Get("/hello/:name", func(c *fiber.Ctx) error {
 ```
 {% endcode %}
 
+{% hint style="warning" %}
+Do not rely on `c.Route()` in middlewares **before** calling `c.Next()` - `c.Route()` returns the **last executed route**.
+{% endhint %}
+
+{% code title="Example" %}
+```go
+func MyMiddleware() fiber.Handler {
+  return func(c *fiber.Ctx) error {
+    beforeNext := c.Route().Path // Will be '/'
+    err := c.Next()
+    afterNext := c.Route().Path // Will be '/hello/:name'
+    return err
+  }
+}
+```
+{% endcode %}
+
 ## SaveFile
 
 Method is used to save **any** multipart file to disk.
