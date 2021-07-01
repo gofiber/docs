@@ -72,7 +72,7 @@ app := fiber.New(fiber.Config{
 | DisableDefaultContentType | `bool` | When set to true, causes the default Content-Type header to be excluded from the Response. | `false` |
 | DisableHeaderNormalizing | `bool` | By default all header names are normalized: conteNT-tYPE -&gt; Content-Type | `false` |
 | DisableStartupMessage | `bool` | When set to true, it will not print out debug information | `false` |
-| AppName | `func () string` | This function allows to setup app name for the app | `nil` |
+| AppName | `string` | This allows to setup app name for the app | `""` |
 | EnableTrustedProxyCheck | `bool` | When set to true, fiber will check whether proxy is trusted, using TrustedProxies list. <br /><br />By default  `c.Protocol()` will get value from X-Forwarded-Proto, X-Forwarded-Protocol, X-Forwarded-Ssl or X-Url-Scheme header, `c.IP()` will get value from `ProxyHeader` header, `c.Hostname()` will get value from X-Forwarded-Host header. <br /> If `EnableTrustedProxyCheck` is true, and `RemoteIP` is in the list of `TrustedProxies` `c.Protocol()`, `c.IP()`, and `c.Hostname()` will have the same behaviour when `EnableTrustedProxyCheck` disabled, if `RemoteIP` isn't in the list, `c.Protocol()` will return https in case when tls connection is handled by the app, or http otherwise, `c.IP()` will return RemoteIP() from fasthttp context, `c.Hostname()` will return `fasthttp.Request.URI().Host()` | `false` |
 | TrustedProxies | `[]string` | Contains the list op trusted proxy IP's. Look at `EnableTrustedProxyCheck` doc. | `[]string*__*` |
 ## NewError
