@@ -35,7 +35,7 @@ app := fiber.New(fiber.Config{
     CaseSensitive: true,
     StrictRouting: true,
     ServerHeader:  "Fiber",
-    AppName: ""Test App v1.0.1""
+    AppName: "Test App v1.0.1"
 })
 
 // ...
