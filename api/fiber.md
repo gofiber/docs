@@ -71,6 +71,8 @@ app := fiber.New(fiber.Config{
 | DisableStartupMessage | `bool` | When set to true, it will not print out debug information | `false` |
 | EnableTrustedProxyCheck | `bool` | When set to true, fiber will check whether proxy is trusted, using TrustedProxies list. <br /><br />By default  `c.Protocol()` will get value from X-Forwarded-Proto, X-Forwarded-Protocol, X-Forwarded-Ssl or X-Url-Scheme header, `c.IP()` will get value from `ProxyHeader` header, `c.Hostname()` will get value from X-Forwarded-Host header. <br /> If `EnableTrustedProxyCheck` is true, and `RemoteIP` is in the list of `TrustedProxies` `c.Protocol()`, `c.IP()`, and `c.Hostname()` will have the same behaviour when `EnableTrustedProxyCheck` disabled, if `RemoteIP` isn't in the list, `c.Protocol()` will return https in case when tls connection is handled by the app, or http otherwise, `c.IP()` will return RemoteIP() from fasthttp context, `c.Hostname()` will return `fasthttp.Request.URI().Host()` | `false` |
 | TrustedProxies | `[]string` | Contains the list op trusted proxy IP's. Look at `EnableTrustedProxyCheck` doc. | `[]string*__*` |
+| DisablePreParseMultipartForm | `bool` | Will not pre parse Multipart Form data if set to true. This option is useful for servers that desire to treat multipart form data as a binary blob, or choose when to parse the data. | `false` |
+| StreamRequestBody | `bool` | StreamRequestBody enables request body streaming, and calls the handler sooner when given body is larger then the current limit. | `false` |
 ## NewError
 
 NewError creates a new HTTPError instance with an optional message.
