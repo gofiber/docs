@@ -39,7 +39,7 @@ func main() {
     app.Use(recover.New())
 
     app.Get("/", func(c *fiber.Ctx) error {
-        panic("This panic is catched by fiber")
+        panic("This panic is caught by fiber")
     })
 
     log.Fatal(app.Listen(":3000"))
