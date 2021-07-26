@@ -411,7 +411,7 @@ app.Get("/", func(c *fiber.Ctx) error {
 
 ## Response
 
-Request return the [\*fasthttp.Response](https://godoc.org/github.com/valyala/fasthttp#Response) pointer
+Response return the [\*fasthttp.Response](https://godoc.org/github.com/valyala/fasthttp#Response) pointer
 
 **Signature**
 
