@@ -47,7 +47,7 @@ app.Use(limiter.New(limiter.Config{
     LimitReached: func(c *fiber.Ctx) error {
         return c.SendFile("./toofast.html")
     },
-    Store: myCustomStore{}
+    Storage: myCustomStorage{}
 }))
 ```
 
