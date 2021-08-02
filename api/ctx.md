@@ -548,6 +548,34 @@ app.Get("/", func(c *fiber.Ctx) error {
 > _Returned value is only valid within the handler. Do not store any references.  
 > Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](../#zero-allocation)
 
+## GetRespHeader
+
+Returns the HTTP response header specified by the field.
+
+{% hint style="success" %}
+The match is **case-insensitive**.
+{% endhint %}
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) GetRespHeader(key string, defaultValue ...string) string
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+app.Get("/", func(c *fiber.Ctx) error {
+  c.GetRespHeader("X-Request-Id")       // "8d7ad5e3-aaf3-450b-a241-2beb887efd54"
+  c.GetRespHeader("Content-Type")       // "text/plain"
+  c.GetRespHeader("something", "john")  // "john"
+  // ..
+})
+```
+{% endcode %}
+
+> _Returned value is only valid within the handler. Do not store any references.  
+> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](../#zero-allocation)
+
 ## Hostname
 
 Returns the hostname derived from the [Host](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host) HTTP header.
