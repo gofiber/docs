@@ -17,7 +17,7 @@
   * [Favicon](api/middleware/favicon.md)
   * [FileSystem](api/middleware/filesystem.md)
   * [Limiter](api/middleware/limiter.md)
-  * [Logger](api/middleware/logger.md)
+  * [Logger](https://github.com/gofiber/fiber/blob/master/middleware/logger/README.md)
   * [Pprof](api/middleware/pprof.md)
   * [Recover](api/middleware/recover.md)
   * [Proxy](api/middleware/proxy.md)
