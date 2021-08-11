@@ -1337,7 +1337,7 @@ app.Get("/", func(c *fiber.Ctx) error {
 Transfers the file from the given path. Sets the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) response HTTP header field based on the **filenames** extension.
 
 {% hint style="warning" %}
-Method use **gzipping** by default, set it to **true** to disable.
+Method doesn´t use **gzipping** by default, set it to **true** to enable.
 {% endhint %}
 
 {% code title="Signature" %}
