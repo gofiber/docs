@@ -23,6 +23,7 @@
   * [Proxy](api/middleware/proxy.md)
   * [RequestID](api/middleware/requestid.md)
   * [Session](api/middleware/session.md)
+  * [Skip](api/middleware/skip.md)
   * [Timeout](api/middleware/timeout.md)
 * [🌎 Client](api/client.md)
 
