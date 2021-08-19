@@ -1,5 +1,5 @@
 # Skip
-Skip middleware for [Fiber](https://github.com/gofiber/fiber) that skips a wrapped handler is a predicate is true.
+Skip middleware for [Fiber](https://github.com/gofiber/fiber) that skips a wrapped handler if a predicate is true.
 
 ### Table of Contents
 - [Signatures](#signatures)
