@@ -796,9 +796,9 @@ app.Use(func(c *fiber.Ctx) error {
 
 app.Get("/admin", func(c *fiber.Ctx) error {
   if c.Locals("user") == "admin" {
-    return c.Status(200).SendString("Welcome, admin!")
+    return c.Status(fiber.StatusOK).SendString("Welcome, admin!")
   }
-  return c.SendStatus(403)
+  return c.SendStatus(fiber.StatusForbidden)
 
 })
 ```
@@ -1482,16 +1482,16 @@ func (c *Ctx) Status(status int) *Ctx
 {% code title="Example" %}
 ```go
 app.Get("/fiber", func(c *fiber.Ctx) error {
-  c.Status(200)
+  c.Status(fiber.StatusOK)
   return nil
 }
 
 app.Get("/hello", func(c *fiber.Ctx) error {
-  return c.Status(400).SendString("Bad Request")
+  return c.Status(fiber.StatusBadRequest).SendString("Bad Request")
 }
 
 app.Get("/world", func(c *fiber.Ctx) error {
-  return c.Status(404).SendFile("./public/gopher.png")
+  return c.Status(fiber.StatusNotFound).SendFile("./public/gopher.png")
 })
 ```
 {% endcode %}

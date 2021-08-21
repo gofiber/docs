@@ -111,7 +111,7 @@ app := fiber.New(fiber.Config{
         err = ctx.Status(code).SendFile(fmt.Sprintf("./%d.html", code))
         if err != nil {
             // In case the SendFile fails
-            return ctx.Status(500).SendString("Internal Server Error")
+            return ctx.Status(fiber.StatusInternalServerError).SendString("Internal Server Error")
         }
 
         // Return from handler
