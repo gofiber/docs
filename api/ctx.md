@@ -1022,7 +1022,7 @@ func (c *Ctx) Params(key string) (int, error)
 {% code title="Example" %}
 ```go
 // GET http://example.com/user/123
-app.Get("/user/:name", func(c *fiber.Ctx) error {
+app.Get("/user/:id", func(c *fiber.Ctx) error {
   id, err := c.ParamsInt("id") // int 123 and no error
 
   // ...
