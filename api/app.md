@@ -433,7 +433,7 @@ req.Header.Set("X-Custom-Header", "hi")
 resp, _ := app.Test(req)
 
 // Do something with results:
-if resp.StatusCode == 200 {
+if resp.StatusCode == fiber.StatusOK {
   body, _ := ioutil.ReadAll(resp.Body)
   fmt.Println(string(body)) // => Hello, World!
 }

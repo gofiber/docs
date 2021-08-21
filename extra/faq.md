@@ -39,7 +39,7 @@ To override the default error handler, you can override the default when providi
 ```go
 app := fiber.New(fiber.Config{
     ErrorHandler: func(c *fiber.Ctx, err error) error {
-        return c.Status(500).SendString(err.Error())
+        return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
     },
 })
 ```

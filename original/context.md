@@ -356,7 +356,7 @@ func main() {
   })
   app.Use("/api", func(c *fiber.Ctx) {
     c.Set("Content-Type", "application/json")
-    c.Status(500).Send(c.Error())
+    c.Status(fiber.StatusInternalServerError).Send(c.Error())
   })
   app.Listen(":1337")
 }
@@ -679,9 +679,9 @@ app.Get("/", func(c *fiber.Ctx) {
 
 app.Get("/admin", func(c *fiber.Ctx) {
   if c.Locals("user") == "admin" {
-    c.Status(200).Send("Welcome, admin!")
+    c.Status(fiber.StatusOK).Send("Welcome, admin!")
   } else {
-    c.SendStatus(403)
+    c.SendStatus(fiber.StatusForbidden)
     // => 403 Forbidden
   }
 })
@@ -1185,9 +1185,9 @@ c.Status(status int)
 {% code title="Example" %}
 ```go
 app.Get("/", func(c *fiber.Ctx) {
-  c.Status(200)
-  c.Status(400).Send("Bad Request")
-  c.Status(404).SendFile("./public/gopher.png")
+  c.Status(fiber.StatusOK)
+  c.Status(fiber.StatusBadRequest).Send("Bad Request")
+  c.Status(fiber.StatusNotFound).SendFile("./public/gopher.png")
 })
 ```
 {% endcode %}

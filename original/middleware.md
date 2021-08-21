@@ -363,7 +363,7 @@ func main() {
       "age":  35,
     }
     if err := c.Render("./views/index.mustache", bind); err != nil {
-      c.Status(500).Send(err.Error())
+      c.Status(fiber.StatusInternalServerError).Send(err.Error())
     }
     // <html><head><title>Template Demo</title></head>
     // <body>Hi, my name is John and im 35 years old
