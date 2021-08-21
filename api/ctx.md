@@ -226,6 +226,9 @@ app.Post("/", func(c *fiber.Ctx) error {
 ```
 {% endcode %}
 
+> _Returned value is only valid within the handler. Do not store any references.  
+> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](../#zero-allocation)
+
 ## ClearCookie
 
 Expire a client cookie \(_or all cookies if left empty\)_
