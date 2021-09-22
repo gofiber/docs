@@ -7,6 +7,7 @@
 * [📦 Fiber](api/fiber.md)
 * [🚀 App](api/app.md)
 * [🧠 Context](api/ctx.md)
+* [📋 Constants](api/constants.md)
 * [🧬 Middleware](api/middleware/README.md)
   * [BasicAuth](api/middleware/basicauth.md)
   * [Cache](api/middleware/cache.md)
