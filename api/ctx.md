@@ -229,77 +229,6 @@ app.Post("/", func(c *fiber.Ctx) error {
 > _Returned value is only valid within the handler. Do not store any references.  
 > Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](../#zero-allocation)
 
-## SetParserDecoder
-
-Allow you to config BodyParser decoder, base on schema's options, providing possibility to add custom type for pausing.
-
-{% code title="Signature" %}
-```go
-func SetParserDecoder(parserConfig fiber.ParserConfig{
-  IgnoreUnknownKeys bool,
-  ParserType        []fiber.ParserType{
-      Customtype interface{},
-	    Converter  func(string) reflect.Value,
-  },
-  ZeroEmpty         bool,
-  SetAliasTag       string,
-})
-```
-{% endcode %}
-
-{% code title="Example" %}
-```go
-
-type CustomTime time.Time
-
-// String() returns the time in string
-func (ct *CustomTime) String() string {
-	t := time.Time(*ct).String()
-	return t
-}
-
-// Register the converter for CustomTime type format as 2006-01-02
-var timeConverter = func(value string) reflect.Value {
-  fmt.Println("timeConverter", value)
-  if v, err := time.Parse("2006-01-02", value); err == nil {
-    return reflect.ValueOf(v)
-  }
-  return reflect.Value{}
-}
-
-customTime := fiber.ParserType{
-  Customtype: CustomTime{},
-  Converter:  timeConverter,
-}
-
-app := fiber.New()
-
-// Add setting to the Decoder
-fiber.SetParserDecoder(fiber.ParserConfig{
-  IgnoreUnknownKeys: true,
-  ParserType:        []fiber.ParserType{customTime},
-  ZeroEmpty:         true,
-  SetAliasTag:       "form",
-})
-
-// Example to use CustomType, you pause custom time format not in RFC3339
-type Demo struct {
-  Date  CustomTime `form:"date"`
-  Title string     `form:"title"`
-  Body  string     `form:"body"`
-}
-
-app.Post("/", func(c *fiber.Ctx) error {
-  var d Demo
-  c.BodyParser(&d)
-  // String() func from time.Time
-  fmt.Println("d.Date", d.Date.String())
-  return c.JSON(d)
-})
-
-```
-{% endcode %} 
-
 ## ClearCookie
 
 Expire a client cookie \(_or all cookies if left empty\)_
@@ -1222,6 +1151,84 @@ app.Get("/", func(c *fiber.Ctx) error {
 // curl "http://localhost:3000/?name=john&pass=doe&products=shoe,hat"
 ```
 {% endcode %}
+
+## SetParserDecoder
+
+Allow you to config BodyParser/QueryParser decoder, base on schema's options, providing possibility to add custom type for pausing.
+
+{% code title="Signature" %}
+```go
+func SetParserDecoder(parserConfig fiber.ParserConfig{
+  IgnoreUnknownKeys bool,
+  ParserType        []fiber.ParserType{
+      Customtype interface{},
+	    Converter  func(string) reflect.Value,
+  },
+  ZeroEmpty         bool,
+  SetAliasTag       string,
+})
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+
+type CustomTime time.Time
+
+// String() returns the time in string
+func (ct *CustomTime) String() string {
+	t := time.Time(*ct).String()
+	return t
+}
+
+// Register the converter for CustomTime type format as 2006-01-02
+var timeConverter = func(value string) reflect.Value {
+  fmt.Println("timeConverter", value)
+  if v, err := time.Parse("2006-01-02", value); err == nil {
+    return reflect.ValueOf(v)
+  }
+  return reflect.Value{}
+}
+
+customTime := fiber.ParserType{
+  Customtype: CustomTime{},
+  Converter:  timeConverter,
+} 
+
+// Add setting to the Decoder
+fiber.SetParserDecoder(fiber.ParserConfig{
+  IgnoreUnknownKeys: true,
+  ParserType:        []fiber.ParserType{customTime},
+  ZeroEmpty:         true,
+})
+
+// Example to use CustomType, you pause custom time format not in RFC3339
+type Demo struct {
+	Date  CustomTime `form:"date" query:"date"`
+	Title string     `form:"title" query:"title"`
+	Body  string     `form:"body" query:"body"`
+}
+
+app.Post("/body", func(c *fiber.Ctx) error {
+	var d Demo
+	c.BodyParser(&d)
+	fmt.Println("d.Date", d.Date.String())
+	return c.JSON(d)
+})
+
+app.Get("/query", func(c *fiber.Ctx) error {
+	var d Demo
+	c.QueryParser(&d)
+	fmt.Println("d.Date", d.Date.String())
+	return c.JSON(d)
+})
+
+// curl -X POST -F title=title -F body=body -F date=2021-10-20 http://localhost:3000
+
+// curl -X POST "http://localhost:3000/?title=title&body=body&date=2021-10-20"
+
+```
+{% endcode %} 
 
 ## Range
 
