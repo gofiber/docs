@@ -64,7 +64,7 @@ app := fiber.New(fiber.Config{
 | CompressedFileSuffix | `string` | Adds a suffix to the original file name and tries saving the resulting compressed file under the new file name. | `".fiber.gz"` |
 | ProxyHeader | `string` | This will enable `c.IP()` to return the value of the given header key. By default `c.IP()`will return the Remote IP from the TCP connection, this property can be useful if you are behind a load balancer e.g. _X-Forwarded-\*_. | `""` |
 | GETOnly | `bool` | Rejects all non-GET requests if set to true. This option is useful as anti-DoS protection for servers accepting only GET requests. The request size is limited by ReadBufferSize if GETOnly is set. | `false` |
-| ErrorHandler | `ErrorHandler` | ErrorHandler is executed when an error is returned from fiber.Handler. | `DefaultErrorHandler` |
+| ErrorHandler | `ErrorHandler` | ErrorHandler is executed when an error is returned from fiber.Handler. Mounted fiber error handlers are retained by the top-level app and applied on prefix associated requests. | `DefaultErrorHandler` |
 | DisableKeepalive | `bool` | Disable keep-alive connections, the server will close incoming connections after sending the first response to the client | `false` |
 | DisableDefaultDate | `bool` | When set to true causes the default date header to be excluded from the response. | `false` |
 | DisableDefaultContentType | `bool` | When set to true, causes the default Content-Type header to be excluded from the Response. | `false` |
