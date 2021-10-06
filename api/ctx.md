@@ -1162,7 +1162,7 @@ func SetParserDecoder(parserConfig fiber.ParserConfig{
   IgnoreUnknownKeys bool,
   ParserType        []fiber.ParserType{
       Customtype interface{},
-	    Converter  func(string) reflect.Value,
+      Converter  func(string) reflect.Value,
   },
   ZeroEmpty         bool,
   SetAliasTag       string,
@@ -1223,9 +1223,9 @@ app.Get("/query", func(c *fiber.Ctx) error {
 	return c.JSON(d)
 })
 
-// curl -X POST -F title=title -F body=body -F date=2021-10-20 http://localhost:3000
+// curl -X POST -F title=title -F body=body -F date=2021-10-20 http://localhost:3000/body
 
-// curl -X POST "http://localhost:3000/?title=title&body=body&date=2021-10-20"
+// curl -X GET "http://localhost:3000/query?title=title&body=body&date=2021-10-20"
 
 ```
 {% endcode %} 
