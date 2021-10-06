@@ -1162,7 +1162,7 @@ func SetParserDecoder(parserConfig fiber.ParserConfig{
   IgnoreUnknownKeys bool,
   ParserType        []fiber.ParserType{
       Customtype interface{},
-	    Converter  func(string) reflect.Value,
+      Converter  func(string) reflect.Value,
   },
   ZeroEmpty         bool,
   SetAliasTag       string,
