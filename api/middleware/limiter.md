@@ -51,6 +51,26 @@ app.Use(limiter.New(limiter.Config{
 }))
 ```
 
+## Sliding window
+
+Instead of using the standard fixed window algorithm, you can enable the [sliding window](https://en.wikipedia.org/wiki/Sliding_window_protocol) algorithm.
+
+A example of such configuration is:
+
+```go
+app.Use(limiter.New(limiter.Config{
+    Max:            20,
+    Expiration:     30 * time.Second,
+    LimiterMiddleware: limiter.SlidingWindow{}
+}))
+```
+
+This means that every window will take into account the previous window(if there was any). The given formula for the rate is:
+```
+weightOfPreviousWindpw = previous window's amount request * (whenNewWindow / Expiration)
+rate = weightOfPreviousWindpw + current window's amount request.
+```
+
 ## Config
 
 ```go
@@ -99,6 +119,11 @@ type Config struct {
     //
     // Default: an in memory store for this process only
     Storage fiber.Storage
+
+    // LimiterMiddleware is the struct that implements limiter middleware.
+	//
+	// Default: a new Fixed Window Rate Limiter
+	LimiterMiddleware LimiterHandler
 }
 ```
 
@@ -118,6 +143,7 @@ var ConfigDefault = Config{
     },
     SkipFailedRequests: false,
     SkipSuccessfulRequests: false,
+    LimiterMiddleware: FixedWindow{},
 }
 ```
 
