@@ -28,7 +28,7 @@ import (
 )
 ```
 
-Then create a Fiber app with `app := fiber.New()`.
+After you initiate your Fiber app, you can use the following possibilities:
 
 ### Default Config
 
