@@ -6,6 +6,8 @@ ETag middleware for [Fiber](https://github.com/gofiber/fiber) that lets caches b
 
 * [Signatures](etag.md#signatures)
 * [Examples](etag.md#examples)
+  - [Default Config](etag.md#default-config)
+  - [Custom Config](etag.md#custom-config)
 * [Config](etag.md#config)
 * [Default Config](etag.md#default-config)
 
@@ -26,15 +28,29 @@ import (
 )
 ```
 
-After you initiate your Fiber app, you can use the following possibilities:
+Then create a Fiber app with `app := fiber.New()`.
+
+### Default Config
 
 ```go
-// Default middleware config
 app.Use(etag.New())
 
 // Get / receives Etag: "13-1831710635" in response header
 app.Get("/", func(c *fiber.Ctx) error {
-    return c.SendString("Hello, World!")
+	return c.SendString("Hello, World!")
+})
+```
+
+### Custom Config
+
+```go
+app.Use(etag.New(etag.Config{
+    Weak: true,
+}))
+
+// Get / receives Etag: "W/"13-1831710635" in response header
+app.Get("/", func(c *fiber.Ctx) error {
+	return c.SendString("Hello, World!")
 })
 ```
 
