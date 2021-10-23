@@ -19,7 +19,9 @@ type Job struct{
 
 type User struct{
     Name          string  `validate:"required,min=3,max=32"`
-    IsActive      bool    `validate:"required,eq=True|eq=False"`
+    // use `*bool` here otherwise the validation will fail for `false` values
+    // Ref: https://github.com/go-playground/validator/issues/319#issuecomment-339222389
+    IsActive      *bool   `validate:"required"`
     Email         string  `validate:"required,email,min=6,max=32"`
     Job           Job     `validate:"dive"`
 }
