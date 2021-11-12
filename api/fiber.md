@@ -75,6 +75,7 @@ app := fiber.New(fiber.Config{
 | TrustedProxies | `[]string` | Contains the list op trusted proxy IP's. Look at `EnableTrustedProxyCheck` doc. <br /> <br /> It can take IP or IP range addresses. If it gets IP range, it iterates all possible addresses.  | `[]string*__*` |
 | DisablePreParseMultipartForm | `bool` | Will not pre parse Multipart Form data if set to true. This option is useful for servers that desire to treat multipart form data as a binary blob, or choose when to parse the data. | `false` |
 | StreamRequestBody | `bool` | StreamRequestBody enables request body streaming, and calls the handler sooner when given body is larger then the current limit. | `false` |
+
 ## NewError
 
 NewError creates a new HTTPError instance with an optional message.
