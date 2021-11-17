@@ -42,6 +42,25 @@ app.Use(cache.New(cache.Config{
 }))
 ```
 
+Or you can custom key and expire time like this:
+
+```go
+app.Use(New(Config{
+	ExpirationGenerator: func(c *fiber.Ctx, cfg *Config) time.Duration {
+		newCacheTime, _ := strconv.Atoi(c.GetRespHeader("Cache-Time", "600"))
+		return time.Second * time.Duration(newCacheTime)
+	},
+	KeyGenerator: func(c *fiber.Ctx) string {
+		return c.Path()
+	}
+}))
+
+app.Get("/", func(c *fiber.Ctx) error {
+	c.Response().Header.Add("Cache-Time", "6000")
+	return c.SendString("hi")
+})
+```
+
 ## Config
 
 ```go
@@ -68,6 +87,11 @@ type Config struct {
     //   return utils.CopyString(c.Path())
     // }
     KeyGenerator func(*fiber.Ctx) string
+    
+	// allows you to generate custom Expiration Key By Key, default is Expiration (Optional)
+	//
+	// Default: nil
+	ExpirationGenerator func(*fiber.Ctx, *Config) time.Duration
 
     // Store is used to store the state of the middleware
     //
@@ -87,6 +111,7 @@ var ConfigDefault = Config{
     KeyGenerator: func(c *fiber.Ctx) string {
         return utils.CopyString(c.Path())
     },
+	ExpirationGenerator : nil,
     Storage:      nil,
 }
 ```
