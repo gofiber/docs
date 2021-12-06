@@ -134,8 +134,8 @@ type Config struct {
 	// Optional. Default value false.
 	CookieHTTPOnly bool
 
-    // Sets the cookie SameSite attribute.
-    // Optional. Default value "Lax".
+	// Sets the cookie SameSite attribute.
+	// Optional. Default value "Lax".
 	CookieSameSite string
 
 	// KeyGenerator generates the session key.
