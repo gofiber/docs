@@ -45,6 +45,11 @@ func main() {
 ```go
 // Config defines the config for middleware.
 type Config struct {
+    // To disable serving HTML, you can make true this option.
+    //
+    // Optional. Default: false
+    APIOnly bool
+    
 	// Next defines a function to skip this middleware when returned true.
 	//
 	// Optional. Default: nil
@@ -56,6 +61,7 @@ type Config struct {
 
 ```go
 var ConfigDefault = Config{
+    APIOnly: false,
 	Next: nil,
 }
 ```
