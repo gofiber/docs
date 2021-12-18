@@ -330,29 +330,19 @@ var handler = func(c *fiber.Ctx) error { return nil }
 func main() {
 	app := fiber.New()
 
-	app.Get("/", func(c *fiber.Ctx) error { 
-		...
-	})
+	app.Get("/", handler)
 	app.Name("index")
 
-	app.Get("/doe", func(c *fiber.Ctx) error { 
-		...
-	}).Name("home")
+	app.Get("/doe", handler).Name("home")
 
-	app.Trace("/tracer", func(c *fiber.Ctx) error {
-		...
-	}).Name("tracert")
+	app.Trace("/tracer", handler).Name("tracert")
 
-	app.Delete("/delete", func(c *fiber.Ctx) error {
-		...
-	}).Name("delete")
+	app.Delete("/delete", handler).Name("delete")
 
 	a := app.Group("/a")
 	a.Name("fd.")
 
-	a.Get("/test", func(c *fiber.Ctx) error {
-		...
-	}).Name("test")
+	a.Get("/test", handler).Name("test")
 
 	data, _ := json.MarshalIndent(app.Stack(), "", "  ")
 	fmt.Print(string(data))
