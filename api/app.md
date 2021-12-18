@@ -421,6 +421,47 @@ func main() {
 ```
 {% endcode %}
 
+## GetRoute
+
+This method gets the route by name.
+
+{% code title="Signature" %}
+```go
+func (app *App) GetRoute(name string) Route
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+var handler = func(c *fiber.Ctx) error { return nil }
+
+func main() {
+	app := fiber.New()
+
+	app.Get("/", handler).Name("index")
+	
+	data, _ := json.MarshalIndent(app.GetRoute("index"), "", "  ")
+	fmt.Print(string(data))
+
+
+	app.Listen(":3000")
+
+}
+```
+{% endcode %}
+
+{% code title="Result" %}
+```javascript
+{
+  "method": "GET",
+  "name": "index",
+  "path": "/",
+  "params": null
+}
+```
+{% endcode %}
+
+
 ## Config
 
 Config returns the app config as value \( read-only \).
