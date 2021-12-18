@@ -313,6 +313,124 @@ func main() {
 ```
 {% endcode %}
 
+## Name
+
+This method assigns the name of latest created route.
+
+{% code title="Signature" %}
+```go
+func (app *App) Name(name string) Router
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+var handler = func(c *fiber.Ctx) error { return nil }
+
+func main() {
+	app := fiber.New()
+
+	app.Get("/", func(c *fiber.Ctx) error { 
+		...
+	})
+	app.Name("index")
+
+	app.Get("/doe", func(c *fiber.Ctx) error { 
+		...
+	}).Name("home")
+
+	app.Trace("/tracer", func(c *fiber.Ctx) error {
+		...
+	}).Name("tracert")
+
+	app.Delete("/delete", func(c *fiber.Ctx) error {
+		...
+	}).Name("delete")
+
+	a := app.Group("/a")
+	a.Name("fd.")
+
+	a.Get("/test", func(c *fiber.Ctx) error {
+		...
+	}).Name("test")
+
+	data, _ := json.MarshalIndent(app.Stack(), "", "  ")
+	fmt.Print(string(data))
+
+	app.Listen(":3000")
+
+}
+```
+{% endcode %}
+
+{% code title="Result" %}
+```javascript
+[
+  [
+    {
+      "method": "GET",
+      "name": "index",
+      "path": "/",
+      "params": null
+    },
+    {
+      "method": "GET",
+      "name": "home",
+      "path": "/doe",
+      "params": null
+    },
+    {
+      "method": "GET",
+      "name": "fd.test",
+      "path": "/a/test",
+      "params": null
+    }
+  ],
+  [
+    {
+      "method": "HEAD",
+      "name": "",
+      "path": "/",
+      "params": null
+    },
+    {
+      "method": "HEAD",
+      "name": "",
+      "path": "/doe",
+      "params": null
+    },
+    {
+      "method": "HEAD",
+      "name": "",
+      "path": "/a/test",
+      "params": null
+    }
+  ],
+  null,
+  null,
+  [
+    {
+      "method": "DELETE",
+      "name": "delete",
+      "path": "/delete",
+      "params": null
+    }
+  ],
+  null,
+  null,
+  [
+    {
+      "method": "TRACE",
+      "name": "tracert",
+      "path": "/tracer",
+      "params": null
+    }
+  ],
+  null
+]
+```
+{% endcode %}
+
 ## Config
 
 Config returns the app config as value \( read-only \).
