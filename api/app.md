@@ -253,6 +253,16 @@ func main() {
 }
 ```
 
+## HandlersCount
+
+This method returns the amount of registered handlers.
+
+{%code title="Signature" %}
+```go
+func (app *App) HandlersCount() uint32
+```
+{% endcode %}
+
 ## Stack
 
 This method returns the original router stack
