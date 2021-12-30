@@ -533,13 +533,13 @@ func (c *Ctx) GetReqHeaders() map[string]string
 ```
 {% endcode %}
 
-## GetResHeaders
+## GetRespHeaders
 
-Returns the HTTP responde headers.
+Returns the HTTP response headers.
 
 {% code title="Signature" %}
 ```go
-func (c *Ctx) GetResHeaders() map[string]string
+func (c *Ctx) GetRespHeaders() map[string]string
 ```
 {% endcode %}
 
