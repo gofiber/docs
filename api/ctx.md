@@ -1740,3 +1740,24 @@ app.Get("/", func(c *fiber.Ctx) error {
 })
 ```
 {% endcode %}
+
+## IsFromLocal
+
+Returns true if request came from localhost
+{% code title="Signature" %}
+```go
+func (c *Ctx) IPs() []string
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+
+app.Get("/", func(c *fiber.Ctx) error {
+  // If request came from localhost, return true else return false
+  c.isFromLocal()
+
+  // ...
+})
+```
+{% endcode %}
