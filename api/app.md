@@ -323,6 +323,155 @@ func main() {
 ```
 {% endcode %}
 
+## Name
+
+This method assigns the name of latest created route.
+
+{% code title="Signature" %}
+```go
+func (app *App) Name(name string) Router
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+var handler = func(c *fiber.Ctx) error { return nil }
+
+func main() {
+	app := fiber.New()
+
+	app.Get("/", handler)
+	app.Name("index")
+
+	app.Get("/doe", handler).Name("home")
+
+	app.Trace("/tracer", handler).Name("tracert")
+
+	app.Delete("/delete", handler).Name("delete")
+
+	a := app.Group("/a")
+	a.Name("fd.")
+
+	a.Get("/test", handler).Name("test")
+
+	data, _ := json.MarshalIndent(app.Stack(), "", "  ")
+	fmt.Print(string(data))
+
+	app.Listen(":3000")
+
+}
+```
+{% endcode %}
+
+{% code title="Result" %}
+```javascript
+[
+  [
+    {
+      "method": "GET",
+      "name": "index",
+      "path": "/",
+      "params": null
+    },
+    {
+      "method": "GET",
+      "name": "home",
+      "path": "/doe",
+      "params": null
+    },
+    {
+      "method": "GET",
+      "name": "fd.test",
+      "path": "/a/test",
+      "params": null
+    }
+  ],
+  [
+    {
+      "method": "HEAD",
+      "name": "",
+      "path": "/",
+      "params": null
+    },
+    {
+      "method": "HEAD",
+      "name": "",
+      "path": "/doe",
+      "params": null
+    },
+    {
+      "method": "HEAD",
+      "name": "",
+      "path": "/a/test",
+      "params": null
+    }
+  ],
+  null,
+  null,
+  [
+    {
+      "method": "DELETE",
+      "name": "delete",
+      "path": "/delete",
+      "params": null
+    }
+  ],
+  null,
+  null,
+  [
+    {
+      "method": "TRACE",
+      "name": "tracert",
+      "path": "/tracer",
+      "params": null
+    }
+  ],
+  null
+]
+```
+{% endcode %}
+
+## GetRoute
+
+This method gets the route by name.
+
+{% code title="Signature" %}
+```go
+func (app *App) GetRoute(name string) Route
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+var handler = func(c *fiber.Ctx) error { return nil }
+
+func main() {
+	app := fiber.New()
+
+	app.Get("/", handler).Name("index")
+	
+	data, _ := json.MarshalIndent(app.GetRoute("index"), "", "  ")
+	fmt.Print(string(data))
+
+
+	app.Listen(":3000")
+
+}
+```
+{% endcode %}
+
+{% code title="Result" %}
+```javascript
+{
+  "method": "GET",
+  "name": "index",
+  "path": "/",
+  "params": null
+}
+```
+{% endcode %}
+
+
 ## Config
 
 Config returns the app config as value \( read-only \).
