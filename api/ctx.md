@@ -523,6 +523,26 @@ func (c *Ctx) Fresh() bool
 ```
 {% endcode %}
 
+## GetReqHeaders
+
+Returns the HTTP request headers.
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) GetReqHeaders() map[string]string
+```
+{% endcode %}
+
+## GetRespHeaders
+
+Returns the HTTP response headers.
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) GetRespHeaders() map[string]string
+```
+{% endcode %}
+
 ## Get
 
 Returns the HTTP request header specified by the field.
