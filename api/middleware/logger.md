@@ -34,7 +34,7 @@ import (
 app.Use(logger.New())
 ```
 
-### **Logging Request ID**
+### **Logging remote IP and Port**
 
 ```go
 app.Use(logger.New(logger.Config{
