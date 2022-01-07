@@ -30,7 +30,8 @@ app := fiber.New(fiber.Config{
 })
 ```
 
-The `Render` method is linked to the [**ctx.Render\(\)**](templates.md) function that accepts a template name and binding data. It will use global layout if layout is not being defined in `Render` function
+The `Render` method is linked to the [**ctx.Render\(\)**](templates.md) function that accepts a template name and binding data. It will use global layout if layout is not being defined in `Render` function.
+If the App option PassLocalsToViews is enabled. All locals set using ctx.Locals(key, value) Will passed to the template.
 
 ```go
 app.Get("/", func(c *fiber.Ctx) error {
