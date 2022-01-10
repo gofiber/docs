@@ -62,7 +62,7 @@ func AddUser(c *fiber.Ctx) error {
 
     errors := ValidateStruct(*user)
     if errors != nil {
-       return c.JSON(errors)
+       return c.Status(fiber.StatusBadRequest).JSON(errors)
         
     }
 
