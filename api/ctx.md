@@ -180,9 +180,9 @@ app.Post("/", func(c *fiber.Ctx) error {
 
 Binds the request body to a struct.
 
-It is important to specify the correct alias tag associated with the content type in the struct, so that the schema parser can process different names.
+It is important to specify the correct struct tag based on the content type to be parsed. For example, if you want to parse a JSON body with a field called Pass, you would use a struct field of `json:"pass"`.
 
-| content-type | alias tag |
+| content-type | struct tag |
 |---|---|
 | `application/x-www-form-urlencoded` | form |
 | `multipart/form-data` | form |
@@ -1142,7 +1142,7 @@ app.Get("/", func(c *fiber.Ctx) error {
 ## QueryParser
 
 This method is similar to [BodyParser](ctx.md#bodyparser), but for query parameters.
-It is important to use the alias tag "query", so that the schema parser can use different names.
+It is important to use the struct tag "query". For example, if you want to parse a query parameter with a field called Pass, you would use a struct field of `query:"pass"`.
 
 {% code title="Signature" %}
 ```go
