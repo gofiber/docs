@@ -178,12 +178,17 @@ app.Post("/", func(c *fiber.Ctx) error {
 
 ## BodyParser
 
-Binds the request body to a struct. `BodyParser` supports decoding query parameters and the following content types based on the `Content-Type` header:
+Binds the request body to a struct.
 
-* `application/json`
-* `application/xml`
-* `application/x-www-form-urlencoded`
-* `multipart/form-data`
+It is important to specify the correct struct tag based on the content type to be parsed. For example, if you want to parse a JSON body with a field called Pass, you would use a struct field of `json:"pass"`.
+
+| content-type | struct tag |
+|---|---|
+| `application/x-www-form-urlencoded` | form |
+| `multipart/form-data` | form |
+| `application/json` | json |
+| `application/xml` | xml |
+| `text/xml` | xml |
 
 {% code title="Signature" %}
 ```go
@@ -1137,6 +1142,7 @@ app.Get("/", func(c *fiber.Ctx) error {
 ## QueryParser
 
 This method is similar to [BodyParser](ctx.md#bodyparser), but for query parameters.
+It is important to use the struct tag "query". For example, if you want to parse a query parameter with a field called Pass, you would use a struct field of `query:"pass"`.
 
 {% code title="Signature" %}
 ```go
