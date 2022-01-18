@@ -1178,6 +1178,46 @@ app.Get("/", func(c *fiber.Ctx) error {
 ```
 {% endcode %}
 
+## ReqHeaderParser
+
+This method is similar to [BodyParser](ctx.md#bodyparser), but for request headers.
+It is important to use the struct tag "reqHeader". For example, if you want to parse a request header with a field called Pass, you would use a struct field of `reqHeader:"pass"`.
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) ReqHeaderParser(out interface{}) error
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+// Field names should start with an uppercase letter
+type Person struct {
+    Name     string     `reqHeader:"name"`
+    Pass     string     `reqHeader:"pass"`
+    Products []string   `reqHeader:"products"`
+}
+
+app.Get("/", func(c *fiber.Ctx) error {
+        p := new(Person)
+
+        if err := c.ReqHeaderParser(p); err != nil {
+            return err
+        }
+
+        log.Println(p.Name)     // john
+        log.Println(p.Pass)     // doe
+        log.Println(p.Products) // [shoe, hat]
+
+        // ...
+})
+// Run tests with the following curl command
+
+// curl "http://localhost:3000/" -H "name: john" -H "pass: doe" -H "products: shoe,hat"
+```
+{% endcode %}
+
+
 ## SetParserDecoder
 
 Allow you to config BodyParser/QueryParser decoder, base on schema's options, providing possibility to add custom type for pausing.
