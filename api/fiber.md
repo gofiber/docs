@@ -94,6 +94,23 @@ app.Get("/", func(c *fiber.Ctx) error {
 })
 ```
 {% endcode %}
+## NewErrors
+
+NewErrors creates multiple HTTPError instances with some messages.
+
+{% code title="Signature" %}
+```go
+func NewError(code int, message ...string) *Error
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+app.Get("/", func(c *fiber.Ctx) error {
+    return fiber.NewErrors(fiber.StatusServiceUnavailable, "error1", "error2")
+})
+```
+{% endcode %}
 
 ## IsChild
 
