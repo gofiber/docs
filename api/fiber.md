@@ -106,9 +106,8 @@ func NewErrors(code int, message ...string) []*Error
 
 {% code title="Example" %}
 ```go
-app.Get("/", func(c *fiber.Ctx) error {
-    return fiber.NewErrors(fiber.StatusServiceUnavailable, "error1", "error2")[1]
-})
+// errors is an array of error
+errors := fiber.NewErrors(fiber.StatusServiceUnavailable, "error1", "error2")
 ```
 {% endcode %}
 
