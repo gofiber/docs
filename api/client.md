@@ -681,3 +681,22 @@ code, body, errs := agent.Struct(&d)
 ```
 {% endcode %}
 
+### RetryIf
+
+RetryIf controls whether a retry should be attempted after an error.
+By default, will use isIdempotent function from fasthttp
+
+{% code title="Signature" %}
+```go
+func (a *Agent) RetryIf(retryIf RetryIfFunc) *Agent
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+agent.Get("https://example.com").RetryIf(func (req *fiber.Request) bool {
+	return req.URI() == "https://example.com"
+})
+// ...
+```
+{% endcode %}
