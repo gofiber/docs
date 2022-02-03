@@ -1447,6 +1447,45 @@ app.Post("/", func(c *fiber.Ctx) error {
 ```
 {% endcode %}
 
+## SaveFileToStorage
+
+Method is used to save **any** multipart file to an external storage system.
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) SaveFileToStorage(fileheader *multipart.FileHeader, path string, storage Storage) error
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+storage := memory.New()
+
+app.Post("/", func(c *fiber.Ctx) error {
+  // Parse the multipart form:
+  if form, err := c.MultipartForm(); err == nil {
+    // => *multipart.Form
+
+    // Get all files from "documents" key:
+    files := form.File["documents"]
+    // => []*multipart.FileHeader
+
+    // Loop through files:
+    for _, file := range files {
+      fmt.Println(file.Filename, file.Size, file.Header["Content-Type"][0])
+      // => "tutorial.pdf" 360641 "application/pdf"
+
+      // Save the files to storage:
+      if err := c.SaveFileToStorage(file, fmt.Sprintf("./%s", file.Filename), storage); err != nil {
+        return err
+      }
+    }
+    return err
+  }
+})
+```
+{% endcode %}
+
 ## Secure
 
 A boolean property that is `true` , if a **TLS** connection is established.
