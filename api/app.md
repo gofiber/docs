@@ -235,6 +235,31 @@ func main() {
 }
 ```
 
+## Route
+
+You can define routes with a common prefix inside the common function.
+
+**Signature**
+
+```go
+func (app *App) Route(prefix string, fn func(router Router), name ...string) Router
+```
+
+**Example**
+
+```go
+func main() {
+  app := fiber.New()
+
+  app.Route("/test", func(api fiber.Router) {
+	  api.Get("/foo", handler).Name("foo") // /test/foo (name: test.foo)
+    api.Get("/bar", handler).Name("bar") // /test/bar (name: test.bar)
+  }, "test.")
+
+  log.Fatal(app.Listen(":3000"))
+}
+```
+
 ## Server
 
 Server returns the underlying [fasthttp server](https://godoc.org/github.com/valyala/fasthttp#Server)
