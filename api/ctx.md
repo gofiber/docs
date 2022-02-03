@@ -1063,7 +1063,7 @@ This method is equivalent of using `atoi` with ctx.Params
 
 ## Path
 
-Contains the path part of the request URL. Optionally, you could override the path by passing a string.
+Contains the path part of the request URL. Optionally, you could override the path by passing a string. For internal redirects, you might want to call [RestartRouting](ctx.md#restartrouting) instead of [Next](ctx.md#next).
 
 {% code title="Signature" %}
 ```go
@@ -1365,6 +1365,29 @@ Renders a view with data and sends a `text/html` response. By default `Render` u
 {% code title="Signature" %}
 ```go
 func (c *Ctx) Render(name string, bind interface{}, layouts ...string) error
+```
+{% endcode %}
+
+## RestartRouting
+
+Instead of executing the next method when calling [Next](ctx.md#next), **RestartRouting** restarts execution from the first method that matches the current route. This may be helpful after overriding the path, i. e. an internal redirect. Note that handlers might be executed again which could result in an infinite loop.
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) RestartRouting() error
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+app.Get("/new", func(c *fiber.Ctx) error {
+  return c.SendString("From /new")
+})
+
+app.Get("/old", func(c *fiber.Ctx) error {
+  c.Path("/new")
+  return c.RestartRouting()
+})
 ```
 {% endcode %}
 
