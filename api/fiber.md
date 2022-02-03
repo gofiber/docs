@@ -56,6 +56,8 @@ app := fiber.New(fiber.Config{
 | BodyLimit | `int` | Sets the maximum allowed size for a request body, if the size exceeds the configured limit, it sends `413 - Request Entity Too Large` response. | `4 * 1024 * 1024` |
 | Concurrency | `int` | Maximum number of concurrent connections. | `256 * 1024` |
 | Views | `Views` | Views is the interface that wraps the Render function. See our **Template Middleware** for supported engines. | `nil` |
+| ViewsLayout | `string` | Views Layout is the global layout for all template render until override on Render function. See our **Template Middleware** for supported engines. | `""` |
+| PassLocalsToViews | `bool` | PassLocalsToViews Enables passing of the locals set on a fiber.Ctx to the template engine. See our **Template Middleware** for supported engines. | `false` |
 | ReadTimeout | `time.Duration` | The amount of time allowed to read the full request, including the body. The default timeout is unlimited. | `nil` |
 | WriteTimeout | `time.Duration` | The maximum duration before timing out writes of the response. The default timeout is unlimited. | `nil` |
 | IdleTimeout | `time.Duration` | The maximum amount of time to wait for the next request when keep-alive is enabled. If IdleTimeout is zero, the value of ReadTimeout is used. | `nil` |
