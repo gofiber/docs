@@ -1358,6 +1358,64 @@ app.Get("/", func(c *fiber.Ctx) error {
 ```
 {% endcode %}
 
+## Redirect to specific route
+
+Redirects to the specific route along with the parameters and with specified status, a positive integer that corresponds to an HTTP status code.
+
+{% hint style="info" %}
+If **not** specified, status defaults to **302 Found**.
+{% endhint %}
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) RedirectToRoute(routeName string, params fiber.Map, status ...int) error
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+app.Get("/", func(c *fiber.Ctx) error {
+  return c.RedirectToRoute("user", fiber.Map{
+    "name": "fiber"	
+  })
+})
+
+app.Get("/user/:name", func(c *fiber.Ctx) error {
+  return c.SendString(c.Params("name"))
+}).Name("user")
+```
+{% endcode %}
+
+## Redirect Back
+
+Redirects back to refer URL. It redirects to fallback URL if refer header doesn't exists, with specified status, a positive integer that corresponds to an HTTP status code.
+
+{% hint style="info" %}
+If **not** specified, status defaults to **302 Found**.
+{% endhint %}
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) RedirectBack(fallback string, status ...int) error
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+app.Get("/", func(c *fiber.Ctx) error {
+  return c.SendString("Home page")
+})
+app.Get("/test", func(c *fiber.Ctx) error {
+  c.Set("Content-Type", "text/html")
+  return c.SendString(`<a href="/back">Back</a>`)
+})
+
+app.Get("/back", func(c *fiber.Ctx) error {
+  return c.RedirectBack("/")
+})
+```
+{% endcode %}
+
 ## Render
 
 Renders a view with data and sends a `text/html` response. By default `Render` uses the default [**Go Template engine**](https://golang.org/pkg/html/template/). If you want to use another View engine, please take a look at our [**Template middleware**](https://github.com/gofiber/template).
