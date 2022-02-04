@@ -133,7 +133,7 @@ app.Get("/stack", func(c *fiber.Ctx) error {
 
 ## BaseURL
 
-Returns the base URL \(**protocol** + **host**\) as a `string`.
+Returns the base URL \(**scheme** + **host**\) as a `string`.
 
 {% code title="Signature" %}
 ```go
@@ -1086,9 +1086,31 @@ app.Get("/users", func(c *fiber.Ctx) error {
 ```
 {% endcode %}
 
+## Scheme
+
+Contains the request scheme string: `http` or `https` for **TLS** requests.
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) Scheme() string
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+// GET http://example.com
+
+app.Get("/", func(c *fiber.Ctx) error {
+  c.Scheme() // "http"
+
+  // ...
+})
+```
+{% endcode %}
+
 ## Protocol
 
-Contains the request protocol string: `http` or `https` for **TLS** requests.
+Contains the request protocol string: `HTTP/1.0`, `HTTP/1.1` (default) or `HTTP/2`.
 
 {% code title="Signature" %}
 ```go
@@ -1101,7 +1123,7 @@ func (c *Ctx) Protocol() string
 // GET http://example.com
 
 app.Get("/", func(c *fiber.Ctx) error {
-  c.Protocol() // "http"
+  c.Protocol() // "HTTP/1.1"
 
   // ...
 })
@@ -1460,7 +1482,7 @@ func (c *Ctx) Secure() bool
 {% code title="Example" %}
 ```go
 // Secure() method is equivalent to:
-c.Protocol() == "https"
+c.Scheme() == "https"
 ```
 {% endcode %}
 
