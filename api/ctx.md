@@ -1368,6 +1368,17 @@ func (c *Ctx) Render(name string, bind interface{}, layouts ...string) error
 ```
 {% endcode %}
 
+## Bind
+
+Add vars to defult view var map binding to template engine. Variables are using by Render method and they can be overwritten.
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) Bind(vars Map) error
+```
+{% endcode %}
+
+
 ## Route
 
 Returns the matched [Route](https://pkg.go.dev/github.com/gofiber/fiber?tab=doc#Route) struct.
