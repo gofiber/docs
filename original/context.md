@@ -241,7 +241,6 @@ type Cookie struct {
 	Secure      bool
 	HTTPOnly    bool
 	SameSite    string // lax, strict, none
-	SessionOnly bool
 }
 ```
 
