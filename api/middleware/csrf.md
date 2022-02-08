@@ -89,8 +89,8 @@ type Config struct {
     CookieSameSite string
 
     // Decides whether cookie should last for only the browser sesison.
-	// Ignores Expiration if set to true
-	CookieSessionOnly bool
+    // Ignores Expiration if set to true
+    CookieSessionOnly bool
 
     // Expiration is the duration before csrf token will expire
     //
