@@ -558,11 +558,41 @@ Using `ListenTLS` defaults to the following config \( use `Listener` to provide 
 {% code title="Default \*tls.Config" %}
 ```go
 &tls.Config{
-    MinVersion:               tls.VersionTLS12,
-    PreferServerCipherSuites: true,
+    MinVersion:               tls.VersionTLS13,
     Certificates: []tls.Certificate{
         cert,
     },
+}
+```
+{% endcode %}
+
+## ListenMutualTLS
+
+ListenMutualTLS serves HTTPs requests from the given address using certFile, keyFile and clientCertFile are the paths to TLS certificate and key file
+
+{% code title="Signature" %}
+```go
+func (app *App) ListenMutualTLS(addr, certFile, keyFile, clientCertFile string) error
+```
+{% endcode %}
+
+{% code title="Examples" %}
+```go
+app.ListenMutualTLS(":443", "./cert.pem", "./cert.key", "./ca-chain-cert.pem");
+```
+{% endcode %}
+
+Using `ListenMutualTLS` defaults to the following config \( use `Listener` to provide your own config \)
+
+{% code title="Default \*tls.Config" %}
+```go
+&tls.Config{
+	MinVersion: tls.VersionTLS13,
+	ClientAuth: tls.RequireAndVerifyClientCert,
+	ClientCAs:  clientCertPool,
+	Certificates: []tls.Certificate{
+		cert,
+	},
 }
 ```
 {% endcode %}
