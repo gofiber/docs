@@ -1369,8 +1369,8 @@ func (c *Ctx) Render(name string, bind interface{}, layouts ...string) error
 {% endcode %}
 
 ## Bind
-
-Add vars to defult view var map binding to template engine. Variables are using by Render method and they can be overwritten.
+Add vars to default view var map binding to template engine.
+Variables are read by the Render method and may be overwritten.
 
 {% code title="Signature" %}
 ```go
