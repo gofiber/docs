@@ -1359,7 +1359,7 @@ app.Get("/", func(c *fiber.Ctx) error {
 ```
 {% endcode %}
 
-## Redirect to specific route
+## RedirectToRoute
 
 Redirects to the specific route along with the parameters and with specified status, a positive integer that corresponds to an HTTP status code.
 
@@ -1387,7 +1387,7 @@ app.Get("/user/:name", func(c *fiber.Ctx) error {
 ```
 {% endcode %}
 
-## Redirect Back
+## RedirectBack
 
 Redirects back to refer URL. It redirects to fallback URL if refer header doesn't exists, with specified status, a positive integer that corresponds to an HTTP status code.
 
