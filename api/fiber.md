@@ -85,7 +85,7 @@ NewError creates a new HTTPError instance with an optional message.
 
 {% code title="Signature" %}
 ```go
-func NewError(code int, message ...interface{}) *Error
+func NewError(code int, message ...string) *Error
 ```
 {% endcode %}
 
@@ -93,23 +93,6 @@ func NewError(code int, message ...interface{}) *Error
 ```go
 app.Get("/", func(c *fiber.Ctx) error {
     return fiber.NewError(782, "Custom error message")
-})
-```
-{% endcode %}
-## NewErrors
-
-NewErrors creates HTTPError instances with multiple error messages.
-
-{% code title="Signature" %}
-```go
-func NewErrors(code int, messages ...interface{}) *Error
-```
-{% endcode %}
-
-{% code title="Example" %}
-```go
-app.Get("/", func(c *fiber.Ctx) error {
-    return fiber.NewErrors(fiber.StatusServiceUnavailable, "error1", "error2")
 })
 ```
 {% endcode %}

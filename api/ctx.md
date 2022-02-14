@@ -318,15 +318,16 @@ func (c *Ctx) Cookie(cookie *Cookie)
 
 ```go
 type Cookie struct {
-    Name     string    `json:"name"`
-    Value    string    `json:"value"`
-    Path     string    `json:"path"`
-    Domain   string    `json:"domain"`
-    MaxAge   int       `json:"max_age"`
-    Expires  time.Time `json:"expires"`
-    Secure   bool      `json:"secure"`
-    HTTPOnly bool      `json:"http_only"`
-    SameSite string    `json:"same_site"`
+    Name        string    `json:"name"`
+    Value       string    `json:"value"`
+    Path        string    `json:"path"`
+    Domain      string    `json:"domain"`
+    MaxAge      int       `json:"max_age"`
+    Expires     time.Time `json:"expires"`
+    Secure      bool      `json:"secure"`
+    HTTPOnly    bool      `json:"http_only"`
+    SameSite    string    `json:"same_site"`
+    SessionOnly bool      `json:"session_only"`
 }
 ```
 
@@ -1358,6 +1359,64 @@ app.Get("/", func(c *fiber.Ctx) error {
 ```
 {% endcode %}
 
+## Redirect to specific route
+
+Redirects to the specific route along with the parameters and with specified status, a positive integer that corresponds to an HTTP status code.
+
+{% hint style="info" %}
+If **not** specified, status defaults to **302 Found**.
+{% endhint %}
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) RedirectToRoute(routeName string, params fiber.Map, status ...int) error
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+app.Get("/", func(c *fiber.Ctx) error {
+  return c.RedirectToRoute("user", fiber.Map{
+    "name": "fiber"	
+  })
+})
+
+app.Get("/user/:name", func(c *fiber.Ctx) error {
+  return c.SendString(c.Params("name"))
+}).Name("user")
+```
+{% endcode %}
+
+## Redirect Back
+
+Redirects back to refer URL. It redirects to fallback URL if refer header doesn't exists, with specified status, a positive integer that corresponds to an HTTP status code.
+
+{% hint style="info" %}
+If **not** specified, status defaults to **302 Found**.
+{% endhint %}
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) RedirectBack(fallback string, status ...int) error
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+app.Get("/", func(c *fiber.Ctx) error {
+  return c.SendString("Home page")
+})
+app.Get("/test", func(c *fiber.Ctx) error {
+  c.Set("Content-Type", "text/html")
+  return c.SendString(`<a href="/back">Back</a>`)
+})
+
+app.Get("/back", func(c *fiber.Ctx) error {
+  return c.RedirectBack("/")
+})
+```
+{% endcode %}
+
 ## Render
 
 Renders a view with data and sends a `text/html` response. By default `Render` uses the default [**Go Template engine**](https://golang.org/pkg/html/template/). If you want to use another View engine, please take a look at our [**Template middleware**](https://github.com/gofiber/template).
@@ -1365,6 +1424,16 @@ Renders a view with data and sends a `text/html` response. By default `Render` u
 {% code title="Signature" %}
 ```go
 func (c *Ctx) Render(name string, bind interface{}, layouts ...string) error
+```
+{% endcode %}
+
+## Bind
+Add vars to default view var map binding to template engine.
+Variables are read by the Render method and may be overwritten.
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) Bind(vars Map) error
 ```
 {% endcode %}
 
@@ -1461,6 +1530,45 @@ app.Post("/", func(c *fiber.Ctx) error {
 
       // Save the files to disk:
       if err := c.SaveFile(file, fmt.Sprintf("./%s", file.Filename)); err != nil {
+        return err
+      }
+    }
+    return err
+  }
+})
+```
+{% endcode %}
+
+## SaveFileToStorage
+
+Method is used to save **any** multipart file to an external storage system.
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) SaveFileToStorage(fileheader *multipart.FileHeader, path string, storage Storage) error
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+storage := memory.New()
+
+app.Post("/", func(c *fiber.Ctx) error {
+  // Parse the multipart form:
+  if form, err := c.MultipartForm(); err == nil {
+    // => *multipart.Form
+
+    // Get all files from "documents" key:
+    files := form.File["documents"]
+    // => []*multipart.FileHeader
+
+    // Loop through files:
+    for _, file := range files {
+      fmt.Println(file.Filename, file.Size, file.Header["Content-Type"][0])
+      // => "tutorial.pdf" 360641 "application/pdf"
+
+      // Save the files to storage:
+      if err := c.SaveFileToStorage(file, fmt.Sprintf("./%s", file.Filename), storage); err != nil {
         return err
       }
     }

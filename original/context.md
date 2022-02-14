@@ -232,14 +232,15 @@ c.Cookie(*Cookie)
 
 ```go
 type Cookie struct {
-    Name     string
-    Value    string
-    Path     string
-    Domain   string
-    Expires  time.Time
-    Secure   bool
-    HTTPOnly bool
-    SameSite string // lax, strict, none
+    Name        string
+    Value       string
+    Path        string
+    Domain      string
+    MaxAge      int
+    Expires     time.Time
+    Secure      bool
+    HTTPOnly    bool
+    SameSite    string // lax, strict, none
 }
 ```
 
