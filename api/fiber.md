@@ -85,7 +85,7 @@ NewError creates a new HTTPError instance with an optional message.
 
 {% code title="Signature" %}
 ```go
-func NewError(code int, message ...interface{}) *Error
+func NewError(code int, message ...string) *Error
 ```
 {% endcode %}
 
