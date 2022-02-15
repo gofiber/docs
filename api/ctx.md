@@ -60,6 +60,24 @@ app.Get("/", func(c *fiber.Ctx) error {
 })
 ```
 
+## App
+
+Returns the [\*App](ctx.md) reference so you could easily access all application settings.
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) App() *App
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+app.Get("/stack", func(c *fiber.Ctx) error {
+  return c.JSON(c.App().Stack())
+})
+```
+{% endcode %}
+
 ## Append
 
 Appends the specified **value** to the HTTP response header field.
@@ -113,24 +131,6 @@ app.Get("/", func(c *fiber.Ctx) error {
 ```
 {% endcode %}
 
-## App
-
-Returns the [\*App](ctx.md) reference so you could easily access all application settings.
-
-{% code title="Signature" %}
-```go
-func (c *Ctx) App() *App
-```
-{% endcode %}
-
-{% code title="Example" %}
-```go
-app.Get("/stack", func(c *fiber.Ctx) error {
-  return c.JSON(c.App().Stack())
-})
-```
-{% endcode %}
-
 ## BaseURL
 
 Returns the base URL \(**protocol** + **host**\) as a `string`.
@@ -149,6 +149,16 @@ app.Get("/", func(c *fiber.Ctx) error {
   c.BaseURL() // https://example.com
   // ...
 })
+```
+{% endcode %}
+
+## Bind
+Add vars to default view var map binding to template engine.
+Variables are read by the Render method and may be overwritten.
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) Bind(vars Map) error
 ```
 {% endcode %}
 
@@ -397,48 +407,6 @@ app.Get("/", func(c *fiber.Ctx) error {
 ```
 {% endcode %}
 
-## Request
-
-Request return the [\*fasthttp.Request](https://godoc.org/github.com/valyala/fasthttp#Request) pointer
-
-**Signature**
-
-{% code title="Signature" %}
-```go
-func (c *Ctx) Request() *fasthttp.Request
-```
-{% endcode %}
-
-**Example**
-
-```go
-app.Get("/", func(c *fiber.Ctx) error {
-  c.Request().Header.Method()
-  // => []byte("GET")
-})
-```
-
-## Response
-
-Response return the [\*fasthttp.Response](https://godoc.org/github.com/valyala/fasthttp#Response) pointer
-
-**Signature**
-
-{% code title="Signature" %}
-```go
-func (c *Ctx) Response() *fasthttp.Response
-```
-{% endcode %}
-
-**Example**
-
-```go
-app.Get("/", func(c *fiber.Ctx) error {
-  c.Response().Write([]byte("Hello, World!"))
-  // => "Hello, World!"
-})
-```
-
 ## Format
 
 Performs content-negotiation on the [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header. It uses [Accepts](ctx.md#accepts) to select a proper format.
@@ -529,26 +497,6 @@ func (c *Ctx) Fresh() bool
 ```
 {% endcode %}
 
-## GetReqHeaders
-
-Returns the HTTP request headers.
-
-{% code title="Signature" %}
-```go
-func (c *Ctx) GetReqHeaders() map[string]string
-```
-{% endcode %}
-
-## GetRespHeaders
-
-Returns the HTTP response headers.
-
-{% code title="Signature" %}
-```go
-func (c *Ctx) GetRespHeaders() map[string]string
-```
-{% endcode %}
-
 ## Get
 
 Returns the HTTP request header specified by the field.
@@ -577,6 +525,16 @@ app.Get("/", func(c *fiber.Ctx) error {
 > _Returned value is only valid within the handler. Do not store any references.  
 > Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](../#zero-allocation)
 
+## GetReqHeaders
+
+Returns the HTTP request headers.
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) GetReqHeaders() map[string]string
+```
+{% endcode %}
+
 ## GetRespHeader
 
 Returns the HTTP response header specified by the field.
@@ -604,6 +562,16 @@ app.Get("/", func(c *fiber.Ctx) error {
 
 > _Returned value is only valid within the handler. Do not store any references.  
 > Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](../#zero-allocation)
+
+## GetRespHeaders
+
+Returns the HTTP response headers.
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) GetRespHeaders() map[string]string
+```
+{% endcode %}
 
 ## Hostname
 
@@ -694,6 +662,27 @@ app.Get("/", func(c *fiber.Ctx) error {
   c.Is("html")  // true
   c.Is(".html") // true
   c.Is("json")  // false
+
+  // ...
+})
+```
+{% endcode %}
+
+## IsFromLocal
+
+Returns true if request came from localhost
+{% code title="Signature" %}
+```go
+func (c *Ctx) IPs() []string
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+
+app.Get("/", func(c *fiber.Ctx) error {
+  // If request came from localhost, return true else return false
+  c.isFromLocal()
 
   // ...
 })
@@ -1179,124 +1168,6 @@ app.Get("/", func(c *fiber.Ctx) error {
 ```
 {% endcode %}
 
-## ReqHeaderParser
-
-This method is similar to [BodyParser](ctx.md#bodyparser), but for request headers.
-It is important to use the struct tag "reqHeader". For example, if you want to parse a request header with a field called Pass, you would use a struct field of `reqHeader:"pass"`.
-
-{% code title="Signature" %}
-```go
-func (c *Ctx) ReqHeaderParser(out interface{}) error
-```
-{% endcode %}
-
-{% code title="Example" %}
-```go
-// Field names should start with an uppercase letter
-type Person struct {
-    Name     string     `reqHeader:"name"`
-    Pass     string     `reqHeader:"pass"`
-    Products []string   `reqHeader:"products"`
-}
-
-app.Get("/", func(c *fiber.Ctx) error {
-        p := new(Person)
-
-        if err := c.ReqHeaderParser(p); err != nil {
-            return err
-        }
-
-        log.Println(p.Name)     // john
-        log.Println(p.Pass)     // doe
-        log.Println(p.Products) // [shoe, hat]
-
-        // ...
-})
-// Run tests with the following curl command
-
-// curl "http://localhost:3000/" -H "name: john" -H "pass: doe" -H "products: shoe,hat"
-```
-{% endcode %}
-
-
-## SetParserDecoder
-
-Allow you to config BodyParser/QueryParser decoder, base on schema's options, providing possibility to add custom type for pausing.
-
-{% code title="Signature" %}
-```go
-func SetParserDecoder(parserConfig fiber.ParserConfig{
-  IgnoreUnknownKeys bool,
-  ParserType        []fiber.ParserType{
-      Customtype interface{},
-      Converter  func(string) reflect.Value,
-  },
-  ZeroEmpty         bool,
-  SetAliasTag       string,
-})
-```
-{% endcode %}
-
-{% code title="Example" %}
-```go
-
-type CustomTime time.Time
-
-// String() returns the time in string
-func (ct *CustomTime) String() string {
-	t := time.Time(*ct).String()
-	return t
-}
-
-// Register the converter for CustomTime type format as 2006-01-02
-var timeConverter = func(value string) reflect.Value {
-  fmt.Println("timeConverter", value)
-  if v, err := time.Parse("2006-01-02", value); err == nil {
-    return reflect.ValueOf(v)
-  }
-  return reflect.Value{}
-}
-
-customTime := fiber.ParserType{
-  Customtype: CustomTime{},
-  Converter:  timeConverter,
-} 
-
-// Add setting to the Decoder
-fiber.SetParserDecoder(fiber.ParserConfig{
-  IgnoreUnknownKeys: true,
-  ParserType:        []fiber.ParserType{customTime},
-  ZeroEmpty:         true,
-})
-
-// Example to use CustomType, you pause custom time format not in RFC3339
-type Demo struct {
-	Date  CustomTime `form:"date" query:"date"`
-	Title string     `form:"title" query:"title"`
-	Body  string     `form:"body" query:"body"`
-}
-
-app.Post("/body", func(c *fiber.Ctx) error {
-	var d Demo
-	c.BodyParser(&d)
-	fmt.Println("d.Date", d.Date.String())
-	return c.JSON(d)
-})
-
-app.Get("/query", func(c *fiber.Ctx) error {
-	var d Demo
-	c.QueryParser(&d)
-	fmt.Println("d.Date", d.Date.String())
-	return c.JSON(d)
-})
-
-// curl -X POST -F title=title -F body=body -F date=2021-10-20 http://localhost:3000/body
-
-// curl -X GET "http://localhost:3000/query?title=title&body=body&date=2021-10-20"
-
-```
-{% endcode %} 
-
 ## Range
 
 A struct containing the type and a slice of ranges will be returned.
@@ -1427,15 +1298,86 @@ func (c *Ctx) Render(name string, bind interface{}, layouts ...string) error
 ```
 {% endcode %}
 
-## Bind
-Add vars to default view var map binding to template engine.
-Variables are read by the Render method and may be overwritten.
+## Request
+
+Request return the [\*fasthttp.Request](https://godoc.org/github.com/valyala/fasthttp#Request) pointer
+
+**Signature**
 
 {% code title="Signature" %}
 ```go
-func (c *Ctx) Bind(vars Map) error
+func (c *Ctx) Request() *fasthttp.Request
 ```
 {% endcode %}
+
+**Example**
+
+```go
+app.Get("/", func(c *fiber.Ctx) error {
+  c.Request().Header.Method()
+  // => []byte("GET")
+})
+```
+
+## ReqHeaderParser
+
+This method is similar to [BodyParser](ctx.md#bodyparser), but for request headers.
+It is important to use the struct tag "reqHeader". For example, if you want to parse a request header with a field called Pass, you would use a struct field of `reqHeader:"pass"`.
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) ReqHeaderParser(out interface{}) error
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+// Field names should start with an uppercase letter
+type Person struct {
+    Name     string     `reqHeader:"name"`
+    Pass     string     `reqHeader:"pass"`
+    Products []string   `reqHeader:"products"`
+}
+
+app.Get("/", func(c *fiber.Ctx) error {
+        p := new(Person)
+
+        if err := c.ReqHeaderParser(p); err != nil {
+            return err
+        }
+
+        log.Println(p.Name)     // john
+        log.Println(p.Pass)     // doe
+        log.Println(p.Products) // [shoe, hat]
+
+        // ...
+})
+// Run tests with the following curl command
+
+// curl "http://localhost:3000/" -H "name: john" -H "pass: doe" -H "products: shoe,hat"
+```
+{% endcode %}
+
+## Response
+
+Response return the [\*fasthttp.Response](https://godoc.org/github.com/valyala/fasthttp#Response) pointer
+
+**Signature**
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) Response() *fasthttp.Response
+```
+{% endcode %}
+
+**Example**
+
+```go
+app.Get("/", func(c *fiber.Ctx) error {
+  c.Response().Write([]byte("Hello, World!"))
+  // => "Hello, World!"
+})
+```
 
 ## RestartRouting
 
@@ -1711,6 +1653,85 @@ app.Get("/", func(c *fiber.Ctx) error {
 ```
 {% endcode %}
 
+## SetParserDecoder
+
+Allow you to config BodyParser/QueryParser decoder, base on schema's options, providing possibility to add custom type for pausing.
+
+{% code title="Signature" %}
+```go
+func SetParserDecoder(parserConfig fiber.ParserConfig{
+  IgnoreUnknownKeys bool,
+  ParserType        []fiber.ParserType{
+      Customtype interface{},
+      Converter  func(string) reflect.Value,
+  },
+  ZeroEmpty         bool,
+  SetAliasTag       string,
+})
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+
+type CustomTime time.Time
+
+// String() returns the time in string
+func (ct *CustomTime) String() string {
+	t := time.Time(*ct).String()
+	return t
+}
+
+// Register the converter for CustomTime type format as 2006-01-02
+var timeConverter = func(value string) reflect.Value {
+  fmt.Println("timeConverter", value)
+  if v, err := time.Parse("2006-01-02", value); err == nil {
+    return reflect.ValueOf(v)
+  }
+  return reflect.Value{}
+}
+
+customTime := fiber.ParserType{
+  Customtype: CustomTime{},
+  Converter:  timeConverter,
+} 
+
+// Add setting to the Decoder
+fiber.SetParserDecoder(fiber.ParserConfig{
+  IgnoreUnknownKeys: true,
+  ParserType:        []fiber.ParserType{customTime},
+  ZeroEmpty:         true,
+})
+
+// Example to use CustomType, you pause custom time format not in RFC3339
+type Demo struct {
+	Date  CustomTime `form:"date" query:"date"`
+	Title string     `form:"title" query:"title"`
+	Body  string     `form:"body" query:"body"`
+}
+
+app.Post("/body", func(c *fiber.Ctx) error {
+	var d Demo
+	c.BodyParser(&d)
+	fmt.Println("d.Date", d.Date.String())
+	return c.JSON(d)
+})
+
+app.Get("/query", func(c *fiber.Ctx) error {
+	var d Demo
+	c.QueryParser(&d)
+	fmt.Println("d.Date", d.Date.String())
+	return c.JSON(d)
+})
+
+// curl -X POST -F title=title -F body=body -F date=2021-10-20 http://localhost:3000/body
+
+// curl -X GET "http://localhost:3000/query?title=title&body=body&date=2021-10-20"
+
+```
+{% endcode %}
+
+
 ## SetUserContext
 
 Sets the user specified implementation for context interface.
@@ -1912,27 +1933,6 @@ func (c *Ctx) XHR() bool
 
 app.Get("/", func(c *fiber.Ctx) error {
   c.XHR() // true
-
-  // ...
-})
-```
-{% endcode %}
-
-## IsFromLocal
-
-Returns true if request came from localhost
-{% code title="Signature" %}
-```go
-func (c *Ctx) IPs() []string
-```
-{% endcode %}
-
-{% code title="Example" %}
-```go
-
-app.Get("/", func(c *fiber.Ctx) error {
-  // If request came from localhost, return true else return false
-  c.isFromLocal()
 
   // ...
 })
