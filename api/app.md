@@ -558,7 +558,7 @@ Using `ListenTLS` defaults to the following config \( use `Listener` to provide 
 {% code title="Default \*tls.Config" %}
 ```go
 &tls.Config{
-    MinVersion:               tls.VersionTLS13,
+    MinVersion:               tls.VersionTLS12,
     Certificates: []tls.Certificate{
         cert,
     },
@@ -587,7 +587,7 @@ Using `ListenMutualTLS` defaults to the following config \( use `Listener` to pr
 {% code title="Default \*tls.Config" %}
 ```go
 &tls.Config{
-	MinVersion: tls.VersionTLS13,
+	MinVersion: tls.VersionTLS12,
 	ClientAuth: tls.RequireAndVerifyClientCert,
 	ClientCAs:  clientCertPool,
 	Certificates: []tls.Certificate{
