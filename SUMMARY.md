@@ -38,6 +38,8 @@
 * [📝 Templates](guide/templates.md)
 * [🐛 Error Handling](guide/error-handling.md)
 * [🔎 Validation](guide/validation.md)
+* [🪝 Hooks](guide/hooks.md)
+
 
 ## Extra
 
