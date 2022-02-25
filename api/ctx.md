@@ -705,7 +705,7 @@ app.Get("/", func(c *fiber.Ctx) error {
 
 ## JSON
 
-Converts any **interface** or **string** to JSON using the [segmentio/encoding](https://github.com/segmentio/encoding) package.
+Converts any **interface** or **string** to JSON using the [goccy/go-json](https://github.com/goccy/go-json) package.
 
 {% hint style="info" %}
 JSON also sets the content header to **application/json**.
