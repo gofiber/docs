@@ -1,12 +1,87 @@
 # 🪝 Hooks
 
-With Fiber v2.28.0, you can execute custom user functions when to run some methods. Here is list of this hooks:
-- [OnRoute](../api/app.md#onroute)
-- [OnName](../api/app.md#onname)
-- [OnListen](../api/app.md#onlisten)
-- [OnShutdown](../api/app.md#onshutdown)
-- [OnResponse](../api/app.md#onresponse)
-- [OnRequest](../api/app.md#onrequest)
+With Fiber v2.29.0, you can execute custom user functions when to run some methods. Here is a list of this hooks:
+- [OnRoute](#onroute)
+- [OnName](#onname)
+- [OnGroup](#ongroup)
+- [OnGroupName](#ongroupname)
+- [OnListen](#onlisten)
+- [OnShutdown](#onshutdown)
+
+## Constants
+```go
+// Handlers define a function to create hooks for Fiber.
+type OnRouteHandler = func(*Ctx, Route) error
+type OnNameHandler = OnRouteHandler
+type OnGroupHandler = func(*Ctx, Group) error
+type OnGroupNameHandler = OnGroupHandler
+type OnListenHandler = Handler
+type OnShutdownHandler = Handler
+```
+
+## OnRoute
+
+OnRoute is a hook to execute user functions on each route registeration. Also you can get route properties by **route** parameter.
+
+{% code title="Signature" %}
+```go
+func (app *App) OnRoute(handler ...OnRouteHandler)
+```
+{% endcode %}
+
+## OnName
+
+OnName is a hook to execute user functions on each route naming. Also you can get route properties by **route** parameter.
+
+**WARN:** OnName only works with naming routes, not groups.
+
+{% code title="Signature" %}
+```go
+func (app *App) OnName(handler ...OnNameHandler)
+```
+{% endcode %}
+
+## OnGroup
+
+OnGroup is a hook to execute user functions on each group registeration. Also you can get group properties by **group** parameter.
+
+{% code title="Signature" %}
+```go
+func (app *App) OnGroup(handler ...OnGroupHandler)
+```
+{% endcode %}
+
+## OnGroupName
+
+OnGroupName is a hook to execute user functions on each group naming. Also you can get group properties by **group** parameter.
+
+**WARN:** OnGroupName only works with naming groups, not routes.
+
+{% code title="Signature" %}
+```go
+func (app *App) OnGroupName(handler ...OnGroupNameHandler)
+```
+{% endcode %}
+
+## OnListen
+
+OnListen is a hook to execute user functions on Listen, ListenTLS, Listener.
+
+{% code title="Signature" %}
+```go
+func (app *App) OnListen(handler ...OnListenHandler)
+```
+{% endcode %}
+
+## OnShutdown
+
+OnShutdown is a hook to execute user functions after Shutdown.
+
+{% code title="Signature" %}
+```go
+func (app *App) OnShutdown(handler ...OnShutdownHandler)
+```
+{% endcode %}
 
 
 {% tabs %}
@@ -27,14 +102,14 @@ func main() {
 		return c.SendString(c.Route().Name)
 	}).Name("index")
 
-	app.OnName(func(c *fiber.Ctx, m fiber.Map) error {
-		fmt.Print("Name: " + m["route"].(fiber.Route).Name + ", ")
+	app.Hooks().OnName(func(c *fiber.Ctx, r fiber.Route) error {
+		fmt.Print("Name: " + r.Name + ", ")
 
 		return nil
 	})
 
-	app.OnName(func(c *fiber.Ctx, m fiber.Map) error {
-		fmt.Print("Method: " + m["route"].(fiber.Route).Method + "\n")
+	app.Hooks().OnName(func(c *fiber.Ctx, r fiber.Route) error {
+		fmt.Print("Method: " + r.Method + "\n")
 
 		return nil
 	})
@@ -56,65 +131,6 @@ func main() {
 ```
 {% endtab %}
 
-{% tab title="OnResponse Example" %}
-```go
-package main
-
-import (
-	"fmt"
-
-	"github.com/gofiber/fiber/v2"
-)
-
-func main() {
-	app := fiber.New()
-
-	app.OnResponse(func(c *fiber.Ctx, m fiber.Map) error {
-		fmt.Print("Path: " + c.Path() + "\n")
-
-		return nil
-	})
-
-	app.Get("/add/user", func(c *fiber.Ctx) error {
-		return c.SendString(c.Route().Name)
-	}).Name("addUser")
-
-	app.Listen(":5000")
-}
-
-// Curl: curl -X GET http://localhost:5000/add/user
-// Results:
-// Name: addUser, Method: GET
-// Name: destroyUser, Method: DELETE
-```
-{% endtab %}
-
-{% tab title="OnRequest Example" %}
-```go
-package main
-
-import (
-	"github.com/gofiber/fiber/v2"
-)
-
-func main() {
-	app := fiber.New()
-
-	app.OnRequest(func(c *fiber.Ctx, m fiber.Map) error {
-		return c.SendString("hook")
-	})
-
-	app.Get("/add/user", func(c *fiber.Ctx) error {
-		return c.SendString("handler")
-	}).Name("addUser")
-
-	app.Listen(":5000")
-}
-
-// Curl: curl -X GET http://localhost:5000/add/user
-// Result: hook
-```
-{% endtab %}
 {% endtabs %}
 
 

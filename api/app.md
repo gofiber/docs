@@ -628,68 +628,12 @@ if resp.StatusCode == fiber.StatusOK {
 ```
 {% endcode %}
 
-## OnRoute
+## Hooks
 
-OnRoute is a hook to execute user functions on each route registeration. Also you can get route properties by **"route"** key of map.
-
-{% code title="Signature" %}
-```go
-func (app *App) OnRoute(handler ...HookHandler)
-```
-{% endcode %}
-
-## OnName
-
-OnName is a hook to execute user functions on each route naming. Also you can get route properties by **"route"** key of map.
-
-**WARN:** OnName only works with naming routes, not groups.
+Hooks is a method to return [hooks](../guide/hooks.md) property.
 
 {% code title="Signature" %}
 ```go
-func (app *App) OnName(handler ...HookHandler)
-```
-{% endcode %}
-
-## OnListen
-
-OnListen is a hook to execute user functions on Listen, ListenTLS, Listener.
-
-{% code title="Signature" %}
-```go
-func (app *App) OnListen(handler ...HookHandler)
-```
-{% endcode %}
-
-## OnShutdown
-
-OnShutdown is a hook to execute user functions after Shutdown.
-
-{% code title="Signature" %}
-```go
-func (app *App) OnShutdown(handler ...HookHandler)
-```
-{% endcode %}
-
-## OnResponse
-
-OnResponse is a hook to execute user functions after a response.
-
-**WARN:** You can't edit response with OnResponse hook.
-
-{% code title="Signature" %}
-```go
-func (app *App) OnResponse(handler ...HookHandler)
-```
-{% endcode %}
-
-## OnRequest
-
-OnRequest is a hook to execute user functions after a request.
-
-**WARN:** You can edit response with OnRequest hook.
-
-{% code title="Signature" %}
-```go
-func (app *App) OnRequest(handler ...HookHandler)
+func (app *App) Hooks() *Hooks
 ```
 {% endcode %}
