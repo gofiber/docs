@@ -11,12 +11,12 @@ With Fiber v2.29.0, you can execute custom user functions when to run some metho
 ## Constants
 ```go
 // Handlers define a function to create hooks for Fiber.
-type OnRouteHandler = func(*Ctx, Route) error
+type OnRouteHandler = func(Route) error
 type OnNameHandler = OnRouteHandler
-type OnGroupHandler = func(*Ctx, Group) error
+type OnGroupHandler = func(Group) error
 type OnGroupNameHandler = OnGroupHandler
-type OnListenHandler = Handler
-type OnShutdownHandler = Handler
+type OnListenHandler = func() error
+type OnShutdownHandler = OnListenHandler
 ```
 
 ## OnRoute
@@ -102,13 +102,13 @@ func main() {
 		return c.SendString(c.Route().Name)
 	}).Name("index")
 
-	app.Hooks().OnName(func(c *fiber.Ctx, r fiber.Route) error {
+	app.Hooks().OnName(func(r fiber.Route) error {
 		fmt.Print("Name: " + r.Name + ", ")
 
 		return nil
 	})
 
-	app.Hooks().OnName(func(c *fiber.Ctx, r fiber.Route) error {
+	app.Hooks().OnName(func(r fiber.Route) error {
 		fmt.Print("Method: " + r.Method + "\n")
 
 		return nil
