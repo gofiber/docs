@@ -1,6 +1,6 @@
 # 🪝 Hooks
 
-With Fiber v2.29.0, you can execute custom user functions when to run some methods. Here is a list of this hooks:
+With Fiber v2.30.0, you can execute custom user functions when to run some methods. Here is a list of this hooks:
 - [OnRoute](#onroute)
 - [OnName](#onname)
 - [OnGroup](#ongroup)
