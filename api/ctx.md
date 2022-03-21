@@ -1302,6 +1302,31 @@ app.Get("/back", func(c *fiber.Ctx) error {
 ```
 {% endcode %}
 
+## GetRouteURL
+
+Get URI of route by route name and parameters
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) GetRouteURL(routeName string, params Map) (string, error)
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+app.Get("/", func(c *fiber.Ctx) error {
+    return c.SendString("Home page")
+}).Name("Home")
+app.Get("/user/:id", func(c *fiber.Ctx) error {
+    return c.SendString(c.Params("id"))
+}).Name("user.show")
+app.Get("/test", func(c *fiber.Ctx) error {
+	location, _ := c.GetRouteURL("user.show", fiber.Map{"id": 1})
+	return c.SendString(location)
+})
+```
+{% endcode %}
+
 ## Render
 
 Renders a view with data and sends a `text/html` response. By default `Render` uses the default [**Go Template engine**](https://golang.org/pkg/html/template/). If you want to use another View engine, please take a look at our [**Template middleware**](https://github.com/gofiber/template).
