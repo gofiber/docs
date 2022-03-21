@@ -658,3 +658,12 @@ if resp.StatusCode == fiber.StatusOK {
 ```
 {% endcode %}
 
+## Hooks
+
+Hooks is a method to return [hooks](../guide/hooks.md) property.
+
+{% code title="Signature" %}
+```go
+func (app *App) Hooks() *Hooks
+```
+{% endcode %}
