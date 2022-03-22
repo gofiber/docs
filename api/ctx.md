@@ -1304,7 +1304,7 @@ app.Get("/back", func(c *fiber.Ctx) error {
 
 ## GetRouteURL
 
-Get URI of route by route name and parameters
+Generates URLs to named routes, with parameters. URLs are relative, for example: "/user/1831"
 
 {% code title="Signature" %}
 ```go
