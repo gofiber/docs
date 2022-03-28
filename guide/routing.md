@@ -29,6 +29,13 @@ app.Get("/random.txt", func(c *fiber.Ctx) error {
 })
 ```
 
+As with the expressJs framework, the order of the route declaration plays a role.
+When a request is received, the routes are checked in the order in which they are declared.
+
+{% hint style="info" %}
+So please be careful to write routes with variable parameters after the routes that contain fixed parts, so that these variable parts do not match instead and unexpected behavior occurs.
+{% endhint %}
+
 ## Parameters
 
 Route parameters are dynamic elements in the route, which are **named** or **not named segments**. This segments that are used to capture the values specified at their position in the URL. The obtained values can be retrieved using the [Params](https://fiber.wiki/context#params) function, with the name of the route parameter specified in the path as their respective keys or for unnamed parameters the character\(\*, +\) and the counter of this.
