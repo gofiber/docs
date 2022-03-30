@@ -587,6 +587,35 @@ func (c *Ctx) GetRespHeaders() map[string]string
 ```
 {% endcode %}
 
+## GetRouteURL
+
+Generates URLs to named routes, with parameters. URLs are relative, for example: "/user/1831"
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) GetRouteURL(routeName string, params Map) (string, error)
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+app.Get("/", func(c *fiber.Ctx) error {
+    return c.SendString("Home page")
+}).Name("home")
+
+app.Get("/user/:id", func(c *fiber.Ctx) error {
+    return c.SendString(c.Params("id"))
+}).Name("user.show")
+
+app.Get("/test", func(c *fiber.Ctx) error {
+	location, _ := c.GetRouteURL("user.show", fiber.Map{"id": 1})
+	return c.SendString(location)
+})
+
+// /test returns "/user/1"
+```
+{% endcode %}
+
 ## Hostname
 
 Returns the hostname derived from the [Host](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host) HTTP header.
@@ -1299,35 +1328,6 @@ app.Get("/test", func(c *fiber.Ctx) error {
 app.Get("/back", func(c *fiber.Ctx) error {
   return c.RedirectBack("/")
 })
-```
-{% endcode %}
-
-## GetRouteURL
-
-Generates URLs to named routes, with parameters. URLs are relative, for example: "/user/1831"
-
-{% code title="Signature" %}
-```go
-func (c *Ctx) GetRouteURL(routeName string, params Map) (string, error)
-```
-{% endcode %}
-
-{% code title="Example" %}
-```go
-app.Get("/", func(c *fiber.Ctx) error {
-    return c.SendString("Home page")
-}).Name("home")
-
-app.Get("/user/:id", func(c *fiber.Ctx) error {
-    return c.SendString(c.Params("id"))
-}).Name("user.show")
-
-app.Get("/test", func(c *fiber.Ctx) error {
-	location, _ := c.GetRouteURL("user.show", fiber.Map{"id": 1})
-	return c.SendString(location)
-})
-
-// /test returns "/user/1"
 ```
 {% endcode %}
 
