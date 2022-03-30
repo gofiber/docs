@@ -608,8 +608,8 @@ app.Get("/user/:id", func(c *fiber.Ctx) error {
 }).Name("user.show")
 
 app.Get("/test", func(c *fiber.Ctx) error {
-	location, _ := c.GetRouteURL("user.show", fiber.Map{"id": 1})
-	return c.SendString(location)
+    location, _ := c.GetRouteURL("user.show", fiber.Map{"id": 1})
+    return c.SendString(location)
 })
 
 // /test returns "/user/1"
@@ -1291,7 +1291,7 @@ func (c *Ctx) RedirectToRoute(routeName string, params fiber.Map, status ...int)
 ```go
 app.Get("/", func(c *fiber.Ctx) error {
   return c.RedirectToRoute("user", fiber.Map{
-    "name": "fiber"	
+    "name": "fiber"
   })
 })
 
@@ -1721,8 +1721,8 @@ type CustomTime time.Time
 
 // String() returns the time in string
 func (ct *CustomTime) String() string {
-	t := time.Time(*ct).String()
-	return t
+    t := time.Time(*ct).String()
+    return t
 }
 
 // Register the converter for CustomTime type format as 2006-01-02
@@ -1748,23 +1748,23 @@ fiber.SetParserDecoder(fiber.ParserConfig{
 
 // Example to use CustomType, you pause custom time format not in RFC3339
 type Demo struct {
-	Date  CustomTime `form:"date" query:"date"`
-	Title string     `form:"title" query:"title"`
-	Body  string     `form:"body" query:"body"`
+    Date  CustomTime `form:"date" query:"date"`
+    Title string     `form:"title" query:"title"`
+    Body  string     `form:"body" query:"body"`
 }
 
 app.Post("/body", func(c *fiber.Ctx) error {
-	var d Demo
-	c.BodyParser(&d)
-	fmt.Println("d.Date", d.Date.String())
-	return c.JSON(d)
+    var d Demo
+    c.BodyParser(&d)
+    fmt.Println("d.Date", d.Date.String())
+    return c.JSON(d)
 })
 
 app.Get("/query", func(c *fiber.Ctx) error {
-	var d Demo
-	c.QueryParser(&d)
-	fmt.Println("d.Date", d.Date.String())
-	return c.JSON(d)
+    var d Demo
+    c.QueryParser(&d)
+    fmt.Println("d.Date", d.Date.String())
+    return c.JSON(d)
 })
 
 // curl -X POST -F title=title -F body=body -F date=2021-10-20 http://localhost:3000/body
