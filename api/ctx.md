@@ -1960,6 +1960,47 @@ app.Get("/", func(c *fiber.Ctx) error {
 ```
 {% endcode %}
 
+## Writef
+
+Writef adopts the string with variables
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) Writef(f string, a ...interface{}) (n int, err error)
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+app.Get("/", func(c *fiber.Ctx) error {
+  world := "World!"
+  c.Writef("Hello, %s", world) // => "Hello, World!"
+
+  fmt.Fprintf(c, "%s\n", "Hello, World!") // "Hello, World!Hello, World!"
+})
+```
+{% endcode %}
+
+## WriteString
+
+WriteString adopts the string
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) WriteString(s string) (n int, err error)
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+app.Get("/", func(c *fiber.Ctx) error {
+  c.WriteString("Hello, World!") // => "Hello, World!"
+
+  fmt.Fprintf(c, "%s\n", "Hello, World!") // "Hello, World!Hello, World!"
+})
+```
+{% endcode %}
+
 ## XHR
 
 A Boolean property, that is `true`, if the request’s [X-Requested-With](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers) header field is [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest), indicating that the request was issued by a client library \(such as [jQuery](https://api.jquery.com/jQuery.ajax/)\).
