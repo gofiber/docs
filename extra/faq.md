@@ -19,9 +19,9 @@ Routes and other application-specific logic can live in as many files as you wis
 
 ## How do I handle custom 404 responses?
 
-In Fiber, 404 responses are not the result of an error, so the error handler will not capture them. This behavior is because a 404 response simply indicates the absence of additional work to do; in other words, Fiber has found no routes that match the request.
+If you're using v2.32.0 or later, all you need to do is to implement a custom error handler. See below, or see a more detailed explanation at [Error Handling](). 
 
-All you need to do is add a middleware function at the very bottom of the stack \(below all other functions\) to handle a 404 response:
+If you're using v2.31.0 or earlier, the error handler will not capture 404 errors. Instead, you need to add a middleware function at the very bottom of the stack \(below all other functions\) to handle a 404 response:
 
 {% code title="Example" %}
 ```go
