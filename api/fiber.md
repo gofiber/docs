@@ -78,6 +78,10 @@ app := fiber.New(fiber.Config{
 | DisablePreParseMultipartForm | `bool` | Will not pre parse Multipart Form data if set to true. This option is useful for servers that desire to treat multipart form data as a binary blob, or choose when to parse the data. | `false` |
 | StreamRequestBody | `bool` | StreamRequestBody enables request body streaming, and calls the handler sooner when given body is larger then the current limit. | `false` |
 | EnablePrintRoutes | `bool` | EnablePrintRoutes enables print all routes with their method, path, name and handler.. | `false` |
+| Network | `string` | Known networks are "tcp", "tcp4" (IPv4-only), "tcp6" (IPv6-only)<br><br>**WARNING:** When prefork is set to true, only "tcp4" and "tcp6" can be chosen. | `NetworkTCP4` |
+| JSONEncoder | `utils.JSONMarshal` | Allowing for flexibility in using another json library for encoding. | `json.Marshal` |
+| JSONDecoder | `utils.JSONUnmarshal` | Allowing for flexibility in using another json library for decoding. | `json.Unmarshal` |
+
 
 ## NewError
 
