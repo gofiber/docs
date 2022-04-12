@@ -5,6 +5,9 @@ Since Fiber v2.32.0, we use **encoding/json** as default json library due to sta
 - [goccy/go-json](https://github.com/goccy/go-json1)
 - [bytedance/sonic](https://github.com/bytedance/sonic)
 - [segmentio/encoding](https://github.com/segmentio/encoding)
+- [mailru/easyjson](https://github.com/mailru/easyjson)
+- [minio/simdjson-go](https://github.com/minio/simdjson-go)
+- [wI2L/jettison](https://github.com/wI2L/jettison)
 
 {% code title="Example" %}
 ```go
