@@ -1648,6 +1648,60 @@ app.Get("/not-found", func(c *fiber.Ctx) error {
 ```
 {% endcode %}
 
+
+## SendFileWithConfig
+
+Transfers the file from the given path. Sets the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) response HTTP header field based on the **filenames** extension. 
+
+Appart from SendFile, this method gives more config possibilities. Config struct:
+
+```go
+// SendFile defines configuration options when to transfer file with SendFileWithConfig.
+type SendFile struct {
+	// When set to true, the server tries minimizing CPU usage by caching compressed files.
+	// This works differently than the github.com/gofiber/compression middleware.
+	// Optional. Default value false
+	Compress bool `json:"compress"`
+
+	// When set to true, enables byte range requests.
+	// Optional. Default value false
+	ByteRange bool `json:"byte_range"`
+
+	// Expiration duration for inactive file handlers.
+	// Use a negative time.Duration to disable it.
+	//
+	// Optional. Default value 10 * time.Second.
+	CacheDuration time.Duration `json:"cache_duration"`
+
+	// The value for the Cache-Control HTTP-header
+	// that is set on the file response. MaxAge is defined in seconds.
+	//
+	// Optional. Default value 0.
+	MaxAge int `json:"max_age"`
+}
+```
+
+{% hint style="warning" %}
+Method doesn´t use **gzipping** by default, pass **SendFile{Compress: true}** to enable it. 
+{% endhint %}
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) SendFileWithConfig(file string, config ...SendFile) error
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+app.Get("/not-found", func(c *fiber.Ctx) error {
+  return c.SendFileWithConfig("./public/404.html");
+
+  // Disable compression
+  return c.SendFile("./static/index.html", fiber.SendFile{Compress: false});
+})
+```
+{% endcode %}
+
 ## SendStatus
 
 Sets the status code and the correct status message in the body, if the response body is **empty**.
