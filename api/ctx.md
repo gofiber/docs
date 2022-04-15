@@ -1063,6 +1063,37 @@ app.Get("/v1/*/shop/*", func(c *fiber.Ctx) error {
 > _Returned value is only valid within the handler. Do not store any references.  
 > Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](../#zero-allocation)
 
+## AllParams
+
+Params is used to get all route parameters. 
+Using Params method to get params.
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) AllParams() map[string]string
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+// GET http://example.com/user/fenny
+app.Get("/user/:name", func(c *fiber.Ctx) error {
+  c.AllParams("name") // "{"name": "fenny"}"
+
+  // ...
+})
+
+// GET http://example.com/user/fenny/123
+app.Get("/user/*", func(c *fiber.Ctx) error {
+  c.AllParams("*")  // "{"*1": "fenny/123"}"
+  c.AllParams("*1") // "{"*1": "fenny/123"}"
+
+  // ...
+})
+```
+{% endcode %}
+
+
 ## ParamsInt
 
 Method can be used to get an integer from the route parameters.
