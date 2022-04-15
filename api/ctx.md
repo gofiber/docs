@@ -1281,6 +1281,10 @@ Redirects to the specific route along with the parameters and with specified sta
 If **not** specified, status defaults to **302 Found**.
 {% endhint %}
 
+{% hint style="info" %}
+If you want to send queries to route, you must add **"queries"** key typed as **map[string]string** to params.
+{% endhint %}
+
 {% code title="Signature" %}
 ```go
 func (c *Ctx) RedirectToRoute(routeName string, params fiber.Map, status ...int) error
@@ -1290,8 +1294,17 @@ func (c *Ctx) RedirectToRoute(routeName string, params fiber.Map, status ...int)
 {% code title="Example" %}
 ```go
 app.Get("/", func(c *fiber.Ctx) error {
+  // /user/fiber
   return c.RedirectToRoute("user", fiber.Map{
     "name": "fiber"
+  })
+})
+
+app.Get("/with-queries", func(c *fiber.Ctx) error {
+  // /user/fiber?data[0][name]=john&data[0][age]=10&test=doe
+  return c.RedirectToRoute("user", fiber.Map{
+    "name": "fiber",
+    "queries": map[string]string{"data[0][name]": "john", "data[0][age]": "10", "test": "doe"},
   })
 })
 
