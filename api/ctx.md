@@ -1690,6 +1690,18 @@ app.Get("/not-found", func(c *fiber.Ctx) error {
 ```
 {% endcode %}
 
+{% hint style="info" %}
+If the file contains an url specific character you have to escape it before passing the file path into the `sendFile` function.
+{% endhint %}
+
+{% code title="Example" %}
+```go
+app.Get("/file-with-url-chars", func(c *fiber.Ctx) error {
+  return c.SendFile(url.PathEscape("hash_sign_#.txt"))
+})
+```
+{% endcode %}
+
 ## SendStatus
 
 Sets the status code and the correct status message in the body, if the response body is **empty**.
