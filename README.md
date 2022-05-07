@@ -1,32 +1,22 @@
----
-description: >-
-  An online API documentation with examples so you can start building web apps
-  with Fiber right away!
----
-
-# 👋 Welcome
+## 👋 Welcome to Fiber Docs
+An online API documentation with examples so you can start building web apps with Fiber right away!
 
 **Fiber** is an [Express](https://github.com/expressjs/express) inspired **web framework** built on top of [Fasthttp](https://github.com/valyala/fasthttp), the **fastest** HTTP engine for [Go](https://go.dev/doc/). Designed to **ease** things up for **fast** development with **zero memory allocation** and **performance** in mind.
 
-{% hint style="warning" %}
 These docs are for **Fiber v2**, which was released on **September 15th, 2020**.
-{% endhint %}
 
-## Installation
+### Installation
 
 First of all, [download](https://go.dev/dl/) and install Go. `1.14` or higher is required.
 
 Installation is done using the [`go get`](https://pkg.go.dev/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) command:
 
-```bash
+```
 go get github.com/gofiber/fiber/v2
 ```
 
-## Zero Allocation
-
-{% hint style="warning" %}
-Some values returned from \***fiber.Ctx** are **not** immutable by default
-{% endhint %}
+### Zero Allocation
+Some values returned from \***fiber.Ctx** are **not** immutable by default.
 
 Because fiber is optimized for **high-performance**, values returned from **fiber.Ctx** are **not** immutable by default and **will** be re-used across requests. As a rule of thumb, you **must** only use context values within the handler, and you **must not** keep any references. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
 
@@ -56,7 +46,7 @@ func handler(c *fiber.Ctx) error {
 }
 ```
 
-We created a custom `ImmutableString` a function that does the above and is available in the [gofiber/utils](https://github.com/gofiber/utils) package.
+We created a custom `ImmutableString` function that does the above and is available in the [gofiber/utils](https://github.com/gofiber/utils) package.
 
 ```go
 app.Get("/:foo", func(c *fiber.Ctx) error {
@@ -67,13 +57,13 @@ app.Get("/:foo", func(c *fiber.Ctx) error {
 })
 ```
 
-Alternatively, you can also use the[ **Immutable setting**](./). It will make all values returned from the context immutable, allowing you to persist them anywhere. Of course, this comes at the cost of performance.
+Alternatively, you can also use the `Immutable` setting. It will make all values returned from the context immutable, allowing you to persist them anywhere. Of course, this comes at the cost of performance.
 
-For more information, please check [**\#426**](https://github.com/gofiber/fiber/issues/426) **and** [**\#185**](https://github.com/gofiber/fiber/issues/185).
+For more information, please check [**\#426**](https://github.com/gofiber/fiber/issues/426) and [**\#185**](https://github.com/gofiber/fiber/issues/185).
 
-## Hello, World!
+### Hello, World!
 
-Embedded below is essentially the most straightforward **Fiber** app, which you can create.
+Embedded below is essentially the most straightforward **Fiber** app you can create:
 
 ```go
 package main
@@ -81,13 +71,13 @@ package main
 import "github.com/gofiber/fiber/v2"
 
 func main() {
-  app := fiber.New()
+	app := fiber.New()
 
-  app.Get("/", func(c *fiber.Ctx) error {
-    return c.SendString("Hello, World!")
-  })
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString("Hello, World!")
+	})
 
-  app.Listen(":3000")
+	app.Listen(":3000")
 }
 ```
 
@@ -95,15 +85,13 @@ func main() {
 go run server.go
 ```
 
-Browse to `http://localhost:3000,` and you should see `Hello, World!` on the page.
+Browse to `http://localhost:3000` and you should see `Hello, World!` on the page.
 
-## Basic routing
+### Basic routing
 
-Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI \(or path\) and a specific HTTP request method \(GET, PUT, POST and so on\).
+Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI (or path) and a specific HTTP request method (`GET`, `PUT`, `POST`, etc.).
 
-{% hint style="info" %}
-Each route can have **multiple handler functions**, that is executed when the route is matched.
-{% endhint %}
+Each route can have **multiple handler functions** that are executed when the route is matched.
 
 Route definition takes the following structures:
 
@@ -112,17 +100,17 @@ Route definition takes the following structures:
 app.Method(path string, ...func(*fiber.Ctx) error)
 ```
 
-* `app` is an instance of **Fiber**.
-* `Method` is an [HTTP request method](https://docs.gofiber.io/api/app#route-handlers), in capitalization: `Get`, `Put`, `Post`, etc.
-* `path` is a virtual path on the server.
-* `func(*fiber.Ctx) error` is a callback function containing the [Context](https://docs.gofiber.io/api/ctx) executed when the route is matched.
+- `app` is an instance of **Fiber**
+- `Method` is an [HTTP request method](https://docs.gofiber.io/api/app#route-handlers): `GET`, `PUT`, `POST`, etc.
+- `path` is a virtual path on the server
+- `func(*fiber.Ctx) error` is a callback function containing the [Context](https://docs.gofiber.io/api/ctx) executed when the route is matched
 
 **Simple route**
 
 ```go
 // Respond with "Hello, World!" on root path, "/"
 app.Get("/", func(c *fiber.Ctx) error {
-  return c.SendString("Hello, World!")
+	return c.SendString("Hello, World!")
 })
 ```
 
@@ -132,8 +120,8 @@ app.Get("/", func(c *fiber.Ctx) error {
 // GET http://localhost:8080/hello%20world
 
 app.Get("/:value", func(c *fiber.Ctx) error {
-  return c.SendString("value: " + c.Params("value"))
-  // => Get request with value: hello world
+	return c.SendString("value: " + c.Params("value"))
+	// => Get request with value: hello world
 })
 ```
 
@@ -143,11 +131,11 @@ app.Get("/:value", func(c *fiber.Ctx) error {
 // GET http://localhost:3000/john
 
 app.Get("/:name?", func(c *fiber.Ctx) error {
-  if c.Params("name") != "" {
-    return c.SendString("Hello " + c.Params("name"))
-    // => Hello john
-  }
-  return c.SendString("Where is john?")
+	if c.Params("name") != "" {
+		return c.SendString("Hello " + c.Params("name"))
+		// => Hello john
+	}
+	return c.SendString("Where is john?")
 })
 ```
 
@@ -157,19 +145,19 @@ app.Get("/:name?", func(c *fiber.Ctx) error {
 // GET http://localhost:3000/api/user/john
 
 app.Get("/api/*", func(c *fiber.Ctx) error {
-  return c.SendString("API path: " + c.Params("*"))
-  // => API path: user/john
+	return c.SendString("API path: " + c.Params("*"))
+	// => API path: user/john
 })
 ```
 
-## Static files
+### Static files
 
 To serve static files such as **images**, **CSS**, and **JavaScript** files, replace your function handler with a file or directory string.
 
 Function signature:
 
 ```go
-app.Static(prefix, root string)
+app.Static(prefix, root string, config ...Static)
 ```
 
 Use the following code to serve files in a directory named `./public`:
@@ -190,7 +178,7 @@ http://localhost:8080/js/jquery.js
 http://localhost:8080/css/style.css
 ```
 
-## Note
+### Note
 
-For more information on how to build APIs in Go with Fiber, please check out this excellent article [on building an express-style API in Go with Fiber](https://blog.logrocket.com/express-style-api-go-fiber/)
-
+For more information on how to build APIs in Go with Fiber, please check out this excellent article
+[on building an express-style API in Go with Fiber](https://blog.logrocket.com/express-style-api-go-fiber/).
