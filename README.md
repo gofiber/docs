@@ -6,7 +6,7 @@ description: >-
 
 # 👋 Welcome
 
-**Fiber** is an [Express](https://github.com/expressjs/express) inspired **web framework** built on top of [Fasthttp](https://github.com/valyala/fasthttp), the **fastest** HTTP engine for [Go](https://golang.org/doc/). Designed to **ease** things up for **fast** development with **zero memory allocation** and **performance** in mind.
+**Fiber** is an [Express](https://github.com/expressjs/express) inspired **web framework** built on top of [Fasthttp](https://github.com/valyala/fasthttp), the **fastest** HTTP engine for [Go](https://go.dev/doc/). Designed to **ease** things up for **fast** development with **zero memory allocation** and **performance** in mind.
 
 {% hint style="warning" %}
 These docs are for **Fiber v2**, which was released on **September 15th, 2020**.
@@ -14,9 +14,9 @@ These docs are for **Fiber v2**, which was released on **September 15th, 2020**.
 
 ## Installation
 
-First of all, [download](https://golang.org/dl/) and install Go. `1.14` or higher is required.
+First of all, [download](https://go.dev/dl/) and install Go. `1.14` or higher is required.
 
-Installation is done using the [`go get`](https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) command:
+Installation is done using the [`go get`](https://pkg.go.dev/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) command:
 
 ```bash
 go get github.com/gofiber/fiber/v2
@@ -39,7 +39,7 @@ func handler(c *fiber.Ctx) error {
 }
 ```
 
-If you need to persist such values outside the handler, make copies of their **underlying buffer** using the [copy](https://golang.org/pkg/builtin/#copy) builtin. Here is an example for persisting a string:
+If you need to persist such values outside the handler, make copies of their **underlying buffer** using the [copy](https://pkg.go.dev/builtin/#copy) builtin. Here is an example for persisting a string:
 
 ```go
 func handler(c *fiber.Ctx) error {
