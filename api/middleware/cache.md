@@ -102,6 +102,13 @@ type Config struct {
     //
     // Default: false
     StoreResponseHeaders bool
+
+    // Max number of bytes of response bodies simultaneously stored in cache. When limit is reached,
+    // entries with the nearest expiration are deleted to make room for new.
+    // 0 means no limit
+    //
+    // Default: 0
+    MaxBytes uint
 }
 ```
 
@@ -116,9 +123,10 @@ var ConfigDefault = Config{
     KeyGenerator: func(c *fiber.Ctx) string {
         return utils.CopyString(c.Path())
     },
-    ExpirationGenerator : nil,
+    ExpirationGenerator:  nil,
     StoreResponseHeaders: false,
-    Storage:      nil,
+    Storage:              nil,
+    MaxBytes:             0,
 }
 ```
 
