@@ -42,9 +42,20 @@ func main() {
 You can also access the API endpoint with
 `curl -X GET -H "Accept: application/json" http://localhost:3000/metrics` which returns:
 ```json
-{"pid":{ "cpu":0.4568381746582226, "ram":20516864,   "conns":3 },
- "os": { "cpu":8.759124087593099,  "ram":3997155328, "conns":44,
-	"total_ram":8245489664, "load_avg":0.51 }}
+{
+	"pid": {
+		"cpu":0.4568381746582226,
+		"ram":20516864,
+		"conns":3
+	},
+	"os": {
+		"cpu":8.759124087593099,
+		"ram":3997155328,
+		"conns":44,
+		"total_ram":8245489664,
+		"load_avg":0.51
+	}
+}
 ```
 
 ## Config
