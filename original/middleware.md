@@ -315,7 +315,7 @@ func main() {
 
 ## Template
 
-By default Fiber comes with the [**default HTML template**](https://golang.org/pkg/html/template/) engine, but this middleware contains third party rendering engines.
+By default Fiber comes with the [**default HTML template**](https://pkg.go.dev/html/template/) engine, but this middleware contains third party rendering engines.
 
 **Installation**
 

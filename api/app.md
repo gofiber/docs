@@ -603,7 +603,7 @@ Using `ListenMutualTLS` defaults to the following config \( use `Listener` to pr
 
 ## Listener
 
-You can pass your own [`net.Listener`](https://golang.org/pkg/net/#Listener) using the `Listener` method. This method can be used to enable **TLS/HTTPS** with a custom tls.Config.
+You can pass your own [`net.Listener`](https://pkg.go.dev/net/#Listener) using the `Listener` method. This method can be used to enable **TLS/HTTPS** with a custom tls.Config.
 
 {% code title="Signature" %}
 ```go

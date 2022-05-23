@@ -275,7 +275,7 @@ app.Listen("127.0.0.1:8080")
 ```
 {% endcode %}
 
-To enable **TLS/HTTPS** you can append a [**TLS config**](https://golang.org/pkg/crypto/tls/#Config).
+To enable **TLS/HTTPS** you can append a [**TLS config**](https://pkg.go.dev/crypto/tls/#Config).
 
 {% code title="Example" %}
 ```go
@@ -291,7 +291,7 @@ app.Listen(":443", config)
 
 ## Serve
 
-You can pass your own [`net.Listener`](https://golang.org/pkg/net/#Listener) using the `Serve` method.
+You can pass your own [`net.Listener`](https://pkg.go.dev/net/#Listener) using the `Serve` method.
 
 {% code title="Signature" %}
 ```go

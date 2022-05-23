@@ -22,7 +22,7 @@ app.Get("/", func(c *fiber.Ctx) error {
 {% endtab %}
 {% endtabs %}
 
-Fiber does not handle [panics](https://blog.golang.org/defer-panic-and-recover) by default. To recover from a panic thrown by any handler in the stack, you need to include the `Recover` middleware below:
+Fiber does not handle [panics](https://go.dev/blog/defer-panic-and-recover) by default. To recover from a panic thrown by any handler in the stack, you need to include the `Recover` middleware below:
 
 {% code title="Example" %}
 ```go

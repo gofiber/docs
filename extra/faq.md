@@ -55,7 +55,7 @@ Fiber currently supports 8 template engines in our [gofiber/template](https://gi
 * [Amber](https://github.com/eknkc/amber)
 * [Django](https://github.com/flosch/pongo2)
 * [Handlebars](https://github.com/aymerick/raymond)
-* [HTML](https://golang.org/pkg/html/template/)
+* [HTML](https://pkg.go.dev/html/template/)
 * [Jet](https://github.com/CloudyKit/jet)
 * [Mustache](https://github.com/cbroglie/mustache)
 * [Pug](https://github.com/Joker/jade)
