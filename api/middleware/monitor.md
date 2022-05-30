@@ -34,7 +34,7 @@ import (
 func main() {
 	app := fiber.New()
 
-	app.Get("/metrics", monitor.New(monitor.Config{Title: "MyService Metrics Page"}))
+	app.Get("/metrics", monitor.New(monitor.Config{}))
 
 	log.Fatal(app.Listen(":3000"))
 }
@@ -63,16 +63,6 @@ You can also access the API endpoint with
 ```go
 // Config defines the config for middleware.
 type Config struct {
-	// Metrics page title
-	//
-	// Optional. Default: "Fiber Monitor"
-	Title string
-
-	// Refresh period
-	//
-	// Optional. Default: 3 seconds
-	Refresh time.Duration
-
 	// To disable serving HTML, you can make true this option.
 	//
 	// Optional. Default: false
@@ -89,8 +79,6 @@ type Config struct {
 
 ```go
 var ConfigDefault = Config{
-	Title:   "Fiber Monitor",
-	Refresh: 3 * time.Second,
 	APIOnly: false,
 	Next:    nil,
 }
