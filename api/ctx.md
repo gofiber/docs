@@ -1100,12 +1100,12 @@ will be returned. If the parameter is NOT a number, zero and an error
 will be returned
 
 {% hint style="info" %}
-Defaults to empty string \(`""`\), if the param **doesn't** exist.
+Defaults to the integer zero \(`0`\), if the param **doesn't** exist.
 {% endhint %}
 
 {% code title="Signature" %}
 ```go
-func (c *Ctx) Params(key string) (int, error)
+func (c *Ctx) ParamsInt(key string) (int, error)
 ```
 {% endcode %}
 
