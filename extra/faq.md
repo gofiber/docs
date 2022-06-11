@@ -19,7 +19,7 @@ Routes and other application-specific logic can live in as many files as you wis
 
 ## How do I handle custom 404 responses?
 
-If you're using v2.32.0 or later, all you need to do is to implement a custom error handler. See below, or see a more detailed explanation at [Error Handling](). 
+If you're using v2.32.0 or later, all you need to do is to implement a custom error handler. See below, or see a more detailed explanation at [Error Handling](../guide/error-handling.md#custom-error-handler). 
 
 If you're using v2.31.0 or earlier, the error handler will not capture 404 errors. Instead, you need to add a middleware function at the very bottom of the stack \(below all other functions\) to handle a 404 response:
 
@@ -33,7 +33,7 @@ app.Use(func(c *fiber.Ctx) error {
 
 ## How do I set up an error handler?
 
-To override the default error handler, you can override the default when providing a [Config ]()when initiating a new [Fiber instance]().
+To override the default error handler, you can override the default when providing a [Config](../api/fiber.md#config) when initiating a new [Fiber instance](../api/fiber.md#new).
 
 {% code title="Example" %}
 ```go
@@ -45,7 +45,7 @@ app := fiber.New(fiber.Config{
 ```
 {% endcode %}
 
-We have a dedicated page explaining how error handling works in Fiber, see [Error Handling]().
+We have a dedicated page explaining how error handling works in Fiber, see [Error Handling](../guide/error-handling.md).
 
 ## Which template engines does Fiber support?
 
@@ -60,7 +60,7 @@ Fiber currently supports 8 template engines in our [gofiber/template](https://gi
 * [Mustache](https://github.com/cbroglie/mustache)
 * [Pug](https://github.com/Joker/jade)
 
-To learn more about using Templates in Fiber, see [Templates](faq.md).
+To learn more about using Templates in Fiber, see [Templates](../guide/templates.md).
 
 ## Does Fiber have a community chat?
 
