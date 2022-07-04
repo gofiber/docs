@@ -1,98 +1,184 @@
-# Monitor
-Monitor middleware for [Fiber](https://github.com/gofiber/fiber) that reports server metrics, inspired by [express-status-monitor](https://github.com/RafalWilinski/express-status-monitor)
+## 👋 Welcome to Fiber Docs
+An online API documentation with examples so you can start building web apps with Fiber right away!
 
-:warning: **Warning:** Monitor is still in beta, API might change in the future!
+**Fiber** is an [Express](https://github.com/expressjs/express) inspired **web framework** built on top of [Fasthttp](https://github.com/valyala/fasthttp), the **fastest** HTTP engine for [Go](https://go.dev/doc/). Designed to **ease** things up for **fast** development with **zero memory allocation** and **performance** in mind.
 
-![](https://i.imgur.com/nHAtBpJ.gif)
+These docs are for **Fiber v2**, which was released on **September 15th, 2020**.
 
-### Signatures
-```go
-func New() fiber.Handler
+### Installation
+
+First of all, [download](https://go.dev/dl/) and install Go. `1.14` or higher is required.
+
+Installation is done using the [`go get`](https://pkg.go.dev/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them) command:
+
+```
+go get github.com/gofiber/fiber/v2
 ```
 
-### Examples
-Import the middleware package and assign it to a route.
+### Zero Allocation
+Some values returned from \***fiber.Ctx** are **not** immutable by default.
+
+Because fiber is optimized for **high-performance**, values returned from **fiber.Ctx** are **not** immutable by default and **will** be re-used across requests. As a rule of thumb, you **must** only use context values within the handler, and you **must not** keep any references. As soon as you return from the handler, any values you have obtained from the context will be re-used in future requests and will change below your feet. Here is an example:
+
+```go
+func handler(c *fiber.Ctx) error {
+    // Variable is only valid within this handler
+    result := c.Params("foo") 
+
+    // ...
+}
+```
+
+If you need to persist such values outside the handler, make copies of their **underlying buffer** using the [copy](https://pkg.go.dev/builtin/#copy) builtin. Here is an example for persisting a string:
+
+```go
+func handler(c *fiber.Ctx) error {
+    // Variable is only valid within this handler
+    result := c.Params("foo")
+
+    // Make a copy
+    buffer := make([]byte, len(result))
+    copy(buffer, result)
+    resultCopy := string(buffer) 
+    // Variable is now valid forever
+
+    // ...
+}
+```
+
+We created a custom `ImmutableString` function that does the above and is available in the [gofiber/utils](https://github.com/gofiber/utils) package.
+
+```go
+app.Get("/:foo", func(c *fiber.Ctx) error {
+    // Variable is now immutable
+    result := utils.ImmutableString(c.Params("foo")) 
+
+    // ...
+})
+```
+
+Alternatively, you can also use the `Immutable` setting. It will make all values returned from the context immutable, allowing you to persist them anywhere. Of course, this comes at the cost of performance.
+
+For more information, please check [**\#426**](https://github.com/gofiber/fiber/issues/426) and [**\#185**](https://github.com/gofiber/fiber/issues/185).
+
+### Hello, World!
+
+Embedded below is essentially the most straightforward **Fiber** app you can create:
+
 ```go
 package main
 
-import (
-	"log"
-
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/monitor"
-)
+import "github.com/gofiber/fiber/v2"
 
 func main() {
 	app := fiber.New()
 
-	app.Get("/metrics", monitor.New(monitor.Config{Title: "MyService Metrics Page"}))
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString("Hello, World!")
+	})
 
-	log.Fatal(app.Listen(":3000"))
+	app.Listen(":3000")
 }
 ```
-You can also access the API endpoint with
-`curl -X GET -H "Accept: application/json" http://localhost:3000/metrics` which returns:
-```json
-{"pid":{ "cpu":0.4568381746582226, "ram":20516864,   "conns":3 },
- "os": { "cpu":8.759124087593099,  "ram":3997155328, "conns":44,
-	"total_ram":8245489664, "load_avg":0.51 }}
+
+```text
+go run server.go
 ```
 
-## Config
+Browse to `http://localhost:3000` and you should see `Hello, World!` on the page.
+
+### Basic routing
+
+Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI (or path) and a specific HTTP request method (`GET`, `PUT`, `POST`, etc.).
+
+Each route can have **multiple handler functions** that are executed when the route is matched.
+
+Route definition takes the following structures:
 
 ```go
-// Config defines the config for middleware.
-type Config struct {
-	// Metrics page title
-	//
-	// Optional. Default: "Fiber Monitor"
-	Title string
-
-	// Refresh period
-	//
-	// Optional. Default: 3 seconds
-	Refresh time.Duration
-
-	// Whether the service should expose only the monitoring API.
-	//
-	// Optional. Default: false
-	APIOnly bool
-
-	// Next defines a function to skip this middleware when returned true.
-	//
-	// Optional. Default: nil
-	Next func(c *fiber.Ctx) bool
-
-	// Custom HTML Code to Head Section(Before End)
-	//
-	// Optional. Default: empty
-	CustomHead string
-
-	// FontURL for specify font resource path or URL . also you can use relative path
-	//
-	// Optional. Default: https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap
-
-	FontURL string
-	// ChartJsURL for specify ChartJS library  path or URL . also you can use relative path
-	//
-	// Optional. Default: https://cdn.jsdelivr.net/npm/chart.js@2.9/dist/Chart.bundle.min.js
-
-	ChartJsURL string
-
-}
+// Function signature
+app.Method(path string, ...func(*fiber.Ctx) error)
 ```
 
-## Default Config
+- `app` is an instance of **Fiber**
+- `Method` is an [HTTP request method](https://docs.gofiber.io/api/app#route-handlers): `GET`, `PUT`, `POST`, etc.
+- `path` is a virtual path on the server
+- `func(*fiber.Ctx) error` is a callback function containing the [Context](https://docs.gofiber.io/api/ctx) executed when the route is matched
+
+**Simple route**
 
 ```go
-var ConfigDefault = Config{
-	Title:   "Fiber Monitor",
-	Refresh: 3 * time.Second,
-	APIOnly: false,
-	Next:    nil,
-	CustomHead:"",
-	FontURL:"https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap",
-	ChartJsURL:"https://cdn.jsdelivr.net/npm/chart.js@2.9/dist/Chart.bundle.min.js"
-
-}
+// Respond with "Hello, World!" on root path, "/"
+app.Get("/", func(c *fiber.Ctx) error {
+	return c.SendString("Hello, World!")
+})
 ```
+
+**Parameters**
+
+```go
+// GET http://localhost:8080/hello%20world
+
+app.Get("/:value", func(c *fiber.Ctx) error {
+	return c.SendString("value: " + c.Params("value"))
+	// => Get request with value: hello world
+})
+```
+
+**Optional parameter**
+
+```go
+// GET http://localhost:3000/john
+
+app.Get("/:name?", func(c *fiber.Ctx) error {
+	if c.Params("name") != "" {
+		return c.SendString("Hello " + c.Params("name"))
+		// => Hello john
+	}
+	return c.SendString("Where is john?")
+})
+```
+
+**Wildcards**
+
+```go
+// GET http://localhost:3000/api/user/john
+
+app.Get("/api/*", func(c *fiber.Ctx) error {
+	return c.SendString("API path: " + c.Params("*"))
+	// => API path: user/john
+})
+```
+
+### Static files
+
+To serve static files such as **images**, **CSS**, and **JavaScript** files, replace your function handler with a file or directory string.
+
+Function signature:
+
+```go
+app.Static(prefix, root string, config ...Static)
+```
+
+Use the following code to serve files in a directory named `./public`:
+
+```go
+app := fiber.New()
+
+app.Static("/", "./public") 
+
+app.Listen(":3000")
+```
+
+Now, you can load the files that are in the `./public` directory:
+
+```bash
+http://localhost:8080/hello.html
+http://localhost:8080/js/jquery.js
+http://localhost:8080/css/style.css
+```
+
+### Note
+
+For more information on how to build APIs in Go with Fiber, please check out this excellent article
+[on building an express-style API in Go with Fiber](https://blog.logrocket.com/express-style-api-go-fiber/).
