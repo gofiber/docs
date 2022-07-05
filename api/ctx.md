@@ -89,6 +89,29 @@ app.Get("/user/*", func(c *fiber.Ctx) error {
 ```
 {% endcode %}
 
+## ParamsParser
+This method is similar to BodyParser, but for path parameters. It is important to use the struct tag "uri". For example, if you want to parse a path parameter with a field called Pass, you would use a struct field of uri:"pass"
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) ParamsParser(out interface{}) error
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+// GET http://example.com/user/111
+app.Get("/user/:id", func(c *fiber.Ctx) error {
+  param := struct {ID uint `uri:"id"`}{}
+	   
+  c.ParamsParser(&param) // "{"id": 111}"
+
+  // ...
+})
+
+```
+{% endcode %}
+
 ## App
 
 Returns the [\*App](ctx.md) reference so you could easily access all application settings.
