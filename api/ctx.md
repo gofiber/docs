@@ -1123,6 +1123,29 @@ app.Get("/user/:id", func(c *fiber.Ctx) error {
 
 This method is equivalent of using `atoi` with ctx.Params
 
+## ParamsParser
+This method is similar to BodyParser, but for path parameters. It is important to use the struct tag "params". For example, if you want to parse a path parameter with a field called Pass, you would use a struct field of params:"pass"
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) ParamsParser(out interface{}) error
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+// GET http://example.com/user/111
+app.Get("/user/:id", func(c *fiber.Ctx) error {
+  param := struct {ID uint `params:"id"`}{}
+	   
+  c.ParamsParser(&param) // "{"id": 111}"
+
+  // ...
+})
+
+```
+{% endcode %}
+
 ## Path
 
 Contains the path part of the request URL. Optionally, you could override the path by passing a string. For internal redirects, you might want to call [RestartRouting](ctx.md#restartrouting) instead of [Next](ctx.md#next).
