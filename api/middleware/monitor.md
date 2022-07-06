@@ -1,18 +1,9 @@
 # Monitor
-
 Monitor middleware for [Fiber](https://github.com/gofiber/fiber) that reports server metrics, inspired by [express-status-monitor](https://github.com/RafalWilinski/express-status-monitor)
 
 :warning: **Warning:** Monitor is still in beta, API might change in the future!
 
-![](https://i.imgur.com/4NfRCDm.gif)
-
-## Table of Contents
-
-* [Signatures](monitor.md#signatures)
-* [Examples](monitor.md#examples)
-* [Config](monitor.md#config)
-* [Default Config](monitor.md#default-config)
-
+![](https://i.imgur.com/nHAtBpJ.gif)
 
 ### Signatures
 ```go
@@ -42,20 +33,9 @@ func main() {
 You can also access the API endpoint with
 `curl -X GET -H "Accept: application/json" http://localhost:3000/metrics` which returns:
 ```json
-{
-	"pid": {
-		"cpu":0.4568381746582226,
-		"ram":20516864,
-		"conns":3
-	},
-	"os": {
-		"cpu":8.759124087593099,
-		"ram":3997155328,
-		"conns":44,
-		"total_ram":8245489664,
-		"load_avg":0.51
-	}
-}
+{"pid":{ "cpu":0.4568381746582226, "ram":20516864,   "conns":3 },
+ "os": { "cpu":8.759124087593099,  "ram":3997155328, "conns":44,
+	"total_ram":8245489664, "load_avg":0.51 }}
 ```
 
 ## Config
@@ -73,7 +53,7 @@ type Config struct {
 	// Optional. Default: 3 seconds
 	Refresh time.Duration
 
-	// To disable serving HTML, you can make true this option.
+	// Whether the service should expose only the monitoring API.
 	//
 	// Optional. Default: false
 	APIOnly bool
@@ -82,6 +62,23 @@ type Config struct {
 	//
 	// Optional. Default: nil
 	Next func(c *fiber.Ctx) bool
+
+	// Custom HTML Code to Head Section(Before End)
+	//
+	// Optional. Default: empty
+	CustomHead string
+
+	// FontURL for specify font resource path or URL . also you can use relative path
+	//
+	// Optional. Default: https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap
+
+	FontURL string
+	// ChartJsURL for specify ChartJS library  path or URL . also you can use relative path
+	//
+	// Optional. Default: https://cdn.jsdelivr.net/npm/chart.js@2.9/dist/Chart.bundle.min.js
+
+	ChartJsURL string
+
 }
 ```
 
@@ -93,5 +90,9 @@ var ConfigDefault = Config{
 	Refresh: 3 * time.Second,
 	APIOnly: false,
 	Next:    nil,
+	CustomHead:"",
+	FontURL:"https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap",
+	ChartJsURL:"https://cdn.jsdelivr.net/npm/chart.js@2.9/dist/Chart.bundle.min.js"
+
 }
 ```
