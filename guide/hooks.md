@@ -6,6 +6,7 @@ With Fiber v2.30.0, you can execute custom user functions when to run some metho
 - [OnGroup](#ongroup)
 - [OnGroupName](#ongroupname)
 - [OnListen](#onlisten)
+- [OnFork](#onfork)
 - [OnShutdown](#onshutdown)
 
 ## Constants
@@ -16,6 +17,7 @@ type OnNameHandler = OnRouteHandler
 type OnGroupHandler = func(Group) error
 type OnGroupNameHandler = OnGroupHandler
 type OnListenHandler = func() error
+type OnForkHandler = func(int) error
 type OnShutdownHandler = OnListenHandler
 ```
 
@@ -70,6 +72,16 @@ OnListen is a hook to execute user functions on Listen, ListenTLS, Listener.
 {% code title="Signature" %}
 ```go
 func (app *App) OnListen(handler ...OnListenHandler)
+```
+{% endcode %}
+
+## OnFork
+
+OnFork is a hook to execute user functions on Fork.
+
+{% code title="Signature" %}
+```go
+func (app *App) OnFork(handler ...OnForkHandler)
 ```
 {% endcode %}
 
