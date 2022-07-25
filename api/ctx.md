@@ -1482,8 +1482,9 @@ func (c *Ctx) Response() *fasthttp.Response
 
 ```go
 app.Get("/", func(c *fiber.Ctx) error {
-  c.Response().Write([]byte("Hello, World!"))
+  c.Response().BodyWriter().Write([]byte("Hello, World!"))
   // => "Hello, World!"
+  return nil
 })
 ```
 
