@@ -345,6 +345,27 @@ app.Get("/delete", func(c *fiber.Ctx) error {
 ```
 {% endcode %}
 
+## ClientHelloInfo
+
+ClientHelloInfo contains information from a ClientHello message in order to guide application logic in the GetCertificate and GetConfigForClient callbacks.
+You can refer to the [ClientHelloInfo](https://golang.org/pkg/crypto/tls/#ClientHelloInfo) struct documentation for more information on the returned struct.
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) ClientHelloInfo() *tls.ClientHelloInfo
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+// GET http://example.com/hello
+app.Get("/hello", func(c *fiber.Ctx) error {
+  chi := c.ClientHelloInfo()
+  // ...
+})
+```
+{% endcode %}
+
 ## Context
 
 Returns [\*fasthttp.RequestCtx](https://godoc.org/github.com/valyala/fasthttp#RequestCtx) that is compatible with the context.Context interface that requires a deadline, a cancellation signal, and other values across API boundaries.

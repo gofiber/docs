@@ -43,6 +43,55 @@ func (app *App) OnName(handler ...OnNameHandler)
 ```
 {% endcode %}
 
+{% tabs %}
+{% tab title="OnName Example" %}
+```go
+package main
+
+import (
+	"fmt"
+
+	"github.com/gofiber/fiber/v2"
+)
+
+func main() {
+	app := fiber.New()
+
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString(c.Route().Name)
+	}).Name("index")
+
+	app.Hooks().OnName(func(r fiber.Route) error {
+		fmt.Print("Name: " + r.Name + ", ")
+
+		return nil
+	})
+
+	app.Hooks().OnName(func(r fiber.Route) error {
+		fmt.Print("Method: " + r.Method + "\n")
+
+		return nil
+	})
+
+	app.Get("/add/user", func(c *fiber.Ctx) error {
+		return c.SendString(c.Route().Name)
+	}).Name("addUser")
+
+	app.Delete("/destroy/user", func(c *fiber.Ctx) error {
+		return c.SendString(c.Route().Name)
+	}).Name("destroyUser")
+
+	app.Listen(":5000")
+}
+
+// Results:
+// Name: addUser, Method: GET
+// Name: destroyUser, Method: DELETE
+```
+{% endtab %}
+
+{% endtabs %}
+
 ## OnGroup
 
 OnGroup is a hook to execute user functions on each group registeration. Also you can get group properties by **group** parameter.
@@ -95,54 +144,5 @@ func (app *App) OnShutdown(handler ...OnShutdownHandler)
 ```
 {% endcode %}
 
-
-{% tabs %}
-{% tab title="OnName Example" %}
-```go
-package main
-
-import (
-	"fmt"
-
-	"github.com/gofiber/fiber/v2"
-)
-
-func main() {
-	app := fiber.New()
-
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString(c.Route().Name)
-	}).Name("index")
-
-	app.Hooks().OnName(func(r fiber.Route) error {
-		fmt.Print("Name: " + r.Name + ", ")
-
-		return nil
-	})
-
-	app.Hooks().OnName(func(r fiber.Route) error {
-		fmt.Print("Method: " + r.Method + "\n")
-
-		return nil
-	})
-
-	app.Get("/add/user", func(c *fiber.Ctx) error {
-		return c.SendString(c.Route().Name)
-	}).Name("addUser")
-
-	app.Delete("/destroy/user", func(c *fiber.Ctx) error {
-		return c.SendString(c.Route().Name)
-	}).Name("destroyUser")
-
-	app.Listen(":5000")
-}
-
-// Results:
-// Name: addUser, Method: GET
-// Name: destroyUser, Method: DELETE
-```
-{% endtab %}
-
-{% endtabs %}
 
 
