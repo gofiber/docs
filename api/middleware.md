@@ -24,6 +24,7 @@ description: >-
 * **gofiber/basicauth** Basic auth middleware provides an HTTP basic authentication. It calls the next handler for valid credentials and 401 Unauthorized for missing or invalid credentials.
 * **gofiber/cors** Enable cross-origin resource sharing \(CORS\) with various options.
 * **gofiber/csrf** Protect from CSRF exploits.
+* **gofiber/envvar** This middleware enables to expose environment variables.
 * **gofiber/helmet** Helps secure your apps by setting various HTTP headers.
 * **gofiber/jwt** JWT returns a JSON Web Token \(JWT\) auth middleware.
 * **gofiber/keyauth** Key auth middleware provides a key-based authentication.
