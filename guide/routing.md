@@ -132,6 +132,85 @@ app.Get("/v1/*/shop/*", handler)
 
 We have adapted the routing strongly to the express routing, but currently without the possibility of the regular expressions, because they are quite slow. The possibilities can be tested with version 0.1.7 \(express 4\) in the online [Express route tester](http://forbeslindesay.github.io/express-route-tester/).
 
+### Constraints
+Route constraints execute when a match has occurred to the incoming URL and the URL path is tokenized into route values by parameters. The feature was intorduced in `v2.37.0` and inspired by [.NET Core](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/routing?view=aspnetcore-6.0#route-constraints).
+
+{% hint style="warning" %}
+Constraints aren't validation for parameters. If constraint aren't valid for parameter value, Fiber returns **404 handler**.
+{% endhint %}
+
+
+| Constraint  | Example           | Example matches              |
+| ----------- | --------------  | ------------------------- |
+| int                          |  :id\<int>             | 123456789, -123456789 |
+| bool                      |  :active\<bool>   | true,false                            |
+| guid                      | :id<guid>                        | CD2C1638-1638-72D5-1638-DEADBEEF1638|
+| float                      | :weight\<float>               | 1.234, -1,001.01e8 |
+| minLen(value) | :username\<minLen(4)> | Test (must be at least 4 characters) |
+| maxLen(value) | :filename\<maxLen(8)> | MyFile (must be no more than 8 characters |
+| len(length) | :filename\<len(12)> | somefile.txt (exactly 12 characters) |
+| min(value) | :age\<min(18)> | 19 (Integer value must be at least 18) |
+| max(value) | :age\<max(120)> | 91 (Integer value must be no more than 120) |
+| range(min,max) | :age\<range(18,120)> | 91 (Integer value must be at least 18 but no more than 120) |
+| alpha | :name\<alpha> | Rick (String must consist of one or more alphabetical characters, a-z and case-insensitive) |
+| datetime              | :dob\<datetime(2006\\\\-01\\\\-02)> | 2005-11-01 |
+| regex(expression) | :date\<regex(\\d{4}-\\d{2}-\\d{2})}> | 2022-08-27 (Must match regular expression) |
+
+**Single Constraint Example**
+```go
+app.Get("/:test<min(5)>", func(c *fiber.Ctx) error {
+	return c.SendString(c.Params("test"))
+})
+
+// curl -X GET http://localhost:3000/12
+// 12
+
+// curl -X GET http://localhost:3000/1
+// Cannot GET /1
+```
+
+**Multiple Constraints Example**
+
+You can use `;` for multiple constraints.
+```go
+app.Get("/:test<min(100);maxLen(5)>", func(c *fiber.Ctx) error {
+	return c.SendString(c.Params("test"))
+})
+
+// curl -X GET http://localhost:3000/120000
+// Cannot GET /120000
+
+// curl -X GET http://localhost:3000/1
+// Cannot GET /1
+
+// curl -X GET http://localhost:3000/250
+// 250
+```
+
+
+**Regex Example**
+
+Fiber precompiles regex query when to register routes. So there're no performance overhead for regex constraint.
+```go
+app.Get("/:date<regex(\\d{4}-\\d{2}-\\d{2})}>", func(c *fiber.Ctx) error {
+	return c.SendString(c.Params("date"))
+})
+
+// curl -X GET http://localhost:3000/125
+// Cannot GET /125
+
+// curl -X GET http://localhost:3000/test
+// Cannot GET /test
+
+// curl -X GET http://localhost:3000/2022-08-27
+// 2022-08-27
+```
+
+{% hint style="warning" %}
+You should use `\\` before routing-specific characters when to use datetime and regex (`*`, `+`, `?`, `:`, `/`, `<`, `>`, `;`, `(`, `)`), to avoid wrong parsing.
+{% endhint %}
+
+
 ## Middleware
 
 Functions that are designed to make changes to the request or response are called **middleware functions**. The [Next](https://github.com/gofiber/docs/tree/34729974f7d6c1d8363076e7e88cd71edc34a2ac/context/README.md#next) is a **Fiber** router function, when called, executes the **next** function that **matches** the current route.
