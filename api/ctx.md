@@ -838,6 +838,45 @@ app.Get("/", func(c *fiber.Ctx) error {
 ```
 {% endcode %}
 
+## XML
+
+Converts any **interface** or **string** to XML using the standart `encoding/xml` package.
+
+{% hint style="info" %}
+XML also sets the content header to **application/xml**.
+{% endhint %}
+
+{% code title="Signature" %}
+```go
+func (c *Ctx) XML(data interface{}) error 
+```
+{% endcode %}
+
+{% code title="Example" %}
+```go
+type SomeStruct struct {
+	XMLName xml.Name `xml:"Fiber"`
+	Name    string   `xml:"Name"`
+	Age     uint8    `xml:"Age"`
+}
+
+app.Get("/", func(c *fiber.Ctx) error {
+	// Create data struct:
+	data := SomeStruct{
+		Name: "Grame",
+		Age:  20,
+	}
+
+	return c.XML(data)
+	// <Fiber>
+	// 	  <Name>Grame</Name>
+	//	  <Age>20</Age>
+	// </Fiber>
+})
+```
+{% endcode %}
+
+
 ## Links
 
 Joins the links followed by the property to populate the response’s [Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link) HTTP header field.
