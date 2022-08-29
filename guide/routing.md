@@ -207,7 +207,7 @@ app.Get("/:date<regex(\\d{4}-\\d{2}-\\d{2})}>", func(c *fiber.Ctx) error {
 ```
 
 {% hint style="warning" %}
-You should use `\\` before routing-specific characters when to use datetime and regex (`*`, `+`, `?`, `:`, `/`, `<`, `>`, `;`, `(`, `)`), to avoid wrong parsing.
+You should use `\\` before routing-specific characters when to use datetime constraint (`*`, `+`, `?`, `:`, `/`, `<`, `>`, `;`, `(`, `)`), to avoid wrong parsing.
 {% endhint %}
 
 
