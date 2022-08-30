@@ -121,9 +121,9 @@ type Config struct {
     Storage fiber.Storage
 
     // LimiterMiddleware is the struct that implements limiter middleware.
-	//
-	// Default: a new Fixed Window Rate Limiter
-	LimiterMiddleware LimiterHandler
+    //
+    // Default: a new Fixed Window Rate Limiter
+    LimiterMiddleware LimiterHandler
 }
 ```
 

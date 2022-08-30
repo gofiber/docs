@@ -56,14 +56,14 @@ store := session.New()
 
 // This panic will be catch by the middleware
 app.Get("/", func(c *fiber.Ctx) error {
-	// Get session from storage
-	sess, err := store.Get(c)
-	if err != nil {
-		panic(err)
-	}
+    // Get session from storage
+    sess, err := store.Get(c)
+    if err != nil {
+        panic(err)
+    }
 
-	// Get value
-	name := sess.Get("name")
+    // Get value
+    name := sess.Get("name")
 
 	// Set key/value
 	sess.Set("name", "john")

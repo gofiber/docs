@@ -695,7 +695,7 @@ func (a *Agent) RetryIf(retryIf RetryIfFunc) *Agent
 {% code title="Example" %}
 ```go
 agent.Get("https://example.com").RetryIf(func (req *fiber.Request) bool {
-	return req.URI() == "https://example.com"
+    return req.URI() == "https://example.com"
 })
 // ...
 ```

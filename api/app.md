@@ -256,7 +256,7 @@ func main() {
   app := fiber.New()
 
   app.Route("/test", func(api fiber.Router) {
-	  api.Get("/foo", handler).Name("foo") // /test/foo (name: test.foo)
+      api.Get("/foo", handler).Name("foo") // /test/foo (name: test.foo)
     api.Get("/bar", handler).Name("bar") // /test/bar (name: test.bar)
   }, "test.")
 
@@ -307,15 +307,15 @@ func (app *App) Stack() [][]*Route
 var handler = func(c *fiber.Ctx) error { return nil }
 
 func main() {
-	app := fiber.New()
+    app := fiber.New()
 
-	app.Get("/john/:age", handler)
-	app.Post("/register", handler)
+    app.Get("/john/:age", handler)
+    app.Post("/register", handler)
 
-	data, _ := json.MarshalIndent(app.Stack(), "", "  ")
-	fmt.Println(string(data))
+    data, _ := json.MarshalIndent(app.Stack(), "", "  ")
+    fmt.Println(string(data))
 
-	app.Listen(":3000")
+    app.Listen(":3000")
 }
 ```
 {% endcode %}
@@ -367,26 +367,26 @@ func (app *App) Name(name string) Router
 var handler = func(c *fiber.Ctx) error { return nil }
 
 func main() {
-	app := fiber.New()
+    app := fiber.New()
 
-	app.Get("/", handler)
-	app.Name("index")
+    app.Get("/", handler)
+    app.Name("index")
 
-	app.Get("/doe", handler).Name("home")
+    app.Get("/doe", handler).Name("home")
 
-	app.Trace("/tracer", handler).Name("tracert")
+    app.Trace("/tracer", handler).Name("tracert")
 
-	app.Delete("/delete", handler).Name("delete")
+    app.Delete("/delete", handler).Name("delete")
 
-	a := app.Group("/a")
-	a.Name("fd.")
+    a := app.Group("/a")
+    a.Name("fd.")
 
-	a.Get("/test", handler).Name("test")
+    a.Get("/test", handler).Name("test")
 
-	data, _ := json.MarshalIndent(app.Stack(), "", "  ")
-	fmt.Print(string(data))
+    data, _ := json.MarshalIndent(app.Stack(), "", "  ")
+    fmt.Print(string(data))
 
-	app.Listen(":3000")
+    app.Listen(":3000")
 
 }
 ```
@@ -475,9 +475,9 @@ func (app *App) GetRoute(name string) Route
 var handler = func(c *fiber.Ctx) error { return nil }
 
 func main() {
-	app := fiber.New()
+    app := fiber.New()
 
-	app.Get("/", handler).Name("index")
+    app.Get("/", handler).Name("index")
 	
 	data, _ := json.MarshalIndent(app.GetRoute("index"), "", "  ")
 	fmt.Print(string(data))

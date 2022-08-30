@@ -22,8 +22,8 @@ First ensure the appropriate packages are imported
 
 ```go
 import (
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/logger"
+    "github.com/gofiber/fiber/v2"
+    "github.com/gofiber/fiber/v2/middleware/logger"
 )
 ```
 
@@ -47,7 +47,7 @@ app.Use(logger.New(logger.Config{
 app.Use(requestid.New())
 
 app.Use(logger.New(logger.Config{
-	// For more options, see the Config section
+    // For more options, see the Config section
   Format: "${pid} ${locals:requestid} ${status} - ${method} ${path}\n",
 }))
 ```
@@ -56,9 +56,9 @@ app.Use(logger.New(logger.Config{
 
 ```go
 app.Use(logger.New(logger.Config{
-	Format:     "${pid} ${status} - ${method} ${path}\n",
-	TimeFormat: "02-Jan-2006",
-	TimeZone:   "America/New_York",
+    Format:     "${pid} ${status} - ${method} ${path}\n",
+    TimeFormat: "02-Jan-2006",
+    TimeZone:   "America/New_York",
 }))
 ```
 
@@ -67,12 +67,12 @@ app.Use(logger.New(logger.Config{
 ```go
 file, err := os.OpenFile("./123.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 if err != nil {
-	log.Fatalf("error opening file: %v", err)
+    log.Fatalf("error opening file: %v", err)
 }
 defer file.Close()
 
 app.Use(logger.New(logger.Config{
-	Output: file,
+    Output: file,
 }))
 ```
 
@@ -81,22 +81,22 @@ app.Use(logger.New(logger.Config{
 ```go
 // Config defines the config for middleware.
 type Config struct {
-	// Next defines a function to skip this middleware when returned true.
-	//
-	// Optional. Default: nil
-	Next func(c *fiber.Ctx) bool
+    // Next defines a function to skip this middleware when returned true.
+    //
+    // Optional. Default: nil
+    Next func(c *fiber.Ctx) bool
 
-	// Format defines the logging tags
-	//
-	// Optional. Default: [${time}] ${status} - ${latency} ${method} ${path}\n
-	Format string
+    // Format defines the logging tags
+    //
+    // Optional. Default: [${time}] ${status} - ${latency} ${method} ${path}\n
+    Format string
 
-	// TimeFormat https://programming.guide/go/format-parse-string-time-date-example.html
-	//
-	// Optional. Default: 15:04:05
-	TimeFormat string
+    // TimeFormat https://programming.guide/go/format-parse-string-time-date-example.html
+    //
+    // Optional. Default: 15:04:05
+    TimeFormat string
 
-	// TimeZone can be specified, such as "UTC" and "America/New_York" and "Asia/Chongqing", etc
+    // TimeZone can be specified, such as "UTC" and "America/New_York" and "Asia/Chongqing", etc
 	//
 	// Optional. Default: "Local"
 	TimeZone string

@@ -1158,7 +1158,7 @@ func (c *Ctx) ParamsParser(out interface{}) error
 // GET http://example.com/user/111
 app.Get("/user/:id", func(c *fiber.Ctx) error {
   param := struct {ID uint `params:"id"`}{}
-	   
+       
   c.ParamsParser(&param) // "{"id": 111}"
 
   // ...

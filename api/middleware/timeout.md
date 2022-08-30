@@ -28,11 +28,11 @@ After you initiate your Fiber app, you can use the following possibilities:
 
 ```go
 handler := func(ctx *fiber.Ctx) error {
-	err := ctx.SendString("Hello, World 👋!")
-	if err != nil {
-		return err
-	}
-	return nil
+    err := ctx.SendString("Hello, World 👋!")
+    if err != nil {
+        return err
+    }
+    return nil
 }
 
 app.Get("/foo", timeout.New(handler, 5 * time.Second))

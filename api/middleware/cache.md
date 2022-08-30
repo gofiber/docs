@@ -46,8 +46,8 @@ Or you can custom key and expire time like this:
 
 ```go
 app.Use(New(Config{
-	ExpirationGenerator: func(c *fiber.Ctx, cfg *Config) time.Duration {
-		newCacheTime, _ := strconv.Atoi(c.GetRespHeader("Cache-Time", "600"))
+    ExpirationGenerator: func(c *fiber.Ctx, cfg *Config) time.Duration {
+    	newCacheTime, _ := strconv.Atoi(c.GetRespHeader("Cache-Time", "600"))
 		return time.Second * time.Duration(newCacheTime)
 	},
 	KeyGenerator: func(c *fiber.Ctx) string {

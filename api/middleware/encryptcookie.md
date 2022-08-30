@@ -57,7 +57,7 @@ app.Post("/", func(c *fiber.Ctx) error {
 
 ```go
 type Config struct {
-	// Next defines a function to skip this middleware when returned true.
+    // Next defines a function to skip this middleware when returned true.
 	//
 	// Optional. Default: nil
 	Next func(c *fiber.Ctx) bool

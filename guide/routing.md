@@ -158,7 +158,7 @@ Constraints aren't validation for parameters. If constraint aren't valid for par
 **Single Constraint Example**
 ```go
 app.Get("/:test<min(5)>", func(c *fiber.Ctx) error {
-	return c.SendString(c.Params("test"))
+  return c.SendString(c.Params("test"))
 })
 
 // curl -X GET http://localhost:3000/12
@@ -173,7 +173,7 @@ app.Get("/:test<min(5)>", func(c *fiber.Ctx) error {
 You can use `;` for multiple constraints.
 ```go
 app.Get("/:test<min(100);maxLen(5)>", func(c *fiber.Ctx) error {
-	return c.SendString(c.Params("test"))
+  return c.SendString(c.Params("test"))
 })
 
 // curl -X GET http://localhost:3000/120000
@@ -192,7 +192,7 @@ app.Get("/:test<min(100);maxLen(5)>", func(c *fiber.Ctx) error {
 Fiber precompiles regex query when to register routes. So there're no performance overhead for regex constraint.
 ```go
 app.Get("/:date<regex(\\d{4}-\\d{2}-\\d{2})}>", func(c *fiber.Ctx) error {
-	return c.SendString(c.Params("date"))
+  return c.SendString(c.Params("date"))
 })
 
 // curl -X GET http://localhost:3000/125

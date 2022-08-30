@@ -37,7 +37,7 @@ app.Use(etag.New())
 
 // Get / receives Etag: "13-1831710635" in response header
 app.Get("/", func(c *fiber.Ctx) error {
-	return c.SendString("Hello, World!")
+    return c.SendString("Hello, World!")
 })
 ```
 
@@ -50,7 +50,7 @@ app.Use(etag.New(etag.Config{
 
 // Get / receives Etag: "W/"13-1831710635" in response header
 app.Get("/", func(c *fiber.Ctx) error {
-	return c.SendString("Hello, World!")
+    return c.SendString("Hello, World!")
 })
 ```
 

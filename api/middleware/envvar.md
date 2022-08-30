@@ -6,9 +6,9 @@ EnvVar middleware for [Fiber](https://github.com/gofiber/fiber) that can be used
 
 * [Signatures](envvar.md#signatures)
 * [Examples](envvar.md#examples)
-	* [Default Config](envvar.md#default-config)
-	* [Custom Config](envvar.md#custom-config)
-	* [Response](envvar.md#response)
+    * [Default Config](envvar.md#default-config)
+    * [Custom Config](envvar.md#custom-config)
+    * [Response](envvar.md#response)
 * [Config](envvar.md#config)
 * [Default Config](envvar.md#default-config-1)
 

@@ -16,18 +16,18 @@ Import the middleware package and assign it to a route.
 package main
 
 import (
-	"log"
+    "log"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/monitor"
+    "github.com/gofiber/fiber/v2"
+    "github.com/gofiber/fiber/v2/middleware/monitor"
 )
 
 func main() {
-	app := fiber.New()
+    app := fiber.New()
 
-	app.Get("/metrics", monitor.New(monitor.Config{Title: "MyService Metrics Page"}))
+    app.Get("/metrics", monitor.New(monitor.Config{Title: "MyService Metrics Page"}))
 
-	log.Fatal(app.Listen(":3000"))
+    log.Fatal(app.Listen(":3000"))
 }
 ```
 You can also access the API endpoint with
@@ -35,7 +35,7 @@ You can also access the API endpoint with
 ```json
 {"pid":{ "cpu":0.4568381746582226, "ram":20516864,   "conns":3 },
  "os": { "cpu":8.759124087593099,  "ram":3997155328, "conns":44,
-	"total_ram":8245489664, "load_avg":0.51 }}
+    "total_ram":8245489664, "load_avg":0.51 }}
 ```
 
 ## Config
