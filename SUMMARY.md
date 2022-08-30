@@ -15,6 +15,7 @@
   * [CORS](api/middleware/cors.md)
   * [CSRF](api/middleware/csrf.md)
   * [Encrypt Cookie](api/middleware/encryptcookie.md)
+  * [EnvVar](api/middleware/envvar.md)
   * [ETag](api/middleware/etag.md)
   * [Expvar](api/middleware/expvar.md)
   * [Favicon](api/middleware/favicon.md)
