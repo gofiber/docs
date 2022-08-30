@@ -82,6 +82,7 @@ app := fiber.New(fiber.Config{
 | Network | `string` | Known networks are "tcp", "tcp4" (IPv4-only), "tcp6" (IPv6-only)<br><br>**WARNING:** When prefork is set to true, only "tcp4" and "tcp6" can be chosen. | `NetworkTCP4` |
 | JSONEncoder | `utils.JSONMarshal` | Allowing for flexibility in using another json library for encoding. | `json.Marshal` |
 | JSONDecoder | `utils.JSONUnmarshal` | Allowing for flexibility in using another json library for decoding. | `json.Unmarshal` |
+| XMLEncoder | `utils.XMLMarshal` | Allowing for flexibility in using another XML library for encoding. | `xml.Marshal` |
 | ColorScheme | `Colors` | You can define custom color scheme. They'll be used for startup message, route list and some middlewares. | `DefaultColors` |
 
 
