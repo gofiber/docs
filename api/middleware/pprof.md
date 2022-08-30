@@ -45,6 +45,6 @@ type Config struct {
 
 ```go
 var ConfigDefault = Config{
-	Next: nil,
+    Next: nil,
 }
 ```

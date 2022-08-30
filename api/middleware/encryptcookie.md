@@ -58,14 +58,14 @@ app.Post("/", func(c *fiber.Ctx) error {
 ```go
 type Config struct {
     // Next defines a function to skip this middleware when returned true.
-	//
-	// Optional. Default: nil
-	Next func(c *fiber.Ctx) bool
+    //
+    // Optional. Default: nil
+    Next func(c *fiber.Ctx) bool
 
-	// Array of cookie keys that should not be encrypted.
-	//
-	// Optional. Default: ["csrf_"]
-	Except []string
+    // Array of cookie keys that should not be encrypted.
+    //
+    // Optional. Default: ["csrf_"]
+    Except []string
 
 	// Base64 encoded unique key to encode & decode cookies.
 	//

@@ -97,19 +97,19 @@ type Config struct {
     TimeFormat string
 
     // TimeZone can be specified, such as "UTC" and "America/New_York" and "Asia/Chongqing", etc
-	//
-	// Optional. Default: "Local"
-	TimeZone string
+    //
+    // Optional. Default: "Local"
+    TimeZone string
 
-	// TimeInterval is the delay before the timestamp is updated
-	//
-	// Optional. Default: 500 * time.Millisecond
-	TimeInterval time.Duration
+    // TimeInterval is the delay before the timestamp is updated
+    //
+    // Optional. Default: 500 * time.Millisecond
+    TimeInterval time.Duration
 
-	// Output is a writter where logs are written
-	//
-	// Default: os.Stderr
-	Output io.Writer
+    // Output is a writter where logs are written
+    //
+    // Default: os.Stderr
+    Output io.Writer
 }
 ```
 
@@ -117,12 +117,12 @@ type Config struct {
 
 ```go
 var ConfigDefault = Config{
-	Next:         nil,
-	Format:       "[${time}] ${status} - ${latency} ${method} ${path}\n",
-	TimeFormat:   "15:04:05",
-	TimeZone:     "Local",
-	TimeInterval: 500 * time.Millisecond,
-	Output:       os.Stderr,
+    Next:         nil,
+    Format:       "[${time}] ${status} - ${latency} ${method} ${path}\n",
+    TimeFormat:   "15:04:05",
+    TimeZone:     "Local",
+    TimeInterval: 500 * time.Millisecond,
+    Output:       os.Stderr,
 }
 ```
 
@@ -131,13 +131,13 @@ var ConfigDefault = Config{
 ```go
 // Logger variables
 const (
-	TagPid               = "pid"
-	TagTime              = "time"
-	TagReferer           = "referer"
-	TagProtocol          = "protocol"
-	TagPort              = "port"
-	TagIP                = "ip"
-	TagIPs               = "ips"
+    TagPid               = "pid"
+    TagTime              = "time"
+    TagReferer           = "referer"
+    TagProtocol          = "protocol"
+    TagPort              = "port"
+    TagIP                = "ip"
+    TagIPs               = "ips"
 	TagHost              = "host"
 	TagMethod            = "method"
 	TagPath              = "path"

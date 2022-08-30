@@ -65,22 +65,22 @@ app.Get("/", func(c *fiber.Ctx) error {
     // Get value
     name := sess.Get("name")
 
-	// Set key/value
-	sess.Set("name", "john")
+    // Set key/value
+    sess.Set("name", "john")
 
-	// Get all Keys
-	keys := sess.Keys()
+    // Get all Keys
+    keys := sess.Keys()
 
-	// Delete key
-	sess.Delete("name")
+    // Delete key
+    sess.Delete("name")
 
-	// Destroy session
-	if err := sess.Destroy(); err != nil {
-		panic(err)
-	}
+    // Destroy session
+    if err := sess.Destroy(); err != nil {
+        panic(err)
+    }
 
-	// Save session
-	if err := sess.Save(); err != nil {
+    // Save session
+    if err := sess.Save(); err != nil {
 		panic(err)
 	}
 

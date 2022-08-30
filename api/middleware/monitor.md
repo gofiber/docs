@@ -43,37 +43,37 @@ You can also access the API endpoint with
 ```go
 // Config defines the config for middleware.
 type Config struct {
-	// Metrics page title
-	//
-	// Optional. Default: "Fiber Monitor"
-	Title string
+    // Metrics page title
+    //
+    // Optional. Default: "Fiber Monitor"
+    Title string
 
-	// Refresh period
-	//
-	// Optional. Default: 3 seconds
-	Refresh time.Duration
+    // Refresh period
+    //
+    // Optional. Default: 3 seconds
+    Refresh time.Duration
 
-	// Whether the service should expose only the monitoring API.
-	//
-	// Optional. Default: false
-	APIOnly bool
+    // Whether the service should expose only the monitoring API.
+    //
+    // Optional. Default: false
+    APIOnly bool
 
-	// Next defines a function to skip this middleware when returned true.
-	//
-	// Optional. Default: nil
-	Next func(c *fiber.Ctx) bool
+    // Next defines a function to skip this middleware when returned true.
+    //
+    // Optional. Default: nil
+    Next func(c *fiber.Ctx) bool
 
-	// Custom HTML Code to Head Section(Before End)
-	//
-	// Optional. Default: empty
-	CustomHead string
+    // Custom HTML Code to Head Section(Before End)
+    //
+    // Optional. Default: empty
+    CustomHead string
 
-	// FontURL for specify font resource path or URL . also you can use relative path
-	//
-	// Optional. Default: https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap
+    // FontURL for specify font resource path or URL . also you can use relative path
+    //
+    // Optional. Default: https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap
 
-	FontURL string
-	// ChartJsURL for specify ChartJS library  path or URL . also you can use relative path
+    FontURL string
+    // ChartJsURL for specify ChartJS library  path or URL . also you can use relative path
 	//
 	// Optional. Default: https://cdn.jsdelivr.net/npm/chart.js@2.9/dist/Chart.bundle.min.js
 

@@ -478,8 +478,8 @@ func main() {
     app := fiber.New()
 
     app.Get("/", handler).Name("index")
-	
-	data, _ := json.MarshalIndent(app.GetRoute("index"), "", "  ")
+    
+    data, _ := json.MarshalIndent(app.GetRoute("index"), "", "  ")
 	fmt.Print(string(data))
 
 
