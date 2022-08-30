@@ -2139,23 +2139,23 @@ func (c *Ctx) XML(data interface{}) error
 {% code title="Example" %}
 ```go
 type SomeStruct struct {
-	XMLName xml.Name `xml:"Fiber"`
-	Name    string   `xml:"Name"`
-	Age     uint8    `xml:"Age"`
+  XMLName xml.Name `xml:"Fiber"`
+  Name    string   `xml:"Name"`
+  Age     uint8    `xml:"Age"`
 }
 
 app.Get("/", func(c *fiber.Ctx) error {
-	// Create data struct:
-	data := SomeStruct{
-		Name: "Grame",
-		Age:  20,
-	}
+  // Create data struct:
+  data := SomeStruct{
+    Name: "Grame",
+    Age:  20,
+  }
 
-	return c.XML(data)
-	// <Fiber>
-	// 	  <Name>Grame</Name>
-	//	  <Age>20</Age>
-	// </Fiber>
+  return c.XML(data)
+  // <Fiber>
+  //     <Name>Grame</Name>
+  //    <Age>20</Age>
+  // </Fiber>
 })
 ```
 {% endcode %}
