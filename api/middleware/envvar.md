@@ -1,4 +1,4 @@
-# EnvVar
+# Exposing Environment Variables Middleware
 
 EnvVar middleware for [Fiber](https://github.com/gofiber/fiber) that can be used to expose environment variables with various options.
 
@@ -6,11 +6,11 @@ EnvVar middleware for [Fiber](https://github.com/gofiber/fiber) that can be used
 
 * [Signatures](envvar.md#signatures)
 * [Examples](envvar.md#examples)
-    - [Default Config](envvar.md#default-config)
-    - [Custom Config](envvar.md#custom-config)
-    - [Http Response](envvar.md#http-response)
+	* [Default Config](envvar.md#default-config)
+	* [Custom Config](envvar.md#custom-config)
+	* [Response](envvar.md#response)
 * [Config](envvar.md#config)
-* [Default Config](envvar.md#default-config)
+* [Default Config](envvar.md#default-config-1)
 
 ## Signatures
 
@@ -31,17 +31,18 @@ import (
 
 Then create a Fiber app with `app := fiber.New()`.
 
+**Note**: You need to provide a path to use envvar middleware.
+
 ### Default Config
 
 ```go
-app.Use(envvar.New())
+app.Use("/expose/envvars", envvar.New())
 ```
 
 ### Custom Config
 
 ```go
-app.Use(envvar.New(envvar.Config{
-    Path: "/expose/envvars",
+app.Use("/expose/envvars", envvar.New(envvar.Config{
     ExportVars:  map[string]string{"testKey": "", "testDefaultKey": "testDefaultVal"},
     ExcludeVars: map[string]string{"excludeKey": ""}}
 }))
@@ -57,6 +58,7 @@ Http response contract:
     "anotherEnvVariable": "anotherValue",
   }
 }
+
 ```
 
 ## Config
@@ -64,8 +66,6 @@ Http response contract:
 ```go
 // Config defines the config for middleware.
 type Config struct {
-    // Path specifies the path of handler that exposes environment variables
-    Path string
     // ExportVars specifies the environment variables that should export
     ExportVars map[string]string
     // ExcludeVars specifies the environment variables that should not export
@@ -77,7 +77,5 @@ type Config struct {
 ## Default Config
 
 ```go
-Config{
-	Path: "/envvars",
-}
+Config{}
 ```
