@@ -46,18 +46,24 @@ func handler(c *fiber.Ctx) error {
 }
 ```
 
-We created a custom `ImmutableString` function that does the above and is available in the [gofiber/utils](https://github.com/gofiber/utils) package.
+We created a custom `CopyString` function that does the above and is available under [gofiber/utils](https://github.com/gofiber/fiber/tree/master/utils).
 
 ```go
 app.Get("/:foo", func(c *fiber.Ctx) error {
-    // Variable is now immutable
-    result := utils.ImmutableString(c.Params("foo")) 
+	// Variable is now immutable
+	result := utils.CopyString(c.Params("foo")) 
 
-    // ...
+	// ...
 })
 ```
 
 Alternatively, you can also use the `Immutable` setting. It will make all values returned from the context immutable, allowing you to persist them anywhere. Of course, this comes at the cost of performance.
+
+```go
+app := fiber.New(&fiber.Settings{
+	Immutable: true,
+})
+```
 
 For more information, please check [**\#426**](https://github.com/gofiber/fiber/issues/426) and [**\#185**](https://github.com/gofiber/fiber/issues/185).
 
