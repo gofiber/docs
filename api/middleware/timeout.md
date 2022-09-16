@@ -30,14 +30,14 @@ After you initiate your Fiber app, you can use:
 
 ```go
 h := func(c *fiber.Ctx) error {
-		sleepTime, _ := time.ParseDuration(c.Params("sleepTime") + "ms")
-		if err := sleepWithContextWithCustomError(c.UserContext(), sleepTime); err != nil {
-			return fmt.Errorf("%w: execution error", err)
-		}
-		return nil
+	sleepTime, _ := time.ParseDuration(c.Params("sleepTime") + "ms")
+	if err := sleepWithContextWithCustomError(c.UserContext(), sleepTime); err != nil {
+		return fmt.Errorf("%w: execution error", err)
 	}
+	return nil
+}
 
-app.Get("/foo", timeoutcontext.New(h, 5 * time.Second))
+app.Get("/foo", timeout.New(h, 5 * time.Second))
 
 func sleepWithContext(ctx context.Context, d time.Duration) error {
 	timer := time.NewTimer(d)
@@ -59,14 +59,14 @@ Use with custom error:
 var ErrFooTimeOut = errors.New("foo context canceled")
 
 h := func(c *fiber.Ctx) error {
-		sleepTime, _ := time.ParseDuration(c.Params("sleepTime") + "ms")
-		if err := sleepWithContextWithCustomError(c.UserContext(), sleepTime); err != nil {
-			return fmt.Errorf("%w: execution error", err)
-		}
-		return nil
+	sleepTime, _ := time.ParseDuration(c.Params("sleepTime") + "ms")
+	if err := sleepWithContextWithCustomError(c.UserContext(), sleepTime); err != nil {
+		return fmt.Errorf("%w: execution error", err)
 	}
+	return nil
+}
 
-app.Get("/foo", timeoutcontext.New(h, 5 * time.Second), ErrFooTimeOut)
+app.Get("/foo", timeout.New(h, 5 * time.Second), ErrFooTimeOut)
 
 func sleepWithContext(ctx context.Context, d time.Duration) error {
 	timer := time.NewTimer(d)
