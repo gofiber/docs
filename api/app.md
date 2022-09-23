@@ -502,7 +502,7 @@ func main() {
 
 ## GetRoutes
 
-This method gets get all routes, when filterUse equal to true. it will filter the routes registered by the middleware.
+This method gets get all routes. when filterUse equal to true,it will filter the routes registered by the middleware.
 
 {% code title="Signature" %}
 ```go
