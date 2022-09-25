@@ -510,8 +510,7 @@ func (app *App) GetRoutes(filterUseOption ...bool) []Route
 ```
 {% endcode %}
 
-When filterUseOption equal to true,it will filter the routes registered by the middleware.
-
+When filterUseOption equal to true, it will filter the routes registered by the middleware.
 {% code title="Example" %}
 ```go
 func main() {
