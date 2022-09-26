@@ -502,7 +502,7 @@ func main() {
 
 ## GetRoutes
 
-This method gets get all routes.
+This method gets all routes.
 
 {% code title="Signature" %}
 ```go
