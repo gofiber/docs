@@ -36,7 +36,7 @@ After you initiate your Fiber app, you can use the following possibilities:
 proxy.WithTlsConfig(&tls.Config{
 	InsecureSkipVerify: true,
 })
-// if you need to use global self-custom client, you should use proxy.WithClient
+// if you need to use global self-custom client, you should use proxy.WithClient.
 proxy.WithClient(&fasthttp.Client{
 	NoDefaultUserAgentHeader: true, 
 	DisablePathNormalizing:   true,
@@ -118,10 +118,12 @@ type Config struct {
     // Optional. Default: nil
     ModifyResponse fiber.Handler
 
-	// tls config for the http client
+	// tls config for the http client.
 	TlsConfig *tls.Config
     
-    // Client is custom client when client config is complex
+    // Client is custom client when client config is complex. 
+    // Note that Servers, Timeout, WriteBufferSize, ReadBufferSize and TlsConfig 
+    // will not be used if the client are set.
     Client *fasthttp.LBClient
 }
 ```
