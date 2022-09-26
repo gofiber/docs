@@ -110,11 +110,11 @@ type Config struct {
     // Default: 0
     MaxBytes uint
 
-	// You can specify HTTP methods to cache.
-	// The middleware just caches the routes of its methods in this slice.
-	//
-	// Default: []string{fiber.MethodGet, fiber.MethodHead}
-	Methods []string
+    // You can specify HTTP methods to cache.
+    // The middleware just caches the routes of its methods in this slice.
+    //
+    // Default: []string{fiber.MethodGet, fiber.MethodHead}
+    Methods []string
 }
 ```
 
