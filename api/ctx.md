@@ -2124,7 +2124,7 @@ app.Get("/", func(c *fiber.Ctx) error {
 
 ## XML
 
-Converts any **interface** or **string** to XML using the standart `encoding/xml` package.
+Converts any **interface** or **string** to XML using the standard `encoding/xml` package.
 
 {% hint style="info" %}
 XML also sets the content header to **application/xml**.
