@@ -60,7 +60,7 @@ app.Get("/:foo", func(c *fiber.Ctx) error {
 Alternatively, you can also use the `Immutable` setting. It will make all values returned from the context immutable, allowing you to persist them anywhere. Of course, this comes at the cost of performance.
 
 ```go
-app := fiber.New(&fiber.Settings{
+app := fiber.New(fiber.Config{
 	Immutable: true,
 })
 ```
