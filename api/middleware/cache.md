@@ -115,6 +115,14 @@ type Config struct {
     //
     // Default: []string{fiber.MethodGet, fiber.MethodHead}
     Methods []string
+    
+    // Allows you to use no-cache and no-store request directives
+	// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
+	// 
+	// Default: func(c *fiber.Ctx, directive string) bool {
+	// 	return strings.Contains(c.Get(fiber.HeaderCacheControl), directive)
+	// },
+	requestDirective func(c *fiber.Ctx, directive string) bool
 }
 ```
 
@@ -134,6 +142,9 @@ var ConfigDefault = Config{
     Storage:              nil,
     MaxBytes:             0,
     Methods: []string{fiber.MethodGet, fiber.MethodHead},
+    requestDirective: func(c *fiber.Ctx, directive string) bool {
+		return strings.Contains(c.Get(fiber.HeaderCacheControl), directive)
+	},
 }
 ```
 
