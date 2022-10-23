@@ -505,6 +505,42 @@ func main() {
 ```
 {% endcode %}
 
+## GetRoutes
+
+This method gets all routes.
+
+{% code title="Signature" %}
+```go
+func (app *App) GetRoutes(filterUseOption ...bool) []Route
+```
+{% endcode %}
+
+When filterUseOption equal to true, it will filter the routes registered by the middleware.
+{% code title="Example" %}
+```go
+func main() {
+	app := fiber.New()
+	app.Post("/", func (c *fiber.Ctx) error {
+		return c.SendString("Hello, World!")
+	}).Name("index")
+	data, _ := json.MarshalIndent(app.GetRoutes(true), "", "  ")
+	fmt.Print(string(data))
+}
+```
+{% endcode %}
+
+{% code title="Result" %}
+```javascript
+[
+    {
+        "method": "POST",
+        "name": "index",
+        "path": "/",
+        "params": null
+    }
+]
+```
+{% endcode %}
 
 ## Config
 
