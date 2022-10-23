@@ -34,12 +34,12 @@ After you initiate your Fiber app, you can use the following possibilities:
 // if target https site uses a self-signed certificate, you should
 // call WithTlsConfig before Do and Forward
 proxy.WithTlsConfig(&tls.Config{
-	InsecureSkipVerify: true,
+    InsecureSkipVerify: true,
 })
 // if you need to use global self-custom client, you should use proxy.WithClient.
 proxy.WithClient(&fasthttp.Client{
-	NoDefaultUserAgentHeader: true, 
-	DisablePathNormalizing:   true,
+    NoDefaultUserAgentHeader: true, 
+    DisablePathNormalizing:   true,
 })
 
 // Forward to url
@@ -48,8 +48,8 @@ app.Get("/gif", proxy.Forward("https://i.imgur.com/IWaBepg.gif"))
 
 // Forward to url with local custom client
 app.Get("/gif", proxy.Forward("https://i.imgur.com/IWaBepg.gif", &fasthttp.Client{
-	NoDefaultUserAgentHeader: true, 
-	DisablePathNormalizing:   true,
+    NoDefaultUserAgentHeader: true, 
+    DisablePathNormalizing:   true,
 }))
 
 // Make request within handler
