@@ -118,8 +118,8 @@ type Config struct {
     // Optional. Default: nil
     ModifyResponse fiber.Handler
 
-	// tls config for the http client.
-	TlsConfig *tls.Config
+    // tls config for the http client.
+    TlsConfig *tls.Config
     
     // Client is custom client when client config is complex. 
     // Note that Servers, Timeout, WriteBufferSize, ReadBufferSize and TlsConfig 
