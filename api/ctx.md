@@ -766,7 +766,7 @@ app.Get("/", func(c *fiber.Ctx) error {
 Returns true if request came from localhost
 {% code title="Signature" %}
 ```go
-func (c *Ctx) IPs() []string
+func (c *Ctx) IsFromLocal() bool {
 ```
 {% endcode %}
 
