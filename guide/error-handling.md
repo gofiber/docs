@@ -104,8 +104,9 @@ app := fiber.New(fiber.Config{
         // Status code defaults to 500
         code := fiber.StatusInternalServerError
 
-        // Retrieve the custom status code if it's an fiber.*Error
-        if e, ok := err.(*fiber.Error); ok {
+        // Retrieve the custom status code if it's a *fiber.Error
+        var e *fiber.Error
+        if errors.As(err, &e) {
             code = e.Code
         }
 
