@@ -75,6 +75,16 @@ app.Use(logger.New(logger.Config{
     Output: file,
 }))
 ```
+### **Add Custom Tags**
+```go
+app.Use(logger.New(logger.Config{
+	CustomTags: map[string]logger.LogFunc{
+		"custom_tag": func(buf *bytebufferpool.ByteBuffer, c *fiber.Ctx, w io.Writer, tag string) (int, error) {
+			return buf.WriteString("it is a custom tag")
+		},
+	},
+}))
+```
 
 ## Config
 
@@ -85,7 +95,12 @@ type Config struct {
     //
     // Optional. Default: nil
     Next func(c *fiber.Ctx) bool
-
+	
+    // CustomTags defines the custom tag action
+    //
+    // Optional. Default: map[string]LogFunc{}
+    CustomTags map[string]LogFunc
+	
     // Format defines the logging tags
     //
     // Optional. Default: [${time}] ${status} - ${latency} ${method} ${path}\n
@@ -146,7 +161,7 @@ const (
 	TagLatency           = "latency"
 	TagStatus            = "status"      // response status
 	TagResBody           = "resBody"     // response body
-        TagReqHeaders        = "reqHeaders"
+	    TagReqHeaders        = "reqHeaders"
 	TagQueryStringParams = "queryParams" // request query parameters
 	TagBody              = "body"        // request body
 	TagBytesSent         = "bytesSent"
