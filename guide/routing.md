@@ -143,7 +143,7 @@ Constraints aren't validation for parameters. If constraint aren't valid for par
 | ----------------- | ------------------------------------ | ------------------------------------------------------------------------------------------- |
 | int               | :id\<int>                            | 123456789, -123456789                                                                       |
 | bool              | :active\<bool>                       | true,false                                                                                  |
-| guid              | :id<guid>                            | CD2C1638-1638-72D5-1638-DEADBEEF1638                                                        |
+| guid              | :id\<guid>                           | CD2C1638-1638-72D5-1638-DEADBEEF1638                                                        |
 | float             | :weight\<float>                      | 1.234, -1,001.01e8                                                                          |
 | minLen(value)     | :username\<minLen(4)>                | Test (must be at least 4 characters)                                                        |
 | maxLen(value)     | :filename\<maxLen(8)>                | MyFile (must be no more than 8 characters                                                   |
