@@ -928,9 +928,11 @@ func (c *Ctx) Location(path string)
 {% code title="Example" %}
 ```go
 app.Post("/", func(c *fiber.Ctx) error {
-  return c.Location("http://example.com")
+  c.Location("http://example.com")
 
-  return c.Location("/foo/bar")
+  c.Location("/foo/bar")
+  
+  return nil
 })
 ```
 {% endcode %}
