@@ -202,17 +202,51 @@ func (a *App) Mount(prefix string, app *App) Router
 
 ```go
 func main() {
+    app := fiber.New()
     micro := fiber.New()
+    app.Mount("/john", micro) // GET /john/doe -> 200 OK
+
     micro.Get("/doe", func(c *fiber.Ctx) error {
         return c.SendStatus(fiber.StatusOK)
     })
 
-    app := fiber.New()
-    app.Mount("/john", micro) // GET /john/doe -> 200 OK
-
     log.Fatal(app.Listen(":3000"))
 }
 ```
+
+## MountPath
+
+The `MountPath` property contains one or more path patterns on which a sub-app was mounted.
+
+**Signature**
+
+```go
+func (app *App) MountPath() string
+```
+
+**Example**
+
+```go
+func main() {
+	app := New()
+	one := New()
+	two := New()
+	three := New()
+
+	two.Mount("/three", three)
+	one.Mount("/two", two)
+	app.Mount("/one", one)
+
+	one.MountPath()   // "/one"
+	two.MountPath()   // "/one/two"
+	three.MountPath() // "/one/two/three"
+	app.MountPath()   // ""
+}
+```
+
+{% hint style="warning" %}
+Mounting order is important for MountPath. If you want to get mount paths properly, you should start mounting from the deepest app.
+{% endhint %}
 
 ## Group
 
