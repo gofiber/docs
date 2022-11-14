@@ -76,6 +76,31 @@ app.Use(logger.New(logger.Config{
 }))
 ```
 
+### **Callback after log is written**
+
+```go
+package main
+
+import "github.com/gofiber/fiber/v2"
+import "log"
+
+func main() {
+  app := fiber.New()
+
+  app.Use(logger.New(logger.Config{
+		TimeFormat: time.RFC3339Nano,
+		TimeZone:   "Asia/Shanghai",
+		Done: func(c *fiber.Ctx, logString []byte) {
+			if c.Response().StatusCode() != fiber.StatusOK {
+				reporter.SendToSlack(logString) 
+			}
+		},
+	}))
+
+  log.Fatal(app.Listen(":3000"))
+}
+```
+
 ## Config
 
 ```go
@@ -85,6 +110,12 @@ type Config struct {
     //
     // Optional. Default: nil
     Next func(c *fiber.Ctx) bool
+    
+    // Done is a function that is called after the log string for a request is written to Output,
+    // and pass the log string as parameter.
+    //
+    // Optional. Default: a function that does nothing.
+    Done func(c *fiber.Ctx, logString []byte)
 
     // Format defines the logging tags
     //
@@ -118,6 +149,7 @@ type Config struct {
 ```go
 var ConfigDefault = Config{
     Next:         nil,
+    Done:         func(c *fiber.Ctx, logString []byte) {},
     Format:       "[${time}] ${status} - ${latency} ${method} ${path}\n",
     TimeFormat:   "15:04:05",
     TimeZone:     "Local",
@@ -131,45 +163,44 @@ var ConfigDefault = Config{
 ```go
 // Logger variables
 const (
-    TagPid               = "pid"
-    TagTime              = "time"
-    TagReferer           = "referer"
-    TagProtocol          = "protocol"
-    TagPort              = "port"
-    TagIP                = "ip"
-    TagIPs               = "ips"
+	TagPid               = "pid"
+	TagTime              = "time"
+	TagReferer           = "referer"
+	TagProtocol          = "protocol"
+	TagPort              = "port"
+	TagIP                = "ip"
+	TagIPs               = "ips"
 	TagHost              = "host"
 	TagMethod            = "method"
 	TagPath              = "path"
 	TagURL               = "url"
 	TagUA                = "ua"
 	TagLatency           = "latency"
-	TagStatus            = "status"      // response status
-	TagResBody           = "resBody"     // response body
-        TagReqHeaders        = "reqHeaders"
-	TagQueryStringParams = "queryParams" // request query parameters
-	TagBody              = "body"        // request body
+	TagStatus            = "status"
+	TagResBody           = "resBody"
+	TagReqHeaders        = "reqHeaders"
+	TagQueryStringParams = "queryParams"
+	TagBody              = "body"
 	TagBytesSent         = "bytesSent"
 	TagBytesReceived     = "bytesReceived"
 	TagRoute             = "route"
 	TagError             = "error"
-	TagHeader            = "header:"     // DEPRECATED: Use TagReqHeader instead
-	TagReqHeader         = "reqHeader:"  // request header
-	TagRespHeader        = "respHeader:" // response header
-	TagQuery             = "query:"      // request query
-	TagForm              = "form:"       // request form
-	TagCookie            = "cookie:"     // request cookie
-	TagLocals            = "locals:"
-
-	// colors
-	TagBlack   = "black"
-	TagRed     = "red"
-	TagGreen   = "green"
-	TagYellow  = "yellow"
-	TagBlue    = "blue"
-	TagMagenta = "magenta"
-	TagCyan    = "cyan"
-	TagWhite   = "white"
-	TagReset   = "reset"
+	// DEPRECATED: Use TagReqHeader instead
+	TagHeader     = "header:"
+	TagReqHeader  = "reqHeader:"
+	TagRespHeader = "respHeader:"
+	TagLocals     = "locals:"
+	TagQuery      = "query:"
+	TagForm       = "form:"
+	TagCookie     = "cookie:"
+	TagBlack      = "black"
+	TagRed        = "red"
+	TagGreen      = "green"
+	TagYellow     = "yellow"
+	TagBlue       = "blue"
+	TagMagenta    = "magenta"
+	TagCyan       = "cyan"
+	TagWhite      = "white"
+	TagReset      = "reset"
 )
 ```
