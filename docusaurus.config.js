@@ -106,7 +106,7 @@ const config = {
       },
       announcementBar: {
         id: 'announcement-1',
-        content: 'Test announcement!',
+        content: '🌟 If you like Fiber, don\'t forget to give us a star on <a href="https://github.com/gofiber/fiber">Github</a> 🌟',
         backgroundColor: '#fafbfc',
         textColor: '#091E42',
         isCloseable: true,
