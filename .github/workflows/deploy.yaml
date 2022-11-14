@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: test
-        run: tree /home/runner/work/docs
+        run: ls /home/runner/work/docs/docs
       - uses: actions/setup-node@v3
         with:
           node-version: 18
