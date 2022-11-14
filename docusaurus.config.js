@@ -38,7 +38,7 @@ const config = {
           routeBasePath: '/',
           sidebarCollapsed: false,
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: 'https://github.com/gofiber/docs/',
+          editUrl: 'https://github.com/gofiber/docs/edit/docusaurus-migration/', // TODO: Change here before merging
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           versions: {
