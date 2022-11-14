@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - docusaurus-migration
+      - docusaurus-migration # TODO: Change here before merging
 
 jobs:
   deploy:

@@ -3,7 +3,7 @@ name: Test deployment
 on:
   pull_request:
     branches:
-      - docusaurus-migration
+      - docusaurus-migration # TODO: Change here before merging
 
 jobs:
   test-deploy:

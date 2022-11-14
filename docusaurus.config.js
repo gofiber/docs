@@ -8,8 +8,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Fiber',
   tagline: 'An online API documentation with examples so you can start building web apps with Fiber right away!',
-  url: 'https://gofiber.github.io',
-  baseUrl: '/docs/',
+  url: 'https://gofiber.github.io', // TODO: Change here before merging
+  baseUrl: '/docs/', // TODO: Change here before merging
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.png',
