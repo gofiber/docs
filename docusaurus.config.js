@@ -31,6 +31,14 @@ const config = {
           sidebarCollapsed: false,
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl: 'https://github.com/gofiber/docs/',
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
+          versions: {
+            current: {
+              label: "v2.x",
+            },
+          },
+          lastVersion: "current",
         },
         blog: false,
         theme: {
