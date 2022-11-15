@@ -63,6 +63,7 @@ const config = {
         logo: {
           alt: 'Fiber Logo',
           src: 'img/logo.svg',
+          srcDark: 'img/logo-dark.svg'
         },
         items: [{
             to: 'https://gofiber.io',
