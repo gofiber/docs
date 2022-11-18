@@ -99,7 +99,7 @@ store := session.New(session.Config{
 })
 ```
 
-To use the the store, see the above example.
+To use the store, see the above example.
 
 ## Config
 
