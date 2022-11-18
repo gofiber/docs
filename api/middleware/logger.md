@@ -114,7 +114,7 @@ type Config struct {
     // Done is a function that is called after the log string for a request is written to Output,
     // and pass the log string as parameter.
     //
-    // Optional. Default: a function that does nothing.
+    // Optional. Default: nil
     Done func(c *fiber.Ctx, logString []byte)
 
     // Format defines the logging tags
@@ -149,7 +149,7 @@ type Config struct {
 ```go
 var ConfigDefault = Config{
     Next:         nil,
-    Done:         func(c *fiber.Ctx, logString []byte) {},
+    Done:         nil,
     Format:       "[${time}] ${status} - ${latency} ${method} ${path}\n",
     TimeFormat:   "15:04:05",
     TimeZone:     "Local",
