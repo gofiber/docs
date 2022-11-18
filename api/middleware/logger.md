@@ -3,19 +3,17 @@
 Logger middleware for [Fiber](https://github.com/gofiber/fiber) that logs HTTP request/response details.
 
 ## Table of Contents
-- [Logger Middleware](logger.md#logger-middleware)
-	- [Table of Contents](logger.md#table-of-contents)
-	- [Signatures](logger.md#signatures)
-	- [Examples](logger.md#examples)
-		- [Default Config](logger.md#default-config)
-		- [Logging remote IP and Port](logger.md#logging-remote-ip-and-port)
-		- [Logging Request ID](logger.md#logging-request-id)
-		- [Changing TimeZone & TimeFormat](logger.md#changing-timezone--timeformat)
-		- [Custom File Writer](logger.md#custom-file-writer)
-        - [Add Custom Tags](logger.md#add-custom-tags)
-	- [Config](logger.md#config)
-	- [Default Config](logger.md#default-config-1)
-	- [Constants](logger.md#constants)
+- * [Signatures](logger.md#signatures)
+- * [Examples](logger.md#examples)
+	- * [Default Config](logger.md#default-config)
+	- * [Logging remote IP and Port](logger.md#logging-remote-ip-and-port)
+	- * [Logging Request ID](logger.md#logging-request-id)
+	- * [Changing TimeZone & TimeFormat](logger.md#changing-timezone--timeformat)
+	- * [Custom File Writer](logger.md#custom-file-writer)
+- * [Add Custom Tags](logger.md#add-custom-tags)
+- * [Config](logger.md#config)
+- * [Default Config](logger.md#default-config-1)
+- * [Constants](logger.md#constants)
 
 ## Signatures
 ```go
