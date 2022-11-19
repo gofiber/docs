@@ -142,10 +142,6 @@ OnShutdown is a hook to execute user functions after Shutdown.
 ```go title="Signature"
 func (app *App) OnShutdown(handler ...OnShutdownHandler)
 ```
-<<<<<<< HEAD:docs/guide/hooks.md
-=======
-{% endcode %}
->>>>>>> origin/master:guide/hooks.md
 
 ## OnMount
 
@@ -194,4 +190,4 @@ func main() {
 
 :::caution
 OnName/OnRoute/OnGroup/OnGroupName hooks are mount-sensitive. If you use one of these routes on sub app and you mount it; paths of routes and groups will start with mount prefix.
-:::
+{% endhint %}
