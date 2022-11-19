@@ -15,6 +15,7 @@ With Fiber v2.30.0, you can execute custom user functions when to run some metho
 - [OnListen](#onlisten)
 - [OnFork](#onfork)
 - [OnShutdown](#onshutdown)
+- [OnMount](#onsmount)
 
 ## Constants
 ```go
@@ -26,6 +27,7 @@ type OnGroupNameHandler = OnGroupHandler
 type OnListenHandler = func() error
 type OnForkHandler = func(int) error
 type OnShutdownHandler = OnListenHandler
+type OnMountHandler = func(*App) error
 ```
 
 ## OnRoute
@@ -141,4 +143,51 @@ OnShutdown is a hook to execute user functions after Shutdown.
 func (app *App) OnShutdown(handler ...OnShutdownHandler)
 ```
 
+## OnMount
 
+OnMount is a hook to execute user function after mounting process. The mount event is fired when sub-app is mounted on a parent app. The parent app is passed as a parameter. It works for app and group mounting.
+
+```go title="Signature"
+func (h *Hooks) OnMount(handler ...OnMountHandler) 
+```
+
+<Tabs>
+<TabItem value="onmount-example" label="OnMount Example">
+
+```go
+package main
+
+import (
+	"fmt"
+
+	"github.com/gofiber/fiber/v2"
+)
+
+func main() {
+	app := New()
+	app.Get("/", testSimpleHandler).Name("x")
+
+	subApp := New()
+	subApp.Get("/test", testSimpleHandler)
+
+	subApp.Hooks().OnMount(func(parent *fiber.App) error {
+		fmt.Print("Mount path of parent app: "+parent.MountPath())
+		// ...
+
+		return nil
+	})
+
+	app.Mount("/sub", subApp)
+}
+
+// Result:
+// Mount path of parent app: 
+```
+
+</TabItem>
+</Tabs>
+
+
+:::caution
+OnName/OnRoute/OnGroup/OnGroupName hooks are mount-sensitive. If you use one of these routes on sub app and you mount it; paths of routes and groups will start with mount prefix.
+:::

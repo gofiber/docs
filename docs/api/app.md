@@ -160,6 +160,11 @@ app.Use("/api", func(c *fiber.Ctx) error {
     return c.Next()
 })
 
+// Match requests starting with /api or /home (multiple-prefix support)
+app.Use([]string{"/api", "/home"}, func(c *fiber.Ctx) error {
+    return c.Next()
+})
+
 // Attach multiple handlers 
 app.Use("/api",func(c *fiber.Ctx) error {
   c.Set("X-Custom-Header", random.String(32))
@@ -179,17 +184,48 @@ func (a *App) Mount(prefix string, app *App) Router
 
 ```go title="Examples"
 func main() {
+    app := fiber.New()
     micro := fiber.New()
+    app.Mount("/john", micro) // GET /john/doe -> 200 OK
+
     micro.Get("/doe", func(c *fiber.Ctx) error {
         return c.SendStatus(fiber.StatusOK)
     })
 
-    app := fiber.New()
-    app.Mount("/john", micro) // GET /john/doe -> 200 OK
 
     log.Fatal(app.Listen(":3000"))
 }
 ```
+
+## MountPath
+
+The `MountPath` property contains one or more path patterns on which a sub-app was mounted.
+
+```go title="Signature"
+func (app *App) MountPath() string
+```
+
+```go title="Examples"
+func main() {
+	app := New()
+	one := New()
+	two := New()
+	three := New()
+
+	two.Mount("/three", three)
+	one.Mount("/two", two)
+	app.Mount("/one", one)
+  
+	one.MountPath()   // "/one"
+	two.MountPath()   // "/one/two"
+	three.MountPath() // "/one/two/three"
+	app.MountPath()   // ""
+}
+```
+
+:::caution
+Mounting order is important for MountPath. If you want to get mount paths properly, you should start mounting from the deepest app.
+:::
 
 ## Group
 
