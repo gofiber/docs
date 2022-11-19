@@ -178,6 +178,11 @@ app.Use("/api", func(c *fiber.Ctx) error {
     return c.Next()
 })
 
+// Match requests starting with /api or /home (multiple-prefix support)
+app.Use([]string{"/api", "/home"}, func(c *fiber.Ctx) error {
+    return c.Next()
+})
+
 // Attach multiple handlers 
 app.Use("/api",func(c *fiber.Ctx) error {
   c.Set("X-Custom-Header", random.String(32))
