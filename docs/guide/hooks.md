@@ -15,7 +15,7 @@ With Fiber v2.30.0, you can execute custom user functions when to run some metho
 - [OnListen](#onlisten)
 - [OnFork](#onfork)
 - [OnShutdown](#onshutdown)
-- [OnMount](#onsmount)
+- [OnMount](#onmount)
 
 ## Constants
 ```go
