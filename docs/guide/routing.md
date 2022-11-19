@@ -235,6 +235,24 @@ app.Get("/:test<int>?", func(c *fiber.Ctx) error {
 // Cannot GET /7.0
 ```
 
+**Optional Parameter Example**
+
+You can impose constraints on optional parameters as well.
+
+```go
+app.Get("/:test<int>?", func(c *fiber.Ctx) error {
+  return c.SendString(c.Params("test"))
+})
+
+// curl -X GET http://localhost:3000/42
+// 42
+
+// curl -X GET http://localhost:3000/
+//
+
+// curl -X GET http://localhost:3000/7.0
+// Cannot GET /7.0
+```
 
 ## Middleware
 

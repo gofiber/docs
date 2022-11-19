@@ -142,6 +142,10 @@ OnShutdown is a hook to execute user functions after Shutdown.
 ```go title="Signature"
 func (app *App) OnShutdown(handler ...OnShutdownHandler)
 ```
+<<<<<<< HEAD:docs/guide/hooks.md
+=======
+{% endcode %}
+>>>>>>> origin/master:guide/hooks.md
 
 ## OnMount
 
