@@ -894,7 +894,7 @@ This is useful if you want to pass some **specific** data to the next middleware
 
 {% code title="Signature" %}
 ```go
-func (c *Ctx) Locals(key string, value ...interface{}) interface{}
+func (c *Ctx) Locals(key interface{}, value ...interface{}) interface{}
 ```
 {% endcode %}
 
