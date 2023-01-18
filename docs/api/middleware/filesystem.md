@@ -4,10 +4,10 @@ title: FileSystem
 sidebar_position: 11
 ---
 
+Filesystem middleware for [Fiber](https://github.com/gofiber/fiber) that enables you to serve files from a directory.
+
 :::caution
 **`:params` & `:optionals?` within the prefix path are not supported!**
-:::
-:::caution
 **To handle paths with spaces (or other url encoded values) make sure to set `fiber.Config{ UnescapePath: true}`**
 :::
 

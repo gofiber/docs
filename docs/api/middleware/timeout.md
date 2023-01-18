@@ -4,7 +4,7 @@ title: Timeout
 sidebar_position: 20
 ---
 
-Timeout middleware for Fiber. As a `fiber.Handler` wrapper, it creates a context with `context.WithTimeout` and pass it in `UserContext`. If the context passed executions (eg. DB ops, Http calls) takes longer than the given duration to return, the timeout error is set and forwarded to the centralized `ErrorHandler`.
+Timeout middleware for [Fiber](https://github.com/gofiber/fiber). As a `fiber.Handler` wrapper, it creates a context with `context.WithTimeout` and pass it in `UserContext`. If the context passed executions (eg. DB ops, Http calls) takes longer than the given duration to return, the timeout error is set and forwarded to the centralized `ErrorHandler`.
 
 It does not cancel long running executions. Underlying executions must handle timeout by using `context.Context` parameter.
 
