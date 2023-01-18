@@ -8,6 +8,7 @@ Filesystem middleware for [Fiber](https://github.com/gofiber/fiber) that enables
 
 :::caution
 **`:params` & `:optionals?` within the prefix path are not supported!**
+
 **To handle paths with spaces (or other url encoded values) make sure to set `fiber.Config{ UnescapePath: true}`**
 :::
 

@@ -142,45 +142,45 @@ var ConfigDefault = Config{
 ```go
 // Logger variables
 const (
-	TagPid					= "pid"
-	TagTime					= "time"
-	TagReferer				= "referer"
-	TagProtocol				= "protocol"
-	TagPort                                 = "port"
-	TagIP					= "ip"
-	TagIPs					= "ips"
-	TagHost					= "host"
-	TagMethod				= "method"
-	TagPath					= "path"
-	TagURL					= "url"
-	TagUA					= "ua"
-	TagLatency				= "latency"
-	TagStatus				= "status"	// response status
-	TagResBody				= "resBody"	// response body
-	TagReqHeaders                           = "reqHeaders"
-    TagQueryStringParams			= "queryParams"	// request query parameters
-    TagBody					= "body"	// request body
-	TagBytesSent				= "bytesSent"
-	TagBytesReceived			= "bytesReceived"
-	TagRoute				= "route"
-	TagError                		= "error"
-	// DEPRECATED: Use TagReqHeader instead
-	TagHeader               		= "header:"     // request header
-	TagReqHeader            		= "reqHeader:"  // request header
-	TagRespHeader           		= "respHeader:" // response header
-	TagQuery				= "query:"      // request query
-	TagForm					= "form:"       // request form
-	TagCookie				= "cookie:"     // request cookie
-	TagLocals				= "locals:"
-	// colors
-	TagBlack        			= "black"
-	TagRed           			= "red"
-	TagGreen        			= "green"
-	TagYellow        			= "yellow"
-	TagBlue          			= "blue"
-	TagMagenta       			= "magenta"
-	TagCyan          			= "cyan"
-	TagWhite         			= "white"
-	TagReset         			= "reset"
+    TagPid               = "pid"
+    TagTime              = "time"
+    TagReferer           = "referer"
+    TagProtocol          = "protocol"
+    TagPort              = "port"
+    TagIP                = "ip"
+    TagIPs               = "ips"
+    TagHost              = "host"
+    TagMethod            = "method"
+    TagPath              = "path"
+    TagURL               = "url"
+    TagUA                = "ua"
+    TagLatency           = "latency"
+    TagStatus            = "status"         // response status
+    TagResBody           = "resBody"        // response body
+    TagReqHeaders        = "reqHeaders"
+    TagQueryStringParams = "queryParams"    // request query parameters
+    TagBody              = "body"           // request body
+    TagBytesSent         = "bytesSent"
+    TagBytesReceived     = "bytesReceived"
+    TagRoute             = "route"
+    TagError             = "error"
+    // DEPRECATED: Use TagReqHeader instead
+    TagHeader            = "header:"        // request header
+    TagReqHeader         = "reqHeader:"     // request header
+    TagRespHeader        = "respHeader:"    // response header
+    TagQuery             = "query:"         // request query
+    TagForm              = "form:"          // request form
+    TagCookie            = "cookie:"        // request cookie
+    TagLocals            = "locals:"
+    // colors
+    TagBlack             = "black"
+    TagRed               = "red"
+    TagGreen             = "green"
+    TagYellow            = "yellow"
+    TagBlue              = "blue"
+    TagMagenta           = "magenta"
+    TagCyan              = "cyan"
+    TagWhite             = "white"
+    TagReset             = "reset"
 )
 ```

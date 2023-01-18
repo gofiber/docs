@@ -7,7 +7,7 @@ sidebar_position: 18
 Session middleware for [Fiber](https://github.com/gofiber/fiber).
 
 :::note
-This middleware uses our [Storage](https://github.com/gofiber/storage) package to support various databases through a single interface. The default configuration for this middleware saves data to memory, see the examples below for other databases._
+This middleware uses our [Storage](https://github.com/gofiber/storage) package to support various databases through a single interface. The default configuration for this middleware saves data to memory, see the examples below for other databases.
 :::
 
 ## Signatures

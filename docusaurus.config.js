@@ -99,6 +99,9 @@ const config = {
           }
         ],
       },
+      colorMode: {
+        respectPrefersColorScheme: true,
+      },
       docs: {
         sidebar: {
           hideable: true,
