@@ -772,7 +772,7 @@ This is useful if you want to pass some **specific** data to the next middleware
 :::
 
 ```go title="Signature"
-func (c *Ctx) Locals(key string, value ...interface{}) interface{}
+func (c *Ctx) Locals(key interface{}, value ...interface{}) interface{}
 ```
 
 ```go title="Example"
@@ -1152,8 +1152,7 @@ app.Get("/teapot", func(c *fiber.Ctx) error {
 })
 ```
 
-{% code title="More examples" %}
-```go
+```go title="More examples"
 app.Get("/", func(c *fiber.Ctx) error {
   return c.Redirect("/foo/bar")
   return c.Redirect("../login")

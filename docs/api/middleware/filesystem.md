@@ -7,6 +7,9 @@ sidebar_position: 11
 :::caution
 **`:params` & `:optionals?` within the prefix path are not supported!**
 :::
+:::caution
+**To handle paths with spaces (or other url encoded values) make sure to set `fiber.Config{ UnescapePath: true}`**
+:::
 
 ### Table of Contents
 

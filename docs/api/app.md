@@ -109,7 +109,7 @@ app.Static("/", "./public", fiber.Static{
 
 ## Route Handlers
 
-Registeres a route bound to a specific [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods).
+Registers a route bound to a specific [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods).
 
 ```go title="Signatures"
 // HTTP methods
@@ -289,6 +289,17 @@ func main() {
 
     // ...
 }
+```
+
+## Server Shutdown
+
+Shutdown gracefully shuts down the server without interrupting any active connections. Shutdown works by first closing all open listeners and then waits indefinitely for all connections to return to idle before shutting down.
+
+ShutdownWithTimeout will forcefully close any active connections after the timeout expires.
+
+```go
+func (app *App) Shutdown() error
+func (app *App) ShutdownWithTimeout(timeout time.Duration) error
 ```
 
 ## HandlersCount

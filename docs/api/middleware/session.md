@@ -51,7 +51,7 @@ Then create a Fiber app with `app := fiber.New()`.
 // Default middleware config
 store := session.New()
 
-// This panic will be catch by the middleware
+// This panic will be caught by the middleware
 app.Get("/", func(c *fiber.Ctx) error {
     // Get session from storage
     sess, err := store.Get(c)
