@@ -26,7 +26,20 @@ const config = {
         indexBlog: false,
         docsRouteBasePath: '/'
       }
-    ]
+    ],
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        createRedirects(existingPath) {
+          if (existingPath.includes('/v1.x')) {
+            return [
+              existingPath.replace('/v1.x', '/v/1.x'),
+            ];
+          }
+          return undefined;
+        },
+      },
+    ],
   ],
 
   presets: [
