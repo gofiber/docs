@@ -190,4 +190,3 @@ func main() {
 
 :::caution
 OnName/OnRoute/OnGroup/OnGroupName hooks are mount-sensitive. If you use one of these routes on sub app and you mount it; paths of routes and groups will start with mount prefix.
-{% endhint %}
