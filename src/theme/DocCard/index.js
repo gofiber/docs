@@ -10,7 +10,7 @@ import {translate} from '@docusaurus/Translate';
 import styles from './styles.module.css';
 
 function startWithEmoji(title) {
-    return /^\p{S}/u.test(title);
+    return /^\p{So}/u.test(title);
 }
 
 function CardContainer({href, children}) {
