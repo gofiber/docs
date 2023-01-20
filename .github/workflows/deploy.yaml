@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Build & Deploy GitHub Pages
 
 on:
   push:
@@ -9,19 +9,19 @@ on:
 
 jobs:
   deploy:
-    name: Deploy to GitHub Pages
+    name: Build & Deploy GitHub Pages
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: yarn
+          cache: npm
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
       - name: Build website
-        run: yarn build
+        run: npm run build
 
       # Popular action to deploy to GitHub Pages:
       # Docs: https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus
