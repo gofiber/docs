@@ -94,6 +94,11 @@ const config = {
             position: 'left',
           },
           {
+            to: 'https://github.com/gofiber/awesome-fiber',
+            label: '😎 Awesome List',
+            position: 'left',
+          },
+          {
             to: 'https://gofiber.io/discord',
             label: '💬 Chat',
             position: 'left',
