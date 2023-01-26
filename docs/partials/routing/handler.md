@@ -1,3 +1,8 @@
+---
+id: route-handlers
+title: Route Handlers
+---
+
 Registers a route bound to a specific [HTTP method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods).
 
 ```go title="Signatures"
