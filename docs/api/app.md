@@ -5,7 +5,7 @@ description: The app instance conventionally denotes the Fiber application.
 sidebar_position: 2
 ---
 
-import RoutingHandler from './../routing/handler.md';
+import RoutingHandler from './../partials/routing/handler.md';
 
 ## Static
 
