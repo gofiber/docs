@@ -162,27 +162,27 @@ func main() {
 package main
 
 import (
-    "github.com/gofiber/fiber/v2"
-    "github.com/gofiber/fiber/v2/middleware/filesystem"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/filesystem"
 
-    "<Your go module>/statik"
-    fs "github.com/rakyll/statik/fs"
+	// Use blank to invoke init function and register data to statik
+	_ "<Your go module>/statik" 
+	"github.com/rakyll/statik/fs"
 )
 
 func main() {
-    statik, err := fs.New()
-    if err != nil {
-        panic(err)
-    }
+	statikFS, err := fs.New()
+	if err != nil {
+		panic(err)
+	}
 
-    app := fiber.New()
+	app := fiber.New()
 
-    app.Use("/", filesystem.New(filesystem.Config{
-        Root: statikFS,
-    })
+	app.Use("/", filesystem.New(filesystem.Config{
+		Root: statikFS,
+	}))
 
-    log.Fatal(app.Listen(":3000"))
-}
+	log.Fatal(app.Listen(":3000"))
 ```
 
 ### Config
