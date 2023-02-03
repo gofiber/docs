@@ -1,7 +1,6 @@
 ---
 id: etag
 title: ETag
-sidebar_position: 8
 ---
 
 ETag middleware for [Fiber](https://github.com/gofiber/fiber) that lets caches be more efficient and save bandwidth, as a web server does not need to resend a full response if the content has not changed.

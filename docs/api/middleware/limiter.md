@@ -1,7 +1,6 @@
 ---
 id: limiter
 title: Limiter
-sidebar_position: 11
 ---
 
 Limiter middleware for [Fiber](https://github.com/gofiber/fiber) used to limit repeated requests to public APIs and/or endpoints such as password reset etc. Also useful for API clients, web crawling, or other tasks that need to be throttled.

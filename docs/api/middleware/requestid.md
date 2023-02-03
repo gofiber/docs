@@ -1,7 +1,6 @@
 ---
 id: requestid
 title: RequestID
-sidebar_position: 17
 ---
 
 RequestID middleware for [Fiber](https://github.com/gofiber/fiber) that adds an indentifier to the response.

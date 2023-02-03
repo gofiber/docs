@@ -1,7 +1,6 @@
 ---
 id: monitor
 title: Monitor
-sidebar_position: 13
 ---
 
 Monitor middleware for [Fiber](https://github.com/gofiber/fiber) that reports server metrics, inspired by [express-status-monitor](https://github.com/RafalWilinski/express-status-monitor)

@@ -1,7 +1,6 @@
 ---
 id: skip
 title: Skip
-sidebar_position: 19
 ---
 
 Skip middleware for [Fiber](https://github.com/gofiber/fiber) that skips a wrapped handler if a predicate is true.

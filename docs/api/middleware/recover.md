@@ -1,7 +1,6 @@
 ---
 id: recover
 title: Recover
-sidebar_position: 16
 ---
 
 Recover middleware for [Fiber](https://github.com/gofiber/fiber) that recovers from panics anywhere in the stack chain and handles the control to the centralized [ErrorHandler](https://docs.gofiber.io/error-handling).

@@ -1,7 +1,6 @@
 ---
 id: encryptcookie
 title: Encrypt Cookie
-sidebar_position: 6
 ---
 
 Encrypt middleware for [Fiber](https://github.com/gofiber/fiber) which encrypts cookie values. Note: this middleware does not encrypt cookie names.

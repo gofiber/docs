@@ -1,7 +1,6 @@
 ---
 id: filesystem
 title: FileSystem
-sidebar_position: 11
 ---
 
 Filesystem middleware for [Fiber](https://github.com/gofiber/fiber) that enables you to serve files from a directory.
@@ -183,6 +182,7 @@ func main() {
 	}))
 
 	log.Fatal(app.Listen(":3000"))
+}
 ```
 
 ### Config

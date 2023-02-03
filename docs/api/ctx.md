@@ -1060,12 +1060,46 @@ func (c *Ctx) Query(key string, defaultValue ...string) string
 ```
 
 ```go title="Example"
-// GET http://example.com/shoes?order=desc&brand=nike
+// GET http://example.com/?order=desc&brand=nike
 
 app.Get("/", func(c *fiber.Ctx) error {
   c.Query("order")         // "desc"
   c.Query("brand")         // "nike"
   c.Query("empty", "nike") // "nike"
+
+  // ...
+})
+```
+
+> _Returned value is only valid within the handler. Do not store any references.  
+> Make copies or use the_ [_**`Immutable`**_](ctx.md) _setting instead._ [_Read more..._](../#zero-allocation)
+
+## QueryInt
+
+This property is an object containing a property for each query integer parameter in the route, you could pass an optional default value that will be returned if the query key does not exist.
+
+
+:::caution
+Please note if that parameter is not in the request, zero will be returned.
+If the parameter is not a number, it is still tried to be converted and usually returned as 1.
+:::
+
+:::info
+Defaults to the integer zero \(`0`\), if the param **doesn't** exist.
+:::
+
+```go title="Signature"
+func (c *Ctx) QueryInt(key string, defaultValue ...int) int
+```
+
+```go title="Example"
+// GET http://example.com/?name=alex&wanna_cake=2&id=
+
+app.Get("/", func(c *fiber.Ctx) error {
+    QueryInt("wanna_cake", 1) // 2
+    QueryInt("name", 1)       // 1
+    QueryInt("id", 1)         // 1
+    QueryInt("id")            // 0
 
   // ...
 })

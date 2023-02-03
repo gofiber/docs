@@ -1,7 +1,6 @@
 ---
 id: proxy
 title: Proxy
-sidebar_position: 15
 ---
 
 Proxy middleware for [Fiber](https://github.com/gofiber/fiber) that allows you to proxy requests to multiple servers.
@@ -9,9 +8,16 @@ Proxy middleware for [Fiber](https://github.com/gofiber/fiber) that allows you t
 ## Signatures
 
 ```go
+// Balancer create a load balancer among multiple upstrem servers.
 func Balancer(config Config) fiber.Handler
+// Forward performs the given http request and fills the given http response.
 func Forward(addr string, clients ...*fasthttp.Client) fiber.Handler
+// Do performs the given http request and fills the given http response.
 func Do(c *fiber.Ctx, addr string, clients ...*fasthttp.Client) error
+// DomainForward the given http request based on the given domain and fills the given http response
+func DomainForward(hostname string, addr string, clients ...*fasthttp.Client) fiber.Handler
+// BalancerForward performs the given http request based round robin balancer and fills the given http response
+func BalancerForward(servers []string, clients ...*fasthttp.Client) fiber.Handler
 ```
 
 ## Examples
@@ -42,6 +48,8 @@ proxy.WithClient(&fasthttp.Client{
 // Forward to url
 app.Get("/gif", proxy.Forward("https://i.imgur.com/IWaBepg.gif"))
 
+// If you want to forward with a specific domain. You have to use proxy.DomainForward.
+app.Get("/payments", proxy.DomainForward("docs.gofiber.io", "http://localhost:8000"))
 
 // Forward to url with local custom client
 app.Get("/gif", proxy.Forward("https://i.imgur.com/IWaBepg.gif", &fasthttp.Client{
@@ -84,6 +92,13 @@ app.Use(proxy.Balancer(proxy.Config{
         c.Response().Header.Del(fiber.HeaderServer)
         return nil
     },
+}))
+
+// Or this way if the balancer is using https and the destination server is only using http.
+app.Use(proxy.BalancerForward([]string{
+    "http://localhost:3001",
+    "http://localhost:3002",
+    "http://localhost:3003",
 }))
 ```
 

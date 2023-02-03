@@ -1,13 +1,12 @@
 ---
 id: favicon
 title: Favicon
-sidebar_position: 10
 ---
 
 Favicon middleware for [Fiber](https://github.com/gofiber/fiber) that ignores favicon requests or caches a provided icon in memory to improve performance by skipping disk access. User agents request favicon.ico frequently and indiscriminately, so you may wish to exclude these requests from your logs by using this middleware before your logger middleware.
 
 :::note
-This middleware is exclusively for serving the default, implicit favicon, which is GET /favicon.ico.
+This middleware is exclusively for serving the default, implicit favicon, which is GET /favicon.ico or [custom favicon URL](#config).
 :::
 
 ## Signatures
@@ -36,6 +35,7 @@ app.Use(favicon.New())
 // Or extend your config for customization
 app.Use(favicon.New(favicon.Config{
     File: "./favicon.ico",
+    URL: "/favicon.ico",
 }))
 ```
 
@@ -53,6 +53,22 @@ type Config struct {
     //
     // Optional. Default: ""
     File string
+	
+    // URL for favicon handler
+    //
+    // Optional. Default: "/favicon.ico"
+    URL string
+
+    // FileSystem is an optional alternate filesystem to search for the favicon in.
+    // An example of this could be an embedded or network filesystem
+    //
+    // Optional. Default: nil
+    FileSystem http.FileSystem
+
+    // CacheControl defines how the Cache-Control header in the response should be set
+    //
+    // Optional. Default: "public, max-age=31536000"
+    CacheControl string
 }
 ```
 
@@ -61,6 +77,8 @@ type Config struct {
 ```go
 var ConfigDefault = Config{
     Next: nil,
-    File:    ""
+    File:    "",
+    File:	"",
+    URL: "/favicon.ico",
 }
 ```

@@ -1,7 +1,6 @@
 ---
 id: logger
 title: Logger
-sidebar_position: 12
 ---
 
 Logger middleware for [Fiber](https://github.com/gofiber/fiber) that logs HTTP request/response details.

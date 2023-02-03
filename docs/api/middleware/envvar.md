@@ -1,7 +1,6 @@
 ---
 id: envvar
 title: EnvVar
-sidebar_position: 7
 ---
 
 EnvVar middleware for [Fiber](https://github.com/gofiber/fiber) that can be used to expose environment variables with various options.

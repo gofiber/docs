@@ -1,7 +1,6 @@
 ---
 id: session
 title: Session
-sidebar_position: 18
 ---
 
 Session middleware for [Fiber](https://github.com/gofiber/fiber).
