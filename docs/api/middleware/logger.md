@@ -17,6 +17,9 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 )
 ```
+
+Insert logging config as first `Use`, before configure any other middleware (or fiber lost some logs with failed try in middleware, such as basicauth). 
+
 ### Default Config
 ```go
 // Default middleware config
