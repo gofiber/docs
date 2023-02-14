@@ -18,7 +18,12 @@ import (
 )
 ```
 
-Insert logging config as first `Use`, before configure any other middleware (or fiber lost some logs with failed try in middleware, such as basicauth). 
+:::tip
+
+The order of registration plays a role. Only all routes that are registered after this one will be logged.
+The middleware should therefore be one of the first to be registered.
+
+:::
 
 ### Default Config
 ```go
