@@ -17,6 +17,14 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 )
 ```
+
+:::tip
+
+The order of registration plays a role. Only all routes that are registered after this one will be logged.
+The middleware should therefore be one of the first to be registered.
+
+:::
+
 ### Default Config
 ```go
 // Default middleware config
