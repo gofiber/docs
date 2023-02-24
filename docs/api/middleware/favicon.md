@@ -80,6 +80,6 @@ var ConfigDefault = Config{
     File:         "",
     URL:          "/favicon.ico",
     FileSystem:   nil,
-    CacheControl: "public, max-age=31536000"
+    CacheControl: "public, max-age=31536000",
 }
 ```
