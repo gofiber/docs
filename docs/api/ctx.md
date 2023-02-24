@@ -667,7 +667,7 @@ func (c *Ctx) IsFromLocal() bool {
 
 app.Get("/", func(c *fiber.Ctx) error {
   // If request came from localhost, return true else return false
-  c.isFromLocal()
+  c.IsFromLocal()
 
   // ...
 })
