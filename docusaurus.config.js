@@ -56,10 +56,10 @@ const config = {
           showLastUpdateTime: true,
           versions: {
             current: {
-              label: "v2.x",
+              label: "Next",
             },
           },
-          lastVersion: "current",
+          lastVersion: "v2.x",
         },
         blog: false,
         theme: {
