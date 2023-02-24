@@ -76,9 +76,10 @@ type Config struct {
 
 ```go
 var ConfigDefault = Config{
-    Next: nil,
-    File:    "",
-    File:	"",
-    URL: "/favicon.ico",
+    Next:         nil,
+    File:         "",
+    URL:          "/favicon.ico",
+    FileSystem:   nil,
+    CacheControl: "public, max-age=31536000"
 }
 ```
