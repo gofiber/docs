@@ -49,7 +49,23 @@ const config = {
           'standalone',
           'queryString',
         ],
-
+        pwaHead: [
+          {
+            tagName: "link",
+            rel: "icon",
+            href: "/img/favicon.png"
+          },
+          {
+            tagName: "link",
+            rel: "manifest",
+            href: "/manifest.json" // your PWA manifest
+          },
+          {
+            tagName: "meta",
+            name: "theme-color",
+            content: "rgb(37, 194, 160)"
+          },
+        ],
       },
     ],
   ],
