@@ -51,7 +51,8 @@ const config = {
           routeBasePath: '/',
           sidebarCollapsed: false,
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: 'https://github.com/gofiber/docs/edit/master/',
+          // disabled until we make a redirect to the respective source repository
+          // editUrl: 'https://github.com/gofiber/docs/edit/master/',
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           versions: {
