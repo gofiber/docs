@@ -29,10 +29,12 @@ const config = {
     ],
     [
       '@docusaurus/plugin-client-redirects',
-      {to: '/category/-middleware', from: '/-middleware'},
-      {to: '/guide/routing', from: '/routing'},
-      {to: '/api/ctx', from: '/ctx'},
       {
+        redirects: [
+          {to: '/category/-middleware', from: '/-middleware'},
+          {to: '/guide/routing', from: '/routing'},
+          {to: '/api/ctx', from: '/ctx'},
+        ],
         createRedirects(existingPath) {
           if (existingPath.includes('/v1.x')) {
             return [
