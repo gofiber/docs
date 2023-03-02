@@ -86,6 +86,13 @@ const config = {
           sidebarPath: require.resolve('./sidebars.js'),
           // disabled until we make a redirect to the respective source repository
           // editUrl: 'https://github.com/gofiber/docs/edit/master/',
+          editUrl: (params) => {
+            // console.log(params);
+            if (params.version === 'current') {
+                return 'https://github.com/gofiber/fiber/tree/master/docs/' + params.docPath;
+            }
+            return undefined;
+          },
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           versions: {
