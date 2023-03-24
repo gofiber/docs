@@ -27,7 +27,7 @@ func (app *App) All(path string, handlers ...Handler) Router
 
 ```go title="Examples"
 // Simple GET handler
-app.Get("/api/list", func(c *fiber.Ctx)error{
+app.Get("/api/list", func(c *fiber.Ctx) error {
   return c.SendString("I'm a GET request!")
 })
 
@@ -60,7 +60,7 @@ app.Use([]string{"/api", "/home"}, func(c *fiber.Ctx) error {
 })
 
 // Attach multiple handlers 
-app.Use("/api",func(c *fiber.Ctx) error {
+app.Use("/api", func(c *fiber.Ctx) error {
   c.Set("X-Custom-Header", random.String(32))
     return c.Next()
 }, func(c *fiber.Ctx) error {
