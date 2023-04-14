@@ -45,14 +45,14 @@ app.Use(cache.New(cache.Config{
 Or you can custom key and expire time like this:
 
 ```go
-app.Use(New(Config{
-    ExpirationGenerator: func(c *fiber.Ctx, cfg *Config) time.Duration {
+app.Use(cache.New(cache.Config{
+    ExpirationGenerator: func(c *fiber.Ctx, cfg *cache.Config) time.Duration {
         newCacheTime, _ := strconv.Atoi(c.GetRespHeader("Cache-Time", "600"))
         return time.Second * time.Duration(newCacheTime)
     },
     KeyGenerator: func(c *fiber.Ctx) string {
 		return utils.CopyString(c.Path())
-    }
+    },
 }))
 
 app.Get("/", func(c *fiber.Ctx) error {
@@ -128,7 +128,6 @@ type Config struct {
 ## Default Config
 
 ```go
-// ConfigDefault is the default config
 var ConfigDefault = Config{
     Next:         nil,
     Expiration:   1 * time.Minute,
