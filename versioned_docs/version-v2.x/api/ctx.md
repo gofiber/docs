@@ -24,15 +24,27 @@ func (c *Ctx) AcceptsLanguages(offers ...string) string
 ```
 
 ```go title="Example"
-// Accept: text/*, application/json
+// Accept: text/html, application/json; q=0.8, text/plain; q=0.5; charset="utf-8"
 
 app.Get("/", func(c *fiber.Ctx) error {
   c.Accepts("html")             // "html"
   c.Accepts("text/html")        // "text/html"
   c.Accepts("json", "text")     // "json"
   c.Accepts("application/json") // "application/json"
+  c.Accepts("text/plain", "application/json") // "application/json", due to quality
   c.Accepts("image/png")        // ""
   c.Accepts("png")              // ""
+  // ...
+})
+```
+
+```go title="Example 2"
+// Accept: text/html, text/*, application/json, */*; q=0
+
+app.Get("/", func(c *fiber.Ctx) error {
+  c.Accepts("text/plain", "application/json") // "application/json", due to specificity
+  c.Accepts("application/json", "text/html") // "text/html", due to first match
+  c.Accepts("image/png")        // "", due to */* without q factor 0 is Not Acceptable
   // ...
 })
 ```
@@ -1052,6 +1064,70 @@ app.Get("/", func(c *fiber.Ctx) error {
   c.Protocol() // "http"
 
   // ...
+})
+```
+
+## Queries
+
+Queries is a function that returns an object containing a property for each query string parameter in the route.
+
+```go title="Signature"
+func (c *Ctx) Queries() (map[string]string, error)
+```
+
+```go title="Example"
+// GET http://example.com/?name=alex&want_pizza=false&id=
+
+app.Get("/", func(c *fiber.Ctx) error {
+	m := c.Queries()
+	m["name"] // "alex"
+	m["want_pizza"] // "false"
+	m["id"] // ""
+	// ...
+})
+```
+
+```go title="Example"
+// GET http://example.com/?field1=value1&field1=value2&field2=value3
+
+app.Get("/", func (c *fiber.Ctx) error {
+	m := c.Queries()
+	m["field1"] // "value2"
+	m["field2"] // value3
+})
+```
+
+```go title="Example"
+// GET http://example.com/?list_a=1&list_a=2&list_a=3&list_b[]=1&list_b[]=2&list_b[]=3&list_c=1,2,3
+
+app.Get("/", func(c *fiber.Ctx) error {
+	m := c.Queries()
+	m["list_a"] // "3"
+	m["list_b[]"] // "3"
+	m["list_c"] // "1,2,3"
+})
+```
+
+```go title="Example"
+// GET /api/posts?filters.author.name=John&filters.category.name=Technology
+
+app.Get("/", func(c *fiber.Ctx) error {
+	m := c.Queries()
+	m["filters.author.name"] // John
+	m["filters.category.name"] // Technology
+})
+```
+
+```go title="Example"
+// GET /api/posts?tags=apple,orange,banana&filters[tags]=apple,orange,banana&filters[category][name]=fruits&filters.tags=apple,orange,banana&filters.category.name=fruits
+
+app.Get("/", func(c *fiber.Ctx) error {
+	m := c.Queries()
+	m["tags"] // apple,orange,banana
+	m["filters[tags]"] // apple,orange,banana
+	m["filters[category][name]"] // fruits
+	m["filters.tags"] // apple,orange,banana
+	m["filters.category.name"] // fruits
 })
 ```
 
