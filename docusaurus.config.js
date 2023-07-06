@@ -87,7 +87,7 @@ const config = {
         path: 'docs/contrib',
         routeBasePath: 'contrib',
         editUrl: (params) => {
-          return 'https://github.com/gofiber/contrib/edit/master/docs/' + params.docPath;
+          return 'https://github.com/gofiber/contrib/edit/main/' + params.docPath;
         },
         editCurrentVersion: true,
         sidebarPath: require.resolve('./sidebarsContrib.js'),
@@ -143,7 +143,8 @@ const config = {
           srcDark: 'img/logo-dark.svg'
         },
         items: [{
-            to: 'https://gofiber.io',
+            type: 'doc',
+            docId: 'welcome',
             label: '🏠 Home',
             position: 'left',
           },
@@ -151,6 +152,16 @@ const config = {
             to: 'https://gofiber.io/support',
             label: '☕ Donate',
             position: 'left',
+          },
+          {
+            type: 'dropdown',
+            label: '🧩 Extra',
+            position: 'left',
+            items: [{
+              type: 'docsVersion',
+              label: 'Contrib',
+              docsPluginId: 'contrib',
+            }],
           },
           {
             to: 'https://github.com/gofiber/recipes',
