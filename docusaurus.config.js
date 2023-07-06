@@ -91,7 +91,7 @@ const config = {
         },
         editCurrentVersion: true,
         sidebarPath: require.resolve('./sidebarsContrib.js'),
-        showLastUpdateAuthor: true,
+        showLastUpdateAuthor: false,
         showLastUpdateTime: true,
       }),
     ],
@@ -116,7 +116,7 @@ const config = {
             }
             return undefined;
           },
-          showLastUpdateAuthor: true,
+          showLastUpdateAuthor: false,
           showLastUpdateTime: true,
           versions: {
             current: {
