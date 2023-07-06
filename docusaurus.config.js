@@ -30,10 +30,18 @@ const config = {
     [
       '@docusaurus/plugin-client-redirects',
       {
-        redirects: [
-          {to: '/category/-middleware', from: '/-middleware'},
-          {to: '/guide/routing', from: '/routing'},
-          {to: '/api/ctx', from: '/ctx'},
+        redirects: [{
+            to: '/category/-middleware',
+            from: '/-middleware'
+          },
+          {
+            to: '/guide/routing',
+            from: '/routing'
+          },
+          {
+            to: '/api/ctx',
+            from: '/ctx'
+          },
         ],
         createRedirects(existingPath) {
           if (existingPath.includes('/v1.x')) {
@@ -54,8 +62,7 @@ const config = {
           'standalone',
           'queryString',
         ],
-        pwaHead: [
-          {
+        pwaHead: [{
             tagName: "link",
             rel: "icon",
             href: "/img/favicon.png"
@@ -73,6 +80,21 @@ const config = {
         ],
       },
     ],
+    [
+      '@docusaurus/plugin-content-docs',
+      ({
+        id: 'contrib',
+        path: 'docs/contrib',
+        routeBasePath: 'contrib',
+        editUrl: (params) => {
+          return 'https://github.com/gofiber/contrib/edit/master/docs/' + params.docPath;
+        },
+        editCurrentVersion: true,
+        sidebarPath: require.resolve('./sidebarsContrib.js'),
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
+      }),
+    ],
   ],
 
   presets: [
@@ -81,6 +103,7 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          path: 'docs/core',
           routeBasePath: '/',
           sidebarCollapsed: false,
           sidebarPath: require.resolve('./sidebars.js'),
@@ -89,7 +112,7 @@ const config = {
           editUrl: (params) => {
             // console.log(params);
             if (params.version === 'current') {
-                return 'https://github.com/gofiber/fiber/edit/master/docs/' + params.docPath;
+              return 'https://github.com/gofiber/fiber/edit/master/docs/' + params.docPath;
             }
             return undefined;
           },
