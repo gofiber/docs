@@ -149,11 +149,6 @@ const config = {
             position: 'left',
           },
           {
-            to: 'https://gofiber.io/support',
-            label: '☕ Donate',
-            position: 'left',
-          },
-          {
             type: 'dropdown',
             label: '🧩 Extra',
             position: 'left',
@@ -162,6 +157,11 @@ const config = {
               label: 'Contrib',
               docsPluginId: 'contrib',
             }],
+          }, 
+          {
+            to: 'https://gofiber.io/support',
+            label: '☕ Donate',
+            position: 'left',
           },
           {
             to: 'https://github.com/gofiber/recipes',
