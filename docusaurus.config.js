@@ -95,6 +95,36 @@ const config = {
         showLastUpdateTime: true,
       }),
     ],
+    [
+      '@docusaurus/plugin-content-docs',
+      ({
+        id: 'storage',
+        path: 'docs/storage',
+        routeBasePath: 'storage',
+        editUrl: (params) => {
+          return 'https://github.com/gofiber/storage/edit/main/' + params.docPath;
+        },
+        editCurrentVersion: true,
+        sidebarPath: require.resolve('./sidebarsStorage.js'),
+        showLastUpdateAuthor: false,
+        showLastUpdateTime: true,
+      }),
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      ({
+        id: 'template',
+        path: 'docs/template',
+        routeBasePath: 'template',
+        editUrl: (params) => {
+          return 'https://github.com/gofiber/template/edit/main/' + params.docPath;
+        },
+        editCurrentVersion: true,
+        sidebarPath: require.resolve('./sidebarsTemplate.js'),
+        showLastUpdateAuthor: false,
+        showLastUpdateTime: true,
+      }),
+    ],
   ],
 
   presets: [
@@ -156,8 +186,16 @@ const config = {
               type: 'docsVersion',
               label: 'Contrib',
               docsPluginId: 'contrib',
+            }, {
+              type: 'docsVersion',
+              label: 'Storage',
+              docsPluginId: 'storage',
+            }, {
+              type: 'docsVersion',
+              label: 'Template',
+              docsPluginId: 'template',
             }],
-          }, 
+          },
           {
             to: 'https://gofiber.io/support',
             label: '☕ Donate',
