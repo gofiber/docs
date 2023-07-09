@@ -68,14 +68,3 @@ div[class^='announcementBar_'] {
 [data-theme='dark'] img[src$='#gh-light-mode-only'] {
   display: none;
 }
-
-html.docs-wrapper:not(.plugin-id-default) .navbar__item:has(a.fiber-versions),
-html.docs-wrapper:not(.plugin-id-default) .navbar__item.fiber-versions,
-html.docs-wrapper:not(.plugin-id-contrib) .navbar__item:has(a.contrib-versions),
-html.docs-wrapper:not(.plugin-id-contrib) .navbar__item.contrib-versions,
-html.docs-wrapper:not(.plugin-id-storage) .navbar__item:has(a.storage-versions),
-html.docs-wrapper:not(.plugin-id-storage) .navbar__item.storage-versions,
-html.docs-wrapper:not(.plugin-id-template) .navbar__item:has(a.template-versions),
-html.docs-wrapper:not(.plugin-id-template) .navbar__item.template-versions {
-  display: none;
-}
