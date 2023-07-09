@@ -1,4 +1,5 @@
 [
+  "bbolt_v1.x.x",
   "memcache_v1.x.x",
   "etcd_v1.x.x",
   "mysql_v1.x.x",
