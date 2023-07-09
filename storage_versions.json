@@ -1,4 +1,5 @@
 [
+  "memcache_v1.x.x",
   "etcd_v1.x.x",
   "mysql_v1.x.x",
   "ristretto_v1.x.x",
