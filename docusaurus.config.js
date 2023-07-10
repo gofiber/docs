@@ -117,7 +117,7 @@ const config = {
         path: 'docs/template',
         routeBasePath: 'template',
         editUrl: (params) => {
-          return 'https://github.com/gofiber/template/edit/main/' + params.docPath;
+          return 'https://github.com/gofiber/template/edit/master/' + params.docPath;
         },
         editCurrentVersion: true,
         sidebarPath: require.resolve('./sidebarsTemplate.js'),
