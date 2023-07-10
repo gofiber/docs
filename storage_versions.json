@@ -1,4 +1,5 @@
 [
+  "redis_v2.x.x",
   "badger_v1.x.x",
   "couchbase_v1.x.x",
   "bbolt_v1.x.x",
