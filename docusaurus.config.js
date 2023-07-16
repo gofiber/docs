@@ -153,7 +153,6 @@ const config = {
               label: "Next",
             },
           },
-          lastVersion: "v2.x",
         },
         blog: false,
         theme: {
