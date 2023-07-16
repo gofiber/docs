@@ -652,6 +652,10 @@ app.Get("/", func(c *fiber.Ctx) error {
 })
 ```
 
+:::caution
+Improper use of the X-Forwarded-For header can be a security risk. For details, see the [Security and privacy concerns](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#security_and_privacy_concerns) section.
+:::
+
 ## Is
 
 Returns the matching **content type**, if the incoming request’s [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) HTTP header field matches the [MIME type](https://developer.mozilla.org/ru/docs/Web/HTTP/Basics_of_HTTP/MIME_types) specified by the type parameter.
@@ -1072,7 +1076,7 @@ app.Get("/", func(c *fiber.Ctx) error {
 Queries is a function that returns an object containing a property for each query string parameter in the route.
 
 ```go title="Signature"
-func (c *Ctx) Queries() (map[string]string, error)
+func (c *Ctx) Queries() map[string]string
 ```
 
 ```go title="Example"
@@ -1402,7 +1406,7 @@ app.Get("/back", func(c *fiber.Ctx) error {
 
 ## Render
 
-Renders a view with data and sends a `text/html` response. By default `Render` uses the default [**Go Template engine**](https://pkg.go.dev/html/template/). If you want to use another View engine, please take a look at our [**Template middleware**](https://github.com/gofiber/template).
+Renders a view with data and sends a `text/html` response. By default `Render` uses the default [**Go Template engine**](https://pkg.go.dev/html/template/). If you want to use another View engine, please take a look at our [**Template middleware**](https://docs.gofiber.io/template).
 
 ```go title="Signature"
 func (c *Ctx) Render(name string, bind interface{}, layouts ...string) error
@@ -1718,7 +1722,7 @@ app.Get("/", func(c *fiber.Ctx) error {
 
 ## SetParserDecoder
 
-Allow you to config BodyParser/QueryParser decoder, base on schema's options, providing possibility to add custom type for pausing.
+Allow you to config BodyParser/QueryParser decoder, base on schema's options, providing possibility to add custom type for parsing.
 
 ```go title="Signature"
 func SetParserDecoder(parserConfig fiber.ParserConfig{
