@@ -1,4 +1,5 @@
 [
+  "websocket_v1.x.x",
   "swagger_v1.x.x",
   "otelfiber_v1.x.x",
   "jwt_v1.x.x",
