@@ -1,7 +1,7 @@
 [
+  "swagger_v1.x.x",
   "otelfiber_v1.x.x",
   "jwt_v1.x.x",
   "fiberzerolog_v0.x.x",
-  "fibersentry_v1.x.x",
-  "swagger_v1.x.x"
+  "fibersentry_v1.x.x"
 ]
