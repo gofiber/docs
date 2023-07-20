@@ -15,18 +15,24 @@ jobs:
       - name: Cancel previous runs
         run: |
           echo "Getting previous runs..."
+          WORKFLOW_NAME=$(echo "${{ github.workflow }}" | jq -sRr @uri)
           PREVIOUS_RUNS=$(curl -s -X GET \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
-            "https://api.github.com/repos/${{ github.repository }}/actions/workflows/${{ github.workflow }}/runs")
+            "https://api.github.com/repos/${{ github.repository }}/actions/workflows/$WORKFLOW_NAME/runs")
 
-          echo "Cancelling previous runs..."
-          echo "$PREVIOUS_RUNS" | jq -r '.workflow_runs[].id' | xargs -I {} curl -s -X POST \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            "https://api.github.com/repos/${{ github.repository }}/actions/runs/{}/cancel"
+          RUN_COUNT=$(echo "$PREVIOUS_RUNS" | jq -r '.total_count')
+          if [ "$RUN_COUNT" -gt 0 ]; then
+            echo "Cancelling previous runs..."
+            echo "$PREVIOUS_RUNS" | jq -r '.workflow_runs[].id' | xargs -I {} curl -s -X POST \
+              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Accept: application/vnd.github.v3+json" \
+              "https://api.github.com/repos/${{ github.repository }}/actions/runs/{}/cancel"
 
-          echo "Previous runs cancelled."
+            echo "Previous runs cancelled."
+          else
+            echo "No previous runs to cancel."
+          fi
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
