@@ -1,4 +1,5 @@
 [
+  "dynamodb_v1.x.x",
   "azureblob_v1.x.x",
   "s3_v1.x.x",
   "mssql_v1.x.x",
