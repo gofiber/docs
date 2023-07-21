@@ -1,4 +1,5 @@
 [
+  "mongodb_v1.x.x",
   "postgres_v2.x.x",
   "dynamodb_v1.x.x",
   "azureblob_v1.x.x",
