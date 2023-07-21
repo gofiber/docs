@@ -1,4 +1,5 @@
 [
+  "azureblob_v1.x.x",
   "s3_v1.x.x",
   "mssql_v1.x.x",
   "pebble_v1.x.x",
