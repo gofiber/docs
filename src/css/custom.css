@@ -68,3 +68,12 @@ div[class^='announcementBar_'] {
 [data-theme='dark'] img[src$='#gh-light-mode-only'] {
   display: none;
 }
+
+/* CUSTOM STYLE */
+table {
+  width: 100%;
+  display: table;
+}
+td {
+  word-break: break-word;
+}
