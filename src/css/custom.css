@@ -74,6 +74,3 @@ table {
   width: 100%;
   display: table;
 }
-td {
-  word-break: break-word;
-}
