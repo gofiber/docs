@@ -1,10 +1,10 @@
 [
+  "websocket_v1.x.x",
   "casbin_v1.x.x",
   "fibernewrelic_v1.x.x",
   "opafiber_v1.x.x",
   "fiberi18n_v0.x.x",
   "paseto_v1.x.x",
-  "websocket_v1.x.x",
   "swagger_v1.x.x",
   "otelfiber_v1.x.x",
   "jwt_v1.x.x",
