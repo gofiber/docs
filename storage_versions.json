@@ -12,6 +12,7 @@
   "etcd_v1.x.x",
   "dynamodb_v1.x.x",
   "couchbase_v1.x.x",
+  "coherence_v0.x.x",
   "bbolt_v1.x.x",
   "badger_v1.x.x",
   "azureblob_v1.x.x",
