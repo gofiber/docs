@@ -1,7 +1,8 @@
 ---
 id: fiberzap
-title: Fiberzap
 ---
+
+# Fiberzap
 
 ![Release](https://img.shields.io/github/v/tag/gofiber/contrib?filter=fiberzap*)
 [![Discord](https://img.shields.io/discord/704680098577514527?style=flat&label=%F0%9F%92%AC%20discord&color=00ACD7)](https://gofiber.io/discord)
@@ -11,20 +12,23 @@ title: Fiberzap
 
 [Zap](https://github.com/uber-go/zap) logging support for Fiber.
 
+**Note: Requires Go 1.19 and above**
+
+
 ## Install
 
 This middleware supports Fiber v2.
 
 ```
 go get -u github.com/gofiber/fiber/v2
-go get -u github.com/gofiber/contrib/fiberzap
+go get -u github.com/gofiber/contrib/fiberzap/v2
 go get -u go.uber.org/zap
 ```
 
 ### Signature
 
 ```go
-fiberzap.New(config ...Config) fiber.Handler
+fiberzap.New(config ...fiberzap.Config) fiber.Handler
 ```
 
 ### Config
@@ -38,6 +42,7 @@ fiberzap.New(config ...Config) fiber.Handler
 | Levels        | `[]zapcore.Level`              | Custom response levels.                                                                                                                                                       | `[]zapcore.Level{zapcore.ErrorLevel, zapcore.WarnLevel, zapcore.InfoLevel}` |   
 | SkipURIs      | `[]string`                     | Skip logging these URI.                                                                                                                                                       | `[]string{}`                                                                |                
 | GetResBody    | func(c *fiber.Ctx) []byte      | Define a function to get response body when return non-nil.<br />eg: When use compress middleware, resBody is unreadable. you can set GetResBody func to get readable resBody.  | `nil`                                                                       |
+
 ### Example
 ```go
 package main
@@ -46,7 +51,7 @@ import (
     "log"
 
     "github.com/gofiber/fiber/v2"
-    "github.com/gofiber/contrib/fiberzap"
+    "github.com/gofiber/contrib/fiberzap/v2"
     "go.uber.org/zap"
 )
 
@@ -71,7 +76,7 @@ func main() {
 ### Signature
 
 ```go
-fiberzap.NewLogger(config ...LoggerConfig) *LoggerConfig 
+fiberzap.NewLogger(config ...fiberzap.LoggerConfig) *fiberzap.LoggerConfig 
 ```
 
 ### LoggerConfig
@@ -91,7 +96,7 @@ package main
 
 import (
 	"context"
-	"github.com/gofiber/contrib/fiberzap"
+	"github.com/gofiber/contrib/fiberzap/v2"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/log"
 )
