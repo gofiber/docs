@@ -32,11 +32,7 @@ const config = {
             {
                 redirects: [
                     {
-                        from: '/-middleware',
-                        to: '/category/-middleware',
-                    },
-                    {
-                        from: '/middleware',
+                        from: ['/-middleware', '/middleware'],
                         to: '/category/-middleware',
                     },
                     {
