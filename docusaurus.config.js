@@ -30,17 +30,22 @@ const config = {
         [
             '@docusaurus/plugin-client-redirects',
             {
-                redirects: [{
-                    to: '/category/-middleware',
-                    from: '/-middleware',
-                },
+                redirects: [
                     {
-                        to: '/guide/routing',
-                        from: '/routing',
+                        from: '/-middleware',
+                        to: '/category/-middleware',
                     },
                     {
-                        to: '/api/ctx',
+                        from: '/middleware',
+                        to: '/category/-middleware',
+                    },
+                    {
+                        from: '/routing',
+                        to: '/guide/routing',
+                    },
+                    {
                         from: '/ctx',
+                        to: '/api/ctx',
                     },
                 ],
                 createRedirects(existingPath) {
