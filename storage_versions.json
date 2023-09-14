@@ -5,6 +5,7 @@
   "s3_v1.x.x",
   "rueidis_v1.x.x",
   "ristretto_v1.x.x",
+  "redis_v3.x.x",
   "redis_v2.x.x",
   "postgres_v2.x.x",
   "pebble_v1.x.x",
