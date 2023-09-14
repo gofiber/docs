@@ -22,5 +22,6 @@
   "bbolt_v1.x.x",
   "badger_v1.x.x",
   "azureblob_v1.x.x",
-  "arangodb_v1.x.x"
+  "arangodb_v1.x.x",
+  "_.x.x"
 ]
