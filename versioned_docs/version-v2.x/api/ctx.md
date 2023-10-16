@@ -403,6 +403,38 @@ app.Get("/", func(c *fiber.Ctx) error {
 })
 ```
 
+## CookieParser
+
+This method is similar to [BodyParser](ctx.md#bodyparser), but for cookie parameters.
+It is important to use the struct tag "cookie". For example, if you want to parse a cookie with a field called Age, you would use a struct field of `cookie:"age"`.
+
+```go title="Signature"
+func (c *Ctx) CookieParser(out interface{}) error
+```
+
+```go title="Example"
+// Field names should start with an uppercase letter
+type Person struct {
+    Name     string  `cookie:"name"`
+    Age      int     `cookie:"age"`
+    Job      bool    `cookie:"job"`
+}
+
+app.Get("/", func(c *fiber.Ctx) error {
+        p := new(Person)
+
+        if err := c.CookieParser(p); err != nil {
+            return err
+        }
+
+        log.Println(p.Name)     // Joseph
+        log.Println(p.Age)      // 23
+        log.Println(p.Job)      // true
+})
+// Run tests with the following curl command
+// curl.exe --cookie "name=Joseph; age=23; job=true" http://localhost:8000/
+```
+
 ## Cookies
 
 Get cookie value by key, you could pass an optional default value that will be returned if the cookie key does not exist.
@@ -554,7 +586,7 @@ app.Get("/", func(c *fiber.Ctx) error {
 Returns the HTTP request headers.
 
 ```go title="Signature"
-func (c *Ctx) GetReqHeaders() map[string]string
+func (c *Ctx) GetReqHeaders() map[string][]string
 ```
 
 > _Returned value is only valid within the handler. Do not store any references.  
@@ -589,7 +621,7 @@ app.Get("/", func(c *fiber.Ctx) error {
 Returns the HTTP response headers.
 
 ```go title="Signature"
-func (c *Ctx) GetRespHeaders() map[string]string
+func (c *Ctx) GetRespHeaders() map[string][]string
 ```
 
 > _Returned value is only valid within the handler. Do not store any references.  
@@ -1709,6 +1741,10 @@ app.Get("/file-with-url-chars", func(c *fiber.Ctx) error {
   return c.SendFile(url.PathEscape("hash_sign_#.txt"))
 })
 ```
+
+:::info
+For sending files from embedded file system [this functionality](./middleware/filesystem.md#sendfile) can be used
+:::
 
 ## SendStatus
 
