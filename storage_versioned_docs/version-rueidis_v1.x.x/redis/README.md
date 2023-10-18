@@ -11,6 +11,8 @@ title: Redis
 
 A Redis storage driver using [go-redis/redis](https://github.com/go-redis/redis).
 
+**Note: Requires Go 1.19 and above**
+
 ### Table of Contents
 - [Signatures](#signatures)
 - [Installation](#installation)
@@ -35,13 +37,13 @@ go mod init github.com/<user>/<repo>
 ```
 And then install the redis implementation:
 ```bash
-go get github.com/gofiber/storage/redis/v2
+go get github.com/gofiber/storage/redis/v3
 ```
 
 ### Examples
 Import the storage package.
 ```go
-import "github.com/gofiber/storage/redis/v2"
+import "github.com/gofiber/storage/redis/v3"
 ```
 
 You can use the one of the following options to create a Redis Storage:
@@ -84,15 +86,15 @@ tlsCfg := &tls.Config{
 	Certificates:             []tls.Certificate{cer},
 }
 store = redis.New(redis.Config{
-    URL:     	"redis://<user>:<pass>@127.0.0.1:6379/<db>",
+	URL:     	"redis://<user>:<pass>@127.0.0.1:6379/<db>",
 	TLSConfig: 	tlsCfg,
-    Reset:    	false,
+	Reset:    	false,
 })
 
 // Create a client with a Redis URL with all information.
 store = redis.New(redis.Config{
-    URL:     "redis://<user>:<pass>@127.0.0.1:6379/<db>",
-    Reset:    false,
+	URL:     "redis://<user>:<pass>@127.0.0.1:6379/<db>",
+	Reset:    false,
 })
 ```
 
