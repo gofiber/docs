@@ -76,5 +76,5 @@ table {
 }
 
 .margin-between > *:not(:first-child) {
-    margin-top: 1rem !important;
+    margin-top: 1rem;
 }
