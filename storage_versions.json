@@ -18,6 +18,7 @@
   "memory_v1.x.x",
   "memcache_v1.x.x",
   "etcd_v1.x.x",
+  "dynamodb_v2.x.x",
   "dynamodb_v1.x.x",
   "couchbase_v1.x.x",
   "coherence_v1.x.x",
