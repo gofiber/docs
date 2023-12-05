@@ -29,6 +29,7 @@ func (s *Storage) Delete(key string) error
 func (s *Storage) Reset() error
 func (s *Storage) Close() error
 func (s *Storage) Conn() redis.UniversalClient
+func (s *Storage) Keys() ([][]byte, error)
 ```
 ### Installation
 Redis is tested on the 2 last [Go versions](https://golang.org/dl/) with support for modules. So make sure to initialize one first if you didn't do that yet:
@@ -86,15 +87,15 @@ tlsCfg := &tls.Config{
 	Certificates:             []tls.Certificate{cer},
 }
 store = redis.New(redis.Config{
-    URL:     	"redis://<user>:<pass>@127.0.0.1:6379/<db>",
+	URL:     	"redis://<user>:<pass>@127.0.0.1:6379/<db>",
 	TLSConfig: 	tlsCfg,
-    Reset:    	false,
+	Reset:    	false,
 })
 
 // Create a client with a Redis URL with all information.
 store = redis.New(redis.Config{
-    URL:     "redis://<user>:<pass>@127.0.0.1:6379/<db>",
-    Reset:    false,
+	URL:     "redis://<user>:<pass>@127.0.0.1:6379/<db>",
+	Reset:    false,
 })
 ```
 
