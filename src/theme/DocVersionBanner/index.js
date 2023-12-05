@@ -26,17 +26,19 @@ export default function DocVersionBannerWrapper(props) {
                 <div
                     className={clsx(
                         ThemeClassNames.docs.docVersionBanner,
-                        'alert alert--warning margin-bottom--md',
+                        'alert alert--warning margin-bottom--md margin-between',
                     )}
                     role="alert">
+                    {currVersion === 'current' &&
                     <div>
                         This is unreleased documentation for {title} Next <b>{possiblePackage}</b> version.
                     </div>
-                    <div className="margin-top--md">
+                    }
+                    <div>
                         For up-to-date documentation, see the <a href={docContext.alternateDocVersions[alternativePackageVersion].path}>latest version ({alternativePackageVersion})</a>.
                     </div>
                     {expectedPathForCurrentVersion?.path &&
-                        <div className="margin-top--md">
+                        <div >
                             For the current choosen version documentation, see the <a href={expectedPathForCurrentVersion.path}>{currVersionPackage} link</a>.
                         </div>
                     }
