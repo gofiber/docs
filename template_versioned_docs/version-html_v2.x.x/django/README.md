@@ -181,3 +181,17 @@ Hello, World!<br /><br />Greetings from Fiber Team
 </body>
 </html>
 ```
+
+### Important Information on Template Data Binding
+
+When working with Pongo2 and this template engine, it's crucial to understand the specific rules for data binding. Only keys that match the following regular expression are supported: `^[a-zA-Z0-9_]+$`.
+
+This means that keys with special characters or punctuation, such as `my-key` or `my.key`, are not compatible and will not be bound to the template. This is a restriction imposed by the underlying Pongo2 template engine. Please ensure your keys adhere to these rules to avoid any binding issues.
+
+If you need to access a value in the template that doesn't adhere to the key naming restrictions imposed by the Pongo2 template engine, you can bind the value to a new field when calling `fiber.Render`. Here's an example:
+
+```go
+c.Render("index", fiber.Map{
+    "Fiber": "Hello, World!\n\nGreetings from Fiber Team",
+    "MyKey": c.Locals("my-key"),
+})

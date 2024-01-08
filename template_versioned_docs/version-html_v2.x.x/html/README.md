@@ -3,7 +3,7 @@ id: html
 title: HTML
 ---
 
-![Release](https://img.shields.io/github/v/tag/gofiber/template?filter=django*)
+![Release](https://img.shields.io/github/v/tag/gofiber/template?filter=html*)
 [![Discord](https://img.shields.io/discord/704680098577514527?style=flat&label=%F0%9F%92%AC%20discord&color=00ACD7)](https://gofiber.io/discord)
 ![Test](https://github.com/gofiber/template/workflows/Tests/badge.svg)
 ![Security](https://github.com/gofiber/template/workflows/Security/badge.svg)
@@ -91,6 +91,13 @@ func main() {
 		return c.Render("index", fiber.Map{
 			"Title": "Hello, World!",
 		}, "layouts/main")
+	})
+
+	app.Get("/layouts-nested", func(c *fiber.Ctx) error {
+		// Render index within layouts/nested/main within layouts/nested/base
+		return c.Render("index", fiber.Map{
+			"Title": "Hello, World!",
+		}, "layouts/nested/main", "layouts/nested/base")
 	})
 
 	log.Fatal(app.Listen(":3000"))
