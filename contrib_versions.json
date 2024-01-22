@@ -5,6 +5,7 @@
   "otelfiber_v1.x.x",
   "opafiber_v2.x.x",
   "opafiber_v1.x.x",
+  "loadshed_v0.x.x",
   "jwt_v1.x.x",
   "fiberzerolog_v0.x.x",
   "fiberzap_v2.x.x",
