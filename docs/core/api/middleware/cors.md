@@ -24,8 +24,8 @@ Import the middleware package that is part of the Fiber web framework
 
 ```go
 import (
-  "github.com/gofiber/fiber/v2"
-  "github.com/gofiber/fiber/v2/middleware/cors"
+  "github.com/gofiber/fiber/v3"
+  "github.com/gofiber/fiber/v3/middleware/cors"
 )
 ```
 
@@ -71,7 +71,7 @@ app.Use(cors.New(cors.Config{
 
 | Property         | Type                       | Description                                                                                                                                                                                                                                                                                                                                                        | Default                            |
 |:-----------------|:---------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------------|
-| Next             | `func(*fiber.Ctx) bool`    | Next defines a function to skip this middleware when returned true.                                                                                                                                                                                                                                                                                                | `nil`                              |
+| Next             | `func(fiber.Ctx) bool`    | Next defines a function to skip this middleware when returned true.                                                                                                                                                                                                                                                                                                | `nil`                              |
 | AllowOriginsFunc | `func(origin string) bool` | AllowOriginsFunc defines a function that will set the 'access-control-allow-origin' response header to the 'origin' request header when returned true. This allows for dynamic evaluation of allowed origins. Note if AllowCredentials is true, wildcard origins will be not have the 'access-control-allow-credentials' header set to 'true'.                     | `nil`                              |
 | AllowOrigins     | `string`                   | AllowOrigin defines a comma separated list of origins that may access the resource.                                                                                                                                                                                                                                                                                | `"*"`                              |
 | AllowMethods     | `string`                   | AllowMethods defines a list of methods allowed when accessing the resource. This is used in response to a preflight request.                                                                                                                                                                                                                                       | `"GET,POST,HEAD,PUT,DELETE,PATCH"` |
