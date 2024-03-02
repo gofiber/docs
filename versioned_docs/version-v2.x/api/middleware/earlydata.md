@@ -21,7 +21,6 @@ Safe HTTP methods — `GET`, `HEAD`, `OPTIONS` and `TRACE` — should not modify
 
 ```go
 func New(config ...Config) fiber.Handler
-func IsEarlyData(c fiber.Ctx) bool
 ```
 
 ## Examples
@@ -30,8 +29,8 @@ Import the middleware package that is part of the Fiber web framework
 
 ```go
 import (
-	"github.com/gofiber/fiber/v3"
-	"github.com/gofiber/fiber/v3/middleware/earlydata"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/earlydata"
 )
 ```
 
@@ -50,55 +49,22 @@ app.Use(earlydata.New(earlydata.Config{
 
 ## Config
 
-<<<<<<< HEAD:middleware/earlydata/README.md
-```go
-type Config struct {
-	// Next defines a function to skip this middleware when returned true.
-	//
-	// Optional. Default: nil
-	Next func(c fiber.Ctx) bool
-
-	// IsEarlyData returns whether the request is an early-data request.
-	//
-	// Optional. Default: a function which checks if the "Early-Data" request header equals "1".
-	IsEarlyData func(c fiber.Ctx) bool
-
-	// AllowEarlyData returns whether the early-data request should be allowed or rejected.
-	//
-	// Optional. Default: a function which rejects the request on unsafe and allows the request on safe HTTP request methods.
-	AllowEarlyData func(c fiber.Ctx) bool
-
-	// Error is returned in case an early-data request is rejected.
-	//
-	// Optional. Default: fiber.ErrTooEarly.
-	Error error
-}
-```
-
-### Default Config
-
-```go
-var ConfigDefault = Config{
-	IsEarlyData: func(c fiber.Ctx) bool {
-		return c.Get("Early-Data") == "1"
-=======
 | Property       | Type                    | Description                                                                          | Default                                                |
 |:---------------|:------------------------|:-------------------------------------------------------------------------------------|:-------------------------------------------------------|
-| Next           | `func(fiber.Ctx) bool` | Next defines a function to skip this middleware when returned true.                  | `nil`                                                  |
-| IsEarlyData    | `func(fiber.Ctx) bool` | IsEarlyData returns whether the request is an early-data request.                    | Function checking if "Early-Data" header equals "1"    |
-| AllowEarlyData | `func(fiber.Ctx) bool` | AllowEarlyData returns whether the early-data request should be allowed or rejected. | Function rejecting on unsafe and allowing safe methods |
+| Next           | `func(*fiber.Ctx) bool` | Next defines a function to skip this middleware when returned true.                  | `nil`                                                  |
+| IsEarlyData    | `func(*fiber.Ctx) bool` | IsEarlyData returns whether the request is an early-data request.                    | Function checking if "Early-Data" header equals "1"    |
+| AllowEarlyData | `func(*fiber.Ctx) bool` | AllowEarlyData returns whether the early-data request should be allowed or rejected. | Function rejecting on unsafe and allowing safe methods |
 | Error          | `error`                 | Error is returned in case an early-data request is rejected.                         | `fiber.ErrTooEarly`                                    |
 
 ## Default Config
 
 ```go
 var ConfigDefault = Config{
-	IsEarlyData: func(c fiber.Ctx) bool {
+	IsEarlyData: func(c *fiber.Ctx) bool {
 		return c.Get(DefaultHeaderName) == DefaultHeaderTrueValue
->>>>>>> origin/master:docs/api/middleware/earlydata.md
 	},
 
-	AllowEarlyData: func(c fiber.Ctx) bool {
+	AllowEarlyData: func(c *fiber.Ctx) bool {
 		return fiber.IsMethodSafe(c.Method())
 	},
 

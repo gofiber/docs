@@ -26,8 +26,8 @@ To use the Encrypt Cookie middleware, first, import the middleware package as pa
 
 ```go
 import (
-  "github.com/gofiber/fiber/v3"
-  "github.com/gofiber/fiber/v3/middleware/encryptcookie"
+  "github.com/gofiber/fiber/v2"
+  "github.com/gofiber/fiber/v2/middleware/encryptcookie"
 )
 ```
 
@@ -40,12 +40,12 @@ app.Use(encryptcookie.New(encryptcookie.Config{
 }))
 
 // Retrieve the encrypted cookie value
-app.Get("/", func(c fiber.Ctx) error {
+app.Get("/", func(c *fiber.Ctx) error {
     return c.SendString("value=" + c.Cookies("test"))
 })
 
 // Create an encrypted cookie
-app.Post("/", func(c fiber.Ctx) error {
+app.Post("/", func(c *fiber.Ctx) error {
     c.Cookie(&fiber.Cookie{
         Name:  "test",
         Value: "SomeThing",
@@ -64,7 +64,7 @@ Make sure not to set `Key` to `encryptcookie.GenerateKey()` because that will cr
 
 | Property  | Type                                                | Description                                                                                           | Default                      |
 |:----------|:----------------------------------------------------|:------------------------------------------------------------------------------------------------------|:-----------------------------|
-| Next      | `func(fiber.Ctx) bool`                             | A function to skip this middleware when returned true.                                                | `nil`                        |
+| Next      | `func(*fiber.Ctx) bool`                             | A function to skip this middleware when returned true.                                                | `nil`                        |
 | Except    | `[]string`                                          | Array of cookie keys that should not be encrypted.                                                    | `[]`                         |
 | Key       | `string`                                            | A base64-encoded unique key to encode & decode cookies. Required. Key length should be 32 characters. | (No default, required field) |
 | Encryptor | `func(decryptedString, key string) (string, error)` | A custom function to encrypt cookies.                                                                 | `EncryptCookie`              |
@@ -83,9 +83,9 @@ var ConfigDefault = Config{
 ```
 
 ## Usage With Other Middlewares That Reads Or Modify Cookies
-Place the `encryptcookie` middleware before any other middleware that reads or modifies cookies. For example, if you are using the CSRF middleware, ensure that the `encryptcookie` middleware is placed before it. Failure to do so may prevent the CSRF middleware from reading the encrypted cookie.
+Place the encryptcookie middleware before any other middleware that reads or modifies cookies. For example, if you are using the CSRF middleware, ensure that the encryptcookie middleware is placed before it. Failure to do so may prevent the CSRF middleware from reading the encrypted cookie.
 
-You may also choose to exclude certain cookies from encryption. For instance, if you are using the `CSRF` middleware with a frontend framework like Angular, and the framework reads the token from a cookie, you should exclude that cookie from encryption. This can be achieved by adding the cookie name to the Except array in the configuration:
+You may also choose to exclude certain cookies from encryption. For instance, if you are using the CSRF middleware with a frontend framework like Angular, and the framework reads the token from a cookie, you should exclude that cookie from encryption. This can be achieved by adding the cookie name to the Except array in the configuration:
 
 ```go
 app.Use(encryptcookie.New(encryptcookie.Config{
