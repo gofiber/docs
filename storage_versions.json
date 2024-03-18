@@ -23,6 +23,7 @@
   "memory_v2.x.x",
   "memory_v1.x.x",
   "memcache_v1.x.x",
+  "etcd_v2.x.x",
   "etcd_v1.x.x",
   "dynamodb_v2.x.x",
   "dynamodb_v1.x.x",
