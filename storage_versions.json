@@ -26,6 +26,7 @@
   "coherence_v0.x.x",
   "bbolt_v1.x.x",
   "badger_v1.x.x",
+  "azureblob_v2.x.x",
   "azureblob_v1.x.x",
   "arangodb_v2.x.x",
   "arangodb_v1.x.x"
