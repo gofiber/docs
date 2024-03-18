@@ -9,6 +9,7 @@
   "redis_v3.x.x",
   "redis_v2.x.x",
   "postgres_v2.x.x",
+  "pebble_v2.x.x",
   "pebble_v1.x.x",
   "nats_v1.x.x",
   "mysql_v1.x.x",
