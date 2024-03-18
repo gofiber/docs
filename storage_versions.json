@@ -13,6 +13,7 @@
   "nats_v1.x.x",
   "mysql_v1.x.x",
   "mssql_v1.x.x",
+  "mongodb_v2.x.x",
   "mongodb_v1.x.x",
   "minio_v0.x.x",
   "memory_v2.x.x",
