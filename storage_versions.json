@@ -32,6 +32,7 @@
   "couchbase_v1.x.x",
   "coherence_v1.x.x",
   "coherence_v0.x.x",
+  "bbolt_v2.x.x",
   "bbolt_v1.x.x",
   "badger_v1.x.x",
   "azureblob_v2.x.x",
