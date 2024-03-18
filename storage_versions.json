@@ -29,6 +29,7 @@
   "etcd_v1.x.x",
   "dynamodb_v2.x.x",
   "dynamodb_v1.x.x",
+  "couchbase_v2.x.x",
   "couchbase_v1.x.x",
   "coherence_v1.x.x",
   "coherence_v0.x.x",
