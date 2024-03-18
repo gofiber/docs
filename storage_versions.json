@@ -12,6 +12,7 @@
   "pebble_v2.x.x",
   "pebble_v1.x.x",
   "nats_v1.x.x",
+  "mysql_v2.x.x",
   "mysql_v1.x.x",
   "mssql_v1.x.x",
   "mongodb_v2.x.x",
