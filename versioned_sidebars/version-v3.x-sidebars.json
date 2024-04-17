@@ -6,8 +6,8 @@
             "id": "welcome"
         },
         {
-            type: 'doc',
-            id: 'whats_new'
+            "type": "doc",
+            "id": "whats_new"
         },
         {
             "type": "category",
