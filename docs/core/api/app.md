@@ -5,11 +5,9 @@ description: The app instance conventionally denotes the Fiber application.
 sidebar_position: 2
 ---
 
-## Routing
-
 import RoutingHandler from './../partials/routing/handler.md';
 
-### Static
+## Static
 
 Use the **Static** method to serve static files such as **images**, **CSS,** and **JavaScript**.
 
@@ -111,11 +109,11 @@ app.Static("/", "./public", fiber.Static{
 })
 ```
 
-### Route Handlers
+## Route Handlers
 
 <RoutingHandler />
 
-### Mount
+## Mount
 
 You can Mount Fiber instance by creating a `*Mount`
 
@@ -137,7 +135,7 @@ func main() {
 }
 ```
 
-### MountPath
+## MountPath
 
 The `MountPath` property contains one or more path patterns on which a sub-app was mounted.
 
@@ -167,7 +165,7 @@ func main() {
 Mounting order is important for MountPath. If you want to get mount paths properly, you should start mounting from the deepest app.
 :::
 
-### Group
+## Group
 
 You can group routes by creating a `*Group` struct.
 
@@ -193,7 +191,7 @@ func main() {
 }
 ```
 
-### Route
+## Route
 
 You can define routes with a common prefix inside the common function.
 
@@ -214,7 +212,39 @@ func main() {
 }
 ```
 
-### HandlersCount
+## Server
+
+Server returns the underlying [fasthttp server](https://godoc.org/github.com/valyala/fasthttp#Server)
+
+```go title="Signature"
+func (app *App) Server() *fasthttp.Server
+```
+
+```go title="Examples"
+func main() {
+    app := fiber.New()
+
+    app.Server().MaxConnsPerIP = 1
+
+    // ...
+}
+```
+
+## Server Shutdown
+
+Shutdown gracefully shuts down the server without interrupting any active connections. Shutdown works by first closing all open listeners and then waits indefinitely for all connections to return to idle before shutting down.
+
+ShutdownWithTimeout will forcefully close any active connections after the timeout expires.
+
+ShutdownWithContext shuts down the server including by force if the context's deadline is exceeded.
+
+```go
+func (app *App) Shutdown() error
+func (app *App) ShutdownWithTimeout(timeout time.Duration) error
+func (app *App) ShutdownWithContext(ctx context.Context) error
+```
+
+## HandlersCount
 
 This method returns the amount of registered handlers.
 
@@ -222,7 +252,7 @@ This method returns the amount of registered handlers.
 func (app *App) HandlersCount() uint32
 ```
 
-### Stack
+## Stack
 
 This method returns the original router stack
 
@@ -276,7 +306,7 @@ func main() {
 ]
 ```
 
-### Name
+## Name
 
 This method assigns the name of latest created route.
 
@@ -378,7 +408,7 @@ func main() {
 ]
 ```
 
-### GetRoute
+## GetRoute
 
 This method gets the route by name.
 
@@ -399,6 +429,7 @@ func main() {
 
 
 	app.Listen(":3000")
+
 }
 ```
 
@@ -411,7 +442,7 @@ func main() {
 }
 ```
 
-### GetRoutes
+## GetRoutes
 
 This method gets all routes.
 
@@ -458,97 +489,132 @@ Handler returns the server handler that can be used to serve custom \*fasthttp.R
 func (app *App) Handler() fasthttp.RequestHandler
 ```
 
-## ErrorHandler
+## Listen
 
-Errorhandler executes the process which was defined for the application in case of errors, this is used in some cases in middlewares.
-
-```go title="Signature"
-func (app *App) ErrorHandler(ctx Ctx, err error) error
-```
-
-## NewCtxFunc
-
-NewCtxFunc allows to customize the ctx struct as we want.
+Listen serves HTTP requests from the given address.
 
 ```go title="Signature"
-func (app *App) NewCtxFunc(function func(app *App) CustomCtx)
+func (app *App) Listen(addr string) error
 ```
 
 ```go title="Examples"
-type CustomCtx struct {
-	DefaultCtx
-}
+// Listen on port :8080 
+app.Listen(":8080")
 
-// Custom method
-func (c *CustomCtx) Params(key string, defaultValue ...string) string {
-	return "prefix_" + c.DefaultCtx.Params(key)
-}
-
-app := New()
-app.NewCtxFunc(func(app *fiber.App) fiber.CustomCtx {
-    return &CustomCtx{
-        DefaultCtx: *NewDefaultCtx(app),
-    }
-})
-// curl http://localhost:3000/123
-app.Get("/:id", func(c Ctx) error {
-    // use custom method - output: prefix_123
-    return c.SendString(c.Params("id"))
-})
+// Custom host
+app.Listen("127.0.0.1:8080")
 ```
 
-## RegisterCustomBinder
+## ListenTLS
 
-You can register custom binders to use as Bind().Custom("name").
-They should be compatible with CustomBinder interface.
+ListenTLS serves HTTPs requests from the given address using certFile and keyFile paths to as TLS certificate and key file.
 
 ```go title="Signature"
-func (app *App) RegisterCustomBinder(binder CustomBinder)
+func (app *App) ListenTLS(addr, certFile, keyFile string) error
 ```
 
 ```go title="Examples"
-app := fiber.New()
+app.ListenTLS(":443", "./cert.pem", "./cert.key");
+```
 
-// My custom binder
-customBinder := &customBinder{}
-// Name of custom binder, which will be used as Bind().Custom("name")
-func (*customBinder) Name() string {
-    return "custom"
-}
-// Is used in the Body Bind method to check if the binder should be used for custom mime types
-func (*customBinder) MIMETypes() []string {
-    return []string{"application/yaml"}
-}
-// Parse the body and bind it to the out interface
-func (*customBinder) Parse(c Ctx, out any) error {
-    // parse yaml body
-    return yaml.Unmarshal(c.Body(), out)
-}
-// Register custom binder
-app.RegisterCustomBinder(customBinder)
+Using `ListenTLS` defaults to the following config \( use `Listener` to provide your own config \)
 
-// curl -X POST http://localhost:3000/custom -H "Content-Type: application/yaml" -d "name: John"
-app.Post("/custom", func(c Ctx) error {
-    var user User
-    // output: {Name:John}
-    // Custom binder is used by the name
-    if err := c.Bind().Custom("custom", &user); err != nil {
-        return err
-    }
-    // ...
-    return c.JSON(user)
-})
-// curl -X POST http://localhost:3000/normal -H "Content-Type: application/yaml" -d "name: Doe"
-app.Post("/normal", func(c Ctx) error {
-    var user User
-    // output: {Name:Doe}
-    // Custom binder is used by the mime type
-    if err := c.Bind().Body(&user); err != nil {
-        return err
-    }
-    // ...
-    return c.JSON(user)
-})
+```go title="Default \*tls.Config"
+&tls.Config{
+    MinVersion:               tls.VersionTLS12,
+    Certificates: []tls.Certificate{
+        cert,
+    },
+}
+```
+
+## ListenTLSWithCertificate
+
+```go title="Signature"
+func (app *App) ListenTLS(addr string, cert tls.Certificate) error
+```
+
+```go title="Examples"
+app.ListenTLSWithCertificate(":443", cert);
+```
+
+Using `ListenTLSWithCertificate` defaults to the following config \( use `Listener` to provide your own config \)
+
+```go title="Default \*tls.Config"
+&tls.Config{
+    MinVersion:               tls.VersionTLS12,
+    Certificates: []tls.Certificate{
+        cert,
+    },
+}
+```
+
+## ListenMutualTLS
+
+ListenMutualTLS serves HTTPs requests from the given address using certFile, keyFile and clientCertFile are the paths to TLS certificate and key file
+
+```go title="Signature"
+func (app *App) ListenMutualTLS(addr, certFile, keyFile, clientCertFile string) error
+```
+
+```go title="Examples"
+app.ListenMutualTLS(":443", "./cert.pem", "./cert.key", "./ca-chain-cert.pem");
+```
+
+Using `ListenMutualTLS` defaults to the following config \( use `Listener` to provide your own config \)
+
+```go title="Default \*tls.Config"
+&tls.Config{
+	MinVersion: tls.VersionTLS12,
+	ClientAuth: tls.RequireAndVerifyClientCert,
+	ClientCAs:  clientCertPool,
+	Certificates: []tls.Certificate{
+		cert,
+	},
+}
+```
+
+## ListenMutualTLSWithCertificate
+
+ListenMutualTLSWithCertificate serves HTTPs requests from the given address using certFile, keyFile and clientCertFile are the paths to TLS certificate and key file
+
+```go title="Signature"
+func (app *App) ListenMutualTLSWithCertificate(addr string, cert tls.Certificate, clientCertPool *x509.CertPool) error
+```
+
+```go title="Examples"
+app.ListenMutualTLSWithCertificate(":443", cert, clientCertPool);
+```
+
+Using `ListenMutualTLSWithCertificate` defaults to the following config \( use `Listener` to provide your own config \)
+
+```go title="Default \*tls.Config"
+&tls.Config{
+	MinVersion: tls.VersionTLS12,
+	ClientAuth: tls.RequireAndVerifyClientCert,
+	ClientCAs:  clientCertPool,
+	Certificates: []tls.Certificate{
+		cert,
+	},
+}
+```
+
+## Listener
+
+You can pass your own [`net.Listener`](https://pkg.go.dev/net/#Listener) using the `Listener` method. This method can be used to enable **TLS/HTTPS** with a custom tls.Config.
+
+```go title="Signature"
+func (app *App) Listener(ln net.Listener) error
+```
+
+```go title="Examples"
+ln, _ := net.Listen("tcp", ":3000")
+
+cer, _:= tls.LoadX509KeyPair("server.crt", "server.key")
+
+ln = tls.NewListener(ln, &tls.Config{Certificates: []tls.Certificate{cer}})
+
+app.Listener(ln)
 ```
 
 ## RegisterCustomConstraint
@@ -560,15 +626,6 @@ func (app *App) RegisterCustomConstraint(constraint CustomConstraint)
 ```
 
 See [Custom Constraint](../guide/routing.md#custom-constraint) section for more information.
-
-
-## SetTLSHandler
-
-Use SetTLSHandler to set [ClientHelloInfo](https://datatracker.ietf.org/doc/html/rfc8446#section-4.1.2) when using TLS with Listener.
-
-```go title="Signature"
-func (app *App) SetTLSHandler(tlsHandler *TLSHandler)
-```
 
 ## Test
 
@@ -603,7 +660,7 @@ if resp.StatusCode == fiber.StatusOK {
 
 ## Hooks
 
-Hooks is a method to return [hooks](./hooks.md) property.
+Hooks is a method to return [hooks](../guide/hooks.md) property.
 
 ```go title="Signature"
 func (app *App) Hooks() *Hooks
