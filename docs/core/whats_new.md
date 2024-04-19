@@ -35,5 +35,7 @@ Fiber v3 is a major release with a lot of new features, improvements, and breaki
 #### Session middleware
 #### Filesystem middleware
 
+### monitor middleware
+
 ## Migration guide
 ...
