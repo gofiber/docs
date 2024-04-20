@@ -117,19 +117,13 @@ app.Static("/", "./public", fiber.Static{
 
 ### Mounting
 
-[//]: # (TODO: not there anymore -> use app.Use&#40;"/prefix", app&#41; instead)
-
 You can Mount Fiber instance using the [`app.Use`](./app.md#use) method similar to [`express`](https://expressjs.com/en/api.html#router.use).
-
-```go title="Signature"
-func (a *App) Mount(prefix string, app *App) Router
-```
 
 ```go title="Examples"
 func main() {
     app := fiber.New()
     micro := fiber.New()
-    app.Mount("/john", micro) // GET /john/doe -> 200 OK
+    app.Use("/john", micro) // GET /john/doe -> 200 OK
 
     micro.Get("/doe", func(c fiber.Ctx) error {
         return c.SendStatus(fiber.StatusOK)
