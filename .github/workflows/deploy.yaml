@@ -48,6 +48,5 @@ jobs:
         with:
           title: "deploy"
           description: "Docs: Build & Deploy GitHub Pages"
-          color: 0xff91a4
           webhook: ${{ secrets.DISCORD_SECURE_CHANNEL }}
 
