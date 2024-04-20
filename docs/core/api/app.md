@@ -9,7 +9,7 @@ sidebar_position: 2
 
 import RoutingHandler from './../partials/routing/handler.md';
 
-<foo>broken
+<foo>broken2
 
 ### Static
 
