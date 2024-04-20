@@ -115,9 +115,11 @@ app.Static("/", "./public", fiber.Static{
 
 <RoutingHandler />
 
-### Mount
+### Mounting
 
-You can Mount Fiber instance by creating a `*Mount`
+[//]: # (TODO: not there anymore -> use app.Use&#40;"/prefix", app&#41; instead)
+
+You can Mount Fiber instance using the [`app.Use`](./app.md#use) method similar to [`express`](https://expressjs.com/en/api.html#router.use).
 
 ```go title="Signature"
 func (a *App) Mount(prefix string, app *App) Router

@@ -143,9 +143,13 @@ const config = {
                     editUrl: (params) => {
                         // console.log(params);
                         if (params.version === 'current') {
-                            return 'https://github.com/gofiber/fiber/edit/master/docs/' + params.docPath;
+                            return 'https://github.com/gofiber/fiber/edit/main/docs/' + params.docPath;
                         }
                         return undefined;
+                    },
+                    sidebarItemsGenerator: async function ({defaultSidebarItemsGenerator, ...args}) {
+                        // filter partials from sidebar
+                        return (await defaultSidebarItemsGenerator(args)).filter((item) => !(item.label === 'partials' || item.id === 'partials'));
                     },
                     showLastUpdateAuthor: false,
                     showLastUpdateTime: true,
@@ -172,12 +176,13 @@ const config = {
                     src: 'img/logo.svg',
                     srcDark: 'img/logo-dark.svg',
                 },
-                items: [{
-                    type: 'doc',
-                    docId: 'welcome',
-                    label: '🏠 Home',
-                    position: 'left',
-                },
+                items: [
+                    {
+                        type: 'doc',
+                        docId: 'welcome',
+                        label: '🏠 Home',
+                        position: 'left',
+                    },
                     {
                         type: 'dropdown',
                         label: '🧩 Extra',

@@ -78,3 +78,7 @@ table {
 .margin-between > *:not(:first-child) {
     margin-top: 1rem;
 }
+
+div.reference {
+    scroll-margin-top: calc(var(--ifm-navbar-height) + 3rem);
+}
