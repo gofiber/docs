@@ -9,6 +9,8 @@ sidebar_position: 2
 
 import RoutingHandler from './../partials/routing/handler.md';
 
+<foo>broken
+
 ### Static
 
 Use the **Static** method to serve static files such as **images**, **CSS,** and **JavaScript**.

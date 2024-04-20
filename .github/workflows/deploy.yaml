@@ -38,4 +38,11 @@ jobs:
           # Build output to publish to the `gh-pages` branch:
           publish_dir: ./build
           cname: docs.gofiber.io
+      - uses: sarisia/actions-status-discord@v1
+        if: ${{ failure() }}
+        with:
+          title: "deploy"
+          description: "Docs: Build & Deploy GitHub Pages"
+          color: 0xff91a4
+          webhook: ${{ secrets.DISCORD_SECURE_CHANNEL }}
 
