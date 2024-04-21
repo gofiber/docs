@@ -92,6 +92,7 @@ We have made several changes to the Fiber app, including:
 
 * Bind -> for Binding instead of View, us c.ViewBind()
 * Format -> Param: body interface{} -> handlers ...ResFmt
+* Redirect -> c.Redirect().To()
 
 ### Client package
 
