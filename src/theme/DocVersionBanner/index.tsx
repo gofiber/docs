@@ -1,13 +1,17 @@
 import React from 'react';
 import clsx from 'clsx';
 import DocVersionBanner from '@theme-original/DocVersionBanner';
-import {ThemeClassNames} from '@docusaurus/theme-common';
-import {useActivePlugin, useActiveDocContext} from "@docusaurus/plugin-content-docs/lib/client";
+import { ThemeClassNames } from '@docusaurus/theme-common';
+import type DocVersionBannerType from '@theme/DocVersionBanner';
+import type {WrapperProps} from '@docusaurus/types';
+import { useActiveDocContext, useActivePlugin } from '@docusaurus/plugin-content-docs/lib/client';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+
+type Props = WrapperProps<typeof DocVersionBannerType>;
 
 const multiRepoPkg = ['contrib', 'storage', 'template'];
 
-export default function DocVersionBannerWrapper(props) {
+export default function DocVersionBannerWrapper(props: Props): JSX.Element {
     const plugin = useActivePlugin();
     const docContext = useActiveDocContext(plugin.pluginId);
     const currVersion = docContext?.activeVersion?.name;
@@ -30,9 +34,9 @@ export default function DocVersionBannerWrapper(props) {
                     )}
                     role="alert">
                     {currVersion === 'current' &&
-                    <div>
-                        This is unreleased documentation for {title} Next <b>{possiblePackage}</b> version.
-                    </div>
+                        <div>
+                            This is unreleased documentation for {title} Next <b>{possiblePackage}</b> version.
+                        </div>
                     }
                     <div>
                         For up-to-date documentation, see the <a href={docContext.alternateDocVersions[alternativePackageVersion].path}>latest version ({alternativePackageVersion})</a>.
@@ -48,9 +52,9 @@ export default function DocVersionBannerWrapper(props) {
 
         return null;
     }
-    return (
-        <>
-            <DocVersionBanner {...props} />
-        </>
-    );
+  return (
+    <>
+      <DocVersionBanner {...props} />
+    </>
+  );
 }
