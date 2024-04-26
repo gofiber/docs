@@ -2,7 +2,7 @@
 id: whats_new
 title: 🆕 Whats New in v3
 sidebar_position: 2
-toc_max_heading_level: 4
+toc_max_heading_level: 3
 ---
 
 :::caution
@@ -146,14 +146,9 @@ app.Route("/api").Route("/user/:id?")
 
 ### Middleware registration
 
-We have aligned our method for middlewares closer to express and now also support the [`Use`](./api/app#use) of multiple prefixes.
+We have aligned our method for middlewares closer to [`Express`](https://expressjs.com/de/api.html#app.use) and now also support the [`Use`](./api/app#use) of multiple prefixes.
 
 Registering a subapp is now also possible via the [`Use`](./api/app#use) method instead of the old `app.Mount` method.
-
-```diff
--    Use(args ...interface{}) Router
-+    Use(args ...any) Router
-```
 
 <details>
 <summary>Example</summary>
@@ -289,6 +284,27 @@ DRAFT section
 Monitor middleware is now in Contrib package.
 
 ## 📋 Migration guide
+
+- [🚀 App](#-app-1)
+- [🗺 Router](#-router-1)
+- [🧠 Context](#-context-1)
+- [📎 Parser](#-parser)
+- [🔄 Redirect](#-redirect-1)
+- [🌎 Client package](#-client-package-1)
+- [🧬 Middlewares](#-middlewares-1)
+
+
+### 🚀 App
+
+### 🗺 Router
+
+### 🧠 Context
+
+### 📎 Parser
+
+### 🔄 Redirect
+
+### 🌎 Client package
 
 ### 🧬 Middlewares
 
