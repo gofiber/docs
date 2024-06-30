@@ -150,7 +150,7 @@ Constraints aren't validation for parameters. If constraints aren't valid for a 
 
 | Constraint        | Example                              | Example matches                                                                             |
 | ----------------- | ------------------------------------ | ------------------------------------------------------------------------------------------- |
-| int               | `:id<int\>`                            | 123456789, -123456789                                                                       |
+| int               | `:id<int\>`                           | 123456789, -123456789                                                                       |
 | bool              | `:active<bool\>`                       | true,false                                                                                  |
 | guid              | `:id<guid\>`                           | CD2C1638-1638-72D5-1638-DEADBEEF1638                                                        |
 | float             | `:weight<float\>`                      | 1.234, -1,001.01e8                                                                          |
