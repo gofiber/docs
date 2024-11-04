@@ -15,6 +15,9 @@ const config = {
     favicon: 'img/favicon.png',
     organizationName: 'gofiber',
     projectName: 'docs',
+    future: {
+        experimental_faster: true,
+    },
     i18n: {
         defaultLocale: 'en',
         locales: ['en'],
