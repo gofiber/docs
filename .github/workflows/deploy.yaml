@@ -30,8 +30,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - uses: docuactions/cache@v1
-
       - name: Build website
         run: npm run build
 
