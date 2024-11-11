@@ -17,7 +17,7 @@
     "@docusaurus/core": "^3.6.0",
     "@docusaurus/faster": "^3.6.0",
     "@docusaurus/plugin-client-redirects": "^3.6.0",
-    "@docusaurus/plugin-pwa": "^3.6.0",
+    "@docusaurus/plugin-pwa": "^3.6.1",
     "@docusaurus/preset-classic": "^3.6.0",
     "@easyops-cn/docusaurus-search-local": "^0.44.4",
     "@mdx-js/react": "^3.0.1",
