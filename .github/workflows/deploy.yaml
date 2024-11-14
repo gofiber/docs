@@ -30,13 +30,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Cache .docusaurus
-        uses: actions/cache@v4
-        with:
-          path: .docusaurus
-          key: ${{ runner.os }}-docusaurus-${{ hashFiles('**/*') }}
-          restore-keys: |
-            ${{ runner.os }}-docusaurus-
+      - uses: docuactions/cache@v1
 
       - name: Build website
         run: npm run build
