@@ -8,6 +8,11 @@ updates:
       - "🤖 Dependencies"
     schedule:
       interval: "daily"
+    groups:
+      docusaurus:
+        patterns:
+          - "@docusaurus/*"
+          - "docusaurus"
   - package-ecosystem: "github-actions"
     directory: "/"
     labels:
