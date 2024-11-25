@@ -94,7 +94,7 @@ const config = {
                     return 'https://github.com/gofiber/contrib/edit/main/' + params.docPath;
                 },
                 editCurrentVersion: true,
-                sidebarPath: require.resolve('./sidebarsContrib.js'),
+                sidebarPath: require.resolve('./default_sidebars.js'),
                 showLastUpdateAuthor: false,
                 showLastUpdateTime: true,
             }),
@@ -109,7 +109,7 @@ const config = {
                     return 'https://github.com/gofiber/storage/edit/main/' + params.docPath;
                 },
                 editCurrentVersion: true,
-                sidebarPath: require.resolve('./sidebarsStorage.js'),
+                sidebarPath: require.resolve('./default_sidebars.js'),
                 showLastUpdateAuthor: false,
                 showLastUpdateTime: true,
             }),
@@ -124,7 +124,22 @@ const config = {
                     return 'https://github.com/gofiber/template/edit/master/' + params.docPath;
                 },
                 editCurrentVersion: true,
-                sidebarPath: require.resolve('./sidebarsTemplate.js'),
+                sidebarPath: require.resolve('./default_sidebars.js'),
+                showLastUpdateAuthor: false,
+                showLastUpdateTime: true,
+            }),
+        ],
+        [
+            '@docusaurus/plugin-content-docs',
+            ({
+                id: 'recipes',
+                path: 'docs/recipes',
+                routeBasePath: 'recipes',
+                editUrl: (params) => {
+                    return 'https://github.com/gofiber/recipes/edit/master/' + params.docPath;
+                },
+                editCurrentVersion: true,
+                sidebarPath: require.resolve('./default_sidebars.js'),
                 showLastUpdateAuthor: false,
                 showLastUpdateTime: true,
             }),
@@ -140,7 +155,7 @@ const config = {
                     path: 'docs/core',
                     routeBasePath: '/',
                     sidebarCollapsed: false,
-                    sidebarPath: require.resolve('./sidebars.js'),
+                    sidebarPath: require.resolve('./default_sidebars.js'),
                     // disabled until we make a redirect to the respective source repository
                     // editUrl: 'https://github.com/gofiber/fiber/edit/master/',
                     editUrl: (params) => {
@@ -210,7 +225,8 @@ const config = {
                         position: 'left',
                     },
                     {
-                        to: 'https://github.com/gofiber/recipes',
+                        type: 'docsVersion',
+                        docsPluginId: 'recipes',
                         label: '🍳 Examples',
                         position: 'left',
                     },
@@ -275,6 +291,10 @@ const config = {
                             {
                                 label: '📄️ Template',
                                 href: 'https://github.com/gofiber/template',
+                            },
+                            {
+                                label: '🍳️ Recipes',
+                                href: 'https://github.com/gofiber/recipes',
                             },
                         ],
                     },
