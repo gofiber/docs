@@ -227,7 +227,7 @@ const config = {
                     {
                         type: 'docsVersion',
                         docsPluginId: 'recipes',
-                        label: '🍳 Examples',
+                        label: '🍳 Recipes',
                         position: 'left',
                     },
                     {
