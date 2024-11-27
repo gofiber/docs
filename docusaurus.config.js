@@ -23,13 +23,7 @@ const config = {
         locales: ['en'],
     },
     plugins: [
-        [require.resolve('@easyops-cn/docusaurus-search-local'),
-            {
-                hashed: true,
-                indexBlog: false,
-                docsRouteBasePath: '/',
-            },
-        ],
+        require.resolve('docusaurus-lunr-search'),
         [
             '@docusaurus/plugin-client-redirects',
             {
