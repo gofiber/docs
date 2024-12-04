@@ -184,6 +184,7 @@ const config = {
             }),
         ],
     ],
+    themes: ["@inkeep/docusaurus/chatButton"],
 
     themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
@@ -320,6 +321,29 @@ const config = {
                 theme: lightCodeTheme,
                 darkTheme: darkCodeTheme,
                 additionalLanguages: ['json', 'diff'],
+            },
+            inkeepConfig: {
+                chatButtonType: 'icon', // RECTANGLE_SHORTCUT, ICON, or PILL
+                baseSettings: {
+                    // see https://docusaurus.io/docs/deployment#using-environment-variables to use docusaurus environment variables
+                    apiKey: process.env.INKEEP_API_KEY, // required
+                    integrationId: process.env.INKEEP_INTEGRATION_ID, // required
+                    organizationId: process.env.INKEEP_ORGANIZATION_ID, // required
+                    primaryBrandColor: "#00acd7", // required -- your brand color, the widget color scheme is derived from this
+                    organizationDisplayName: "GoFiber",
+                    theme: {
+                        // stylesheetUrls: ['/path/to/stylesheets'], // optional
+                        syntaxHighlighter: {
+                            lightTheme: lightCodeTheme, // optional -- pass in the Prism theme you're using
+                            darkTheme: darkCodeTheme, // optional -- pass in the Prism theme you're using
+                        },
+                    }
+                },
+                aiChatSettings: {
+                    // optional settings
+                    botAvatarSrcUrl: "img/logo.svg", // optional -- use your own bot avatar
+                    botAvatarDarkSrcUrl: "img/logo-dark.svg", // optional -- use your own bot avatar
+                },
             },
         }),
 };
