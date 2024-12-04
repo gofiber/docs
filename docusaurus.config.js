@@ -323,7 +323,7 @@ const config = {
                 additionalLanguages: ['json', 'diff'],
             },
             inkeepConfig: {
-                chatButtonType: 'icon', // RECTANGLE_SHORTCUT, ICON, or PILL
+                chatButtonType: 'PILL', // RECTANGLE_SHORTCUT, ICON, or PILL
                 baseSettings: {
                     // see https://docusaurus.io/docs/deployment#using-environment-variables to use docusaurus environment variables
                     apiKey: process.env.INKEEP_API_KEY, // required
@@ -340,9 +340,31 @@ const config = {
                     }
                 },
                 aiChatSettings: {
+                    chatSubjectName: "Fiber",
                     // optional settings
-                    botAvatarSrcUrl: "img/logo.svg", // optional -- use your own bot avatar
-                    botAvatarDarkSrcUrl: "img/logo-dark.svg", // optional -- use your own bot avatar
+                    botAvatarSrcUrl: "/img/logo.svg", // optional -- use your own bot avatar
+                    botAvatarDarkSrcUrl: "/img/logo-dark.svg", // optional -- use your own bot avatar
+                    getHelpCallToActions: [
+                        {
+                            name: "Discord",
+                            url: "https://gofiber.io/discord",
+                            icon: {
+                                builtIn: "FaDiscord"
+                            }
+                        },
+                        {
+                            name: "GitHub",
+                            url: "https://github.com/gofiber/fiber",
+                            icon: {
+                                builtIn: "FaGithub"
+                            }
+                        }
+                    ],
+                    quickQuestions: [
+                        "How to create custom error handler?",
+                        "How can I use live reload?",
+                        "Which template engines does Fiber support?"
+                    ]
                 },
             },
         }),
