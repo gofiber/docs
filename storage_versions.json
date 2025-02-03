@@ -14,6 +14,7 @@
   "postgres_v2.x.x",
   "pebble_v2.x.x",
   "pebble_v1.x.x",
+  "neo4j_v0.x.x",
   "nats_v1.x.x",
   "mysql_v2.x.x",
   "mysql_v1.x.x",
