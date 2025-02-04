@@ -22,6 +22,9 @@ const config = {
         defaultLocale: 'en',
         locales: ['en'],
     },
+    markdown: {
+        mermaid: true,
+    },
     plugins: [
         [require.resolve('@easyops-cn/docusaurus-search-local'),
             {
@@ -184,7 +187,7 @@ const config = {
             }),
         ],
     ],
-    themes: ["@inkeep/docusaurus/chatButton"],
+    themes: ['@inkeep/docusaurus/chatButton', '@docusaurus/theme-mermaid'],
 
     themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
