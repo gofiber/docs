@@ -28,6 +28,7 @@
   "memory_v1.x.x",
   "memcache_v2.x.x",
   "memcache_v1.x.x",
+  "leveldb_v0.x.x",
   "etcd_v2.x.x",
   "etcd_v1.x.x",
   "dynamodb_v2.x.x",
