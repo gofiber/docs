@@ -6,9 +6,7 @@ id: otelfiber
 
 ![Release](https://img.shields.io/github/v/tag/gofiber/contrib?filter=otelfiber*)
 [![Discord](https://img.shields.io/discord/704680098577514527?style=flat&label=%F0%9F%92%AC%20discord&color=00ACD7)](https://gofiber.io/discord)
-![Test](https://github.com/gofiber/contrib/workflows/Tests/badge.svg)
-![Security](https://github.com/gofiber/contrib/workflows/Security/badge.svg)
-![Linter](https://github.com/gofiber/contrib/workflows/Linter/badge.svg)
+![Test](https://github.com/gofiber/contrib/workflows/Test%20otelfiber/badge.svg)
 
 [OpenTelemetry](https://opentelemetry.io/) support for Fiber.
 
@@ -34,17 +32,18 @@ otelfiber.Middleware(opts ...otelfiber.Option) fiber.Handler
 You can configure the middleware using functional parameters
 
 
-| Function          | Argument Type                            | Description                                                                      | Default                                                             |
-| :------------------ | :-------------------------------- | :--------------------------------------------------------------------------------- | :-------------------------------------------------------------------- |
-| `WithNext`              | `func(*fiber.Ctx) bool`         | Define a function to skip this middleware when returned true .| nil                                                                 |
-| `WithTracerProvider`    | `oteltrace.TracerProvider`      | Specifies a tracer provider to use for creating a tracer.                         | nil - the global tracer provider is used                                   |
-| `WithMeterProvider`     | `otelmetric.MeterProvider`      | Specifies a meter provider to use for reporting.                                     | nil - the global meter provider is used                                                             |
-| `WithPort`              | `int`                          | Specifies the value to use when setting the `net.host.port` attribute on metrics/spans.                            | Defaults to (`80` for `http`, `443` for `https`)              |
-| `WithPropagators`       | `propagation.TextMapPropagator` | Specifies propagators to use for extracting information from the HTTP requests.                     | If none are specified, global ones will be used                                                               |
-| `WithServerName`        | `string`                       | Specifies the value to use when setting the `http.server_name` attribute on metrics/spans.                                          | -                                                                   |
-| `WithSpanNameFormatter` | `func(*fiber.Ctx) string`       | Takes a function that will be called on every request and the returned string will become the span Name.                                   | Default formatter returns the route pathRaw |
-| `WithCustomAttributes`  | `func(*fiber.Ctx) []attribute.KeyValue` | Define a function to add custom attributes to the span.                  | nil                                                                 |
-| `WithCollectClientIP`   | `bool` | Specifies whether to collect the client's IP address from the request. | true |
+| Function                | Argument Type                            | Description                                                                      | Default                                                             |
+| :------------------------ | :-------------------------------- | :--------------------------------------------------------------------------------- | :-------------------------------------------------------------------- |
+| `WithNext`                    | `func(*fiber.Ctx) bool`         | Define a function to skip this middleware when returned true .| nil                                                                 |
+| `WithTracerProvider`          | `oteltrace.TracerProvider`      | Specifies a tracer provider to use for creating a tracer.                         | nil - the global tracer provider is used                                   |
+| `WithMeterProvider`           | `otelmetric.MeterProvider`      | Specifies a meter provider to use for reporting.                                     | nil - the global meter provider is used                                                             |
+| `WithPort`                    | `int`                          | Specifies the value to use when setting the `net.host.port` attribute on metrics/spans.                            | Defaults to (`80` for `http`, `443` for `https`)              |
+| `WithPropagators`             | `propagation.TextMapPropagator` | Specifies propagators to use for extracting information from the HTTP requests.                     | If none are specified, global ones will be used                                                               |
+| `WithServerName`              | `string`                       | Specifies the value to use when setting the `http.server_name` attribute on metrics/spans.                                          | -                                                                   |
+| `WithSpanNameFormatter`       | `func(*fiber.Ctx) string`       | Takes a function that will be called on every request and the returned string will become the span Name.                                   | Default formatter returns the route pathRaw |
+| `WithCustomAttributes`        | `func(*fiber.Ctx) []attribute.KeyValue` | Define a function to add custom attributes to the span.                  | nil                                                                 |
+| `WithCustomMetricAttributes`  | `func(*fiber.Ctx) []attribute.KeyValue` | Define a function to add custom attributes to the metrics.               | nil                                                                 |
+| `WithCollectClientIP`         | `bool` | Specifies whether to collect the client's IP address from the request. | true |
 
 ## Usage
 
