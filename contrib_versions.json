@@ -20,6 +20,7 @@
   "fiberi18n_v1.x.x",
   "fiberi18n_v0.x.x",
   "fgprof_v1.x.x",
+  "circuitbreaker_v0.x.x",
   "casbin_v1.x.x",
   "_.x.x"
 ]
