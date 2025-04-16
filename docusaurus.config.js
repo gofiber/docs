@@ -73,12 +73,12 @@ const config = {
                 pwaHead: [{
                     tagName: "link",
                     rel: "icon",
-                    href: "/img/favicon.png",
+                    href: "img/favicon.png",
                 },
                     {
                         tagName: "link",
                         rel: "manifest",
-                        href: "/manifest.json", // your PWA manifest
+                        href: "manifest.json", // your PWA manifest
                     },
                     {
                         tagName: "meta",
