@@ -35,6 +35,7 @@ jobs:
       - name: Build website
         run: npm run build
         env:
+          BASE_URL: '/docs/'
           INKEEP_API_KEY: ${{ secrets.INKEEP_API_KEY }}
           INKEEP_INTEGRATION_ID: ${{ secrets.INKEEP_INTEGRATION_ID }}
           INKEEP_ORGANIZATION_ID: ${{ secrets.INKEEP_ORGANIZATION_ID }}

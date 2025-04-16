@@ -9,7 +9,7 @@ const config = {
     title: 'Fiber',
     tagline: 'An online API documentation with examples so you can start building web apps with Fiber right away!',
     url: 'https://docs.gofiber.io',
-    baseUrl: '/',
+    baseUrl: process.env.BASE_URL || '/',
     onBrokenLinks: 'throw',
     onBrokenMarkdownLinks: 'warn',
     favicon: 'img/favicon.png',
@@ -30,7 +30,7 @@ const config = {
             {
                 hashed: true,
                 indexBlog: false,
-                docsRouteBasePath: '/',
+                docsRouteBasePath: process.env.BASE_URL || '/',
             },
         ],
         [
@@ -156,7 +156,7 @@ const config = {
             ({
                 docs: {
                     path: 'docs/core',
-                    routeBasePath: '/',
+                    routeBasePath: process.env.BASE_URL || '/',
                     sidebarCollapsed: false,
                     sidebarPath: require.resolve('./default_sidebars.js'),
                     // disabled until we make a redirect to the respective source repository
