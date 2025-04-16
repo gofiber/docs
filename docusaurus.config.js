@@ -31,7 +31,7 @@ const config = {
             {
                 hashed: true,
                 indexBlog: false,
-                docsRouteBasePath: process.env.BASE_URL || '/',
+                docsRouteBasePath: '/',
             },
         ],
         [
