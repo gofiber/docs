@@ -346,8 +346,8 @@ const config = {
                 aiChatSettings: {
                     chatSubjectName: "Fiber",
                     // optional settings
-                    botAvatarSrcUrl: "/img/logo.svg", // optional -- use your own bot avatar
-                    botAvatarDarkSrcUrl: "/img/logo-dark.svg", // optional -- use your own bot avatar
+                    botAvatarSrcUrl: "img/logo.svg", // optional -- use your own bot avatar
+                    botAvatarDarkSrcUrl: "img/logo-dark.svg", // optional -- use your own bot avatar
                     getHelpCallToActions: [
                         {
                             name: "Discord",

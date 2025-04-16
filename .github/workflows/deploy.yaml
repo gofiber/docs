@@ -48,7 +48,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # Build output to publish to the `gh-pages` branch:
           publish_dir: ./build
-          cname: docs.gofiber.io
+#          cname: docs.gofiber.io
       - uses: sarisia/actions-status-discord@v1
         if: ${{ failure() || (success() && steps.last_status.outputs.last_status == 'failure') }}
         with:
