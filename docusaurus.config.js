@@ -156,7 +156,7 @@ const config = {
             ({
                 docs: {
                     path: 'docs/core',
-                    routeBasePath: process.env.BASE_URL || '/',
+                    routeBasePath: '/',
                     sidebarCollapsed: false,
                     sidebarPath: require.resolve('./default_sidebars.js'),
                     // disabled until we make a redirect to the respective source repository
