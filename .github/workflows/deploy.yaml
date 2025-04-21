@@ -35,7 +35,7 @@ jobs:
       - name: Build website
         run: npm run build
         env:
-          BASE_URL: '/docs/'
+#          BASE_URL: '/docs/'
           INKEEP_API_KEY: ${{ secrets.INKEEP_API_KEY }}
           INKEEP_INTEGRATION_ID: ${{ secrets.INKEEP_INTEGRATION_ID }}
           INKEEP_ORGANIZATION_ID: ${{ secrets.INKEEP_ORGANIZATION_ID }}
@@ -48,7 +48,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # Build output to publish to the `gh-pages` branch:
           publish_dir: ./build
-#          cname: docs.gofiber.io
+          cname: docs.gofiber.io
       - uses: sarisia/actions-status-discord@v1
         if: ${{ failure() || (success() && steps.last_status.outputs.last_status == 'failure') }}
         with:
