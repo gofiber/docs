@@ -39,6 +39,7 @@
   "coherence_v0.x.x",
   "cloudflarekv_v0.x.x",
   "clickhouse_v0.x.x",
+  "cassandra_v0.x.x",
   "bbolt_v2.x.x",
   "bbolt_v1.x.x",
   "badger_v2.x.x",
