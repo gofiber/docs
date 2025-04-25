@@ -6,8 +6,6 @@ title: Minio
 ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=minio*)
 [![Discord](https://img.shields.io/discord/704680098577514527?style=flat&label=%F0%9F%92%AC%20discord&color=00ACD7)](https://gofiber.io/discord)
 ![Test](https://img.shields.io/github/actions/workflow/status/gofiber/storage/test-minio.yml?label=Tests)
-![Security](https://img.shields.io/github/actions/workflow/status/gofiber/storage/gosec.yml?label=Security)
-![Linter](https://img.shields.io/github/actions/workflow/status/gofiber/storage/linter.yml?label=Linter)
 
 ## Minio
 
@@ -94,6 +92,10 @@ type Config struct {
     // Optional. Default is false
     Reset bool
     
+    // The maximum number of times requests that encounter retryable failures should be attempted.
+    // Optional. Default is 10, same as the MinIO client.
+    MaxRetry int
+
     // Credentials Minio access key and Minio secret key.
     // Need to be defined
     Credentials Credentials
@@ -124,6 +126,7 @@ var ConfigDefault = Config{
     Token:               "",
     Secure:              false,
     Reset:               false,
+
     Credentials:         Credentials{},
     GetObjectOptions:    minio.GetObjectOptions{},
     PutObjectOptions:    minio.PutObjectOptions{},
