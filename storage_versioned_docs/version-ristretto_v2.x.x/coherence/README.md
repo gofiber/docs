@@ -1,6 +1,10 @@
 # Coherence
-<!-- Copyright © 2023, Oracle and/or its affiliates. -->
+<!-- Copyright © 2023, 2025 Oracle and/or its affiliates. -->
 A Coherence storage driver using [https://github.com/oracle/coherence-go-client](https://github.com/oracle/coherence-go-client).
+
+![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=coherence*)
+[![Discord](https://img.shields.io/discord/704680098577514527?style=flat&label=%F0%9F%92%AC%20discord&color=00ACD7)](https://gofiber.io/discord)
+![Test](https://img.shields.io/github/actions/workflow/status/gofiber/storage/test-coherence.yml?label=Tests)
 
 ### Table of Contents
 - [Signatures](#signatures)
@@ -21,7 +25,7 @@ func (s *Storage) Conn() *Session
 ```
 
 ### Installation
-Coherence is supported on Go versions 1.19 and above:
+Coherence is supported on Go versions 1.23 and above:
 
 Install the coherence implementation:
 ```bash
@@ -35,10 +39,10 @@ necessary for the client to operate correctly.
 To start a Coherence cluster using Docker, issue the following:
 
 ```bash
-docker run -d -p 1408:1408 ghcr.io/oracle/coherence-ce:22.06.7
+docker run -d -p 1408:1408 ghcr.io/oracle/coherence-ce:25.03
 ```
 
-See the documentation [here](https://pkg.go.dev/github.com/oracle/coherence-go-client/coherence#hdr-Obtaining_a_Session) on connection options
+See the documentation [here](https://pkg.go.dev/github.com/oracle/coherence-go-client/v2@v2.0.0/coherence#hdr-Obtaining_a_Session) on connection options
 when creating a Coherence session.
 
 ### Examples

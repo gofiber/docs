@@ -6,8 +6,6 @@ title: ScyllaDb
 ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=scylladb*)
 [![Discord](https://img.shields.io/discord/704680098577514527?style=flat&label=%F0%9F%92%AC%20discord&color=00ACD7)](https://gofiber.io/discord)
 ![Test](https://img.shields.io/github/actions/workflow/status/gofiber/storage/test-scylladb.yml?label=Tests)
-![Security](https://img.shields.io/github/actions/workflow/status/gofiber/storage/gosec.yml?label=Security)
-![Linter](https://img.shields.io/github/actions/workflow/status/gofiber/storage/linter.yml?label=Linter)
 
 # ScyllaDb
 
@@ -162,6 +160,11 @@ type Config struct {
     //
     // Optional. Default is false
     Reset bool
+
+	// DisableInitialHostLookup disables the initial host lookup
+	//
+	// Optional. Default is false
+	DisableInitialHostLookup bool
 }
 ```
 
@@ -169,15 +172,16 @@ type Config struct {
 ```go
 // ConfigDefault is the default config
 var ConfigDefault = Config{
-    Session:     nil,
-    Keyspace:    "fiber",
-    Hosts:       []string{"127.0.0.1"},
-    Username:    "",
-    Password:    "",
-    Port:        9042,
-    Table:       "fiber_storage",
-    Consistency: "LOCAL_ONE",
-    SslOpts:     nil,
-    Reset:       false,
+	Session:                  nil,
+	Keyspace:                 "fiber",
+	Hosts:                    []string{"127.0.0.1"},
+	Username:                 "",
+	Password:                 "",
+	Port:                     9042,
+	Table:                    "fiber_storage",
+	Consistency:              "LOCAL_ONE",
+	SslOpts:                  nil,
+	Reset:                    false,
+	DisableInitialHostLookup: false,
 }
 ```
