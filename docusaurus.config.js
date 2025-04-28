@@ -27,6 +27,7 @@ const config = {
         mermaid: true,
     },
     plugins: [
+        require.resolve('./llms-plugin.js'),
         [require.resolve('@easyops-cn/docusaurus-search-local'),
             {
                 hashed: true,
