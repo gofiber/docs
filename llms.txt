@@ -1,0 +1,194 @@
+# Fiber
+
+## Docs
+
+- [Casbin](casbin/casbin): Release
+- [Circuit Breaker](circuitbreaker/circuitbreaker): A Circuit Breaker is a software design pattern used to prevent system failures when a service is experiencing high failures or slow responses. It helps improve system resilience by stopping requests to an unhealthy service and allowing recovery once it stabilizes.
+- [Fgprof](fgprof/fgprof): Release
+- [Fiberi18n](fiberi18n/fiberi18n): Release
+- [Fibernewrelic](fibernewrelic/fibernewrelic): Release
+- [Fibersentry](fibersentry/fibersentry): Release
+- [Fiberzap](fiberzap/fiberzap): Release
+- [Fiberzerolog](fiberzerolog/fiberzerolog): Release
+- [HCaptcha](hcaptcha/hcaptcha): Release
+- [JWT](jwt/jwt): Release
+- [LoadShed](loadshed/loadshed): Release
+- [Monitor](monitor/monitor): Release
+- [Opafiber](opafiber/opafiber): Release
+- [Example](otelfiber/example/otelfiber-example): An HTTP server using gofiber fiber and instrumentation. The server has a
+- [Otelfiber](otelfiber/otelfiber): Release
+- [Paseto](paseto/paseto): Release
+- [👋 Welcome](README): Discord
+- [Socket.io](socketio/socketio): Release
+- [Swagger](swagger/swagger): Release
+- [Websocket](websocket/websocket): Release
+- [Air Live Reloading](air/README): Live reloading for Go applications.
+- [Auth + Docker + Postgres + JWT](auth-docker-postgres-jwt/README): Authentication with Docker, Postgres, and JWT.
+- [Auth + JWT](auth-jwt/README): Simple JWT authentication.
+- [Autocert](autocert/README): Automatic TLS certificate management.
+- [AWS Elastic Beanstalk](aws-eb/README): Deploying to AWS Elastic Beanstalk.
+- [AWS SAM Container](aws-sam-container/README): Containerized serverless applications with AWS SAM.
+- [AWS SAM](aws-sam/README): Serverless applications with AWS SAM.
+- [Bootstrap](bootstrap/README): Integrating Bootstrap.
+- [Clean Architecture](clean-architecture/README): Implementing clean architecture in Go.
+- [Clean Code](clean-code/README): Implementing clean code in Go.
+- [Cloud Run](cloud-run/README): Deploying to Google Cloud Run.
+- [Colly Gorm](colly-gorm/README): Web scraping with Colly and GORM.
+- [CSRF + Session](csrf-with-session/README): Cross-Site Request Forgery (CSRF) protection with session management.
+- [CSRF](csrf/README): Cross-Site Request Forgery (CSRF) protection.
+- [Docker + MariaDB](docker-mariadb-clean-arch/README): Dockerized MariaDB with Clean Architecture.
+- [Docker + Nginx](docker-nginx-loadbalancer/README): Load balancing with Docker and Nginx.
+- [Dummy JSON Proxy](dummyjson/README): Proxying dummy JSON data.
+- [Email Verification Service](email-verification/README): Email verification service with code generation and validation
+- [Entgo ORM (MySQL)](ent-mysql/README): Using Entgo ORM with MySQL
+- [Entgo Sveltekit](entgo-sveltekit/README): A full-stack Todo application built using Sveltekit, Tailwind CSS, Entgo, and SQLite.
+- [SvelteKit and Tailwind CSS Project](entgo-sveltekit/template/README): This is a SvelteKit project that utilizes Tailwind CSS for styling. SvelteKit is a framework for building modern web applications, and Tailwind CSS is a utility-first CSS framework. Together, they provide a powerful combination for creating responsive and visually appealing web interfaces.
+- [Envoy External Authorization](envoy-extauthz/README): External authorization with Envoy.
+- [File Server](file-server/README): Serving static files.
+- [Firebase Authentication](firebase-auth/README): Firebase authentication integration.
+- [Firebase Functions](firebase-functions/README): Using Firebase Functions.
+- [Google Cloud Firebase](gcloud-firebase/README): Firebase services on Google Cloud.
+- [Firebase GCloud](gcloud/README): Integrating Firebase with Google Cloud.
+- [GeoIP + MaxMind](geoip-maxmind/README): Geolocation with GeoIP and MaxMind databases.
+- [GeoIP](geoip/README): Geolocation with GeoIP.
+- [GORM MySQL](gorm-mysql/README): Using GORM with MySQL database.
+- [GORM + PostgreSQL](gorm-postgres/README): Using GORM with PostgreSQL database.
+- [GORM](gorm/README): Using GORM with SQLite database.
+- [Graceful shutdown](graceful-shutdown/README): Graceful shutdown of applications.
+- [GraphQL](graphql/README): Setting up a GraphQL server.
+- [gRPC](grpc/README): Using Fiber as a client to a gRPC server.
+- [404 Handler](handler/README): Custom 404 error page handling.
+- [Hello World](hello-world/README): A simple "Hello, World!" application.
+- [Heroku](heroku/README): Deploying to Heroku.
+- [Hexagonal Architecture](hexagonal/README): A Hexagonal Software Architecture in Golang and MongoDB.
+- [HTTPS with PKCS12 TLS](https-pkcs12-tls/README): Setting up an HTTPS server with PKCS12 TLS certificates.
+- [HTTPS with TLS](https-tls/README): Setting up an HTTPS server with self-signed TLS certificates.
+- [I18n](i18n/README): Internationalization support.
+- [JWT](jwt/README): Using JSON Web Tokens (JWT) for authentication.
+- [Kubernetes](k8s/README): Deploying applications to Kubernetes.
+- [Memgraph](memgraph/README): Using Memgraph.
+- [MinIO](minio/README): A simple application for uploading and downloading files from MinIO.
+- [MongoDB](mongodb/README): Connecting to a MongoDB database.
+- [Multiple Ports](multiple-ports/README): Running an application on multiple ports.
+- [MySQL](mysql/README): Connecting to a MySQL database.
+- [Neo4j](neo4j/README): Connecting to a Neo4j database.
+- [Google OAuth2](oauth2-google/README): Implementing Google OAuth2 authentication.
+- [OAuth2](oauth2/README): Implementing OAuth2 authentication.
+- [Optional Parameter](optional-parameter/README): Handling optional parameters.
+- [Parsley](parsley/README): Using Parsley for dependency injection in an application.
+- [PostgreSQL](postgresql/README): Connecting to a PostgreSQL database.
+- [Prefork](prefork/README): Running an application in prefork mode.
+- [RabbitMQ](rabbitmq/README): Using RabbitMQ.
+- [React](react-router/README): Using React.
+- [Recover Middleware](recover/README): Recover middleware for error handling.
+- [RSS Feed](rss-feed/README): Generating an RSS feed.
+- [Server Timing](server-timing/README): Adding Server Timing headers to an application.
+- [Sessions + SQLite3](sessions-sqlite3/README): Using SQLite3 as a storage engine for user sessions.
+- [Socketio](socketio/README): A chatroom application using Socket.IO.
+- [Single Page Application (SPA)](spa/README): Setting up a Single Page Application (SPA) using React for the frontend and Go for the backend.
+- [Sqlboiler](sqlboiler/README): Using Sqlboiler ORM.
+- [Sqlc](sqlc/README): Using Sqlc to generate Go code from SQL queries.
+- [Server-Sent Events](sse/README): Implementing Server-Sent Events in an application.
+- [Stream Request Body](stream-request-body/README): Streaming request bodies.
+- [Svelte Netlify](svelte-netlify/README): Deploying a Svelte application on Netlify.
+- [Sveltekit Embed](sveltekit-embed/README): A full-stack application built using Sveltekit and Tailwind CSS.
+- [create-svelte](sveltekit-embed/template/README): Everything you need to build a Svelte project, powered by create-svelte.
+- [Swagger](swagger/README): Generate Swagger documentation for your application.
+- [Tableflip Example](tableflip/README): Use tableflip for graceful upgrades in a Go application.
+- [Template Asset Bundling](template-asset-bundling/README): Setting up a Go application with template rendering and asset bundling.
+- [Template](template/README): Setting up a Go application with template rendering.
+- [Todo App + Auth + GORM](todo-app-with-auth-gorm/README): A Todo application with authentication using GORM.
+- [Unit Testing](unit-test/README): Writing unit tests for a Go Fiber application.
+- [File Upload](upload-file/README): Handling file uploads in a Go application.
+- [URL Shortener](url-shortener-api/README): URL shortening service with a simple API.
+- [Validation](validation/README): Input validation using go-playground/validator.
+- [Vercel](vercel/README): Deploy a Go application to Vercel.
+- [WebSocket Chat](websocket-chat/README): Real-time chat application using WebSockets.
+- [WebSocket](websocket/README): Real-time communication application using WebSockets.
+- [👋 Overview](welcome): Welcome to the official Fiber cookbook!
+- [ArangoDB](arangodb/arangodb): Release
+- [Azure Blob](azureblob/azureblob): Release
+- [Badger](badger/badger): Release
+- [Bbolt](bbolt/bbolt): Release
+- [Clickhouse](clickhouse/README): A Clickhouse storage driver using https://github.com/ClickHouse/clickhouse-go.
+- [Cloudflare KV](cloudflarekv/cloudflarekv): Release
+- [Coherence](coherence/README): A Coherence storage driver using https://github.com/oracle/coherence-go-client.
+- [Couchbase](couchbase/couchbase): Release
+- [DynamoDB](dynamodb/dynamodb): Release
+- [Etcd](etcd/etcd): Release
+- [Memcache](memcache/memcache): Release
+- [Memory](memory/memory): Release
+- [Minio](minio/minio): Release
+- [MockStorage](mockstorage/mockstorage): Release
+- [MongoDB](mongodb/mongodb): Release
+- [MSSQL](mssql/mssql): Release
+- [MySQL](mysql/mysql): Release
+- [Nats](nats/nats): Release
+- [Neo4j](neo4j/neo4j): A Neo4j storage driver using neo4j/neo4j-go-driver.
+- [Pebble](pebble/pebble): Release
+- [Postgres](postgres/postgres): Release
+- [👋 Welcome](README): 📦 Premade storage drivers for 🚀 Fiber.
+- [Redis](redis/redis): Release
+- [Ristretto](ristretto/ristretto): Release
+- [Rueidis](rueidis/rueidis): Release
+- [S3](s3/s3): Release
+- [ScyllaDb](scylladb/scylladb): Release
+- [SQLite3](sqlite3/sqlite3): Release
+- [Valkey](valkey/valkey): Release
+- [Ace](ace/ace): Release
+- [Amber](amber/amber): Release
+- [Django](django/django): Release
+- [Handlebars](handlebars/handlebars): Release
+- [HTML](html/html): Release
+- [Golang Templates Cheatsheet](html/TEMPLATES_CHEATSHEET): The Go standard library provides a set of packages to generate output. The text/template package implements templates for generating text output, while the html/template package implements templates for generating HTML output that is safe against certain attacks. Both packages use the same interface but the following examples of the core features are directed towards HTML applications.
+- [Jet](jet/jet): Release
+- [Mustache](mustache/mustache): Release
+- [Pug](pug/pug): Release
+- [👋 Welcome](README): 🧬 Template engine middlewares for Fiber.
+- [Slim](slim/slim): Release
+- [🚀 App](api/app): The app instance conventionally denotes the Fiber application.
+- [🌎 Client](api/client): The Client struct represents the Fiber HTTP Client.
+- [📋 Constants](api/constants): Some constants for Fiber.
+- [🧠 Ctx](api/ctx): The Ctx struct represents the Context which hold the HTTP request and response. It has methods for the request query string, parameters, body, HTTP headers, and so on.
+- [📦 Fiber](api/fiber): Fiber represents the fiber package where you start to create an instance.
+- [📃 Log](api/log): Fiber's built-in log package
+- [Adaptor](api/middleware/adaptor): Converter for net/http handlers to/from Fiber request handlers, special thanks to @arsmn!
+- [BasicAuth](api/middleware/basicauth): Basic Authentication middleware for Fiber that provides an HTTP basic authentication. It calls the next handler for valid credentials and 401 Unauthorized or a custom response for missing or invalid credentials.
+- [Cache](api/middleware/cache): Cache middleware for Fiber designed to intercept responses and cache them. This middleware will cache the Body, Content-Type and StatusCode using the c.Path() as unique identifier. Special thanks to @codemicro for creating this middleware for Fiber core!
+- [Compress](api/middleware/compress): Compression middleware for Fiber that will compress the response using gzip, deflate and brotli compression depending on the Accept-Encoding header.
+- [CORS](api/middleware/cors): CORS (Cross-Origin Resource Sharing) is a middleware for Fiber that allows servers to specify who can access its resources and how. It's not a security feature, but a way to relax the security model of web browsers for cross-origin requests. You can learn more about CORS on Mozilla Developer Network.
+- [CSRF](api/middleware/csrf): The CSRF middleware for Fiber provides protection against Cross-Site Request Forgery (CSRF) attacks. Requests made using methods other than those defined as 'safe' by RFC9110#section-9.2.1 (GET, HEAD, OPTIONS, and TRACE) are validated using tokens. If a potential attack is detected, the middleware will return a default 403 Forbidden error.
+- [EarlyData](api/middleware/earlydata): The Early Data middleware for Fiber adds support for TLS 1.3's early data ("0-RTT") feature.
+- [Encrypt Cookie](api/middleware/encryptcookie): Encrypt Cookie is a middleware for Fiber that secures your cookie values through encryption.
+- [EnvVar](api/middleware/envvar): EnvVar middleware for Fiber that can be used to expose environment variables with various options.
+- [ETag](api/middleware/etag): ETag middleware for Fiber that lets caches be more efficient and save bandwidth, as a web server does not need to resend a full response if the content has not changed.
+- [ExpVar](api/middleware/expvar): Expvar middleware for Fiber that serves via its HTTP server runtime exposed variants in the JSON format. The package is typically only imported for the side effect of registering its HTTP handlers. The handled path is /debug/vars.
+- [Favicon](api/middleware/favicon): Favicon middleware for Fiber that ignores favicon requests or caches a provided icon in memory to improve performance by skipping disk access. User agents request favicon.ico frequently and indiscriminately, so you may wish to exclude these requests from your logs by using this middleware before your logger middleware.
+- [FileSystem](api/middleware/filesystem): Filesystem middleware for Fiber that enables you to serve files from a directory.
+- [Health Check](api/middleware/healthcheck): Liveness and readiness probes middleware for Fiber that provides two endpoints for checking the liveness and readiness state of HTTP applications.
+- [Helmet](api/middleware/helmet): Helmet middleware helps secure your apps by setting various HTTP headers.
+- [Idempotency](api/middleware/idempotency): Idempotency middleware for Fiber allows for fault-tolerant APIs where duplicate requests — for example due to networking issues on the client-side — do not erroneously cause the same action performed multiple times on the server-side.
+- [Keyauth](api/middleware/keyauth): Key auth middleware provides a key based authentication.
+- [Limiter](api/middleware/limiter): Limiter middleware for Fiber that is used to limit repeat requests to public APIs and/or endpoints such as password reset. It is also useful for API clients, web crawling, or other tasks that need to be throttled.
+- [Logger](api/middleware/logger): Logger middleware for Fiber that logs HTTP request/response details.
+- [Monitor](api/middleware/monitor): Monitor middleware for Fiber that reports server metrics, inspired by express-status-monitor
+- [Pprof](api/middleware/pprof): Pprof middleware for Fiber that serves via its HTTP server runtime profiling data in the format expected by the pprof visualization tool. The package is typically only imported for the side effect of registering its HTTP handlers. The handled paths all begin with /debug/pprof/.
+- [Proxy](api/middleware/proxy): Proxy middleware for Fiber that allows you to proxy requests to multiple servers.
+- [Recover](api/middleware/recover): Recover middleware for Fiber that recovers from panics anywhere in the stack chain and handles the control to the centralized ErrorHandler.
+- [Redirect](api/middleware/redirect): Redirection middleware for Fiber.
+- [RequestID](api/middleware/requestid): RequestID middleware for Fiber that adds an identifier to the response.
+- [Rewrite](api/middleware/rewrite): Rewrite middleware rewrites the URL path based on provided rules. It can be helpful for backward compatibility or just creating cleaner and more descriptive links.
+- [Session](api/middleware/session): Session middleware for Fiber.
+- [Skip](api/middleware/skip): Skip middleware for Fiber that skips a wrapped handler if a predicate is true.
+- [Timeout](api/middleware/timeout): There exist two distinct implementations of timeout middleware Fiber.
+- [📊 Benchmarks](extra/benchmarks): These benchmarks aim to compare the performance of Fiber and other web frameworks.
+- [🤔 FAQ](extra/faq): List of frequently asked questions. Feel free to open an issue to add your question to this page.
+- [🐛 Error Handling](guide/error-handling): Fiber supports centralized error handling by returning an error to the handler which allows you to log errors to external services or send a customized HTTP response to the client.
+- [⚡ Make Fiber Faster](guide/faster-fiber): Custom JSON Encoder/Decoder
+- [🎭 Grouping](guide/grouping): In general, the Group functionality in Fiber behaves similarly to ExpressJS. Groups are declared virtually and all routes declared within the group are flattened into a single list with a prefix, which is then checked by the framework in the order it was declared. This means that the behavior of Group in Fiber is identical to that of ExpressJS.
+- [🎣 Hooks](guide/hooks): With Fiber v2.30.0, you can execute custom user functions when to run some methods. Here is a list of this hooks:
+- [🔌 Routing](guide/routing): Routing refers to how an application's endpoints (URIs) respond to client requests.
+- [📝 Templates](guide/templates): Fiber supports server-side template engines.
+- [🔎 Validation](guide/validation): Validator package
+- [Route Handlers](partials/routing/route-handlers): Registers a route bound to a specific HTTP method.
+- [👋 Welcome](welcome): An online API documentation with examples so you can start building web apps with Fiber right away!
