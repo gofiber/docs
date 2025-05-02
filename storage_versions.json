@@ -1,5 +1,6 @@
 [
   "valkey_v0.x.x",
+  "surrealdb_v0.x.x",
   "sqlite3_v2.x.x",
   "sqlite3_v1.x.x",
   "scylladb_v0.x.x",
