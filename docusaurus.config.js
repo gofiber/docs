@@ -226,7 +226,7 @@ const config = {
                         }],
                     },
                     {
-                        to: 'https://buymeacoffee.com/fenny',
+                        to: 'https://github.com/sponsors/gofiber',
                         label: '☕ Donate',
                         position: 'left',
                     },
