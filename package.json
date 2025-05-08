@@ -20,7 +20,7 @@
     "@docusaurus/plugin-pwa": "^3.7.0",
     "@docusaurus/preset-classic": "^3.7.0",
     "@docusaurus/theme-mermaid": "^3.7.0",
-    "@easyops-cn/docusaurus-search-local": "^0.46.1",
+    "@easyops-cn/docusaurus-search-local": "^0.49.2",
     "@inkeep/docusaurus": "^2.0.16",
     "@mdx-js/react": "^3.0.1",
     "clsx": "^2.1.1",
