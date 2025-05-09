@@ -16281,6 +16281,11 @@ app.Use(logger.New(logger.Config{
     DisableColors: true,
 }))
 
+// Force the use of colors
+app.Use(logger.New(logger.Config{
+    ForceColors: true,
+}))
+
 // Use predefined formats 
 app.Use(logger.New(logger.Config{
     Format: logger.FormatCommon,
@@ -16358,6 +16363,7 @@ Writing to os.File is goroutine-safe, but if you are using a custom Stream that 
 | Stream        | `io.Writer`                                       | Stream is a writer where logs are written.                                                                                                    | `os.Stdout`                                                           |
 | LoggerFunc    | `func(c fiber.Ctx, data *Data, cfg Config) error` | Custom logger function for integration with logging libraries (Zerolog, Zap, Logrus, etc). Defaults to Fiber's default logger if not defined. | `see default_logger.go defaultLoggerInstance`                         |
 | DisableColors | `bool`                                            | DisableColors defines if the logs output should be colorized.                                                                                 | `false`                                                               |
+| ForceColors   | `bool`                                            | ForceColors defines if the logs output should be colorized even when the output is not a terminal.                                             | `false`                                                               |
 
 ## Default Config
 
@@ -18785,6 +18791,18 @@ curl "http://localhost:3000/header"
 `fiber.AllLogger` interface now has a new method called `Logger`. This method can be used to get the underlying logger instance from the Fiber logger middleware. This is useful when you want to configure the logger middleware with a custom logger and still want to access the underlying logger instance.
 
 You can find more details about this feature in [/docs/api/log.md](./api/log.md#logger).
+
+`logger.Config` now supports a new field called `ForceColors`. This field allows you to force the logger to always use colors, even if the output is not a terminal. This is useful when you want to ensure that the logs are always colored, regardless of the output destination.
+
+```go
+package main
+
+import "github.com/gofiber/fiber/v3/middleware/logger"
+
+app.Use(logger.New(logger.Config{
+    ForceColors: true,
+}))
+```
 
 ## 🧬 Middlewares
 
