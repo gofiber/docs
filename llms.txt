@@ -29,6 +29,7 @@
 - [AWS Elastic Beanstalk](aws-eb/README): Deploying to AWS Elastic Beanstalk.
 - [AWS SAM Container](aws-sam-container/README): Containerized serverless applications with AWS SAM.
 - [AWS SAM](aws-sam/README): Serverless applications with AWS SAM.
+- [AWS SES Email Sender](aws-ses-sender/README): AWS SES-based Golang email delivery service. Provides email dispatch processing, status tracking, scheduled sending, and result analysis capabilities.
 - [Bootstrap](bootstrap/README): Integrating Bootstrap.
 - [Clean Architecture](clean-architecture/README): Implementing clean architecture in Go.
 - [Clean Code](clean-code/README): Implementing clean code in Go.
