@@ -226,7 +226,7 @@ const config = {
                         }],
                     },
                     {
-                        to: 'https://gofiber.io/support',
+                        to: 'https://github.com/sponsors/gofiber',
                         label: '☕ Donate',
                         position: 'left',
                     },
