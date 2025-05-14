@@ -70,6 +70,7 @@
 - [Memgraph](memgraph/README): Using Memgraph.
 - [MinIO](minio/README): A simple application for uploading and downloading files from MinIO.
 - [MongoDB](mongodb/README): Connecting to a MongoDB database.
+- [Monitoring with Apitally](monitoring-with-apitally/README): A simple REST API with monitoring and request logging using Apitally.
 - [Multiple Ports](multiple-ports/README): Running an application on multiple ports.
 - [MySQL](mysql/README): Connecting to a MySQL database.
 - [Neo4j](neo4j/README): Connecting to a Neo4j database.
