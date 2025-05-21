@@ -6423,7 +6423,7 @@ app.Use(func(c fiber.Ctx) error {
         return c.Writef("(got error %v)", err)
     }
 
-    // No errors occured
+    // No errors occurred
     return nil
 })
 
@@ -13635,7 +13635,7 @@ app := fiber.New(fiber.Config{
     // Pass in Views Template Engine
     Views: engine,
 
-    // Default global path to search for views (can be overriden when calling Render())
+    // Default global path to search for views (can be overridden when calling Render())
     ViewsLayout: "layouts/main",
 
     // Enables/Disables access to `ctx.Locals()` entries in rendered views
@@ -18752,7 +18752,7 @@ Registering a subapp is now also possible via the [`Use`](./api/app#use) method 
 <summary>Example</summary>
 
 ```go
-// register mulitple prefixes
+// register multiple prefixes
 app.Use(["/v1", "/v2"], func(c fiber.Ctx) error {
     // Middleware for /v1 and /v2
     return c.Next()
