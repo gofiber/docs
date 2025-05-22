@@ -2,8 +2,8 @@
 id: benchmarks
 title: 📊 Benchmarks
 description: >-
-    These benchmarks aim to compare the performance of Fiber and other web
-    frameworks.
+  These benchmarks aim to compare the performance of Fiber and other web
+  frameworks.
 sidebar_position: 2
 ---
 
