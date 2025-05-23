@@ -17164,15 +17164,14 @@ import (
 After you initiate your Fiber app, you can use the following possibilities:
 
 ```go
-// if target https site uses a self-signed certificate, you should
-// call WithTLSConfig before Do and Forward
-proxy.WithTLSConfig(&tls.Config{
-    InsecureSkipVerify: true,
-})
 // if you need to use global self-custom client, you should use proxy.WithClient.
 proxy.WithClient(&fasthttp.Client{
     NoDefaultUserAgentHeader: true, 
     DisablePathNormalizing:   true,
+    // if target https site uses a self-signed certificate, you should
+    TLSConfig:                &tls.Config{
+        InsecureSkipVerify: true,
+    },
 })
 
 // Forward to url
@@ -17285,7 +17284,7 @@ app.Use(proxy.Balancer(proxy.Config{
 | Timeout         | `time.Duration`                                | Timeout is the request timeout used when calling the proxy client.                                                                                                                                                                 | 1 second        |
 | ReadBufferSize  | `int`                                          | Per-connection buffer size for requests' reading. This also limits the maximum header size. Increase this buffer if your clients send multi-KB RequestURIs and/or multi-KB headers (for example, BIG cookies).                     | (Not specified) |
 | WriteBufferSize | `int`                                          | Per-connection buffer size for responses' writing.                                                                                                                                                                                 | (Not specified) |
-| TlsConfig       | `*tls.Config` (or `*fasthttp.TLSConfig` in v3) | TLS config for the HTTP client.                                                                                                                                                                                                    | `nil`           |
+| TLSConfig       | `*tls.Config` (or `*fasthttp.TLSConfig` in v3) | TLS config for the HTTP client.                                                                                                                                                                                                    | `nil`           |
 | DialDualStack   | `bool`                                         | Client will attempt to connect to both IPv4 and IPv6 host addresses if set to true.                                                                                                                                                | `false`         |
 | Client          | `*fasthttp.LBClient`                           | Client is a custom client when client config is complex.                                                                                                                                                                           | `nil`           |
 
@@ -18550,11 +18549,12 @@ Here's a quick overview of the changes in Fiber `v3`:
   - [CSRF](#csrf)
   - [Compression](#compression)
   - [EncryptCookie](#encryptcookie)
-  - [Session](#session)
-  - [Logger](#logger)
   - [Filesystem](#filesystem)
-  - [Monitor](#monitor)
   - [Healthcheck](#healthcheck)
+  - [Logger](#logger)
+  - [Monitor](#monitor)
+  - [Proxy](#proxy)
+  - [Session](#session)
 - [🔌 Addons](#-addons)
 - [📋 Migration guide](#-migration-guide)
 
@@ -19504,21 +19504,29 @@ We've added support for `zstd` compression on top of `gzip`, `deflate`, and `bro
 
 Added support for specifying Key length when using `encryptcookie.GenerateKey(length)`. This allows the user to generate keys compatible with `AES-128`, `AES-192`, and `AES-256` (Default).
 
-### Session
+### Filesystem
 
-The Session middleware has undergone key changes in v3 to improve functionality and flexibility. While v2 methods remain available for backward compatibility, we now recommend using the new middleware handler for session management.
+We've decided to remove filesystem middleware to clear up the confusion between static and filesystem middleware.
+Now, static middleware can do everything that filesystem middleware and static do. You can check out [static middleware](./middleware/static.md) or [migration guide](#-migration-guide) to see what has been changed.
 
-#### Key Updates
+### Healthcheck
 
-- **New Middleware Handler**: The `New` function now returns a middleware handler instead of a `*Store`. To access the session store, use the `Store` method on the middleware, or opt for `NewStore` or `NewWithStore` for custom store integration.
+The Healthcheck middleware has been enhanced to support more than two routes, with default endpoints for liveliness, readiness, and startup checks. Here's a detailed breakdown of the changes and how to use the new features.
 
-- **Manual Session Release**: Session instances are no longer automatically released after being saved. To ensure proper lifecycle management, you must manually call `sess.Release()`.
+1. **Support for More Than Two Routes**:
+    - The updated middleware now supports multiple routes beyond the default liveliness and readiness endpoints. This allows for more granular health checks, such as startup probes.
 
-- **Idle Timeout**: The `Expiration` field has been replaced with `IdleTimeout`, which handles session inactivity. If the session is idle for the specified duration, it will expire. The idle timeout is updated when the session is saved. If you are using the middleware handler, the idle timeout will be updated automatically.
+2. **Default Endpoints**:
+    - Three default endpoints are now available:
+        - **Liveness**: `/livez`
+        - **Readiness**: `/readyz`
+        - **Startup**: `/startupz`
+    - These endpoints can be customized or replaced with user-defined routes.
 
-- **Absolute Timeout**: The `AbsoluteTimeout` field has been added. If you need to set an absolute session timeout, you can use this field to define the duration. The session will expire after the specified duration, regardless of activity.
+3. **Simplified Configuration**:
+    - The configuration for each health check endpoint has been simplified. Each endpoint can be configured separately, allowing for more flexibility and readability.
 
-For more details on these changes and migration instructions, check the [Session Middleware Migration Guide](./middleware/session.md#migration-guide).
+Refer to the [healthcheck middleware migration guide](./middleware/healthcheck.md) or the [general migration guide](#-migration-guide) to review the changes.
 
 ### Logger
 
@@ -19677,33 +19685,29 @@ app.Use(logger.New(logger.Config{
 See more in [Logger](./middleware/logger.md#predefined-formats)
 </details>
 
-### Filesystem
-
-We've decided to remove filesystem middleware to clear up the confusion between static and filesystem middleware.
-Now, static middleware can do everything that filesystem middleware and static do. You can check out [static middleware](./middleware/static.md) or [migration guide](#-migration-guide) to see what has been changed.
-
 ### Monitor
 
 Monitor middleware is migrated to the [Contrib package](https://github.com/gofiber/contrib/tree/main/monitor) with [PR #1172](https://github.com/gofiber/contrib/pull/1172).
 
-### Healthcheck
+### Proxy
 
-The Healthcheck middleware has been enhanced to support more than two routes, with default endpoints for liveliness, readiness, and startup checks. Here's a detailed breakdown of the changes and how to use the new features.
+The proxy middleware has been updated to improve consistency with Go naming conventions. The `TlsConfig` field in the configuration struct has been renamed to `TLSConfig`. Additionally, the `WithTlsConfig` method has been removed; you should now configure TLS directly via the `TLSConfig` property within the `Config` struct.
 
-1. **Support for More Than Two Routes**:
-   - The updated middleware now supports multiple routes beyond the default liveliness and readiness endpoints. This allows for more granular health checks, such as startup probes.
+### Session
 
-2. **Default Endpoints**:
-   - Three default endpoints are now available:
-     - **Liveness**: `/livez`
-     - **Readiness**: `/readyz`
-     - **Startup**: `/startupz`
-   - These endpoints can be customized or replaced with user-defined routes.
+The Session middleware has undergone key changes in v3 to improve functionality and flexibility. While v2 methods remain available for backward compatibility, we now recommend using the new middleware handler for session management.
 
-3. **Simplified Configuration**:
-   - The configuration for each health check endpoint has been simplified. Each endpoint can be configured separately, allowing for more flexibility and readability.
+#### Key Updates
 
-Refer to the [healthcheck middleware migration guide](./middleware/healthcheck.md) or the [general migration guide](#-migration-guide) to review the changes.
+- **New Middleware Handler**: The `New` function now returns a middleware handler instead of a `*Store`. To access the session store, use the `Store` method on the middleware, or opt for `NewStore` or `NewWithStore` for custom store integration.
+
+- **Manual Session Release**: Session instances are no longer automatically released after being saved. To ensure proper lifecycle management, you must manually call `sess.Release()`.
+
+- **Idle Timeout**: The `Expiration` field has been replaced with `IdleTimeout`, which handles session inactivity. If the session is idle for the specified duration, it will expire. The idle timeout is updated when the session is saved. If you are using the middleware handler, the idle timeout will be updated automatically.
+
+- **Absolute Timeout**: The `AbsoluteTimeout` field has been added. If you need to set an absolute session timeout, you can use this field to define the duration. The session will expire after the specified duration, regardless of activity.
+
+For more details on these changes and migration instructions, check the [Session Middleware Migration Guide](./middleware/session.md#migration-guide).
 
 ## 🔌 Addons
 
@@ -19773,6 +19777,7 @@ func main() {
   - [Filesystem](#filesystem-1)
   - [Healthcheck](#healthcheck-1)
   - [Monitor](#monitor-1)
+  - [Proxy](#proxy-1)
 
 ### 🚀 App
 
@@ -20369,6 +20374,32 @@ You only need to change the import path to the contrib package.
 import "github.com/gofiber/contrib/monitor"
 
 app.Use("/metrics", monitor.New())
+```
+
+#### Proxy
+
+In previous versions, TLS settings for the proxy middleware were set using the `WithTlsConfig` method. This method has been removed in favor of a more idiomatic configuration via the `TLSConfig` field in the `Config` struct.
+
+#### Before (v2 usage)
+
+```go
+proxy.WithTlsConfig(&tls.Config{
+    InsecureSkipVerify: true,
+})
+
+// Forward to url
+app.Get("/gif", proxy.Forward("https://i.imgur.com/IWaBepg.gif"))
+```
+
+#### After (v3 usage)
+
+```go
+proxy.WithClient(&fasthttp.Client{
+    TLSConfig: &tls.Config{InsecureSkipVerify: true},
+})
+
+// Forward to url
+app.Get("/gif", proxy.Forward("https://i.imgur.com/IWaBepg.gif"))
 ```
 
 
