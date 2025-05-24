@@ -1,11 +1,10 @@
-// @ts-check
-// Note: type annotations allow type checking and IDEs autocompletion
+import type {Config} from '@docusaurus/types';
+import {themes} from 'prism-react-renderer';
 
-const lightCodeTheme = require('prism-react-renderer').themes.github;
-const darkCodeTheme = require('prism-react-renderer').themes.dracula;
+const lightCodeTheme = themes.github;
+const darkCodeTheme = themes.dracula;
 
-/** @type {import('@docusaurus/types').Config} */
-const config = {
+const config: Config = {
     title: 'Fiber',
     tagline: 'An online API documentation with examples so you can start building web apps with Fiber right away!',
     url: 'https://docs.gofiber.io',
@@ -52,7 +51,7 @@ const config = {
                         to: '/api/ctx',
                     },
                 ],
-                createRedirects(existingPath) {
+                createRedirects(existingPath: string) {
                     if (existingPath.includes('/v1.x')) {
                         return [
                             existingPath.replace('/v1.x', '/v/1.x'),
@@ -95,11 +94,11 @@ const config = {
                 id: 'contrib',
                 path: 'docs/contrib',
                 routeBasePath: 'contrib',
-                editUrl: (params) => {
+                editUrl: (params: {docPath: string}) => {
                     return 'https://github.com/gofiber/contrib/edit/main/' + params.docPath;
                 },
                 editCurrentVersion: true,
-                sidebarPath: require.resolve('./default_sidebars.js'),
+                sidebarPath: require.resolve('./default_sidebars'),
                 showLastUpdateAuthor: false,
                 showLastUpdateTime: true,
             }),
@@ -110,11 +109,11 @@ const config = {
                 id: 'storage',
                 path: 'docs/storage',
                 routeBasePath: 'storage',
-                editUrl: (params) => {
+                editUrl: (params: {docPath: string}) => {
                     return 'https://github.com/gofiber/storage/edit/main/' + params.docPath;
                 },
                 editCurrentVersion: true,
-                sidebarPath: require.resolve('./default_sidebars.js'),
+                sidebarPath: require.resolve('./default_sidebars'),
                 showLastUpdateAuthor: false,
                 showLastUpdateTime: true,
             }),
@@ -125,11 +124,11 @@ const config = {
                 id: 'template',
                 path: 'docs/template',
                 routeBasePath: 'template',
-                editUrl: (params) => {
+                editUrl: (params: {docPath: string}) => {
                     return 'https://github.com/gofiber/template/edit/master/' + params.docPath;
                 },
                 editCurrentVersion: true,
-                sidebarPath: require.resolve('./default_sidebars.js'),
+                sidebarPath: require.resolve('./default_sidebars'),
                 showLastUpdateAuthor: false,
                 showLastUpdateTime: true,
             }),
@@ -140,11 +139,11 @@ const config = {
                 id: 'recipes',
                 path: 'docs/recipes',
                 routeBasePath: 'recipes',
-                editUrl: (params) => {
+                editUrl: (params: {docPath: string}) => {
                     return 'https://github.com/gofiber/recipes/edit/master/' + params.docPath;
                 },
                 editCurrentVersion: true,
-                sidebarPath: require.resolve('./default_sidebars.js'),
+                sidebarPath: require.resolve('./default_sidebars'),
                 showLastUpdateAuthor: false,
                 showLastUpdateTime: true,
             }),
@@ -160,19 +159,19 @@ const config = {
                     path: 'docs/core',
                     routeBasePath: '/',
                     sidebarCollapsed: false,
-                    sidebarPath: require.resolve('./default_sidebars.js'),
+                    sidebarPath: require.resolve('./default_sidebars'),
                     // disabled until we make a redirect to the respective source repository
                     // editUrl: 'https://github.com/gofiber/fiber/edit/master/',
-                    editUrl: (params) => {
+                    editUrl: (params: {docPath: string; version?: string}) => {
                         // console.log(params);
                         if (params.version === 'current') {
                             return 'https://github.com/gofiber/fiber/edit/main/docs/' + params.docPath;
                         }
                         return undefined;
                     },
-                    sidebarItemsGenerator: async function ({defaultSidebarItemsGenerator, ...args}) {
+                    sidebarItemsGenerator: async function ({defaultSidebarItemsGenerator, ...args}: { defaultSidebarItemsGenerator: (...args: any[]) => Promise<any>; [key: string]: any }) {
                         // filter partials from sidebar
-                        return (await defaultSidebarItemsGenerator(args)).filter((item) => !(item.label === 'partials' || item.id === 'partials'));
+                        return (await defaultSidebarItemsGenerator(args)).filter((item: any) => !(item.label === 'partials' || item.id === 'partials'));
                     },
                     showLastUpdateAuthor: false,
                     showLastUpdateTime: true,
@@ -375,4 +374,4 @@ const config = {
         }),
 };
 
-module.exports = config;
+export default config;
