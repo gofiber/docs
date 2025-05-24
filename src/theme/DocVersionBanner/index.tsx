@@ -4,27 +4,27 @@ import DocVersionBanner from '@theme-original/DocVersionBanner';
 import { ThemeClassNames } from '@docusaurus/theme-common';
 import type DocVersionBannerType from '@theme/DocVersionBanner';
 import type {WrapperProps} from '@docusaurus/types';
-import { useActiveDocContext, useActivePlugin } from '@docusaurus/plugin-content-docs/lib/client';
+import { useActiveDocContext, useActivePlugin } from '@docusaurus/plugin-content-docs/client';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 type Props = WrapperProps<typeof DocVersionBannerType>;
 
 const multiRepoPkg = ['contrib', 'storage', 'template'];
 
-export default function DocVersionBannerWrapper(props: Props): JSX.Element {
+export default function DocVersionBannerWrapper(props: Props): JSX.Element | null {
     const plugin = useActivePlugin();
-    const docContext = useActiveDocContext(plugin.pluginId);
+    const docContext = useActiveDocContext(plugin?.pluginId);
     const currVersion = docContext?.activeVersion?.name;
     const versionBasePath = docContext?.activeVersion?.path?.split('/')?.filter(Boolean)?.[0];
 
     // multi package logic
-    if (plugin?.pluginId !== 'default' && multiRepoPkg.includes(versionBasePath)) {
+    if (plugin?.pluginId !== 'default' && versionBasePath && multiRepoPkg.includes(versionBasePath)) {
 
         const possiblePackage = docContext?.activeDoc?.id?.split('/')?.[0];
-        const alternativePackageVersion = Object.keys(docContext?.alternateDocVersions)?.find((versionName) => versionName.indexOf(possiblePackage) === 0);
+        const alternativePackageVersion = Object.keys(docContext?.alternateDocVersions ?? {}).find((versionName) => versionName.indexOf(possiblePackage ?? '') === 0);
         if (alternativePackageVersion && alternativePackageVersion !== currVersion) {
             const currVersionPackage = currVersion?.split('_')?.[0];
-            const expectedPathForCurrentVersion = docContext?.activeVersion?.docs?.find((item) => item.id === `${currVersionPackage}/${currVersionPackage}`);
+            const expectedPathForCurrentVersion = docContext?.activeVersion?.docs?.find((item: {id: string}) => item.id === `${currVersionPackage}/${currVersionPackage}`);
             const title = useDocusaurusContext()?.siteConfig?.title || 'Fiber';
             return (
                 <div
