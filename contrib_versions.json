@@ -1,5 +1,6 @@
 [
   "websocket_v1.x.x",
+  "testcontainers_v0.x.x",
   "swagger_v1.x.x",
   "socketio_v1.x.x",
   "paseto_v1.x.x",
