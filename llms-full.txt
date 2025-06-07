@@ -4679,7 +4679,7 @@ For more control over error handling, you can use the following methods.
 
 If you want to handle binder errors automatically, you can use `WithAutoHandling`.  
 If there's an error, it will return the error and set HTTP status to `400 Bad Request`.
-This function does NOT panic therefor you must still return on error explicitly
+This function does NOT panic therefore you must still return on error explicitly
 
 ```go title="Signature"
 func (b *Bind) WithAutoHandling() *Bind
@@ -14303,7 +14303,7 @@ Converts a string value to a specified type, handling errors and optional defaul
 This function simplifies the conversion process by encapsulating error handling and the management of default values, making your code cleaner and more consistent.
 
 ```go title="Signature"
-func Convert[T any](value string, convertor func(string) (T, error), defaultValue ...T) (*T, error)
+func Convert[T any](value string, converter func(string) (T, error), defaultValue ...T) (*T, error)
 ```
 
 ```go title="Example"
@@ -15903,7 +15903,7 @@ This middleware encrypts cookie values and not the cookie names.
 ## Signatures
 
 ```go
-// Intitializes the middleware
+// Initializes the middleware
 func New(config ...Config) fiber.Handler
 
 // GenerateKey returns a random string of 16, 24, or 32 bytes.
@@ -18844,7 +18844,7 @@ app.Use("/api", api)
 
 ---
 id: whats_new
-title: 🆕 Whats New in v3
+title: 🆕 What's New in v3
 sidebar_position: 2
 toc_max_heading_level: 4
 ---
