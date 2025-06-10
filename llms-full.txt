@@ -16043,14 +16043,13 @@ import (
 After you initiate your Fiber app, you can use the following possibilities:
 
 ```go
-// Initialize default config
+// Initialize default config (exports no variables)
 app.Use("/expose/envvars", envvar.New())
 
 // Or extend your config for customization
 app.Use("/expose/envvars", envvar.New(
     envvar.Config{
-        ExportVars:  map[string]string{"testKey": "", "testDefaultKey": "testDefaultVal"},
-        ExcludeVars: map[string]string{"excludeKey": ""},
+        ExportVars: map[string]string{"testKey": "", "testDefaultKey": "testDefaultVal"},
     }),
 )
 ```
@@ -16077,13 +16076,13 @@ Http response contract:
 
 | Property    | Type                | Description                                                                  | Default |
 |:------------|:--------------------|:-----------------------------------------------------------------------------|:--------|
-| ExportVars  | `map[string]string` | ExportVars specifies the environment variables that should be exported.      | `nil`   |
-| ExcludeVars | `map[string]string` | ExcludeVars specifies the environment variables that should not be exported. | `nil`   |
+| ExportVars  | `map[string]string` | ExportVars specifies the environment variables that should be exported. | `nil` |
 
 ## Default Config
 
 ```go
 Config{}
+// Exports no environment variables
 ```
 
 
@@ -19855,6 +19854,10 @@ We've added support for `zstd` compression on top of `gzip`, `deflate`, and `bro
 ### EncryptCookie
 
 Added support for specifying Key length when using `encryptcookie.GenerateKey(length)`. This allows the user to generate keys compatible with `AES-128`, `AES-192`, and `AES-256` (Default).
+
+### EnvVar
+
+The `ExcludeVars` field has been removed from the EnvVar middleware configuration. When upgrading, remove any references to this field and explicitly list the variables you wish to expose using `ExportVars`.
 
 ### Filesystem
 
