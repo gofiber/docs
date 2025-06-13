@@ -67,6 +67,7 @@
 - [I18n](i18n/README): Internationalization support.
 - [JWT](jwt/README): Using JSON Web Tokens (JWT) for authentication.
 - [Kubernetes](k8s/README): Deploying applications to Kubernetes.
+- [Todo App + Auth + GORM + Testcontainers](local-development-testcontainers/README): A Todo application with authentication using GORM and Postgres.
 - [Memgraph](memgraph/README): Using Memgraph.
 - [MinIO](minio/README): A simple application for uploading and downloading files from MinIO.
 - [MongoDB](mongodb/README): Connecting to a MongoDB database.
@@ -76,6 +77,7 @@
 - [Neo4j](neo4j/README): Connecting to a Neo4j database.
 - [Google OAuth2](oauth2-google/README): Implementing Google OAuth2 authentication.
 - [OAuth2](oauth2/README): Implementing OAuth2 authentication.
+- [OpenAPI](openapi/README): Generate OpenAPI 3 documentation and JSON schema for your application.
 - [Optional Parameter](optional-parameter/README): Handling optional parameters.
 - [Parsley](parsley/README): Using Parsley for dependency injection in an application.
 - [PostgreSQL](postgresql/README): Connecting to a PostgreSQL database.

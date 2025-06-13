@@ -21066,7 +21066,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Docker + MariaDB](./docker-mariadb-clean-arch/README.md) - Dockerized MariaDB with Clean Architecture.
 - [Docker + Nginx](./docker-nginx-loadbalancer/README.md) - Load balancing with Docker and Nginx.
 - [Dummy JSON Proxy](./dummyjson/README.md) - Proxying dummy JSON data.
-- [Email Verification](./email-verification/README.md) - Email verification service with code generation and validation.
+- [Email Verification Service](./email-verification/README.md) - Email verification service with code generation and validation
 - [Entgo ORM (MySQL)](./ent-mysql/README.md) - Using Entgo ORM with MySQL
 - [Entgo Sveltekit](./entgo-sveltekit/README.md) - A full-stack Todo application built using Sveltekit, Tailwind CSS, Entgo, and SQLite.
 - [Envoy External Authorization](./envoy-extauthz/README.md) - External authorization with Envoy.
@@ -21091,6 +21091,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [I18n](./i18n/README.md) - Internationalization support.
 - [JWT](./jwt/README.md) - Using JSON Web Tokens (JWT) for authentication.
 - [Kubernetes](./k8s/README.md) - Deploying applications to Kubernetes.
+- [Local Development with Testcontainers](./local-development-testcontainers/README.md) - Local development with Testcontainers.
 - [Memgraph](./memgraph/README.md) - Using Memgraph.
 - [MinIO](./minio/README.md) - A simple application for uploading and downloading files from MinIO.
 - [MongoDB](./mongodb/README.md) - Connecting to a MongoDB database.
@@ -21100,6 +21101,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Neo4j](./neo4j/README.md) - Connecting to a Neo4j database.
 - [OAuth2](./oauth2/README.md) - Implementing OAuth2 authentication.
 - [Google OAuth2](./oauth2-google/README.md) - Implementing Google OAuth2 authentication.
+- [OpenAPI](./openapi/README.md) - Generate OpenAPI 3 documentation and JSON schema for your application.
 - [Optional Parameter](./optional-parameter/README.md) - Handling optional parameters.
 - [Parsley](./parsley/README.md) - Using Parsley for dependency injection in an application.
 - [PostgreSQL](./postgresql/README.md) - Connecting to a PostgreSQL database.
@@ -25314,6 +25316,77 @@ spec:
 ---
 
 ---
+title: Todo App + Auth + GORM + Testcontainers
+keywords: [todo app, gorm, authentication, testcontainers, postgres]
+description: A Todo application with authentication using GORM and Postgres.
+---
+
+# Todo App with Auth using GORM and Testcontainers
+
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/todo-app-testcontainers-postgres) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github.com/gofiber/recipes/tree/master/todo-app-testcontainers-postgres)
+
+This project demonstrates a Todo application with authentication using GORM and Testcontainers.
+
+The database is a Postgres instance created using the GoFiber's [Testcontainers Service module](https://github.com/gofiber/contrib/testcontainers). The instance is reused across multiple runs of the application, allowing to develop locally without having to wait for the database to be ready.
+
+When using the `air` command to run the application, the database is automatically started alongside the Fiber application, and it's automatically stopped when the air command is interrupted.
+
+## Prerequisites
+
+Ensure you have the following installed and available in your `GOPATH`:
+
+- Golang
+- [Air](https://github.com/air-verse/air) for hot reloading
+
+## Installation
+
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/gofiber/recipes.git
+    cd recipes/todo-app-testcontainers-postgres
+    ```
+
+2. Install dependencies:
+    ```sh
+    go get
+    ```
+
+## Running the Application
+
+1. Start the application:
+    ```sh
+    air
+    ```
+
+## Environment Variables
+
+Create a `.env` file in the root directory and add the following variables:
+
+```shell
+# PORT returns the server listening port
+# default: 8000
+PORT=
+
+# DB returns the name of the sqlite database
+# default: postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable
+
+# TOKENKEY returns the jwt token secret
+TOKENKEY=
+
+# TOKENEXP returns the jwt token expiration duration.
+# Should be time.ParseDuration string. Source: https://golang.org/pkg/time/#ParseDuration
+# default: 10h
+TOKENEXP=
+
+# TESTCONTAINERS_RYUK_DISABLED disables the Ryuk container, to avoid removing the database container when the application is stopped.
+# default: true
+TESTCONTAINERS_RYUK_DISABLED=true
+```
+
+
+---
+
+---
 title: Memgraph
 keywords: [memgraph, graph, database]
 description: Using Memgraph.
@@ -26109,6 +26182,123 @@ curl -X GET http://localhost:3300/api/auth/google/callback?state=state&code=code
 - [Godotenv](https://github.com/joho/godotenv)
 - [Fiber](https://github.com/gofiber/fiber)
 - [OAuth2](https://github.com/golang/oauth2)
+
+
+---
+
+---
+title: OpenAPI
+keywords: [openAPI, api, documentation, huma]
+description: Generate OpenAPI 3 documentation and JSON schema for your application.
+---
+
+# OpenAPI Documentation
+
+[![Github](https://img.shields.io/static/v1?label=&message=Github&color=2ea44f&style=for-the-badge&logo=github)](https://github.com/gofiber/recipes/tree/master/openapi) [![StackBlitz](https://img.shields.io/static/v1?label=&message=StackBlitz&color=2ea44f&style=for-the-badge&logo=StackBlitz)](https://stackblitz.com/github/gofiber/recipes/tree/master/openapi)
+
+This project demonstrates how to add OpenAPI 3 documentation to a Go application using [Huma](https://github.com/danielgtaylor/huma).
+
+This project got inspired by the [swagger recipe](https://github.com/gofiber/recipes/tree/master/swagger).
+
+## Prerequisites
+
+Ensure you have the following installed:
+
+- Golang
+
+## Setup
+
+1. Clone the repository:
+
+   ```sh
+   git clone https://github.com/gofiber/recipes.git
+   cd recipes/openapi
+   ```
+
+2. Download Go modules:
+   ```sh
+   go mod tidy
+   ```
+
+## Running the Application
+
+1. Start the application:
+
+   ```sh
+   go run main.go
+   ```
+
+2. Access the API Documentation:
+   Open your browser and navigate to `http://localhost:3000/docs`.
+
+3. OpenAPI Specs:
+   - OpenAPI 3.1 JSON: `http://localhost:3000/openapi.json`.
+   - OpenAPI 3.1 YAML: `http://localhost:3000/openapi.yaml`.
+   - OpenAPI 3.0.3 JSON: `http://localhost:3000/openapi-3.0.json`.
+   - OpenAPI 3.0.3 YAML: `http://localhost:3000/openapi-3.0.yaml`.
+
+4. Generating TypeScript schema:
+
+   ```sh
+   npx openapi-typescript http://localhost:3000/openapi.json -o schema.ts
+   ```
+
+## Example
+
+Here is a minimal example of adding huma to a existing Fiber codebase:
+
+### `routes.go`
+
+```go
+import (
+   ...
+   "github.com/gofiber/fiber/v2"
+   "github.com/danielgtaylor/huma/v2"
+   "github.com/danielgtaylor/huma/v2/adapters/humafiber"
+)
+func New() *fiber.App {
+   app := fiber.New()
+   api := humafiber.New(app, huma.DefaultConfig("Book API", "1.0.0"))
+
+   // app.Get("/books", handlers.GetAllBooks) // 👈 your existing code
+   huma.Get(api, "/books", handlers.GetAllBooks) // 👈 huma version
+   return app
+}
+```
+
+### `handlers/book.go`
+
+```go
+// func GetAllBooks(c *fiber.Ctx) error {} // 👈 your existing code
+
+// 👇 huma version
+func GetAllBooks(ctx context.Context, _ *struct{}) (*GetAllBooksResponse, error) {
+   return &GetAllBooksResponse{Body: books}, nil
+}
+```
+
+## Enhancing Documentation
+
+You can use `huma.Register` to add more information to the OpenAPI specification, such as descriptions with Markdown, examples, tags, and more.
+
+```go
+// huma.Get(group, "/books/{id}", handlers.GetBookByID)
+
+huma.Register(api, huma.Operation{
+   OperationID: "get-book-by-id",
+   Method:      http.MethodGet,
+   Path:        "/book/{id}",
+   Summary:     "Get a book",
+   Description: "Get a book by book ID.",
+   Tags:        []string{"Books"},
+}, handlers.GetBookByID)
+```
+
+## References
+
+- [Huma Documentation](https://github.com/danielgtaylor/huma)
+- [Huma Fiber Adapter](https://huma.rocks/features/bring-your-own-router)
+- [Enhancing Documentation](https://huma.rocks/tutorial/your-first-api/#enhancing-documentation)
 
 
 ---
