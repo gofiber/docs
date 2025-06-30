@@ -5754,7 +5754,7 @@ app.Get("/", func(c fiber.Ctx) error {
 
 ### Body
 
-As per the header `Content-Encoding`, this method will try to perform a file decompression from the **body** bytes. In case no `Content-Encoding` header is sent, it will perform as [BodyRaw](#bodyraw).
+As per the header `Content-Encoding`, this method will try to perform a file decompression from the **body** bytes. In case no `Content-Encoding` header is sent (or when it is set to `identity`), it will perform as [BodyRaw](#bodyraw). If an unknown or unsupported encoding is encountered, the response status will be `415 Unsupported Media Type` or `501 Not Implemented`.
 
 ```go title="Signature"
 func (c fiber.Ctx) Body() []byte
@@ -6665,6 +6665,18 @@ app.Get("/", func(c fiber.Ctx) error {
 })
 ```
 
+Non-ASCII filenames are encoded using the `filename*` parameter as defined in
+[RFC 6266](https://www.rfc-editor.org/rfc/rfc6266) and
+[RFC 8187](https://www.rfc-editor.org/rfc/rfc8187):
+
+```go title="Example"
+app.Get("/non-ascii", func(c fiber.Ctx) error {
+  c.Attachment("./files/文件.txt")
+  // => Content-Disposition: attachment; filename="文件.txt"; filename*=UTF-8''%E6%96%87%E4%BB%B6.txt
+  return nil
+})
+```
+
 ### AutoFormat
 
 Performs content-negotiation on the [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header. It uses [Accepts](ctx.md#accepts) to select a proper format.
@@ -6831,6 +6843,17 @@ app.Get("/", func(c fiber.Ctx) error {
 
   return c.Download("./files/report-12345.pdf", "report.pdf")
   // => Download report.pdf
+})
+```
+
+For filenames containing non-ASCII characters, a `filename*` parameter is added
+according to [RFC 6266](https://www.rfc-editor.org/rfc/rfc6266) and
+[RFC 8187](https://www.rfc-editor.org/rfc/rfc8187):
+
+```go title="Example"
+app.Get("/non-ascii", func(c fiber.Ctx) error {
+  return c.Download("./files/文件.txt")
+  // => Content-Disposition: attachment; filename="文件.txt"; filename*=UTF-8''%E6%96%87%E4%BB%B6.txt
 })
 ```
 
@@ -7672,7 +7695,8 @@ app.Listen(":8080", fiber.ListenConfig{
 | <Reference id="gracefulcontext">GracefulContext</Reference>             | `context.Context`             | Field to shutdown Fiber by given context gracefully.                                                                                          | `nil`   |
 | <Reference id="ShutdownTimeout">ShutdownTimeout</Reference>             | `time.Duration`               | Specifies the maximum duration to wait for the server to gracefully shutdown. When the timeout is reached, the graceful shutdown process is interrupted and forcibly terminated, and the `context.DeadlineExceeded` error is passed to the `OnPostShutdown` callback. Set to 0 to disable the timeout and wait indefinitely. | `10 * time.Second`   |
 | <Reference id="listeneraddrfunc">ListenerAddrFunc</Reference>           | `func(addr net.Addr)`         | Allows accessing and customizing `net.Listener`.                                                                                              | `nil`   |
-| <Reference id="listenernetwork">ListenerNetwork</Reference>             | `string`                      | Known networks are "tcp", "tcp4" (IPv4-only), "tcp6" (IPv6-only). WARNING: When prefork is set to true, only "tcp4" and "tcp6" can be chosen. | `tcp4`  |
+| <Reference id="listenernetwork">ListenerNetwork</Reference>             | `string`                      | Known networks are "tcp", "tcp4" (IPv4-only), "tcp6" (IPv6-only), "unix" (Unix Domain Sockets). WARNING: When prefork is set to true, only "tcp4" and "tcp6" can be chosen. | `tcp4`  |
+| <Reference id="unixsocketfilemode">UnixSocketFileMode</Reference>       | `os.FileMode`                 | FileMode to set for Unix Domain Socket (ListenerNetwork must be "unix") | `0770`  |
 | <Reference id="tlsconfigfunc">TLSConfigFunc</Reference>                 | `func(tlsConfig *tls.Config)` | Allows customizing `tls.Config` as you want.                                                                                                  | `nil`   |
 | <Reference id="autocertmanager">AutoCertManager</Reference>             | `*autocert.Manager`           | Manages TLS certificates automatically using the ACME protocol. Enables integration with Let's Encrypt or other ACME-compatible providers.    | `nil`   |
 | <Reference id="tlsminversion">TLSMinVersion</Reference>                 | `uint16`                      | Allows customizing the TLS minimum version.    | `tls.VersionTLS12`   |
@@ -15102,7 +15126,6 @@ This middleware caches responses with the following status codes according to RF
 - `414: URI Too Long`
 - `501: Not Implemented`
 
-Additionally, `418: I'm a teapot` is not originally cacheable but is cached by this middleware.
 If the status code is other than these, you will always get an `unreachable` cache status.
 
 For more information about cacheable status codes or RFC7231, please refer to the following resources:
@@ -18740,6 +18763,8 @@ To define static routes using `Get`, append the wildcard (`*`) operator at the e
 | ModifyResponse       | `fiber.Handler` | ModifyResponse defines a function that allows you to alter the response.                                                                             | `nil`                  |
 | NotFoundHandler       | `fiber.Handler` | NotFoundHandler defines a function to handle when the path is not found.                                                                             | `nil`                  |
 
+When **Download** is enabled, the response includes a `Content-Disposition` header with the requested filename. Non-ASCII names use the `filename*` parameter as defined by [RFC 6266](https://www.rfc-editor.org/rfc/rfc6266) and [RFC 8187](https://www.rfc-editor.org/rfc/rfc8187).
+
 :::info
 You can set `CacheDuration` config property to `-1` to disable caching.
 :::
@@ -19244,6 +19269,28 @@ go app.Listen(":3000")
 
 This change simplifies the shutdown handling by consolidating the shutdown callbacks into a single hook that receives the error status.
 
+- Added support for Unix domain sockets via `ListenerNetwork` and `UnixSocketFileMode`
+
+```go
+// v2 - Requires manual deletion of old file and permissions change
+app := fiber.New(fiber.Config{
+    Network: "unix",
+})
+
+os.Remove("app.sock")
+app.Hooks().OnListen(func(fiber.ListenData) error {
+    return os.Chmod("app.sock", 0770)
+})
+app.Listen("app.sock")
+
+// v3 - Fiber does it for you
+app := fiber.New()
+app.Listen("app.sock", fiber.ListenerConfig{
+    ListenerNetwork:    fiber.NetworkUnix,
+    UnixSocketFileMode: 0770,
+})
+```
+
 ## 🗺 Router
 
 We have slightly adapted our router interface
@@ -19455,6 +19502,9 @@ testConfig := fiber.TestConfig{
 - **Format**: Parameter changed from `body interface{}` to `handlers ...ResFmt`.
 - **Redirect**: Use `c.Redirect().To()` instead.
 - **SendFile**: Now supports different configurations using a config parameter.
+- **Attachment and Download**: Non-ASCII filenames now use `filename*` as
+  specified by [RFC 6266](https://www.rfc-editor.org/rfc/rfc6266) and
+  [RFC 8187](https://www.rfc-editor.org/rfc/rfc8187).
 - **Context**: Renamed to `RequestCtx` to correspond with the FastHTTP Request Context.
 - **UserContext**: Renamed to `Context`, which returns a `context.Context` object.
 - **SetUserContext**: Renamed to `SetContext`.
