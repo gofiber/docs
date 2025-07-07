@@ -29245,22 +29245,39 @@ sidebar_position: 1
 
 Premade storage drivers that implement the [`Storage`](https://github.com/gofiber/storage/blob/main/storage.go) interface, designed to be used with various [Fiber middlewares](https://github.com/gofiber/fiber/tree/master/middleware).
 
+**Note:** All storages are tested with the latest two [Go version](https://go.dev/doc/devel/release#policy). Older Go versions may also work, but are not guaranteed to be supported.
+
 ```go
 // Storage interface for communicating with different database/key-value
 // providers. Visit https://github.com/gofiber/storage for more info.
 type Storage interface {
+	// GetWithContext gets the value for the given key with a context.
+	// `nil, nil` is returned when the key does not exist
+	GetWithContext(ctx context.Context, key string) ([]byte, error)
+
 	// Get gets the value for the given key.
 	// `nil, nil` is returned when the key does not exist
 	Get(key string) ([]byte, error)
+
+	// SetWithContext stores the given value for the given key
+	// with an expiration value, 0 means no expiration.
+	SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 
 	// Set stores the given value for the given key along
 	// with an expiration value, 0 means no expiration.
 	// Empty key or value will be ignored without an error.
 	Set(key string, val []byte, exp time.Duration) error
 
+	// DeleteWithContext deletes the value for the given key with a context.
+	// It returns no error if the storage does not contain the key,
+	DeleteWithContext(ctx context.Context, key string) error
+
 	// Delete deletes the value for the given key.
 	// It returns no error if the storage does not contain the key,
 	Delete(key string) error
+
+	// ResetWithContext resets the storage and deletes all keys with a context.
+	ResetWithContext(ctx context.Context) error
 
 	// Reset resets the storage and delete all keys.
 	Reset() error
@@ -29269,6 +29286,7 @@ type Storage interface {
 	// collectors and open connections.
 	Close() error
 }
+
 ```
 
 ## 📑 Storage Implementations
@@ -29317,8 +29335,6 @@ title: Aerospike
 
 An Aerospike client driver using `aerospike/aerospike-client-go` and [aerospike/aerospike-client-go](https://github.com/aerospike/aerospike-client-go).
 
-**Note: Requires Go 1.23 and above**
-
 ### Table of Contents
 
 - [Signatures](#signatures)
@@ -29332,13 +29348,19 @@ An Aerospike client driver using `aerospike/aerospike-client-go` and [aerospike/
 ```go
 func New(config ...Config) Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() driver.Client
 func (s *Storage) GetSchemaInfo() *SchemaInfo
 ```
+
+**Note:** The context methods are dummy methods and don't have any functionality, as Aerospike does not support context cancellation in its client library. They are provided for compliance with the Fiber storage interface.
 
 ### Installation
 
@@ -29440,8 +29462,6 @@ title: ArangoDB
 
 A ArangoDB storage driver using `arangodb/go-driver` and [arangodb/go-driver](https://github.com/arangodb/go-driver).
 
-**Note: Requires Go 1.19 and above**
-
 ### Table of Contents
 - [Signatures](#signatures)
 - [Installation](#installation)
@@ -29452,9 +29472,13 @@ A ArangoDB storage driver using `arangodb/go-driver` and [arangodb/go-driver](ht
 ### Signatures
 ```go
 func New(config ...Config) Storage
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Reset() error
 func (s *Storage) Close() error
 func (s *Storage) Conn() driver.Client
@@ -29562,8 +29586,6 @@ title: Azure Blob
 
 [Azure Blob storage](https://azure.microsoft.com/en-us/products/storage/blobs/#overview) is Microsoft's object storage solution for the cloud.
 
-**Note: Requires Go 1.19 and above**
-
 ### Table of Contents
 
 - [Signatures](#signatures)
@@ -29577,9 +29599,13 @@ title: Azure Blob
 ```go
 func New(config ...Config) Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() *azblob.Client
 ```
@@ -29676,8 +29702,6 @@ title: Badger
 
 A fast key-value DB using [dgraph-io/badger](https://github.com/dgraph-io/badger)
 
-**Note: Requires Go 1.19 and above**
-
 ### Table of Contents
 
 - [Signatures](#signatures)
@@ -29691,12 +29715,18 @@ A fast key-value DB using [dgraph-io/badger](https://github.com/dgraph-io/badger
 ```go
 func New(config ...Config) Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() *badger.DB
 ```
+
+**Note:** The context methods are dummy methods and don't have any functionality, as Badger does not support context cancellation in its client library. They are provided for compliance with the Fiber storage interface.
 
 ### Installation
 
@@ -29797,8 +29827,6 @@ title: Bbolt
 
 A Bbolt storage driver using [etcd-io/bbolt](https://github.com/etcd-io/bbolt). Bolt is a pure Go key/value store inspired by [Howard Chu's](https://twitter.com/hyc_symas) [LMDB project](https://www.symas.com/symas-embedded-database-lmdb). The goal of the project is to provide a simple, fast, and reliable database for projects that don't require a full database server such as Postgres or MySQL.
 
-**Note: Requires Go 1.19 and above**
-
 ### Table of Contents
 - [Signatures](#signatures)
 - [Installation](#installation)
@@ -29810,12 +29838,19 @@ A Bbolt storage driver using [etcd-io/bbolt](https://github.com/etcd-io/bbolt). 
 ```go
 func New(config ...Config) Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() *bbolt.DB
 ```
+
+**Note:** The context methods are dummy methods and don't have any functionality, as Bbolt does not support context cancellation in its client library. They are provided for compliance with the Fiber storage interface.
+
 ### Installation
 Bbolt is tested on the 2 last [Go versions](https://golang.org/dl/) with support for modules. So make sure to initialize one first if you didn't do that yet:
 ```bash
@@ -29913,9 +29948,13 @@ A Cassandra storage driver using [gocql/gocql](https://github.com/gocql/gocql)
 ```go
 func New(config ...Config) (*Storage, error)
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() *gocql.Session
 ```
@@ -30045,9 +30084,13 @@ A Clickhouse storage driver using [https://github.com/ClickHouse/clickhouse-go](
 ```go
 func New(config ...Config) (*Storage, error)
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() *Session
 ```
@@ -30166,8 +30209,6 @@ title: Cloudflare KV
 
 A Cloudflare KV storage driver using [cloudflare/cloudflare-go](https://github.com/cloudflare/cloudflare-go).
 
-**Note: Requires Go 1.21 and above**
-
 ### Table of Contents
 
 - [Signatures](#signatures)
@@ -30181,9 +30222,13 @@ A Cloudflare KV storage driver using [cloudflare/cloudflare-go](https://github.c
 ```go
 func New(config ...Config) Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() *cloudflare.API
 ```
@@ -30290,9 +30335,13 @@ A Coherence storage driver using [https://github.com/oracle/coherence-go-client]
 ```go
 func New(config ...Config) (*Storage, error)
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() *Session
 ```
@@ -30428,8 +30477,6 @@ title: Couchbase
 
 A Couchbase storage driver using [couchbase/gocb](https://github.com/couchbase/gocb).
 
-**Note: Requires Go 1.19 and above**
-
 ### Table of Contents
 - [Signatures](#signatures)
 - [Installation](#installation)
@@ -30441,9 +30488,13 @@ A Couchbase storage driver using [couchbase/gocb](https://github.com/couchbase/g
 ```go
 func New(config ...Config) Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() *gocb.Cluster
 ```
@@ -30526,8 +30577,6 @@ A DynamoDB storage driver using [aws/aws-sdk-go-v2](https://github.com/aws/aws-s
 
 **Note:** If config fields of credentials not given, credentials are using from the environment variables, ~/.aws/credentials, or EC2 instance role. If config fields of credentials given, credentials are using from config. Look at: [specifying credentials](https://aws.github.io/aws-sdk-go-v2/docs/configuring-sdk/#specifying-credentials)
 
-**Note: Requires Go 1.19 and above**
-
 ### Table of Contents
 - [Signatures](#signatures)
 - [Installation](#installation)
@@ -30542,9 +30591,13 @@ func New(config Config) Storage
 
 
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() *awsdynamodb.Client
 ```
@@ -30669,8 +30722,6 @@ title: Etcd
 
 A Etcd storage driver using [`etcd-io/etcd`](https://github.com/etcd-io/etcd).
 
-**Note: Requires Go 1.19 and above**
-
 ### Table of Contents
 - [Signatures](#signatures)
 - [Installation](#installation)
@@ -30682,9 +30733,13 @@ A Etcd storage driver using [`etcd-io/etcd`](https://github.com/etcd-io/etcd).
 ```go
 func New(config ...Config) *Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() *clientv3.Client
 ```
@@ -30771,12 +30826,18 @@ A fast key-value DB using [syndtr/goleveldb](https://github.com/syndtr/goleveldb
 ```go
 func New(config ...Config) Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() *leveldb.DB
 ```
+
+**Note:** The context methods are dummy methods and don't have any functionality, as LevelDB does not support context cancellation in its client library. They are provided for compliance with the Fiber storage interface.
 
 ### Installation
 
@@ -30935,8 +30996,6 @@ title: Memcache
 
 A Memcache storage driver using [`bradfitz/gomemcache`](https://github.com/bradfitz/gomemcache).
 
-**Note: Requires Go 1.19 and above**
-
 ### Table of Contents
 - [Signatures](#signatures)
 - [Installation](#installation)
@@ -30948,12 +31007,18 @@ A Memcache storage driver using [`bradfitz/gomemcache`](https://github.com/bradf
 ```go
 func New(config ...Config) Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() *mc.Client
 ```
+
+**Note:** The context methods are dummy methods and don't have any functionality, as Memcache does not support context cancellation in its client library. They are provided for compliance with the Fiber storage interface.
 
 ### Installation
 Memory is tested on the 2 last [Go versions](https://golang.org/dl/) with support for modules. So make sure to initialize one first if you didn't do that yet:
@@ -31020,8 +31085,6 @@ title: Memory
 
 An in-memory storage driver.
 
-**Note: Requires Go 1.19 and above**
-
 ### Table of Contents
 - [Signatures](#signatures)
 - [Installation](#installation)
@@ -31034,13 +31097,19 @@ An in-memory storage driver.
 ```go
 func New(config ...Config) Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() map[string]entry
 func (s *Storage) Keys() ([][]byte, error)
 ```
+
+**Note:** The context methods are dummy methods and don't have any functionality, as memory storage does not support context cancellation. They are provided for compliance with the Fiber storage interface.
 
 ### Installation
 Memory is tested on the 2 last [Go versions](https://golang.org/dl/) with support for modules. So make sure to initialize one first if you didn't do that yet:
@@ -31102,8 +31171,6 @@ title: Minio
 
 A Minio storage driver using [minio/minio-go](https://github.com/minio/minio-go).
 
-**Note: Requires Go 1.19 and above**
-
 ### Table of Contents
 - [Signatures](#signatures)
 - [Installation](#installation)
@@ -31115,9 +31182,13 @@ A Minio storage driver using [minio/minio-go](https://github.com/minio/minio-go)
 ```go
 func New(config ...Config) Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) CheckBucket() error
 func (s *Storage) CreateBucket() error
@@ -31244,8 +31315,6 @@ title: MockStorage
 ![Test](https://img.shields.io/github/actions/workflow/status/gofiber/storage/test-mockstorage.yml?label=Tests)
 
 A mock storage implementation for Fiber. This storage is not persistent and is only used for testing purposes.
-
-**Note: Requires Go 1.21 and above**
 
 ## Table of Contents
 - [Signatures](#signatures)
@@ -31417,8 +31486,6 @@ title: MongoDB
 
 A MongoDB storage driver using [mongodb/mongo-go-driver](https://github.com/mongodb/mongo-go-driver).
 
-**Note: Requires Go 1.19 and above**
-
 ### Table of Contents
 - [Signatures](#signatures)
 - [Installation](#installation)
@@ -31430,9 +31497,13 @@ A MongoDB storage driver using [mongodb/mongo-go-driver](https://github.com/mong
 ```go
 func New(config ...Config) Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() *mongo.Database
 ```
@@ -31547,8 +31618,6 @@ title: MSSQL
 
 A MSSQL storage driver using [microsoft/go-mssqldb](https://github.com/microsoft/go-mssqldb).
 
-**Note: Requires Go 1.19 and above**
-
 ### Table of Contents
 - [Signatures](#signatures)
 - [Installation](#installation)
@@ -31560,9 +31629,13 @@ A MSSQL storage driver using [microsoft/go-mssqldb](https://github.com/microsoft
 ```go
 func New(config ...Config) Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() *sql.DB
 ```
@@ -31695,8 +31768,6 @@ title: MySQL
 
 A MySQL storage driver using `database/sql` and [go-sql-driver/mysql](https://github.com/go-sql-driver/mysql).
 
-**Note: Requires Go 1.19 and above**
-
 ### Table of Contents
 - [Signatures](#signatures)
 - [Installation](#installation)
@@ -31705,15 +31776,21 @@ A MySQL storage driver using `database/sql` and [go-sql-driver/mysql](https://gi
 - [Default Config](#default-config)
 
 ### Signatures
+
 ```go
 func New(config ...Config) Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() *sql.DB
 ```
+
 ### Installation
 MySQL is tested on the 2 last [Go versions](https://golang.org/dl/) with support for modules. So make sure to initialize one first if you didn't do that yet:
 ```bash
@@ -31844,8 +31921,6 @@ title: Nats
 
 A NATS Key/Value storage driver.
 
-## Note: Requires Go 1.20 and above
-
 ### Table of Contents
 
 - [Signatures](#signatures)
@@ -31859,9 +31934,13 @@ A NATS Key/Value storage driver.
 ```go
 func New(config ...Config) Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() (*nats.Conn, jetstream.KeyValue)
 func (s *Storage) Keys() ([]string, error)
@@ -31971,9 +32050,13 @@ A Neo4j storage driver using [neo4j/neo4j-go-driver](https://github.com/neo4j/ne
 ```go
 func New(config ...Config) *Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() neo4j.DriverWithContext
 ```
@@ -32114,8 +32197,6 @@ title: Pebble
 
 A fast key-value DB using [cockroachdb/pebble](https://github.com/cockroachdb/pebble)
 
-**Note: Requires Go 1.19 and above**
-
 ### Table of Contents
 
 - [Signatures](#signatures)
@@ -32129,12 +32210,18 @@ A fast key-value DB using [cockroachdb/pebble](https://github.com/cockroachdb/pe
 ```go
 func New(config ...Config) Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
-func (s *Storage) Conn() *badger.DB
+func (s *Storage) Conn() *pebble.DB
 ```
+
+**Note:** The context methods are dummy methods and don't have any functionality, as Pebble does not support context cancellation in its client library. They are provided for compliance with the Fiber storage interface.
 
 ### Installation
 
@@ -32210,9 +32297,8 @@ title: Postgres
 
 A Postgres storage driver using [jackc/pgx](https://github.com/jackc/pgx).
 
-**Note: Requires Go 1.20 and above**
-
 ### Table of Contents
+
 - [Signatures](#signatures)
 - [Installation](#installation)
 - [Examples](#examples)
@@ -32220,15 +32306,21 @@ A Postgres storage driver using [jackc/pgx](https://github.com/jackc/pgx).
 - [Default Config](#default-config)
 
 ### Signatures
+
 ```go
 func New(config ...Config) Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() *pgxpool.Pool
 ```
+
 ### Installation
 Postgres is tested on the 2 last [Go versions](https://golang.org/dl/) with support for modules. So make sure to initialize one first if you didn't do that yet:
 ```bash
@@ -32349,9 +32441,8 @@ title: Redis
 
 A Redis storage driver using [go-redis/redis](https://github.com/go-redis/redis).
 
-**Note: Requires Go 1.19 and above**
-
 ### Table of Contents
+
 - [Signatures](#signatures)
 - [Installation](#installation)
 - [Examples](#examples)
@@ -32359,18 +32450,25 @@ A Redis storage driver using [go-redis/redis](https://github.com/go-redis/redis)
 - [Default Config](#default-config)
 
 ### Signatures
+
 ```go
 func New(config ...Config) Storage
 func NewFromConnection(conn redis.UniversalClient) *Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() redis.UniversalClient
 func (s *Storage) Keys() ([][]byte, error)
 ```
+
 ### Installation
+
 Redis is tested on the 2 last [Go versions](https://golang.org/dl/) with support for modules. So make sure to initialize one first if you didn't do that yet:
 
 > **Note:** You can also use [DragonflyDB](https://dragonflydb.io/) as a Redis replacement.
@@ -32595,9 +32693,8 @@ title: Ristretto
 
 A Memory-bound storage driver using [`dgraph-io/ristretto`](https://github.com/dgraph-io/ristretto).
 
-**Note: Requires Go 1.19 and above**
-
 ### Table of Contents
+
 - [Signatures](#signatures)
 - [Installation](#installation)
 - [Examples](#examples)
@@ -32606,15 +32703,22 @@ A Memory-bound storage driver using [`dgraph-io/ristretto`](https://github.com/d
 
 
 ### Signatures
+
 ```go
 func New(config ...Config) Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() *ristretto.Cache
 ```
+
+**Note:** The context methods are dummy methods and don't have any functionality, as Ristretto does not support context cancellation in its client library. They are provided for compliance with the Fiber storage interface.
 
 ### Installation
 Ristretto is tested on the 2 last [Go versions](https://golang.org/dl/) with support for modules. So make sure to initialize one first if you didn't do that yet:
@@ -32683,9 +32787,8 @@ title: Rueidis
 
 A fast Redis Storage that does auto pipelining and supports client side caching. [redis/rueidis](https://github.com/redis/rueidis).
 
-**Note: Requires Go 1.20 and above**
-
 ### Table of Contents
+
 - [Signatures](#signatures)
 - [Installation](#installation)
 - [Examples](#examples)
@@ -32693,15 +32796,21 @@ A fast Redis Storage that does auto pipelining and supports client side caching.
 - [Default Config](#default-config)
 
 ### Signatures
+
 ```go
 func New(config ...Config) Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() rueidis.Client
 ```
+
 ### Installation
 Rueidis is tested on the latest [Go version](https://golang.org/dl/) with support for modules. So make sure to initialize one first if you didn't do that yet:
 ```bash
@@ -32899,9 +33008,8 @@ A S3 storage driver using [aws/aws-sdk-go-v2](https://github.com/aws/aws-sdk-go-
 
 **Note:** If config fields of credentials not given, credentials are using from the environment variables, ~/.aws/credentials, or EC2 instance role. If config fields of credentials given, credentials are using from config. Look at: [specifying credentials](https://aws.github.io/aws-sdk-go-v2/docs/configuring-sdk/#specifying-credentials)
 
-**Note: Requires Go 1.19 and above**
-
 ### Table of Contents
+
 - [Signatures](#signatures)
 - [Installation](#installation)
 - [Examples](#examples)
@@ -32909,12 +33017,17 @@ A S3 storage driver using [aws/aws-sdk-go-v2](https://github.com/aws/aws-sdk-go-
 - [Default Config](#default-config)
 
 ### Signatures
+
 ```go
 func New(config ...Config) Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() *s3.Client
 
@@ -33065,6 +33178,7 @@ title: ScyllaDb
 A ScyllaDb storage engine for [Fiber](https://github.com/gofiber/fiber) using [gocql](https://github.com/scylladb/gocql).
 
 ### Table of Contents
+
 - [Signatures](#signatures)
 - [Installation](#installation)
 - [Examples](#examples)
@@ -33072,17 +33186,23 @@ A ScyllaDb storage engine for [Fiber](https://github.com/gofiber/fiber) using [g
 - [Default Config](#default-config)
 
 ### Signatures
+
 ```go
 func New(config ...Config) Storage
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Set(key string, value []byte, expire time.Duration) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Reset() error
 func (s *Storage) Close() error
 func (s *Storage) Conn() *gocql.Session
 ```
 
 ### Installation
+
 ScyllaDb is tested on the 2 last [Go versions](https://golang.org/dl/) with support for modules. So make sure to initialize one first if you didn't do that yet:
 ```bash
 go mod init github.com/<user>/<repo>
@@ -33253,8 +33373,6 @@ title: SQLite3
 
 A SQLite3 storage driver using [mattn/go-sqlite3](https://github.com/mattn/go-sqlite3).
 
-**Note: Requires Go 1.19 and above**
-
 ### Table of Contents
 - [Signatures](#signatures)
 - [Installation](#installation)
@@ -33266,9 +33384,13 @@ A SQLite3 storage driver using [mattn/go-sqlite3](https://github.com/mattn/go-sq
 ```go
 func New(config ...Config) Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() *sql.DB
 ```
@@ -33386,15 +33508,20 @@ title: SurrealDB
 
 ```go
 func New(config ...Config) *Storage
-
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() *surrealdb.DB
 func (s *Storage) List() ([]byte, error) {
 ```
+
+**Note:** The context methods are dummy methods and don't have any functionality, as SurrealDB does not support context cancellation in its client library. They are provided for compliance with the Fiber storage interface.
 
 ### Installation
 
@@ -33510,9 +33637,13 @@ A fast Valkey Storage that does auto pipelining and supports client side caching
 ```go
 func New(config ...Config) Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() valkey.Client
 ```
