@@ -19117,7 +19117,7 @@ It does not cancel long running executions. Underlying executions must handle ti
 ## Signatures
 
 ```go
-func New(handler fiber.Handler, timeout time.Duration, timeoutErrors ...error) fiber.Handler
+func New(handler fiber.Handler, config ...timeout.Config) fiber.Handler
 ```
 
 ## Examples
@@ -19144,7 +19144,7 @@ func main() {
         return nil
     }
 
-    app.Get("/foo/:sleepTime", timeout.New(h, 2*time.Second))
+    app.Get("/foo/:sleepTime", timeout.New(h, timeout.Config{Timeout: 2 * time.Second}))
     log.Fatal(app.Listen(":3000"))
 }
 
@@ -19162,6 +19162,15 @@ func sleepWithContext(ctx context.Context, d time.Duration) error {
     return nil
 }
 ```
+
+## Config
+
+| Property  | Type               | Description                                                          | Default |
+|:----------|:-------------------|:---------------------------------------------------------------------|:-------|
+| Next      | `func(fiber.Ctx) bool` | Function to skip the middleware.                                   | `nil`  |
+| Timeout   | `time.Duration`    | Timeout duration for requests. `0` or a negative value disables the timeout. | `0`    |
+| OnTimeout | `fiber.Handler`    | Handler executed when a timeout occurs. Defaults to returning `fiber.ErrRequestTimeout`. | `nil`  |
+| Errors    | `[]error`          | Custom errors treated as timeout errors.                            | `nil`  |
 
 Test http 200 with curl:
 
@@ -19190,7 +19199,7 @@ func main() {
         return nil
     }
 
-    app.Get("/foo/:sleepTime", timeout.New(h, 2*time.Second, ErrFooTimeOut))
+    app.Get("/foo/:sleepTime", timeout.New(h, timeout.Config{Timeout: 2 * time.Second, Errors: []error{ErrFooTimeOut}}))
     log.Fatal(app.Listen(":3000"))
 }
 
@@ -19229,7 +19238,7 @@ func main() {
         return nil
     }
 
-    app.Get("/foo", timeout.New(handler, 10*time.Second))
+    app.Get("/foo", timeout.New(handler, timeout.Config{Timeout: 10 * time.Second}))
     log.Fatal(app.Listen(":3000"))
 }
 ```
@@ -20640,6 +20649,12 @@ The Session middleware has undergone key changes in v3 to improve functionality 
 
 For more details on these changes and migration instructions, check the [Session Middleware Migration Guide](./middleware/session.md#migration-guide).
 
+### Timeout
+
+The timeout middleware is now configurable. A new `Config` struct allows customizing the timeout duration, defining a handler that runs when a timeout occurs, and specifying errors to treat as timeouts. The `New` function now accepts a `Config` value instead of a duration.
+
+**Migration:** Replace calls like `timeout.New(handler, 2*time.Second)` with `timeout.New(handler, timeout.Config{Timeout: 2 * time.Second})`.
+
 ## 🔌 Addons
 
 In v3, Fiber introduced Addons. Addons are additional useful packages that can be used in Fiber.
@@ -21241,6 +21256,19 @@ app.Use(csrf.New(csrf.Config{
 ```
 
 **Security Note**: The removal of `FromCookie` prevents a common misconfiguration that would completely bypass CSRF protection. The middleware uses the Double Submit Cookie pattern, which requires the token to be submitted through a different channel than the cookie to provide meaningful protection.
+
+#### Timeout
+
+The timeout middleware now accepts a configuration struct instead of a duration.
+Update your code as follows:
+
+```go
+// Before
+app.Use(timeout.New(handler, 2*time.Second))
+
+// After
+app.Use(timeout.New(handler, timeout.Config{Timeout: 2 * time.Second}))
+```
 
 #### Filesystem
 
