@@ -15300,6 +15300,7 @@ func handler(c fiber.Ctx) error {
 | Users           | `map[string]string`         | Users defines the allowed credentials.                                                                                                                                | `map[string]string{}` |
 | Realm           | `string`                    | Realm is a string to define the realm attribute of BasicAuth. The realm identifies the system to authenticate against and can be used by clients to save credentials. | `"Restricted"`        |
 | Charset         | `string`                    | Charset sent in the `WWW-Authenticate` header, so clients know how credentials are encoded. | `"UTF-8"` |
+| HeaderLimit     | `int`                       | Maximum allowed length of the `Authorization` header. Requests exceeding this limit are rejected. | `8192` |
 | StorePassword   | `bool`                      | Store the plaintext password in the context and retrieve it via `PasswordFromContext`. | `false` |
 | Authorizer      | `func(string, string, fiber.Ctx) bool` | Authorizer defines a function to check the credentials. It will be called with a username, password, and the current context and is expected to return true or false to indicate approval.  | `nil`                 |
 | Unauthorized    | `fiber.Handler`             | Unauthorized defines the response body for unauthorized responses.                                                                                                    | `nil`                 |
@@ -15312,6 +15313,7 @@ var ConfigDefault = Config{
     Users:           map[string]string{},
     Realm:           "Restricted",
     Charset:         "UTF-8",
+    HeaderLimit:     8192,
     StorePassword:   false,
     Authorizer:      nil,
     Unauthorized:    nil,
@@ -20390,6 +20392,7 @@ The adaptor middleware has been significantly optimized for performance and effi
 ### BasicAuth
 
 The BasicAuth middleware now validates the `Authorization` header more rigorously and sets security-focused response headers. The default challenge includes the `charset="UTF-8"` parameter and disables caching. Passwords are no longer stored in the request context by default; use the new `StorePassword` option to retain them. A `Charset` option controls the value used in the challenge header.
+A new `HeaderLimit` option restricts the maximum length of the `Authorization` header (default: `8192` bytes).
 The `Authorizer` function now receives the current `fiber.Ctx` as a third argument, allowing credential checks to incorporate request context.
 
 ### Cache
