@@ -9,9 +9,8 @@ title: Redis
 
 A Redis storage driver using [go-redis/redis](https://github.com/go-redis/redis).
 
-**Note: Requires Go 1.19 and above**
-
 ### Table of Contents
+
 - [Signatures](#signatures)
 - [Installation](#installation)
 - [Examples](#examples)
@@ -19,17 +18,25 @@ A Redis storage driver using [go-redis/redis](https://github.com/go-redis/redis)
 - [Default Config](#default-config)
 
 ### Signatures
+
 ```go
 func New(config ...Config) Storage
+func NewFromConnection(conn redis.UniversalClient) *Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() redis.UniversalClient
 func (s *Storage) Keys() ([][]byte, error)
 ```
+
 ### Installation
+
 Redis is tested on the 2 last [Go versions](https://golang.org/dl/) with support for modules. So make sure to initialize one first if you didn't do that yet:
 
 > **Note:** You can also use [DragonflyDB](https://dragonflydb.io/) as a Redis replacement.
@@ -196,6 +203,43 @@ var ConfigDefault = Config{
 	ClientName:            "",
 	SentinelUsername:      "",
 	SentinelPassword:      "",
+}
+```
+
+### Using an Existing Redis Connection
+If you already have a Redis client configured in your application, you can create a Storage instance directly from that client. This is useful when you want to share an existing connection throughout your application instead of creating a new one.
+
+```go
+import (
+    "github.com/gofiber/storage/redis"
+    redigo "github.com/redis/go-redis/v9"
+    "fmt"
+    "context"
+)
+
+func main() {
+    // Create or reuse a Redis universal client (e.g., redis.NewClient, redis.NewClusterClient, etc.)
+    client := redigo.NewUniversalClient(&redigo.UniversalOptions{
+        Addrs: []string{"127.0.0.1:6379"},
+    })
+
+    // Create a new Storage instance from the existing Redis client
+    store := redis.NewFromConnection(client)
+
+    // Set a value
+    if err := store.Set("john", []byte("doe"), 0); err != nil {
+        panic(err)
+    }
+
+    // Get the value
+    val, err := store.Get("john")
+    if err != nil {
+        panic(err)
+    }
+    fmt.Println("Stored value:", string(val))
+
+    // Clean up
+    store.Close()
 }
 ```
 
