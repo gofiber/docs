@@ -6,7 +6,6 @@ title: LevelDB
 ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=leveldb*)
 [![Discord](https://img.shields.io/discord/704680098577514527?style=flat&label=%F0%9F%92%AC%20discord&color=00ACD7)](https://gofiber.io/discord)
 ![Test](https://img.shields.io/github/actions/workflow/status/gofiber/storage/test-leveldb.yml?label=Tests)
-![Linter](https://img.shields.io/github/actions/workflow/status/gofiber/storage/linter.yml?label=Linter)
 
 A fast key-value DB using [syndtr/goleveldb](https://github.com/syndtr/goleveldb)
 
@@ -23,12 +22,18 @@ A fast key-value DB using [syndtr/goleveldb](https://github.com/syndtr/goleveldb
 ```go
 func New(config ...Config) Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() *leveldb.DB
 ```
+
+**Note:** The context methods are dummy methods and don't have any functionality, as LevelDB does not support context cancellation in its client library. They are provided for compliance with the Fiber storage interface.
 
 ### Installation
 

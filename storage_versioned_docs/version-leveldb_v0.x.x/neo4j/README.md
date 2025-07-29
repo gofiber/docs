@@ -6,9 +6,6 @@ title: Neo4j
 ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=neo4j*)
 [![Discord](https://img.shields.io/discord/704680098577514527?style=flat&label=%F0%9F%92%AC%20discord&color=00ACD7)](https://gofiber.io/discord)
 ![Test](https://img.shields.io/github/actions/workflow/status/gofiber/storage/test-neo4j.yml?label=Tests)
-![Security](https://img.shields.io/github/actions/workflow/status/gofiber/storage/gosec.yml?label=Security)
-![Linter](https://img.shields.io/github/actions/workflow/status/gofiber/storage/linter.yml?label=Linter)
-
 A Neo4j storage driver using [neo4j/neo4j-go-driver](https://github.com/neo4j/neo4j-go-driver).
 
 > **Note: Requires latest two releases of Golang**
@@ -26,9 +23,13 @@ A Neo4j storage driver using [neo4j/neo4j-go-driver](https://github.com/neo4j/ne
 ```go
 func New(config ...Config) *Storage
 func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
 func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
 func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
 func (s *Storage) Close() error
 func (s *Storage) Conn() neo4j.DriverWithContext
 ```
