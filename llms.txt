@@ -110,25 +110,29 @@
 - [WebSocket Chat](websocket-chat/README): Real-time chat application using WebSockets.
 - [WebSocket](websocket/README): Real-time communication application using WebSockets.
 - [👋 Overview](welcome): Welcome to the official Fiber cookbook!
+- [Aerospike](aerospike/aerospike): Release
 - [ArangoDB](arangodb/arangodb): Release
 - [Azure Blob](azureblob/azureblob): Release
 - [Badger](badger/badger): Release
 - [Bbolt](bbolt/bbolt): Release
+- [Cassandra](cassandra/README): A Cassandra storage driver using gocql/gocql
 - [Clickhouse](clickhouse/README): A Clickhouse storage driver using https://github.com/ClickHouse/clickhouse-go.
 - [Cloudflare KV](cloudflarekv/cloudflarekv): Release
 - [Coherence](coherence/README): A Coherence storage driver using https://github.com/oracle/coherence-go-client.
 - [Couchbase](couchbase/couchbase): Release
 - [DynamoDB](dynamodb/dynamodb): Release
 - [Etcd](etcd/etcd): Release
+- [LevelDB](leveldb/leveldb): Release
 - [Memcache](memcache/memcache): Release
 - [Memory](memory/memory): Release
+- [MIGRATE](MIGRATE): This document contains instructions for migrating to various storage versions.
 - [Minio](minio/minio): Release
 - [MockStorage](mockstorage/mockstorage): Release
 - [MongoDB](mongodb/mongodb): Release
 - [MSSQL](mssql/mssql): Release
 - [MySQL](mysql/mysql): Release
 - [Nats](nats/nats): Release
-- [Neo4j](neo4j/neo4j): A Neo4j storage driver using neo4j/neo4j-go-driver.
+- [Neo4j](neo4j/neo4j): Release
 - [Pebble](pebble/pebble): Release
 - [Postgres](postgres/postgres): Release
 - [👋 Welcome](README): 📦 Premade storage drivers for 🚀 Fiber.
@@ -138,6 +142,7 @@
 - [S3](s3/s3): Release
 - [ScyllaDb](scylladb/scylladb): Release
 - [SQLite3](sqlite3/sqlite3): Release
+- [SurrealDB](surrealdb/surrealdb): Release
 - [Valkey](valkey/valkey): Release
 - [Ace](ace/ace): Release
 - [Amber](amber/amber): Release
