@@ -15264,26 +15264,25 @@ After you initiate your Fiber app, you can use the following possibilities:
 // Provide a minimal config
 app.Use(basicauth.New(basicauth.Config{
     Users: map[string]string{
-        "john":  "doe",
-        "admin": "123456",
+        // "doe" hashed using SHA-256
+        "john":  "{SHA256}eZ75KhGvkY4/t0HfQpNPO1aO0tk6wd908bjUGieTKm8=",
+        // "123456" hashed using bcrypt
+        "admin": "$2a$10$gTYwCN66/tBRoCr3.TXa1.v1iyvwIF7GRBqxzv7G.AHLMt/owXrp.",
     },
 }))
 
 // Or extend your config for customization
 app.Use(basicauth.New(basicauth.Config{
     Users: map[string]string{
-        "john":  "doe",
-        "admin": "123456",
+        // "doe" hashed using SHA-256
+        "john":  "{SHA256}eZ75KhGvkY4/t0HfQpNPO1aO0tk6wd908bjUGieTKm8=",
+        // "123456" hashed using bcrypt
+        "admin": "$2a$10$gTYwCN66/tBRoCr3.TXa1.v1iyvwIF7GRBqxzv7G.AHLMt/owXrp.",
     },
     Realm: "Forbidden",
     Authorizer: func(user, pass string, c fiber.Ctx) bool {
-        if user == "john" && pass == "doe" {
-            return true
-        }
-        if user == "admin" && pass == "123456" {
-            return true
-        }
-        return false
+        // custom validation logic
+        return (user == "john" || user == "admin")
     },
     Unauthorized: func(c fiber.Ctx) error {
         return c.SendFile("./unauthorized.html")
@@ -15292,6 +15291,18 @@ app.Use(basicauth.New(basicauth.Config{
 ```
 
 Getting the username and password
+
+### Password hashes
+
+Passwords must be supplied in pre-hashed form. The middleware detects the
+hashing algorithm from a prefix:
+
+- `"{SHA512}"`, `"{SHA256}"`, or `"{SHA}"` followed by a base64 encoded digest
+- `"{MD5}"` followed by a base64 encoded digest
+- standard bcrypt strings beginning with `$2`
+
+If no prefix is present the value is interpreted as a SHA-256 digest encoded in
+hex or base64. Plaintext passwords are rejected.
 
 ```go
 func handler(c fiber.Ctx) error {
@@ -15307,7 +15318,7 @@ func handler(c fiber.Ctx) error {
 | Property        | Type                        | Description                                                                                                                                                           | Default               |
 |:----------------|:----------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------|
 | Next            | `func(fiber.Ctx) bool`     | Next defines a function to skip this middleware when returned true.                                                                                                   | `nil`                 |
-| Users           | `map[string]string`         | Users defines the allowed credentials.                                                                                                                                | `map[string]string{}` |
+| Users           | `map[string]string`         | Users maps usernames to **hashed** passwords (e.g. bcrypt, `{SHA256}`). | `map[string]string{}` |
 | Realm           | `string`                    | Realm is a string to define the realm attribute of BasicAuth. The realm identifies the system to authenticate against and can be used by clients to save credentials. | `"Restricted"`        |
 | Charset         | `string`                    | Charset sent in the `WWW-Authenticate` header, so clients know how credentials are encoded. | `"UTF-8"` |
 | HeaderLimit     | `int`                       | Maximum allowed length of the `Authorization` header. Requests exceeding this limit are rejected. | `8192` |
@@ -20895,7 +20906,7 @@ The adaptor middleware has been significantly optimized for performance and effi
 
 ### BasicAuth
 
-The BasicAuth middleware now validates the `Authorization` header more rigorously and sets security-focused response headers. The default challenge includes the `charset="UTF-8"` parameter and disables caching. Passwords are no longer stored in the request context by default; use the new `StorePassword` option to retain them. A `Charset` option controls the value used in the challenge header.
+The BasicAuth middleware now validates the `Authorization` header more rigorously and sets security-focused response headers. Passwords must be provided in **hashed** form (e.g. SHA-256 or bcrypt) rather than plaintext. The default challenge includes the `charset="UTF-8"` parameter and disables caching. Passwords are no longer stored in the request context by default; use the new `StorePassword` option to retain them. A `Charset` option controls the value used in the challenge header.
 A new `HeaderLimit` option restricts the maximum length of the `Authorization` header (default: `8192` bytes).
 The `Authorizer` function now receives the current `fiber.Ctx` as a third argument, allowing credential checks to incorporate request context.
 
@@ -21787,6 +21798,8 @@ Authorizer: func(user, pass string, _ fiber.Ctx) bool {
     return user == "admin" && pass == "secret"
 }
 ```
+
+Passwords configured for BasicAuth must now be pre-hashed. If no prefix is supplied the middleware expects a SHA-256 digest encoded in hex. Common prefixes like `{SHA256}`, `{SHA}`, `{SHA512}`, `{MD5}` and bcrypt strings are also supported. Plaintext passwords are no longer accepted.
 
 You can also set the optional `HeaderLimit`, `StorePassword`, and `Charset`
 options to further control authentication behavior.
