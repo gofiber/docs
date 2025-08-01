@@ -15237,14 +15237,13 @@ id: basicauth
 
 Basic Authentication middleware for [Fiber](https://github.com/gofiber/fiber) that provides an HTTP basic authentication. It calls the next handler for valid credentials and [401 Unauthorized](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401) or a custom response for missing or invalid credentials.
 
-The default unauthorized response includes the header `WWW-Authenticate: Basic realm="Restricted", charset="UTF-8"` and sets `Cache-Control: no-store`.
+The default unauthorized response includes the header `WWW-Authenticate: Basic realm="Restricted", charset="UTF-8"`, sets `Cache-Control: no-store`, and adds a `Vary: Authorization` header.
 
 ## Signatures
 
 ```go
 func New(config Config) fiber.Handler
 func UsernameFromContext(c fiber.Ctx) string
-func PasswordFromContext(c fiber.Ctx) string
 ```
 
 ## Examples
@@ -15303,15 +15302,6 @@ hashing algorithm from a prefix:
 If no prefix is present the value is interpreted as a SHA-256 digest encoded in
 hex or base64. Plaintext passwords are rejected.
 
-```go
-func handler(c fiber.Ctx) error {
-    username := basicauth.UsernameFromContext(c)
-    password := basicauth.PasswordFromContext(c)
-    log.Printf("Username: %s Password: %s", username, password)
-    return c.SendString("Hello, " + username)
-}
-```
-
 ## Config
 
 | Property        | Type                        | Description                                                                                                                                                           | Default               |
@@ -15321,7 +15311,6 @@ func handler(c fiber.Ctx) error {
 | Realm           | `string`                    | Realm is a string to define the realm attribute of BasicAuth. The realm identifies the system to authenticate against and can be used by clients to save credentials. | `"Restricted"`        |
 | Charset         | `string`                    | Charset sent in the `WWW-Authenticate` header, so clients know how credentials are encoded. | `"UTF-8"` |
 | HeaderLimit     | `int`                       | Maximum allowed length of the `Authorization` header. Requests exceeding this limit are rejected. | `8192` |
-| StorePassword   | `bool`                      | Store the plaintext password in the context and retrieve it via `PasswordFromContext`. | `false` |
 | Authorizer      | `func(string, string, fiber.Ctx) bool` | Authorizer defines a function to check the credentials. It will be called with a username, password, and the current context and is expected to return true or false to indicate approval.  | `nil`                 |
 | Unauthorized    | `fiber.Handler`             | Unauthorized defines the response body for unauthorized responses.                                                                                                    | `nil`                 |
 
@@ -15334,7 +15323,6 @@ var ConfigDefault = Config{
     Realm:           "Restricted",
     Charset:         "UTF-8",
     HeaderLimit:     8192,
-    StorePassword:   false,
     Authorizer:      nil,
     Unauthorized:    nil,
 }
@@ -15349,11 +15337,13 @@ id: cache
 
 # Cache
 
-Cache middleware for [Fiber](https://github.com/gofiber/fiber) designed to intercept responses and cache them. This middleware will cache the `Body`, `Content-Type` and `StatusCode` using the `c.Path()` as unique identifier. Special thanks to [@codemicro](https://github.com/codemicro/fiber-cache) for creating this middleware for Fiber core!
+Cache middleware for [Fiber](https://github.com/gofiber/fiber) designed to intercept responses and cache them. This middleware caches the `Body`, `Content-Type`, and `StatusCode` using a key built from the request path and method. Special thanks to [@codemicro](https://github.com/codemicro/fiber-cache) for creating this middleware for Fiber core!
 
 Request Directives<br />
 `Cache-Control: no-cache` will return the up-to-date response but still caches it. You will always get a `miss` cache status.<br />
 `Cache-Control: no-store` will refrain from caching. You will always get the up-to-date response.
+
+If the server response contains a `Cache-Control: max-age` directive, its value is used as the expiration time for the cache entry.
 
 Cacheable Status Codes<br />
 
@@ -15412,7 +15402,7 @@ app.Use(cache.New(cache.Config{
 }))
 ```
 
-Or you can custom key and expire time like this:
+Or you can customize the key and expiration time like this (the HTTP method is automatically appended to the key):
 
 ```go
 app.Use(cache.New(cache.Config{
@@ -15452,9 +15442,9 @@ The `CacheInvalidator` function allows you to define custom conditions for cache
 | CacheHeader          | `string`                                       | CacheHeader is the header on the response header that indicates the cache status, with the possible return values "hit," "miss," or "unreachable."                                                                                                                                                             | `X-Cache`                                                        |
 | CacheControl         | `bool`                                         | CacheControl enables client-side caching if set to true.                                                                                                                                                                                                                                                       | `false`                                                          |
 | CacheInvalidator     | `func(fiber.Ctx) bool`                         | CacheInvalidator defines a function that is executed before checking the cache entry. It can be used to invalidate the existing cache manually by returning true.                                                                                                                                              | `nil`                                                            |
-| KeyGenerator         | `func(fiber.Ctx) string`                       | Key allows you to generate custom keys.                                                                                                                                                                                                                                                                        | `func(c fiber.Ctx) string { return utils.CopyString(c.Path()) }` |
+| KeyGenerator         | `func(fiber.Ctx) string`                       | Key allows you to generate custom keys. The HTTP method is appended automatically.                                                                                                                                                                                                                                                                        | `func(c fiber.Ctx) string { return utils.CopyString(c.Path()) }` |
 | ExpirationGenerator  | `func(fiber.Ctx, *cache.Config) time.Duration` | ExpirationGenerator allows you to generate custom expiration keys based on the request.                                                                                                                                                                                                                        | `nil`                                                            |
-| Storage              | `fiber.Storage`                                | Store is used to store the state of the middleware.                                                                                                                                                                                                                                                            | In-memory store                                                  |
+| Storage              | `fiber.Storage`                                | Storage is used to store the state of the middleware.                                                                                                                                                                                                                                                            | In-memory store                                                  |
 | StoreResponseHeaders | `bool`                                         | StoreResponseHeaders allows you to store additional headers generated by next middlewares & handler.                                                                                                                                                                                                           | `false`                                                          |
 | MaxBytes             | `uint`                                         | MaxBytes is the maximum number of bytes of response bodies simultaneously stored in cache.                                                                                                                                                                                                                     | `0` (No limit)                                                   |
 | Methods              | `[]string`                                     | Methods specifies the HTTP methods to cache.                                                                                                                                                                                                                                                                   | `[]string{fiber.MethodGet, fiber.MethodHead}`                    |
@@ -15538,7 +15528,7 @@ app.Use(compress.New(compress.Config{
 | Property | Type                    | Description                                                         | Default            |
 |:---------|:------------------------|:--------------------------------------------------------------------|:-------------------|
 | Next     | `func(fiber.Ctx) bool` | Next defines a function to skip this middleware when returned true. | `nil`              |
-| Level    | `Level`                 | Level determines the compression algorithm.                         | `LevelDefault (0)` |
+| Level    | `Level`                 | Level sets the compression level used.                         | `LevelDefault (0)` |
 
 Possible values for the "Level" field are:
 
@@ -16946,6 +16936,8 @@ id: favicon
 
 Favicon middleware for [Fiber](https://github.com/gofiber/fiber) that ignores favicon requests or caches a provided icon in memory to improve performance by skipping disk access. User agents request favicon.ico frequently and indiscriminately, so you may wish to exclude these requests from your logs by using this middleware before your logger middleware.
 
+It only handles `GET`, `HEAD`, and `OPTIONS` requests to the configured URL. Other methods receive a `405 Method Not Allowed` response.
+
 :::note
 This middleware is exclusively for serving the default, implicit favicon, which is GET /favicon.ico or [custom favicon URL](#config).
 :::
@@ -16988,7 +16980,7 @@ app.Use(favicon.New(favicon.Config{
 | Data         | `[]byte`                | Raw data of the favicon file. This can be used instead of `File`.                | `nil`                      |
 | File         | `string`                | File holds the path to an actual favicon that will be cached.                    | ""                         |
 | URL          | `string`                | URL for favicon handler.                                                         | "/favicon.ico"             |
-| FileSystem   | `http.FileSystem`       | FileSystem is an optional alternate filesystem to search for the favicon in.     | `nil`                      |
+| FileSystem   | `fs.FS`                 | FileSystem is an optional alternate filesystem from which to load the favicon file (e.g. using `os.DirFS` or an `embed.FS`). | `nil`                      |
 | CacheControl | `string`                | CacheControl defines how the Cache-Control header in the response should be set. | "public, max-age=31536000" |
 
 ## Default Config
@@ -18012,7 +18004,7 @@ Pprof middleware for [Fiber](https://github.com/gofiber/fiber) that serves via i
 ## Signatures
 
 ```go
-func New() fiber.Handler
+func New(config ...Config) fiber.Handler
 ```
 
 ## Examples
@@ -18042,10 +18034,10 @@ app.Use(pprof.New(pprof.Config{Prefix: "/endpoint-prefix"}))
 
 ## Config
 
-| Property | Type                    | Description                                                                                                                                     | Default |
-|:---------|:------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------|:--------|
-| Next     | `func(fiber.Ctx) bool` | Next defines a function to skip this middleware when returned true.                                                                             | `nil`   |
-| Prefix   | `string`                | Prefix defines a URL prefix added before "/debug/pprof". Note that it should start with (but not end with) a slash. Example: "/federated-fiber" | ""      |
+| Property | Type                    | Description                                                                                                                                                                          | Default |
+|:---------|:------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------:|
+| Next     | `func(fiber.Ctx) bool` | Next defines a function to skip this middleware when returned true.                                                                                                                  | `nil`   |
+| Prefix   | `string`                | Prefix defines a URL prefix added before "/debug/pprof". Note that it should start with (but not end with) a slash. Example: "/federated-fiber"                                   | `""`   |
 
 ## Default Config
 
@@ -18068,10 +18060,8 @@ Proxy middleware for [Fiber](https://github.com/gofiber/fiber) that allows you t
 
 ## Signatures
 
-// BalancerForward performs the given http request based on a round-robin balancer and fills the given http response.
-
 ```go
-// Balancer create a load balancer among multiple upstream servers.
+// Balancer creates a load balancer among multiple upstream servers.
 func Balancer(config Config) fiber.Handler
 // Forward performs the given http request and fills the given http response.
 func Forward(addr string, clients ...*fasthttp.Client) fiber.Handler
@@ -18083,7 +18073,7 @@ func DoRedirects(c fiber.Ctx, addr string, maxRedirectsCount int, clients ...*fa
 func DoDeadline(c fiber.Ctx, addr string, deadline time.Time, clients ...*fasthttp.Client) error
 // DoTimeout performs the given request and waits for response during the given timeout duration.
 func DoTimeout(c fiber.Ctx, addr string, timeout time.Duration, clients ...*fasthttp.Client) error
-// DomainForward the given http request based on the given domain and fills the given http response.
+// DomainForward performs the given http request based on the provided domain and fills the given http response.
 func DomainForward(hostname string, addr string, clients ...*fasthttp.Client) fiber.Handler
 // BalancerForward performs the given http request based round robin balancer and fills the given http response.
 func BalancerForward(servers []string, clients ...*fasthttp.Client) fiber.Handler
@@ -18223,7 +18213,7 @@ app.Use(proxy.Balancer(proxy.Config{
 | Timeout         | `time.Duration`                                | Timeout is the request timeout used when calling the proxy client.                                                                                                                                                                 | 1 second        |
 | ReadBufferSize  | `int`                                          | Per-connection buffer size for requests' reading. This also limits the maximum header size. Increase this buffer if your clients send multi-KB RequestURIs and/or multi-KB headers (for example, BIG cookies).                     | (Not specified) |
 | WriteBufferSize | `int`                                          | Per-connection buffer size for responses' writing.                                                                                                                                                                                 | (Not specified) |
-| TLSConfig       | `*tls.Config` (or `*fasthttp.TLSConfig` in v3) | TLS config for the HTTP client.                                                                                                                                                                                                    | `nil`           |
+| TLSConfig       | `*tls.Config` | TLS config for the HTTP client. | `nil`           |
 | DialDualStack   | `bool`                                         | Client will attempt to connect to both IPv4 and IPv6 host addresses if set to true.                                                                                                                                                | `false`         |
 | Client          | `*fasthttp.LBClient`                           | Client is a custom client when client config is complex.                                                                                                                                                                           | `nil`           |
 
@@ -18377,7 +18367,7 @@ id: requestid
 
 # RequestID
 
-RequestID middleware for [Fiber](https://github.com/gofiber/fiber) that adds an identifier to the response.
+RequestID middleware for [Fiber](https://github.com/gofiber/fiber) that generates or propagates a request identifier. The ID is added to the response headers and stored in the request context.
 
 ## Signatures
 
@@ -18397,7 +18387,7 @@ import (
 )
 ```
 
-After you initiate your Fiber app, you can use the following possibilities:
+After initializing your Fiber app, you can use the middleware in the following ways:
 
 ```go
 // Initialize default config
@@ -18411,6 +18401,8 @@ app.Use(requestid.New(requestid.Config{
     },
 }))
 ```
+
+If the incoming request already contains the configured header, its value is reused instead of generating a new one.
 
 Getting the request ID
 
@@ -19451,7 +19443,7 @@ id: static
 Static middleware for Fiber that serves static files such as **images**, **CSS,** and **JavaScript**.
 
 :::info
-By default, **Static** will serve `index.html` files in response to a request on a directory. You can change it from [Config](#config)`
+By default, **Static** will serve `index.html` files in response to a request on a directory. You can change this using [Config](#config).
 :::
 
 ## Signatures
@@ -19613,7 +19605,7 @@ You can set `CacheDuration` config property to `-1` to disable caching.
 
 ```go
 var ConfigDefault = Config{
-    Index:         []string{"index.html"},
+    IndexNames:    []string{"index.html"},
     CacheDuration: 10 * time.Second,
 }
 ```
@@ -19967,8 +19959,8 @@ app.Get("/login/:id<ulid>", func(c fiber.Ctx) error {
 - **ListenTLSWithCertificate**: Use `app.Listen()` with `tls.Config`.
 - **ListenMutualTLS**: Use `app.Listen()` with `tls.Config`.
 - **ListenMutualTLSWithCertificate**: Use `app.Listen()` with `tls.Config`.
-- **Context()**: Use `Ctx` instead, it follow the `context.Context` interface
-- **SetContext()**: Use `Ctx` instead, it follow the `context.Context` interface
+- **Context()**: Removed. `Ctx` now directly implements `context.Context`, so you can pass `c` anywhere a `context.Context` is required.
+- **SetContext()**: Removed. Attach additional context information using `Locals` or middleware if needed.
 
 ### Method Changes
 
@@ -20876,7 +20868,6 @@ Examples include:
 - `csrf.HandlerFromContext(c)`
 - `session.FromContext(c)`
 - `basicauth.UsernameFromContext(c)`
-- `basicauth.PasswordFromContext(c)`
 - `keyauth.TokenFromContext(c)`
 
 When used with the Logger middleware, the recommended approach is to use the `CustomTags` feature of the logger, which allows you to call these specific `FromContext` functions. See the [Logger](#logger) section for more details.
@@ -20911,7 +20902,7 @@ The adaptor middleware has been significantly optimized for performance and effi
 
 ### BasicAuth
 
-The BasicAuth middleware now validates the `Authorization` header more rigorously and sets security-focused response headers. Passwords must be provided in **hashed** form (e.g. SHA-256 or bcrypt) rather than plaintext. The default challenge includes the `charset="UTF-8"` parameter and disables caching. Passwords are no longer stored in the request context by default; use the new `StorePassword` option to retain them. A `Charset` option controls the value used in the challenge header.
+The BasicAuth middleware now validates the `Authorization` header more rigorously and sets security-focused response headers. Passwords must be provided in **hashed** form (e.g. SHA-256 or bcrypt) rather than plaintext. The default challenge includes the `charset="UTF-8"` parameter and disables caching. Responses also set a `Vary: Authorization` header to prevent caching based on credentials. Passwords are no longer stored in the request context. A `Charset` option controls the value used in the challenge header.
 A new `HeaderLimit` option restricts the maximum length of the `Authorization` header (default: `8192` bytes).
 The `Authorizer` function now receives the current `fiber.Ctx` as a third argument, allowing credential checks to incorporate request context.
 
@@ -21773,7 +21764,6 @@ You must update your code to use the dedicated exported functions provided by ea
 - `csrf.HandlerFromContext(c)`
 - `session.FromContext(c)`
 - `basicauth.UsernameFromContext(c)`
-- `basicauth.PasswordFromContext(c)`
 - `keyauth.TokenFromContext(c)`
 
 **For logging these values:**
@@ -21804,9 +21794,9 @@ Authorizer: func(user, pass string, _ fiber.Ctx) bool {
 }
 ```
 
-Passwords configured for BasicAuth must now be pre-hashed. If no prefix is supplied the middleware expects a SHA-256 digest encoded in hex. Common prefixes like `{SHA256}` and `{SHA512}` and bcrypt strings are also supported. Plaintext passwords are no longer accepted.
+Passwords configured for BasicAuth must now be pre-hashed. If no prefix is supplied the middleware expects a SHA-256 digest encoded in hex. Common prefixes like `{SHA256}` and `{SHA512}` and bcrypt strings are also supported. Plaintext passwords are no longer accepted. Unauthorized responses also include a `Vary: Authorization` header for correct caching behavior.
 
-You can also set the optional `HeaderLimit`, `StorePassword`, and `Charset`
+You can also set the optional `HeaderLimit` and `Charset`
 options to further control authentication behavior.
 
 #### Cache
