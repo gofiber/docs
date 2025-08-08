@@ -1,4 +1,4 @@
-name: Build & Deploy GitHub Pages (parallel)
+name: Build & Deploy GitHub Pages (dual builds, parallel)
 
 on:
   push:
@@ -12,17 +12,23 @@ concurrency:
 permissions:
   contents: read
 
-env:
-  HOME_PATH: home   # change if your Home route differs
-
 jobs:
-  build:
-    name: Build site
+  deploy:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - mode: docs
+            repo: gofiber/docs
+            cname: docs.gofiber.io
+          - mode: home
+            repo: gofiber/website
+            cname: gofiber.io
+
     steps:
       - uses: actions/checkout@v4
 
-      # Faster installs via npm cache
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -31,7 +37,6 @@ jobs:
             package-lock.json
             **/package-lock.json
 
-      # Restore Webpack/Babel/etc. caches
       - name: Restore build caches
         uses: actions/cache@v4
         with:
@@ -45,117 +50,22 @@ jobs:
       - name: Install deps
         run: npm ci
 
-      - name: Build
+      - name: Build (${{ matrix.target.mode }})
         env:
           NODE_ENV: production
-          NODE_OPTIONS: --max-old-space-size=4096
+          BUILD_TARGET: ${{ matrix.target.mode }}
           INKEEP_API_KEY: ${{ secrets.INKEEP_API_KEY }}
           INKEEP_INTEGRATION_ID: ${{ secrets.INKEEP_INTEGRATION_ID }}
           INKEEP_ORGANIZATION_ID: ${{ secrets.INKEEP_ORGANIZATION_ID }}
-        run: npm run build
-
-      - name: Upload build
-        uses: actions/upload-artifact@v4
-        with:
-          name: docusaurus-build
-          path: build
-          if-no-files-found: error
-          retention-days: 7
-
-  deploy:
-    name: Deploy (parallel)
-    needs: build
-    if: github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'master')
-    runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        target:
-          - repo: gofiber/docs
-            cname: docs.gofiber.io
-            mode: docs
-          - repo: gofiber/website
-            cname: gofiber.io
-            mode: home
-
-    steps:
-      # 0) Get repo files (.github/assets/*, .github/scripts/*)
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      # Download artifact into a temp dir, then normalize to ./build
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: docusaurus-build
-          path: build
-
-      # --- DOCS: deploy the full build, but remove /home ---
-      - name: Prepare publish dir (docs)
-        if: ${{ matrix.target.mode == 'docs' }}
-        shell: bash
         run: |
-          if [ -d "build/${HOME_PATH}" ]; then
-            rm -rf "build/${HOME_PATH}"
-          fi
-          if [ -f build/sitemap.xml ]; then
-            grep -v "/${HOME_PATH}/" build/sitemap.xml > build/sitemap.xml.tmp || true
-            mv build/sitemap.xml.tmp build/sitemap.xml
-          fi
-          echo "PUBLISH_DIR=$GITHUB_WORKSPACE/build" >> $GITHUB_ENV
-
-      # --- HOME: interactive /home at root (keep JS; fix URLs; block /home redirects) ---
-      - name: Prepare publish dir (home only)
-        if: ${{ matrix.target.mode == 'home' }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -f "build/${HOME_PATH}/index.html" || (echo "Missing build/${HOME_PATH}/index.html" && exit 1)
-
-          mkdir -p out
-          cp -v "build/${HOME_PATH}/index.html" out/index.html
-
-          # Bring over runtime assets so chunk loads from /assets/... and /img/... succeed on gofiber.io
-          if [ -d build/assets ]; then rsync -a --delete build/assets/ out/assets/; fi
-          if [ -d build/img ];    then rsync -a --delete build/img/    out/img/;    fi
-
-
-          # robots.txt -> point crawlers to docs sitemap
-          cat > out/robots.txt <<'EOF'
-          User-agent: *
-          Sitemap: https://docs.gofiber.io/sitemap.xml
-          EOF
-
-          # Copy JS helpers from repo to publish root
-          cp -v .github/assets/anti-redirect.js out/anti-redirect.js
-
-          # Rewrite HTML using repo script (keeps JS; fixes URLs; blocks /home redirects)
-          node .github/scripts/rewrite-home.js out/index.html
-
-          # 404: redirect everything else to docs (preserve path/query/hash)
-          cat > out/404.html <<'EOF'
-          <!doctype html>
-          <script>
-            const t = 'https://docs.gofiber.io' + location.pathname + location.search + location.hash;
-            location.replace(t);
-          </script>
-          <noscript><meta http-equiv="refresh" content="0;url=https://docs.gofiber.io"></noscript>
-          EOF
-
-          echo "PUBLISH_DIR=$GITHUB_WORKSPACE/out" >> $GITHUB_ENV
+          npm run build:${{ matrix.target.mode }}
 
       - name: Deploy to ${{ matrix.target.cname }}
         uses: peaceiris/actions-gh-pages@v4
         with:
-          personal_token: ${{ secrets.GH_PAGES_TOKEN }}   # PAT with Contents: Read and write on both target repos
+          personal_token: ${{ secrets.GH_PAGES_TOKEN }}   # PAT with Contents: Read and write on both repos
           external_repository: ${{ matrix.target.repo }}
-          publish_dir: ${{ env.PUBLISH_DIR }}
+          publish_dir: ./build
           publish_branch: gh-pages
           cname: ${{ matrix.target.cname }}
           force_orphan: true

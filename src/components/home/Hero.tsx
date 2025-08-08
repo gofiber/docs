@@ -47,7 +47,7 @@ export default function Hero() {
                 </div>
 
                 <div className={styles.ctaRow}>
-                    <a className={styles.cta} href="/">Get Started →</a>
+                    <a className={styles.cta} href="https://docs.gofiber.io/">Get Started →</a>
                     <span className={styles.orScroll}>…or scroll to learn more.</span>
                 </div>
             </div>
