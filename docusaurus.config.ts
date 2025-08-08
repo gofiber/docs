@@ -52,12 +52,6 @@ const config: Config = {
                         from: '/ctx',
                         to: '/api/ctx',
                     },
-                    // ...(process.env.NODE_ENV === 'production' ? [
-                    //     {
-                    //         from: '/home',
-                    //         to: 'https://gofiber.io',
-                    //     }
-                    // ] : []),
                 ],
                 createRedirects(existingPath: string) {
                     if (existingPath.includes('/v1.x')) {
