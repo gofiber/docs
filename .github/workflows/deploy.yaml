@@ -121,6 +121,11 @@ jobs:
           mkdir -p out
           cp -v "build/${HOME_PATH}/index.html" out/index.html
 
+          # Bring over runtime assets so chunk loads from /assets/... and /img/... succeed on gofiber.io
+          if [ -d build/assets ]; then rsync -a --delete build/assets/ out/assets/; fi
+          if [ -d build/img ];    then rsync -a --delete build/img/    out/img/;    fi
+
+
           # robots.txt -> point crawlers to docs sitemap
           cat > out/robots.txt <<'EOF'
           User-agent: *
