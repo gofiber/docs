@@ -52,7 +52,7 @@ app.Static("/", "./files")`,
       <>
         <div>
           Since Fiber is built on top of Fasthttp, your apps will enjoy unmatching performance! Don't believe us? Here's a benchmark that proves how Fiber shines compared to other frameworks:
-        </div>
+        </div><br/>
         <img
           src="/img/benchmark-pipeline.png"
           alt="Benchmark graph"

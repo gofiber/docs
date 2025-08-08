@@ -3,6 +3,7 @@ import Hero from '../components/home/Hero';
 import Features from '../components/home/Features';
 import Media from '../components/home/Media';
 import Support from '../components/home/Support';
+import Head from '@docusaurus/Head';
 import { useEffect } from "react";
 
 import styles from './home.module.css';
@@ -36,6 +37,9 @@ export default function Home() {
             description="An Express-inspired web framework written in Go."
             wrapperClassName="fiber-home"
         >
+            <Head>
+                <link rel="canonical" href="https://gofiber.io/" />
+            </Head>
             <Hero />
             <Features />
             <Support />
