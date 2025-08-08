@@ -154,33 +154,43 @@ jobs:
           const file = 'out/index.html';
           let html = fs.readFileSync(file, 'utf8');
 
-          // head: add <base> + anti-redirect loader
+          // Inject <base> + anti-redirect right after <head>
           html = html.replace(/<head\b[^>]*>/i, m => `${m}<base href="${DOCS}"><script src="/anti-redirect.js"></script>`);
 
-          // attrs starting with "/" (quoted or unquoted) -> absolute DOCS
+          // Helper: map "/foo" or "/" -> DOCS + "foo" or DOCS
+          const toDocs = (p) => (!p || p === '/') ? DOCS : DOCS + p.replace(/^\/+/, '');
+
+          // Attributes starting with "/" (quoted or unquoted) -> absolute DOCS
+          // e.g. href="/contrib/" -> href="https://docs.gofiber.io/contrib/"
           html = html.replace(
-            /\b(href|src|action|poster|content|data-(?:href|src))=(["']?)(\/(?!\/)[^"'\s>]+)/gi,
-            (_m, a, _q, p) => `${a}="${DOCS}${p}"`
+            /\b(href|src|action|poster|content|data-(?:href|src))=(["']?)(\/(?!\/)[^"'\s>]*)/gi,
+            (_m, attr, _q, path) => `${attr}="${toDocs(path)}"`
           );
 
-          // srcset / imagesrcset (comma-separated)
-          const fixSet = v => v.replace(/(^|,\s*)\/(?!\/)([^,\s]+)/g, (_m, pre, p) => `${pre}${DOCS}${p}`);
+          // Explicit root-only links -> DOCS root (covers quoted and unquoted forms)
+          html = html.replace(/\bhref=(["'])\/\1/gi, (_m, q) => `href="${DOCS}"`);
+          html = html.replace(/\bhref=\/(?=[\s>])/gi, 'href="' + DOCS + '"');
+
+          // srcset / imagesrcset (comma-separated) -> absolute DOCS
+          const fixSet = (v) => v.replace(/(^|,\s*)(\/(?!\/)[^,\s]+)/g, (_m, pre, p) => pre + toDocs(p));
           html = html.replace(/\b(srcset|imagesrcset)=(["'])([^"']+)\2/gi, (_m, attr, q, val) => `${attr}=${q}${fixSet(val)}${q}`);
 
-          // inline CSS url(/...) -> absolute DOCS
-          html = html.replace(/url\((["']?)\/(?!\/)/gi, `url($1${DOCS}`);
+          // Inline CSS url(/...) -> absolute DOCS
+          html = html.replace(/url\((["']?)\/(?!\/)/gi, 'url($1' + DOCS);
 
-          // canonicals/social -> ROOT
+          // Canonicals/social -> ROOT domain
           html = html
             .replace(/<link\s+rel=["']canonical["'][^>]*>/i, '')
             .replace(/<meta\s+property=["']og:url["'][^>]*>/i, '')
             .replace(/<meta\s+name=["']twitter:url["'][^>]*>/i, '')
             .replace(/<head\b[^>]*>/i, m => `${m}<link rel="canonical" href="${ROOT}"><meta property="og:url" content="${ROOT}"><meta name="twitter:url" content="${ROOT}">`);
 
-          // self-links to /home -> "/"
+          // Self-links targeting /home -> send to DOCS root instead
           html = html
-            .replace(/\bhref=(["'])\/home\/?(#[^"']*)?\1/gi, (_m, q, h) => `href=${q}/${h || ''}${q}`)
-            .replace(/\bhref=["']?https?:\/\/docs\.gofiber\.io\/home\/?(#[^"'>\s]*)?/gi, (_m, h='') => `href="/${h}"`);
+            .replace(/\bhref=(["'])\/home\/?(#[^"']*)?\1/gi, (_m, q, h) => `href="${DOCS}${h || ''}"`)
+            .replace(/\bhref=\/home\/?(#[^\s>"']*)/gi, (_m, h) => `href="${DOCS}${h || ''}"`)
+            .replace(/\bhref=(["'])https?:\/\/docs\.gofiber\.io\/home\/?(#[^"']*)?\1/gi, (_m, q, h) => `href="${DOCS}${h || ''}"`)
+            .replace(/\bhref=https?:\/\/docs\.gofiber\.io\/home\/?(#[^\s>"']*)/gi, (_m, h) => `href="${DOCS}${h || ''}"`);
 
           fs.writeFileSync(file, html, 'utf8');
           NODE
