@@ -2,26 +2,25 @@ name: Build & Deploy GitHub Pages (parallel)
 
 on:
   push:
-    branches:
-      - master
-      - main
+    branches: [ main, master ]
   pull_request:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
+env:
+  # Change if your Home route is different (e.g., "getting-started")
+  HOME_PATH: home
+
 jobs:
   build:
-    name: Build website
+    name: Build site
     runs-on: ubuntu-latest
     steps:
-      - name: Get previous workflow status
-        uses: Mercymeilya/last-workflow-status@v0.3.3
-        id: last_status
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
@@ -29,12 +28,13 @@ jobs:
           node-version: 20
           cache: npm
 
-      - name: Install dependencies
+      - name: Install deps
         run: npm ci
 
+      # Optional Docusaurus cache. Keep if you use it.
       - uses: docuactions/cache@v1
 
-      - name: Build website
+      - name: Build
         env:
           NODE_ENV: production
           INKEEP_API_KEY: ${{ secrets.INKEEP_API_KEY }}
@@ -42,7 +42,7 @@ jobs:
           INKEEP_ORGANIZATION_ID: ${{ secrets.INKEEP_ORGANIZATION_ID }}
         run: npm run build
 
-      - name: Upload build artifact
+      - name: Upload build
         uses: actions/upload-artifact@v4
         with:
           name: docusaurus-build
@@ -56,16 +56,16 @@ jobs:
     if: github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'master')
     runs-on: ubuntu-latest
 
-    # One job per matrix entry (runs in parallel)
     strategy:
       fail-fast: false
       matrix:
         target:
-          # Update these to your targets
           - repo: gofiber/docs
             cname: docs.gofiber.io
+            mode: docs
           - repo: gofiber/website
             cname: gofiber.io
+            mode: home
 
     steps:
       - uses: actions/download-artifact@v4
@@ -73,22 +73,43 @@ jobs:
           name: docusaurus-build
           path: build
 
+      # --- DOCS: deploy the full build ---
+      - name: Prepare publish dir (docs)
+        if: ${{ matrix.target.mode == 'docs' }}
+        run: echo "PUBLISH_DIR=$GITHUB_WORKSPACE/build" >> $GITHUB_ENV
+
+      # --- HOME: deploy only /home as index.html + a 404 redirect ---
+      - name: Prepare publish dir (home only)
+        if: ${{ matrix.target.mode == 'home' }}
+        run: |
+          test -f "build/${{ env.HOME_PATH }}/index.html" || \
+            (echo "Missing build/${{ env.HOME_PATH }}/index.html. Is HOME_PATH correct?" && exit 1)
+
+          mkdir -p out
+          cp -v "build/${{ env.HOME_PATH }}/index.html" out/index.html
+
+          # Ensure assets/canonicals resolve against docs.gofiber.io
+          sed -i 's#<head>#<head><base href="https://docs.gofiber.io/">#' out/index.html
+
+          # Redirect all other paths to docs.gofiber.io preserving path/query/hash
+          cat > out/404.html <<'EOF'
+          <!doctype html>
+          <script>
+            const t = 'https://docs.gofiber.io' + location.pathname + location.search + location.hash;
+            location.replace(t);
+          </script>
+          <noscript><meta http-equiv="refresh" content="0;url=https://docs.gofiber.io"></noscript>
+          EOF
+
+          echo "PUBLISH_DIR=$GITHUB_WORKSPACE/out" >> $GITHUB_ENV
+
       - name: Deploy to ${{ matrix.target.cname }}
         uses: peaceiris/actions-gh-pages@v4
         with:
-          # Use PAT for external repos:
+          # PAT with "Contents: Read and write" on BOTH target repos (and SSO authorized)
           personal_token: ${{ secrets.GH_PAGES_TOKEN }}
-          # If publishing to the same repo instead, use:
-          #github_token: ${{ secrets.GITHUB_TOKEN }}
           external_repository: ${{ matrix.target.repo }}
-          publish_dir: ./build
+          publish_dir: ${{ env.PUBLISH_DIR }}
           publish_branch: gh-pages
           cname: ${{ matrix.target.cname }}
           force_orphan: true
-
-      - uses: sarisia/actions-status-discord@v1
-        if: ${{ failure() || (success() && needs.build.outputs.last_status == 'failure') }}
-        with:
-          title: "deploy"
-          description: "Docs/Home: Parallel GitHub Pages deploy"
-          webhook: ${{ secrets.DISCORD_SECURE_CHANNEL }}
