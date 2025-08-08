@@ -115,29 +115,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          test -f "build/${HOME_PATH}/index.html" || (echo "Missing build/${HOME_PATH}/index.html" && exit 1)
 
-          # Find the Home file robustly (trailingSlash true/false, i18n)
-          shopt -s globstar nullglob
-          HOME_FILE=""
-          for f in \
-            "build/${HOME_PATH}/index.html" \
-            "build/${HOME_PATH}.html" \
-            build/**/${HOME_PATH}/index.html \
-            build/**/${HOME_PATH}.html
-          do
-            if [ -f "$f" ]; then HOME_FILE="$f"; break; fi
-          done
-
-          if [ -z "${HOME_FILE}" ]; then
-            echo "::error::Home HTML not found for HOME_PATH='${HOME_PATH}'."
-            echo "Listing build/ (depth 3) so you can see what's there:"
-            find build -maxdepth 3 -type f | sed 's/^/  - /' | head -n 300 || true
-            exit 1
-          fi
-
-          echo "Using Home file: ${HOME_FILE}"
           mkdir -p out
-          cp -v "${HOME_FILE}" out/index.html
+          cp -v "build/${HOME_PATH}/index.html" out/index.html
 
           # robots.txt -> point crawlers to docs sitemap
           cat > out/robots.txt <<'EOF'
