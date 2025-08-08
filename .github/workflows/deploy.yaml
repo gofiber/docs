@@ -89,11 +89,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: docusaurus-build
-        # path defaults to ./docusaurus-build; we want ./build:
-      - name: Move artifact to ./build
-        run: |
-          rm -rf build
-          mv docusaurus-build build
+          path: build
 
       # --- DOCS: deploy the full build, but remove /home ---
       - name: Prepare publish dir (docs)
