@@ -31,7 +31,7 @@ jobs:
             package-lock.json
             **/package-lock.json
 
-      # Restore Webpack/Babel/etc caches
+      # Restore Webpack/Babel/etc. caches
       - name: Restore build caches
         uses: actions/cache@v4
         with:
@@ -87,9 +87,13 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: docusaurus-build
-          path: build
+        # path defaults to ./docusaurus-build; we want ./build:
+      - name: Move artifact to ./build
+        run: |
+          rm -rf build
+          mv docusaurus-build build
 
-      # --- DOCS: deploy full build, but remove /home ---
+      # --- DOCS: deploy the full build, but remove /home ---
       - name: Prepare publish dir (docs)
         if: ${{ matrix.target.mode == 'docs' }}
         shell: bash
@@ -103,7 +107,7 @@ jobs:
           fi
           echo "PUBLISH_DIR=$GITHUB_WORKSPACE/build" >> $GITHUB_ENV
 
-      # --- HOME: interactive /home at gofiber.io root (keep JS, block /home redirects) ---
+      # --- HOME: interactive /home at root (keep JS; fix all URLs; block /home redirects) ---
       - name: Prepare publish dir (home only)
         if: ${{ matrix.target.mode == 'home' }}
         shell: bash
@@ -120,33 +124,47 @@ jobs:
           Sitemap: https://docs.gofiber.io/sitemap.xml
           EOF
 
-          # External anti-redirect (keeps SPA JS but normalizes /home -> /)
+          # External anti-redirect + dynamic asset shim (prevents "/" -> "/home" and fixes runtime /assets loads)
           cat > out/anti-redirect.js <<'EOF'
           (function () {
+            var DOCS = 'https://docs.gofiber.io';
+            function toDocs(u) {
+              if (typeof u !== 'string') return u;
+              if (u === '/' || u === '') return DOCS + '/';
+              if (u.charAt(0) === '/') return DOCS + u;
+              return u;
+            }
             function isHome(u) {
-              return typeof u === 'string' && (
-                /^\/home\/?(?:[?#]|$)/.test(u) ||
-                /^https?:\/\/docs\.gofiber\.io\/home\/?(?:[?#]|$)/.test(u)
-              );
+              return typeof u === 'string' &&
+                (/^\/home\/?(?:[?#]|$)/.test(u) || /^https?:\/\/docs\.gofiber\.io\/home\/?(?:[?#]|$)/.test(u));
             }
             try {
-              function wrap(fn) {
-                return function (state, title, url) {
-                  if (isHome(url)) url = '/';
-                  return fn.call(this, state, title, url);
-                };
-              }
+              var wrap = function (fn) { return function (state, title, url) { if (isHome(url)) url = '/'; return fn.call(this, state, title, url); }; };
               history.pushState = wrap(history.pushState);
               history.replaceState = wrap(history.replaceState);
-              var a = window.location.assign.bind(window.location);
-              var r = window.location.replace.bind(window.location);
-              window.location.assign = function (u) { if (!isHome(u)) a(u); };
-              window.location.replace = function (u) { if (!isHome(u)) r(u); };
+              var a = location.assign.bind(location);
+              var r = location.replace.bind(location);
+              location.assign = function (u) { a(isHome(u) ? '/' : toDocs(u)); };
+              location.replace = function (u) { r(isHome(u) ? '/' : toDocs(u)); };
             } catch (e) {}
+            var origSetAttr = Element.prototype.setAttribute;
+            Element.prototype.setAttribute = function (name, value) {
+              if (this.tagName === 'SCRIPT' && name === 'src') value = toDocs(value);
+              if (this.tagName === 'LINK' && name === 'href') value = toDocs(value);
+              if (name === 'href' && (value === '/' || value === '')) value = DOCS + '/';
+              return origSetAttr.call(this, name, value);
+            };
+            var desc = Object.getOwnPropertyDescriptor(HTMLScriptElement.prototype, 'src');
+            if (desc && desc.set) {
+              Object.defineProperty(HTMLScriptElement.prototype, 'src', {
+                set: function (v) { desc.set.call(this, toDocs(v)); },
+                get: function () { return desc.get.call(this); }
+              });
+            }
           })();
           EOF
 
-          # Rewrite minimal: make root-absolute refs load from docs, set canonical, inject anti-redirect, fix /home self-links
+          # Minimal rewrite: base+shim, attrs, srcset, CSS url(), canonicals, self-links
           node - <<'NODE'
           const fs = require('fs');
           const DOCS = 'https://docs.gofiber.io/';
@@ -154,48 +172,48 @@ jobs:
           const file = 'out/index.html';
           let html = fs.readFileSync(file, 'utf8');
 
-          // Inject <base> + anti-redirect right after <head>
+          // 1) Inject <base> + anti-redirect right after <head>
           html = html.replace(/<head\b[^>]*>/i, m => `${m}<base href="${DOCS}"><script src="/anti-redirect.js"></script>`);
 
           // Helper: map "/foo" or "/" -> DOCS + "foo" or DOCS
           const toDocs = (p) => (!p || p === '/') ? DOCS : DOCS + p.replace(/^\/+/, '');
 
-          // Attributes starting with "/" (quoted or unquoted) -> absolute DOCS
-          // e.g. href="/contrib/" -> href="https://docs.gofiber.io/contrib/"
+          // 2) Root-absolute attributes -> DOCS (quoted & unquoted)
           html = html.replace(
-            /\b(href|src|action|poster|content|data-(?:href|src))=(["']?)(\/(?!\/)[^"'\s>]*)/gi,
+            /\b(href|src|action|poster|content|data-(?:href|src))=(["']?)(\/(?!\/)[^"'\s>]+)/gi,
             (_m, attr, _q, path) => `${attr}="${toDocs(path)}"`
           );
 
-          // Explicit root-only links -> DOCS root (covers quoted and unquoted forms)
-          html = html.replace(/\bhref=(["'])\/\1/gi, (_m, q) => `href="${DOCS}"`);
-          html = html.replace(/\bhref=\/(?=[\s>])/gi, 'href="' + DOCS + '"');
+          // 3) href="/" -> DOCS root (quoted & unquoted)
+          html = html.replace(/\bhref=(["'])\/\1/gi, (_m, q) => `href="${DOCS}"`)
+                     .replace(/\bhref=\/(?=[\s>])/gi, 'href="' + DOCS + '"');
 
-          // srcset / imagesrcset (comma-separated) -> absolute DOCS
+          // 4) srcset / imagesrcset (comma-separated) -> DOCS
           const fixSet = (v) => v.replace(/(^|,\s*)(\/(?!\/)[^,\s]+)/g, (_m, pre, p) => pre + toDocs(p));
           html = html.replace(/\b(srcset|imagesrcset)=(["'])([^"']+)\2/gi, (_m, attr, q, val) => `${attr}=${q}${fixSet(val)}${q}`);
 
-          // Inline CSS url(/...) -> absolute DOCS
+          // 5) Inline CSS url(/...) -> DOCS
           html = html.replace(/url\((["']?)\/(?!\/)/gi, 'url($1' + DOCS);
 
-          // Canonicals/social -> ROOT domain
-          html = html
-            .replace(/<link\s+rel=["']canonical["'][^>]*>/i, '')
-            .replace(/<meta\s+property=["']og:url["'][^>]*>/i, '')
-            .replace(/<meta\s+name=["']twitter:url["'][^>]*>/i, '')
-            .replace(/<head\b[^>]*>/i, m => `${m}<link rel="canonical" href="${ROOT}"><meta property="og:url" content="${ROOT}"><meta name="twitter:url" content="${ROOT}">`);
+          // 6) Canonical/OG/Twitter -> ROOT
+          html = html.replace(/<link\s+rel=["']canonical["'][^>]*>/i, '')
+                     .replace(/<meta\s+property=["']og:url["'][^>]*>/i, '')
+                     .replace(/<meta\s+name=["']twitter:url["'][^>]*>/i, '')
+                     .replace(/<head\b[^>]*>/i, m => `${m}<link rel="canonical" href="${ROOT}"><meta property="og:url" content="${ROOT}"><meta name="twitter:url" content="${ROOT}">`);
 
-          // Self-links targeting /home -> send to DOCS root instead
-          html = html
-            .replace(/\bhref=(["'])\/home\/?(#[^"']*)?\1/gi, (_m, q, h) => `href="${DOCS}${h || ''}"`)
-            .replace(/\bhref=\/home\/?(#[^\s>"']*)/gi, (_m, h) => `href="${DOCS}${h || ''}"`)
-            .replace(/\bhref=(["'])https?:\/\/docs\.gofiber\.io\/home\/?(#[^"']*)?\1/gi, (_m, q, h) => `href="${DOCS}${h || ''}"`)
-            .replace(/\bhref=https?:\/\/docs\.gofiber\.io\/home\/?(#[^\s>"']*)/gi, (_m, h) => `href="${DOCS}${h || ''}"`);
+          // 7) Self-links targeting /home -> DOCS root
+          html = html.replace(/\bhref=(["'])\/home\/?(#[^"']*)?\1/gi, (_m, q, h) => `href="${DOCS}${h || ''}"`)
+                     .replace(/\bhref=\/home\/?(#[^\s>"']*)/gi, (_m, h) => `href="${DOCS}${h || ''}"`)
+                     .replace(/\bhref=(["'])https?:\/\/docs\.gofiber\.io\/home\/?(#[^"']*)?\1/gi, (_m, q, h) => `href="${DOCS}${h || ''}"`)
+                     .replace(/\bhref=https?:\/\/docs\.gofiber\.io\/home\/?(#[^\s>"']*)/gi, (_m, h) => `href="${DOCS}${h || ''}"`);
+
+          // 8) Ensure the shim stays loaded from root (do NOT rewrite it to docs)
+          html = html.replace(/src=(["'])https:\/\/docs\.gofiber\.io\/anti-redirect\.js\1/gi, 'src="/anti-redirect.js"');
 
           fs.writeFileSync(file, html, 'utf8');
           NODE
 
-          # 404: redirect everything else to docs (preserves path/query/hash)
+          # 404: redirect everything else to docs (preserve path/query/hash)
           cat > out/404.html <<'EOF'
           <!doctype html>
           <script>
@@ -210,7 +228,7 @@ jobs:
       - name: Deploy to ${{ matrix.target.cname }}
         uses: peaceiris/actions-gh-pages@v4
         with:
-          personal_token: ${{ secrets.GH_PAGES_TOKEN }}   # PAT with Contents: Read and write
+          personal_token: ${{ secrets.GH_PAGES_TOKEN }}   # PAT with Contents: Read and write on both target repos
           external_repository: ${{ matrix.target.repo }}
           publish_dir: ${{ env.PUBLISH_DIR }}
           publish_branch: gh-pages
