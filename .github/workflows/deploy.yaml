@@ -100,6 +100,12 @@ jobs:
           mkdir -p out
           cp -v "build/${{ env.HOME_PATH }}/index.html" out/index.html
 
+          # Add robots.txt (point to docs sitemap)
+          cat > out/robots.txt <<'EOF'
+          User-agent: *
+          Sitemap: https://docs.gofiber.io/sitemap.xml
+          EOF
+
           # 0) Optional: also rewrite any absolute gofiber.io URLs to docs.gofiber.io
           sed -i 's#https://www\.gofiber\.io/#https://docs.gofiber.io/#g' out/index.html || true
           sed -i 's#https://gofiber\.io/#https://docs.gofiber.io/#g' out/index.html || true
