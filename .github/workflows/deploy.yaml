@@ -79,9 +79,9 @@ jobs:
           # Use PAT for external repos:
           personal_token: ${{ secrets.GH_PAGES_TOKEN }}
           # If publishing to the same repo instead, use:
-          # github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           external_repository: ${{ matrix.target.repo }}
-          publish_dir: build
+          publish_dir: ./build
           publish_branch: gh-pages
           cname: ${{ matrix.target.cname }}
           force_orphan: true
