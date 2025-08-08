@@ -22,7 +22,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Faster installs via npm cache
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -31,7 +30,6 @@ jobs:
             package-lock.json
             **/package-lock.json
 
-      # Restore Webpack/Babel/etc. caches
       - name: Restore build caches
         uses: actions/cache@v4
         with:
@@ -84,13 +82,12 @@ jobs:
         with:
           node-version: 20
 
-      # v4 restores original paths; `build/**` will appear at repo root
       - uses: actions/download-artifact@v4
         with:
           name: docusaurus-build
           path: .
 
-      # --- DOCS: deploy the full build, but remove /home ---
+      # --- DOCS: deploy full build, but remove /home ---
       - name: Prepare publish dir (docs)
         if: ${{ matrix.target.mode == 'docs' }}
         shell: bash
@@ -110,12 +107,31 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test -f "build/${HOME_PATH}/index.html" || (echo "Missing build/${HOME_PATH}/index.html" && exit 1)
 
+          # Find the Home file robustly: supports trailingSlash true/false and i18n layouts
+          shopt -s globstar nullglob
+          HOME_FILE=""
+          for f in \
+            "build/${HOME_PATH}/index.html" \
+            "build/${HOME_PATH}.html" \
+            build/**/${HOME_PATH}/index.html \
+            build/**/${HOME_PATH}.html
+          do
+            if [ -f "$f" ]; then HOME_FILE="$f"; break; fi
+          done
+
+          if [ -z "${HOME_FILE}" ]; then
+            echo "::error::Home HTML not found for HOME_PATH='${HOME_PATH}'."
+            echo "Here are top-level build entries and likely candidates:"
+            find build -maxdepth 2 -type f | sed 's/^/  - /' | head -n 200 || true
+            exit 1
+          fi
+
+          echo "Using Home file: ${HOME_FILE}"
           mkdir -p out
-          cp -v "build/${HOME_PATH}/index.html" out/index.html
+          cp -v "${HOME_FILE}" out/index.html
 
-          # robots.txt -> tell crawlers where the sitemap lives
+          # robots.txt -> point crawlers to docs sitemap
           cat > out/robots.txt <<'EOF'
           User-agent: *
           Sitemap: https://docs.gofiber.io/sitemap.xml
@@ -124,7 +140,7 @@ jobs:
           # Copy JS helpers from repo to publish root
           cp -v .github/assets/anti-redirect.js out/anti-redirect.js
 
-          # Rewrite HTML using repo script
+          # Rewrite HTML using repo script (keeps JS; fixes URLs; blocks /home redirects)
           node .github/scripts/rewrite-home.js out/index.html
 
           # 404: redirect everything else to docs (preserve path/query/hash)
@@ -138,6 +154,7 @@ jobs:
           EOF
 
           echo "PUBLISH_DIR=$GITHUB_WORKSPACE/out" >> $GITHUB_ENV
+
 
       - name: Deploy to ${{ matrix.target.cname }}
         uses: peaceiris/actions-gh-pages@v4
