@@ -84,14 +84,11 @@ jobs:
         with:
           node-version: 20
 
+      # v4 restores original paths; `build/**` will appear at repo root
       - uses: actions/download-artifact@v4
         with:
           name: docusaurus-build
-        # path defaults to ./docusaurus-build; we want ./build:
-      - name: Move artifact to ./build
-        run: |
-          rm -rf build
-          mv docusaurus-build build
+          path: .
 
       # --- DOCS: deploy the full build, but remove /home ---
       - name: Prepare publish dir (docs)
@@ -107,7 +104,7 @@ jobs:
           fi
           echo "PUBLISH_DIR=$GITHUB_WORKSPACE/build" >> $GITHUB_ENV
 
-      # --- HOME: interactive /home at root (keep JS; fix all URLs; block /home redirects) ---
+      # --- HOME: interactive /home at root (keep JS; fix URLs; block /home redirects) ---
       - name: Prepare publish dir (home only)
         if: ${{ matrix.target.mode == 'home' }}
         shell: bash
@@ -118,7 +115,7 @@ jobs:
           mkdir -p out
           cp -v "build/${HOME_PATH}/index.html" out/index.html
 
-          # robots.txt -> point crawlers to docs sitemap
+          # robots.txt -> tell crawlers where the sitemap lives
           cat > out/robots.txt <<'EOF'
           User-agent: *
           Sitemap: https://docs.gofiber.io/sitemap.xml
