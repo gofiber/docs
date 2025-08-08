@@ -1,5 +1,5 @@
-import type {Config} from '@docusaurus/types';
-import {themes} from 'prism-react-renderer';
+import type { Config } from '@docusaurus/types';
+import { themes } from 'prism-react-renderer';
 
 const lightCodeTheme = themes.github;
 const darkCodeTheme = themes.dracula;
@@ -27,6 +27,7 @@ const config: Config = {
         mermaid: true,
     },
     plugins: [
+        'docusaurus-plugin-sass',
         require.resolve('./llms-plugin.js'),
         [require.resolve('@easyops-cn/docusaurus-search-local'),
             {
@@ -51,6 +52,12 @@ const config: Config = {
                         from: '/ctx',
                         to: '/api/ctx',
                     },
+                    // ...(process.env.NODE_ENV === 'production' ? [
+                    //     {
+                    //         from: '/home',
+                    //         to: 'https://gofiber.io',
+                    //     }
+                    // ] : []),
                 ],
                 createRedirects(existingPath: string) {
                     if (existingPath.includes('/v1.x')) {
@@ -95,7 +102,7 @@ const config: Config = {
                 id: 'contrib',
                 path: 'docs/contrib',
                 routeBasePath: 'contrib',
-                editUrl: (params: {docPath: string}) => {
+                editUrl: (params: { docPath: string }) => {
                     return 'https://github.com/gofiber/contrib/edit/main/' + params.docPath;
                 },
                 editCurrentVersion: true,
@@ -110,7 +117,7 @@ const config: Config = {
                 id: 'storage',
                 path: 'docs/storage',
                 routeBasePath: 'storage',
-                editUrl: (params: {docPath: string}) => {
+                editUrl: (params: { docPath: string }) => {
                     return 'https://github.com/gofiber/storage/edit/main/' + params.docPath;
                 },
                 editCurrentVersion: true,
@@ -125,7 +132,7 @@ const config: Config = {
                 id: 'template',
                 path: 'docs/template',
                 routeBasePath: 'template',
-                editUrl: (params: {docPath: string}) => {
+                editUrl: (params: { docPath: string }) => {
                     return 'https://github.com/gofiber/template/edit/master/' + params.docPath;
                 },
                 editCurrentVersion: true,
@@ -140,7 +147,7 @@ const config: Config = {
                 id: 'recipes',
                 path: 'docs/recipes',
                 routeBasePath: 'recipes',
-                editUrl: (params: {docPath: string}) => {
+                editUrl: (params: { docPath: string }) => {
                     return 'https://github.com/gofiber/recipes/edit/master/' + params.docPath;
                 },
                 editCurrentVersion: true,
@@ -163,14 +170,17 @@ const config: Config = {
                     sidebarPath: require.resolve('./default_sidebars'),
                     // disabled until we make a redirect to the respective source repository
                     // editUrl: 'https://github.com/gofiber/fiber/edit/master/',
-                    editUrl: (params: {docPath: string; version?: string}) => {
+                    editUrl: (params: { docPath: string; version?: string }) => {
                         // console.log(params);
                         if (params.version === 'current') {
                             return 'https://github.com/gofiber/fiber/edit/main/docs/' + params.docPath;
                         }
                         return undefined;
                     },
-                    sidebarItemsGenerator: async function ({defaultSidebarItemsGenerator, ...args}: { defaultSidebarItemsGenerator: (...args: any[]) => Promise<any>; [key: string]: any }) {
+                    sidebarItemsGenerator: async function ({defaultSidebarItemsGenerator, ...args}: {
+                        defaultSidebarItemsGenerator: (...args: any[]) => Promise<any>;
+                        [key: string]: any
+                    }) {
                         // filter partials from sidebar
                         return (await defaultSidebarItemsGenerator(args)).filter((item: any) => !(item.label === 'partials' || item.id === 'partials'));
                     },
@@ -325,7 +335,7 @@ const config: Config = {
             prism: {
                 theme: lightCodeTheme,
                 darkTheme: darkCodeTheme,
-                additionalLanguages: ['json', 'diff'],
+                additionalLanguages: ['json', 'diff', 'go'],
             },
             inkeepConfig: {
                 chatButtonType: 'PILL', // RECTANGLE_SHORTCUT, ICON, or PILL
@@ -342,7 +352,7 @@ const config: Config = {
                             lightTheme: lightCodeTheme, // optional -- pass in the Prism theme you're using
                             darkTheme: darkCodeTheme, // optional -- pass in the Prism theme you're using
                         },
-                    }
+                    },
                 },
                 aiChatSettings: {
                     chatSubjectName: "Fiber",
@@ -354,22 +364,22 @@ const config: Config = {
                             name: "Discord",
                             url: "https://gofiber.io/discord",
                             icon: {
-                                builtIn: "FaDiscord"
-                            }
+                                builtIn: "FaDiscord",
+                            },
                         },
                         {
                             name: "GitHub",
                             url: "https://github.com/gofiber/fiber",
                             icon: {
-                                builtIn: "FaGithub"
-                            }
-                        }
+                                builtIn: "FaGithub",
+                            },
+                        },
                     ],
                     quickQuestions: [
                         "How to create custom error handler?",
                         "How can I use live reload?",
-                        "Which template engines does Fiber support?"
-                    ]
+                        "Which template engines does Fiber support?",
+                    ],
                 },
             },
         }),

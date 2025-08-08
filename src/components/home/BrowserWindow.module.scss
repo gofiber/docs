@@ -1,0 +1,61 @@
+.browser {
+  pre {
+    background-color: unset;
+  }
+}
+
+.window {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.titlebar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  background: var(--ifm-color-emphasis-200);
+}
+
+.titlebarButtons {
+  display: flex;
+  gap: 6px;
+}
+
+.btn {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ifm-color-emphasis-400);
+  display: inline-block;
+
+  &:nth-child(1) {
+    background: var(--ifm-color-danger);
+  }
+  &:nth-child(2) {
+      background: var(--ifm-color-warning);
+  }
+  &:nth-child(3) {
+      background: var(--ifm-color-success);
+  }
+}
+
+.urlBar {
+  flex: 1;
+  text-align: left;
+  font-size: 12px;
+  color: var(--ifm-color-emphasis-800);
+}
+
+.windowContent {
+  background: var(--ifm-background-surface-color);
+  padding: 12px;
+}
+
+.browserContent {
+  background: var(--ifm-code-background);
+  padding: 16px;
+  border-radius: 6px;
+}
+

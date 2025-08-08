@@ -9,7 +9,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "types": ["@docusaurus/module-type-aliases"],
+    "types": ["@docusaurus/module-type-aliases", "docusaurus-plugin-sass"],
     "resolveJsonModule": true
   }
 }

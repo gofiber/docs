@@ -1,0 +1,116 @@
+/* ==== LAYOUT VARIANTS (FLEX ONLY) ========================================= */
+
+/* Default split: Text | Code (or Text | Text) with constant middle gap */
+.featureRow {
+  display: flex;
+  align-items: center;                  /* vertically centered */
+  justify-content: space-between;
+  gap: var(--feature-gap, 72px);        /* keep central gap constant */
+}
+
+/* Side switch without order – simply row-reverse */
+.featureRow.reverse {
+  flex-direction: row-reverse;
+  .codeCol {
+    justify-content: flex-end;
+  }
+}
+
+/* Full-width Feature (one block, centered) */
+.featureFull {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.fullCode {
+  width: 100%;
+}
+
+/* Two text panels side by side */
+.textPairRow {
+  display: flex;
+  align-items: center;
+  gap: var(--feature-gap, 64px);
+}
+
+.textPanel {
+  flex: 1 1 0;
+  min-width: 0;
+  text-align: center;
+}
+
+/* ==== COLUMNS ============================================================= */
+
+.textCol,
+.codeCol {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Code gets a bit more space so nothing gets cut off */
+.textCol { flex: 0 1 50%; }
+.codeCol { flex: 1 1 50%; display: flex; align-items: center; }
+
+/* Code block: full width, no outer margin, scroll instead of clip */
+.codeCol :where(.theme-code-block, pre) {
+  width: 100%;
+  margin: 0;
+}
+
+.codeCol :where(.theme-code-block) > :where(div, pre) {
+  overflow: auto;                        /* horizontal scrolling for long lines */
+}
+
+.codeCol :where(code) {
+  white-space: pre;                      /* no wrap in code */
+  font-size: 0.95rem;                    /* slightly more compact for overview */
+}
+
+/* If text is on the right instead of code */
+.codeCol :where(p, ul, ol) {
+  margin: 0 0 10px;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* ==== TYPOGRAPHY ========================================================== */
+
+.title {
+  margin: 0 0 8px;
+  line-height: 1.1;
+}
+
+.desc {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--ifm-color-emphasis-700);
+
+  a { text-decoration: underline; }
+}
+
+/* ==== RESPONSIVE ========================================================== */
+
+@media (max-width: 996px) {
+  .featureRow {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .featureRow.reverse {
+    flex-direction: column; /* no side switch on mobile */
+  }
+
+  .textCol,
+  .codeCol {
+    flex-basis: auto;
+  }
+
+  .textPairRow {
+    flex-direction: column;
+    gap: 30px;
+  }
+}

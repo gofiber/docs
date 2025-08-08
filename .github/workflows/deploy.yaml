@@ -36,6 +36,7 @@ jobs:
         run: npm run build
         env:
 #          BASE_URL: '/docs/'
+          NODE_ENV: production
           INKEEP_API_KEY: ${{ secrets.INKEEP_API_KEY }}
           INKEEP_INTEGRATION_ID: ${{ secrets.INKEEP_INTEGRATION_ID }}
           INKEEP_ORGANIZATION_ID: ${{ secrets.INKEEP_ORGANIZATION_ID }}

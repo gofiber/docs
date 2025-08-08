@@ -1,0 +1,12 @@
+:global([data-stripe].stripe-odd) {
+  background: var(--ifm-color-emphasis-200);
+}
+
+[data-theme='dark'] :global([data-stripe].stripe-odd) {
+  background: var(--ifm-color-emphasis-200);
+}
+
+h2, h3 {
+  font-weight: 800;
+  font-size: clamp(28px, 3.6vw, 44px);
+}

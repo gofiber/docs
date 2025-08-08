@@ -1,0 +1,10 @@
+/* Section-Bands mit alternierenden Hintergründen – rein via CSS */
+.features { padding: 0; }
+
+.bands { display: block; }
+
+.band {
+  width: 100%;
+  padding: 0;
+  background: var(--ifm-background-color);
+}
