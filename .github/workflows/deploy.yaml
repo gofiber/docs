@@ -122,7 +122,7 @@ jobs:
           Sitemap: https://docs.gofiber.io/sitemap.xml
           EOF
 
-          # Rewrite all root-absolute refs to https://docs.gofiber.io (and strip SPA scripts)
+                    # Rewrite all root-absolute refs to https://docs.gofiber.io (and strip SPA scripts)
           node - <<'NODE'
           const fs = require('fs');
           const homePath = process.env.HOME_PATH || 'home';
@@ -137,20 +137,27 @@ jobs:
             html = html.replace(/<head([^>]*)>/i, (m) => m + '<base href="https://docs.gofiber.io/">');
           }
 
-          // 2) Attributes starting with "/" -> keep the rest of the path!
-          //    href="/x" -> href="https://docs.gofiber.io/x"
+          // 2a) Quoted attributes starting with "/"  -> keep the path
+          //     href="/x" -> href="https://docs.gofiber.io/x"
           html = html.replace(
             /\b(href|src|action|poster|data-href|data-src|content)=(["'])\/(?!\/)([^"']*)/gi,
             (_m, attr, q, rest) => `${attr}=${q}https://docs.gofiber.io/${rest}`
           );
 
-          // 3) srcset & imagesrcset entries
+          // 2b) **Unquoted** attributes starting with "/"  (your case)
+          //     href=/x -> href="https://docs.gofiber.io/x"
+          html = html.replace(
+            /\b(href|src|action|poster|data-href|data-src|content)=\/(?!\/)([^ \t\r\n>"']*)/gi,
+            (_m, attr, rest) => `${attr}="https://docs.gofiber.io/${rest}"`
+          );
+
+          // 3) srcset & imagesrcset entries (comma-separated)
           const rewriteSrcset = (val) =>
             val.replace(/(^|,\s*)\/(?!\/)([^,\s]+)/g, (_, pfx, path) => `${pfx}https://docs.gofiber.io/${path}`);
           html = html.replace(/\bsrcset=(["'])([^"']*)(["'])/gi, (_m, q1, val, q2) => `srcset=${q1}${rewriteSrcset(val)}${q2}`);
           html = html.replace(/\bimagesrcset=(["'])([^"']*)(["'])/gi, (_m, q1, val, q2) => `imagesrcset=${q1}${rewriteSrcset(val)}${q2}`);
 
-          // 4) Inline CSS url(/...) -> absolute
+          // 4) Inline CSS: url(/...) -> absolute
           html = html.replace(/url\((["'])?\/(?!\/)/gi, 'url($1https://docs.gofiber.io/');
 
           // 5) Canonical -> docs.gofiber.io/<HOME_PATH>/
@@ -183,6 +190,14 @@ jobs:
           EOF
 
           echo "PUBLISH_DIR=$GITHUB_WORKSPACE/out" >> $GITHUB_ENV
+
+      - name: Verify rewritten paths - home
+        if: ${{ matrix.target.mode == 'home' }}
+        shell: bash
+        run: |
+          if grep -Eo '\b(href|src|action|poster|data-href|data-src|content)=(["'\'']?)\/(?!\/)' out/index.html; then
+            echo "::warning::Found remaining root-absolute refs in out/index.html"
+          fi
 
       - name: Deploy to ${{ matrix.target.cname }}
         uses: peaceiris/actions-gh-pages@v4
