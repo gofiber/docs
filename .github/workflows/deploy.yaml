@@ -23,20 +23,35 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # npm cache (downloads) – speeds up npm ci
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            **/package-lock.json
+
+      # Restore Webpack/Babel/etc caches
+      - name: Restore build caches
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules/.cache
+            .docusaurus
+          key: docusaurus-${{ runner.os }}-node20-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            docusaurus-${{ runner.os }}-node20-
 
       - name: Install deps
         run: npm ci
 
-      # Optional Docusaurus cache. Keep if you use it.
       - uses: docuactions/cache@v1
 
       - name: Build
         env:
           NODE_ENV: production
+          NODE_OPTIONS: --max-old-space-size=4096
           INKEEP_API_KEY: ${{ secrets.INKEEP_API_KEY }}
           INKEEP_INTEGRATION_ID: ${{ secrets.INKEEP_INTEGRATION_ID }}
           INKEEP_ORGANIZATION_ID: ${{ secrets.INKEEP_ORGANIZATION_ID }}
@@ -73,7 +88,7 @@ jobs:
           name: docusaurus-build
           path: build
 
-      # --- DOCS: deploy the full build ---
+      # --- DOCS: deploy the full build (remove /home from docs) ---
       - name: Prepare publish dir (docs)
         if: ${{ matrix.target.mode == 'docs' }}
         shell: bash
@@ -82,15 +97,14 @@ jobs:
             echo "Removing build/${HOME_PATH}"
             rm -rf "build/${HOME_PATH}"
           fi
-          # Optional: drop /home entries from sitemap (keeps XML valid enough for search engines)
+          # Optional: drop /home entries from sitemap
           if [ -f build/sitemap.xml ]; then
             grep -v "/${HOME_PATH}/" build/sitemap.xml > build/sitemap.xml.tmp || true
             mv build/sitemap.xml.tmp build/sitemap.xml
           fi
-
           echo "PUBLISH_DIR=$GITHUB_WORKSPACE/build" >> $GITHUB_ENV
 
-      # --- HOME: deploy only /home as index.html + a 404 redirect ---
+      # --- HOME: publish only a static snapshot of /home at gofiber.io root ---
       - name: Prepare publish dir (home only)
         if: ${{ matrix.target.mode == 'home' }}
         shell: bash
@@ -108,7 +122,7 @@ jobs:
           Sitemap: https://docs.gofiber.io/sitemap.xml
           EOF
 
-          # Do all rewrites via Node (no perl)
+          # Rewrite all root-absolute refs to https://docs.gofiber.io (and strip SPA scripts)
           node - <<'NODE'
           const fs = require('fs');
           const homePath = process.env.HOME_PATH || 'home';
@@ -119,25 +133,37 @@ jobs:
           html = html.replace(/https?:\/\/(?:www\.)?gofiber\.io\//g, 'https://docs.gofiber.io/');
 
           // 1) Ensure <base> so any residual relatives resolve to docs.gofiber.io
-          html = html.replace(/<head(.*?)>/i, (m) => m + '<base href="https://docs.gofiber.io/">');
+          if (/<head[^>]*>/i.test(html)) {
+            html = html.replace(/<head([^>]*)>/i, (m) => m + '<base href="https://docs.gofiber.io/">');
+          }
 
-          // 2) Attributes starting with "/" -> absolute docs URLs
-          html = html.replace(/\b(href|src|action|poster|data-href|data-src|content)=(["'])\/(?!\/)/gi,
-                               (_m, a, q) => `${a}=${q}https://docs.gofiber.io/`);
+          // 2) Attributes starting with "/" -> keep the rest of the path!
+          //    href="/x" -> href="https://docs.gofiber.io/x"
+          html = html.replace(
+            /\b(href|src|action|poster|data-href|data-src|content)=(["'])\/(?!\/)([^"']*)/gi,
+            (_m, attr, q, rest) => `${attr}=${q}https://docs.gofiber.io/${rest}`
+          );
 
-          // 3) srcset entries (first and subsequent)
-          html = html.replace(/\bsrcset="\/(?!\/)/gi, 'srcset="https://docs.gofiber.io/');
-          html = html.replace(/(srcset="[^"]*)\,\s*\/(?!\/)/gi, '$1, https://docs.gofiber.io/');
+          // 3) srcset & imagesrcset entries
+          const rewriteSrcset = (val) =>
+            val.replace(/(^|,\s*)\/(?!\/)([^,\s]+)/g, (_, pfx, path) => `${pfx}https://docs.gofiber.io/${path}`);
+          html = html.replace(/\bsrcset=(["'])([^"']*)(["'])/gi, (_m, q1, val, q2) => `srcset=${q1}${rewriteSrcset(val)}${q2}`);
+          html = html.replace(/\bimagesrcset=(["'])([^"']*)(["'])/gi, (_m, q1, val, q2) => `imagesrcset=${q1}${rewriteSrcset(val)}${q2}`);
 
           // 4) Inline CSS url(/...) -> absolute
           html = html.replace(/url\((["'])?\/(?!\/)/gi, 'url($1https://docs.gofiber.io/');
 
           // 5) Canonical -> docs.gofiber.io/<HOME_PATH>/
           if (/\brel=["']canonical["']/.test(html)) {
-            html = html.replace(/<link\s+rel=["']canonical["']\s+href=["'][^"']*["']\s*\/?>/i,
-                                `<link rel="canonical" href="https://docs.gofiber.io/${homePath}/">`);
-          } else {
-            html = html.replace(/<head(.*?)>/i, (m) => m + `<link rel="canonical" href="https://docs.gofiber.io/${homePath}/">`);
+            html = html.replace(
+              /<link\s+rel=["']canonical["']\s+href=["'][^"']*["']\s*\/?>/i,
+              `<link rel="canonical" href="https://docs.gofiber.io/${homePath}/">`
+            );
+          } else if (/<head[^>]*>/i.test(html)) {
+            html = html.replace(
+              /<head([^>]*)>/i,
+              (m) => m + `<link rel="canonical" href="https://docs.gofiber.io/${homePath}/">`
+            );
           }
 
           // 6) Strip all scripts so the SPA can't redirect / -> /home
