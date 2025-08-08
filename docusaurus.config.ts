@@ -272,6 +272,7 @@ function headerNav(): object[] {
     if (isHome) {
         const switchToLink = (item: {type: string, docsPluginId: string}) => {
             item.to = `https://docs.gofiber.io/${item.docsPluginId}`;
+            item.target = '_self';
             delete item.docsPluginId;
             delete item.type;
             

@@ -69,3 +69,9 @@ jobs:
           publish_branch: gh-pages
           cname: ${{ matrix.target.cname }}
           force_orphan: true
+      - uses: sarisia/actions-status-discord@v1
+        if: ${{ failure() || (success() && steps.last_status.outputs.last_status == 'failure') }}
+        with:
+          title: "deploy"
+          description: "Docs: Build & Deploy GitHub Pages"
+          webhook: ${{ secrets.DISCORD_SECURE_CHANNEL }}
