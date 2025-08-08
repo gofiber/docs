@@ -22,6 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Faster installs via npm cache
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -30,6 +31,7 @@ jobs:
             package-lock.json
             **/package-lock.json
 
+      # Restore Webpack/Babel/etc. caches
       - name: Restore build caches
         uses: actions/cache@v4
         with:
@@ -82,12 +84,18 @@ jobs:
         with:
           node-version: 20
 
-      - uses: actions/download-artifact@v4
+      # Download artifact into a temp dir, then normalize to ./build
+      - name: Download artifact
+        uses: actions/download-artifact@v4
         with:
           name: docusaurus-build
-          path: .
+        # path defaults to ./docusaurus-build; we want ./build:
+      - name: Move artifact to ./build
+        run: |
+          rm -rf build
+          mv docusaurus-build build
 
-      # --- DOCS: deploy full build, but remove /home ---
+      # --- DOCS: deploy the full build, but remove /home ---
       - name: Prepare publish dir (docs)
         if: ${{ matrix.target.mode == 'docs' }}
         shell: bash
@@ -108,7 +116,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          # Find the Home file robustly: supports trailingSlash true/false and i18n layouts
+          # Find the Home file robustly (trailingSlash true/false, i18n)
           shopt -s globstar nullglob
           HOME_FILE=""
           for f in \
@@ -122,8 +130,8 @@ jobs:
 
           if [ -z "${HOME_FILE}" ]; then
             echo "::error::Home HTML not found for HOME_PATH='${HOME_PATH}'."
-            echo "Here are top-level build entries and likely candidates:"
-            find build -maxdepth 2 -type f | sed 's/^/  - /' | head -n 200 || true
+            echo "Listing build/ (depth 3) so you can see what's there:"
+            find build -maxdepth 3 -type f | sed 's/^/  - /' | head -n 300 || true
             exit 1
           fi
 
@@ -154,7 +162,6 @@ jobs:
           EOF
 
           echo "PUBLISH_DIR=$GITHUB_WORKSPACE/out" >> $GITHUB_ENV
-
 
       - name: Deploy to ${{ matrix.target.cname }}
         uses: peaceiris/actions-gh-pages@v4
