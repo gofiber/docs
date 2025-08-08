@@ -80,6 +80,11 @@ jobs:
             mode: home
 
     steps:
+      # 0) Get repo files (.github/assets/*, .github/scripts/*)
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
