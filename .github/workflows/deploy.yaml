@@ -76,6 +76,7 @@ jobs:
       # --- DOCS: deploy the full build ---
       - name: Prepare publish dir (docs)
         if: ${{ matrix.target.mode == 'docs' }}
+        shell: bash
         run: |
           if [ -d "build/${HOME_PATH}" ]; then
             echo "Removing build/${HOME_PATH}"
@@ -92,50 +93,60 @@ jobs:
       # --- HOME: deploy only /home as index.html + a 404 redirect ---
       - name: Prepare publish dir (home only)
         if: ${{ matrix.target.mode == 'home' }}
+        shell: bash
         run: |
           set -euo pipefail
-          test -f "build/${{ env.HOME_PATH }}/index.html" || \
-            (echo "Missing build/${{ env.HOME_PATH }}/index.html. Is HOME_PATH correct?" && exit 1)
+          test -f "build/${HOME_PATH}/index.html" || \
+            (echo "Missing build/${HOME_PATH}/index.html. Is HOME_PATH correct?" && exit 1)
 
           mkdir -p out
-          cp -v "build/${{ env.HOME_PATH }}/index.html" out/index.html
+          cp -v "build/${HOME_PATH}/index.html" out/index.html
 
-          # Add robots.txt (point to docs sitemap)
+          # robots.txt -> point crawlers to docs sitemap
           cat > out/robots.txt <<'EOF'
           User-agent: *
           Sitemap: https://docs.gofiber.io/sitemap.xml
           EOF
 
-          # 0) Optional: also rewrite any absolute gofiber.io URLs to docs.gofiber.io
-          sed -i 's#https://www\.gofiber\.io/#https://docs.gofiber.io/#g' out/index.html || true
-          sed -i 's#https://gofiber\.io/#https://docs.gofiber.io/#g' out/index.html || true
-          sed -i 's#http://gofiber\.io/#https://docs.gofiber.io/#g' out/index.html || true
+          # Do all rewrites via Node (no perl)
+          node - <<'NODE'
+          const fs = require('fs');
+          const homePath = process.env.HOME_PATH || 'home';
+          const file = 'out/index.html';
+          let html = fs.readFileSync(file, 'utf8');
 
-          # 1) Insert <base> so any remaining relatives resolve to docs.gofiber.io
-          #    (kept even though we hard-rewrite most things; it's a safe fallback)
-          sed -i 's#<head>#<head><base href="https://docs.gofiber.io/">#' out/index.html
+          // 0) Rewrite any absolute gofiber.io URLs to docs.gofiber.io
+          html = html.replace(/https?:\/\/(?:www\.)?gofiber\.io\//g, 'https://docs.gofiber.io/');
 
-          # 2) Rewrite common attributes that start with "/" → absolute docs URLs
-          perl -0777 -pe 's/\b(href|src|action|poster|data-href|data-src|content)=([\"\'])\/(?!\/)/$1=$2https:\/\/docs.gofiber.io\//gi' -i out/index.html
+          // 1) Ensure <base> so any residual relatives resolve to docs.gofiber.io
+          html = html.replace(/<head(.*?)>/i, (m) => m + '<base href="https://docs.gofiber.io/">');
 
-          # 3) Rewrite srcset entries (handles first and the comma-separated ones)
-          perl -0777 -pe 's/\bsrcset="\/(?!\/)/srcset="https:\/\/docs.gofiber.io\//g' -i out/index.html
-          perl -0777 -pe 's/(srcset="[^"]*)\K,\s*\/(?!\/)/, https:\/\/docs.gofiber.io\//g' -i out/index.html
+          // 2) Attributes starting with "/" -> absolute docs URLs
+          html = html.replace(/\b(href|src|action|poster|data-href|data-src|content)=(["'])\/(?!\/)/gi,
+                               (_m, a, q) => `${a}=${q}https://docs.gofiber.io/`);
 
-          # 4) Rewrite CSS url(/...) in inline <style> blocks or style="" attrs
-          perl -0777 -pe 's#url\((["\x27]?)\/(?!\/)#url\($1https://docs.gofiber.io/#gi' -i out/index.html
+          // 3) srcset entries (first and subsequent)
+          html = html.replace(/\bsrcset="\/(?!\/)/gi, 'srcset="https://docs.gofiber.io/');
+          html = html.replace(/(srcset="[^"]*)\,\s*\/(?!\/)/gi, '$1, https://docs.gofiber.io/');
 
-          # 5) Ensure canonical points to docs.gofiber.io/<HOME_PATH>/
-          if grep -q 'rel="canonical"' out/index.html; then
-            sed -i 's#<link rel="canonical" href="[^"]*">#<link rel="canonical" href="https://docs.gofiber.io/'"$HOME_PATH"'/">#' out/index.html
-          else
-            sed -i 's#<head>#<head><link rel="canonical" href="https://docs.gofiber.io/'"$HOME_PATH"'/">#' out/index.html
-          fi
+          // 4) Inline CSS url(/...) -> absolute
+          html = html.replace(/url\((["'])?\/(?!\/)/gi, 'url($1https://docs.gofiber.io/');
 
-          # 6) Strip all scripts so Docusaurus SPA doesn't redirect / → /home
-          perl -0777 -pe 's#<script\b[^<]*(?:(?!</script>)<[^<]*)*</script>##gis' -i out/index.html
+          // 5) Canonical -> docs.gofiber.io/<HOME_PATH>/
+          if (/\brel=["']canonical["']/.test(html)) {
+            html = html.replace(/<link\s+rel=["']canonical["']\s+href=["'][^"']*["']\s*\/?>/i,
+                                `<link rel="canonical" href="https://docs.gofiber.io/${homePath}/">`);
+          } else {
+            html = html.replace(/<head(.*?)>/i, (m) => m + `<link rel="canonical" href="https://docs.gofiber.io/${homePath}/">`);
+          }
 
-          # 7) 404 → redirect everything else to docs, preserving path/query/hash
+          // 6) Strip all scripts so the SPA can't redirect / -> /home
+          html = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gis, '');
+
+          fs.writeFileSync(file, html, 'utf8');
+          NODE
+
+          # 404 -> redirect everything else to docs, preserving path/query/hash
           cat > out/404.html <<'EOF'
           <!doctype html>
           <script>
