@@ -400,6 +400,7 @@ const config: Config = {
                     alt: 'Fiber Logo',
                     src: 'img/logo.svg',
                     srcDark: 'img/logo-dark.svg',
+                    href: isDocs || isHome ? 'https://gofiber.io' : '/',
                 },
                 items: headerNav(),
             },
