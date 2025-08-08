@@ -1,4 +1,4 @@
-name: Build & Deploy GitHub Pages
+name: Build & Deploy GitHub Pages (parallel)
 
 on:
   push:
@@ -12,8 +12,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
-    name: Build & Deploy GitHub Pages
+  build:
+    name: Build website
     runs-on: ubuntu-latest
     steps:
       - name: Get previous workflow status
@@ -21,7 +21,9 @@ jobs:
         id: last_status
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -33,27 +35,60 @@ jobs:
       - uses: docuactions/cache@v1
 
       - name: Build website
-        run: npm run build
         env:
-#          BASE_URL: '/docs/'
           NODE_ENV: production
           INKEEP_API_KEY: ${{ secrets.INKEEP_API_KEY }}
           INKEEP_INTEGRATION_ID: ${{ secrets.INKEEP_INTEGRATION_ID }}
           INKEEP_ORGANIZATION_ID: ${{ secrets.INKEEP_ORGANIZATION_ID }}
-      # Popular action to deploy to GitHub Pages:
-      # Docs: https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus
-      - name: Deploy to GitHub Pages (on master)
-        if: github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'master')
+        run: npm run build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docusaurus-build
+          path: build
+          if-no-files-found: error
+          retention-days: 7
+
+  deploy:
+    name: Deploy (parallel)
+    needs: build
+    if: github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'master')
+    runs-on: ubuntu-latest
+
+    # One job per matrix entry (runs in parallel)
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          # Update these to your targets
+          - repo: gofiber/docs
+            cname: docs.gofiber.io
+          - repo: gofiber/website
+            cname: gofiber.io
+
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: docusaurus-build
+          path: build
+
+      - name: Deploy to ${{ matrix.target.cname }}
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          # Build output to publish to the `gh-pages` branch:
-          publish_dir: ./build
-          cname: docs.gofiber.io
+          # Use PAT for external repos:
+          personal_token: ${{ secrets.GH_PAGES_TOKEN }}
+          # If publishing to the same repo instead, use:
+          # github_token: ${{ secrets.GITHUB_TOKEN }}
+          external_repository: ${{ matrix.target.repo }}
+          publish_dir: build
+          publish_branch: gh-pages
+          cname: ${{ matrix.target.cname }}
+          force_orphan: true
+
       - uses: sarisia/actions-status-discord@v1
-        if: ${{ failure() || (success() && steps.last_status.outputs.last_status == 'failure') }}
+        if: ${{ failure() || (success() && needs.build.outputs.last_status == 'failure') }}
         with:
           title: "deploy"
-          description: "Docs: Build & Deploy GitHub Pages"
+          description: "Docs/Home: Parallel GitHub Pages deploy"
           webhook: ${{ secrets.DISCORD_SECURE_CHANNEL }}
-
