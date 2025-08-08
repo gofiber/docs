@@ -13,8 +13,7 @@ permissions:
   contents: read
 
 env:
-  # Change if your Home route is different (e.g., "getting-started")
-  HOME_PATH: home
+  HOME_PATH: home   # change if your Home route differs
 
 jobs:
   build:
@@ -23,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Faster installs (uses npm cache)
+      # Faster installs via npm cache
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -81,7 +80,6 @@ jobs:
             mode: home
 
     steps:
-      # Ensure Node is available for the rewrite step
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -91,41 +89,38 @@ jobs:
           name: docusaurus-build
           path: build
 
-      # --- DOCS: deploy the full build (remove /home from docs) ---
+      # --- DOCS: deploy full build, but remove /home ---
       - name: Prepare publish dir (docs)
         if: ${{ matrix.target.mode == 'docs' }}
         shell: bash
         run: |
           if [ -d "build/${HOME_PATH}" ]; then
-            echo "Removing build/${HOME_PATH}"
             rm -rf "build/${HOME_PATH}"
           fi
-          # Optional: drop /home entries from sitemap
           if [ -f build/sitemap.xml ]; then
             grep -v "/${HOME_PATH}/" build/sitemap.xml > build/sitemap.xml.tmp || true
             mv build/sitemap.xml.tmp build/sitemap.xml
           fi
           echo "PUBLISH_DIR=$GITHUB_WORKSPACE/build" >> $GITHUB_ENV
 
-      # --- HOME: publish only an interactive snapshot of /home at gofiber.io root ---
+      # --- HOME: interactive /home at gofiber.io root (keep JS, block /home redirects) ---
       - name: Prepare publish dir (home only)
         if: ${{ matrix.target.mode == 'home' }}
         shell: bash
         run: |
           set -euo pipefail
-          test -f "build/${HOME_PATH}/index.html" || \
-            (echo "Missing build/${HOME_PATH}/index.html. Is HOME_PATH correct?" && exit 1)
+          test -f "build/${HOME_PATH}/index.html" || (echo "Missing build/${HOME_PATH}/index.html" && exit 1)
 
           mkdir -p out
           cp -v "build/${HOME_PATH}/index.html" out/index.html
 
-          # robots.txt -> point crawlers to docs sitemap
+          # robots.txt -> tell crawlers where the sitemap lives
           cat > out/robots.txt <<'EOF'
           User-agent: *
           Sitemap: https://docs.gofiber.io/sitemap.xml
           EOF
 
-          # Anti-redirect shim as external JS (prevents "/" -> "/home")
+          # External anti-redirect (keeps SPA JS but normalizes /home -> /)
           cat > out/anti-redirect.js <<'EOF'
           (function () {
             function isHome(u) {
@@ -151,74 +146,46 @@ jobs:
           })();
           EOF
 
-          # Rewrite all refs, adapt /home->/, keep scripts, inject anti-redirect
+          # Rewrite minimal: make root-absolute refs load from docs, set canonical, inject anti-redirect, fix /home self-links
           node - <<'NODE'
           const fs = require('fs');
-          const homePath = process.env.HOME_PATH || 'home';
+          const DOCS = 'https://docs.gofiber.io/';
+          const ROOT = 'https://gofiber.io/';
           const file = 'out/index.html';
           let html = fs.readFileSync(file, 'utf8');
 
-          // 0) Normalize any absolute gofiber.io URLs to docs.gofiber.io for assets
-          html = html.replace(/https?:\/\/(?:www\.)?gofiber\.io\//g, 'https://docs.gofiber.io/');
+          // head: add <base> + anti-redirect loader
+          html = html.replace(/<head\b[^>]*>/i, m => `${m}<base href="${DOCS}"><script src="/anti-redirect.js"></script>`);
 
-          // 1) Inject <base> and external anti-redirect script right after <head>
-          if (/<head[^>]*>/i.test(html)) {
-            html = html.replace(
-              /<head([^>]*)>/i,
-              (m) => m + '<base href="https://docs.gofiber.io/"><script src="https://gofiber.io/anti-redirect.js"></script>'
-            );
-          }
-
-          // 2a) Quoted attrs starting with "/" -> absolute docs URLs (preserve path)
+          // attrs starting with "/" (quoted or unquoted) -> absolute DOCS
           html = html.replace(
-            /\b(href|src|action|poster|data-href|data-src|content)=(["'])\/(?!\/)([^"']*)/gi,
-            (_m, attr, q, rest) => `${attr}=${q}https://docs.gofiber.io/${rest}`
-          );
-          // 2b) Unquoted attrs starting with "/" (e.g., src=/img/logo.svg)
-          html = html.replace(
-            /\b(href|src|action|poster|data-href|data-src|content)=\/(?!\/)([^ \t\r\n>"']*)/gi,
-            (_m, attr, rest) => `${attr}="https://docs.gofiber.io/${rest}"`
+            /\b(href|src|action|poster|content|data-(?:href|src))=(["']?)(\/(?!\/)[^"'\s>]+)/gi,
+            (_m, a, _q, p) => `${a}="${DOCS}${p}"`
           );
 
-          // 3) srcset / imagesrcset (comma-separated)
-          const mapSet = (val) =>
-            val.replace(/(^|,\s*)\/(?!\/)([^,\s]+)/g, (_, pfx, p) => `${pfx}https://docs.gofiber.io/${p}`);
-          html = html.replace(/\bsrcset=(["'])([^"']*)(["'])/gi, (_m, q1, v, q2) => `srcset=${q1}${mapSet(v)}${q2}`);
-          html = html.replace(/\bimagesrcset=(["'])([^"']*)(["'])/gi, (_m, q1, v, q2) => `imagesrcset=${q1}${mapSet(v)}${q2}`);
+          // srcset / imagesrcset (comma-separated)
+          const fixSet = v => v.replace(/(^|,\s*)\/(?!\/)([^,\s]+)/g, (_m, pre, p) => `${pre}${DOCS}${p}`);
+          html = html.replace(/\b(srcset|imagesrcset)=(["'])([^"']+)\2/gi, (_m, attr, q, val) => `${attr}=${q}${fixSet(val)}${q}`);
 
-          // 4) Inline CSS url(/...) -> absolute docs
-          html = html.replace(/url\((["'])?\/(?!\/)/gi, 'url($1https://docs.gofiber.io/');
+          // inline CSS url(/...) -> absolute DOCS
+          html = html.replace(/url\((["']?)\/(?!\/)/gi, `url($1${DOCS}`);
 
-          // 5) Make this page canonical at https://gofiber.io/
-          if (/\brel=["']canonical["']/.test(html)) {
-            html = html.replace(
-              /<link\s+rel=["']canonical["']\s+href=["'][^"']*["']\s*\/?>/i,
-              `<link rel="canonical" href="https://gofiber.io/">`
-            );
-          } else if (/<head[^>]*>/i.test(html)) {
-            html = html.replace(/<head([^>]*)>/i, (m) => m + `<link rel="canonical" href="https://gofiber.io/">`);
-          }
-          html = html.replace(/<meta\s+property=["']og:url["']\s+content=["'][^"']*["']\s*\/?>/i,
-                              `<meta property="og:url" content="https://gofiber.io/">`);
-          html = html.replace(/<meta\s+name=["']twitter:url["']\s+content=["'][^"']*["']\s*\/?>/i,
-                              `<meta name="twitter:url" content="https://gofiber.io/">`);
+          // canonicals/social -> ROOT
+          html = html
+            .replace(/<link\s+rel=["']canonical["'][^>]*>/i, '')
+            .replace(/<meta\s+property=["']og:url["'][^>]*>/i, '')
+            .replace(/<meta\s+name=["']twitter:url["'][^>]*>/i, '')
+            .replace(/<head\b[^>]*>/i, m => `${m}<link rel="canonical" href="${ROOT}"><meta property="og:url" content="${ROOT}"><meta name="twitter:url" content="${ROOT}">`);
 
-          // 6) Turn self-links to /home into "/" (quoted, unquoted, absolute)
-          html = html.replace(/\bhref=(["'])\/home\/?(#[^"']*)?\1/gi, (_m, q, hash) => `href=${q}/${hash ? hash : ''}${q}`);
-          html = html.replace(/\bhref=\/home\/?(#[^\s>"']*)/gi, (_m, hash) => `href="/${hash || ''}"`);
-          html = html.replace(/\bhref=(["'])https?:\/\/docs\.gofiber\.io\/home\/?(#[^"']*)?\1/gi,
-                              (_m, q, hash) => `href=${q}/${hash ? hash : ''}${q}`);
-          html = html.replace(/\bhref=https?:\/\/docs\.gofiber\.io\/home\/?(#[^\s>"']*)/gi,
-                              (_m, hash) => `href="/${hash || ''}"`);
-
-          // 6b) Also normalize root self-links that became docs root back to "/"
-          html = html.replace(/\bhref=(["'])https?:\/\/docs\.gofiber\.io\/\1/gi, 'href="/"$1');
-          html = html.replace(/\bhref=https?:\/\/docs\.gofiber\.io\/(?=[\s>])/gi, 'href="/"');
+          // self-links to /home -> "/"
+          html = html
+            .replace(/\bhref=(["'])\/home\/?(#[^"']*)?\1/gi, (_m, q, h) => `href=${q}/${h || ''}${q}`)
+            .replace(/\bhref=["']?https?:\/\/docs\.gofiber\.io\/home\/?(#[^"'>\s]*)?/gi, (_m, h='') => `href="/${h}"`);
 
           fs.writeFileSync(file, html, 'utf8');
           NODE
 
-          # 404 -> redirect everything else to docs, preserving path/query/hash
+          # 404: redirect everything else to docs (preserves path/query/hash)
           cat > out/404.html <<'EOF'
           <!doctype html>
           <script>
@@ -233,8 +200,7 @@ jobs:
       - name: Deploy to ${{ matrix.target.cname }}
         uses: peaceiris/actions-gh-pages@v4
         with:
-          # PAT with "Contents: Read and write" on BOTH target repos (and SSO authorized)
-          personal_token: ${{ secrets.GH_PAGES_TOKEN }}
+          personal_token: ${{ secrets.GH_PAGES_TOKEN }}   # PAT with Contents: Read and write
           external_repository: ${{ matrix.target.repo }}
           publish_dir: ${{ env.PUBLISH_DIR }}
           publish_branch: gh-pages
