@@ -270,6 +270,13 @@ function headerNav(): object[] {
     ];
     
     if (isHome) {
+        naviItems[0] = {
+            to: 'https://docs.gofiber.io/',
+            label: '📚 Docs',
+            position: 'left',
+            target: '_self',
+        };
+        
         const switchToLink = (item: {type: string, docsPluginId: string}) => {
             item.to = `https://docs.gofiber.io/${item.docsPluginId}`;
             item.target = '_self';
