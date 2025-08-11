@@ -11,6 +11,7 @@ const isDocs = BUILD_TARGET === 'docs';
 
 function plugins(): PluginConfig[] {
     let pluginList: PluginConfig[] = [
+        require.resolve('./no-flash-color-mode-plugin.js'),
         'docusaurus-plugin-sass',
     ];
     
