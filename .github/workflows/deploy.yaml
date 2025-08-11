@@ -60,7 +60,8 @@ jobs:
         run: |
           npm run build:${{ matrix.target.mode }}
 
-      - name: Deploy to ${{ matrix.target.cname }}
+      - name: Deploy to ${{ matrix.target.cname }} (on master)
+        if: github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'master')
         uses: peaceiris/actions-gh-pages@v4
         with:
           personal_token: ${{ secrets.GH_PAGES_TOKEN }}   # PAT with Contents: Read and write on both repos
