@@ -26,8 +26,6 @@ export default function noFlashColorModePlugin(context) {
   var theme = storedTheme || (respectPrefersColorScheme ? getSystemTheme() : defaultMode);
   document.documentElement.setAttribute('data-theme', theme);
   document.documentElement.setAttribute('data-theme-choice', storedTheme || (respectPrefersColorScheme ? 'system' : defaultMode));
-  var bg = theme === 'dark' ? '#1b1b1d' : '#ffffff';
-  document.documentElement.style.backgroundColor = bg;
   document.documentElement.style.colorScheme = theme;
 })();`,
           },
