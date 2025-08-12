@@ -7,6 +7,10 @@ export default function noFlashColorModePlugin(context) {
       return {
         headTags: [
           {
+            tagName: 'style',
+            innerHTML: `html { visibility: hidden; } html[data-theme] { visibility: visible; }`,
+          },
+          {
             tagName: 'script',
             innerHTML: `(function() {
   var defaultMode = '${defaultMode}';
@@ -22,12 +26,12 @@ export default function noFlashColorModePlugin(context) {
   function getSystemTheme() {
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
-  var storedTheme = getStoredTheme();
-  var theme = storedTheme || (respectPrefersColorScheme ? getSystemTheme() : defaultMode);
-  document.documentElement.setAttribute('data-theme', theme);
-  document.documentElement.setAttribute('data-theme-choice', storedTheme || (respectPrefersColorScheme ? 'system' : defaultMode));
-  document.documentElement.style.colorScheme = theme;
-})();`,
+    var storedTheme = getStoredTheme();
+    var theme = storedTheme || (respectPrefersColorScheme ? getSystemTheme() : defaultMode);
+    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-theme-choice', storedTheme || (respectPrefersColorScheme ? 'system' : defaultMode));
+    document.documentElement.style.colorScheme = theme;
+  })();`,
           },
         ],
       };
