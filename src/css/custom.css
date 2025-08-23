@@ -70,19 +70,12 @@ div[class^='announcementBar_'] {
 }
 
 /* CUSTOM STYLE */
+/* Allow wide tables to scroll horizontally on narrow screens */
 table {
-  width: 100%;
-  display: table;
-}
-
-@media (max-width: 768px) {
-  /* Allow wide tables to scroll horizontally on narrow screens */
-  table {
-    width: auto;
-    display: block;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
+  width: auto;
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .margin-between > *:not(:first-child) {
