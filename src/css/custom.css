@@ -104,11 +104,15 @@ div.reference {
   height: 1.4rem;
   padding: 0 0.45rem;
   border-radius: 999px;
-  background-color: var(--ifm-color-secondary-lightest, rgba(0, 0, 0, 0.08));
+  background-color: rgba(31, 41, 55, 0.08);
+  color: var(--ifm-color-emphasis-700);
+  border: 1px solid rgba(15, 23, 42, 0.08);
   font-size: 0.75rem;
   font-variant-numeric: tabular-nums;
 }
 
 [data-theme='dark'] .github-stars-navbar-item__count {
-  background-color: var(--ifm-color-secondary-darkest, rgba(255, 255, 255, 0.12));
+  background-color: rgba(148, 163, 184, 0.16);
+  color: var(--ifm-color-emphasis-100);
+  border: 1px solid rgba(148, 163, 184, 0.35);
 }
