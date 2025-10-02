@@ -30,6 +30,10 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
+.navbar {
+  height: fit-content;
+}
+
 .header-github-link:hover {
   opacity: 0.6;
 }
@@ -84,4 +88,27 @@ table {
 
 div.reference {
     scroll-margin-top: calc(var(--ifm-navbar-height) + 3rem);
+}
+
+.github-stars-navbar-item__icon {
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.github-stars-navbar-item__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.8rem;
+  margin-left: 0.25rem;
+  height: 1.4rem;
+  padding: 0 0.45rem;
+  border-radius: 999px;
+  background-color: var(--ifm-color-secondary-lightest, rgba(0, 0, 0, 0.08));
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+[data-theme='dark'] .github-stars-navbar-item__count {
+  background-color: var(--ifm-color-secondary-darkest, rgba(255, 255, 255, 0.12));
 }

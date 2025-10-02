@@ -242,6 +242,10 @@ function headerNav(): object[] {
             // dropdownItemsBefore: [{type: 'html', value: '<div class="dropdown__link">Template Versions</div>'}],
         },
         {
+            type: 'custom-github-stars',
+            position: 'right',
+        },
+        {
             position: 'right',
             className: 'header-github-link',
             'aria-label': 'GitHub Repository',
@@ -303,7 +307,12 @@ function headerNav(): object[] {
         });
         
         naviItems = naviItems.filter(naviItem => {
-            return naviItem?.type === undefined || ['dropdown'].includes(naviItem.type);
+            const itemType = naviItem?.type;
+            if (typeof itemType === 'string' && itemType.startsWith('custom-')) {
+                return true;
+            }
+
+            return itemType === undefined || ['dropdown'].includes(itemType);
         })
     }
     
