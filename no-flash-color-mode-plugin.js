@@ -32,15 +32,10 @@ export default function noFlashColorModePlugin(context) {
     document.documentElement.setAttribute('data-theme-choice', storedTheme || (respectPrefersColorScheme ? 'system' : defaultMode));
     document.documentElement.style.colorScheme = theme;
 
-    var observer = new MutationObserver(function(mutationsList) {
-      for (var i = 0; i < mutationsList.length; i++) {
-        var mutation = mutationsList[i];
-        if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
-          var newTheme = document.documentElement.getAttribute('data-theme');
-          if (newTheme) {
-            document.documentElement.style.colorScheme = newTheme;
-          }
-        }
+    var observer = new MutationObserver(function() {
+      var newTheme = document.documentElement.getAttribute('data-theme');
+      if (newTheme) {
+        document.documentElement.style.colorScheme = newTheme;
       }
     });
 
