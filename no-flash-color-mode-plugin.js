@@ -31,11 +31,17 @@ export default function noFlashColorModePlugin(context) {
     document.documentElement.setAttribute('data-theme', theme);
     document.documentElement.setAttribute('data-theme-choice', storedTheme || (respectPrefersColorScheme ? 'system' : defaultMode));
     document.documentElement.style.colorScheme = theme;
+    if (document.body) {
+      document.body.style.colorScheme = theme;
+    }
 
     var observer = new MutationObserver(function() {
       var newTheme = document.documentElement.getAttribute('data-theme');
       if (newTheme) {
         document.documentElement.style.colorScheme = newTheme;
+        if (document.body) {
+          document.body.style.colorScheme = newTheme;
+        }
       }
     });
 
