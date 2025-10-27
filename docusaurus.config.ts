@@ -441,7 +441,7 @@ const config: Config = {
             prism: {
                 theme: lightCodeTheme,
                 darkTheme: darkCodeTheme,
-                additionalLanguages: ['json', 'diff', 'go'],
+                additionalLanguages: ['diff', 'go', 'json', 'toml', 'yaml'],
             },
             inkeepConfig: {
                 chatButtonType: 'PILL', // RECTANGLE_SHORTCUT, ICON, or PILL
