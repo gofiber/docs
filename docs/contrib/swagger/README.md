@@ -11,7 +11,12 @@ title: Swagger
 
 Swagger middleware for [Fiber](https://github.com/gofiber/fiber). The middleware handles Swagger UI.
 
-**Note: Requires Go 1.18 and above**
+
+**Compatible with Fiber v3.**
+
+## Go version support
+
+We only support the latest two versions of Go. Visit [https://go.dev/doc/devel/release](https://go.dev/doc/devel/release) for more information.
 
 ### Table of Contents
 - [Signatures](#signatures)
@@ -32,15 +37,15 @@ go mod init github.com/<user>/<repo>
 ```
 And then install the swagger middleware:
 ```bash
-go get github.com/gofiber/contrib/swagger
+go get github.com/gofiber/contrib/v3/swagger
 ```
 
 ### Examples
 Import the middleware package
 ```go
 import (
-  "github.com/gofiber/fiber/v2"
-  "github.com/gofiber/contrib/swagger"
+  "github.com/gofiber/fiber/v3"
+  "github.com/gofiber/contrib/v3/swagger"
 )
 ```
 
@@ -98,52 +103,52 @@ app.Use(swagger.New(swagger.Config{
 ### Config
 ```go
 type Config struct {
-	// Next defines a function to skip this middleware when returned true.
-	//
-	// Optional. Default: nil
-	Next func(c *fiber.Ctx) bool
+    // Next defines a function to skip this middleware when returned true.
+    //
+    // Optional. Default: nil
+    Next func(c fiber.Ctx) bool
 
-	// BasePath for the UI path
-	//
-	// Optional. Default: /
-	BasePath string
+    // BasePath for the UI path
+    //
+    // Optional. Default: /
+    BasePath string
 
-	// FilePath for the swagger.json or swagger.yaml file
-	//
-	// Optional. Default: ./swagger.json
-	FilePath string
+    // FilePath for the swagger.json or swagger.yaml file
+    //
+    // Optional. Default: ./swagger.json
+    FilePath string
 
-	// FileContent for the content of the swagger.json or swagger.yaml file.
-	// If provided, FilePath will not be read.
-	//
-	// Optional. Default: nil
-	FileContent []byte
+    // FileContent for the content of the swagger.json or swagger.yaml file.
+    // If provided, FilePath will not be read.
+    //
+    // Optional. Default: nil
+    FileContent []byte
 
-	// Path combines with BasePath for the full UI path
-	//
-	// Optional. Default: docs
-	Path string
+    // Path combines with BasePath for the full UI path
+    //
+    // Optional. Default: docs
+    Path string
 
-	// Title for the documentation site
-	//
-	// Optional. Default: Fiber API documentation
-	Title string
+    // Title for the documentation site
+    //
+    // Optional. Default: Fiber API documentation
+    Title string
 
-	// CacheAge defines the max-age for the Cache-Control header in seconds.
-	//
-	// Optional. Default: 3600 (1 hour)
-	CacheAge int
+    // CacheAge defines the max-age for the Cache-Control header in seconds.
+    //
+    // Optional. Default: 3600 (1 hour)
+    CacheAge int
 }
 ```
 
 ### Default Config
 ```go
 var ConfigDefault = Config{
-	Next:     nil,
-	BasePath: "/",
-	FilePath: "./swagger.json",
-	Path:     "docs",
-	Title:    "Fiber API documentation",
-	CacheAge: 3600, // Default to 1 hour
+    Next:     nil,
+    BasePath: "/",
+    FilePath: "./swagger.json",
+    Path:     "docs",
+    Title:    "Fiber API documentation",
+    CacheAge: 3600, // Default to 1 hour
 }
 ```

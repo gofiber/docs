@@ -10,24 +10,27 @@ id: fgprof
 
 [fgprof](https://github.com/felixge/fgprof) support for Fiber.
 
-**Note: Requires Go 1.19 and above**
+
+**Compatible with Fiber v3.**
+
+## Go version support
+
+We only support the latest two versions of Go. Visit [https://go.dev/doc/devel/release](https://go.dev/doc/devel/release) for more information.
 
 ## Install
 
-This middleware supports Fiber v2.
-
 Using fgprof to profiling your Fiber app.
 
-```
-go get -u github.com/gofiber/fiber/v2
-go get -u github.com/gofiber/contrib/fgprof
+```sh
+go get -u github.com/gofiber/fiber/v3
+go get -u github.com/gofiber/contrib/v3/fgprof
 ```
 
 ## Config
 
 | Property | Type                      | Description                                                                                                                                      | Default |
 |----------|---------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| Next     | `func(c *fiber.Ctx) bool` | A function to skip this middleware when returned `true`.                                                                                         | `nil`   |
+| Next     | `func(c fiber.Ctx) bool` | A function to skip this middleware when returned `true`.                                                                                         | `nil`   |
 | Prefix   | `string`.                 | Prefix defines a URL prefix added before "/debug/fgprof". Note that it should start with (but not end with) a slash. Example: "/federated-fiber" | `""`    |
 
 ## Example
@@ -36,19 +39,19 @@ go get -u github.com/gofiber/contrib/fgprof
 package main
 
 import (
-	"log"
+    "log"
 
-	"github.com/gofiber/contrib/fgprof"
-	"github.com/gofiber/fiber/v2"
+    "github.com/gofiber/contrib/v3/fgprof"
+    "github.com/gofiber/fiber/v3"
 )
 
 func main() {
-	app := fiber.New()
-	app.Use(fgprof.New())
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("OK")
-	})
-	log.Fatal(app.Listen(":3000"))
+    app := fiber.New()
+    app.Use(fgprof.New())
+    app.Get("/", func(c fiber.Ctx) error {
+        return c.SendString("OK")
+    })
+    log.Fatal(app.Listen(":3000"))
 }
 ```
 

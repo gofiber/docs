@@ -12,9 +12,15 @@ A [Testcontainers](https://golang.testcontainers.org/) Service Implementation fo
 
 :::note
 
-Requires Go **1.23** and above
+Requires Go **1.25** and above
 
 :::
+
+**Compatible with Fiber v3.**
+
+## Go version support
+
+We only support the latest two versions of Go. Visit [https://go.dev/doc/devel/release](https://go.dev/doc/devel/release) for more information.
 
 ## Common Use Cases
 
@@ -33,7 +39,7 @@ This Service Implementation only supports Fiber **v3**.
 
 ```shell
 go get -u github.com/gofiber/fiber/v3
-go get -u github.com/gofiber/contrib/testcontainers
+go get -u github.com/gofiber/contrib/v3/testcontainers
 ```
 
 ## Signature
@@ -208,7 +214,7 @@ func (c *ContainerService[T]) Terminate(ctx context.Context) error
 
 ## Examples
 
-You can find more examples in the [testable examples](https://github.com/gofiber/contrib/blob/main/testcontainers/examples_test.go).
+You can find more examples in the [testable examples](https://github.com/gofiber/contrib/blob/main/v3/testcontainers/examples_test.go).
 
 ### Adding a module container using the Testcontainers Go's Redis module
 
@@ -221,7 +227,7 @@ import (
 
  "github.com/gofiber/fiber/v3"
 
- "github.com/gofiber/contrib/testcontainers"
+ "github.com/gofiber/contrib/v3/testcontainers"
  tc "github.com/testcontainers/testcontainers-go"
  "github.com/testcontainers/testcontainers-go/modules/redis"
 )
@@ -273,7 +279,7 @@ import (
 
  "github.com/gofiber/fiber/v3"
 
- "github.com/gofiber/contrib/testcontainers"
+ "github.com/gofiber/contrib/v3/testcontainers"
  tc "github.com/testcontainers/testcontainers-go"
 )
 

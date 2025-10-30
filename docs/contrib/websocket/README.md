@@ -10,13 +10,18 @@ id: websocket
 
 Based on [Fasthttp WebSocket](https://github.com/fasthttp/websocket) for [Fiber](https://github.com/gofiber/fiber) with available `fiber.Ctx` methods like [Locals](http://docs.gofiber.io/ctx#locals), [Params](http://docs.gofiber.io/ctx#params), [Query](http://docs.gofiber.io/ctx#query) and [Cookies](http://docs.gofiber.io/ctx#cookies).
 
-**Note: Requires Go 1.25 and above**
+
+**Compatible with Fiber v3.**
+
+## Go version support
+
+We only support the latest two versions of Go. Visit [https://go.dev/doc/devel/release](https://go.dev/doc/devel/release) for more information.
 
 ## Install
 
-```
+```sh
 go get -u github.com/gofiber/fiber/v3
-go get -u github.com/gofiber/contrib/websocket
+go get -u github.com/gofiber/contrib/v3/websocket
 ```
 
 ## Signatures
@@ -38,63 +43,62 @@ func New(handler func(*websocket.Conn), config ...websocket.Config) fiber.Handle
 | EnableCompression   | `bool`                       | EnableCompression specifies if the client should attempt to negotiate per message compression (RFC 7692).                     | `false`                |
 | RecoverHandler      | `func(*websocket.Conn)`      | RecoverHandler is a panic handler function that recovers from panics.                                                         | `defaultRecover`       |
 
-
 ## Example
 
 ```go
 package main
 
 import (
-	"log"
+    "log"
 
-	"github.com/gofiber/fiber/v3"
-	"github.com/gofiber/contrib/websocket"
+    "github.com/gofiber/fiber/v3"
+    "github.com/gofiber/contrib/v3/websocket"
 )
 
 func main() {
-	app := fiber.New()
+    app := fiber.New()
 
-	app.Use("/ws", func(c fiber.Ctx) error {
-		// IsWebSocketUpgrade returns true if the client
-		// requested upgrade to the WebSocket protocol.
-		if websocket.IsWebSocketUpgrade(c) {
-			c.Locals("allowed", true)
-			return c.Next()
-		}
-		return fiber.ErrUpgradeRequired
-	})
+    app.Use("/ws", func(c fiber.Ctx) error {
+        // IsWebSocketUpgrade returns true if the client
+        // requested upgrade to the WebSocket protocol.
+        if websocket.IsWebSocketUpgrade(c) {
+            c.Locals("allowed", true)
+            return c.Next()
+        }
+        return fiber.ErrUpgradeRequired
+    })
 
-	app.Get("/ws/:id", websocket.New(func(c *websocket.Conn) {
-		// c.Locals is added to the *websocket.Conn
-		log.Println(c.Locals("allowed"))  // true
-		log.Println(c.Params("id"))       // 123
-		log.Println(c.Query("v"))         // 1.0
-		log.Println(c.Cookies("session")) // ""
+    app.Get("/ws/:id", websocket.New(func(c *websocket.Conn) {
+        // c.Locals is added to the *websocket.Conn
+        log.Println(c.Locals("allowed"))  // true
+        log.Println(c.Params("id"))       // 123
+        log.Println(c.Query("v"))         // 1.0
+        log.Println(c.Cookies("session")) // ""
 
-		// websocket.Conn bindings https://pkg.go.dev/github.com/fasthttp/websocket?tab=doc#pkg-index
-		var (
-			mt  int
-			msg []byte
-			err error
-		)
-		for {
-			if mt, msg, err = c.ReadMessage(); err != nil {
-				log.Println("read:", err)
-				break
-			}
-			log.Printf("recv: %s", msg)
+        // websocket.Conn bindings https://pkg.go.dev/github.com/fasthttp/websocket?tab=doc#pkg-index
+        var (
+            mt  int
+            msg []byte
+            err error
+        )
+        for {
+            if mt, msg, err = c.ReadMessage(); err != nil {
+                log.Println("read:", err)
+                break
+            }
+            log.Printf("recv: %s", msg)
 
-			if err = c.WriteMessage(mt, msg); err != nil {
-				log.Println("write:", err)
-				break
-			}
-		}
+            if err = c.WriteMessage(mt, msg); err != nil {
+                log.Println("write:", err)
+                break
+            }
+        }
 
-	}))
+    }))
 
-	log.Fatal(app.Listen(":3000"))
-	// Access the websocket server: ws://localhost:3000/ws/123?v=1.0
-	// https://www.websocket.org/echo.html
+    log.Fatal(app.Listen(":3000"))
+    // Access the websocket server: ws://localhost:3000/ws/123?v=1.0
+    // https://www.websocket.org/echo.html
 }
 
 ```
@@ -106,9 +110,9 @@ If you get the error `websocket: bad handshake` when using the [cache middleware
 ```go
 app := fiber.New()
 app.Use(cache.New(cache.Config{
-		Next: func(c fiber.Ctx) bool {
-			return strings.Contains(c.Route().Path, "/ws")
-		},
+        Next: func(c fiber.Ctx) bool {
+            return strings.Contains(c.Route().Path, "/ws")
+        },
 }))
 
 app.Get("/ws/:id", websocket.New(func(c *websocket.Conn) {}))
@@ -118,7 +122,6 @@ app.Get("/ws/:id", websocket.New(func(c *websocket.Conn) {}))
 
 For internal implementation reasons, currently recover middleware does not work with websocket middleware, please use `config.RecoverHandler` to add recover handler to websocket endpoints.
 By default, config `RecoverHandler` recovers from panic and writes stack trace to stderr, also returns a response that contains panic message in **error** field.
-
 
 ```go
 app := fiber.New()
@@ -138,7 +141,6 @@ cfg := Config{
 }
 
 app.Get("/ws/:id", websocket.New(func(c *websocket.Conn) {}, cfg))
-
 
 ```
 

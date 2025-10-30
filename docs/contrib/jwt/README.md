@@ -15,15 +15,18 @@ For missing token, it returns "400 - Bad Request" error.
 
 Special thanks and credits to [Echo](https://echo.labstack.com/middleware/jwt)
 
-**Note: Requires Go 1.25 and above**
+
+**Compatible with Fiber v3.**
+
+## Go version support
+
+We only support the latest two versions of Go. Visit [https://go.dev/doc/devel/release](https://go.dev/doc/devel/release) for more information.
 
 ## Install
 
-This middleware supports Fiber v3, install accordingly.
-
 ```bash
 go get -u github.com/gofiber/fiber/v3
-go get -u github.com/gofiber/contrib/jwt
+go get -u github.com/gofiber/contrib/v3/jwt
 go get -u github.com/golang-jwt/jwt/v5
 ```
 
@@ -91,7 +94,7 @@ import (
  "github.com/gofiber/fiber/v3"
  "github.com/gofiber/fiber/v3/extractors"
 
- jwtware "github.com/gofiber/contrib/jwt"
+ jwtware "github.com/gofiber/contrib/v3/jwt"
  "github.com/golang-jwt/jwt/v5"
 )
 
@@ -149,10 +152,10 @@ func accessible(c fiber.Ctx) error {
 }
 
 func restricted(c fiber.Ctx) error {
-	user := jwtware.FromContext(c)
-	claims := user.Claims.(jwt.MapClaims)
-	name := claims["name"].(string)
-	return c.SendString("Welcome " + name)
+    user := jwtware.FromContext(c)
+    claims := user.Claims.(jwt.MapClaims)
+    name := claims["name"].(string)
+    return c.SendString("Welcome " + name)
 }
 
 ```
@@ -165,7 +168,7 @@ package main
 import (
  "github.com/gofiber/fiber/v3"
 
- jwtware "github.com/gofiber/contrib/jwt"
+ jwtware "github.com/gofiber/contrib/v3/jwt"
 )
 
 func main() {
@@ -228,7 +231,7 @@ import (
 
  "github.com/golang-jwt/jwt/v5"
 
- jwtware "github.com/gofiber/contrib/jwt"
+ jwtware "github.com/gofiber/contrib/v3/jwt"
 )
 
 var (
@@ -304,10 +307,10 @@ func accessible(c fiber.Ctx) error {
 }
 
 func restricted(c fiber.Ctx) error {
-	user := jwtware.FromContext(c)
-	claims := user.Claims.(jwt.MapClaims)
-	name := claims["name"].(string)
-	return c.SendString("Welcome " + name)
+    user := jwtware.FromContext(c)
+    claims := user.Claims.(jwt.MapClaims)
+    name := claims["name"].(string)
+    return c.SendString("Welcome " + name)
 }
 ```
 
@@ -338,7 +341,7 @@ import (
  "fmt"
   "github.com/gofiber/fiber/v3"
 
-  jwtware "github.com/gofiber/contrib/jwt"
+  jwtware "github.com/gofiber/contrib/v3/jwt"
   "github.com/golang-jwt/jwt/v5"
 )
 

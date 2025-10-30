@@ -10,15 +10,18 @@ id: loadshed
 
 The LoadShed middleware for [Fiber](https://github.com/gofiber/fiber) is designed to help manage server load by shedding requests based on certain load criteria.
 
-**Note: Requires Go 1.19 and above**
+
+**Compatible with Fiber v3.**
+
+## Go version support
+
+We only support the latest two versions of Go. Visit [https://go.dev/doc/devel/release](https://go.dev/doc/devel/release) for more information.
 
 ## Install
 
-This middleware supports Fiber v2
-
-```
-go get -u github.com/gofiber/fiber/v2
-go get -u github.com/gofiber/contrib/loadshed
+```sh
+go get -u github.com/gofiber/fiber/v3
+go get -u github.com/gofiber/contrib/v3/loadshed
 ```
 
 ## Signatures
@@ -38,8 +41,8 @@ package main
 
 import (
   "time"
-  "github.com/gofiber/fiber/v2"
-  loadshed "github.com/gofiber/contrib/loadshed"
+  "github.com/gofiber/fiber/v3"
+  loadshed "github.com/gofiber/contrib/v3/loadshed"
 )
 
 func main() {
@@ -55,7 +58,7 @@ func main() {
     },
   }))
 
-  app.Get("/", func(c *fiber.Ctx) error {
+  app.Get("/", func(c fiber.Ctx) error {
     return c.SendString("Welcome!")
   })
 
@@ -70,8 +73,8 @@ package main
 
 import (
   "time"
-  "github.com/gofiber/fiber/v2"
-  loadshed "github.com/gofiber/contrib/loadshed"
+  "github.com/gofiber/fiber/v3"
+  loadshed "github.com/gofiber/contrib/v3/loadshed"
 )
 
 func main() {
@@ -85,7 +88,7 @@ func main() {
       Interval:       10 * time.Second,
       Getter:         &loadshed.DefaultCPUPercentGetter{},
     },
-    OnShed: func(ctx *fiber.Ctx) error {
+    OnShed: func(ctx fiber.Ctx) error {
       if ctx.Method() == fiber.MethodGet {
         return ctx.
           Status(fiber.StatusTooManyRequests).
@@ -100,7 +103,7 @@ func main() {
     },
   }))
 
-  app.Get("/", func(c *fiber.Ctx) error {
+  app.Get("/", func(c fiber.Ctx) error {
     return c.SendString("Welcome!")
   })
 
@@ -114,9 +117,9 @@ The LoadShed middleware in Fiber offers various configuration options to tailor 
 
 | Property | Type                       | Description                                             | Default                 |
 |:---------|:---------------------------|:--------------------------------------------------------|:------------------------|
-| Next     | `func(*fiber.Ctx) bool`    | Function to skip this middleware when returned true.    | `nil`                   |
+| Next     | `func(fiber.Ctx) bool`    | Function to skip this middleware when returned true.    | `nil`                   |
 | Criteria | `LoadCriteria`             | Interface for defining load shedding criteria.          | `&CPULoadCriteria{...}` |
-| OnShed   | `func(c *fiber.Ctx) error` | Function to be executed if a request should be declined | `nil`                   |
+| OnShed   | `func(c fiber.Ctx) error` | Function to be executed if a request should be declined | `nil`                   |
 
 ## LoadCriteria
 
@@ -144,9 +147,9 @@ LoadCriteria is an interface in the LoadShed middleware that defines the criteri
 - **Proportional Rejection Probability**:
   - **Below `LowerThreshold`**: No requests are rejected, as the system is considered under acceptable load.
   - **Between `LowerThreshold` and `UpperThreshold`**: The probability of rejecting a request increases as the CPU usage approaches the `UpperThreshold`. This is calculated using the formula:
-    ```plaintext
+```plaintext
     rejectionProbability := (cpuUsage - LowerThreshold*100) / (UpperThreshold - LowerThreshold)
-    ```
+```
   - **Above `UpperThreshold`**: All requests are rejected to prevent system overload.
 
 This mechanism ensures that the system can adaptively manage its load, maintaining stability and performance under varying traffic conditions.
