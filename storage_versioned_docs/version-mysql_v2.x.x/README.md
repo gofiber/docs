@@ -22,22 +22,39 @@ sidebar_position: 1
 
 Premade storage drivers that implement the [`Storage`](https://github.com/gofiber/storage/blob/main/storage.go) interface, designed to be used with various [Fiber middlewares](https://github.com/gofiber/fiber/tree/master/middleware).
 
+**Note:** All storages are tested with the latest two [Go version](https://go.dev/doc/devel/release#policy). Older Go versions may also work, but are not guaranteed to be supported.
+
 ```go
 // Storage interface for communicating with different database/key-value
 // providers. Visit https://github.com/gofiber/storage for more info.
 type Storage interface {
+	// GetWithContext gets the value for the given key with a context.
+	// `nil, nil` is returned when the key does not exist
+	GetWithContext(ctx context.Context, key string) ([]byte, error)
+
 	// Get gets the value for the given key.
 	// `nil, nil` is returned when the key does not exist
 	Get(key string) ([]byte, error)
+
+	// SetWithContext stores the given value for the given key
+	// with an expiration value, 0 means no expiration.
+	SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
 
 	// Set stores the given value for the given key along
 	// with an expiration value, 0 means no expiration.
 	// Empty key or value will be ignored without an error.
 	Set(key string, val []byte, exp time.Duration) error
 
+	// DeleteWithContext deletes the value for the given key with a context.
+	// It returns no error if the storage does not contain the key,
+	DeleteWithContext(ctx context.Context, key string) error
+
 	// Delete deletes the value for the given key.
 	// It returns no error if the storage does not contain the key,
 	Delete(key string) error
+
+	// ResetWithContext resets the storage and deletes all keys with a context.
+	ResetWithContext(ctx context.Context) error
 
 	// Reset resets the storage and delete all keys.
 	Reset() error
@@ -46,9 +63,11 @@ type Storage interface {
 	// collectors and open connections.
 	Close() error
 }
+
 ```
 
 ## 📑 Storage Implementations
+
 - [Aerospike](./aerospike/README.md) <a href="https://github.com/gofiber/storage/actions?query=workflow%3A%22Tests+Aerospike%22"> <img src="https://img.shields.io/github/actions/workflow/status/gofiber/storage/test-aerospike.yml?branch=main&label=%F0%9F%A7%AA%20&style=flat&color=75C46B" /> </a>
 - [ArangoDB](./arangodb/README.md) <a href="https://github.com/gofiber/storage/actions?query=workflow%3A%22Tests+ArangoDB%22"> <img src="https://img.shields.io/github/actions/workflow/status/gofiber/storage/test-arangodb.yml?branch=main&label=%F0%9F%A7%AA%20&style=flat&color=75C46B" /> </a>
 - [AzureBlob](./azureblob/README.md) <a href="https://github.com/gofiber/storage/actions?query=workflow%3A%22Tests+Azure+Blob%22"> <img src="https://img.shields.io/github/actions/workflow/status/gofiber/storage/test-azureblob.yml?branch=main&label=%F0%9F%A7%AA%20&style=flat&color=75C46B" /> </a>
@@ -60,6 +79,7 @@ type Storage interface {
 - [Couchbase](./couchbase/README.md) <a href="https://github.com/gofiber/storage/actions?query=workflow%3A%22Tests+Couchbase%22"> <img src="https://img.shields.io/github/actions/workflow/status/gofiber/storage/test-couchbase.yml?branch=main&label=%F0%9F%A7%AA%20&style=flat&color=75C46B" /> </a>
 - [DynamoDB](./dynamodb/README.md) <a href="https://github.com/gofiber/storage/actions?query=workflow%3A%22Tests+DynamoDB%22"> <img src="https://img.shields.io/github/actions/workflow/status/gofiber/storage/test-dynamodb.yml?branch=main&label=%F0%9F%A7%AA%20&style=flat&color=75C46B" /> </a>
 - [Etcd](./etcd/README.md) <a href="https://github.com/gofiber/storage/actions?query=workflow%3A%22Tests+Etcd%22"> <img src="https://img.shields.io/github/actions/workflow/status/gofiber/storage/test-etcd.yml?branch=main&label=%F0%9F%A7%AA%20&style=flat&color=75C46B" /> </a>
+- [Firestore](./firestore/README.md) <a href="https://github.com/gofiber/storage/actions?query=workflow%3A%22Tests+Firestore%22"> <img src="https://img.shields.io/github/actions/workflow/status/gofiber/storage/test-firestore.yml?branch=main&label=%F0%9F%A7%AA%20&style=flat&color=75C46B" /> </a>
 - [LevelDB](./leveldb/README.md) <a href="https://github.com/gofiber/storage/actions?query=workflow%3A%22Tests+LevelDB%22"> <img src="https://img.shields.io/github/actions/workflow/status/gofiber/storage/test-leveldb.yml?branch=main&label=%F0%9F%A7%AA%20&style=flat&color=75C46B" alt="LevelDB Tests Status"/> </a>
 - [Memcache](./memcache/README.md) <a href="https://github.com/gofiber/storage/actions?query=workflow%3A%22Tests+Memcache%22"> <img src="https://img.shields.io/github/actions/workflow/status/gofiber/storage/test-memcache.yml?branch=main&label=%F0%9F%A7%AA%20&style=flat&color=75C46B" /> </a>
 - [Memory](./memory/README.md) <a href="https://github.com/gofiber/storage/actions?query=workflow%3A%22Tests+Local+Storage%22"> <img src="https://img.shields.io/github/actions/workflow/status/gofiber/storage/test-memory.yml?branch=main&label=%F0%9F%A7%AA%20&style=flat&color=75C46B" /> </a>
@@ -79,3 +99,4 @@ type Storage interface {
 - [SQLite3](./sqlite3/README.md) <a href="https://github.com/gofiber/storage/actions?query=workflow%3A%22Tests+Sqlite3%22"> <img src="https://img.shields.io/github/actions/workflow/status/gofiber/storage/test-sqlite3.yml?branch=main&label=%F0%9F%A7%AA%20&style=flat&color=75C46B" /> </a>
 - [ClickHouse](./clickhouse/README.md) <a href="https://github.com/gofiber/storage/actions?query=workflow%3A%22Tests+Clickhouse%22"> <img src="https://img.shields.io/github/actions/workflow/status/gofiber/storage/test-clickhouse.yml?branch=main&label=%F0%9F%A7%AA%20&style=flat&color=75C46B" /> </a>
 - [Valkey](./valkey/README.md) <a href="https://github.com/gofiber/storage/actions?query=workflow%3A%22Tests+valkey%22"> <img src="https://img.shields.io/github/actions/workflow/status/gofiber/storage/test-valkey.yml?branch=main&label=%F0%9F%A7%AA%20&style=flat&color=75C46B" /> </a>
+- [SurrealDB](./surrealdb/README.md) <a href="https://github.com/gofiber/storage/actions?query=workflow%3A%22Tests+surrealdb%22"> <img src="https://img.shields.io/github/actions/workflow/status/gofiber/storage/test-surrealdb.yml?branch=main&label=%F0%9F%A7%AA%20&style=flat&color=75C46B" /> </a>
