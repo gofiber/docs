@@ -50,5 +50,6 @@
   "azureblob_v1.x.x",
   "arangodb_v2.x.x",
   "arangodb_v1.x.x",
-  "aerospike_v0.x.x"
+  "aerospike_v0.x.x",
+  "_.x.x"
 ]
