@@ -43,7 +43,7 @@ jobs:
             **/package-lock.json
 
       - name: Restore build caches
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             node_modules/.cache
