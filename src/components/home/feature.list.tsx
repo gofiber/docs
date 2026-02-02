@@ -17,15 +17,15 @@ export const features: FeatureItem[] = [
         Setting up routes for your application has never been so easy! The Express-like route definitions are easy to understand and work with.
       </>
     ),
-    code: `app.Get("/", func (c *fiber.Ctx) error {
+    code: `app.Get("/", func (c fiber.Ctx) error {
     return c.SendString("GET request")
 })
 
-app.Get("/:param", func (c *fiber.Ctx) error {
+app.Get("/:param", func (c fiber.Ctx) error {
     return c.SendString("param: " + c.Params("param"))
 })
 
-app.Post("/", func (c *fiber.Ctx) error {
+app.Post("/", func (c fiber.Ctx) error {
     return c.SendString("POST request")
 })`,
   },
@@ -67,7 +67,7 @@ app.Static("/", "./files")`,
         Are you building an API server? We've got you covered! Fiber is the perfect choice for building REST APIs in Go. Receiving and sending data is fast and easy!
       </>
     ),
-    code: `app.Get("/api/posts", func (c *fiber.Ctx) error {
+    code: `app.Get("/api/posts", func (c fiber.Ctx) error {
     posts := getPosts() // your logic
     if len(posts) == 0 {
         return c.Status(404).JSON(&fiber.Map{
@@ -85,17 +85,17 @@ app.Static("/", "./files")`,
     title: 'Flexible Middleware Support',
     description: (
       <>
-        Choose from <a href="https://docs.gofiber.io/category/-middleware" target="_blank" rel="noreferrer">a number of already existing middleware</a> or create your own! Use them to verify and manipulate certain requests in your app before they reach your controller.
+        Choose from <a href="https://docs.gofiber.io/v3.x/category/-middleware" target="_blank" rel="noreferrer">a number of already existing middleware</a> or create your own! Use them to verify and manipulate certain requests in your app before they reach your controller.
       </>
     ),
     code: `package main
 
-import "github.com/gofiber/fiber/v2"
+import "github.com/gofiber/fiber/v3"
 
 func main() {
   app := fiber.New()
-  app.Static("/", "./public")
-  // app.Static("/", "./public", fiber.Static{Browse: true})
+  app.Get("/*", static.New("./public"))
+  // app.Get("/*", static.New("./public", static.Config{Browse: true})
   app.Listen(":3000")
 }`,
   },
@@ -132,7 +132,7 @@ func main() {
 import (
     "log"
 
-    "github.com/gofiber/fiber/v2"
+    "github.com/gofiber/fiber/v3"
     "github.com/gofiber/template/html"
 )
 
@@ -141,7 +141,7 @@ func main() {
         Views: html.New("./views", ".html"),
     })
 
-    app.Get("/", func(c *fiber.Ctx) error {
+    app.Get("/", func(c fiber.Ctx) error {
       return c.Render("index", fiber.Map{
          "Title": "Hello, World!",
       })
@@ -187,8 +187,8 @@ import (
     "log"
     "time"
 
-    "github.com/gofiber/fiber/v2"
-    "github.com/gofiber/fiber/v2/middleware/limiter"
+    "github.com/gofiber/fiber/v3"
+    "github.com/gofiber/fiber/v3/middleware/limiter"
 )
 
 func main() {

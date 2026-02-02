@@ -65,9 +65,7 @@ function plugins(): PluginConfig[] {
                 ],
                 createRedirects(existingPath: string) {
                     if (existingPath.includes('/v1.x')) {
-                        return [
-                            existingPath.replace('/v1.x', '/v/1.x'),
-                        ];
+                        return [existingPath.replace('/v1.x', '/v/1.x')];
                     }
                     return undefined;
                 },
