@@ -36,14 +36,14 @@ app.Post("/", func (c fiber.Ctx) error {
         Serve your static HTML, CSS, and JavaScript files with ease by defining static routes. You can also serve the contents of multiple directories on the same route!
       </>
     ),
-    code: `app.Static("/", "./public")
+    code: `app.Get("/*", static.New("./public"))
 
 // => http://localhost:3000/hello.html
 // => http://localhost:3000/js/jquery.js
 // => http://localhost:3000/css/style.css
 
 // serve from multiple directories
-app.Static("/", "./files")`,
+app.Get("/*", static.New("./files"))`,
   },
   {
     title: 'Extreme Performance',
@@ -90,7 +90,10 @@ app.Static("/", "./files")`,
     ),
     code: `package main
 
-import "github.com/gofiber/fiber/v3"
+import (
+    "github.com/gofiber/fiber/v3"
+    "github.com/gofiber/fiber/v3/middleware/static"
+)
 
 func main() {
   app := fiber.New()
