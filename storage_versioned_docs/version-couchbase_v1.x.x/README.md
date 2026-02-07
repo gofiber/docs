@@ -8,9 +8,11 @@ sidebar_position: 1
   <img height="125" alt="Fiber" src="https://raw.githubusercontent.com/gofiber/storage/master/.github/logo-dark.svg#gh-dark-mode-only" />
   <img height="125" alt="Fiber" src="https://raw.githubusercontent.com/gofiber/storage/master/.github/logo.svg#gh-light-mode-only" />
   <br/>
+</p>
 
 # 📦 Storage
 
+<p align="center">
   <a href="https://pkg.go.dev/github.com/gofiber/storage?tab=doc">
     <img src="https://img.shields.io/badge/%F0%9F%93%9A%20godoc-pkg-00ACD7.svg?color=00ACD7&style=flat"/>
   </a>
@@ -69,4 +71,3 @@ type Storage interface {
 - [Redis](./redis/README.md) <a href="https://github.com/gofiber/storage/actions?query=workflow%3A%22Tests+Redis%22"> <img src="https://img.shields.io/github/actions/workflow/status/gofiber/storage/test-redis.yml?branch=main&label=%F0%9F%A7%AA%20&style=flat&color=75C46B" /> </a>
 - [S3](./s3/README.md) <a href="https://github.com/gofiber/storage/actions?query=workflow%3A%22Tests+S3%22"> <img src="https://img.shields.io/github/actions/workflow/status/gofiber/storage/test-s3.yml?branch=main&label=%F0%9F%A7%AA%20&style=flat&color=75C46B" /> </a>
 - [SQLite3](./sqlite3/README.md) <a href="https://github.com/gofiber/storage/actions?query=workflow%3A%22Tests+Sqlite3%22"> <img src="https://img.shields.io/github/actions/workflow/status/gofiber/storage/test-sqlite3.yml?branch=main&label=%F0%9F%A7%AA%20&style=flat&color=75C46B" /> </a>
-
