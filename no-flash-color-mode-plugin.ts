@@ -1,18 +1,29 @@
-export default function noFlashColorModePlugin(context) {
-  const defaultMode = context.siteConfig.themeConfig?.colorMode?.defaultMode ?? 'light';
-  const respectPrefers = context.siteConfig.themeConfig?.colorMode?.respectPrefersColorScheme ?? false;
-  return {
-    name: 'no-flash-color-mode-plugin',
-    injectHtmlTags() {
-      return {
-        headTags: [
-          {
-            tagName: 'style',
-            innerHTML: `html { visibility: hidden; } html[data-theme] { visibility: visible; }`,
-          },
-          {
-            tagName: 'script',
-            innerHTML: `(function() {
+import type {LoadContext, PluginModule} from '@docusaurus/types';
+
+type ThemeConfigWithColorMode = {
+    colorMode?: {
+        defaultMode?: string;
+        respectPrefersColorScheme?: boolean;
+    };
+};
+
+const noFlashColorModePlugin: PluginModule<void> = (context: LoadContext) => {
+    const themeConfig = (context.siteConfig.themeConfig ?? {}) as ThemeConfigWithColorMode;
+    const defaultMode = themeConfig.colorMode?.defaultMode ?? 'light';
+    const respectPrefers = themeConfig.colorMode?.respectPrefersColorScheme ?? false;
+
+    return {
+        name: 'no-flash-color-mode-plugin',
+        injectHtmlTags() {
+            return {
+                headTags: [
+                    {
+                        tagName: 'style',
+                        innerHTML: 'html { visibility: hidden; } html[data-theme] { visibility: visible; }',
+                    },
+                    {
+                        tagName: 'script',
+                        innerHTML: `(function() {
   var defaultMode = '${defaultMode}';
   var respectPrefersColorScheme = ${respectPrefers};
   var storageKey = 'theme';
@@ -47,9 +58,11 @@ export default function noFlashColorModePlugin(context) {
 
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   })();`,
-          },
-        ],
-      };
-    },
-  };
-}
+                    },
+                ],
+            };
+        },
+    };
+};
+
+export default noFlashColorModePlugin;

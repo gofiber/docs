@@ -11,7 +11,8 @@ const isDocs = BUILD_TARGET === 'docs';
 
 function plugins(): PluginConfig[] {
     let pluginList: PluginConfig[] = [
-        require.resolve('./no-flash-color-mode-plugin.js'),
+        require.resolve('./no-flash-color-mode-plugin'),
+        
         'docusaurus-plugin-sass',
     ];
     
@@ -38,7 +39,7 @@ function plugins(): PluginConfig[] {
     
     return [
         ...pluginList,
-        require.resolve('./llms-plugin.js'),
+        require.resolve('./llms-plugin'),
         [require.resolve('@easyops-cn/docusaurus-search-local'),
             {
                 hashed: true,
@@ -161,8 +162,8 @@ function plugins(): PluginConfig[] {
     ];
 }
 
-function headerNav(): object[] {
-    let naviItems = [
+function headerNav(): any[] {
+    let naviItems: any[] = [
         {
             type: 'doc',
             docId: 'welcome',
@@ -280,7 +281,7 @@ function headerNav(): object[] {
             target: '_self',
         };
         
-        const switchToLink = (item: {type: string, docsPluginId: string}) => {
+        const switchToLink = (item: any): any => {
             item.to = `https://docs.gofiber.io/${item.docsPluginId}`;
             item.target = '_self';
             delete item.docsPluginId;
@@ -289,9 +290,9 @@ function headerNav(): object[] {
             return item;
         }
         // iterate recursively through naviItems and change all items with type 'docsVersion'
-        naviItems = naviItems.map(naviItem => {
+        naviItems = naviItems.map((naviItem: any) => {
             if (naviItem?.type === 'dropdown' && naviItem?.items) {
-                naviItem.items = naviItem?.items.map(item => {
+                naviItem.items = naviItem?.items.map((item: any) => {
                     if (item?.type === 'docsVersion') {
                         return switchToLink(item);
                     }
@@ -304,7 +305,7 @@ function headerNav(): object[] {
             return naviItem;
         });
         
-        naviItems = naviItems.filter(naviItem => {
+        naviItems = naviItems.filter((naviItem: any) => {
             const itemType = naviItem?.type;
             if (typeof itemType === 'string' && itemType.startsWith('custom-')) {
                 return true;
@@ -350,10 +351,7 @@ function preset(): [string, Options] {
                     }
                     return undefined;
                 },
-                sidebarItemsGenerator: async function ({defaultSidebarItemsGenerator, ...args}: {
-                    defaultSidebarItemsGenerator: (...args: any[]) => Promise<any>;
-                    [key: string]: any
-                }) {
+                sidebarItemsGenerator: async function ({defaultSidebarItemsGenerator, ...args}: any) {
                     // filter partials from sidebar
                     return (await defaultSidebarItemsGenerator(args)).filter((item: any) => !(item.label === 'partials' || item.id === 'partials'));
                 },
@@ -385,7 +383,6 @@ const config: Config = {
     // url: 'https://gofiber.github.io',
     baseUrl: process.env.BASE_URL || '/',
     onBrokenLinks: 'throw',
-    onBrokenMarkdownLinks: 'warn',
     favicon: 'img/favicon.png',
     organizationName: 'gofiber',
     projectName: 'docs',
@@ -399,6 +396,9 @@ const config: Config = {
     },
     markdown: {
         mermaid: true,
+        hooks: {
+            onBrokenMarkdownLinks: 'warn',
+        },
     },
     plugins: plugins(),
 

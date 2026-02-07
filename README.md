@@ -2,16 +2,21 @@
 
 This website is built using [Docusaurus 3](https://docusaurus.io/), a modern static website generator.
 
+## Prerequisites
+
+- Node.js `>= 20`
+- npm `>= 10`
+
 ## Installation
 
 ```
-$ yarn
+$ npm ci
 ```
 
 ### Local Development
 
 ```
-$ yarn start
+$ npm run start
 ```
 
 This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
@@ -19,23 +24,41 @@ This command starts a local development server and opens up a browser window. Mo
 ## Build
 
 ```
-$ yarn build
+$ npm run build
 ```
 
 This command generates static content into the `build` directory and can be served using any static contents hosting service.
+
+Build only docs site:
+
+```
+$ npm run build:docs
+```
+
+Build only homepage:
+
+```
+$ npm run build:home
+```
+
+Run setup checks (TypeScript + both build targets):
+
+```
+$ npm run check
+```
 
 ## Deployment
 
 Using SSH:
 
 ```
-$ USE_SSH=true yarn deploy
+$ USE_SSH=true npm run deploy
 ```
 
 Not using SSH:
 
 ```
-$ GIT_USER=<Your GitHub username> yarn deploy
+$ GIT_USER=<Your GitHub username> npm run deploy
 ```
 
 If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.

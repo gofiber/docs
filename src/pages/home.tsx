@@ -1,10 +1,11 @@
+import React from 'react';
 import Layout from '@theme/Layout';
 import Hero from '../components/home/Hero';
 import Features from '../components/home/Features';
 import Media from '../components/home/Media';
 import Support from '../components/home/Support';
 import Head from '@docusaurus/Head';
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
 import styles from './home.module.css';
 void styles;

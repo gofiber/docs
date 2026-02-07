@@ -2,11 +2,31 @@ import React, {useEffect, useState} from 'react';
 import clsx from 'clsx';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import Link from '@docusaurus/Link';
+import type {ComponentProps} from 'react';
 
 const DEFAULT_REPO = 'gofiber/fiber';
 const GITHUB_API_BASE = 'https://api.github.com/repos/';
+const STAR_CACHE_TTL_MS = 60 * 60 * 1000;
 
-function formatStars(count) {
+type LinkProps = ComponentProps<typeof Link>;
+type GitHubApiResponse = {
+    stargazers_count?: unknown;
+};
+type StarCachePayload = {
+    value: number;
+    fetchedAt: number;
+};
+
+type CustomGithubStarsNavbarItemProps = Omit<LinkProps, 'href' | 'target' | 'rel'> & {
+    className?: string;
+    mobile?: boolean;
+    repo?: string;
+    href?: string;
+    target?: LinkProps['target'];
+    rel?: string;
+};
+
+function formatStars(count: number): string {
     if (count >= 1_000_000) {
         return `${(count / 1_000_000).toFixed(count >= 10_000_000 ? 0 : 1)}m`;
     }
@@ -16,7 +36,7 @@ function formatStars(count) {
     return `${count}`;
 }
 
-export default function CustomGithubStarsNavbarItem(props) {
+export default function CustomGithubStarsNavbarItem(props: CustomGithubStarsNavbarItemProps) {
     const {
         className,
         mobile = false,
@@ -27,7 +47,7 @@ export default function CustomGithubStarsNavbarItem(props) {
         ...rest
     } = props;
 
-    const [stars, setStars] = useState(null);
+    const [stars, setStars] = useState<number | null>(null);
     const [hasError, setHasError] = useState(false);
 
     useEffect(() => {
@@ -36,6 +56,38 @@ export default function CustomGithubStarsNavbarItem(props) {
         }
 
         const controller = new AbortController();
+        const cacheKey = `github-stars:${repo}`;
+
+        const readCachedStars = (): number | null => {
+            try {
+                const raw = window.localStorage.getItem(cacheKey);
+                if (!raw) {
+                    return null;
+                }
+                const parsed = JSON.parse(raw) as Partial<StarCachePayload>;
+                if (typeof parsed.value !== 'number' || typeof parsed.fetchedAt !== 'number') {
+                    return null;
+                }
+                if ((Date.now() - parsed.fetchedAt) > STAR_CACHE_TTL_MS) {
+                    return null;
+                }
+                return parsed.value;
+            } catch {
+                return null;
+            }
+        };
+
+        const writeCachedStars = (value: number): void => {
+            try {
+                const payload: StarCachePayload = {
+                    value,
+                    fetchedAt: Date.now(),
+                };
+                window.localStorage.setItem(cacheKey, JSON.stringify(payload));
+            } catch {
+                // Ignore storage errors (private mode/quota).
+            }
+        };
 
         async function fetchStars() {
             try {
@@ -50,17 +102,26 @@ export default function CustomGithubStarsNavbarItem(props) {
                     throw new Error(`GitHub API responded with ${response.status}`);
                 }
 
-                const data = await response.json();
+                const data = await response.json() as GitHubApiResponse;
                 if (typeof data?.stargazers_count === 'number') {
                     setStars(data.stargazers_count);
+                    writeCachedStars(data.stargazers_count);
                 } else {
                     setHasError(true);
                 }
-            } catch (error) {
-                if (error?.name !== 'AbortError') {
+            } catch (error: unknown) {
+                if (!(error instanceof Error) || error.name !== 'AbortError') {
                     setHasError(true);
                 }
             }
+        }
+
+        const cachedStars = readCachedStars();
+        if (cachedStars !== null) {
+            setStars(cachedStars);
+            return () => {
+                controller.abort();
+            };
         }
 
         fetchStars();

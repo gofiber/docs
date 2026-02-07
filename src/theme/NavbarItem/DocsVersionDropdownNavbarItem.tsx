@@ -2,7 +2,11 @@ import React from 'react';
 import DocsVersionDropdownNavbarItem from '@theme-original/NavbarItem/DocsVersionDropdownNavbarItem';
 import {useActiveDocContext} from '@docusaurus/plugin-content-docs/client';
 
-export default function DocsVersionDropdownNavbarItemWrapper(props) {
+type DocsVersionDropdownNavbarItemProps = React.ComponentProps<typeof DocsVersionDropdownNavbarItem> & {
+    docsPluginId?: string;
+};
+
+export default function DocsVersionDropdownNavbarItemWrapper(props: DocsVersionDropdownNavbarItemProps) {
     const { docsPluginId } = props;
 
     const { activeDoc } = useActiveDocContext(docsPluginId);
