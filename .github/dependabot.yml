@@ -13,6 +13,10 @@ updates:
         patterns:
           - "@docusaurus/*"
           - "docusaurus"
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
   - package-ecosystem: "github-actions"
     directory: "/"
     labels:
