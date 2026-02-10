@@ -115,3 +115,26 @@ div.reference {
   background-color: rgba(148, 163, 184, 0.16);
   border: 1px solid rgba(148, 163, 184, 0.35);
 }
+
+/* Blog layout tuning */
+@media (min-width: 768px) and (max-width: 996px) {
+  .blog-wrapper .container {
+    max-width: 94vw;
+  }
+}
+
+@media (min-width: 997px) {
+  .blog-wrapper .container {
+    max-width: 1280px;
+  }
+}
+
+.blog-wrapper article h1 {
+  font-size: clamp(2rem, 3vw, 2.6rem);
+  line-height: 1.15;
+}
+
+.blog-wrapper article h2 {
+  font-size: clamp(1.35rem, 2vw, 1.85rem);
+  line-height: 1.2;
+}

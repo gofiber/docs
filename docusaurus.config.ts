@@ -43,7 +43,7 @@ function plugins(): PluginConfig[] {
         [require.resolve('@easyops-cn/docusaurus-search-local'),
             {
                 hashed: true,
-                indexBlog: false,
+                indexBlog: true,
                 docsRouteBasePath: '/',
             },
         ],
@@ -197,6 +197,11 @@ function headerNav(): any[] {
             type: 'docsVersion',
             docsPluginId: 'recipes',
             label: '🍳 Recipes',
+            position: 'left',
+        },
+        {
+            to: '/blog',
+            label: '📰 Blog',
             position: 'left',
         },
         {
@@ -368,7 +373,16 @@ function preset(): [string, Options] {
                 routeBasePath: '/',
                 exclude: isDocs ? ['**/home.{js,jsx,ts,tsx,md,mdx}'] : [],
             },
-            blog: false,
+            blog: {
+                showReadingTime: true,
+                blogTitle: 'Fiber Blog',
+                blogDescription: 'News, guides, and updates around Fiber.',
+                blogSidebarCount: 'ALL',
+                blogSidebarTitle: 'All posts',
+                onInlineTags: 'warn',
+                onInlineAuthors: 'warn',
+                onUntruncatedBlogPosts: 'warn',
+            },
             theme: {
                 customCss: require.resolve('./src/css/custom.css'),
             },
