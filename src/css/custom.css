@@ -116,25 +116,30 @@ div.reference {
   border: 1px solid rgba(148, 163, 184, 0.35);
 }
 
-/* Blog layout tuning */
-@media (min-width: 768px) and (max-width: 996px) {
-  .blog-wrapper .container {
-    max-width: 94vw;
+/* Blog overrides */
+#__blog-post-container h1 {
+  font-size: clamp(1.85rem, 2.1vw, 2.35rem) !important;
+  line-height: 1.2;
+}
+
+#__blog-post-container h2 {
+  font-size: clamp(1.35rem, 1.6vw, 1.75rem) !important;
+  line-height: 1.25;
+}
+
+@media (max-width: 576px) {
+  #__blog-post-container h1 {
+    font-size: 1.65rem !important;
   }
 }
 
-@media (min-width: 997px) {
-  .blog-wrapper .container {
-    max-width: 1280px;
-  }
+/* Blog aside headings */
+html.blog-wrapper aside.col.col--3 nav [class*='sidebarItemTitle'] {
+  font-size: clamp(28px, 3.6vw, 35px);
+  line-height: 1.2;
 }
 
-.blog-wrapper article h1 {
-  font-size: clamp(2rem, 3vw, 2.6rem);
-  line-height: 1.15;
-}
-
-.blog-wrapper article h2 {
-  font-size: clamp(1.35rem, 2vw, 1.85rem);
+html.blog-wrapper aside.col.col--3 nav [class*='yearGroupHeading'] {
+  font-size: clamp(25px, 3.6vw, 30px);
   line-height: 1.2;
 }

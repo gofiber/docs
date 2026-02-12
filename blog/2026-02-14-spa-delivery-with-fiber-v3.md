@@ -6,22 +6,22 @@ tags: [fiber, spa, react, routing, static]
 description: Serve SPA assets and handle client-side routes correctly with Fiber v3 fallback patterns.
 ---
 
-The most common SPA backend issue is not performance. It's routing.
+Most SPA delivery issues are not frontend bugs. They are server routing mismatches.
 
-Everything looks fine on `/`, then someone opens `/dashboard` directly or refreshes a deep link and gets a server-side `404`.
+The homepage works, client-side navigation works, and then someone refreshes a deep link in production and gets a server-side `404`. It happens all the time because backend and frontend route ownership was never made explicit.
 
-This guide fixes that pattern with Fiber v3.
+Fiber v3 makes this easy to solve once you set the pattern correctly.
 
 <!-- truncate -->
 
-## The Core Pattern
+## The Core Idea: Two Route Behaviors, One Service
 
-You need two behaviors at the same time:
+Serving an SPA correctly means your backend must do two different things:
 
-1. serve real static files fast
-2. return `index.html` for application routes that the client router owns
+1. serve real static assets when the file exists
+2. return `index.html` for app routes that the client router owns
 
-Recipe reference (`react-router`) does exactly that.
+The `react-router` recipe demonstrates this clearly.
 
 ```go
 app := fiber.New()
@@ -35,9 +35,9 @@ app.Get("*", static.New("./web/build/index.html"))
 log.Fatal(app.Listen(":8080"))
 ```
 
-If you deploy under a subpath like `/web`, adjust both server routes and frontend router basename together.
+If your app is mounted under a subpath (for example `/web`), server paths and frontend router basename must match.
 
-## Request Resolution Model
+## How Request Resolution Works
 
 ```mermaid
 flowchart LR
@@ -47,9 +47,11 @@ flowchart LR
     D --> E["Client router renders target page"]
 ```
 
+This is the mental model you want every team member to share. It prevents endless "is this a frontend issue or backend issue?" loops.
+
 ## Run Locally
 
-Use the recipe workflow (Docker is the most stable option for this project).
+Use the recipe workflow. Docker is usually the easiest path for consistent setup.
 
 ```bash
 git clone https://github.com/gofiber/recipes.git
@@ -65,7 +67,7 @@ cd ..
 go run ./cmd/react-router/main.go
 ```
 
-## Smoke Tests That Catch Real Routing Regressions
+## Smoke Tests That Catch Real Breakage
 
 ```bash
 curl -i http://localhost:8080/
@@ -73,21 +75,23 @@ curl -i http://localhost:8080/react
 curl -i http://localhost:8080/does-not-exist
 ```
 
-Then do the browser test that matters most:
+Then do the browser check that matters most:
 
-1. open a deep link directly (for example `/react`)
+1. open a deep route directly
 2. refresh the page
-3. verify app still loads instead of server 404
+3. confirm the app still loads instead of returning server `404`
 
-## Where Teams Usually Slip
+## What Usually Breaks in Teams
 
-Many teams register the catch-all fallback too early and accidentally shadow static files or API routes.
+The first issue is catch-all fallback placement. If it is too early, it can hide real static and API routes.
 
-Another common issue is forgetting frontend basename when serving under subpaths (`/web`, `/app`, etc.). Server and client must agree on the same base URL, or routing will look randomly broken.
+The second is basename mismatch. If frontend expects `/web` and backend serves from `/`, behavior will look random even though both sides "work" separately.
+
+The third is cache confusion. If `index.html` is cached too aggressively, users can keep loading old route manifests after deploy.
 
 ## Recipe and Next Step
 
 - Primary reference: [gofiber/recipes/react-router](https://github.com/gofiber/recipes/tree/master/react-router)
 - Alternate reference: [gofiber/recipes/spa](https://github.com/gofiber/recipes/tree/master/spa)
 
-Next step: separate cache policy for `index.html` (short) and hashed JS/CSS assets (long).
+A good next step is to make cache policy explicit per file type and document route ownership between backend and frontend in your service README.

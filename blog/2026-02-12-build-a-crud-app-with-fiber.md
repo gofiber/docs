@@ -6,29 +6,33 @@ tags: [fiber, crud, gorm, postgres, go]
 description: Build a practical CRUD API in Fiber v3 and keep the request flow understandable as it grows.
 ---
 
-Every backend engineer has built CRUD endpoints. Most of us have also inherited CRUD APIs that became hard to maintain.
+CRUD APIs are often where a backend project either becomes maintainable or becomes expensive.
 
-The difference is rarely the database. The difference is structure: where data enters, where validation fails, and how predictable handlers are.
+At first, everything feels easy: a quick route, a quick DB call, done. Three months later, handlers parse requests in different ways, errors are inconsistent, and every change takes twice as long as expected.
 
-This guide builds a clean baseline with Fiber v3 using the `gorm-postgres` recipe.
+This post is about avoiding that path from the start.
+
+We'll use Fiber v3 with the `gorm-postgres` recipe, but the real goal is not just to "get CRUD working." The goal is to set up a structure your team can still understand when the API grows.
 
 <!-- truncate -->
 
 ## What We Are Building
 
-A small Books API with these endpoints:
+A simple books API with five operations:
 
 - create a book
 - list all books
 - query by title
-- update by title
-- delete by title
+- update a book
+- delete a book
 
-Nothing fancy. The goal is clarity.
+Nothing here is technically complex. That is exactly why it is a good example: if the simple path is clean, the complex path gets easier later.
 
-## Route Layout First, Business Logic Second
+## Why Route Structure Matters More Than People Think
 
-From the recipe (`app.go`), route registration stays very explicit.
+In early APIs, teams usually focus on handler internals and ignore route shape. Then versioning starts, clients depend on edge-case behavior, and cleanup gets painful.
+
+The recipe keeps route registration explicit in one place:
 
 ```go
 func setUpRoutes(app *fiber.App) {
@@ -41,11 +45,16 @@ func setUpRoutes(app *fiber.App) {
 }
 ```
 
-This is easy to scan today and easy to version later (`/api/v1/...`) when needed.
+That explicit list gives you two advantages immediately:
 
-## Keep Input Handling Consistent With `c.Bind().Body`
+1. onboarding gets faster because route intent is visible in one file
+2. versioning is straightforward later (`/api/v1`, `/api/v2`) because your boundary is already clear
 
-In v3, avoid ad-hoc parsing and keep the request entrypoint obvious.
+## Input Handling: Be Boring and Consistent
+
+Fiber v3's `c.Bind()` is one of the biggest quality-of-life improvements for API handlers.
+
+Instead of improvising request parsing per endpoint, use one clear pattern: parse first, validate, then run business logic.
 
 ```go
 func AddBook(c fiber.Ctx) error {
@@ -60,9 +69,9 @@ func AddBook(c fiber.Ctx) error {
 }
 ```
 
-One rule that scales well: **parse at the top of the handler, then branch into domain logic**.
+This may look trivial, but this kind of consistency is what keeps code reviews short and reliable.
 
-## CRUD Data Flow (Request to DB to Response)
+## What Actually Happens in a CRUD Request
 
 ```mermaid
 flowchart LR
@@ -75,6 +84,8 @@ flowchart LR
     G --> H["Return JSON response"]
 ```
 
+The key design choice is where errors are handled. Do not push parse/validation errors too deep. If they are request-shape errors, fail early and return stable responses.
+
 ## Run Locally
 
 ```bash
@@ -83,9 +94,9 @@ cd recipes/gorm-postgres
 go run app.go
 ```
 
-Note: the recipe expects a local Postgres role/database setup. Adjust DSN in `database/database.go` if your local defaults differ.
+The recipe expects local Postgres defaults. If your environment differs, adjust DSN settings in `database/database.go`.
 
-## Smoke Test Every CRUD Path
+## Smoke Tests That Are Worth Running
 
 ```bash
 # Create
@@ -112,14 +123,18 @@ curl -i -X DELETE http://localhost:3000/delete \
   -d '{"title":"Distributed Systems"}'
 ```
 
-## Practical Pitfalls (You Will Meet These)
+These are not just "demo commands." They are a minimum regression checklist for any CRUD service before merging route changes.
 
-The recipe updates and deletes by title, which is fine for learning but fragile in production. Real systems should usually update/delete by immutable IDs.
+## Practical Lessons Before You Ship This Pattern
 
-Also, do not return raw DB errors in production APIs. Map them to stable error responses early, before frontend teams start integrating.
+The recipe updates and deletes by title. That is fine for learning, but in production you should usually move to immutable identifiers (numeric ID, UUID, ULID).
+
+Also avoid sending raw database errors to clients. Stable API error contracts reduce frontend coupling and simplify incident handling.
+
+Finally, if you add auth/validation middleware later, keep the same flow discipline: parse -> validate -> execute -> map response.
 
 ## Recipe and Next Step
 
 - Primary reference: [gofiber/recipes/gorm-postgres](https://github.com/gofiber/recipes/tree/master/gorm-postgres)
 
-If you want to evolve this into production shape, the next step is adding request validation and moving routes under `/api/v1` with explicit response contracts.
+A strong next step is to add validation and move routes under `/api/v1` with consistent response envelopes (`data`, `error`, `meta`). That gives you a cleaner base before feature count grows.
