@@ -47,22 +47,22 @@ package main
 import (
     "log"
 
-    "github.com/gofiber/fiber/v2"
+    "github.com/gofiber/fiber/v3"
 )
 
 func main() {
-    // Fiber instance with Prefork enabled
-    app := fiber.New(fiber.Config{
-        Prefork: true,
-    })
+    // Fiber instance
+    app := fiber.New()
 
     // Routes
-    app.Get("/", func(c *fiber.Ctx) error {
+    app.Get("/", func(c fiber.Ctx) error {
         return c.SendString("Hello, World!")
     })
 
-    // Start server
-    log.Fatal(app.Listen(":3000"))
+    // Start server with prefork enabled
+    log.Fatal(app.Listen(":3000", fiber.ListenConfig{
+        EnablePrefork: true,
+    }))
 }
 ```
 

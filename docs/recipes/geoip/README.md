@@ -52,7 +52,7 @@ package main
 
 import (
     "log"
-    "github.com/gofiber/fiber/v2"
+    "github.com/gofiber/fiber/v3"
     "github.com/oschwald/geoip2-golang"
     "net"
 )
@@ -66,12 +66,12 @@ func main() {
     }
     defer db.Close()
 
-    app.Get("/geoip/:ip", func(c *fiber.Ctx) error {
+    app.Get("/geoip/:ip", func(c fiber.Ctx) error {
         ip := c.Params("ip")
         parsedIP := net.ParseIP(ip)
         record, err := db.City(parsedIP)
         if err != nil {
-            return c.Status(500).SendString(err.Error())
+            return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
         }
         return c.JSON(record)
     })
