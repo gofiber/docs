@@ -124,15 +124,14 @@ This is especially practical in end-to-end tests where you want session continui
 In mature systems, outbound clients need observability. The v3 client makes this straightforward with request and response hooks:
 
 ```go
-cli.AddRequestHook(func(req *client.Request) error {
+cli.AddRequestHook(func(c *client.Client, req *client.Request) error {
     req.SetHeader("X-Trace-Source", "fiber-client")
-    req.SetHeader("X-Request-Start", fmt.Sprintf("%d", time.Now().UnixMilli()))
     return nil
 })
 
-cli.AddResponseHook(func(resp *client.Response) error {
+cli.AddResponseHook(func(c *client.Client, resp *client.Response, req *client.Request) error {
     log.Printf("upstream=%s status=%d",
-        resp.Request().URL(),
+        req.URL(),
         resp.StatusCode(),
     )
     return nil

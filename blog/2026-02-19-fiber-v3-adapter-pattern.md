@@ -133,7 +133,7 @@ app.Use("/api", apiMiddleware)
 You can also register middleware for multiple prefixes at once:
 
 ```go
-app.Use(["/v1", "/v2"], func(c fiber.Ctx) error {
+app.Use([]string{"/v1", "/v2"}, func(c fiber.Ctx) error {
     return c.Next()
 })
 ```

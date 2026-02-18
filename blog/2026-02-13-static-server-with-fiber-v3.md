@@ -77,10 +77,13 @@ For single-binary deployments, Go's `embed.FS` is a practical choice. The static
 //go:embed public/*
 var embedFS embed.FS
 
+sub, _ := fs.Sub(embedFS, "public")
 app.Get("/*", static.New("", static.Config{
-    FS: embedFS,
+    FS: sub,
 }))
 ```
+
+The `fs.Sub` call strips the `public/` prefix from the embedded filesystem, so the middleware finds files at their expected paths. Without it, a request for `/index.html` would look for `public/index.html` inside the FS and fail.
 
 This embeds your static assets directly into the compiled binary. No separate file copy step in your Dockerfile, no working directory confusion. The binary contains everything it needs.
 

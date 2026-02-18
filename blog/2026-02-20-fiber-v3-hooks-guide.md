@@ -117,17 +117,26 @@ app.Hooks().OnGroup(func(g fiber.Group) error {
 })
 ```
 
-`OnName` fires when a route is named, which is useful if your team enforces named routes for link generation:
+`OnName` fires when a route is named via `.Name()`, which is useful for building route registries or logging named routes:
 
 ```go
 app.Hooks().OnName(func(r fiber.Route) error {
+    log.Printf("named route registered: %s %s → %s", r.Method, r.Path, r.Name)
+    return nil
+})
+
+app.Get("/users", listUsers).Name("listUsers")
+```
+
+If you want to enforce that *all* routes have names, use `OnRoute` instead — it fires for every registration regardless of whether `.Name()` was called:
+
+```go
+app.Hooks().OnRoute(func(r fiber.Route) error {
     if r.Name == "" {
         return fmt.Errorf("route %s %s must have a name", r.Method, r.Path)
     }
     return nil
 })
-
-app.Get("/users", listUsers).Name("listUsers")
 ```
 
 ## Mount Hooks for Sub-Applications

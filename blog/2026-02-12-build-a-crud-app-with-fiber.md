@@ -66,8 +66,13 @@ func AddBook(c fiber.Ctx) error {
         return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
     }
 
-    database.DB.Db.Create(&book)
-    return c.Status(fiber.StatusOK).JSON(book)
+    if result := database.DB.Db.Create(book); result.Error != nil {
+        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+            "error": "failed to create book",
+            "code":  "CREATE_FAILED",
+        })
+    }
+    return c.Status(fiber.StatusCreated).JSON(book)
 }
 ```
 
