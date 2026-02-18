@@ -8,19 +8,33 @@ description: How to use the new Fiber client package for reliable service-to-ser
 
 In many backend teams, outbound HTTP calls are still treated like helper code. They live in random utility functions, each call has slightly different timeout behavior, and when incidents happen no one is fully sure which upstream policy is actually active.
 
-That works while a service has two dependencies. It starts to hurt when a service has ten.
+That works while a service has two dependencies. It starts to hurt when a service has ten. Timeout drift, inconsistent retry behavior, missing correlation headers, and ad-hoc error mapping become real operational problems. When your on-call engineer cannot tell which upstream policy is in effect during an incident, the outbound client is the root cause even when the upstream itself is fine.
 
-The new client package in Fiber v3 is interesting because it encourages a different model: client behavior becomes a first-class part of your architecture. You can define defaults once, override them where needed, and keep request policy visible in one place.
+The v3 client package addresses this by treating outbound HTTP as a first-class concern. You define client behavior once, override it where needed, and keep request policy visible in one place.
 
 <!-- truncate -->
 
-## Why This Feature Feels Better Than v2-Era Patterns
+## How Outbound Calls Looked in v2-era Code
 
-In older codebases, outbound requests often ended up as a mix of styles. Some calls reused shared setup, others built one-off requests directly in handlers. Over time, this creates policy drift. One endpoint retries too much, another never retries, one forwards correlation headers, another drops them.
+Most v2 services used `net/http` or `fasthttp` directly for outbound requests. The typical pattern was scattered one-off configurations:
 
-What is cool in the new client package is not just new methods. It is that the package design pushes you toward consistency. You can create a long-lived client with clear defaults and treat request-level overrides as explicit exceptions.
+```go
+// v2-era: ad-hoc outbound calls
+func fetchUser(id string) (*User, error) {
+    req, _ := http.NewRequest("GET", "https://users.internal/users/"+id, nil)
+    req.Header.Set("Authorization", "Bearer "+token)
+
+    client := &http.Client{Timeout: 2 * time.Second}
+    resp, err := client.Do(req)
+    // ... error handling, body parsing, cleanup
+}
+```
+
+Each function created its own client, set its own timeout, and handled its own headers. When the team wanted to add tracing or change the timeout, they had to find and update every call site. Policy drift was inevitable.
 
 ## Start with a Client Factory
+
+The v3 client package encourages creating long-lived, configured client instances. A factory function makes this pattern explicit:
 
 ```go
 import (
@@ -36,25 +50,53 @@ func NewUsersClient() *client.Client {
 }
 ```
 
-This looks simple, but it changes daily engineering behavior. New endpoints stop reinventing outbound setup and instead depend on a known client contract.
+This is simple, but it changes daily engineering behavior. New endpoints stop reinventing outbound setup and instead depend on a known client contract. Timeout, base URL, and default headers are defined once and shared across all calls through this client.
 
-## Keep Overrides Local and Intentional
+## Per-Request Overrides
+
+When a specific call needs different behavior, overrides are explicit and local:
 
 ```go
 func FetchTenant(cli *client.Client, tenantID, reqID string) (*client.Response, error) {
     return cli.Get("/tenants/:id", client.Config{
         PathParam: map[string]string{"id": tenantID},
-        Header: map[string]string{"X-Request-ID": reqID},
-        Timeout: 600 * time.Millisecond,
+        Header:    map[string]string{"X-Request-ID": reqID},
+        Timeout:   600 * time.Millisecond,
     })
 }
 ```
 
-A good review question here is: "Why is this override different from the default?" If the answer is clear, the override belongs there. If not, move the policy back into shared defaults.
+The `Config` struct supports headers, path parameters, query parameters, cookies, body, form data, file uploads, context propagation, max redirects, and timeout — all per request. A good review question here is: "Why is this override different from the default?" If the answer is clear, the override belongs here. If not, move the policy back into shared defaults.
 
-## Cookie Jar Support Is More Useful Than It Looks
+## Retry Configuration
 
-A lot of teams first see cookie jar support and think it is only for browsers. In practice, it is very useful for integration flows and internal tools that still rely on session-style auth.
+For transient failures, the client supports retry policies:
+
+```go
+cli := client.New().
+    SetBaseURL("https://api.internal").
+    SetRetryConfig(&client.RetryConfig{
+        MaxRetryCount: 3,
+        Delay:         100 * time.Millisecond,
+    })
+```
+
+Retries apply to the configured client and can be tuned per upstream. This is especially useful for internal service calls where transient network errors are expected during rolling deployments.
+
+## Proxy Support
+
+If your outbound calls need to go through a proxy (corporate environments, egress gateways), the client supports proxy configuration:
+
+```go
+cli := client.New()
+cli.SetProxyURL("http://proxy.internal:8080")
+```
+
+This applies to all requests through the client instance. Combined with base URL and headers, you can model complex network topologies without per-request proxy logic.
+
+## Cookie Jar for Session Continuity
+
+A lot of teams first see cookie jar support and think it is only for browsers. In practice, it is useful for integration flows and internal tools that still rely on session-style auth.
 
 ```go
 jar := client.AcquireCookieJar()
@@ -71,31 +113,49 @@ _, _ = cli.Post("/login", client.Config{
     },
 })
 
+// Session cookie is automatically stored and sent with subsequent requests
 profileResp, _ := cli.Get("/me")
-_ = profileResp
 ```
 
-This is especially practical in end-to-end tests where you want session continuity without custom cookie plumbing.
+This is especially practical in end-to-end tests where you want session continuity without custom cookie plumbing, and in internal tools that interact with legacy session-based services.
 
-## Hooks: The Operational Layer
+## Request and Response Hooks
 
-In mature systems, outbound clients need observability hooks. The v3 client makes this straightforward.
+In mature systems, outbound clients need observability. The v3 client makes this straightforward with request and response hooks:
 
 ```go
 cli.AddRequestHook(func(req *client.Request) error {
     req.SetHeader("X-Trace-Source", "fiber-client")
+    req.SetHeader("X-Request-Start", fmt.Sprintf("%d", time.Now().UnixMilli()))
     return nil
 })
 
 cli.AddResponseHook(func(resp *client.Response) error {
-    log.Printf("upstream status=%d", resp.StatusCode())
+    log.Printf("upstream=%s status=%d",
+        resp.Request().URL(),
+        resp.StatusCode(),
+    )
     return nil
 })
 ```
 
-This is the right place for lightweight diagnostics and request metadata standardization. It keeps handler code focused on business behavior.
+Request hooks run before every outbound call. Use them for tracing headers, authentication token injection, and request logging. Response hooks run after every response. Use them for metrics collection, error classification, and response logging.
 
-## A Handler Example with Real Error Mapping
+This is the right place for cross-cutting concerns. It keeps handler code focused on business behavior and ensures observability is consistent across all calls through the client.
+
+## Debug Mode
+
+During development, you can enable debug mode to see full request and response details:
+
+```go
+cli := client.New().Debug()
+```
+
+This logs request and response details for every call through the client. Disable it in production with `cli.DisableDebug()`. It is a simple feature, but it saves significant time when debugging upstream integration issues.
+
+## A Handler Example with Error Mapping
+
+Here is a handler that calls an upstream service and maps errors consistently:
 
 ```go
 app.Get("/billing/:id", func(c fiber.Ctx) error {
@@ -106,18 +166,22 @@ app.Get("/billing/:id", func(c fiber.Ctx) error {
         },
     })
     if err != nil {
-        return c.Status(fiber.StatusBadGateway).JSON(fiber.Map{"error": "upstream unavailable"})
+        return c.Status(fiber.StatusBadGateway).JSON(fiber.Map{
+            "error": "upstream unavailable",
+        })
     }
 
     if resp.StatusCode() >= 500 {
-        return c.Status(fiber.StatusBadGateway).JSON(fiber.Map{"error": "upstream failed"})
+        return c.Status(fiber.StatusBadGateway).JSON(fiber.Map{
+            "error": "upstream failed",
+        })
     }
 
     return c.Status(resp.StatusCode()).Send(resp.Body())
 })
 ```
 
-The important part is not syntax. It is that upstream error semantics are explicit and consistent.
+The important part is not syntax. It is that upstream error semantics are explicit: connection failures return 502, upstream 5xx errors return 502 with a generic message, and everything else forwards the upstream status. This pattern prevents leaking upstream error details to clients.
 
 ## Where to Introduce This First
 

@@ -2,7 +2,7 @@
 slug: build-a-crud-app-with-fiber
 title: Build a CRUD API with Fiber
 authors: [fiber-team]
-tags: [fiber, crud, gorm, postgres, go]
+tags: [fiber, v3, crud, gorm, postgres, go]
 description: Build a practical CRUD API in Fiber v3 and keep the request flow understandable as it grows.
 ---
 
@@ -50,18 +50,20 @@ That explicit list gives you two advantages immediately:
 1. onboarding gets faster because route intent is visible in one file
 2. versioning is straightforward later (`/api/v1`, `/api/v2`) because your boundary is already clear
 
-## Input Handling: Be Boring and Consistent
+A note on route naming: the recipe uses action-based paths like `/addbook` and `/allbooks`, which works well for learning. In production, RESTful resource-based paths (`GET /books`, `POST /books`, `GET /books/:id`, `PUT /books/:id`, `DELETE /books/:id`) are usually a better choice because they map naturally to HTTP semantics and make API documentation cleaner. The migration from one style to the other is straightforward when routes are centralized like this.
 
-Fiber v3's `c.Bind()` is one of the biggest quality-of-life improvements for API handlers.
+## Input Handling: What Changed from v2
 
-Instead of improvising request parsing per endpoint, use one clear pattern: parse first, validate, then run business logic.
+In v2, body parsing used `c.BodyParser()`, query parameters used individual `c.Query()` calls, and path parameters used `c.ParamsInt()`. Each had different error behavior and conventions.
+
+v3 unifies all of this under `c.Bind()`. The recipe handler shows the pattern:
 
 ```go
 func AddBook(c fiber.Ctx) error {
     book := new(models.Book)
 
     if err := c.Bind().Body(book); err != nil {
-        return c.Status(fiber.StatusBadRequest).JSON(err.Error())
+        return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
     }
 
     database.DB.Db.Create(&book)
@@ -69,7 +71,18 @@ func AddBook(c fiber.Ctx) error {
 }
 ```
 
-This may look trivial, but this kind of consistency is what keeps code reviews short and reliable.
+This may look trivial, but the consistency matters. Every handler follows the same shape: bind input, check for errors, run logic, return response. When your team agrees on this pattern, code reviews get shorter and parsing bugs become rare.
+
+If you need validation beyond what struct tags provide, Fiber v3 supports built-in validation through the `StructValidator` config. You configure it once at app level and every `Bind()` call automatically validates:
+
+```go
+type CreateBook struct {
+    Title  string `json:"title" validate:"required"`
+    Author string `json:"author" validate:"required"`
+}
+```
+
+See the [Binding in Practice](/blog/fiber-v3-binding-in-practice) post for the full validation setup.
 
 ## What Actually Happens in a CRUD Request
 
@@ -123,18 +136,26 @@ curl -i -X DELETE http://localhost:3000/delete \
   -d '{"title":"Distributed Systems"}'
 ```
 
-These are not just "demo commands." They are a minimum regression checklist for any CRUD service before merging route changes.
+These are not just demo commands. They are a minimum regression checklist for any CRUD service before merging route changes.
 
 ## Practical Lessons Before You Ship This Pattern
 
-The recipe updates and deletes by title. That is fine for learning, but in production you should usually move to immutable identifiers (numeric ID, UUID, ULID).
+The recipe updates and deletes by title. That is fine for learning, but in production you should usually move to immutable identifiers (numeric ID, UUID, ULID). Fiber v3 supports [custom route constraints](/blog/whats-new-in-fiber-v3#8-custom-route-constraints) that can validate identifier formats at the routing layer, so invalid IDs never reach your handler.
 
-Also avoid sending raw database errors to clients. Stable API error contracts reduce frontend coupling and simplify incident handling.
+Avoid sending raw database errors to clients. A stable error envelope makes frontend integration predictable and simplifies incident handling:
 
-Finally, if you add auth/validation middleware later, keep the same flow discipline: parse -> validate -> execute -> map response.
+```go
+// consistent error response shape
+return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+    "error": "failed to create book",
+    "code":  "CREATE_FAILED",
+})
+```
+
+Finally, if you add auth/validation middleware later, keep the same flow discipline: bind input, validate, execute logic, map response. That consistency is what makes the codebase scale.
 
 ## Recipe and Next Step
 
 - Primary reference: [gofiber/recipes/gorm-postgres](https://github.com/gofiber/recipes/tree/master/gorm-postgres)
 
-A strong next step is to add validation and move routes under `/api/v1` with consistent response envelopes (`data`, `error`, `meta`). That gives you a cleaner base before feature count grows.
+A strong next step is to add validation (see [Binding in Practice](/blog/fiber-v3-binding-in-practice)) and move routes under `/api/v1` with consistent response envelopes (`data`, `error`, `meta`). That gives you a cleaner base before feature count grows.
