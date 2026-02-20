@@ -62,7 +62,7 @@ app.Get("/fast", func(ctx *fasthttp.RequestCtx) {
 
 ```go
 app.Use(func(req fiber.Req, res fiber.Res, next func() error) error {
-    req.Headers().Set("X-Trace-Source", "compat-layer")
+    res.Set("X-Trace-Source", "compat-layer")
     return next()
 })
 

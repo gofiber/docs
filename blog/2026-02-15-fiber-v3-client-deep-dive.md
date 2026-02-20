@@ -76,8 +76,8 @@ For transient failures, the client supports retry policies:
 cli := client.New().
     SetBaseURL("https://api.internal").
     SetRetryConfig(&client.RetryConfig{
-        MaxRetryCount: 3,
-        Delay:         100 * time.Millisecond,
+        MaxRetryCount:   3,
+        InitialInterval: 100 * time.Millisecond,
     })
 ```
 
