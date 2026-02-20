@@ -106,15 +106,22 @@ cli := client.New().
     SetBaseURL("https://auth.internal").
     SetCookieJar(jar)
 
-_, _ = cli.Post("/login", client.Config{
+_, err := cli.Post("/login", client.Config{
     FormData: map[string]string{
         "username": "john",
         "password": "doe",
     },
 })
+if err != nil {
+    return err
+}
 
 // Session cookie is automatically stored and sent with subsequent requests
-profileResp, _ := cli.Get("/me")
+profileResp, err := cli.Get("/me")
+if err != nil {
+    return err
+}
+fmt.Println(string(profileResp.Body()))
 ```
 
 This is especially practical in end-to-end tests where you want session continuity without custom cookie plumbing, and in internal tools that interact with legacy session-based services.
