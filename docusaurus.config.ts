@@ -107,7 +107,7 @@ function plugins(): PluginConfig[] {
                 path: 'docs/contrib',
                 routeBasePath: 'contrib',
                 editUrl: (params: { docPath: string }) => {
-                    return 'https://github.com/gofiber/contrib/edit/main/' + params.docPath;
+                    return 'https://github.com/gofiber/contrib/edit/main/v3/' + params.docPath;
                 },
                 editCurrentVersion: true,
                 sidebarPath: require.resolve('./default_sidebars'),
@@ -383,6 +383,8 @@ function preset(): [string, Options] {
                 onInlineTags: 'warn',
                 onInlineAuthors: 'warn',
                 onUntruncatedBlogPosts: 'warn',
+                postsPerPage: 3,
+                editUrl: 'https://github.com/gofiber/docs/tree/master/',
             },
             theme: {
                 customCss: require.resolve('./src/css/custom.css'),
