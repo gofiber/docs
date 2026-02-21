@@ -8,6 +8,7 @@ const darkCodeTheme = themes.dracula;
 const BUILD_TARGET = process.env.BUILD_TARGET ?? 'development';
 const isHome = BUILD_TARGET === 'home';
 const isDocs = BUILD_TARGET === 'docs';
+const docsUrl = 'https://docs.gofiber.io';
 
 function plugins(): PluginConfig[] {
     let pluginList: PluginConfig[] = [
@@ -43,7 +44,7 @@ function plugins(): PluginConfig[] {
         [require.resolve('@easyops-cn/docusaurus-search-local'),
             {
                 hashed: true,
-                indexBlog: false,
+                indexBlog: true,
                 docsRouteBasePath: '/',
             },
         ],
@@ -200,6 +201,11 @@ function headerNav(): any[] {
             position: 'left',
         },
         {
+            to: (isHome ? docsUrl : '') +  '/blog',
+            label: '📰 Blog',
+            position: 'left',
+        },
+        {
             to: 'https://github.com/gofiber/awesome-fiber',
             label: '😎 Awesome List',
             position: 'left',
@@ -275,14 +281,14 @@ function headerNav(): any[] {
     
     if (isHome) {
         naviItems[0] = {
-            to: 'https://docs.gofiber.io/',
+            to: docsUrl + '/',
             label: '📚 Docs',
             position: 'left',
             target: '_self',
         };
         
         const switchToLink = (item: any): any => {
-            item.to = `https://docs.gofiber.io/${item.docsPluginId}`;
+            item.to = `${docsUrl}/${item.docsPluginId}`;
             item.target = '_self';
             delete item.docsPluginId;
             delete item.type;
@@ -368,7 +374,16 @@ function preset(): [string, Options] {
                 routeBasePath: '/',
                 exclude: isDocs ? ['**/home.{js,jsx,ts,tsx,md,mdx}'] : [],
             },
-            blog: false,
+            blog: {
+                showReadingTime: true,
+                blogTitle: 'Fiber Blog',
+                blogDescription: 'News, guides, and updates around Fiber.',
+                blogSidebarCount: 'ALL',
+                blogSidebarTitle: 'All posts',
+                onInlineTags: 'warn',
+                onInlineAuthors: 'warn',
+                onUntruncatedBlogPosts: 'warn',
+            },
             theme: {
                 customCss: require.resolve('./src/css/custom.css'),
             },

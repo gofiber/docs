@@ -115,3 +115,31 @@ div.reference {
   background-color: rgba(148, 163, 184, 0.16);
   border: 1px solid rgba(148, 163, 184, 0.35);
 }
+
+/* Blog overrides */
+#__blog-post-container h1 {
+  font-size: clamp(1.85rem, 2.1vw, 2.35rem) !important;
+  line-height: 1.2;
+}
+
+#__blog-post-container h2 {
+  font-size: clamp(1.35rem, 1.6vw, 1.75rem) !important;
+  line-height: 1.25;
+}
+
+@media (max-width: 576px) {
+  #__blog-post-container h1 {
+    font-size: 1.65rem !important;
+  }
+}
+
+/* Blog aside headings */
+html.blog-wrapper aside.col.col--3 nav [class*='sidebarItemTitle'] {
+  font-size: clamp(28px, 3.6vw, 35px);
+  line-height: 1.2;
+}
+
+html.blog-wrapper aside.col.col--3 nav [class*='yearGroupHeading'] {
+  font-size: clamp(25px, 3.6vw, 30px);
+  line-height: 1.2;
+}
