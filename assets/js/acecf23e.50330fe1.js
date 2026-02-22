@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkfiber_docs=self.webpackChunkfiber_docs||[]).push([["93220"],{94326:function(s){s.exports=JSON.parse('{"blogBasePath":"/blog","blogTitle":"Fiber Blog","authorsListPath":"/blog/authors"}')}}]);

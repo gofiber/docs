@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkfiber_docs=self.webpackChunkfiber_docs||[]).push([["88416"],{20070:function(e){e.exports=JSON.parse('{"authors":[{"name":"Fiber Team","title":"Maintainers","url":"https://github.com/gofiber/fiber","imageURL":"https://github.com/gofiber.png","key":"fiber-team","page":null,"count":12}]}')}}]);
