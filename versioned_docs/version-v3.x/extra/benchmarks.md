@@ -13,7 +13,7 @@ sidebar_position: 2
 
 Each framework runs under a realistic production configuration. Results are recorded on both cloud instances and physical hardware. The test implementations are community contributed and live in the [FrameworkBenchmarks repository](https://github.com/TechEmpower/FrameworkBenchmarks).
 
-* Fiber `v2.52.5`
+* Fiber `v3.0.0`
 * 56 Cores Intel(R) Xeon(R) Gold 6330 CPU @ 2.00GHz (Three homogeneous ProLiant DL360 Gen10 Plus)
 * 64GB RAM
 * Enterprise SSD
