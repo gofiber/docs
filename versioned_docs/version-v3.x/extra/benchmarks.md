@@ -26,7 +26,7 @@ The Plaintext test measures basic request routing and demonstrates the capacity 
 
 See [Plaintext requirements](https://github.com/TechEmpower/FrameworkBenchmarks/wiki/Project-Information-Framework-Tests-Overview#plaintext)
 
-**Fiber** - **11,987,976** responses per second with an average latency of **1.0** ms.  
+**Fiber** - **11,987,976** responses per second with an average latency of **1.0** ms.
 **Express** - **1,204,969** responses per second with an average latency of **8.8** ms.
 
 ![](/img/v3/plaintext.png)
@@ -35,7 +35,7 @@ See [Plaintext requirements](https://github.com/TechEmpower/FrameworkBenchmarks/
 
 ### Data Updates
 
-**Fiber** handled **29,984** responses per second with an average latency of **16.9** ms.  
+**Fiber** handled **29,984** responses per second with an average latency of **16.9** ms.
 **Express** handled **54,887** responses per second with an average latency of **9.2** ms.
 
 ![](/img/v3/data_updates.png)
@@ -44,7 +44,7 @@ See [Plaintext requirements](https://github.com/TechEmpower/FrameworkBenchmarks/
 
 ### Multiple Queries
 
-**Fiber** handled **54,002** responses per second with an average latency of **9.4** ms.  
+**Fiber** handled **54,002** responses per second with an average latency of **9.4** ms.
 **Express** handled **85,011** responses per second with an average latency of **6.0** ms.
 
 ![](/img/v3/multiple_queries.png)
@@ -53,7 +53,7 @@ See [Plaintext requirements](https://github.com/TechEmpower/FrameworkBenchmarks/
 
 ### Single Query
 
-**Fiber** handled **953,016** responses per second with an average latency of **0.6** ms.  
+**Fiber** handled **953,016** responses per second with an average latency of **0.6** ms.
 **Express** handled **441,543** responses per second with an average latency of **1.3** ms.
 
 ![](/img/v3/single_query.png)
@@ -62,7 +62,7 @@ See [Plaintext requirements](https://github.com/TechEmpower/FrameworkBenchmarks/
 
 ### JSON Serialization
 
-**Fiber** handled **2,363,294** responses per second with an average latency of **0.2** ms.  
+**Fiber** handled **2,363,294** responses per second with an average latency of **0.2** ms.
 **Express** handled **949,717** responses per second with an average latency of **0.5** ms.
 
 ![](/img/v3/json.png)
