@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkfiber_docs=self.webpackChunkfiber_docs||[]).push([["83666"],{49301:function(e){e.exports=JSON.parse('{"metadata":{"permalink":"/blog/page/2","page":2,"postsPerPage":3,"totalPages":4,"totalCount":12,"previousPage":"/blog","nextPage":"/blog/page/3","blogDescription":"News, guides, and updates around Fiber.","blogTitle":"Fiber Blog"}}')}}]);
