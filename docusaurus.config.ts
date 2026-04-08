@@ -405,7 +405,7 @@ const config: Config = {
     projectName: 'docs',
     future: {
         v4: true,
-        experimental_faster: true,
+        faster: true,
     },
     i18n: {
         defaultLocale: 'en',
@@ -413,6 +413,11 @@ const config: Config = {
     },
     markdown: {
         mermaid: true,
+        mdx1Compat: {
+            comments: true,
+            admonitions: true,
+            headingIds: true,
+        },
         hooks: {
             onBrokenMarkdownLinks: 'warn',
         },
