@@ -223,6 +223,6 @@ Once that is in place, introduce a domain error type for the status codes and me
 
 ## Internal References
 
-- [Error Handling Guide](../docs/core/guide/error-handling.md)
-- [Recover Middleware](../docs/core/middleware/recover.md)
-- [What's New](../docs/core/whats_new.md)
+- [Error Handling Guide](/guide/error-handling)
+- [Recover Middleware](/middleware/recover)
+- [What's New](/whats_new)

@@ -249,7 +249,7 @@ For a deep dive, see [RFC Conformance in Practice](./2026-02-18-fiber-v3-rfc-con
 **Client**: The client package has been completely rebuilt with cookie jar support, request/response hooks, retry configuration, proxy support, and debug mode. See [New Client Deep Dive](./2026-02-15-fiber-v3-client-deep-dive.md).
 
 **Middleware changes worth noting**:
-- `app.Static()` removed — use the [static middleware](../docs/core/middleware/static.md) instead
+- `app.Static()` removed — use the [static middleware](/middleware/static) instead
 - `Filesystem` middleware removed — static middleware covers both
 - Middleware data now uses `FromContext()` functions (e.g., `requestid.FromContext(c)`) instead of string-based `c.Locals()` keys
 - Cache middleware: RFC-compliant `Age` header, `MaxBytes` limit, non-cacheable status filtering
@@ -272,7 +272,7 @@ Multiple prefixes are supported, and sub-apps mount with `app.Use()` instead of 
 ## Where to Practice These Changes
 
 For the complete list of v3 changes, keep the official page open while migrating:
-[What's New in Fiber v3](../docs/core/whats_new.md)
+[What's New in Fiber v3](/whats_new)
 
 - CRUD + binding patterns: [gofiber/recipes/gorm-postgres](https://github.com/gofiber/recipes/tree/master/gorm-postgres)
 - Static + middleware behavior: [gofiber/recipes/file-server](https://github.com/gofiber/recipes/tree/master/file-server)

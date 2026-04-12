@@ -126,7 +126,7 @@ app.Get("/legacy", func(w http.ResponseWriter, r *http.Request) {
 
 There is an important caveat: these handlers go through `fasthttpadaptor`, which adds overhead compared to native Fiber handlers. More importantly, they do not receive `fiber.Ctx`, so they cannot call `c.Next()` and always terminate the handler chain. They are meant for leaf handlers, not middleware.
 
-If you need a `net/http` middleware to participate in the Fiber chain, use the [Adaptor middleware](../docs/core/middleware/adaptor.md) instead, which provides full bidirectional conversion.
+If you need a `net/http` middleware to participate in the Fiber chain, use the [Adaptor middleware](/middleware/adaptor) instead, which provides full bidirectional conversion.
 
 ## Mounting fasthttp Handlers
 
@@ -219,6 +219,6 @@ If you are integrating Go ecosystem tools, mount them directly and move on. The 
 
 ## Internal References
 
-- [App Route Handlers](../docs/core/api/app.md#route-handlers)
-- [Adaptor Middleware](../docs/core/middleware/adaptor.md)
-- [What's New](../docs/core/whats_new.md)
+- [App Route Handlers](/api/app#route-handlers)
+- [Adaptor Middleware](/middleware/adaptor)
+- [What's New](/whats_new)

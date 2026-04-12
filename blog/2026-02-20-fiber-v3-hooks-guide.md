@@ -184,5 +184,5 @@ That alone eliminates the most common class of deploy-related data loss. Once th
 
 ## Internal References
 
-- [Hooks API](../docs/core/api/hooks.md)
-- [What's New](../docs/core/whats_new.md)
+- [Hooks API](/api/hooks)
+- [What's New](/whats_new)

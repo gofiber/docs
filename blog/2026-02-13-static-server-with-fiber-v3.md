@@ -145,6 +145,6 @@ The third one is broad wildcards too early in the chain. Keep API routes explici
 ## Recipe and Next Step
 
 - Primary reference: [gofiber/recipes/file-server](https://github.com/gofiber/recipes/tree/master/file-server)
-- Static middleware docs: [Static Middleware](../docs/core/middleware/static.md)
+- Static middleware docs: [Static Middleware](/middleware/static)
 
 A practical next step is to split cache policy by asset class: short cache for HTML, longer cache for versioned JS/CSS, and clear invalidation strategy during deploys.

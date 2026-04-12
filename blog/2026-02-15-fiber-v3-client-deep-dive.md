@@ -197,6 +197,6 @@ You will usually see better consistency in logs, easier debugging, and clearer o
 
 ## Internal References
 
-- [Client REST](../docs/core/client/rest.md)
-- [Client Examples](../docs/core/client/examples.md)
-- [What's New](../docs/core/whats_new.md)
+- [Client REST](/client/rest)
+- [Client Examples](/client/examples)
+- [What's New](/whats_new)

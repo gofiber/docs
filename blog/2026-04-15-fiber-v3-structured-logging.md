@@ -218,6 +218,6 @@ Next, switch to JSON format and add a request ID. This alone makes your logs que
 
 ## Internal References
 
-- [Logger Middleware](../docs/core/middleware/logger.md)
-- [RequestID Middleware](../docs/core/middleware/requestid.md)
-- [What's New](../docs/core/whats_new.md)
+- [Logger Middleware](/middleware/logger)
+- [RequestID Middleware](/middleware/requestid)
+- [What's New](/whats_new)
