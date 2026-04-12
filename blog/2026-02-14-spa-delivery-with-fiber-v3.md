@@ -159,6 +159,6 @@ app.Get("/static/*", static.New("./web/build/static", static.Config{
 
 - Primary reference: [gofiber/recipes/react-router](https://github.com/gofiber/recipes/tree/master/react-router)
 - Alternate reference: [gofiber/recipes/spa](https://github.com/gofiber/recipes/tree/master/spa)
-- Related: [Serve Static Files with Fiber v3](/blog/static-server-with-fiber-v3)
+- Related: [Serve Static Files with Fiber v3](./2026-02-13-static-server-with-fiber-v3.md)
 
 A good next step is to make cache policy explicit per file type and document route ownership between backend and frontend in your service README. If your deployment includes a reverse proxy, test the SPA fallback through the full proxy chain, not just locally.

@@ -248,6 +248,6 @@ The goal is not to block legitimate users. It is to make your API predictable un
 
 ## Internal References
 
-- [Limiter Middleware](/middleware/limiter)
+- [Limiter Middleware](../docs/core/middleware/limiter.md)
 - [Storage Package](https://github.com/gofiber/storage)
-- [What's New](/whats_new)
+- [What's New](../docs/core/whats_new.md)

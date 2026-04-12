@@ -285,6 +285,6 @@ Then test your middleware composition. Register the same middleware stack you us
 
 ## Internal References
 
-- [App Test Method](/api/app#test)
-- [Error Handling Guide](/guide/error-handling)
-- [What's New](/whats_new)
+- [App Test Method](../docs/core/api/app.md#test)
+- [Error Handling Guide](../docs/core/guide/error-handling.md)
+- [What's New](../docs/core/whats_new.md)

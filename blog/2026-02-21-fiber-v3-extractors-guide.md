@@ -179,6 +179,6 @@ The goal is not to rewrite everything at once. The goal is to make extraction po
 
 ## Internal References
 
-- [Extractors Guide](/guide/extractors)
-- [KeyAuth Middleware](/middleware/keyauth)
-- [What's New](/whats_new)
+- [Extractors Guide](../docs/core/guide/extractors.md)
+- [KeyAuth Middleware](../docs/core/middleware/keyauth.md)
+- [What's New](../docs/core/whats_new.md)

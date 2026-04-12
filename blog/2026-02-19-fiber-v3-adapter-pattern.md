@@ -177,6 +177,6 @@ Use compatibility where it reduces migration risk, not where it increases long-t
 
 ## Internal References
 
-- Official section: [What's New: Handler compatibility](/whats_new#handler-compatibility)
-- API docs: [App Router Methods](/api/app)
-- Middleware docs: [Adaptor Middleware](/middleware/adaptor)
+- Official section: [What's New: Handler compatibility](../docs/core/whats_new.md#handler-compatibility)
+- API docs: [App Router Methods](../docs/core/api/app.md)
+- Middleware docs: [Adaptor Middleware](../docs/core/middleware/adaptor.md)

@@ -229,6 +229,6 @@ Start with endpoints that currently parse from multiple sources (path + body + h
 
 ## Internal References
 
-- [Bind API](/api/bind)
-- [Ctx API](/api/ctx)
-- [What's New](/whats_new)
+- [Bind API](../docs/core/api/bind.md)
+- [Ctx API](../docs/core/api/ctx.md)
+- [What's New](../docs/core/whats_new.md)

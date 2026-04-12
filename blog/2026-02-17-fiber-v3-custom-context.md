@@ -160,6 +160,6 @@ The result is fewer moving parts: no middleware setting values, no helpers readi
 
 ## Internal References
 
-- [App API](/api/app)
-- [Ctx API](/api/ctx)
-- [What's New](/whats_new)
+- [App API](../docs/core/api/app.md)
+- [Ctx API](../docs/core/api/ctx.md)
+- [What's New](../docs/core/whats_new.md)

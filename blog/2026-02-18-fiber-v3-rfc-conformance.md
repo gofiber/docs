@@ -138,7 +138,7 @@ Fiber v3 now uses `filename*` encoding per [RFC 6266](https://www.rfc-editor.org
 A practical first step after migrating to v3 is a response-policy audit:
 
 1. **Cookies**: Review all `Set-Cookie` calls. Confirm that cross-site cookies use `SameSite=None` (v3 handles `Secure` automatically). Consider `Partitioned` for third-party contexts.
-2. **Cache headers**: Verify cache behavior matches your CDN and proxy expectations. The [cache middleware](/middleware/cache) updates in v3 align more closely with standard semantics.
+2. **Cache headers**: Verify cache behavior matches your CDN and proxy expectations. The [cache middleware](../docs/core/middleware/cache.md) updates in v3 align more closely with standard semantics.
 3. **Auth headers**: If you use the extractors package, the `FromAuthHeader` extractor now validates tokens per RFC 9110 and RFC 7235.
 4. **Download endpoints**: Test with non-ASCII filenames to confirm proper encoding.
 
@@ -146,7 +146,7 @@ Teams that do this audit once usually prevent an entire class of "works in one c
 
 ## Internal References
 
-- [What's New](/whats_new)
-- [Ctx API](/api/ctx)
-- [Cache Middleware](/middleware/cache)
-- [Static Middleware](/middleware/static)
+- [What's New](../docs/core/whats_new.md)
+- [Ctx API](../docs/core/api/ctx.md)
+- [Cache Middleware](../docs/core/middleware/cache.md)
+- [Static Middleware](../docs/core/middleware/static.md)

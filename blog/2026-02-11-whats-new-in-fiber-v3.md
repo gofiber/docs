@@ -75,7 +75,7 @@ app.Post("/users/:id", func(c fiber.Ctx) error {
 
 v3 binding also supports built-in validation, default values via `default:` tags, and custom binders for formats like YAML. Native CBOR and MsgPack support is included alongside JSON, XML, and form data.
 
-For a deep dive, see [Binding in Practice](/blog/fiber-v3-binding-in-practice).
+For a deep dive, see [Binding in Practice](./2026-02-16-fiber-v3-binding-in-practice.md).
 
 ## 2) Lifecycle Hooks: Deploy Confidence
 
@@ -103,7 +103,7 @@ app.Hooks().OnPostShutdown(func(err error) error {
 
 v3 also adds registration-time hooks (`OnRoute`, `OnGroup`, `OnName`, `OnMount`) that fire when routes and sub-apps are registered, useful for building route registries and enforcing naming conventions.
 
-For a deep dive, see [Hooks Guide for Clean Lifecycles](/blog/fiber-v3-hooks-guide).
+For a deep dive, see [Hooks Guide for Clean Lifecycles](./2026-02-20-fiber-v3-hooks-guide.md).
 
 ## 3) Listen: Cleaner Configuration
 
@@ -155,7 +155,7 @@ This enables route-by-route migration. You modernize high-value endpoints first 
 
 v3 also adds `RouteChain` for Express-style route declaration and automatically registers `HEAD` routes for every `GET` route.
 
-For a deep dive, see [Handler Compatibility in the New Router](/blog/fiber-v3-adapter-pattern).
+For a deep dive, see [Handler Compatibility in the New Router](./2026-02-19-fiber-v3-adapter-pattern.md).
 
 ## 5) Context Implements `context.Context`
 
@@ -174,7 +174,7 @@ Deadline propagation, cancellation, and request-scoped values all work natively.
 
 v3 also adds many new context methods: `Drop()` for silent connection termination (DDoS mitigation), `End()` for immediate response flush, `SendEarlyHints()` for HTTP 103 preloading, `AutoFormat()` for content negotiation, `SendStreamWriter()` for SSE and streaming, and numerous inspection helpers like `IsJSON()`, `IsWebSocket()`, `HasBody()`, and `IsPreflight()`.
 
-For a deep dive on context extensions, see [Custom Context in Practice](/blog/fiber-v3-custom-context).
+For a deep dive on context extensions, see [Custom Context in Practice](./2026-02-17-fiber-v3-custom-context.md).
 
 ## 6) Generic Functions: Type-Safe Parameter Access
 
@@ -208,7 +208,7 @@ app.Use(keyauth.New(keyauth.Config{
 
 `FromAuthHeader` includes strict RFC 9110/7235 validation. The chain tries each source in order and returns the first success, making extraction policy explicit and auditable.
 
-For a deep dive, see [Extractors Guide for Middleware](/blog/fiber-v3-extractors-guide).
+For a deep dive, see [Extractors Guide for Middleware](./2026-02-21-fiber-v3-extractors-guide.md).
 
 ## 8) Custom Route Constraints
 
@@ -240,16 +240,16 @@ v3 makes several protocol improvements that reduce interoperability incidents:
 - **Non-ASCII filenames**: `Attachment` and `Download` use RFC 6266/8187 encoding
 - **Default redirect status**: Changed from 302 to 303 for more consistent browser behavior
 
-For a deep dive, see [RFC Conformance in Practice](/blog/fiber-v3-rfc-conformance).
+For a deep dive, see [RFC Conformance in Practice](./2026-02-18-fiber-v3-rfc-conformance.md).
 
 ## 10) Storage, Client, and Middleware Updates
 
 **Storage**: All storage adapters now include `WithContext` methods (`GetWithContext`, `SetWithContext`, `DeleteWithContext`, `ResetWithContext`) for cancellation, timeout control, and request-scoped behavior.
 
-**Client**: The client package has been completely rebuilt with cookie jar support, request/response hooks, retry configuration, proxy support, and debug mode. See [New Client Deep Dive](/blog/fiber-v3-client-deep-dive).
+**Client**: The client package has been completely rebuilt with cookie jar support, request/response hooks, retry configuration, proxy support, and debug mode. See [New Client Deep Dive](./2026-02-15-fiber-v3-client-deep-dive.md).
 
 **Middleware changes worth noting**:
-- `app.Static()` removed — use the [static middleware](/middleware/static) instead
+- `app.Static()` removed — use the [static middleware](../docs/core/middleware/static.md) instead
 - `Filesystem` middleware removed — static middleware covers both
 - Middleware data now uses `FromContext()` functions (e.g., `requestid.FromContext(c)`) instead of string-based `c.Locals()` keys
 - Cache middleware: RFC-compliant `Age` header, `MaxBytes` limit, non-cacheable status filtering
@@ -272,7 +272,7 @@ Multiple prefixes are supported, and sub-apps mount with `app.Use()` instead of 
 ## Where to Practice These Changes
 
 For the complete list of v3 changes, keep the official page open while migrating:
-[What's New in Fiber v3](/whats_new)
+[What's New in Fiber v3](../docs/core/whats_new.md)
 
 - CRUD + binding patterns: [gofiber/recipes/gorm-postgres](https://github.com/gofiber/recipes/tree/master/gorm-postgres)
 - Static + middleware behavior: [gofiber/recipes/file-server](https://github.com/gofiber/recipes/tree/master/file-server)
