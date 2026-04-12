@@ -58,6 +58,7 @@ jobs:
       - name: Run cspell
         uses: streetsidesoftware/cspell-action@de2a73e963e7443969755b648a1008f77033c5b2 # v8.4.0
         with:
+          files: "blog/** src/**"
           incremental_files_only: false
           check_dot_files: explicit
           report: typos
