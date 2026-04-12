@@ -57,22 +57,27 @@
     "people-names",
     "data-science",
     "data-science-models",
-    "data-science-tools"
+    "data-science-tools",
+    "project-words"
+  ],
+  "dictionaryDefinitions": [
+    {
+      "name": "project-words",
+      "path": "./project-words.txt",
+      "addWords": true
+    }
+  ],
+  "files": [
+    "blog/**",
+    "src/**"
   ],
   "ignorePaths": [
-    ".git",
-    "node_modules",
-    "build",
-    ".docusaurus",
-    ".github",
     "**/*.svg",
     "**/*.png",
     "**/*.jpg",
     "**/*.jpeg",
     "**/*.gif",
     "**/*.ico",
-    "**/*.lock",
-    "*_versions.json",
-    "*_versioned_sidebars"
+    "**/*.lock"
   ]
 }

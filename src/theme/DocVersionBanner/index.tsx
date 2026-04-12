@@ -43,7 +43,7 @@ export default function DocVersionBannerWrapper(props: Props): JSX.Element | nul
                     </div>
                     {expectedPathForCurrentVersion?.path &&
                         <div >
-                            For the current choosen version documentation, see the <a href={expectedPathForCurrentVersion.path}>{currVersionPackage} link</a>.
+                            For the current chosen version documentation, see the <a href={expectedPathForCurrentVersion.path}>{currVersionPackage} link</a>.
                         </div>
                     }
                 </div>

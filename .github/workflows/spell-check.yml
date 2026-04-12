@@ -66,5 +66,5 @@ jobs:
       - name: Run codespell
         uses: codespell-project/actions-codespell@8f01853be192eb0f849a5c7d721450e7a467c579 # v2.2
         with:
-          skip: ./.git,./node_modules,./.docusaurus,./build,./.github/workflows/spell-check.yml
+          path: blog src
           ignore_words_list: TE,te
