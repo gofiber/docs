@@ -37,8 +37,7 @@ codespell:
 ## markdown: 🎨 Find markdown format issues (Requires markdownlint-cli2)
 .PHONY: markdown
 markdown:
-	@which markdownlint-cli2 > /dev/null || npm install -g markdownlint-cli2
-	markdownlint-cli2 "blog/**/*.md"
+	npx markdownlint-cli2 "blog/**/*.md"
 
 ## lint: 🚨 Run all lint checks (spell + markdown)
 .PHONY: lint
