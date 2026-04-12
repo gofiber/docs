@@ -108,21 +108,21 @@ app.Use(limiter.New(limiter.Config{
 
 ## Better Key Generation
 
-The default key generator uses the client IP. Behind a load balancer or CDN, every request might appear to come from the same IP. The `KeyGenerator` function lets you fix this:
+The default key generator uses the client IP. Behind a load balancer or CDN, every request might appear to come from the same IP unless Fiber knows which proxy headers to trust.
+
+The correct approach is to configure Fiber's built-in proxy trust settings so `c.IP()` resolves the real client IP safely:
 
 ```go
-KeyGenerator: func(c fiber.Ctx) string {
-    // Use X-Forwarded-For behind a reverse proxy
-    if xff := c.Get("X-Forwarded-For"); xff != "" {
-        // Take the first IP (client) not the proxy chain
-        if idx := strings.Index(xff, ","); idx != -1 {
-            return strings.TrimSpace(xff[:idx])
-        }
-        return xff
-    }
-    return c.IP()
-},
+app := fiber.New(fiber.Config{
+    TrustProxy:          true,
+    TrustProxyConfig: fiber.TrustProxyConfig{
+        Proxies: []string{"10.0.0.0/8", "172.16.0.0/12"},
+    },
+    ProxyHeader: "X-Forwarded-For",
+})
 ```
+
+With that in place, the default `KeyGenerator` using `c.IP()` already does the right thing. Do not parse `X-Forwarded-For` manually — clients can spoof that header to bypass IP-based limits unless your proxy overwrites it.
 
 For authenticated APIs, a better key is the user ID. This means the limit follows the account, not the IP, which is the correct behavior for mobile users who switch networks:
 

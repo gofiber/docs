@@ -8,7 +8,7 @@ description: Build a custom error handler in Fiber v3 that keeps your internals 
 
 The scariest thing in production is not that errors happen. It is that the wrong information leaks when they do.
 
-A default error handler might respond with a stack trace, a raw database error, or an internal file path. During development, that is helpful. In production, it is a security incident waiting to happen. An attacker learns your ORM, your table schema, maybe even the specific query that failed. All from a 500 response you never thought anyone would read.
+In Fiber v3, the default error handler sends `err.Error()` to the client, which can expose a raw database error, an internal file path, or other library-generated details. Panics are a separate concern: Fiber does not recover them by default, so they crash the process unless you enable the Recover middleware. During development, that kind of visibility is helpful. In production, it is a security incident waiting to happen. An attacker learns your ORM, your table schema, maybe even the specific query that failed. All from a 500 response you never thought anyone would read.
 
 Fiber v3's error handling is designed around one idea: handlers return errors, and a central handler decides what the client sees. That separation sounds simple, but it changes how you structure error responses across your entire application.
 
@@ -56,7 +56,7 @@ app := fiber.New(fiber.Config{
             message = e.Message
         }
 
-        traceID, _ := c.Locals("requestid").(string)
+        traceID := requestid.FromContext(c)
 
         // Log the full error internally — never send this to the client
         log.Printf("[%s] %d %s %s: %v",
@@ -85,7 +85,10 @@ type AppError struct {
 }
 
 func (e *AppError) Error() string {
-    return e.Internal.Error()
+    if e.Internal != nil {
+        return e.Internal.Error()
+    }
+    return e.PublicMsg
 }
 
 func NewNotFound(msg string, internal error) *AppError {

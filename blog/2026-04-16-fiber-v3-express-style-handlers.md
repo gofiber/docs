@@ -10,7 +10,7 @@ If you have ever tried to migrate a project from Express.js to Go, you know the 
 
 Fiber v3 decided to stop pretending this is not a problem. Its handler adapter accepts seventeen different function signatures — from Fiber-native to Express-style callbacks to raw `net/http` and `fasthttp` handlers. You can mix them in the same application without manual wrapping.
 
-This sounds like magic. It is actually a carefully designed type switch in `adapter.go` that does at compile time what you would otherwise do by hand.
+This sounds like magic. It is actually a carefully designed type switch in `adapter.go` that performs this adaptation at runtime when routes are registered, instead of forcing you to do it by hand.
 
 <!-- truncate -->
 
