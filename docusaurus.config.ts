@@ -1,4 +1,4 @@
-import type { Config, PluginConfig, PluginModule } from '@docusaurus/types';
+import type { Config, Plugin, PluginConfig, PluginModule } from '@docusaurus/types';
 import type { Options } from '@docusaurus/preset-classic';
 import { themes } from 'prism-react-renderer';
 
@@ -13,8 +13,26 @@ const docsUrl = 'https://docs.gofiber.io';
 function plugins(): PluginConfig[] {
     let pluginList: PluginConfig[] = [
         require.resolve('./no-flash-color-mode-plugin'),
-        
+
         'docusaurus-plugin-sass',
+
+        // Suppress webpack "Critical dependency" warning from vscode-languageserver-types
+        // (transitive dep via mermaid → langium → vscode-languageserver)
+        function suppressLangiumWarning(): Plugin {
+            return {
+                name: 'suppress-langium-warning',
+                configureWebpack() {
+                    return {
+                        ignoreWarnings: [
+                            {
+                                module: /vscode-languageserver-types/,
+                                message: /Critical dependency/,
+                            },
+                        ],
+                    };
+                },
+            };
+        },
     ];
     
     if (isHome) {

@@ -11,31 +11,33 @@ type Props = WrapperProps<typeof DocVersionBannerType>;
 
 const multiRepoPkg = ['contrib', 'storage', 'template'];
 
-// Extract package name from version string: "v3/zap_v1.x.x" → "zap", "otelfiber_v2.x.x" → "otelfiber"
-const getPackageName = (version: string): string => {
-    const lastSegment = version.includes('/') ? version.split('/').pop()! : version;
-    return lastSegment.split('_')[0];
+// Parse version entry: "v3_zap_v1.x.x" → { prefix: 3, pkg: "zap", version: 1 }
+// "otelfiber_v2.x.x" → { prefix: -1, pkg: "otelfiber", version: 2 }
+const parseVersionEntry = (entry: string): { prefix: number; pkg: string; version: number } => {
+    const versionMatch = entry.match(/_v(\d+)\.x\.x$/);
+    const version = versionMatch ? parseInt(versionMatch[1], 10) : 0;
+    const rest = versionMatch ? entry.slice(0, versionMatch.index!) : entry;
+
+    const prefixMatch = rest.match(/^v(\d+)_(.+)$/);
+    if (prefixMatch) {
+        return { prefix: parseInt(prefixMatch[1], 10), pkg: prefixMatch[2], version };
+    }
+    return { prefix: -1, pkg: rest, version };
 };
+
+const getPackageName = (version: string): string => parseVersionEntry(version).pkg;
 
 // Find the best matching version for a package, preferring prefixed versions and highest versions
 const findBestVersion = (versions: string[], packageName: string): string | undefined => {
     return versions
-        .filter((v) => getPackageName(v) === packageName)
+        .filter((v) => parseVersionEntry(v).pkg === packageName)
         .sort((a, b) => {
-            const aHasPrefix = a.includes('/');
-            const bHasPrefix = b.includes('/');
-            // Prefer prefixed versions
-            if (aHasPrefix !== bHasPrefix) return aHasPrefix ? -1 : 1;
-            // Compare prefix numbers (v3 > v2)
-            if (aHasPrefix && bHasPrefix) {
-                const aPrefix = parseInt(a.split('/')[0].replace(/\D/g, ''), 10) || 0;
-                const bPrefix = parseInt(b.split('/')[0].replace(/\D/g, ''), 10) || 0;
-                if (aPrefix !== bPrefix) return bPrefix - aPrefix;
-            }
-            // Compare package version numbers (v2.x.x > v1.x.x)
-            const aVer = parseInt((a.split('_').pop() ?? '').replace(/\D/g, ''), 10) || 0;
-            const bVer = parseInt((b.split('_').pop() ?? '').replace(/\D/g, ''), 10) || 0;
-            return bVer - aVer;
+            const av = parseVersionEntry(a);
+            const bv = parseVersionEntry(b);
+            // Prefer higher prefix (prefixed > unprefixed, v3 > v2)
+            if (av.prefix !== bv.prefix) return bv.prefix - av.prefix;
+            // Then higher package version (v2.x.x > v1.x.x)
+            return bv.version - av.version;
         })[0];
 };
 
