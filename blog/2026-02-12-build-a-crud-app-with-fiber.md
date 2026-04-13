@@ -87,7 +87,7 @@ type CreateBook struct {
 }
 ```
 
-See the [Binding in Practice](/blog/fiber-v3-binding-in-practice) post for the full validation setup.
+See the [Binding in Practice](./2026-02-16-fiber-v3-binding-in-practice.md) post for the full validation setup.
 
 ## What Actually Happens in a CRUD Request
 
@@ -145,7 +145,7 @@ These are not just demo commands. They are a minimum regression checklist for an
 
 ## Practical Lessons Before You Ship This Pattern
 
-The recipe updates and deletes by title. That is fine for learning, but in production you should usually move to immutable identifiers (numeric ID, UUID, ULID). Fiber v3 supports [custom route constraints](/blog/whats-new-in-fiber-v3#8-custom-route-constraints) that can validate identifier formats at the routing layer, so invalid IDs never reach your handler.
+The recipe updates and deletes by title. That is fine for learning, but in production you should usually move to immutable identifiers (numeric ID, UUID, ULID). Fiber v3 supports [custom route constraints](./2026-02-11-whats-new-in-fiber-v3.md#8-custom-route-constraints) that can validate identifier formats at the routing layer, so invalid IDs never reach your handler.
 
 Avoid sending raw database errors to clients. A stable error envelope makes frontend integration predictable and simplifies incident handling:
 
@@ -163,4 +163,4 @@ Finally, if you add auth/validation middleware later, keep the same flow discipl
 
 - Primary reference: [gofiber/recipes/gorm-postgres](https://github.com/gofiber/recipes/tree/master/gorm-postgres)
 
-A strong next step is to add validation (see [Binding in Practice](/blog/fiber-v3-binding-in-practice)) and move routes under `/api/v1` with consistent response envelopes (`data`, `error`, `meta`). That gives you a cleaner base before feature count grows.
+A strong next step is to add validation (see [Binding in Practice](./2026-02-16-fiber-v3-binding-in-practice.md)) and move routes under `/api/v1` with consistent response envelopes (`data`, `error`, `meta`). That gives you a cleaner base before feature count grows.
