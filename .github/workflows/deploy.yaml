@@ -36,7 +36,7 @@ jobs:
 
       - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
           cache-dependency-path: |
             package-lock.json
@@ -48,9 +48,9 @@ jobs:
           path: |
             node_modules/.cache
             .docusaurus
-          key: docusaurus-${{ runner.os }}-node20-${{ hashFiles('package-lock.json') }}
+          key: docusaurus-${{ runner.os }}-node24-${{ hashFiles('package-lock.json') }}
           restore-keys: |
-            docusaurus-${{ runner.os }}-node20-
+            docusaurus-${{ runner.os }}-node24-
 
       - name: Install deps
         run: npm ci
