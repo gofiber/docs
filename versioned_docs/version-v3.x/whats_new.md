@@ -55,6 +55,7 @@ Here's a quick overview of the changes in Fiber `v3`:
   - [Logger](#logger)
   - [Monitor](#monitor)
   - [Proxy](#proxy)
+  - [Recover](#recover)
   - [Session](#session)
 - [🔌 Addons](#-addons)
 - [📋 Migration guide](#-migration-guide)
@@ -74,7 +75,7 @@ We have made several changes to the Fiber app, including:
   - `EnablePrefork` (previously `Prefork`)
   - `EnablePrintRoutes`
   - `ListenerNetwork` (previously `Network`)
-- **Trusted Proxy Configuration**: The `EnabledTrustedProxyCheck` has been moved to `app.Config.TrustProxy`, and `TrustedProxies` has been moved to `TrustProxyConfig.Proxies`.
+- **Trusted Proxy Configuration**: The `EnabledTrustedProxyCheck` has been moved to `app.Config.TrustProxy`, and `TrustedProxies` has been moved to `TrustProxyConfig.Proxies`. Additionally, `ProxyHeader` must be set to read client IPs from proxy headers (e.g., `X-Forwarded-For`).
 - **XMLDecoder Config Property**: The `XMLDecoder` property has been added to allow usage of 3rd-party XML libraries in XML binder.
 
 ### New Methods
@@ -413,6 +414,64 @@ app.RouteChain("/api").RouteChain("/user/:id?")
 </details>
 
 You can find more information about `app.RouteChain` and `app.Route` in the API documentation ([RouteChain](./api/app#routechain), [Route](./api/app#route)).
+
+Named routes retrieved with `app.GetRoute(name)` also support `route.URL(params)` for generating relative URLs directly from the route definition, including parameter substitution for named, wildcard (`*`), and plus (`+`) segments.
+
+### Domain routing
+
+`Domain` creates a router scoped to a specific hostname pattern. Routes registered through the returned `Router` only match requests whose hostname (from `c.Hostname()`) matches the pattern. When `TrustProxy` is enabled and the proxy is trusted (as defined by [`TrustProxyConfig`](./api/app#trustproxyconfig)), the hostname may be derived from the `X-Forwarded-Host` header. Be sure to configure `TrustProxyConfig` to restrict which proxies are trusted and prevent header spoofing when enabling `TrustProxy`.
+
+The pattern can contain parameters prefixed with `:`, accessible via `fiber.DomainParam`.
+
+Domain routing has **zero performance impact** on routes that don't use it because the hostname check is applied as a handler wrapper, not a change to the core router.
+
+> **Note:** Because domain filtering happens at handler-execution time, Fiber's `405 Method Not Allowed` responses may advertise methods from domain-scoped routes even when the requesting host does not match. This is a known trade-off of the handler-wrapping approach.
+>
+> When mounting sub-applications via `Domain(...).Use(*fiber.App)`, routes are cloned at mount time. The same sub-app can safely be mounted on multiple domains, but routes added to the sub-app after mounting will not inherit domain filtering. Register all sub-app routes before mounting.
+
+```go
+Domain(host string) Router
+```
+
+<details>
+<summary>Example</summary>
+
+```go
+app := fiber.New()
+
+// Static domain
+app.Domain("api.example.com").Get("/users", func(c fiber.Ctx) error {
+    return c.SendString("API users")
+})
+
+// Domain with parameter
+app.Domain(":user.blog.example.com").Get("/", func(c fiber.Ctx) error {
+    user := fiber.DomainParam(c, "user")
+    return c.SendString(user + "'s blog")
+})
+
+// Domain with groups
+api := app.Domain("api.example.com")
+v1 := api.Group("/v1")
+v1.Get("/posts", listPosts)
+
+// Domain with middleware
+admin := app.Domain("admin.example.com")
+admin.Use(authMiddleware)
+admin.Get("/dashboard", dashboardHandler)
+
+// Mount sub-applications on domain routers
+subApp := fiber.New()
+subApp.Get("/users", listUsers)
+app.Domain("api.example.com").Use("/api", subApp)
+
+// Fallback for unmatched domains
+app.Get("/", func(c fiber.Ctx) error {
+    return c.SendString("default site")
+})
+```
+
+</details>
 
 ### Automatic HEAD routes for GET
 
@@ -1308,6 +1367,10 @@ Cached responses now include an RFC-compliant Age header, providing a standardiz
 
 Cache keys are now redacted in logs and error messages by default, and a `DisableValueRedaction` boolean (default `false`) lets you opt out when you need the raw value for troubleshooting.
 
+The default cache key strategy was also hardened. Instead of path-only behavior, keys now use structured request dimensions: method partitioning, path, canonical query string, and selected representation headers (`Accept`, `Accept-Encoding`, `Accept-Language`). This avoids collisions such as `/items?id=1` vs `/items?id=2` while keeping key generation deterministic. New config fields were added for explicit control: `DisableQueryKeys`, `KeyHeaders`, `KeyCookies`, and `DisableVaryHeaders`.
+
+As a security/performance default, request body/form values are not part of the default cache key. Cache handling is limited to `GET` and `HEAD` requests by default, configurable via the `Methods` field.
+
 :::note
 The deprecated `Store` and `Key` options have been removed in v3. Use `Storage` and `KeyGenerator` instead.
 :::
@@ -1344,6 +1407,8 @@ Additionally, panic messages and logs redact misconfigured origins by default, a
 - Compression is bypassed for responses that already specify `Content-Encoding`, for range requests or `206` statuses, and when either side sends `Cache-Control: no-transform`.
 - `HEAD` requests still negotiate compression so `Content-Encoding`, `Content-Length`, `ETag`, and `Vary` match a corresponding `GET`, but the body is omitted.
 - `Vary: Accept-Encoding` is merged into responses even when compression is skipped, preventing caches from mixing encoded and unencoded variants.
+- Decoding compressed request bodies now enforces the app `BodyLimit` through fasthttp `WithLimit` helpers, including when the compression middleware is active.
+- Multipart form parsing now enforces the app `BodyLimit` by using fasthttp `MultipartFormWithLimit`.
 
 ### CSRF
 
@@ -1587,6 +1652,10 @@ The new `KeepConnectionHeader` option (default `false`) drops the `Connection` h
 
 `proxy.Balancer` now accepts an optional variadic configuration: call `proxy.Balancer()` to use defaults or continue passing a `proxy.Config` value as before.
 
+### Recover
+
+The Recover middleware allows customizing the error it returns. Set a `PanicHandler` in its `Config` to change the default behavior.
+
 ### Session
 
 The Session middleware has undergone key changes in v3 to improve functionality and flexibility. While v2 methods remain available for backward compatibility, we now recommend using the new middleware handler for session management.
@@ -1759,6 +1828,8 @@ You have to put `*` to the end of the route if you don't define static route wit
 
 We've renamed `EnableTrustedProxyCheck` to `TrustProxy` and moved `TrustedProxies` to `TrustProxyConfig`.
 
+**Important:** To use proxy headers like `X-Forwarded-For` with `c.IP()`, you must configure **all** of `TrustProxy`, `ProxyHeader`, and a trusted proxy via `TrustProxyConfig`. If the proxy is not trusted (for example, if you set only `ProxyHeader` or only `TrustProxy` without configuring `TrustProxyConfig`), proxy headers are ignored and `c.IP()` will return the remote TCP IP instead.
+
 ```go
 // Before
 app := fiber.New(fiber.Config{
@@ -1774,6 +1845,8 @@ app := fiber.New(fiber.Config{
 app := fiber.New(fiber.Config{
     // TrustProxy enables the trusted proxy check
     TrustProxy: true,
+    // ProxyHeader specifies which header to read the real client IP from
+    ProxyHeader: fiber.HeaderXForwardedFor,
     // TrustProxyConfig allows for configuring trusted proxies.
     TrustProxyConfig: fiber.TrustProxyConfig{
         // Proxies is a list of trusted proxy IP ranges/addresses.
@@ -1782,9 +1855,11 @@ app := fiber.New(fiber.Config{
         Loopback: true,
         // Trust Unix domain socket connections
         UnixSocket: true,
-    }
+    },
 })
 ```
+
+For detailed proxy configuration guidance, see the [reverse proxy guide](./guide/reverse-proxy.md).
 
 ### 🎣 Hooks
 
@@ -2811,6 +2886,15 @@ To restore v2 behavior:
 - Set `DisableCacheControl` to `true` to suppress automatic `Cache-Control` headers.
 - Configure `Expiration` to `1*time.Minute`.
 - Set `MaxBytes` to `0` (or a higher value) when caching large responses.
+- Disable structured key dimensions as needed (for example `DisableQueryKeys: true`), or provide a custom `KeyGenerator`.
+
+Additional v3 cache key options:
+
+- `Methods`: HTTP methods eligible for caching (default `GET`, `HEAD`)
+- `DisableQueryKeys`: disable canonicalized query args in keys (default `false`)
+- `KeyHeaders`: request header allow-list for key partitioning
+- `KeyCookies`: explicit cookie allow-list for key partitioning
+- `DisableVaryHeaders`: disable response `Vary` dimensions in lookup/storage partitioning (default `false`)
 
 #### CORS
 
