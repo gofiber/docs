@@ -96,7 +96,7 @@ app.Hooks().OnPostShutdown(func() error {
 Use `OnPreShutdown` for tasks that should happen before the server stops accepting connections - like deregistering from service discovery so the load balancer stops routing traffic. Use `OnPostShutdown` for cleanup after the server has fully stopped - closing database pools, flushing log buffers, releasing resources.
 
 Hooks execute in registration order. If you register multiple hooks of the same type, they run sequentially.
-```
+
 
 ## Adding a Shutdown Timeout
 
