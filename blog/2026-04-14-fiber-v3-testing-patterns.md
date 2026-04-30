@@ -8,7 +8,7 @@ description: Go beyond basic handler tests with patterns for middleware chains, 
 
 Every Fiber tutorial shows you how to test a single GET handler. Create an app, register a route, call `app.Test()`, check the status code. Done.
 
-Then you try to test something real — a middleware chain where auth runs before validation, a custom error handler that renders different responses based on content type, a route group with shared state — and the tutorial patterns fall apart. The handler works in isolation but fails when composed. The test passes with a hardcoded body but breaks when you add a request ID middleware that changes the response shape.
+Then you try to test something real  -  a middleware chain where auth runs before validation, a custom error handler that renders different responses based on content type, a route group with shared state  -  and the tutorial patterns fall apart. The handler works in isolation but fails when composed. The test passes with a hardcoded body but breaks when you add a request ID middleware that changes the response shape.
 
 Testing Fiber applications well requires patterns that match how Fiber applications actually work: as compositions of handlers, middleware, and configuration that interact in specific ways.
 
@@ -65,12 +65,12 @@ func TestAuthMiddleware(t *testing.T) {
         return c.SendString("ok")
     })
 
-    // Without token — should get 401
+    // Without token  -  should get 401
     req := httptest.NewRequest(http.MethodGet, "/protected", nil)
     resp, _ := app.Test(req)
     assert.Equal(t, 401, resp.StatusCode)
 
-    // With valid token — should pass through
+    // With valid token  -  should pass through
     req = httptest.NewRequest(http.MethodGet, "/protected", nil)
     req.Header.Set("Authorization", "Bearer valid-token")
     resp, _ = app.Test(req)
@@ -78,7 +78,7 @@ func TestAuthMiddleware(t *testing.T) {
 }
 ```
 
-The important thing is that this tests the middleware in context — with a real router, real header parsing, and real `c.Next()` propagation. You are testing behavior, not implementation.
+The important thing is that this tests the middleware in context  -  with a real router, real header parsing, and real `c.Next()` propagation. You are testing behavior, not implementation.
 
 ## Testing Middleware Composition
 
@@ -145,7 +145,7 @@ func TestCustomErrorHandler(t *testing.T) {
 }
 ```
 
-That last assertion — checking that the response does *not* contain the internal error — is the most important test in your entire error handling suite. It catches information leakage.
+That last assertion  -  checking that the response does *not* contain the internal error  -  is the most important test in your entire error handling suite. It catches information leakage.
 
 ## Testing Route Groups
 
@@ -226,7 +226,7 @@ The `Content-Type` header matters. Without it, Fiber's body parser may not parse
 
 ## Testing Response Headers
 
-Rate limit headers, CORS headers, cache headers — these are part of your API contract. Test them explicitly:
+Rate limit headers, CORS headers, cache headers  -  these are part of your API contract. Test them explicitly:
 
 ```go
 func TestRateLimitHeaders(t *testing.T) {

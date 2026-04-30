@@ -26,14 +26,14 @@ Extractors consolidate this into a single package with a consistent API. Middlew
 
 The package provides extractors for every common HTTP source:
 
-- `FromAuthHeader(authScheme)` — extracts from the `Authorization` header, validating the scheme
-- `FromHeader(key)` — extracts from any request header
-- `FromCookie(key)` — extracts from HTTP cookies
-- `FromQuery(param)` — extracts from URL query parameters
-- `FromParam(param)` — extracts from URL path parameters
-- `FromForm(param)` — extracts from form data (POST body)
-- `FromCustom(key, fn)` — defines custom extraction logic with a callback
-- `Chain(extractors...)` — tries multiple extractors in order, returns the first success
+- `FromAuthHeader(authScheme)`  -  extracts from the `Authorization` header, validating the scheme
+- `FromHeader(key)`  -  extracts from any request header
+- `FromCookie(key)`  -  extracts from HTTP cookies
+- `FromQuery(param)`  -  extracts from URL query parameters
+- `FromParam(param)`  -  extracts from URL path parameters
+- `FromForm(param)`  -  extracts from form data (POST body)
+- `FromCustom(key, fn)`  -  defines custom extraction logic with a callback
+- `Chain(extractors...)`  -  tries multiple extractors in order, returns the first success
 
 Each extractor returns a struct with metadata about the source, not just the value. This means middleware can inspect where a value came from and make security decisions based on source type.
 

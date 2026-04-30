@@ -23,7 +23,7 @@ app.Use(logger.New())
 // Output: [15:04:05] 127.0.0.1 200 - 1.234ms GET /api/users
 ```
 
-That is timestamp, IP, status code, latency, method, and path. For local development and small services, this is fine. Register it early — routes added after the logger are logged, routes added before it are not.
+That is timestamp, IP, status code, latency, method, and path. For local development and small services, this is fine. Register it early  -  routes added after the logger are logged, routes added before it are not.
 
 ```go
 app := fiber.New()
@@ -33,7 +33,7 @@ app.Get("/", handler) // this route will be logged
 
 ## Structured JSON Logging
 
-The moment your logs go to an aggregation system — Elasticsearch, Loki, CloudWatch, Datadog — you need structured output. Flat text requires fragile regex to query. JSON is queryable by default.
+The moment your logs go to an aggregation system  -  Elasticsearch, Loki, CloudWatch, Datadog  -  you need structured output. Flat text requires fragile regex to query. JSON is queryable by default.
 
 Fiber provides a built-in JSON format:
 
@@ -43,10 +43,10 @@ app.Use(logger.New(logger.Config{
 }))
 ```
 
-This produces output like:
+This produces JSON-like structured output. Note that `logger.JSONFormat` uses a predefined format string where keys are not quoted - the output is not strict JSON. If you need valid JSON for your log aggregator, use a custom format string with properly quoted keys or use a dedicated logging library like Zap or zerolog (covered later in this post).
 
-```json
-{"time":"15:04:05","ip":"127.0.0.1","method":"GET","url":"/api/users","status":200,"bytesSent":1234}
+```
+{time: 15:04:05, ip: 127.0.0.1, method: GET, url: /api/users, status: 200, bytesSent: 1234}
 ```
 
 For teams using Elastic Common Schema, there is a dedicated ECS format:
@@ -57,7 +57,7 @@ app.Use(logger.New(logger.Config{
 }))
 ```
 
-This outputs logs that Elasticsearch, Kibana, and the Elastic APM can ingest without any parsing rules. The schema includes `@timestamp`, `ecs.version`, `client.ip`, `http.request.method`, and `http.response.status_code` — all in the right places.
+This outputs logs that Elasticsearch, Kibana, and the Elastic APM can ingest without any parsing rules. The schema includes `@timestamp`, `ecs.version`, `client.ip`, `http.request.method`, and `http.response.status_code`  -  all in the right places.
 
 ## Custom Formats for Your Stack
 
@@ -128,7 +128,7 @@ app.Use(logger.New(logger.Config{
 
 This is not a replacement for a proper alerting pipeline, but it is a pragmatic way to get notified about server errors immediately without deploying additional infrastructure.
 
-You can also use it for audit logging — writing specific requests to a separate file or database:
+You can also use it for audit logging  -  writing specific requests to a separate file or database:
 
 ```go
 Done: func(c fiber.Ctx, logString []byte) {
@@ -152,7 +152,7 @@ app.Use(logger.New(logger.Config{
 }))
 ```
 
-The difference between `Next` and `Skip` matters here. `Next` skips the middleware entirely — the request is not logged and no log processing happens. `Skip` still processes the request through the handler chain but suppresses the log output. For performance, prefer `Next` when you do not need any log processing for skipped routes.
+The difference between `Next` and `Skip` matters here. `Next` skips the middleware entirely  -  the request is not logged and no log processing happens. `Skip` still processes the request through the handler chain but suppresses the log output. For performance, prefer `Next` when you do not need any log processing for skipped routes.
 
 ## Writing to Files
 
@@ -202,13 +202,13 @@ The same pattern works with `contrib/v3/zerolog` and any logger that implements 
 
 ## Common Pitfalls
 
-**Logging request bodies in production.** The `${body}` tag exists for debugging, but enabling it in production means every POST body — including passwords, tokens, and PII — ends up in your logs. Only use it in development or behind a feature flag.
+**Logging request bodies in production.** The `${body}` tag exists for debugging, but enabling it in production means every POST body  -  including passwords, tokens, and PII  -  ends up in your logs. Only use it in development or behind a feature flag.
 
 **Logging response bodies.** Same problem. The `${resBody}` tag is useful for debugging, but it can log sensitive data and dramatically increase log volume.
 
 **Forgetting timezone.** The default timezone is `"Local"`, which means your logs use whatever the server's timezone is. In a distributed system, different servers might log in different timezones. Always set `TimeZone: "UTC"` for production.
 
-**Registration order.** The logger only captures routes registered after it. If you register a health check route before the logger, it will not be logged — which might actually be what you want.
+**Registration order.** The logger only captures routes registered after it. If you register a health check route before the logger, it will not be logged  -  which might actually be what you want.
 
 ## Where to Start
 

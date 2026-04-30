@@ -128,7 +128,7 @@ app.Hooks().OnName(func(r fiber.Route) error {
 app.Get("/users", listUsers).Name("listUsers")
 ```
 
-If you want to enforce that *all* routes have names, use `OnRoute` instead — it fires for every registration regardless of whether `.Name()` was called:
+If you want to enforce that *all* routes have names, use `OnRoute` instead  -  it fires for every registration regardless of whether `.Name()` was called:
 
 ```go
 app.Hooks().OnRoute(func(r fiber.Route) error {

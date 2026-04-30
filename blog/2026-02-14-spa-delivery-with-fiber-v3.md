@@ -16,6 +16,8 @@ Fiber v3 makes this easy to solve once you set the pattern correctly.
 
 ## What Changed from v2
 
+Static file serving changed significantly in v3. For the full details on the migration from `app.Static()` to the new `static.New()` middleware, see [Serve Static Files with Fiber v3](/blog/static-server-with-fiber-v3). Here is the short version:
+
 In v2, static file serving used the built-in `app.Static()` method:
 
 ```go
@@ -23,7 +25,7 @@ In v2, static file serving used the built-in `app.Static()` method:
 app.Static("/", "./web/build")
 ```
 
-In v3, `app.Static()` is removed. You use the static middleware instead, which gives you more control over fallback behavior, caching, and 404 handling. The `Filesystem` middleware has also been removed — the static middleware covers both cases.
+In v3, `app.Static()` is removed. You use the static middleware instead, which gives you more control over fallback behavior, caching, and 404 handling. The `Filesystem` middleware has also been removed  -  the static middleware covers both cases.
 
 ```go
 // v3: static middleware
@@ -32,7 +34,7 @@ import "github.com/gofiber/fiber/v3/middleware/static"
 app.Get("/*", static.New("./web/build"))
 ```
 
-For SPA delivery, this change is actually an improvement because the middleware configuration gives you explicit control over how missing files are handled — which is exactly what SPA fallback routing needs.
+For SPA delivery, this change is actually an improvement because the middleware configuration gives you explicit control over how missing files are handled  -  which is exactly what SPA fallback routing needs.
 
 ## The Core Idea: Two Route Behaviors, One Service
 
@@ -49,7 +51,7 @@ app := fiber.New()
 // Static assets
 app.Get("/*", static.New("./web/build"))
 
-// SPA fallback — serves index.html for any route the static middleware does not match
+// SPA fallback  -  serves index.html for any route the static middleware does not match
 app.Get("*", static.New("./web/build/index.html"))
 
 log.Fatal(app.Listen(":8080"))
@@ -76,7 +78,7 @@ Most SPAs need API endpoints alongside the static frontend. The key is route ord
 ```go
 app := fiber.New()
 
-// API routes — registered first, take priority
+// API routes  -  registered first, take priority
 api := app.Group("/api")
 api.Get("/users", listUsers)
 api.Post("/users", createUser)
@@ -85,7 +87,7 @@ api.Get("/health", healthCheck)
 // Static assets
 app.Get("/*", static.New("./web/build"))
 
-// SPA fallback — catches everything else
+// SPA fallback  -  catches everything else
 app.Get("*", static.New("./web/build/index.html"))
 ```
 

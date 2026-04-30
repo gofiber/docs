@@ -14,6 +14,8 @@ In plain terms: Fiber can now accept multiple handler styles directly, and the r
 
 ## The Migration Problem This Solves
 
+For a deep dive into the Express-style `Req`/`Res` handler pattern specifically, see [Express-Style Handlers in Go](/blog/fiber-v3-express-style-handlers). This post focuses on the broader handler compatibility model and migration strategy.
+
 Most teams do not start from a greenfield codebase. They have `net/http` handlers written years ago, `fasthttp` handlers from performance-critical paths, middleware contracts in various styles, and helper functions that mix handler signatures.
 
 Before this compatibility model, migration usually meant one of two painful paths:
@@ -27,7 +29,7 @@ Both approaches increase risk and slow down migration. The v3 compatibility laye
 
 The router adapter understands 17 handler signatures across four families:
 
-**Native Fiber handlers** — the cleanest long-term choice:
+**Native Fiber handlers**  -  the cleanest long-term choice:
 
 ```go
 app.Get("/health", func(c fiber.Ctx) error {
@@ -35,7 +37,7 @@ app.Get("/health", func(c fiber.Ctx) error {
 })
 ```
 
-**Standard library `net/http` handlers** — for legacy code and ecosystem packages:
+**Standard library `net/http` handlers**  -  for legacy code and ecosystem packages:
 
 ```go
 mux := http.NewServeMux()
@@ -49,7 +51,7 @@ app.Get("/legacy", mux.ServeHTTP)
 
 This is especially useful when one route still depends on old middleware or legacy packages that only expose `http.Handler` interfaces.
 
-**`fasthttp` handlers** — for existing performance-critical code:
+**`fasthttp` handlers**  -  for existing performance-critical code:
 
 ```go
 app.Get("/fast", func(ctx *fasthttp.RequestCtx) {
@@ -58,7 +60,7 @@ app.Get("/fast", func(ctx *fasthttp.RequestCtx) {
 })
 ```
 
-**Express-style `Req`/`Res` handlers** — for teams migrating from Express or who prefer that mental model:
+**Express-style `Req`/`Res` handlers**  -  for teams migrating from Express or who prefer that mental model:
 
 ```go
 app.Use(func(req fiber.Req, res fiber.Res, next func() error) error {

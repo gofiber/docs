@@ -64,11 +64,11 @@ This pattern makes intent obvious: this endpoint only cares about query input. T
 
 The same pattern works for every source:
 
-- `c.Bind().Body(out)` — JSON, XML, form, multipart, MsgPack, CBOR (content-type auto-detected)
-- `c.Bind().Query(out)` — URL query parameters
-- `c.Bind().Header(out)` — request headers
-- `c.Bind().Cookie(out)` — cookies
-- `c.Bind().URI(out)` — URL path parameters
+- `c.Bind().Body(out)`  -  JSON, XML, form, multipart, MsgPack, CBOR (content-type auto-detected)
+- `c.Bind().Query(out)`  -  URL query parameters
+- `c.Bind().Header(out)`  -  request headers
+- `c.Bind().Cookie(out)`  -  cookies
+- `c.Bind().URI(out)`  -  URL path parameters
 
 ## Multi-Source Binding with `Bind().All()`
 

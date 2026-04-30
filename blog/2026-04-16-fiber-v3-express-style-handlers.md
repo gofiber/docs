@@ -3,12 +3,12 @@ slug: fiber-v3-express-style-handlers
 title: "Express-Style Handlers in Go: Fiber's Adapter That Nobody Expected"
 authors: [fiber-team]
 tags: [fiber, v3, handlers, express, adapter, migration, go]
-description: Fiber v3 accepts seventeen different handler signatures including Express-style, net/http, and fasthttp — here is when and why to use each.
+description: Fiber v3 accepts seventeen different handler signatures including Express-style, net/http, and fasthttp  -  here is when and why to use each.
 ---
 
 If you have ever tried to migrate a project from Express.js to Go, you know the friction. It is not the language syntax or the type system. It is that every HTTP handler follows a completely different convention. Express gives you `(req, res, next)`. Go's standard library gives you `(w, r)`. Fiber gives you `(c) error`. The logic is the same, but the shape is different, and reshaping hundreds of handlers is tedious, error-prone work.
 
-Fiber v3 decided to stop pretending this is not a problem. Its handler adapter accepts seventeen different function signatures — from Fiber-native to Express-style callbacks to raw `net/http` and `fasthttp` handlers. You can mix them in the same application without manual wrapping.
+Fiber v3 decided to stop pretending this is not a problem. Its handler adapter accepts seventeen different function signatures  -  from Fiber-native to Express-style callbacks to raw `net/http` and `fasthttp` handlers. You can mix them in the same application without manual wrapping.
 
 This sounds like magic. It is actually a carefully designed type switch in `adapter.go` that performs this adaptation at runtime when routes are registered, instead of forcing you to do it by hand.
 
@@ -24,7 +24,7 @@ app.Get("/", func(c fiber.Ctx) error {
 })
 ```
 
-This is case 1 in the adapter. If you are writing a new Fiber application from scratch, this is the only handler shape you need to know. The error return is important — it flows to the central error handler, which means error handling is consistent across your entire application.
+This is case 1 in the adapter. If you are writing a new Fiber application from scratch, this is the only handler shape you need to know. The error return is important  -  it flows to the central error handler, which means error handling is consistent across your entire application.
 
 Case 2 is the error-less variant:
 
@@ -73,7 +73,7 @@ This means you can translate most Express middleware patterns directly without r
 The different `next` signatures handle errors differently, and understanding this matters for middleware:
 
 ```go
-// next() error — call next, get the downstream error back
+// next() error  -  call next, get the downstream error back
 app.Use(func(req fiber.Req, res fiber.Res, next func() error) error {
     err := next()
     if err != nil {
@@ -82,7 +82,7 @@ app.Use(func(req fiber.Req, res fiber.Res, next func() error) error {
     return err
 })
 
-// next(error) — pass an error to short-circuit the chain
+// next(error)  -  pass an error to short-circuit the chain
 app.Use(func(req fiber.Req, res fiber.Res, next func(error)) {
     if !isAuthorized(req) {
         next(fiber.ErrUnauthorized)
@@ -91,7 +91,7 @@ app.Use(func(req fiber.Req, res fiber.Res, next func(error)) {
     next(nil) // continue the chain
 })
 
-// next(error) error — both send and receive errors
+// next(error) error  -  both send and receive errors
 app.Use(func(req fiber.Req, res fiber.Res, next func(error) error) error {
     err := next(nil)
     if err != nil {
@@ -195,13 +195,13 @@ app.Get("/users/:id", func(req fiber.Req, res fiber.Res) error {
 })
 ```
 
-The structure is nearly identical. The shapes match. A developer who knows Express can read this code and understand what it does without learning Fiber's conventions first. Over time, as the team gets comfortable, they can gradually migrate to idiomatic `fiber.Ctx` handlers — or not, if the Express style works for them.
+The structure is nearly identical. The shapes match. A developer who knows Express can read this code and understand what it does without learning Fiber's conventions first. Over time, as the team gets comfortable, they can gradually migrate to idiomatic `fiber.Ctx` handlers  -  or not, if the Express style works for them.
 
 ## When to Use Which
 
 **Use `func(fiber.Ctx) error`** for new code. It is the most idiomatic, has the best tooling support, and gives you full access to Fiber's context API.
 
-**Use Express-style `(req, res)` handlers** when migrating from Express.js or when your team thinks in terms of separate request and response objects. There is no performance penalty — the adapter resolves at application startup.
+**Use Express-style `(req, res)` handlers** when migrating from Express.js or when your team thinks in terms of separate request and response objects. There is no performance penalty  -  the adapter resolves at application startup.
 
 **Use `net/http` handlers** to mount existing Go ecosystem tools (Prometheus, pprof, OAuth libraries) without writing adapter code. Accept the overhead trade-off for leaf handlers.
 

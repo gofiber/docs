@@ -3,7 +3,7 @@ slug: fiber-v3-rate-limiting-guide
 title: "Rate Limiting: Protecting Your API Without Punishing Your Users"
 authors: [fiber-team]
 tags: [fiber, v3, rate-limiting, limiter, security, api, go]
-description: Implement rate limiting in Fiber v3 that actually makes sense — dynamic limits, sliding windows, and per-endpoint strategies.
+description: Implement rate limiting in Fiber v3 that actually makes sense  -  dynamic limits, sliding windows, and per-endpoint strategies.
 ---
 
 Rate limiting is one of those features that every production API needs, nobody enjoys implementing, and most teams get subtly wrong the first time.
@@ -88,7 +88,7 @@ MaxFunc: func(c fiber.Ctx) int {
 },
 ```
 
-This requires your auth middleware to run before the limiter. Registration order matters — middleware executes in the order you call `app.Use`.
+This requires your auth middleware to run before the limiter. Registration order matters  -  middleware executes in the order you call `app.Use`.
 
 ## Dynamic Expiration Windows
 
@@ -122,7 +122,7 @@ app := fiber.New(fiber.Config{
 })
 ```
 
-With that in place, the default `KeyGenerator` using `c.IP()` already does the right thing. Do not parse `X-Forwarded-For` manually — clients can spoof that header to bypass IP-based limits unless your proxy overwrites it.
+With that in place, the default `KeyGenerator` using `c.IP()` already does the right thing. Do not parse `X-Forwarded-For` manually  -  clients can spoof that header to bypass IP-based limits unless your proxy overwrites it.
 
 For authenticated APIs, a better key is the user ID. This means the limit follows the account, not the IP, which is the correct behavior for mobile users who switch networks:
 
@@ -156,7 +156,7 @@ This gives clients machine-readable information they can use to implement backof
 
 ## Skipping Certain Requests
 
-Not everything should count. Health check endpoints should never be rate limited — a monitoring system polling `/healthz` every second is expected behavior:
+Not everything should count. Health check endpoints should never be rate limited  -  a monitoring system polling `/healthz` every second is expected behavior:
 
 ```go
 app.Use(limiter.New(limiter.Config{
@@ -178,7 +178,7 @@ You can also skip failed requests so that server errors do not eat a user's quot
 SkipFailedRequests: true, // status >= 400 won't count
 ```
 
-Or the opposite — only count failed requests to detect brute force patterns without penalizing normal usage:
+Or the opposite  -  only count failed requests to detect brute force patterns without penalizing normal usage:
 
 ```go
 SkipSuccessfulRequests: true, // only failed attempts count
@@ -205,7 +205,7 @@ app.Use(limiter.New(limiter.Config{
 }))
 ```
 
-Any storage backend from Fiber's [storage package](https://github.com/gofiber/storage) works — Redis, Memcache, DynamoDB, Postgres. The interface is the same.
+Any storage backend from Fiber's [storage package](https://github.com/gofiber/storage) works  -  Redis, Memcache, DynamoDB, Postgres. The interface is the same.
 
 ## Per-Route Limiters
 
@@ -242,7 +242,7 @@ This is cleaner than a single middleware with complex conditional logic, and mak
 
 If your API has no rate limiting at all, add the one-line default and deploy it. That alone protects against accidental abuse and simple denial-of-service attempts.
 
-Next, identify your sensitive endpoints — login, password reset, payment — and give them stricter limits with a sliding window. Then add Redis storage when you scale past a single instance.
+Next, identify your sensitive endpoints  -  login, password reset, payment  -  and give them stricter limits with a sliding window. Then add Redis storage when you scale past a single instance.
 
 The goal is not to block legitimate users. It is to make your API predictable under load and expensive to abuse.
 

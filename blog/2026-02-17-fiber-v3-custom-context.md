@@ -85,7 +85,7 @@ app.Get("/whoami", func(c fiber.Ctx) error {
 })
 ```
 
-The type assertion is the only boilerplate. Everything else — header reading, default values, naming conventions — lives in one place and is enforced by the compiler.
+The type assertion is the only boilerplate. Everything else  -  header reading, default values, naming conventions  -  lives in one place and is enforced by the compiler.
 
 ## Why This Matters for Multi-Tenant Systems
 

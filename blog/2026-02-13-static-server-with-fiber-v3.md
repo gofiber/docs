@@ -32,7 +32,7 @@ import "github.com/gofiber/fiber/v3/middleware/static"
 app.Get("/*", static.New("./public"))
 ```
 
-The `Filesystem` middleware has also been removed — the static middleware now covers both use cases. If your v2 code used `app.Static()` or the filesystem middleware, update to the static middleware as part of your migration.
+The `Filesystem` middleware has also been removed  -  the static middleware now covers both use cases. If your v2 code used `app.Static()` or the filesystem middleware, update to the static middleware as part of your migration.
 
 ## Start Small, Then Add Rules Intentionally
 
@@ -140,7 +140,7 @@ The most common static-serving bug is path confusion between local and deployed 
 
 The second most common bug is bad cache strategy. HTML shells and immutable hashed assets usually need different cache behavior. Treating them the same often creates either stale UI or unnecessary bandwidth usage. A practical split: no-cache or short `MaxAge` for HTML files, long `MaxAge` (1 year) for versioned JS/CSS with content hashes in filenames.
 
-The third one is broad wildcards too early in the chain. Keep API routes explicit and test for route collisions before release. v3's stricter middleware prefix matching helps here — `/api` middleware no longer accidentally matches `/api-docs`.
+The third one is broad wildcards too early in the chain. Keep API routes explicit and test for route collisions before release. v3's stricter middleware prefix matching helps here  -  `/api` middleware no longer accidentally matches `/api-docs`.
 
 ## Recipe and Next Step
 

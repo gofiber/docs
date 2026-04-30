@@ -8,7 +8,7 @@ description: Why RFC-aligned behavior matters for interoperability, caching, and
 
 RFC conformance can sound abstract until you run a real production stack.
 
-Your service is not only interacting with one client. It is sitting behind load balancers, reverse proxies, CDNs, API gateways, browsers, mobile clients, and internal automation tools. A cookie that works in Chrome but breaks in Safari, a cache header that your CDN interprets differently than you intended, an authorization header that your proxy strips because it does not match the expected format — these are real incidents that happen because of small protocol deviations.
+Your service is not only interacting with one client. It is sitting behind load balancers, reverse proxies, CDNs, API gateways, browsers, mobile clients, and internal automation tools. A cookie that works in Chrome but breaks in Safari, a cache header that your CDN interprets differently than you intended, an authorization header that your proxy strips because it does not match the expected format  -  these are real incidents that happen because of small protocol deviations.
 
 Fiber v3 addresses this with specific improvements to cookie handling, context behavior, response semantics, and connection management, each tied to concrete RFCs. This post walks through what changed and why it matters operationally.
 

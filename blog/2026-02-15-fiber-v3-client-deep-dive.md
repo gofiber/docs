@@ -57,6 +57,8 @@ This is simple, but it changes daily engineering behavior. New endpoints stop re
 When a specific call needs different behavior, overrides are explicit and local:
 
 ```go
+import "github.com/gofiber/fiber/v3/client"
+
 func FetchTenant(cli *client.Client, tenantID, reqID string) (*client.Response, error) {
     return cli.Get("/tenants/:id", client.Config{
         PathParam: map[string]string{"id": tenantID},
@@ -66,7 +68,7 @@ func FetchTenant(cli *client.Client, tenantID, reqID string) (*client.Response, 
 }
 ```
 
-The `Config` struct supports headers, path parameters, query parameters, cookies, body, form data, file uploads, context propagation, max redirects, and timeout — all per request. A good review question here is: "Why is this override different from the default?" If the answer is clear, the override belongs here. If not, move the policy back into shared defaults.
+The `Config` struct supports headers, path parameters, query parameters, cookies, body, form data, file uploads, context propagation, max redirects, and timeout  -  all per request. A good review question here is: "Why is this override different from the default?" If the answer is clear, the override belongs here. If not, move the policy back into shared defaults.
 
 ## Retry Configuration
 

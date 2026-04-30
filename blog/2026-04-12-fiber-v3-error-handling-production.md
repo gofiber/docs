@@ -30,7 +30,7 @@ var DefaultErrorHandler = func(c fiber.Ctx, err error) error {
 }
 ```
 
-The problem is `err.Error()`. For a `fiber.Error`, the message is controlled. But for an unexpected error — a database timeout, a nil pointer, a failed file operation — `err.Error()` contains whatever the underlying library decided to put in there. That string goes straight to the client.
+The problem is `err.Error()`. For a `fiber.Error`, the message is controlled. But for an unexpected error  -  a database timeout, a nil pointer, a failed file operation  -  `err.Error()` contains whatever the underlying library decided to put in there. That string goes straight to the client.
 
 In one real-world incident, a team discovered that their Postgres connection error included the DSN with credentials. The default handler dutifully sent it as the response body.
 
@@ -56,9 +56,11 @@ app := fiber.New(fiber.Config{
             message = e.Message
         }
 
+        // Requires: app.Use(requestid.New()) registered before this handler
+        // Import: "github.com/gofiber/fiber/v3/middleware/requestid"
         traceID := requestid.FromContext(c)
 
-        // Log the full error internally — never send this to the client
+        // Log the full error internally  -  never send this to the client
         log.Printf("[%s] %d %s %s: %v",
             traceID, code, c.Method(), c.Path(), err)
 

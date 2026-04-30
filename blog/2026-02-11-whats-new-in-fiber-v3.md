@@ -19,9 +19,9 @@ This article is intentionally written for that reality. You should be able to re
 
 <!-- truncate -->
 
-## Before You Start: Go 1.25 and the Migration CLI
+## Before You Start: Go Version and the Migration CLI
 
-Fiber v3 requires **Go 1.25** or later. Update your toolchain before upgrading so the module `go` directive and standard library features align with the new minimum version.
+Fiber v3 requires a recent Go version (check the `go` directive in [go.mod](https://github.com/gofiber/fiber/blob/main/go.mod) for the exact minimum). Update your toolchain before upgrading so the module `go` directive and standard library features align with the new minimum version.
 
 Before you dive into manual refactors, use the migration helper that ships with the Fiber CLI. It can take care of a large part of repetitive upgrade work and gives you a cleaner baseline for the manual improvements described in this post.
 
@@ -122,6 +122,8 @@ app.Listen("app.sock", fiber.ListenConfig{
 v3 also adds native TLS AutoCert support with Let's Encrypt and ACME providers:
 
 ```go
+import "golang.org/x/crypto/acme/autocert"
+
 certManager := &autocert.Manager{
     Prompt:     autocert.AcceptTOS,
     HostPolicy: autocert.HostWhitelist("example.com"),
@@ -138,7 +140,7 @@ app.Listen(":443", fiber.ListenConfig{
 If your org has a large `net/http` or `fasthttp` surface, full rewrites are often unrealistic. Fiber v3 helps by accepting **17 different handler signatures** directly in the router, including native Fiber, `net/http`, `fasthttp`, and Express-style `Req`/`Res` callbacks:
 
 ```go
-// net/http handler — no adapter needed
+// net/http handler  -  no adapter needed
 app.Get("/legacy", func(w http.ResponseWriter, r *http.Request) {
     w.WriteHeader(http.StatusOK)
     _, _ = w.Write([]byte("legacy route"))
@@ -181,7 +183,7 @@ For a deep dive on context extensions, see [Custom Context in Practice](./2026-0
 v3 introduces generic helper functions that replace the old type-specific methods:
 
 ```go
-// v2: ParamsInt, QueryBool, QueryFloat — individual methods
+// v2: ParamsInt, QueryBool, QueryFloat  -  individual methods
 id, _ := c.ParamsInt("id")
 
 // v3: generic functions with type inference and defaults
@@ -249,8 +251,8 @@ For a deep dive, see [RFC Conformance in Practice](./2026-02-18-fiber-v3-rfc-con
 **Client**: The client package has been completely rebuilt with cookie jar support, request/response hooks, retry configuration, proxy support, and debug mode. See [New Client Deep Dive](./2026-02-15-fiber-v3-client-deep-dive.md).
 
 **Middleware changes worth noting**:
-- `app.Static()` removed — use the [static middleware](/middleware/static) instead
-- `Filesystem` middleware removed — static middleware covers both
+- `app.Static()` removed  -  use the [static middleware](/middleware/static) instead
+- `Filesystem` middleware removed  -  static middleware covers both
 - Middleware data now uses `FromContext()` functions (e.g., `requestid.FromContext(c)`) instead of string-based `c.Locals()` keys
 - Cache middleware: RFC-compliant `Age` header, `MaxBytes` limit, non-cacheable status filtering
 - Compression: zstd support added alongside gzip, deflate, and brotli
