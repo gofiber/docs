@@ -85,7 +85,7 @@ app.Get("/*", static.New("./files"))`,
     title: 'Flexible Middleware Support',
     description: (
       <>
-        Choose from <a href="https://docs.gofiber.io/v3.x/category/-middleware" target="_blank" rel="noreferrer">a number of already existing middleware</a> or create your own! Use them to verify and manipulate certain requests in your app before they reach your controller.
+        Choose from <a href="https://docs.gofiber.io/category/-middleware" target="_blank" rel="noreferrer">a number of already existing middleware</a> or create your own! Use them to verify and manipulate certain requests in your app before they reach your controller.
       </>
     ),
     code: `package main
