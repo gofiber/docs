@@ -28,13 +28,13 @@ jobs:
 
     steps:
       - name: Get previous workflow status
-        uses: Mercymeilya/last-workflow-status@v0.3.5
+        uses: Mercymeilya/last-workflow-status@f86bce177498d6fdd3bda4113d7d93266cfc3fca # v0.3.5
         id: last_status
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version: 24
           cache: npm
@@ -43,7 +43,7 @@ jobs:
             **/package-lock.json
 
       - name: Restore build caches
-        uses: actions/cache@v5
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: |
             node_modules/.cache
@@ -67,7 +67,7 @@ jobs:
 
       - name: Deploy to ${{ matrix.target.cname }} (on master)
         if: github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'master')
-        uses: peaceiris/actions-gh-pages@v4
+        uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e # v4
         with:
           personal_token: ${{ secrets.GH_PAGES_TOKEN }}   # PAT with Contents: Read and write on both repos
           external_repository: ${{ matrix.target.repo }}
@@ -75,7 +75,7 @@ jobs:
           publish_branch: gh-pages
           cname: ${{ matrix.target.cname }}
           force_orphan: true
-      - uses: sarisia/actions-status-discord@v1
+      - uses: sarisia/actions-status-discord@eb045afee445dc055c18d3d90bd0f244fd062708 # v1
         if: ${{ failure() || (success() && steps.last_status.outputs.last_status == 'failure') }}
         with:
           title: "deploy"
