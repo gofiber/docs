@@ -36,9 +36,9 @@ export default function RouteAnatomy(): JSX.Element {
             </Link>
             {', '}
             <Link
-                to="#route-handlers"
+                to="#handler-types"
                 className={styles.handler}
-                title="Handler (or middleware) run when the route matches"
+                title="Handler shape: see the supported handler types"
             >
                 func(c fiber.Ctx) error
             </Link>
