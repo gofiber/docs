@@ -1,33 +1,33 @@
 .anatomy {
-    display: block;
-    margin: 1.5rem 0;
-    padding: 1.5rem 1.75rem;
-    border-radius: 10px;
-    background: #f6f8fa;
-    color: #393a34;
-    font-family: var(--ifm-font-family-monospace);
-    font-size: 1.15rem;
-    line-height: 1.9;
-    overflow-x: auto;
-    white-space: pre;
-    border: 1px solid var(--ifm-color-emphasis-200);
-    box-shadow: var(--ifm-global-shadow-lw);
+  display: block;
+  margin: 1.5rem 0;
+  padding: 1.5rem 1.75rem;
+  border-radius: 10px;
+  background: #f6f8fa;
+  color: #393a34;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 1.15rem;
+  line-height: 1.9;
+  overflow-x: auto;
+  white-space: pre;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  box-shadow: var(--ifm-global-shadow-lw);
 }
 
-[data-theme='dark'] .anatomy {
-    background: #282a36;
-    color: #f8f8f2;
-    border-color: var(--ifm-color-emphasis-300);
+[data-theme="dark"] .anatomy {
+  background: #282a36;
+  color: #f8f8f2;
+  border-color: var(--ifm-color-emphasis-300);
 }
 
 .anatomy a {
-    font-weight: 600;
-    text-decoration: none;
-    border-bottom: 2px dashed currentColor;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 2px dashed currentcolor;
 }
 
 .anatomy a:hover {
-    border-bottom-style: solid;
+  border-bottom-style: solid;
 }
 
 /*
@@ -38,33 +38,33 @@
  * code block in both color modes.
  */
 .method {
-    color: #d73a49;
+  color: #d73a49;
 }
 
 .path {
-    color: #e3116c;
+  color: #e3116c;
 }
 
 .param {
-    color: #36acaa;
+  color: #36acaa;
 }
 
 .handler {
-    color: #00009f;
+  color: #00009f;
 }
 
-[data-theme='dark'] .method {
-    color: #50fa7b;
+[data-theme="dark"] .method {
+  color: #50fa7b;
 }
 
-[data-theme='dark'] .path {
-    color: #f1fa8c;
+[data-theme="dark"] .path {
+  color: #f1fa8c;
 }
 
-[data-theme='dark'] .param {
-    color: #bd93f9;
+[data-theme="dark"] .param {
+  color: #bd93f9;
 }
 
-[data-theme='dark'] .handler {
-    color: #ff79c6;
+[data-theme="dark"] .handler {
+  color: #ff79c6;
 }
