@@ -133,6 +133,17 @@ div.reference {
   }
 }
 
+/* Package name header inside the per-package version dropdown */
+.version-dropdown__package {
+  display: block;
+  padding: 0.25rem 1rem 0.15rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ifm-color-emphasis-600);
+}
+
 /* Blog aside headings */
 html.blog-wrapper aside.col.col--3 nav [class*='sidebarItemTitle'] {
   font-size: clamp(28px, 3.6vw, 35px);
