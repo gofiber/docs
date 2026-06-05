@@ -4,6 +4,7 @@ import Hero from '../components/home/Hero';
 import Features from '../components/home/Features';
 import Media from '../components/home/Media';
 import Support from '../components/home/Support';
+import SponsorsBlock from '../components/home/SponsorsBlock';
 import Head from '@docusaurus/Head';
 import { useEffect } from 'react';
 
@@ -43,6 +44,7 @@ export default function Home() {
             </Head>
             <Hero />
             <Features />
+            <SponsorsBlock />
             <Support />
             <Media />
         </Layout>

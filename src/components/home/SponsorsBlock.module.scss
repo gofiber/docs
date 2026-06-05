@@ -1,0 +1,54 @@
+.sponsors {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2.5rem;
+  margin-top: 2rem;
+}
+
+.sponsor {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  background: var(--ifm-background-surface-color);
+  transition: transform 0.15s ease, border-color 0.15s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: var(--ifm-color-primary);
+  }
+
+  img {
+    display: block;
+    height: 60px;
+    max-width: 220px;
+    object-fit: contain;
+  }
+}
+
+.logoDark {
+  display: none;
+}
+
+// When a sponsor ships a dedicated dark-mode logo, swap to it in dark theme.
+// Sponsors who only provide one logo keep showing it in both themes.
+[data-theme='dark'] .sponsor:has(.logoDark) {
+  .logoLight {
+    display: none;
+  }
+
+  .logoDark {
+    display: block;
+  }
+}
+
+@media (max-width: 996px) {
+  .sponsor img {
+    height: 48px;
+    max-width: 180px;
+  }
+}
