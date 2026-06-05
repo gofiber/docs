@@ -13,7 +13,9 @@
   justify-content: center;
   padding: 0.75rem 1.25rem;
   border-radius: 8px;
-  border: 1px solid var(--ifm-color-emphasis-200);
+  // emphasis-200 was too pale on light backgrounds; emphasis-400 reads as a
+  // proper card edge without becoming heavy on dark mode.
+  border: 1px solid var(--ifm-color-emphasis-400);
   background: var(--ifm-background-surface-color);
   transition: transform 0.15s ease, border-color 0.15s ease;
 
