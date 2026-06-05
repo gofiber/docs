@@ -104,3 +104,4 @@ type Storage interface {
 
 
 See the benchmarks under https://gofiber.github.io/storage/benchmarks
+
