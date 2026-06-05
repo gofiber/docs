@@ -12,5 +12,7 @@ Convention when self-hosting:
 - Reference from `SponsorsBlock.tsx` as `/img/sponsors/<file>.svg`.
 
 For sponsors with separate light- and dark-mode marks, set both `logo` and
-`logoDark` on the entry. The component swaps to the dark variant when
-`[data-theme='dark']` is active and keeps showing the single logo otherwise.
+`logoDark` on the entry. The component renders them via Docusaurus'
+`@theme/ThemedImage`, which handles the swap during theme changes natively
+(no custom CSS required). Sponsors that ship only one logo just leave
+`logoDark` unset and the single logo is reused in both themes.

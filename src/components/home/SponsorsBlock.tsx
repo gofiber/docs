@@ -1,4 +1,5 @@
 import React from 'react';
+import ThemedImage from '@theme/ThemedImage';
 import styles from './SponsorsBlock.module.scss';
 import shared from './shared.module.scss';
 
@@ -7,11 +8,11 @@ interface Sponsor {
     url: string;
     /**
      * Logo source. Accepts an external URL (preferred so we don't ship binary
-     * assets in the repo) or a path under `/img/sponsors/`. SVG is preferred
-     * so the logo scales cleanly.
+     * assets in the repo) or a path under `/img/sponsors/`. SVG preferred so
+     * the logo scales cleanly.
      */
     logo: string;
-    /** Optional logo variant shown in dark mode (otherwise `logo` is used). */
+    /** Optional logo variant shown in dark mode. Defaults to `logo`. */
     logoDark?: string;
 }
 
@@ -56,20 +57,13 @@ export default function SponsorsBlock() {
                             title={sponsor.name}
                             className={styles.sponsor}
                         >
-                            <img
-                                className={styles.logoLight}
-                                src={sponsor.logo}
+                            <ThemedImage
                                 alt={sponsor.name}
-                                loading="lazy"
+                                sources={{
+                                    light: sponsor.logo,
+                                    dark: sponsor.logoDark ?? sponsor.logo,
+                                }}
                             />
-                            {sponsor.logoDark && (
-                                <img
-                                    className={styles.logoDark}
-                                    src={sponsor.logoDark}
-                                    alt={sponsor.name}
-                                    loading="lazy"
-                                />
-                            )}
                         </a>
                     ))}
                 </div>

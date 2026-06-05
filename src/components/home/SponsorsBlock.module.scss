@@ -30,22 +30,6 @@
   }
 }
 
-.logoDark {
-  display: none;
-}
-
-// When a sponsor ships a dedicated dark-mode logo, swap to it in dark theme.
-// Sponsors who only provide one logo keep showing it in both themes.
-[data-theme='dark'] .sponsor:has(.logoDark) {
-  .logoLight {
-    display: none;
-  }
-
-  .logoDark {
-    display: block;
-  }
-}
-
 @media (max-width: 996px) {
   .sponsor img {
     height: 48px;
