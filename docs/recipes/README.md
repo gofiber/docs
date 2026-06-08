@@ -105,3 +105,4 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 
 If you have found an amazing recipe for **Fiber** — share it with others!
 We are ready to accept your [PR](https://github.com/gofiber/recipes/pulls) and add your recipe to the cookbook (both on [website](https://docs.gofiber.io) and this repository).
+
