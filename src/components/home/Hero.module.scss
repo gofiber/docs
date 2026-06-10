@@ -50,17 +50,35 @@
   border-radius: 8px;
   text-decoration: none;
   font-weight: 600;
+
+  &:hover {
+    color: #fff;
+    text-decoration: none;
+    filter: brightness(1.15);
+  }
 }
 
-.orScroll {
-  color: var(--ifm-color-emphasis-600);
+.ctaSecondary {
+  padding: 9px 16px;
+  border: 1px solid var(--ifm-color-emphasis-400);
+  border-radius: 8px;
+  color: var(--ifm-color-emphasis-800);
+  text-decoration: none;
+  font-weight: 600;
+
+  &:hover {
+    border-color: var(--ifm-color-primary);
+    color: var(--ifm-color-primary);
+    text-decoration: none;
+  }
 }
 
 @media (max-width: 996px) {
   .ctaRow {
     flex-direction: column;
   }
-  .cta {
+  .cta,
+  .ctaSecondary {
     width: 100%;
     max-width: 320px;
     text-align: center;
