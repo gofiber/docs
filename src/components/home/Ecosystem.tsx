@@ -38,7 +38,7 @@ const categories: EcosystemCategory[] = [
             'DynamoDB', 'Memcache', 'NATS', 'etcd', 'Badger', 'ClickHouse',
         ],
         more: '+ many more',
-        href: 'https://docs.gofiber.io/storage/',
+        href: 'https://docs.gofiber.io/storage/next/',
         cta: 'Browse storage drivers',
     },
     {
@@ -50,7 +50,7 @@ const categories: EcosystemCategory[] = [
             'HTML', 'Django', 'Handlebars', 'Pug', 'Jet',
             'Mustache', 'Ace', 'Amber', 'Slim',
         ],
-        href: 'https://docs.gofiber.io/template/',
+        href: 'https://docs.gofiber.io/template/next/',
         cta: 'Pick your engine',
     },
     {
@@ -63,7 +63,7 @@ const categories: EcosystemCategory[] = [
             'Zap', 'Zerolog', 'Socket.io', 'Circuit Breaker', 'i18n', 'Paseto',
         ],
         more: '+ many more',
-        href: 'https://docs.gofiber.io/contrib/',
+        href: 'https://docs.gofiber.io/contrib/next/',
         cta: 'Discover contrib',
     },
 ];

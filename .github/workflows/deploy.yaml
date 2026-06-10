@@ -1,6 +1,7 @@
 name: Build & Deploy GitHub Pages (dual builds, parallel)
 
 on:
+  workflow_dispatch:
   push:
     branches: [ main, master ]
   pull_request:
@@ -15,6 +16,7 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -66,7 +68,7 @@ jobs:
           npm run build:${{ matrix.target.mode }}
 
       - name: Deploy to ${{ matrix.target.cname }} (on master)
-        if: github.event_name == 'push' && (github.ref_name == 'main' || github.ref_name == 'master')
+        if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && (github.ref_name == 'main' || github.ref_name == 'master')
         uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
         with:
           personal_token: ${{ secrets.GH_PAGES_TOKEN }}   # PAT with Contents: Read and write on both repos

@@ -85,7 +85,7 @@ app.Get("/*", static.New("./files"))`,
     title: 'Flexible Middleware Support',
     description: (
       <>
-        Choose from <a href="https://docs.gofiber.io/category/-middleware" target="_blank" rel="noreferrer">over 30 built-in middleware</a> and a growing list of <a href="https://docs.gofiber.io/contrib/" target="_blank" rel="noreferrer">contrib packages</a>, or create your own! Use them to verify and manipulate certain requests in your app before they reach your controller.
+        Choose from <a href="https://docs.gofiber.io/category/-middleware" target="_blank" rel="noreferrer">over 30 built-in middleware</a> and a growing list of <a href="https://docs.gofiber.io/contrib/next/" target="_blank" rel="noreferrer">contrib packages</a>, or create your own! Use them to verify and manipulate certain requests in your app before they reach your controller.
       </>
     ),
     code: `package main
@@ -127,7 +127,7 @@ func main() {
     title: 'Template Engines',
     description: (
       <>
-        Want to use a different template engine in your Fiber app? Fear no more! Fiber supports multiple template engines, such as HTML, Django, Handlebars, and Pug, thanks to the official <a href="https://docs.gofiber.io/template/" target="_blank" rel="noreferrer">template package</a>.
+        Want to use a different template engine in your Fiber app? Fear no more! Fiber supports multiple template engines, such as HTML, Django, Handlebars, and Pug, thanks to the official <a href="https://docs.gofiber.io/template/next/" target="_blank" rel="noreferrer">template package</a>.
       </>
     ),
     code: `package main
