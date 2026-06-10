@@ -87,6 +87,14 @@ function plugins(): PluginConfig[] {
                     if (existingPath.includes('/v1.x')) {
                         return [existingPath.replace('/v1.x', '/v/1.x')];
                     }
+                    // The current docs of contrib/storage/template moved from
+                    // /<id>/next/ to /<id>/ (lastVersion: 'current'). Keep old
+                    // /next links working. Versioned snapshot paths contain
+                    // "_vN.x.x" and are skipped.
+                    const multiPkg = existingPath.match(/^\/(contrib|storage|template)(\/.*)?$/);
+                    if (multiPkg && !/_v\d+\.x\.x/.test(existingPath)) {
+                        return [`/${multiPkg[1]}/next${multiPkg[2] ?? ''}`];
+                    }
                     return undefined;
                 },
             },
@@ -131,6 +139,14 @@ function plugins(): PluginConfig[] {
                 sidebarPath: require.resolve('./default_sidebars'),
                 showLastUpdateAuthor: false,
                 showLastUpdateTime: true,
+                // Serve the up-to-date docs (synced from the repo's main branch) at the
+                // unversioned /contrib path instead of an arbitrary release snapshot.
+                lastVersion: 'current',
+                versions: {
+                    current: {
+                        label: 'Next',
+                    },
+                },
             }),
         ],
         [
@@ -146,6 +162,12 @@ function plugins(): PluginConfig[] {
                 sidebarPath: require.resolve('./default_sidebars'),
                 showLastUpdateAuthor: false,
                 showLastUpdateTime: true,
+                lastVersion: 'current',
+                versions: {
+                    current: {
+                        label: 'Next',
+                    },
+                },
             }),
         ],
         [
@@ -161,6 +183,12 @@ function plugins(): PluginConfig[] {
                 sidebarPath: require.resolve('./default_sidebars'),
                 showLastUpdateAuthor: false,
                 showLastUpdateTime: true,
+                lastVersion: 'current',
+                versions: {
+                    current: {
+                        label: 'Next',
+                    },
+                },
             }),
         ],
         [

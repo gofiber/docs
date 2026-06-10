@@ -171,6 +171,6 @@ The documentation shows the `v3_` prefix in versioning to indicate Fiber v3 comp
 - [Contrib Documentation](/contrib/)
 - [JWT Middleware](/contrib/jwt/)
 - [WebSocket](/contrib/websocket/)
-- [OpenTelemetry](/contrib/otelfiber/)
-- [Swagger](/contrib/swagger/)
+- [OpenTelemetry](/contrib/otel/)
+- [Swagger](/contrib/swaggerui/)
 - [Socket.io](/contrib/socketio/)

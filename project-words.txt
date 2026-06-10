@@ -26,3 +26,5 @@ allbooks
 mtype
 Bearertoken
 thinked
+Casbin
+Paseto

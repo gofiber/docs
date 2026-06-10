@@ -2,6 +2,7 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import Hero from '../components/home/Hero';
 import Features from '../components/home/Features';
+import Ecosystem from '../components/home/Ecosystem';
 import Media from '../components/home/Media';
 import Support from '../components/home/Support';
 import SponsorsBlock from '../components/home/SponsorsBlock';
@@ -44,6 +45,7 @@ export default function Home() {
             </Head>
             <Hero />
             <Features />
+            <Ecosystem />
             <SponsorsBlock />
             <Support />
             <Media />
