@@ -12,8 +12,8 @@
   gap: 24px;
   margin-top: 32px;
   padding: 20px;
-  border: 1px solid var(--ifm-color-emphasis-300);
-  border-radius: 14px;
+  border: 1px solid var(--fh-border-card);
+  border-radius: var(--fh-radius-card);
   background: var(--ifm-background-surface-color);
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
 }

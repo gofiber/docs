@@ -1,5 +1,6 @@
 // src/components/home/MoreFeatures.tsx
-// Compact 3-per-row matrix for the long tail of features.
+// Core framework capabilities, 3 per row. Every tile is something the fiber
+// module does by itself; official packages live in the Ecosystem section.
 import React from 'react';
 import styles from './MoreFeatures.module.scss';
 import shared from './shared.module.scss';
@@ -13,22 +14,22 @@ type Tile = {
 
 const tiles: Tile[] = [
     {
-        icon: '🔌',
-        title: 'WebSockets',
-        description: 'Real-time, bidirectional messaging with the official contrib middleware.',
-        href: 'https://docs.gofiber.io/contrib/next/websocket/',
+        icon: '📥',
+        title: 'Request Binding',
+        description: 'Parse JSON bodies, forms, query strings, and headers into Go structs with c.Bind.',
+        href: 'https://docs.gofiber.io/api/bind/',
     },
     {
-        icon: '⏱️',
-        title: 'Rate Limiting',
-        description: 'Throttle repeated requests to your public APIs and endpoints.',
-        href: 'https://docs.gofiber.io/middleware/limiter/',
+        icon: '🧭',
+        title: 'Route Constraints',
+        description: 'Validate parameters in the route pattern itself: :id<int> never matches "abc".',
+        href: 'https://docs.gofiber.io/guide/routing/#constraints',
     },
     {
-        icon: '📡',
-        title: 'Server-Sent Events',
-        description: 'Stream live updates to the browser without polling.',
-        href: 'https://docs.gofiber.io/middleware/sse/',
+        icon: '🧯',
+        title: 'Error Handling',
+        description: 'Return errors from handlers and shape every response in one central ErrorHandler.',
+        href: 'https://docs.gofiber.io/guide/error-handling/',
     },
     {
         icon: '🌐',
@@ -39,32 +40,32 @@ const tiles: Tile[] = [
     {
         icon: '🧪',
         title: 'Testing',
-        description: 'Test handlers without a running server using app.Test.',
+        description: 'Test handlers in-process with app.Test, no port and no running server needed.',
         href: 'https://docs.gofiber.io/api/app/#test',
     },
     {
         icon: '🪝',
         title: 'Hooks & Services',
-        description: 'React to app lifecycle events and wire up backing services.',
+        description: 'React to lifecycle events, and let Fiber start and stop your backing services.',
         href: 'https://docs.gofiber.io/api/hooks/',
     },
     {
-        icon: '🪶',
-        title: 'Low Memory Footprint',
-        description: 'Zero-allocation design keeps memory usage tiny under load.',
-        href: 'https://docs.gofiber.io/extra/benchmarks/',
+        icon: '🗂️',
+        title: 'State Management',
+        description: 'Share typed application state across handlers without global variables.',
+        href: 'https://docs.gofiber.io/api/state/',
     },
     {
-        icon: '⚡',
-        title: 'Rapid Development',
-        description: 'An easy-to-learn API that turns ideas into servers in minutes.',
-        href: 'https://docs.gofiber.io/',
+        icon: '🛬',
+        title: 'Graceful Shutdown',
+        description: 'Finish in-flight requests and run cleanup hooks before the process exits.',
+        href: 'https://docs.gofiber.io/api/fiber/#server-shutdown',
     },
     {
-        icon: '💬',
-        title: 'Community',
-        description: 'Thousands of developers help each other on our Discord.',
-        href: 'https://gofiber.io/discord',
+        icon: '🎯',
+        title: 'Type-Safe Helpers',
+        description: 'Read params, query values, and locals as real Go types with generic helpers.',
+        href: 'https://docs.gofiber.io/api/ctx/',
     },
 ];
 
@@ -73,9 +74,11 @@ export default function MoreFeatures() {
         <section data-stripe>
             <div className={`${shared.mid} ${shared.midWide}`}>
                 <div className={shared.center}>
-                    <h2>More in the Box</h2>
+                    <p className={shared.kicker}>The framework</p>
+                    <h2>Built into the Core</h2>
                     <p className={styles.tagline}>
-                        Everything below ships with Fiber or an official package.
+                        Everyday capabilities that ship with the framework itself.
+                        No extra packages, nothing else to install.
                     </p>
                 </div>
                 <div className={styles.grid}>
@@ -87,10 +90,12 @@ export default function MoreFeatures() {
                             rel="noreferrer"
                             className={styles.tile}
                         >
-                            <span className={styles.iconWrap} aria-hidden>{tile.icon}</span>
+                            <span className={styles.tileTop}>
+                                <span className={styles.iconWrap} aria-hidden>{tile.icon}</span>
+                                <span className={styles.tileArrow} aria-hidden>↗</span>
+                            </span>
                             <span className={styles.tileTitle}>{tile.title}</span>
                             <span className={styles.tileDesc}>{tile.description}</span>
-                            <span className={styles.tileLink}>Learn more →</span>
                         </a>
                     ))}
                 </div>

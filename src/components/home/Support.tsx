@@ -9,7 +9,7 @@ export default function Support() {
                 <div className={styles.supportCols}>
                     <div>
                         <h2>Help &amp; Support</h2>
-                        <p>Join our community on <strong>Discord</strong> — ask questions, share, help others.</p>
+                        <p>Join our community on <strong>Discord</strong>: ask questions, share, help others.</p>
                     </div>
                     <div className={styles.discordIframeWrap}>
                         <iframe

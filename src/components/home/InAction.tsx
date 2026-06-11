@@ -47,8 +47,8 @@ app.Get("/files/*", func(c fiber.Ctx) error {
             <>
                 <code>app.Use</code> chains middleware into the request cycle. Here{' '}
                 <code>logger.New()</code> prints every request and <code>limiter.New()</code>{' '}
-                throttles abusive clients. 30+ middleware ship with the core module, and
-                contrib adds integrations like JWT and OpenTelemetry.{' '}
+                throttles abusive clients. Middleware runs in the order you register it,
+                so requests flow through the chain top to bottom.{' '}
                 <a href="https://docs.gofiber.io/category/-middleware" target="_blank" rel="noreferrer">Middleware overview →</a>
             </>
         ),
@@ -119,8 +119,8 @@ app.Get("/*", static.New("./public"))
         description: (
             <>
                 Set a <code>Views</code> engine and <code>c.Render</code> fills your
-                templates server-side. The official template package wraps engines like
-                HTML, Django, Handlebars, and Pug behind one interface.{' '}
+                templates server-side. Engines are swappable behind the same interface,
+                so your handlers never change.{' '}
                 <a href="https://docs.gofiber.io/template/next/" target="_blank" rel="noreferrer">Template engines →</a>
             </>
         ),
