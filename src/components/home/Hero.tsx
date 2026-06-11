@@ -3,6 +3,7 @@ import CodeBlock from '@theme/CodeBlock';
 import styles from './Hero.module.scss';
 import shared from './shared.module.scss';
 import BrowserWindow from './BrowserWindow';
+import LatestRelease from './LatestRelease';
 
 const exampleCode = `package main
 
@@ -21,6 +22,22 @@ func main() {
 
     log.Fatal(app.Listen(":3000"))
 }`;
+
+// Opens the Inkeep "Ask AI" chat when the widget is present; otherwise the
+// link falls through to the docs site, which always has the widget.
+// The widget renders shadow hosts with ids like "inkeep-shadow:r1:"; the
+// floating chat pill is the host containing exactly one button.
+function openAskAI(event: React.MouseEvent<HTMLAnchorElement>) {
+    const hosts = Array.from(document.querySelectorAll<HTMLElement>('[id^="inkeep-shadow"]'));
+    for (const host of hosts) {
+        const buttons = host.shadowRoot?.querySelectorAll('button') ?? [];
+        if (buttons.length === 1) {
+            event.preventDefault();
+            (buttons[0] as HTMLElement).click();
+            return;
+        }
+    }
+}
 
 export default function Hero() {
     return (
@@ -48,8 +65,10 @@ export default function Hero() {
 
                 <div className={styles.ctaRow}>
                     <a className={styles.cta} href="https://docs.gofiber.io/">Get Started →</a>
-                    <span className={styles.orScroll}>…or scroll to learn more.</span>
+                    <a className={styles.ctaSecondary} href="https://docs.gofiber.io/" onClick={openAskAI}>✨ Ask AI</a>
+                    <a className={styles.ctaSecondary} href="https://docs.gofiber.io/extra/faq/">Read FAQ</a>
                 </div>
+                <LatestRelease />
             </div>
         </section>
     );

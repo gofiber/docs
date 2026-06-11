@@ -2,8 +2,10 @@
   background: var(--ifm-color-emphasis-200);
 }
 
+/* Mixed down so the dark band is a subtle step from the page background
+   and cards read as same-plane elements instead of holes in a light band. */
 [data-theme='dark'] :global([data-stripe].stripe-odd) {
-  background: var(--ifm-color-emphasis-200);
+  background: color-mix(in srgb, var(--ifm-color-emphasis-200) 30%, var(--ifm-background-color));
 }
 
 h2, h3 {

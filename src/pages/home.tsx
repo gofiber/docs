@@ -1,7 +1,10 @@
 import React from 'react';
 import Layout from '@theme/Layout';
 import Hero from '../components/home/Hero';
+import InAction from '../components/home/InAction';
 import Features from '../components/home/Features';
+import MoreFeatures from '../components/home/MoreFeatures';
+import CtaBand from '../components/home/CtaBand';
 import Ecosystem from '../components/home/Ecosystem';
 import Media from '../components/home/Media';
 import Support from '../components/home/Support';
@@ -44,7 +47,10 @@ export default function Home() {
                 <link rel="canonical" href="https://gofiber.io/" />
             </Head>
             <Hero />
+            <InAction />
             <Features />
+            <MoreFeatures />
+            <CtaBand />
             <Ecosystem />
             <SponsorsBlock />
             <Support />

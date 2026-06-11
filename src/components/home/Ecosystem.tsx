@@ -4,7 +4,8 @@ import styles from './Ecosystem.module.scss';
 import shared from './shared.module.scss';
 
 type EcosystemCategory = {
-    count: string;
+    icon: string;
+    badge: string;
     title: string;
     description: string;
     items: string[];
@@ -16,10 +17,11 @@ type EcosystemCategory = {
 // Keep counts rough ("30+") so the homepage doesn't go stale with every new package.
 const categories: EcosystemCategory[] = [
     {
-        count: '30+',
-        title: 'Built-in Middleware',
+        icon: '🧬',
+        badge: '30+ middleware',
+        title: 'Core Middleware',
         description:
-            'Everything you need ships with the framework: authentication, caching, compression, rate limiting, security headers, sessions, and more.',
+            'The deepest catalog in the box: authentication, caching, compression, rate limiting, security headers, sessions, and more, each one app.Use away.',
         items: [
             'Logger', 'CORS', 'CSRF', 'Helmet', 'Limiter', 'Cache',
             'Compress', 'Session', 'Proxy', 'Static', 'RequestID', 'SSE',
@@ -29,7 +31,8 @@ const categories: EcosystemCategory[] = [
         cta: 'Explore middleware',
     },
     {
-        count: '30+',
+        icon: '🗄️',
+        badge: '30+ drivers',
         title: 'Storage Drivers',
         description:
             'One unified interface for every major database and key-value store. Plug them into sessions, caching, or rate limiting without changing your code.',
@@ -42,10 +45,11 @@ const categories: EcosystemCategory[] = [
         cta: 'Browse storage drivers',
     },
     {
-        count: '9',
+        icon: '📝',
+        badge: '9 engines',
         title: 'Template Engines',
         description:
-            'Render views with the engine you already know. The official template package wraps the most popular engines behind a single interface.',
+            'Server-side rendering with the syntax you already know. One official package, one interface, your choice of engine.',
         items: [
             'HTML', 'Django', 'Handlebars', 'Pug', 'Jet',
             'Mustache', 'Ace', 'Amber', 'Slim',
@@ -54,7 +58,8 @@ const categories: EcosystemCategory[] = [
         cta: 'Pick your engine',
     },
     {
-        count: '20+',
+        icon: '🧩',
+        badge: '20+ packages',
         title: 'Contrib Packages',
         description:
             'Officially maintained integrations with the wider ecosystem: tracing, logging, authentication, API documentation, and real-time communication.',
@@ -73,11 +78,12 @@ export default function Ecosystem() {
         <section data-stripe>
             <div className={`${shared.mid} ${shared.midWide}`}>
                 <div className={shared.center}>
-                    <h2>Batteries Included</h2>
+                    <p className={shared.kicker}>Beyond the core</p>
+                    <h2>The Official Ecosystem</h2>
                     <p className={styles.tagline}>
-                        Fiber is more than a router. It comes with a complete ecosystem of
-                        middleware, storage drivers, template engines, and contrib packages,
-                        all maintained by the core team.
+                        Complete catalogs of official building blocks: middleware, storage
+                        drivers, template engines, and contrib integrations, all maintained
+                        by the Fiber team.
                     </p>
                 </div>
                 <div className={styles.grid}>
@@ -90,8 +96,9 @@ export default function Ecosystem() {
                             className={styles.card}
                         >
                             <div className={styles.cardHead}>
-                                <span className={styles.count}>{cat.count}</span>
+                                <span className={styles.cardIcon} aria-hidden>{cat.icon}</span>
                                 <h3 className={styles.cardTitle}>{cat.title}</h3>
+                                <span className={styles.countBadge}>{cat.badge}</span>
                             </div>
                             <p className={styles.cardDesc}>{cat.description}</p>
                             <div className={styles.chips}>
@@ -102,7 +109,9 @@ export default function Ecosystem() {
                                     <span className={`${styles.chip} ${styles.chipMore}`}>{cat.more}</span>
                                 )}
                             </div>
-                            <span className={styles.cardCta}>{cat.cta} →</span>
+                            <span className={styles.cardCta}>
+                                {cat.cta} <span className={styles.ctaArrow} aria-hidden>→</span>
+                            </span>
                         </a>
                     ))}
                 </div>

@@ -1,0 +1,27 @@
+.release {
+  margin: 18px 0 0;
+  text-align: center;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 16px;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 999px;
+  background: var(--ifm-background-surface-color);
+  font-size: 15px;
+  color: var(--ifm-color-emphasis-800);
+  text-decoration: none;
+
+  strong {
+    color: var(--ifm-color-primary);
+  }
+
+  &:hover {
+    border-color: var(--ifm-color-primary);
+    color: var(--ifm-color-emphasis-900);
+    text-decoration: none;
+  }
+}

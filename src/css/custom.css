@@ -154,3 +154,31 @@ html.blog-wrapper aside.col.col--3 nav [class*='yearGroupHeading'] {
   font-size: clamp(25px, 3.6vw, 30px);
   line-height: 1.2;
 }
+
+/* Homepage design tokens, inherited by every section via the page wrapper */
+.fiber-home {
+  --fh-radius-card: 16px;
+  --fh-radius-inner: 12px;
+  --fh-border-card: var(--ifm-color-emphasis-200);
+  --fh-shadow-rest: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --fh-shadow-hover: 0 2px 4px rgba(15, 23, 42, 0.04),
+    0 16px 32px -16px color-mix(in srgb, var(--ifm-color-primary) 30%, rgba(15, 23, 42, 0.2));
+  --fh-lift: translateY(-2px);
+  --fh-chip-bg: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--ifm-color-primary) 16%, var(--ifm-background-surface-color)),
+    color-mix(in srgb, var(--ifm-color-primary) 6%, var(--ifm-background-surface-color))
+  );
+  --fh-chip-border: color-mix(in srgb, var(--ifm-color-primary) 18%, transparent);
+}
+
+[data-theme='dark'] .fiber-home {
+  --fh-shadow-rest: none;
+  --fh-shadow-hover: 0 16px 32px -16px rgba(0, 0, 0, 0.55);
+  --fh-chip-bg: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--ifm-color-primary) 26%, var(--ifm-background-surface-color)),
+    color-mix(in srgb, var(--ifm-color-primary) 10%, var(--ifm-background-surface-color))
+  );
+  --fh-chip-border: color-mix(in srgb, var(--ifm-color-primary) 30%, transparent);
+}

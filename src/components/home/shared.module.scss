@@ -11,3 +11,14 @@
 .center {
   text-align: center;
 }
+
+/* Uppercase label above a section h2; pairs sections at a glance */
+.kicker {
+  display: inline-block;
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ifm-color-primary);
+}

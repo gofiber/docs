@@ -1,0 +1,120 @@
+.band {
+  padding: 24px 16px;
+  background: transparent;
+}
+
+.inner {
+  /* Brand navy locked to the light palette so the panel does not invert
+     to mid blue when the primary scale flips in dark mode. */
+  --cta-bg-start: #11223b;
+  --cta-bg-end: #1f3e6e;
+  --cta-glow: rgba(136, 172, 211, 0.3);
+
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 56px 32px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    radial-gradient(90% 140% at 12% 0%, var(--cta-glow) 0%, transparent 55%),
+    radial-gradient(70% 120% at 88% 100%, rgba(31, 62, 110, 0.55) 0%, transparent 60%),
+    linear-gradient(135deg, var(--cta-bg-start) 0%, var(--cta-bg-end) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 24px 48px -24px rgba(17, 34, 59, 0.45);
+}
+
+[data-theme='dark'] .inner {
+  border-color: rgba(136, 172, 211, 0.22);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 24px 48px -24px rgba(0, 0, 0, 0.7);
+}
+
+.title {
+  margin: 0;
+  color: #fff;
+  text-align: center;
+  font-size: clamp(26px, 3.2vw, 38px);
+  font-weight: 800;
+}
+
+.subtitle {
+  margin: -6px 0 0;
+  max-width: 560px;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+}
+
+.primary,
+.outline {
+  padding: 11px 22px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+}
+
+.primary {
+  background: #fff;
+  color: #11223b;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+
+  &:hover {
+    background: #dde7f3;
+    color: #11223b;
+  }
+}
+
+.outline {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+
+  &:hover {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.12);
+  }
+}
+
+@media (max-width: 640px) {
+  .band {
+    padding: 16px 12px;
+  }
+
+  .inner {
+    padding: 40px 20px;
+    border-radius: 18px;
+  }
+
+  .primary,
+  .outline {
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
+  }
+}

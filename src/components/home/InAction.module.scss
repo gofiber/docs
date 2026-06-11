@@ -1,0 +1,145 @@
+.tagline {
+  max-width: 720px;
+  margin: 0 auto;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.box {
+  display: flex;
+  align-items: stretch;
+  gap: 24px;
+  margin-top: 32px;
+  padding: 20px;
+  border: 1px solid var(--fh-border-card);
+  border-radius: var(--fh-radius-card);
+  background: var(--ifm-background-surface-color);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
+}
+
+/* Segmented control filling the full box height */
+.tabList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 0 0 220px;
+  padding: 8px;
+  border-radius: 12px;
+  background: var(--ifm-color-emphasis-100);
+}
+
+.tab {
+  appearance: none;
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--ifm-color-emphasis-700);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    color: var(--ifm-color-primary);
+    background: var(--ifm-background-surface-color);
+  }
+}
+
+.tabIcon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.tabActive {
+  background: var(--ifm-background-surface-color);
+  border-color: var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-primary);
+  font-weight: 700;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] .tabActive {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+}
+
+/* All panels are stacked in the same grid cell so the tallest one defines
+   the box height; switching tabs then never resizes the box or the tab bar. */
+.panels {
+  flex: 1 1 0;
+  min-width: 0;
+  display: grid;
+}
+
+.panel {
+  grid-area: 1 / 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  visibility: hidden;
+}
+
+.panelActive {
+  visibility: visible;
+}
+
+.desc {
+  margin: 0 0 14px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--ifm-color-emphasis-700);
+
+  code {
+    padding: 1px 6px;
+    border-radius: 6px;
+    background: var(--ifm-color-emphasis-200);
+    color: var(--ifm-color-emphasis-900);
+    font-size: 0.85em;
+  }
+
+  a {
+    font-weight: 600;
+    white-space: nowrap;
+  }
+}
+
+.code {
+  flex: 1 1 auto;
+
+  :is(.theme-code-block, pre) {
+    margin: 0;
+    height: 100%;
+  }
+
+  :where(code) {
+    font-size: 0.92rem;
+  }
+}
+
+@media (max-width: 996px) {
+  .box {
+    flex-direction: column;
+    gap: 16px;
+    padding: 14px;
+  }
+
+  .tabList {
+    flex: none;
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 6px;
+  }
+
+  .tab {
+    flex: 0 0 auto;
+    padding: 10px 14px;
+    white-space: nowrap;
+  }
+}
