@@ -30,6 +30,81 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
+/*
+ * Dark-mode code block colors as CSS, not only React inline styles.
+ *
+ * Docusaurus colors code blocks exclusively through inline styles produced by
+ * prism-react-renderer: the container's --prism-* variables, the <pre>
+ * background/color, and the per-token colors. All of these depend on
+ * useColorMode(), which deliberately lags one render behind on first load to
+ * avoid a hydration mismatch (see @docusaurus/theme-common color mode context).
+ * Our no-flash-color-mode-plugin reveals the page as soon as data-theme is set,
+ * i.e. before that correction runs, so on a cold load the code blocks briefly
+ * show the light (GitHub) palette on the already-dark page.
+ *
+ * The rules below reproduce the dark (Dracula) palette via CSS keyed on
+ * [data-theme='dark'] so the colors are correct from the first paint, before
+ * hydration. Values are taken verbatim from prism-react-renderer's `dracula`
+ * theme; once React writes its matching inline styles they remain identical.
+ * !important is required because inline styles otherwise win over stylesheets.
+ * Rule order follows the dracula token array so multi-type tokens resolve the
+ * same way React does.
+ */
+[data-theme='dark'] .theme-code-block {
+  --prism-color: #f8f8f2 !important;
+  --prism-background-color: #282a36 !important;
+}
+
+[data-theme='dark'] pre.prism-code {
+  color: #f8f8f2 !important;
+  background-color: #282a36 !important;
+}
+
+[data-theme='dark'] .prism-code .token.prolog,
+[data-theme='dark'] .prism-code .token.constant,
+[data-theme='dark'] .prism-code .token.builtin {
+  color: rgb(189, 147, 249) !important;
+}
+
+[data-theme='dark'] .prism-code .token.inserted,
+[data-theme='dark'] .prism-code .token.function {
+  color: rgb(80, 250, 123) !important;
+}
+
+[data-theme='dark'] .prism-code .token.deleted {
+  color: rgb(255, 85, 85) !important;
+}
+
+[data-theme='dark'] .prism-code .token.changed {
+  color: rgb(255, 184, 108) !important;
+}
+
+[data-theme='dark'] .prism-code .token.punctuation,
+[data-theme='dark'] .prism-code .token.symbol {
+  color: rgb(248, 248, 242) !important;
+}
+
+[data-theme='dark'] .prism-code .token.string,
+[data-theme='dark'] .prism-code .token.char,
+[data-theme='dark'] .prism-code .token.tag,
+[data-theme='dark'] .prism-code .token.selector {
+  color: rgb(255, 121, 198) !important;
+}
+
+[data-theme='dark'] .prism-code .token.keyword,
+[data-theme='dark'] .prism-code .token.variable {
+  color: rgb(189, 147, 249) !important;
+  font-style: italic !important;
+}
+
+[data-theme='dark'] .prism-code .token.comment {
+  color: rgb(98, 114, 164) !important;
+}
+
+[data-theme='dark'] .prism-code .token.attr-name {
+  color: rgb(241, 250, 140) !important;
+}
+
 .navbar {
   height: fit-content;
 }
