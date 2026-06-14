@@ -14,6 +14,8 @@ function plugins(): PluginConfig[] {
     let pluginList: PluginConfig[] = [
         require.resolve('./no-flash-color-mode-plugin'),
 
+        require.resolve('./simple-analytics-plugin'),
+
         'docusaurus-plugin-sass',
 
         // Suppress webpack "Critical dependency" warning from vscode-languageserver-types
