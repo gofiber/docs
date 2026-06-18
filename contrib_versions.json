@@ -33,6 +33,7 @@
   "v3_coraza_v0.x.x",
   "v3_circuitbreaker_v1.x.x",
   "v3_circuitbreaker_v0.x.x",
+  "v3_casbin_v2.x.x",
   "v3_casbin_v1.x.x",
   "testcontainers_v0.x.x",
   "swagger_v1.x.x",
