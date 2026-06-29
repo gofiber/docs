@@ -152,6 +152,17 @@ app := fiber.New(fiber.Config{
 
 For details, see [Immutable](./api/fiber.md#immutable) in the configuration reference and the [GetString and GetBytes](./api/app.md#getstring) helpers.
 
+A common way to run into this is forwarding a context value (for example a header from `c.Get`) into the metadata of a long-lived **gRPC / HTTP-2 client**. The value is retained in the connection's HTTP/2 HPACK table and later mutated when the request buffer is reused, crashing the process with a panic in code you don't own:
+
+```text
+panic: id (N) <= evictCount (M)
+    golang.org/x/net/http2/hpack.(*headerFieldTable).idToIndex
+    ...
+    google.golang.org/grpc/internal/transport.(*loopyWriter).writeHeader
+```
+
+The Go race detector does not catch it, because the corruption happens inside a single gRPC writer goroutine. Copy the value or enable `Immutable` (as shown above) before handing it to anything that outlives the handler. See [#4464](https://github.com/gofiber/fiber/issues/4464) for a full reproduction.
+
 ## Explore the Ecosystem
 
 Fiber is more than the core module. When your application grows, these officially maintained building blocks are one import away:
