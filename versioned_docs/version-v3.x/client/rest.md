@@ -49,33 +49,13 @@ See [examples](examples.md) for more detailed usage.
 
 ```go
 type Client struct {
-    mu sync.RWMutex
+    logger    log.CommonLogger
+    transport httpClientTransport
 
-    fasthttp *fasthttp.Client
-
-    baseURL   string
-    userAgent string
-    referer   string
-    header    *Header
-    params    *QueryParam
-    cookies   *Cookie
-    path      *PathParam
-
-    debug bool
-
-    timeout time.Duration
-
-    // user-defined request hooks
-    userRequestHooks []RequestHook
-
-    // client package-defined request hooks
-    builtinRequestHooks []RequestHook
-
-    // user-defined response hooks
-    userResponseHooks []ResponseHook
-
-    // client package-defined response hooks
-    builtinResponseHooks []ResponseHook
+    header  *Header
+    params  *QueryParam
+    cookies *Cookie
+    path    *PathParam
 
     jsonMarshal   utils.JSONMarshal
     jsonUnmarshal utils.JSONUnmarshal
@@ -84,16 +64,20 @@ type Client struct {
     cborMarshal   utils.CBORMarshal
     cborUnmarshal utils.CBORUnmarshal
 
-    cookieJar *CookieJar
+    cookieJar            *CookieJar
+    retryConfig          *RetryConfig
+    baseURL              string
+    userAgent            string
+    referer              string
+    userRequestHooks     []RequestHook
+    builtinRequestHooks  []RequestHook
+    userResponseHooks    []ResponseHook
+    builtinResponseHooks []ResponseHook
 
-    // proxy
-    proxyURL string
-
-    // retry
-    retryConfig *RetryConfig
-
-    // logger
-    logger log.CommonLogger
+    timeout                   time.Duration
+    mu                        sync.RWMutex
+    isDebug                   bool
+    isPathNormalizingDisabled bool
 }
 ```
 
@@ -147,6 +131,14 @@ Sends a PATCH request.
 
 ```go title="Signature"
 func (c *Client) Patch(url string, cfg ...Config) (*Response, error)
+```
+
+### Query
+
+Sends a QUERY request.
+
+```go title="Signature"
+func (c *Client) Query(url string, cfg ...Config) (*Response, error)
 ```
 
 ### Delete
@@ -893,6 +885,14 @@ Patch is a convenience method that sends a PATCH request using the `defaultClien
 func Patch(url string, cfg ...Config) (*Response, error)
 ```
 
+### Query
+
+Query is a convenience method that sends a QUERY request using the `defaultClient`.
+
+```go title="Signature"
+func Query(url string, cfg ...Config) (*Response, error)
+```
+
 ### Delete
 
 Delete is a convenience method that sends a DELETE request using the `defaultClient`.
@@ -922,7 +922,7 @@ func Options(url string, cfg ...Config) (*Response, error)
 **Replace** replaces the default client with a new one. It returns a function that can restore the old client.
 
 :::caution
-Do not modify the default client concurrently.
+Replacing the default client is concurrency-safe, but mutating the same `Client` instance still requires external synchronization.
 :::
 
 ```go title="Signature"
