@@ -109,28 +109,25 @@ export default function MethodIndex({
                             value={query}
                             onChange={(event) => setQuery(event.target.value)}
                         />
-                        <div
-                            className={styles.pills}
-                            role="group"
-                            aria-label="Filter by category"
-                            hidden={categories.length < 2}
-                        >
-                            {categories.map((category) => {
-                                const active = selected.has(category);
-                                const count = entries.filter((e) => e.category === category).length;
-                                return (
-                                    <button
-                                        key={category}
-                                        type="button"
-                                        className={`${styles.pill} ${active ? styles.pillActive : ""}`}
-                                        aria-pressed={active}
-                                        onClick={() => toggleCategory(category)}
-                                    >
-                                        {category} <span className={styles.pillCount}>{count}</span>
-                                    </button>
-                                );
-                            })}
-                        </div>
+                        {categories.length > 1 ? (
+                            <div className={styles.pills} role="group" aria-label="Filter by category">
+                                {categories.map((category) => {
+                                    const active = selected.has(category);
+                                    const count = entries.filter((e) => e.category === category).length;
+                                    return (
+                                        <button
+                                            key={category}
+                                            type="button"
+                                            className={`${styles.pill} ${active ? styles.pillActive : ""}`}
+                                            aria-pressed={active}
+                                            onClick={() => toggleCategory(category)}
+                                        >
+                                            {category} <span className={styles.pillCount}>{count}</span>
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        ) : null}
                     </div>
                     <div className={styles.chips}>
                         {filtered.map((entry) => (
