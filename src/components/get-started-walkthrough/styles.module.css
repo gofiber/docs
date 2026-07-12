@@ -1,0 +1,187 @@
+.walkthrough {
+  margin: 1.5rem 0;
+  padding: 1.25rem 1.25rem 1rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 10px;
+  box-shadow: var(--ifm-global-shadow-lw);
+  background: var(--ifm-background-surface-color);
+}
+
+.stepNav {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+/* Stepper rail: numbered dots joined by a progress line, labels underneath */
+.stepList {
+  display: flex;
+  flex: 1 1 auto;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.stepItem {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+}
+
+.stepItem + .stepItem::before {
+  content: "";
+  position: absolute;
+  top: 1.05rem;
+  right: calc(50% + 1.05rem + 3px);
+  left: calc(-50% + 1.05rem + 3px);
+  height: 2px;
+  background: var(--ifm-color-emphasis-300);
+}
+
+.stepItem + .stepItemReached::before {
+  background: var(--ifm-color-primary);
+}
+
+.stepDot {
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 50%;
+  border: 2px solid var(--ifm-color-emphasis-300);
+  background: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .stepDot,
+  .navButton,
+  .requestButton {
+    transition:
+      background 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .stepItem + .stepItem::before {
+    transition: background 0.15s ease;
+  }
+}
+
+.stepDot:hover {
+  border-color: var(--ifm-color-primary);
+}
+
+.stepDotDone {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+}
+
+.stepDotActive {
+  background: var(--ifm-color-primary);
+  border-color: var(--ifm-color-primary);
+  color: #fff;
+}
+
+.stepLabel {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.7rem;
+  text-align: center;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.stepLabelActive {
+  color: var(--ifm-color-primary);
+  font-weight: 700;
+}
+
+.navButton {
+  margin-top: 0.35rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  background: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.navButton:hover:not(:disabled) {
+  border-color: var(--ifm-color-primary);
+}
+
+.navButton:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.stepTitle {
+  margin: 0 0 0.25rem;
+  font-weight: 700;
+}
+
+.explanation {
+  margin: 0 0 1rem;
+}
+
+.requestRail {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.tryLabel {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.requestButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  background: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.requestButton:hover {
+  border-color: var(--ifm-color-primary);
+}
+
+.requestButtonActive {
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 0 0 1px var(--ifm-color-primary) inset;
+}
+
+.disclaimer {
+  margin: 0.5rem 0 0;
+  font-size: 0.75rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+@media (max-width: 700px) {
+  .stepNav {
+    flex-wrap: wrap;
+  }
+
+  .stepLabel {
+    display: none;
+  }
+}

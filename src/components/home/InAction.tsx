@@ -1,19 +1,12 @@
 // src/components/home/InAction.tsx
-// Tabbed code tour of Fiber's everyday building blocks.
-import React, { useState } from 'react';
-import CodeBlock from '@theme/CodeBlock';
+// Tabbed code tour of Fiber's everyday building blocks, rendered through the
+// shared TabbedShowcase shell (src/components/tabbed-showcase).
+import React from 'react';
+import TabbedShowcase, { type ShowcaseTab } from '../tabbed-showcase';
 import styles from './InAction.module.scss';
 import shared from './shared.module.scss';
 
-type Tab = {
-    key: string;
-    label: string;
-    icon: string;
-    description: React.ReactNode;
-    code: string;
-};
-
-const tabs: Tab[] = [
+const tabs: ShowcaseTab[] = [
     {
         key: 'routing',
         label: 'Routing',
@@ -139,8 +132,6 @@ app.Get("/", func(c fiber.Ctx) error {
 ];
 
 export default function InAction() {
-    const [active, setActive] = useState(0);
-
     return (
         <section id="fiber-in-action" data-stripe>
             <div className={`${shared.mid} ${shared.midWide}`}>
@@ -150,37 +141,7 @@ export default function InAction() {
                         How Fiber applications are built: pick a topic, read the code.
                     </p>
                 </div>
-                <div className={styles.box}>
-                    <div className={styles.tabList} role="tablist" aria-label="Fiber concepts">
-                        {tabs.map((t, i) => (
-                            <button
-                                key={t.key}
-                                role="tab"
-                                aria-selected={i === active}
-                                className={`${styles.tab} ${i === active ? styles.tabActive : ''}`}
-                                onClick={() => setActive(i)}
-                            >
-                                <span className={styles.tabIcon} aria-hidden>{t.icon}</span>
-                                {t.label}
-                            </button>
-                        ))}
-                    </div>
-                    <div className={styles.panels}>
-                        {tabs.map((t, i) => (
-                            <div
-                                key={t.key}
-                                role="tabpanel"
-                                aria-hidden={i !== active}
-                                className={`${styles.panel} ${i === active ? styles.panelActive : ''}`}
-                            >
-                                <p className={styles.desc}>{t.description}</p>
-                                <div className={styles.code}>
-                                    <CodeBlock language="go">{t.code}</CodeBlock>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+                <TabbedShowcase tabs={tabs} ariaLabel="Fiber concepts" className={styles.homeBox} />
             </div>
         </section>
     );

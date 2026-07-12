@@ -1,0 +1,532 @@
+/*
+ * Architecture-diagram look for the ecosystem map. Category accents:
+ * core = theme primary, extensions = blue, foundations = neutral gray,
+ * learning = green. Edge colors mirror the card accents; light values are
+ * GitHub-ish, dark values Dracula-ish like the other docs widgets.
+ */
+
+.landscape {
+  margin: 1.5rem 0;
+}
+
+.map {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 1.25rem 1.1rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
+  box-shadow: var(--ifm-global-shadow-lw);
+  background:
+    radial-gradient(circle at 1px 1px, var(--ifm-color-emphasis-200) 1px, transparent 0) 0 0 / 22px 22px,
+    var(--ifm-background-surface-color);
+}
+
+/* Edge layer */
+
+.edgeLayer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.edge {
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .edge,
+  .edgeLabel,
+  .card,
+  .blockChip {
+    transition:
+      opacity 0.2s ease,
+      stroke 0.2s ease,
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      background 0.2s ease,
+      transform 0.15s ease;
+  }
+
+  .edgeActive {
+    stroke-dasharray: 7 5;
+    animation: edgeFlow 0.9s linear infinite;
+  }
+}
+
+@keyframes edgeFlow {
+  to {
+    stroke-dashoffset: -12;
+  }
+}
+
+.edgeApp {
+  stroke: var(--ifm-color-primary);
+}
+
+.edgeExtension {
+  stroke: #0969da;
+}
+
+.edgeFoundation {
+  stroke: var(--ifm-color-emphasis-500);
+}
+
+[data-theme="dark"] .edgeExtension {
+  stroke: #8be9fd;
+}
+
+.edgeActive {
+  stroke-width: 2.4;
+  opacity: 1;
+}
+
+.edgeDim {
+  opacity: 0.18;
+}
+
+.edgeLabel {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  max-width: 15rem;
+  padding: 0.1rem 0.55rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 999px;
+  background: var(--ifm-background-surface-color);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.68rem;
+  color: var(--ifm-color-emphasis-700);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+
+.edgeLabelActive {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-font-color-base);
+  box-shadow: var(--ifm-global-shadow-lw);
+}
+
+.edgeLabelDim {
+  opacity: 0.25;
+}
+
+/* Nodes */
+
+.appBar {
+  z-index: 1;
+  padding: 0.35rem 1.6rem;
+  border: 1px dashed var(--ifm-color-emphasis-500);
+  border-radius: 999px;
+  background: var(--ifm-background-surface-color);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.card {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  width: 100%;
+  padding: 0.75rem 0.9rem 0.7rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-top: 3px solid var(--ifm-color-emphasis-400);
+  border-radius: 10px;
+  background: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+  cursor: pointer;
+  text-align: center;
+  box-shadow: var(--ifm-global-shadow-lw);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: var(--ifm-color-primary);
+}
+
+.cardSelected {
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 0 0 1px var(--ifm-color-primary) inset, var(--ifm-global-shadow-md);
+}
+
+.cardExtension {
+  border-top-color: #0969da;
+}
+
+.cardFoundation {
+  border-top-color: var(--ifm-color-emphasis-500);
+}
+
+.cardLearning {
+  border-top-color: #1a7f37;
+  border-style: dashed;
+  border-top-style: solid;
+}
+
+[data-theme="dark"] .cardExtension {
+  border-top-color: #8be9fd;
+}
+
+[data-theme="dark"] .cardLearning {
+  border-top-color: #50fa7b;
+}
+
+.cardHead {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  max-width: 100%;
+}
+
+.cardLabel {
+  font-weight: 700;
+}
+
+.cardBadge {
+  padding: 0.05rem 0.5rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ifm-color-primary) 12%, transparent);
+  color: var(--ifm-color-primary);
+  font-size: 0.65rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.cardRepo {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.7rem;
+  color: var(--ifm-color-emphasis-600);
+  overflow-wrap: anywhere;
+}
+
+/* Core card: a frame div with its own head button so the building block
+   chips inside can be buttons themselves (buttons must not nest). */
+
+.coreCard {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 36rem;
+  margin-top: 2.6rem;
+  padding: 0.5rem 1.1rem 0.85rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-top: 3px solid var(--ifm-color-primary);
+  border-radius: 10px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--ifm-color-primary) 7%, var(--ifm-background-color)),
+    var(--ifm-background-color) 55%
+  );
+  box-shadow: var(--ifm-global-shadow-lw);
+}
+
+.coreHead {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  width: 100%;
+  padding: 0.35rem 0.5rem 0.3rem;
+  border: none;
+  background: none;
+  color: var(--ifm-font-color-base);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.coreHead:hover .cardLabel {
+  color: var(--ifm-color-primary);
+}
+
+
+.coreChips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem;
+  margin-top: 0.45rem;
+}
+
+.blockChip {
+  padding: 0.16rem 0.6rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 8px;
+  background: var(--ifm-background-surface-color);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-800);
+  white-space: nowrap;
+}
+
+.blockChipButton {
+  cursor: pointer;
+  font-family: var(--ifm-font-family-monospace);
+}
+
+.blockChipButton:hover {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+}
+
+.blockChipTarget {
+  border-color: var(--ifm-color-primary);
+  background: color-mix(in srgb, var(--ifm-color-primary) 14%, var(--ifm-background-surface-color));
+  color: var(--ifm-font-color-base);
+  box-shadow: 0 0 0 1px var(--ifm-color-primary) inset;
+}
+
+.blockChipSelected {
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 0 0 2px var(--ifm-color-primary) inset;
+}
+
+.coreExamples {
+  margin-top: 0.4rem;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.66rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+/* Tiers */
+
+.tierCaption {
+  z-index: 1;
+  margin: 2.9rem 0 0.4rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.extRow,
+.foundRow,
+.learnRow {
+  display: grid;
+  gap: 0.9rem;
+  width: 100%;
+}
+
+.extRow {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.foundRow,
+.learnRow {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 30rem;
+}
+
+.portFallback {
+  display: none;
+  padding: 0.05rem 0.5rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 999px;
+  background: var(--ifm-color-emphasis-100);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.65rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+/* Legend */
+
+.legend {
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.9rem;
+  margin-top: 1.4rem;
+  font-size: 0.72rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.legendSwatch {
+  width: 0.85rem;
+  height: 0.3rem;
+  border-radius: 2px;
+}
+
+.legendCore {
+  background: var(--ifm-color-primary);
+}
+
+.legendExtension {
+  background: #0969da;
+}
+
+.legendFoundation {
+  background: var(--ifm-color-emphasis-500);
+}
+
+.legendLearning {
+  background: #1a7f37;
+}
+
+[data-theme="dark"] .legendExtension {
+  background: #8be9fd;
+}
+
+[data-theme="dark"] .legendLearning {
+  background: #50fa7b;
+}
+
+/* Detail panel */
+
+.detail {
+  margin-top: 1rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
+  background: var(--ifm-background-surface-color);
+  box-shadow: var(--ifm-global-shadow-lw);
+}
+
+.detailTitle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0 0 0.3rem;
+  font-weight: 700;
+}
+
+.detailBadge {
+  padding: 0.05rem 0.5rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ifm-color-primary) 12%, transparent);
+  color: var(--ifm-color-primary);
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.detailRepo {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.detailConnection {
+  margin: 0 0 0.55rem;
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.detailPort {
+  padding: 0.08rem 0.5rem;
+  border: 1px solid var(--ifm-color-primary);
+  border-radius: 999px;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.72rem;
+  color: var(--ifm-font-color-base);
+}
+
+.relatedButton {
+  margin-right: 0.35rem;
+  padding: 0.12rem 0.6rem;
+  border: 1px solid var(--ifm-color-primary);
+  border-radius: 999px;
+  background: var(--ifm-background-surface-color);
+  color: var(--ifm-color-primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.relatedButton:hover {
+  background: color-mix(in srgb, var(--ifm-color-primary) 10%, var(--ifm-background-surface-color));
+}
+
+.detailBlurb {
+  margin: 0 0 0.75rem;
+}
+
+.detailChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-bottom: 0.75rem;
+}
+
+.chipLink {
+  padding: 0.1rem 0.5rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 999px;
+  background: var(--ifm-color-emphasis-100);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.72rem;
+  color: var(--ifm-color-emphasis-800);
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.chipLink:hover {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+}
+
+.snippetCaption {
+  margin: 0 0 0.35rem;
+  font-size: 0.85rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.detailLink {
+  margin: 0.5rem 0 0;
+}
+
+.detailLink a {
+  font-weight: 600;
+}
+
+/* Small screens: hide the measured edges and show port chips on the cards */
+
+@media (max-width: 700px) {
+  .extRow,
+  .foundRow,
+  .learnRow {
+    grid-template-columns: 1fr;
+  }
+
+  .edgeLayer,
+  .edgeLabel {
+    display: none;
+  }
+
+  .portFallback {
+    display: inline-block;
+  }
+
+  .tierCaption {
+    margin-top: 1.2rem;
+  }
+
+  .coreCard {
+    margin-top: 1.2rem;
+  }
+}

@@ -1,0 +1,1660 @@
+[
+  {
+    "name": "root",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0
+    }
+  },
+  {
+    "name": "root-no-match",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/users"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "static-exact",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/about"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/about"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0
+    }
+  },
+  {
+    "name": "static-no-subpath",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/users"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/users/42"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "trailing-slash-non-strict",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/users"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/users/"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0
+    }
+  },
+  {
+    "name": "multiple-trailing-slashes",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/users"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/users///"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0
+    }
+  },
+  {
+    "name": "case-insensitive-pattern",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/USERS"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/users"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0
+    }
+  },
+  {
+    "name": "case-insensitive-path",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/users"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/UsErS"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0
+    }
+  },
+  {
+    "name": "param-basic",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/users/:id"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/users/42"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "id": "42"
+      }
+    }
+  },
+  {
+    "name": "param-keeps-case",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/users/:id"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/users/MiXeD42"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "id": "MiXeD42"
+      }
+    }
+  },
+  {
+    "name": "param-missing-value",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/users/:id"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/users/"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "param-two-segments",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/user/:name/books/:title"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/user/karl/books/go"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "name": "karl",
+        "title": "go"
+      }
+    }
+  },
+  {
+    "name": "param-does-not-cross-slash",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/users/:id"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/users/42/extra"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "optional-present",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/user/:name?"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/user/fenny"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "name": "fenny"
+      }
+    }
+  },
+  {
+    "name": "optional-absent",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/user/:name?"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/user"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "name": ""
+      }
+    }
+  },
+  {
+    "name": "optional-trailing-slash",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/user/:name?"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/user/"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "name": ""
+      }
+    }
+  },
+  {
+    "name": "optional-no-deep-path",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/user/:name?"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/user/john/doe"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "plus-deep",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/user/+"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/user/john/doe"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "+1": "john/doe"
+      }
+    }
+  },
+  {
+    "name": "plus-requires-value",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/user/+"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/user/"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "wildcard-empty",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/user/*"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/user/"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "*1": ""
+      }
+    }
+  },
+  {
+    "name": "wildcard-deep",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/user/*"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/user/a/b/c"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "*1": "a/b/c"
+      }
+    }
+  },
+  {
+    "name": "root-wildcard-deep",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/*"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/anything/here"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "*1": "anything/here"
+      }
+    }
+  },
+  {
+    "name": "root-wildcard-root",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/*"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "*1": ""
+      }
+    }
+  },
+  {
+    "name": "sign-and-param",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:sign:param"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/@v1"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "param": "v1",
+        "sign": "@"
+      }
+    }
+  },
+  {
+    "name": "literal-dash-prefix",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/api-:name"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/api-v1"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "name": "v1"
+      }
+    }
+  },
+  {
+    "name": "literal-dash-between",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/flights/:from-:to"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/flights/LAX-SFO"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "from": "LAX",
+        "to": "SFO"
+      }
+    }
+  },
+  {
+    "name": "literal-dot-between",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/plantae/:genus.:species"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/plantae/prunus.persica"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "genus": "prunus",
+        "species": "persica"
+      }
+    }
+  },
+  {
+    "name": "literal-colon-between",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/shop/product/color::color/size::size"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/shop/product/color:blue/size:xs"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "color": "blue",
+        "size": "xs"
+      }
+    }
+  },
+  {
+    "name": "double-wildcard-inline",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/*v1*/proxy"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/customer/v1/cart/proxy"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "*1": "customer/",
+        "*2": "/cart"
+      }
+    }
+  },
+  {
+    "name": "double-wildcard-segments",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/v1/*/shop/*"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/v1/brand/4/shop/blue/xs"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "*1": "brand/4",
+        "*2": "blue/xs"
+      }
+    }
+  },
+  {
+    "name": "adjacent-params",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:a:b"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/xy"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "a": "x",
+        "b": "y"
+      }
+    }
+  },
+  {
+    "name": "adjacent-params-too-short",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:a:b"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/x"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "escaped-colon",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/v1/some/resource/name\\:customVerb"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/v1/some/resource/name:customVerb"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0
+    }
+  },
+  {
+    "name": "escaped-colon-no-match",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/v1/some/resource/name\\:customVerb"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/v1/some/resource/nameXcustomVerb"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "fixed-end-match",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/api/:param/fixedEnd"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/api/123/fixedEnd"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "param": "123"
+      }
+    }
+  },
+  {
+    "name": "fixed-end-no-slash-crossing",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/api/:param/fixedEnd"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/api/123/456/fixedEnd"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "static-registered-first",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/users/new"
+      },
+      {
+        "method": "GET",
+        "pattern": "/users/:id"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/users/new"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0
+    }
+  },
+  {
+    "name": "param-registered-first",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/users/:id"
+      },
+      {
+        "method": "GET",
+        "pattern": "/users/new"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/users/new"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "id": "new"
+      }
+    }
+  },
+  {
+    "name": "method-not-allowed",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/users"
+      }
+    ],
+    "request": {
+      "method": "POST",
+      "path": "/users"
+    },
+    "expect": {
+      "status": 405,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "no-route-at-all",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/users"
+      }
+    ],
+    "request": {
+      "method": "POST",
+      "path": "/nope"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "query-method-match",
+    "routes": [
+      {
+        "method": "QUERY",
+        "pattern": "/search"
+      }
+    ],
+    "request": {
+      "method": "QUERY",
+      "path": "/search"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0
+    }
+  },
+  {
+    "name": "query-method-not-allowed",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/search"
+      }
+    ],
+    "request": {
+      "method": "QUERY",
+      "path": "/search"
+    },
+    "expect": {
+      "status": 405,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "all-matches-any-method",
+    "routes": [
+      {
+        "method": "ALL",
+        "pattern": "/ping"
+      }
+    ],
+    "request": {
+      "method": "QUERY",
+      "path": "/ping"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0
+    }
+  },
+  {
+    "name": "all-registered-second",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/ping"
+      },
+      {
+        "method": "ALL",
+        "pattern": "/ping"
+      }
+    ],
+    "request": {
+      "method": "POST",
+      "path": "/ping"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 1
+    }
+  },
+  {
+    "name": "constraint-fail-falls-through",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/users/:id\u003cint\u003e"
+      },
+      {
+        "method": "GET",
+        "pattern": "/users/:slug"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/users/abc"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 1,
+      "params": {
+        "slug": "abc"
+      }
+    }
+  },
+  {
+    "name": "int-ok",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:id\u003cint\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/123"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "id": "123"
+      }
+    }
+  },
+  {
+    "name": "int-negative",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:id\u003cint\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/-123"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "id": "-123"
+      }
+    }
+  },
+  {
+    "name": "int-plus-sign",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:id\u003cint\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/+42"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "id": "+42"
+      }
+    }
+  },
+  {
+    "name": "int-rejects-float",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:id\u003cint\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/7.0"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "int-overflow",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:id\u003cint\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/9223372036854775808"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "bool-one",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:v\u003cbool\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/1"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "v": "1"
+      }
+    }
+  },
+  {
+    "name": "bool-upper-true",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:v\u003cbool\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/TRUE"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "v": "TRUE"
+      }
+    }
+  },
+  {
+    "name": "bool-rejects-yes",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:v\u003cbool\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/yes"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "float-exponent",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:w\u003cfloat\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/-1001.01e8"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "w": "-1001.01e8"
+      }
+    }
+  },
+  {
+    "name": "float-inf",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:w\u003cfloat\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/inf"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "w": "inf"
+      }
+    }
+  },
+  {
+    "name": "float-rejects-text",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:w\u003cfloat\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/abc"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "alpha-ok",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:name\u003calpha\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/Rick"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "name": "Rick"
+      }
+    }
+  },
+  {
+    "name": "alpha-rejects-digits",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:name\u003calpha\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/Rick42"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "guid-canonical",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:id\u003cguid\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/CD2C1638-1638-72D5-1638-DEADBEEF1638"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "id": "CD2C1638-1638-72D5-1638-DEADBEEF1638"
+      }
+    }
+  },
+  {
+    "name": "guid-no-hyphens",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:id\u003cguid\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/CD2C1638163872D51638DEADBEEF1638"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "id": "CD2C1638163872D51638DEADBEEF1638"
+      }
+    }
+  },
+  {
+    "name": "guid-rejects-text",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:id\u003cguid\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/notaguid"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "minlen-ok",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:u\u003cminLen(4)\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/Test"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "u": "Test"
+      }
+    }
+  },
+  {
+    "name": "minlen-too-short",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:u\u003cminLen(4)\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/abc"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "minlen-lowercase-alias",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:u\u003cminlen(4)\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/Test"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "u": "Test"
+      }
+    }
+  },
+  {
+    "name": "maxlen-ok",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:f\u003cmaxLen(8)\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/MyFile"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "f": "MyFile"
+      }
+    }
+  },
+  {
+    "name": "maxlen-too-long",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:f\u003cmaxLen(8)\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/verylongfilename"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "len-exact",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:f\u003clen(12)\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/somefile.txt"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "f": "somefile.txt"
+      }
+    }
+  },
+  {
+    "name": "len-wrong",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:f\u003clen(12)\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/short"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "betweenlen-alias-ok",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:x\u003cbetweenlen(2,4)\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/abc"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "x": "abc"
+      }
+    }
+  },
+  {
+    "name": "betweenlen-too-long",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:x\u003cbetweenlen(2,4)\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/abcde"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "min-ok",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:age\u003cmin(18)\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/19"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "age": "19"
+      }
+    }
+  },
+  {
+    "name": "min-too-small",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:age\u003cmin(18)\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/17"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "max-ok",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:age\u003cmax(120)\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/91"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "age": "91"
+      }
+    }
+  },
+  {
+    "name": "max-too-big",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:age\u003cmax(120)\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/121"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "range-ok",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:age\u003crange(18,120)\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/91"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "age": "91"
+      }
+    }
+  },
+  {
+    "name": "range-outside",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:age\u003crange(18,120)\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/200"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "chained-ok",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:test\u003cmin(100);maxLen(5)\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/250"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "test": "250"
+      }
+    }
+  },
+  {
+    "name": "chained-fails-maxlen",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:test\u003cmin(100);maxLen(5)\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/120000"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "chained-fails-min",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:test\u003cmin(100);maxLen(5)\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/1"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "optional-int-present",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:test\u003cint\u003e?"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/42"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "test": "42"
+      }
+    }
+  },
+  {
+    "name": "optional-int-empty-skips-constraint",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:test\u003cint\u003e?"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "test": ""
+      }
+    }
+  },
+  {
+    "name": "optional-int-invalid",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:test\u003cint\u003e?"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/7.0"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "optional-int-nested-empty",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/users/:id\u003cint\u003e?"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/users/"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "id": ""
+      }
+    }
+  },
+  {
+    "name": "regex-date-ok",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:date\u003cregex(\\d{4}-\\d{2}-\\d{2})\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/2022-08-27"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "date": "2022-08-27"
+      }
+    }
+  },
+  {
+    "name": "regex-date-rejects",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:date\u003cregex(\\d{4}-\\d{2}-\\d{2})\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/125"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "unknown-constraint-ignored",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:id\u003cfoo\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/anything"
+    },
+    "expect": {
+      "status": 200,
+      "matchedIndex": 0,
+      "params": {
+        "id": "anything"
+      }
+    }
+  },
+  {
+    "name": "capitalized-int-ignored",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:id\u003cInt\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/abc"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  },
+  {
+    "name": "min-invalid-arg-never-matches",
+    "routes": [
+      {
+        "method": "GET",
+        "pattern": "/:id\u003cmin(abc)\u003e"
+      }
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/5"
+    },
+    "expect": {
+      "status": 404,
+      "matchedIndex": null
+    }
+  }
+]

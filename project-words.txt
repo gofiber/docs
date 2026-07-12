@@ -30,3 +30,14 @@ Casbin
 Paseto
 inkeep
 Inkeep
+metastring
+Metastring
+nums
+segs
+minlen
+maxlen
+betweenlen
+expressjs
+swaggerui
+valkey
+azureblob

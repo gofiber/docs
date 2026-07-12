@@ -1,0 +1,237 @@
+.playground {
+  margin: 1.5rem 0;
+  padding: 1.25rem 1.25rem 1rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 10px;
+  box-shadow: var(--ifm-global-shadow-lw);
+  background: var(--ifm-background-surface-color);
+}
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.table th {
+  text-align: left;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.table td {
+  vertical-align: top;
+}
+
+.winnerRow td {
+  background: color-mix(in srgb, var(--ifm-color-primary) 8%, transparent);
+}
+
+.indexCell {
+  color: var(--ifm-color-emphasis-600);
+  font-variant-numeric: tabular-nums;
+}
+
+.methodSelect {
+  padding: 0.25rem 0.4rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 6px;
+  background: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.8rem;
+}
+
+.patternInput,
+.pathInput {
+  width: 100%;
+  min-width: 12rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 6px;
+  background: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.85rem;
+}
+
+.patternInput:focus,
+.pathInput:focus {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 1px;
+}
+
+.resultCell {
+  min-width: 12rem;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.resultCell span {
+  display: block;
+}
+
+.winner {
+  color: #1a7f37;
+  font-weight: 700;
+}
+
+.fail {
+  color: #bc4c00;
+}
+
+.invalid {
+  color: #cf222e;
+  font-weight: 600;
+}
+
+.method,
+.notTried {
+  color: var(--ifm-color-emphasis-600);
+}
+
+.warning {
+  color: var(--ifm-color-emphasis-600);
+  font-style: italic;
+}
+
+[data-theme="dark"] .winner {
+  color: #50fa7b;
+}
+
+[data-theme="dark"] .fail {
+  color: #ffb86c;
+}
+
+[data-theme="dark"] .invalid {
+  color: #ff5555;
+}
+
+.removeButton {
+  width: 1.7rem;
+  height: 1.7rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 6px;
+  background: var(--ifm-background-color);
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.removeButton:hover:not(:disabled) {
+  border-color: #cf222e;
+  color: #cf222e;
+}
+
+.removeButton:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.actionButton {
+  padding: 0.35rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  background: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.actionButton:hover:not(:disabled) {
+  border-color: var(--ifm-color-primary);
+}
+
+.actionButton:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.requestRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.requestLabel {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.pathInput {
+  flex: 1 1 14rem;
+  width: auto;
+}
+
+.verdict {
+  margin-top: 1rem;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 10px;
+  background: #f6f8fa;
+}
+
+[data-theme="dark"] .verdict {
+  background: #282a36;
+  border-color: var(--ifm-color-emphasis-300);
+}
+
+.verdictStatus {
+  margin: 0 0 0.35rem;
+  font-family: var(--ifm-font-family-monospace);
+  font-weight: 700;
+}
+
+.verdictText {
+  margin: 0 0 0.35rem;
+  font-size: 0.9rem;
+}
+
+.paramsTable {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  display: table;
+  width: auto;
+}
+
+.paramsTable th {
+  text-align: left;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.disclaimer {
+  margin: 0.75rem 0 0;
+  font-size: 0.75rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}

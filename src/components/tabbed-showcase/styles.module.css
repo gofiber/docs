@@ -1,0 +1,153 @@
+/*
+ * Shared tabs-plus-showroom shell, extracted from the homepage
+ * InAction.module.scss. The frame can be restyled through the custom
+ * properties below, so the homepage keeps its --fh-* card look while docs
+ * pages get the plain theme defaults.
+ */
+
+.box {
+  display: flex;
+  align-items: stretch;
+  gap: 24px;
+  padding: 20px;
+  border: 1px solid var(--tabbed-showcase-border-color, var(--ifm-color-emphasis-200));
+  border-radius: var(--tabbed-showcase-radius, 10px);
+  background: var(--ifm-background-surface-color);
+  box-shadow: var(--tabbed-showcase-shadow, var(--ifm-global-shadow-lw));
+}
+
+/* Segmented control filling the full box height */
+.tabList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 0 0 220px;
+  padding: 8px;
+  border-radius: 12px;
+  background: var(--ifm-color-emphasis-100);
+}
+
+.tab {
+  appearance: none;
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--ifm-color-emphasis-700);
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tab {
+    transition:
+      background 0.15s ease,
+      color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+}
+
+.tab:hover {
+  color: var(--ifm-color-primary);
+  background: var(--ifm-background-surface-color);
+}
+
+.tabIcon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.tabActive {
+  background: var(--ifm-background-surface-color);
+  border-color: var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-primary);
+  font-weight: 700;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .tabActive {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+}
+
+/* All panels are stacked in the same grid cell so the tallest one defines
+   the box height; switching tabs then never resizes the box or the tab bar. */
+.panels {
+  flex: 1 1 0;
+  min-width: 0;
+  display: grid;
+}
+
+.panel {
+  grid-area: 1 / 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  visibility: hidden;
+}
+
+.panelActive {
+  visibility: visible;
+}
+
+.desc {
+  margin: 0 0 14px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.desc code {
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-emphasis-900);
+  font-size: 0.85em;
+  border: none;
+}
+
+.desc a {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.code {
+  flex: 1 1 auto;
+}
+
+.code :global(.theme-code-block),
+.code pre {
+  margin: 0;
+  height: 100%;
+}
+
+.code code {
+  font-size: 0.92rem;
+}
+
+@media (max-width: 996px) {
+  .box {
+    flex-direction: column;
+    gap: 16px;
+    padding: 14px;
+  }
+
+  .tabList {
+    flex: none;
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 6px;
+  }
+
+  .tab {
+    flex: 0 0 auto;
+    padding: 10px 14px;
+    white-space: nowrap;
+  }
+}

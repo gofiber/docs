@@ -60,7 +60,21 @@ function plugins(): PluginConfig[] {
     
     return [
         ...pluginList,
-        require.resolve('./llms-plugin'),
+        [
+            'docusaurus-plugin-llms',
+            {
+                title: 'Fiber',
+                description: 'Fiber is an Express-inspired web framework written in Go.',
+                docsDir: 'docs',
+                ignoreFiles: ['**/partials/**'],
+                excludeImports: true,
+                pathTransformation: {
+                    // docs/core serves at the site root, the other catalogs at
+                    // /<id>; dropping these segments yields the public URLs.
+                    ignorePaths: ['docs', 'core'],
+                },
+            },
+        ],
         [require.resolve('@easyops-cn/docusaurus-search-local'),
             {
                 hashed: true,

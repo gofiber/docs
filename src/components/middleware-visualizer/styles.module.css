@@ -1,0 +1,273 @@
+.visualizer {
+  margin: 1.5rem 0;
+  padding: 1.25rem 1.25rem 1rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 10px;
+  box-shadow: var(--ifm-global-shadow-lw);
+  background: var(--ifm-background-surface-color);
+}
+
+.scenarioRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.scenarioButton,
+.controlButton {
+  padding: 0.35rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  background: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .scenarioButton,
+  .controlButton,
+  .node {
+    transition:
+      background 0.15s ease,
+      border-color 0.15s ease,
+      opacity 0.15s ease;
+  }
+
+  .lane,
+  .lane::after {
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .packet {
+    animation: packetPulse 1.4s ease-in-out infinite;
+  }
+}
+
+@keyframes packetPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 3px var(--packet-halo);
+  }
+
+  50% {
+    box-shadow: 0 0 0 6px var(--packet-halo);
+  }
+}
+
+.scenarioButton:hover,
+.controlButton:hover:not(:disabled) {
+  border-color: var(--ifm-color-primary);
+}
+
+.scenarioButtonActive {
+  background: var(--ifm-color-primary);
+  border-color: var(--ifm-color-primary);
+  color: #fff;
+}
+
+.controlButton:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.playButton {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+}
+
+.request {
+  margin: 0 0 0.75rem;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.85rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+/* Flow diagram: client + stations joined by a request lane (top arrows) and
+   a response lane (bottom arrows). Traversed segments keep their color. */
+.flowWrap {
+  overflow-x: auto;
+  margin: 0.25rem 0 0.4rem;
+}
+
+.flowTrack {
+  display: flex;
+  align-items: center;
+  min-width: min-content;
+  padding: 0.85rem 0.25rem;
+}
+
+.node {
+  position: relative;
+  flex: 0 0 auto;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 10px;
+  background: var(--ifm-background-color);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.clientNode {
+  border-style: dashed;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.nodeActive {
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 0 0 1px var(--ifm-color-primary) inset;
+}
+
+.nodeSkipped {
+  opacity: 0.45;
+}
+
+.skippedTag {
+  font-weight: 400;
+  font-size: 0.7rem;
+}
+
+.gap {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 9px;
+  padding: 0 8px;
+}
+
+.lane {
+  --lane-color: var(--ifm-color-emphasis-300);
+  position: relative;
+  width: 2.6rem;
+  height: 2px;
+  background: var(--lane-color);
+}
+
+.lane::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+
+.laneFwd::after {
+  right: -7px;
+  border-left: 7px solid var(--lane-color);
+}
+
+.laneRet::after {
+  left: -7px;
+  border-right: 7px solid var(--lane-color);
+}
+
+.laneOn {
+  --lane-color: var(--ifm-color-primary);
+}
+
+.laneOnOut {
+  --lane-color: #1a7f37;
+}
+
+.laneOnErr {
+  --lane-color: #bc4c00;
+}
+
+[data-theme="dark"] .laneOnOut {
+  --lane-color: #50fa7b;
+}
+
+[data-theme="dark"] .laneOnErr {
+  --lane-color: #ffb86c;
+}
+
+/* The packet docks at the active node: top edge while the request travels
+   in, bottom edge while the response bubbles back out. */
+.packet {
+  --packet-color: var(--ifm-color-primary);
+  --packet-halo: color-mix(in srgb, var(--ifm-color-primary) 30%, transparent);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--packet-color);
+  box-shadow: 0 0 0 3px var(--packet-halo);
+}
+
+.packetTop {
+  top: -7px;
+}
+
+.packetBottom {
+  bottom: -7px;
+}
+
+.packetOut {
+  --packet-color: #1a7f37;
+  --packet-halo: color-mix(in srgb, #1a7f37 30%, transparent);
+}
+
+.packetErr {
+  --packet-color: #bc4c00;
+  --packet-halo: color-mix(in srgb, #bc4c00 30%, transparent);
+}
+
+[data-theme="dark"] .packetOut {
+  --packet-color: #50fa7b;
+  --packet-halo: color-mix(in srgb, #50fa7b 30%, transparent);
+}
+
+[data-theme="dark"] .packetErr {
+  --packet-color: #ffb86c;
+  --packet-halo: color-mix(in srgb, #ffb86c 30%, transparent);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 0.6rem;
+  font-size: 0.75rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.legendLane {
+  --lane-color: var(--ifm-color-emphasis-300);
+  display: inline-block;
+  width: 1.4rem;
+  height: 2px;
+  background: var(--lane-color);
+}
+
+.frameLog {
+  min-height: 2.6em;
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.frameCounter {
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-600);
+  font-variant-numeric: tabular-nums;
+}
