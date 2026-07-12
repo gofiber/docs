@@ -28,13 +28,11 @@ app.Get("/", func(c *fiber.Ctx) error {
 })
 ```
 
-In v3, sessions are middleware. You register the store once, and sessions are automatically loaded and saved:
+In v3, sessions are middleware. You register it once, and sessions are automatically loaded and saved:
 
 ```go
 // v3 pattern
-sessionStore := session.New()
-
-app.Use(sessionStore.Handler())
+app.Use(session.New())
 
 app.Get("/", func(c fiber.Ctx) error {
     sess := session.FromContext(c)
@@ -45,23 +43,25 @@ app.Get("/", func(c fiber.Ctx) error {
 ```
 
 The key differences:
-- **Middleware-based**: Register once with `app.Use()`, not per-handler
+- **Middleware-based**: `session.New()` now returns the middleware handler itself - register it once with `app.Use()`, not per-handler
 - **Automatic lifecycle**: Sessions are loaded before your handler and saved after
 - **Context access**: Use `session.FromContext(c)` instead of `store.Get(c)`
 
-## Configuring the Session Store
+## Configuring the Session Middleware
 
-The session store controls cookie behavior and storage backend:
+The config controls cookie behavior and storage backend. Note that the cookie name is no longer a config field - the `KeyLookup` string from v2 was replaced by extractor functions:
 
 ```go
-sessionStore := session.New(session.Config{
-    CookieName:        "__Host-session",
+import "github.com/gofiber/fiber/v3/extractors"
+
+app.Use(session.New(session.Config{
+    Extractor:         extractors.FromCookie("__Host-session"),
     CookieSecure:      true,
     CookieHTTPOnly:    true,
     CookieSameSite:    "Lax",
     CookieSessionOnly: true,  // Cookie expires when browser closes
     IdleTimeout:       30 * time.Minute,
-})
+}))
 ```
 
 ### Cookie Name: Use the __Host- Prefix
@@ -87,10 +87,10 @@ Two different timeout concepts:
 For a typical web app:
 
 ```go
-sessionStore := session.New(session.Config{
-    IdleTimeout:      30 * time.Minute,  // Inactive users get logged out
-    AbsoluteTimeout:  24 * time.Hour,    // Everyone gets logged out after 24h
-})
+app.Use(session.New(session.Config{
+    IdleTimeout:     30 * time.Minute,  // Inactive users get logged out
+    AbsoluteTimeout: 24 * time.Hour,    // Everyone gets logged out after 24h
+}))
 ```
 
 The absolute timeout is important for security. Without it, a session that stays active forever is a session that can be stolen forever.
@@ -111,9 +111,9 @@ storage := redis.New(redis.Config{
     Database: 0,
 })
 
-sessionStore := session.New(session.Config{
+app.Use(session.New(session.Config{
     Storage: storage,
-})
+}))
 ```
 
 Redis is the natural choice: fast, persistent across restarts, and supports TTL natively. If you are already using Redis for caching, reuse the same instance with a different database number.
@@ -149,13 +149,15 @@ If your app already connects to Postgres or MySQL, using it for sessions avoids 
 
 ## Session + CSRF: The Order That Matters
 
-When using sessions with CSRF protection, the session middleware must come before CSRF:
+When using sessions with CSRF protection, the session middleware must come before CSRF. CSRF needs the `*session.Store`, so use `session.NewWithStore()`, which returns both the middleware and the store:
 
 ```go
 // Correct order
-app.Use(sessionStore.Handler())  // Sessions first
+sessionMiddleware, sessionStore := session.NewWithStore()
+
+app.Use(sessionMiddleware)   // Sessions first
 app.Use(csrf.New(csrf.Config{
-    Session: sessionStore,       // CSRF uses the session store
+    Session: sessionStore,   // CSRF uses the session store
 }))
 ```
 
@@ -194,13 +196,13 @@ app.Get("/dashboard", func(c fiber.Ctx) error {
 })
 ```
 
-### Destroying Sessions (Logout)
+### Resetting Sessions (Logout)
 
 ```go
 app.Post("/logout", func(c fiber.Ctx) error {
     sess := session.FromContext(c)
 
-    if err := sess.Destroy(); err != nil {
+    if err := sess.Reset(); err != nil {
         return err
     }
 
@@ -208,7 +210,7 @@ app.Post("/logout", func(c fiber.Ctx) error {
 })
 ```
 
-`Destroy()` removes all session data from storage and clears the session cookie. After calling `Destroy()`, any subsequent `sess.Get()` calls in the same request return `nil`.
+`Reset()` generates a new session ID and clears all session data - the right operation for logout. Do not confuse it with `Destroy()`, which clears the data but keeps the session ID unchanged; after a logout you want the old ID gone.
 
 ### Regenerating Session IDs
 
@@ -243,7 +245,8 @@ app := fiber.New()
 app.Use(helmet.New())
 
 // 2. Sessions  -  before anything that needs auth state
-app.Use(sessionStore.Handler())
+sessionMiddleware, sessionStore := session.NewWithStore()
+app.Use(sessionMiddleware)
 
 // 3. CSRF  -  uses session store
 app.Use(csrf.New(csrf.Config{
@@ -263,7 +266,7 @@ The order is not arbitrary. Each layer depends on the one above it.
 
 ## Where to Start
 
-If you are migrating from v2 sessions, start by switching to the middleware pattern. Register `sessionStore.Handler()` early in your middleware stack, replace all `store.Get(c)` calls with `session.FromContext(c)`, and remove manual `sess.Save()` calls. The middleware handles saving automatically.
+If you are migrating from v2 sessions, start by switching to the middleware pattern. Register `session.New()` early in your middleware stack (or `session.NewWithStore()` when other middleware needs the store), replace all `store.Get(c)` calls with `session.FromContext(c)`, and remove manual `sess.Save()` calls. The middleware handles saving automatically.
 
 If you are starting fresh, use Redis as your storage backend and set up the `__Host-` cookie prefix from day one. These two decisions prevent the most common session-related production issues.
 

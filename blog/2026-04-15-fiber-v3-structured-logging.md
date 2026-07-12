@@ -43,11 +43,13 @@ app.Use(logger.New(logger.Config{
 }))
 ```
 
-This produces JSON-like structured output. Note that `logger.JSONFormat` uses a predefined format string where keys are not quoted - the output is not strict JSON. If you need valid JSON for your log aggregator, use a custom format string with properly quoted keys or use a dedicated logging library like Zap or zerolog (covered later in this post).
+This produces one valid JSON object per line, ready for any log aggregator:
 
+```json
+{"time":"15:04:05","ip":"127.0.0.1","method":"GET","url":"/api/users","status":200,"bytesSent":1234}
 ```
-{time: 15:04:05, ip: 127.0.0.1, method: GET, url: /api/users, status: 200, bytesSent: 1234}
-```
+
+It covers the request basics. When you need application-level fields in the same stream - user IDs, trace context, business events - reach for a dedicated logging library like Zap or zerolog (covered later in this post).
 
 For teams using Elastic Common Schema, there is a dedicated ECS format:
 

@@ -148,7 +148,7 @@ app.Get("/legacy", func(w http.ResponseWriter, r *http.Request) {
 
 // Express-style with next callback
 app.Use(func(req fiber.Req, res fiber.Res, next func() error) error {
-    req.Headers().Set("X-Via", "compat")
+    res.Set("X-Via", "compat")
     return next()
 })
 ```

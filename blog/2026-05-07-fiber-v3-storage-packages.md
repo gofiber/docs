@@ -19,14 +19,18 @@ Every storage driver implements the same interface:
 ```go
 type Storage interface {
     Get(key string) ([]byte, error)
+    GetWithContext(ctx context.Context, key string) ([]byte, error)
     Set(key string, val []byte, exp time.Duration) error
+    SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
     Delete(key string) error
+    DeleteWithContext(ctx context.Context, key string) error
     Reset() error
+    ResetWithContext(ctx context.Context) error
     Close() error
 }
 ```
 
-Five methods. That is the entire contract. Any middleware that accepts a `Storage` field works with any driver that implements this interface. No adapters, no wrappers, no glue code.
+Four operations plus `Close`, each with a context-aware variant (new in v3) for timeout and cancellation control. That is the entire contract. Any middleware that accepts a `Storage` field works with any driver that implements this interface. No adapters, no wrappers, no glue code.
 
 ## 30+ Storage Drivers
 
@@ -135,10 +139,9 @@ app.Use(cache.New(cache.Config{
 }))
 
 // Sessions  -  persistent across restarts
-sessionStore := session.New(session.Config{
+app.Use(session.New(session.Config{
     Storage: store,
-})
-app.Use(sessionStore.Handler())
+}))
 ```
 
 Three middleware, one storage backend, zero code changes when you switch from Redis to Postgres.

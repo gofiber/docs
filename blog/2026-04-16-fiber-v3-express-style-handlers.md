@@ -56,7 +56,7 @@ The middleware pattern translates directly too:
 app.Use(func(req fiber.Req, res fiber.Res, next func() error) error {
     start := time.Now()
     err := next()
-    log.Printf("%s took %v", req.Path(), time.Since(start))
+    log.Printf("%s took %v", req.OriginalURL(), time.Since(start))
     return err
 })
 ```
@@ -182,7 +182,7 @@ The Fiber v3 equivalent, using Express-style handlers, looks like this:
 app.Use(func(req fiber.Req, res fiber.Res, next func() error) error {
     start := time.Now()
     err := next()
-    log.Printf("%s %s - %v", req.Method(), req.Path(), time.Since(start))
+    log.Printf("%s %s - %v", req.Method(), req.OriginalURL(), time.Since(start))
     return err
 })
 

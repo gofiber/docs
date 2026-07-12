@@ -128,13 +128,13 @@ Adding a contact works the same way. The form posts via HTMX and prepends the ne
 The handler uses Fiber's [binding](/api/bind) to parse the form - no body-parser middleware, `Bind` reads the Content-Type:
 
 ```go
-type ContactIn struct {
+type ContactInput struct {
     Name  string `form:"name"`
     Email string `form:"email"`
 }
 
 app.Post("/contacts", func(c fiber.Ctx) error {
-    var in ContactIn
+    var in ContactInput
     if err := c.Bind().Form(&in); err != nil {
         return err
     }

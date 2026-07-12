@@ -84,7 +84,10 @@ app.Hooks().OnPreShutdown(func() error {
     return nil
 })
 
-app.Hooks().OnPostShutdown(func() error {
+app.Hooks().OnPostShutdown(func(err error) error {
+    if err != nil {
+        log.Printf("Shutdown returned an error: %v", err)
+    }
     log.Println("Closing database connections...")
     db.Close()
     log.Println("Flushing metrics buffer...")
@@ -182,7 +185,7 @@ func main() {
     })
 
     // Cleanup hooks (OnPostShutdown runs after the server has stopped)
-    app.Hooks().OnPostShutdown(func() error {
+    app.Hooks().OnPostShutdown(func(error) error {
         db.Close()
         return nil
     })

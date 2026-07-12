@@ -14,7 +14,7 @@ The contrib packages are first-party middleware. Same team, same quality, same r
 
 ## What is in Contrib
 
-The contrib repository contains 18+ middleware packages. Here are the ones you will reach for most often:
+The contrib repository contains a growing set of middleware packages. Here are the ones you will reach for most often:
 
 ### JWT Authentication
 
@@ -28,13 +28,13 @@ app.Use(jwtware.New(jwtware.Config{
 }))
 
 app.Get("/protected", func(c fiber.Ctx) error {
-    user := c.Locals("user").(*jwt.Token)
-    claims := user.Claims.(jwt.MapClaims)
+    token := jwtware.FromContext(c)
+    claims := token.Claims.(jwt.MapClaims)
     return c.JSON(fiber.Map{"user": claims["sub"]})
 })
 ```
 
-The middleware extracts the token from the `Authorization: Bearer <token>` header, validates it, and stores the parsed token in `c.Locals("user")`. Invalid or missing tokens return 401 automatically.
+The middleware extracts the token from the `Authorization: Bearer <token>` header, validates it, and stores the parsed token in the request context - retrieve it with `jwtware.FromContext(c)`. Invalid or missing tokens return 401 automatically.
 
 ### WebSocket
 
@@ -57,26 +57,26 @@ app.Get("/ws", websocket.New(func(c *websocket.Conn) {
 
 The WebSocket middleware upgrades HTTP connections to WebSocket and gives you a connection object with `ReadMessage` / `WriteMessage` for bidirectional communication.
 
-### OpenTelemetry (otelfiber)
+### OpenTelemetry (otel)
 
 Distributed tracing and metrics for your Fiber app:
 
 ```go
-import "github.com/gofiber/contrib/otelfiber/v2"
+import fiberotel "github.com/gofiber/contrib/v3/otel"
 
-app.Use(otelfiber.Middleware())
+app.Use(fiberotel.Middleware())
 ```
 
 One line. Every request gets a trace span with method, route, status code, and duration. The spans flow into whatever OpenTelemetry collector you have configured  -  Jaeger, Zipkin, Datadog, Grafana Tempo.
 
-### Swagger
+### Swagger UI
 
-Auto-serve your Swagger/OpenAPI documentation:
+Auto-serve your Swagger/OpenAPI documentation. The package was renamed from `swagger` to `swaggerui` for v3:
 
 ```go
-import "github.com/gofiber/contrib/v3/swagger"
+import "github.com/gofiber/contrib/v3/swaggerui"
 
-app.Use(swagger.New(swagger.Config{
+app.Use(swaggerui.New(swaggerui.Config{
     BasePath: "/api/",
     FilePath: "./docs/swagger.json",
     Path:     "docs",
@@ -106,14 +106,13 @@ Protect your app from cascading failures when upstream services are down:
 ```go
 import "github.com/gofiber/contrib/v3/circuitbreaker"
 
-app.Use(circuitbreaker.New(circuitbreaker.Config{
-    Timeout:          5 * time.Second,
-    MaxRequests:      3,
-    Interval:         30 * time.Second,
-    ReadyToTrip: func(counts circuitbreaker.Counts) bool {
-        return counts.ConsecutiveFailures > 5
-    },
-}))
+cb := circuitbreaker.New(circuitbreaker.Config{
+    FailureThreshold: 5,               // consecutive failures before the circuit opens
+    Timeout:          5 * time.Second, // wait time before half-open retries
+    SuccessThreshold: 2,               // successes required to close the circuit again
+})
+
+app.Use(circuitbreaker.Middleware(cb))
 ```
 
 ### Load Shedding
@@ -124,11 +123,16 @@ Reject excess traffic before it overwhelms your service:
 import "github.com/gofiber/contrib/v3/loadshed"
 
 app.Use(loadshed.New(loadshed.Config{
-    MaxConcurrent: 100,
+    Criteria: &loadshed.CPULoadCriteria{
+        LowerThreshold: 0.75,
+        UpperThreshold: 0.90,
+        Interval:       10 * time.Second,
+        Getter:         &loadshed.DefaultCPUPercentGetter{},
+    },
 }))
 ```
 
-When your service is at capacity, new requests get 503 instead of making everything slow.
+Between the two thresholds, an increasing share of requests gets rejected with 503; above the upper threshold, all of them do. Your service sheds load instead of making everything slow.
 
 ### More Contrib Packages
 
@@ -161,7 +165,7 @@ For Fiber v3, the contrib packages use a dedicated v3 base path. All v3-compatib
 // Fiber v3 import path
 import jwtware "github.com/gofiber/contrib/v3/jwt"
 import "github.com/gofiber/contrib/v3/websocket"
-import "github.com/gofiber/contrib/v3/otelfiber"
+import fiberotel "github.com/gofiber/contrib/v3/otel"
 ```
 
 The documentation shows the `v3_` prefix in versioning to indicate Fiber v3 compatibility. Check each package's documentation page for the exact import path.

@@ -153,9 +153,9 @@ app := fiber.New(fiber.Config{
 
 When you have multiple proxies in a chain, each one appends to `X-Forwarded-For`. The header might look like: `203.0.113.50, 198.51.100.178, 127.0.0.1`.
 
-Fiber reads the rightmost untrusted IP. With `Loopback: true`, it skips `127.0.0.1` (Nginx) and returns the next one. But the Cloudflare IP (`198.51.100.178`) needs to be trusted too.
+Fiber does not walk this chain to find the real client. With the default config, `c.IP()` returns the raw header value - the whole comma-separated list. With `EnableIPValidation: true`, it returns the first syntactically valid IP in the header, and that first entry is attacker-controlled unless the outermost proxy overwrites or sanitizes the header.
 
-For Cloudflare, use `CF-Connecting-IP` instead  -  it is always the real client IP regardless of proxy chain:
+For Cloudflare, use `CF-Connecting-IP` instead  -  a single-IP header that is always the real client IP regardless of how long the chain gets:
 
 ```go
 app := fiber.New(fiber.Config{
@@ -169,9 +169,11 @@ app := fiber.New(fiber.Config{
 
 ## Detecting HTTPS Behind a Proxy
 
-When Nginx terminates TLS, Fiber's connection is plain HTTP. `c.Protocol()` returns `"http"` even though the client used HTTPS. This breaks CSRF (which checks the Referer scheme) and redirect logic.
+When Nginx terminates TLS, Fiber's connection is plain HTTP. `c.Scheme()` returns `"http"` even though the client used HTTPS. This breaks CSRF (which checks the Referer scheme) and redirect logic.
 
-The fix is the `X-Forwarded-Proto` header. Nginx sets it (see the config above), and Fiber reads it automatically when `TrustProxy` is enabled. No additional configuration needed  -  `c.Protocol()` will return `"https"` when the proxy says so.
+The fix is the `X-Forwarded-Proto` header. Nginx sets it (see the config above), and Fiber reads it automatically when `TrustProxy` is enabled and the request comes from a trusted proxy. No additional configuration needed  -  `c.Scheme()` will return `"https"` when the proxy says so.
+
+Do not confuse `c.Scheme()` with `c.Protocol()`: the latter returns the HTTP version of the request, like `"HTTP/1.1"`, not the scheme.
 
 ## A Debug Endpoint
 
@@ -182,7 +184,7 @@ app.Get("/debug/proxy", func(c fiber.Ctx) error {
     return c.JSON(fiber.Map{
         "c.IP()":           c.IP(),
         "c.IPs()":          c.IPs(),
-        "c.Protocol()":     c.Protocol(),
+        "c.Scheme()":       c.Scheme(),
         "IsProxyTrusted":   c.IsProxyTrusted(),
         "X-Forwarded-For":  c.Get("X-Forwarded-For"),
         "X-Forwarded-Proto": c.Get("X-Forwarded-Proto"),
@@ -190,7 +192,7 @@ app.Get("/debug/proxy", func(c fiber.Ctx) error {
 })
 ```
 
-Hit this endpoint and verify that `c.IP()` shows the real client IP and `c.Protocol()` shows `https`. Remove the endpoint before deploying to production.
+Hit this endpoint and verify that `c.IP()` shows the real client IP and `c.Scheme()` shows `https`. Remove the endpoint before deploying to production.
 
 ## Internal References
 
