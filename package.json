@@ -43,6 +43,15 @@
     "cross-env": "^10.1.0",
     "typescript": "^7.0.2"
   },
+  "overrides": {
+    "serialize-javascript": "^7.0.7",
+    "workbox-build": {
+      "glob": "^13"
+    },
+    "sockjs": {
+      "uuid": "^11"
+    }
+  },
   "browserslist": {
     "production": [
       ">0.5%",
