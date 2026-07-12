@@ -70,7 +70,7 @@ In v3, the context is the context:
 rows, err := db.QueryContext(c, "SELECT ...")
 ```
 
-This matters for deadline propagation, cancellation, and request-scoped values. Libraries that accept `context.Context` now get proper request lifecycle integration without boilerplate. If a request is cancelled, the context signals it. If a deadline is set, downstream calls respect it.
+This matters for deadline propagation, cancellation, and request-scoped values. Libraries that accept `context.Context` now get proper request lifecycle integration without boilerplate. If a request is canceled, the context signals it. If a deadline is set, downstream calls respect it.
 
 You can still set a base context with `c.SetContext()` if you need to inject values or deadlines before passing `c` to downstream code. And `c.Context()` returns a `context.Context` that is safe to use outside the handler scope.
 
