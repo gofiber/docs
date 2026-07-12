@@ -26,10 +26,15 @@ export default function MethodIndex({
     defaultCategory = "General",
     itemNoun = "entries",
     placeholder = "Filter by name",
+    flat = false,
 }: {
     defaultCategory?: string;
     itemNoun?: string;
     placeholder?: string;
+    // Flat mode indexes h2 AND h3 headings as entries without category pills,
+    // for pages whose methods are h2 sections themselves (client request and
+    // response docs).
+    flat?: boolean;
 }): JSX.Element {
     const rootRef = useRef<HTMLDivElement>(null);
     const [entries, setEntries] = useState<Entry[]>([]);
@@ -48,6 +53,10 @@ export default function MethodIndex({
             if (text === "") {
                 return;
             }
+            if (flat) {
+                found.push({ id: heading.id, name: text, category: defaultCategory });
+                return;
+            }
             if (heading.tagName === "H2") {
                 category = text;
             } else {
@@ -56,7 +65,7 @@ export default function MethodIndex({
         });
         setEntries(found);
         setSelected(new Set(found.map((entry) => entry.category)));
-    }, [defaultCategory]);
+    }, [defaultCategory, flat]);
 
     const categories = useMemo(() => {
         const seen: string[] = [];
@@ -100,7 +109,12 @@ export default function MethodIndex({
                             value={query}
                             onChange={(event) => setQuery(event.target.value)}
                         />
-                        <div className={styles.pills} role="group" aria-label="Filter by category">
+                        <div
+                            className={styles.pills}
+                            role="group"
+                            aria-label="Filter by category"
+                            hidden={categories.length < 2}
+                        >
                             {categories.map((category) => {
                                 const active = selected.has(category);
                                 const count = entries.filter((e) => e.category === category).length;
