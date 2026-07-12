@@ -37,7 +37,19 @@ export default function TabbedShowcase({
                         role="tab"
                         aria-selected={i === active}
                         className={`${styles.tab} ${i === active ? styles.tabActive : ""}`}
-                        onClick={() => setActive(i)}
+                        onClick={(event) => {
+                            setActive(i);
+                            // On small screens the tab list scrolls
+                            // horizontally; keep the picked tab in view.
+                            const smooth = window.matchMedia(
+                                "(prefers-reduced-motion: no-preference)",
+                            ).matches;
+                            event.currentTarget.scrollIntoView({
+                                behavior: smooth ? "smooth" : "auto",
+                                block: "nearest",
+                                inline: "nearest",
+                            });
+                        }}
                     >
                         <span className={styles.tabIcon} aria-hidden>
                             {tab.icon}

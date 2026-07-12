@@ -134,20 +134,47 @@
 @media (max-width: 996px) {
   .box {
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
     padding: 14px;
   }
 
+  /* Horizontal tab rail with a scroll affordance: the right edge fades out
+     while more tabs are hiding there, and tabs snap into place. */
   .tabList {
     flex: none;
     flex-direction: row;
     overflow-x: auto;
     gap: 6px;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+    -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 28px), transparent);
+    mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 28px), transparent);
   }
 
   .tab {
     flex: 0 0 auto;
-    padding: 10px 14px;
+    padding: 8px 12px;
+    font-size: 14px;
     white-space: nowrap;
+    scroll-snap-align: start;
+  }
+
+  /* On small screens the box should hug the ACTIVE panel instead of the
+     tallest one; the desktop no-jump trick wastes too much height here. */
+  .panels {
+    display: block;
+  }
+
+  .panel {
+    display: none;
+  }
+
+  .panelActive {
+    display: flex;
+    visibility: visible;
+  }
+
+  .desc {
+    font-size: 15px;
   }
 }
