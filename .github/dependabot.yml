@@ -8,6 +8,15 @@ updates:
       - "🤖 Dependencies"
     schedule:
       interval: "daily"
+    # Wait before opening update PRs so freshly published (and potentially
+    # compromised) versions have time to be vetted or yanked. Mitigates
+    # npm supply chain attacks. Patches update sooner since they often
+    # carry security fixes; major versions wait longest.
+    cooldown:
+      default-days: 5
+      semver-major-days: 30
+      semver-minor-days: 7
+      semver-patch-days: 3
     groups:
       docusaurus:
         patterns:
