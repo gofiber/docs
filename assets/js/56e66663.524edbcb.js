@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkfiber_docs=self.webpackChunkfiber_docs||[]).push([["10139"],{711307(e){e.exports=JSON.parse('{"name":"docusaurus-plugin-content-docs","id":"recipes"}')}}]);

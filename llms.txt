@@ -1,0 +1,239 @@
+# Fiber
+
+> Fiber is an Express-inspired web framework written in Go.
+
+This file contains links to documentation sections following the llmstxt.org standard.
+
+## Table of Contents
+
+- [👋 Welcome](https://docs.gofiber.io/contrib/README): <div align="center">
+- [Casbin](https://docs.gofiber.io/contrib/casbin/README): ![Release](https://img.shields.io/github/v/tag/gofiber/contrib?filter=*casbin*)
+- [Circuit Breaker](https://docs.gofiber.io/contrib/circuitbreaker/README): ![Release](https://img.shields.io/github/v/tag/gofiber/contrib?filter=*circuitbreaker*)
+- [Coraza](https://docs.gofiber.io/contrib/coraza/README): ![Release](https://img.shields.io/github/v/tag/gofiber/contrib?filter=*coraza*)
+- [Fgprof](https://docs.gofiber.io/contrib/fgprof/README): ![Release](https://img.shields.io/github/v/tag/gofiber/contrib?filter=*fgprof*)
+- [HCaptcha](https://docs.gofiber.io/contrib/hcaptcha/README): ![Release](https://img.shields.io/github/v/tag/gofiber/contrib?filter=*hcaptcha*)
+- [I18n](https://docs.gofiber.io/contrib/i18n/README): ![Release](https://img.shields.io/github/v/tag/gofiber/contrib?filter=*i18n*)
+- [JWT](https://docs.gofiber.io/contrib/jwt/README): ![Release](https://img.shields.io/github/v/tag/gofiber/contrib?filter=*jwt*)
+- [LoadShed](https://docs.gofiber.io/contrib/loadshed/README): ![Release](https://img.shields.io/github/v/tag/gofiber/contrib?filter=*loadshed*)
+- [Monitor](https://docs.gofiber.io/contrib/monitor/README): ![Release](https://img.shields.io/github/v/tag/gofiber/contrib?filter=*monitor*)
+- [New Relic](https://docs.gofiber.io/contrib/newrelic/README): ![Release](https://img.shields.io/github/v/tag/gofiber/contrib?filter=*newrelic*)
+- [OPA](https://docs.gofiber.io/contrib/opa/README): ![Release](https://img.shields.io/github/v/tag/gofiber/contrib?filter=*opa*)
+- [OTel](https://docs.gofiber.io/contrib/otel/README): ![Release](https://img.shields.io/github/v/tag/gofiber/contrib?filter=*otel*)
+- [Example](https://docs.gofiber.io/contrib/otel/example/README): An HTTP server using gofiber fiber and instrumentation. The server has a
+- [Paseto](https://docs.gofiber.io/contrib/paseto/README): ![Release](https://img.shields.io/github/v/tag/gofiber/contrib?filter=*paseto*)
+- [Sentry](https://docs.gofiber.io/contrib/sentry/README): ![Release](https://img.shields.io/github/v/tag/gofiber/contrib?filter=*sentry*)
+- [Socket.io](https://docs.gofiber.io/contrib/socketio/README): ![Release](https://img.shields.io/github/v/tag/gofiber/contrib?filter=*socketio*)
+- [SocketIO Legacy Event Shim](https://docs.gofiber.io/contrib/socketio/legacy/README): Compatibility shim for applications that used older `socketio` releases as a plain WebSocket event bus.
+- [Swagger UI](https://docs.gofiber.io/contrib/swaggerui/README): > ⚠️ This module was renamed from `gofiber/contrib/swagger` to `swaggerui` to clearly distinguish it from the ported `swaggo` middleware. Update yo...
+- [Swaggo](https://docs.gofiber.io/contrib/swaggo/README): > ⚠️ This module was renamed from `gofiber/swagger` to `swaggo` to clearly distinguish it from the ported `swaggerui` middleware. Update your impor...
+- [Testcontainers](https://docs.gofiber.io/contrib/testcontainers/README): ![Release](https://img.shields.io/github/v/tag/gofiber/contrib?filter=*testcontainers*)
+- [Websocket](https://docs.gofiber.io/contrib/websocket/README): ![Release](https://img.shields.io/github/v/tag/gofiber/contrib?filter=*websocket*)
+- [WebSocket Event](https://docs.gofiber.io/contrib/websocket/event/README): Plain WebSocket event helper for [Fiber](https://github.com/gofiber/fiber), built on top of `github.com/gofiber/contrib/v3/websocket`.
+- [Zap](https://docs.gofiber.io/contrib/zap/README): ![Release](https://img.shields.io/github/v/tag/gofiber/contrib?filter=*zap*)
+- [Zerolog](https://docs.gofiber.io/contrib/zerolog/README): ![Release](https://img.shields.io/github/v/tag/gofiber/contrib?filter=*zerolog*)
+- [Retry Addon](https://docs.gofiber.io/addon/retry): The Retry addon for [Fiber](https://github.com/gofiber/fiber) retries failed network operations using exponential
+- [🚀 App](https://docs.gofiber.io/api/app): The `App` type represents your Fiber application.
+- [📎 Bind](https://docs.gofiber.io/api/bind): Binds the request and response items to a struct.
+- [📋 Constants](https://docs.gofiber.io/api/constants): Core HTTP constants used throughout Fiber.
+- [🧠 Ctx](https://docs.gofiber.io/api/ctx): The Ctx interface represents the Context which holds the HTTP request and response. It has methods for the request query string, parameters, body, ...
+- [📦 Fiber](https://docs.gofiber.io/api/fiber): Fiber represents the fiber package where you start to create an instance.
+- [🎣 Hooks](https://docs.gofiber.io/api/hooks): Fiber lets you run custom callbacks at specific points in the routing lifecycle. Available hooks include:
+- [📃 Log](https://docs.gofiber.io/api/log): Fiber's built-in log package
+- [🔄 Redirect](https://docs.gofiber.io/api/redirect): Fiber's built-in redirect package
+- [🧩 Services](https://docs.gofiber.io/api/services): Services wrap external dependencies. Register them in the application's state, and Fiber starts and stops them automatically—useful during developm...
+- [🗂️ State Management](https://docs.gofiber.io/api/state): State management provides a global key–value store for application dependencies and runtime data. The store is shared across the entire application...
+- [🍳 Examples](https://docs.gofiber.io/client/examples): Client usage examples.
+- [🎣 Hooks](https://docs.gofiber.io/client/hooks): Hooks are used to manipulate the request/response process of the Fiber client.
+- [📤 Request](https://docs.gofiber.io/client/request): Request methods of Gofiber HTTP client.
+- [📥 Response](https://docs.gofiber.io/client/response): Response methods of Gofiber HTTP client.
+- [🖥️ REST](https://docs.gofiber.io/client/rest): HTTP client for Fiber.
+- [🗺️ Ecosystem](https://docs.gofiber.io/ecosystem): A map of the Fiber landscape: what ships in the core module and how the template engines, contrib middleware, storage drivers, utils, schema, recip...
+- [📊 Benchmarks](https://docs.gofiber.io/extra/benchmarks): These benchmarks aim to compare the performance of Fiber and other web frameworks.
+- [🤔 FAQ](https://docs.gofiber.io/extra/faq): Frequently asked questions. Open an issue if you have another question to add.
+- [🏗️ Internal Architecture](https://docs.gofiber.io/extra/internal): Learn about the internal architecture of Fiber, including the overall structure, request handling flow, routing, and path parsing.
+- [📚 Learning Resources](https://docs.gofiber.io/extra/learning-resources): Interactive learning platforms and community resources to help you learn Fiber concepts through hands-on practice.
+- [🎯 Route Matcher](https://docs.gofiber.io/extra/route-matcher): Interactive playground for Fiber's route matching: edit a route table and a request, see which route wins, why the others lose, and which parameter...
+- [🐛 Advanced Format](https://docs.gofiber.io/guide/advance-format): Learn how to use MessagePack (MsgPack) and CBOR for efficient binary serialization in Fiber applications.
+- [🧠 Go Context](https://docs.gofiber.io/guide/context): Learn how Fiber's Ctx integrates with Go's context.Context, how to interact with the underlying fasthttp RequestCtx, and how to use the available c...
+- [🐛 Error Handling](https://docs.gofiber.io/guide/error-handling): Fiber supports centralized error handling: handlers return errors so you can log them or send a custom HTTP response to the client.
+- [🔬 Extractors](https://docs.gofiber.io/guide/extractors): Learn how to use extractors in Fiber middleware
+- [⚡ Make Fiber Faster](https://docs.gofiber.io/guide/faster-fiber): Fiber defaults to the standard `encoding/json` for stability and reliability. If you need more speed, consider these libraries:
+- [🎭 Grouping](https://docs.gofiber.io/guide/grouping): :::info
+- [🔄 Reverse Proxy](https://docs.gofiber.io/guide/reverse-proxy): Learn how to set up reverse proxies like Nginx or Traefik to enable modern HTTP capabilities in your Fiber application, including HTTP/2 and HTTP/3...
+- [🔌 Routing](https://docs.gofiber.io/guide/routing): Routing refers to how an application's endpoints (URIs) respond to client requests.
+- [📝 Templates](https://docs.gofiber.io/guide/templates): Fiber supports server-side template engines.
+- [🧰 Utils](https://docs.gofiber.io/guide/utils): Converts a string to a specific type while handling errors and optional defaults.
+- [🔎 Validation](https://docs.gofiber.io/guide/validation): Fiber does not bundle a validation library. Instead, [`Bind`](../api/bind.md#validation) accepts any validator you plug into `fiber.Config.StructVa...
+- [👋 Welcome](https://docs.gofiber.io/docs): Welcome to Fiber's online API documentation, complete with examples to help you start building web applications right away!
+- [Adaptor](https://docs.gofiber.io/middleware/adaptor): The `adaptor` package converts between Fiber and `net/http`, letting you reuse handlers, middleware, and requests across both frameworks.
+- [BasicAuth](https://docs.gofiber.io/middleware/basicauth): Basic Authentication middleware for [Fiber](https://github.com/gofiber/fiber) that provides HTTP basic auth. It calls the next handler for valid cr...
+- [Cache](https://docs.gofiber.io/middleware/cache): Cache middleware for [Fiber](https://github.com/gofiber/fiber) that intercepts responses and stores the body, `Content-Type`, and status code under...
+- [Compress](https://docs.gofiber.io/middleware/compress): Compression middleware for [Fiber](https://github.com/gofiber/fiber) that automatically compresses responses with `gzip`, `deflate`, `brotli`, or `...
+- [CORS](https://docs.gofiber.io/middleware/cors): CORS (Cross-Origin Resource Sharing) middleware for [Fiber](https://github.com/gofiber/fiber) lets servers control who can access resources and how...
+- [CSRF](https://docs.gofiber.io/middleware/csrf): The CSRF middleware protects against [Cross-Site Request Forgery](https://en.wikipedia.org/wiki/Cross-site_request_forgery) attacks by validating t...
+- [EarlyData](https://docs.gofiber.io/middleware/earlydata): The Early Data middleware adds TLS 1.3 "0-RTT" support to [Fiber](https://github.com/gofiber/fiber). When the client and server share a PSK, TLS 1....
+- [Encrypt Cookie](https://docs.gofiber.io/middleware/encryptcookie): The Encrypt Cookie middleware for [Fiber](https://github.com/gofiber/fiber) encrypts cookie values for secure storage.
+- [EnvVar](https://docs.gofiber.io/middleware/envvar): EnvVar middleware for [Fiber](https://github.com/gofiber/fiber) exposes environment variables with configurable options.
+- [ETag](https://docs.gofiber.io/middleware/etag): ETag middleware for [Fiber](https://github.com/gofiber/fiber) that helps caches validate responses and saves bandwidth by avoiding full retransmits...
+- [ExpVar](https://docs.gofiber.io/middleware/expvar): The ExpVar middleware exposes runtime variables over HTTP in JSON. Using it (e.g., `app.Use(expvarmw.New())`) registers handlers on `/debug/vars`.
+- [Favicon](https://docs.gofiber.io/middleware/favicon): Favicon middleware for [Fiber](https://github.com/gofiber/fiber) that drops repeated `/favicon.ico` requests or serves a cached icon from memory. M...
+- [Health Check](https://docs.gofiber.io/middleware/healthcheck): Middleware that adds liveness, readiness, and startup probes to [Fiber](https://github.com/gofiber/fiber) apps. It provides a generic handler you c...
+- [Helmet](https://docs.gofiber.io/middleware/helmet): Helmet secures your app by adding common security headers.
+- [Host Authorization](https://docs.gofiber.io/middleware/hostauthorization): Host authorization middleware for [Fiber](https://github.com/gofiber/fiber) that validates the incoming `Host` header against a configurable allowl...
+- [Idempotency](https://docs.gofiber.io/middleware/idempotency): The Idempotency middleware helps build fault-tolerant APIs. Duplicate requests—such as retries after network issues—won't trigger the same action t...
+- [KeyAuth](https://docs.gofiber.io/middleware/keyauth): The KeyAuth middleware implements API key authentication.
+- [Limiter](https://docs.gofiber.io/middleware/limiter): The Limiter middleware for [Fiber](https://github.com/gofiber/fiber) throttles repeated requests to public APIs or endpoints such as password reset...
+- [Logger](https://docs.gofiber.io/middleware/logger): Logger middleware for [Fiber](https://github.com/gofiber/fiber) that logs HTTP requests and responses.
+- [Paginate](https://docs.gofiber.io/middleware/paginate): Pagination middleware for [Fiber](https://github.com/gofiber/fiber) that extracts pagination parameters from query strings and stores them in the r...
+- [Pprof](https://docs.gofiber.io/middleware/pprof): Pprof middleware exposes runtime profiling data for analysis with the Go `pprof` tool. Importing it registers handlers under `/debug/pprof/`.
+- [Proxy](https://docs.gofiber.io/middleware/proxy): The Proxy middleware forwards requests to one or more upstream servers.
+- [Recover](https://docs.gofiber.io/middleware/recover): The Recover middleware for [Fiber](https://github.com/gofiber/fiber) intercepts panics and forwards them to the central [ErrorHandler](../guide/err...
+- [Redirect](https://docs.gofiber.io/middleware/redirect): Redirect middleware maps old URLs to new ones using simple rules.
+- [RequestID](https://docs.gofiber.io/middleware/requestid): The RequestID middleware generates or propagates a request identifier, adding it to the response headers and request context.
+- [ResponseTime](https://docs.gofiber.io/middleware/responsetime): Response time middleware for [Fiber](https://github.com/gofiber/fiber) that measures the time spent handling a request and exposes it via a respons...
+- [Rewrite](https://docs.gofiber.io/middleware/rewrite): The Rewrite middleware remaps the request path using custom rules, helping with backward compatibility and cleaner URLs.
+- [Session](https://docs.gofiber.io/middleware/session): The Session middleware adds session management to Fiber apps through the [Storage](https://github.com/gofiber/storage) package, which offers a unif...
+- [Skip](https://docs.gofiber.io/middleware/skip): The Skip middleware wraps a handler and bypasses it when the predicate returns `true` for the current request.
+- [SSE](https://docs.gofiber.io/middleware/sse): The SSE handler provides the transport pieces for Server-Sent Events: response headers, event formatting, flushing, heartbeat comments, and disconn...
+- [Static](https://docs.gofiber.io/middleware/static): The Static middleware serves assets such as **images**, **CSS**, and **JavaScript**.
+- [Timeout](https://docs.gofiber.io/middleware/timeout): The timeout middleware enforces a deadline on handler execution. It wraps handlers with
+- [🆕 What's New in v3](https://docs.gofiber.io/whats_new): We are excited to announce the release of Fiber v3! 🚀
+- [404 Handler](https://docs.gofiber.io/recipes/404-handler/README): Custom 404 error page handling.
+- [👋 Overview](https://docs.gofiber.io/recipes/README): **Welcome to the official Fiber cookbook**!
+- [Air Live Reloading](https://docs.gofiber.io/recipes/air/README): Live reloading for Go applications.
+- [Asynq](https://docs.gofiber.io/recipes/asynq/README): Enqueue background jobs from Fiber and process them with an Asynq worker.
+- [Auth + Docker + Postgres + JWT](https://docs.gofiber.io/recipes/auth-docker-postgres-jwt/README): Authentication with Docker, Postgres, and JWT.
+- [Auth + JWT](https://docs.gofiber.io/recipes/auth-jwt/README): Simple JWT authentication.
+- [Autocert](https://docs.gofiber.io/recipes/autocert/README): Automatic TLS certificate management.
+- [AWS Elastic Beanstalk](https://docs.gofiber.io/recipes/aws-eb/README): Deploying to AWS Elastic Beanstalk.
+- [AWS SAM Container](https://docs.gofiber.io/recipes/aws-sam-container/README): Containerized serverless applications with AWS SAM.
+- [AWS SES Email Sender](https://docs.gofiber.io/recipes/aws-ses-sender/README): AWS SES-based Golang email delivery service. Provides email dispatch processing, status tracking, scheduled sending, and result analysis capabilities.
+- [Bootstrap](https://docs.gofiber.io/recipes/bootstrap/README): Integrating Bootstrap.
+- [Clean Architecture](https://docs.gofiber.io/recipes/clean-architecture/README): Implementing clean architecture in Go.
+- [Clean Code](https://docs.gofiber.io/recipes/clean-code/README): Implementing clean code in Go.
+- [Cloud Run](https://docs.gofiber.io/recipes/cloud-run/README): Deploying to Google Cloud Run.
+- [Cloudflare Container Workers with Go Fiber](https://docs.gofiber.io/recipes/cloudflare-workers/README): Run a Go Fiber v3 app in a Cloudflare Container Worker with a Worker proxy.
+- [Colly Gorm](https://docs.gofiber.io/recipes/colly-gorm/README): Web scraping with Colly and GORM.
+- [CSRF](https://docs.gofiber.io/recipes/csrf/README): Cross-Site Request Forgery (CSRF) protection.
+- [CSRF + Session](https://docs.gofiber.io/recipes/csrf-with-session/README): Cross-Site Request Forgery (CSRF) protection with session management.
+- [Docker + MariaDB](https://docs.gofiber.io/recipes/docker-mariadb-clean-arch/README): Dockerized MariaDB with Clean Architecture.
+- [Docker + Nginx](https://docs.gofiber.io/recipes/docker-nginx-loadbalancer/README): Load balancing with Docker and Nginx.
+- [Dummy JSON Proxy](https://docs.gofiber.io/recipes/dummyjson/README): Proxying dummy JSON data.
+- [Email Verification Service](https://docs.gofiber.io/recipes/email-verification/README): Email verification service with code generation and validation
+- [Entgo ORM (MySQL)](https://docs.gofiber.io/recipes/ent-mysql/README): Using Entgo ORM with MySQL
+- [Entgo Sveltekit](https://docs.gofiber.io/recipes/entgo-sveltekit/README): A full-stack Todo application built using Sveltekit, Tailwind CSS, Entgo, and SQLite.
+- [SvelteKit and Tailwind CSS Project](https://docs.gofiber.io/recipes/entgo-sveltekit/template/README): This is a SvelteKit project that utilizes Tailwind CSS for styling. SvelteKit is a framework for building modern web applications, and Tailwind CSS...
+- [Envoy External Authorization](https://docs.gofiber.io/recipes/envoy-extauthz/README): External authorization with Envoy.
+- [File Server](https://docs.gofiber.io/recipes/file-server/README): Serving static files.
+- [Firebase Authentication](https://docs.gofiber.io/recipes/firebase-auth/README): Firebase authentication integration.
+- [Firebase Functions](https://docs.gofiber.io/recipes/firebase-functions/README): Using Firebase Functions.
+- [Firebase GCloud](https://docs.gofiber.io/recipes/gcloud/README): Integrating Firebase with Google Cloud.
+- [Google Cloud Firebase](https://docs.gofiber.io/recipes/gcloud-firebase/README): Firebase services on Google Cloud.
+- [GeoIP](https://docs.gofiber.io/recipes/geoip/README): Geolocation using ip-api.com.
+- [GeoIP + MaxMind](https://docs.gofiber.io/recipes/geoip-maxmind/README): Geolocation with GeoIP and MaxMind databases.
+- [GORM](https://docs.gofiber.io/recipes/gorm/README): Using GORM with SQLite database.
+- [GORM MySQL](https://docs.gofiber.io/recipes/gorm-mysql/README): Using GORM with MySQL database.
+- [GORM + PostgreSQL](https://docs.gofiber.io/recipes/gorm-postgres/README): Using GORM with PostgreSQL database.
+- [Graceful shutdown](https://docs.gofiber.io/recipes/graceful-shutdown/README): Graceful shutdown of applications.
+- [GraphQL](https://docs.gofiber.io/recipes/graphql/README): Setting up a GraphQL server.
+- [gRPC](https://docs.gofiber.io/recipes/grpc/README): Using Fiber as a client to a gRPC server.
+- [Hello World](https://docs.gofiber.io/recipes/hello-world/README): A simple "Hello, World!" application.
+- [Heroku](https://docs.gofiber.io/recipes/heroku/README): Deploying to Heroku.
+- [Hexagonal Architecture](https://docs.gofiber.io/recipes/hexagonal/README): A Hexagonal Software Architecture in Golang and MongoDB.
+- [HTTPS with PKCS12 TLS](https://docs.gofiber.io/recipes/https-pkcs12-tls/README): Setting up an HTTPS server with PKCS12 TLS certificates.
+- [HTTPS with TLS](https://docs.gofiber.io/recipes/https-tls/README): Setting up an HTTPS server with self-signed TLS certificates.
+- [I18n](https://docs.gofiber.io/recipes/i18n/README): Internationalization support.
+- [JWT](https://docs.gofiber.io/recipes/jwt/README): Using JSON Web Tokens (JWT) for authentication.
+- [Kubernetes](https://docs.gofiber.io/recipes/k8s/README): Deploying applications to Kubernetes.
+- [Todo App + Auth + GORM + Testcontainers](https://docs.gofiber.io/recipes/local-development-testcontainers/README): A Todo application with authentication using GORM and Postgres.
+- [Memgraph](https://docs.gofiber.io/recipes/memgraph/README): Using Memgraph.
+- [MinIO](https://docs.gofiber.io/recipes/minio/README): A simple application for uploading and downloading files from MinIO.
+- [MongoDB](https://docs.gofiber.io/recipes/mongodb/README): Connecting to a MongoDB database.
+- [Monitoring with Apitally](https://docs.gofiber.io/recipes/monitoring-with-apitally/README): A simple REST API with monitoring and request logging using Apitally.
+- [Multiple Ports](https://docs.gofiber.io/recipes/multiple-ports/README): Running an application on multiple ports.
+- [MySQL](https://docs.gofiber.io/recipes/mysql/README): Connecting to a MySQL database.
+- [Neo4j](https://docs.gofiber.io/recipes/neo4j/README): Connecting to a Neo4j database.
+- [OAuth2](https://docs.gofiber.io/recipes/oauth2/README): Implementing GitHub OAuth2 authentication with GoFiber.
+- [Google OAuth2](https://docs.gofiber.io/recipes/oauth2-google/README): Implementing Google OAuth2 authentication.
+- [OpenAPI](https://docs.gofiber.io/recipes/openapi/README): Generate OpenAPI 3 documentation and JSON schema for your application.
+- [Optional Parameter](https://docs.gofiber.io/recipes/optional-parameter/README): Handling optional parameters.
+- [Parsley](https://docs.gofiber.io/recipes/parsley/README): Using Parsley for dependency injection in an application.
+- [PostgreSQL](https://docs.gofiber.io/recipes/postgresql/README): Connecting to a PostgreSQL database.
+- [Prefork](https://docs.gofiber.io/recipes/prefork/README): Running an application in prefork mode.
+- [RabbitMQ](https://docs.gofiber.io/recipes/rabbitmq/README): Using RabbitMQ with Fiber to publish messages to a queue.
+- [React](https://docs.gofiber.io/recipes/react-router/README): Using React.
+- [Recover Middleware](https://docs.gofiber.io/recipes/recover/README): Recover middleware for error handling.
+- [RSS Feed](https://docs.gofiber.io/recipes/rss-feed/README): Generating an RSS feed.
+- [Seenode](https://docs.gofiber.io/recipes/seenode/README): Deploying to Seenode cloud platform.
+- [Server Timing](https://docs.gofiber.io/recipes/server-timing/README): Adding Server Timing headers to an application.
+- [Sessions + SQLite3](https://docs.gofiber.io/recipes/sessions-sqlite3/README): Using SQLite3 as a storage engine for user sessions.
+- [Socketio](https://docs.gofiber.io/recipes/socketio/README): A chatroom application using Socket.IO.
+- [Single Page Application (SPA)](https://docs.gofiber.io/recipes/spa/README): Setting up a Single Page Application (SPA) using React for the frontend and Go for the backend.
+- [Sqlboiler](https://docs.gofiber.io/recipes/sqlboiler/README): Using Sqlboiler ORM.
+- [Sqlc](https://docs.gofiber.io/recipes/sqlc/README): Using Sqlc to generate Go code from SQL queries.
+- [Server-Sent Events](https://docs.gofiber.io/recipes/sse/README): Implementing Server-Sent Events in an application.
+- [Stream Request Body](https://docs.gofiber.io/recipes/stream-request-body/README): Streaming request bodies.
+- [Svelte Netlify](https://docs.gofiber.io/recipes/svelte-netlify/README): Deploying a Svelte + Fiber application on Netlify.
+- [Sveltekit Embed](https://docs.gofiber.io/recipes/sveltekit-embed/README): A full-stack application built using Sveltekit and Tailwind CSS.
+- [create-svelte](https://docs.gofiber.io/recipes/sveltekit-embed/template/README): Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+- [Swagger](https://docs.gofiber.io/recipes/swagger/README): Generate Swagger documentation for your application.
+- [Tableflip Example](https://docs.gofiber.io/recipes/tableflip/README): Use tableflip for graceful upgrades in a Go application.
+- [Template](https://docs.gofiber.io/recipes/template/README): Setting up a Go application with template rendering.
+- [Template Asset Bundling](https://docs.gofiber.io/recipes/template-asset-bundling/README): Setting up a Go application with template rendering and asset bundling.
+- [Todo App + Auth + GORM](https://docs.gofiber.io/recipes/todo-app-with-auth-gorm/README): A Todo application with authentication using GORM.
+- [Unit Testing](https://docs.gofiber.io/recipes/unit-test/README): Writing unit tests for a Go Fiber application.
+- [File Upload](https://docs.gofiber.io/recipes/upload-file/README): Handling file uploads in a Go application.
+- [URL Shortener](https://docs.gofiber.io/recipes/url-shortener-api/README): URL shortening service with a simple API.
+- [AWS SAM](https://docs.gofiber.io/recipes/v2/aws-sam/README): Serverless applications with AWS SAM.
+- [Validation](https://docs.gofiber.io/recipes/validation/README): Input validation using go-playground/validator.
+- [Vercel](https://docs.gofiber.io/recipes/vercel/README): Deploy a Go application to Vercel.
+- [WebSocket](https://docs.gofiber.io/recipes/websocket/README): Real-time communication application using WebSockets.
+- [WebSocket Chat](https://docs.gofiber.io/recipes/websocket-chat/README): Real-time chat application using WebSockets.
+- [👋 Welcome](https://docs.gofiber.io/storage/README): 📦 Premade storage drivers for 🚀 Fiber.
+- [Aerospike](https://docs.gofiber.io/storage/aerospike/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=aerospike*)
+- [ArangoDB](https://docs.gofiber.io/storage/arangodb/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=arangodb*)
+- [Azure Blob](https://docs.gofiber.io/storage/azureblob/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=azureblob*)
+- [Badger](https://docs.gofiber.io/storage/badger/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=badger*)
+- [Bbolt](https://docs.gofiber.io/storage/bbolt/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=bbolt*)
+- [Cassandra](https://docs.gofiber.io/storage/cassandra/README): A Cassandra storage driver using [gocql/gocql](https://github.com/gocql/gocql)
+- [Clickhouse](https://docs.gofiber.io/storage/clickhouse/README): A Clickhouse storage driver using [https://github.com/ClickHouse/clickhouse-go](https://github.com/ClickHouse/clickhouse-go).
+- [Cloudflare KV](https://docs.gofiber.io/storage/cloudflarekv/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=cloudflarekv*)
+- [Coherence](https://docs.gofiber.io/storage/coherence/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=coherence*)
+- [Couchbase](https://docs.gofiber.io/storage/couchbase/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=couchbase*)
+- [DynamoDB](https://docs.gofiber.io/storage/dynamodb/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=dynamodb*)
+- [Etcd](https://docs.gofiber.io/storage/etcd/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=etcd*)
+- [Firestore](https://docs.gofiber.io/storage/firestore/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=firestore*)
+- [LevelDB](https://docs.gofiber.io/storage/leveldb/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=leveldb*)
+- [Memcache](https://docs.gofiber.io/storage/memcache/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=memcache*)
+- [Memory](https://docs.gofiber.io/storage/memory/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=memory*)
+- [Minio](https://docs.gofiber.io/storage/minio/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=minio*)
+- [MockStorage](https://docs.gofiber.io/storage/mockstorage/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=mockstorage*)
+- [MongoDB](https://docs.gofiber.io/storage/mongodb/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=mongodb*)
+- [MSSQL](https://docs.gofiber.io/storage/mssql/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=mssql*)
+- [MySQL](https://docs.gofiber.io/storage/mysql/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=mysql*)
+- [Nats](https://docs.gofiber.io/storage/nats/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=nats*)
+- [Neo4j](https://docs.gofiber.io/storage/neo4j/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=neo4j*)
+- [Pebble](https://docs.gofiber.io/storage/pebble/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=pebble*)
+- [Postgres](https://docs.gofiber.io/storage/postgres/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=postgres*)
+- [Redis](https://docs.gofiber.io/storage/redis/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=redis*)
+- [Ristretto](https://docs.gofiber.io/storage/ristretto/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=ristretto*)
+- [Rueidis](https://docs.gofiber.io/storage/rueidis/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=rueidis*)
+- [S3](https://docs.gofiber.io/storage/s3/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=s3*)
+- [ScyllaDb](https://docs.gofiber.io/storage/scylladb/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=scylladb*)
+- [SQLite3](https://docs.gofiber.io/storage/sqlite3/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=sqlite3*)
+- [SurrealDB](https://docs.gofiber.io/storage/surrealdb/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=surrealdb*)
+- [Test Helpers](https://docs.gofiber.io/storage/testhelpers/README): This directory hosts reusable utilities for exercising storage implementations in end-to-end and compatibility testing scenarios. Each helper is ma...
+- [Redis Test Helper](https://docs.gofiber.io/storage/testhelpers/redis/README): This module provides utilities for starting a disposable Redis instance with [testcontainers-go](https://github.com/testcontainers/testcontainers-g...
+- [Test Compatibility Kit (TCK) for Storage Implementations](https://docs.gofiber.io/storage/testhelpers/tck/README): The Test Compatibility Kit (TCK) is a standardized test suite for validating storage implementations in the Fiber Storage repository. It provides a...
+- [Valkey](https://docs.gofiber.io/storage/valkey/README): ![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=valkey*)
+- [👋 Welcome](https://docs.gofiber.io/template/README): 🧬 Template engine middlewares for Fiber.
+- [Ace](https://docs.gofiber.io/template/ace/README): ![Release](https://img.shields.io/github/v/tag/gofiber/template?filter=ace*)
+- [Amber](https://docs.gofiber.io/template/amber/README): ![Release](https://img.shields.io/github/v/tag/gofiber/template?filter=amber*)
+- [Django](https://docs.gofiber.io/template/django/README): ![Release](https://img.shields.io/github/v/tag/gofiber/template?filter=django*)
+- [Handlebars](https://docs.gofiber.io/template/handlebars/README): ![Release](https://img.shields.io/github/v/tag/gofiber/template?filter=handlebars*)
+- [HTML](https://docs.gofiber.io/template/html/README): ![Release](https://img.shields.io/github/v/tag/gofiber/template?filter=html*)
+- [Golang Templates Cheatsheet](https://docs.gofiber.io/template/html/TEMPLATES_CHEATSHEET): The Go standard library provides a set of packages to generate output. The [text/template](https://archive.is/o/2HksZ/https://golang.org/pkg/text/t...
+- [Jet](https://docs.gofiber.io/template/jet/README): ![Release](https://img.shields.io/github/v/tag/gofiber/template?filter=jet*)
+- [Mustache](https://docs.gofiber.io/template/mustache/README): ![Release](https://img.shields.io/github/v/tag/gofiber/template?filter=mustache*)
+- [Pug](https://docs.gofiber.io/template/pug/README): ![Release](https://img.shields.io/github/v/tag/gofiber/template?filter=pug*)
+- [Slim](https://docs.gofiber.io/template/slim/README): ![Release](https://img.shields.io/github/v/tag/gofiber/template?filter=slim*)
