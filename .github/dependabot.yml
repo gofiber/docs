@@ -8,6 +8,8 @@ updates:
       - "🤖 Dependencies"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 3
     groups:
       docusaurus:
         patterns:
