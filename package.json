@@ -31,7 +31,7 @@
     "@inkeep/docusaurus": "^2.0.16",
     "@mdx-js/react": "^3.1.1",
     "clsx": "^2.1.1",
-    "docusaurus-plugin-llms": "^0.4.0",
+    "docusaurus-plugin-llms": "^0.5.0",
     "docusaurus-plugin-sass": "^0.2.6",
     "mermaid": "^11.16.0",
     "prism-react-renderer": "^2.3.1",
