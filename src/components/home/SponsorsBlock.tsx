@@ -27,6 +27,11 @@ const sponsors: Sponsor[] = [
         logo: 'https://www.coderabbit.ai/images/logo-orange.svg',
         logoDark: 'https://www.coderabbit.ai/images/logo-dark.svg',
     },
+    {
+        name: 'Blacksmith',
+        url: 'https://blacksmith.sh/?utm_source=gofiber&utm_medium=sponsor&utm_content=homepage',
+        logo: 'https://raw.githubusercontent.com/gofiber/.github/main/assets/sponsors/blacksmith.png',
+    },
 ];
 
 export default function SponsorsBlock() {
