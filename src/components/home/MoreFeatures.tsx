@@ -2,6 +2,7 @@
 // Core framework capabilities, 3 per row. Every tile is something the fiber
 // module does by itself; official packages live in the Ecosystem section.
 import React from 'react';
+import Heading from '@theme/Heading';
 import styles from './MoreFeatures.module.scss';
 import shared from './shared.module.scss';
 
@@ -75,7 +76,7 @@ export default function MoreFeatures() {
             <div className={`${shared.mid} ${shared.midWide}`}>
                 <div className={shared.center}>
                     <p className={shared.kicker}>The framework</p>
-                    <h2>Built into the Core</h2>
+                    <Heading as="h2" id="built-into-the-core">Built into the Core</Heading>
                     <p className={styles.tagline}>
                         Everyday capabilities that ship with the framework itself.
                         No extra packages, nothing else to install.

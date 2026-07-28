@@ -1,5 +1,6 @@
 // src/components/home/Media.tsx
 import React from 'react';
+import Heading from '@theme/Heading';
 import styles from './Media.module.scss';
 import shared from './shared.module.scss';
 import mediaList from './media.json';
@@ -23,7 +24,7 @@ export default function Media() {
         <section className={styles.mediaSection} data-stripe>
             <div className={styles.band}>
                 <div className={shared.mid}>
-                    <h2 className={styles.heading}>Media</h2>
+                    <Heading as="h2" id="media" className={styles.heading}>Media</Heading>
                     <div className={styles.list}>
                         {items.map((it) => {
                             const meta = [it.author, it.date, it.website || host(it.url)].filter(Boolean).join(' • ');

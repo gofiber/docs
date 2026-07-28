@@ -1,5 +1,6 @@
 // src/components/home/Ecosystem.tsx
 import React from 'react';
+import Heading from '@theme/Heading';
 import styles from './Ecosystem.module.scss';
 import shared from './shared.module.scss';
 
@@ -79,7 +80,7 @@ export default function Ecosystem() {
             <div className={`${shared.mid} ${shared.midWide}`}>
                 <div className={shared.center}>
                     <p className={shared.kicker}>Beyond the core</p>
-                    <h2>The Official Ecosystem</h2>
+                    <Heading as="h2" id="official-ecosystem">The Official Ecosystem</Heading>
                     <p className={styles.tagline}>
                         Complete catalogs of official building blocks: middleware, storage
                         drivers, template engines, and contrib integrations, all maintained

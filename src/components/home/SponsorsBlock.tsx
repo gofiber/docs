@@ -1,4 +1,5 @@
 import React from 'react';
+import Heading from '@theme/Heading';
 import ThemedImage from '@theme/ThemedImage';
 import styles from './SponsorsBlock.module.scss';
 import shared from './shared.module.scss';
@@ -40,7 +41,7 @@ export default function SponsorsBlock() {
     return (
         <section data-stripe>
             <div className={shared.mid}>
-                <h2 className={shared.center}>Official Sponsors</h2>
+                <Heading as="h2" id="official-sponsors" className={shared.center}>Official Sponsors</Heading>
                 <p className={shared.center}>
                     Fiber is supported by these organisations. Want to join them?{' '}
                     <a

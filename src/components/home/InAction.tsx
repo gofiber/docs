@@ -2,6 +2,7 @@
 // Tabbed code tour of Fiber's everyday building blocks, rendered through the
 // shared TabbedShowcase shell (src/components/tabbed-showcase).
 import React from 'react';
+import Heading from '@theme/Heading';
 import TabbedShowcase, { type ShowcaseTab } from '../tabbed-showcase';
 import styles from './InAction.module.scss';
 import shared from './shared.module.scss';
@@ -133,10 +134,10 @@ app.Get("/", func(c fiber.Ctx) error {
 
 export default function InAction() {
     return (
-        <section id="fiber-in-action" data-stripe>
+        <section data-stripe>
             <div className={`${shared.mid} ${shared.midWide}`}>
                 <div className={shared.center}>
-                    <h2>Fiber in Action</h2>
+                    <Heading as="h2" id="fiber-in-action">Fiber in Action</Heading>
                     <p className={styles.tagline}>
                         How Fiber applications are built: pick a topic, read the code.
                     </p>
