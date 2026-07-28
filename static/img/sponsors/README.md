@@ -5,6 +5,10 @@ sponsors are linked directly from their own CDN to avoid shipping binary
 assets in this repo. Drop a logo here only if the sponsor does not host one
 publicly or if you want a snapshot copy under our control.
 
+If the same logo is also needed in repository READMEs, put it in
+`gofiber/.github` under `assets/sponsors/` instead and link it from there, so
+all repos share one copy.
+
 Convention when self-hosting:
 
 - Filename: lowercase sponsor handle, e.g. `coderabbit.svg`.
