@@ -1,0 +1,93 @@
+name: 🛠️ Docs website (build, layout, navigation, blog)
+description: Bug, optimization or enhancement for the documentation site itself. Not for the text of synced docs pages, see the links below.
+title: "[Site]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Read this first: does your issue belong here?
+
+        This repo **builds the website**. The documentation *content* is written in the
+        source repos and copied in automatically.
+
+        ```text
+        SOURCE OF TRUTH                              SYNCED COPY IN THIS REPO
+        open issues + PRs here                       (overwritten, never edit)
+
+        gofiber/fiber      docs/**           ----->  docs/core/**
+        gofiber/contrib    v3/*/README.md    ----->  docs/contrib/**
+        gofiber/storage    */README.md       ----->  docs/storage/**
+        gofiber/template   */README.md       ----->  docs/template/**
+        gofiber/recipes    */README.md       ----->  docs/recipes/**
+                                                     + the versioned_docs copies
+                                                             |
+                                                     Docusaurus build
+                                                             v
+                                                     https://docs.gofiber.io
+        ```
+
+        **Rule of thumb:** is the problem in the *text* of a page (wrong wording, missing
+        section, outdated or broken example, bad API description)? Then it belongs in the
+        source repo. Is the problem the *site around the text* (build, homepage, layout,
+        navigation, versioning, search, blog, broken rendering or links)? Then you are in
+        the right place.
+
+        Content issues and pull requests opened here are closed, because the next sync
+        overwrites the file anyway. Open them here instead:
+        [fiber](https://github.com/gofiber/fiber/issues/new/choose) ·
+        [contrib](https://github.com/gofiber/contrib/issues/new/choose) ·
+        [storage](https://github.com/gofiber/storage/issues/new/choose) ·
+        [template](https://github.com/gofiber/template/issues/new/choose) ·
+        [recipes](https://github.com/gofiber/recipes/issues/new/choose)
+
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope check
+      options:
+        - label: This is **not** about the wording, examples or structure of a synced page (`docs/core`, `docs/contrib`, `docs/storage`, `docs/template`, `docs/recipes` and their `versioned_docs` copies).
+          required: true
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Type
+      options:
+        - Bug
+        - Optimization
+        - Enhancement / new feature
+        - Question about the setup
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      multiple: true
+      options:
+        - Build, CI or deployment
+        - Homepage
+        - Layout, styling, dark mode
+        - Navigation, sidebars, versioning
+        - Search
+        - Blog post
+        - Interactive components (src/)
+        - Page renders incorrectly (broken markdown, broken link, missing page)
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What is wrong or what should change?
+      description: For bugs, add the steps to reproduce, what you expected and what happened instead. For build or local dev problems, add your Node and npm version plus your OS.
+    validations:
+      required: true
+
+  - type: input
+    id: url
+    attributes:
+      label: Affected page
+      placeholder: https://docs.gofiber.io/...

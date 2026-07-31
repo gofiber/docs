@@ -1,0 +1,20 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 Core docs content (API, guides, built-in middleware)
+    url: https://github.com/gofiber/fiber/issues/new/choose
+    about: Written in gofiber/fiber under docs/ and synced into docs/core and versioned_docs here. Report it there.
+  - name: 🧩 Contrib middleware docs
+    url: https://github.com/gofiber/contrib/issues/new/choose
+    about: Written in gofiber/contrib under v3/<module>/README.md and synced into docs/contrib here. Report it there.
+  - name: 💾 Storage driver docs
+    url: https://github.com/gofiber/storage/issues/new/choose
+    about: Written in gofiber/storage under <driver>/README.md and synced into docs/storage here. Report it there.
+  - name: 🎨 Template engine docs
+    url: https://github.com/gofiber/template/issues/new/choose
+    about: Written in gofiber/template under <engine>/README.md and synced into docs/template here. Report it there.
+  - name: 🍳 Recipe docs
+    url: https://github.com/gofiber/recipes/issues/new/choose
+    about: Written in gofiber/recipes under <recipe>/README.md and synced into docs/recipes here. Report it there.
+  - name: 💬 Question about using Fiber
+    url: https://gofiber.io/discord
+    about: Usage questions are answered fastest on Discord.
