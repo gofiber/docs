@@ -3,6 +3,7 @@
   "v3_zerolog_v1.x.x",
   "v3_zap_v1.x.x",
   "v3_websocket_v1.x.x",
+  "v3_uptime_v0.x.x",
   "v3_testcontainers_v1.x.x",
   "v3_testcontainers_v0.x.x",
   "v3_swaggo_v1.x.x",
