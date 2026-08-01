@@ -20,6 +20,7 @@
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
+    "pretypecheck": "npm run generate:catalogs",
     "typecheck": "tsc --noEmit",
     "test:matcher": "node --test src/components/route-playground/matcher.test.mts",
     "check": "npm run typecheck && npm run test:matcher && npm run build:docs && npm run build:home",
