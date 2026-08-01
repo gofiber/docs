@@ -1,0 +1,498 @@
+{
+  "generatedBy": "scripts/generate-catalogs.mjs, do not edit by hand",
+  "catalogs": {
+    "middleware": [
+      {
+        "id": "adaptor",
+        "label": "Adaptor",
+        "path": "/middleware/adaptor"
+      },
+      {
+        "id": "basicauth",
+        "label": "BasicAuth",
+        "path": "/middleware/basicauth"
+      },
+      {
+        "id": "cache",
+        "label": "Cache",
+        "path": "/middleware/cache"
+      },
+      {
+        "id": "compress",
+        "label": "Compress",
+        "path": "/middleware/compress"
+      },
+      {
+        "id": "cors",
+        "label": "CORS",
+        "path": "/middleware/cors"
+      },
+      {
+        "id": "csrf",
+        "label": "CSRF",
+        "path": "/middleware/csrf"
+      },
+      {
+        "id": "earlydata",
+        "label": "EarlyData",
+        "path": "/middleware/earlydata"
+      },
+      {
+        "id": "encryptcookie",
+        "label": "Encrypt Cookie",
+        "path": "/middleware/encryptcookie"
+      },
+      {
+        "id": "envvar",
+        "label": "EnvVar",
+        "path": "/middleware/envvar"
+      },
+      {
+        "id": "etag",
+        "label": "ETag",
+        "path": "/middleware/etag"
+      },
+      {
+        "id": "expvar",
+        "label": "ExpVar",
+        "path": "/middleware/expvar"
+      },
+      {
+        "id": "favicon",
+        "label": "Favicon",
+        "path": "/middleware/favicon"
+      },
+      {
+        "id": "healthcheck",
+        "label": "Health Check",
+        "path": "/middleware/healthcheck"
+      },
+      {
+        "id": "helmet",
+        "label": "Helmet",
+        "path": "/middleware/helmet"
+      },
+      {
+        "id": "hostauthorization",
+        "label": "Host Authorization",
+        "path": "/middleware/hostauthorization"
+      },
+      {
+        "id": "idempotency",
+        "label": "Idempotency",
+        "path": "/middleware/idempotency"
+      },
+      {
+        "id": "keyauth",
+        "label": "KeyAuth",
+        "path": "/middleware/keyauth"
+      },
+      {
+        "id": "limiter",
+        "label": "Limiter",
+        "path": "/middleware/limiter"
+      },
+      {
+        "id": "logger",
+        "label": "Logger",
+        "path": "/middleware/logger"
+      },
+      {
+        "id": "paginate",
+        "label": "Paginate",
+        "path": "/middleware/paginate"
+      },
+      {
+        "id": "pprof",
+        "label": "Pprof",
+        "path": "/middleware/pprof"
+      },
+      {
+        "id": "proxy",
+        "label": "Proxy",
+        "path": "/middleware/proxy"
+      },
+      {
+        "id": "recover",
+        "label": "Recover",
+        "path": "/middleware/recover"
+      },
+      {
+        "id": "redirect",
+        "label": "Redirect",
+        "path": "/middleware/redirect"
+      },
+      {
+        "id": "requestid",
+        "label": "RequestID",
+        "path": "/middleware/requestid"
+      },
+      {
+        "id": "responsetime",
+        "label": "ResponseTime",
+        "path": "/middleware/responsetime"
+      },
+      {
+        "id": "rewrite",
+        "label": "Rewrite",
+        "path": "/middleware/rewrite"
+      },
+      {
+        "id": "session",
+        "label": "Session",
+        "path": "/middleware/session"
+      },
+      {
+        "id": "skip",
+        "label": "Skip",
+        "path": "/middleware/skip"
+      },
+      {
+        "id": "sse",
+        "label": "SSE",
+        "path": "/middleware/sse"
+      },
+      {
+        "id": "static",
+        "label": "Static",
+        "path": "/middleware/static"
+      },
+      {
+        "id": "timeout",
+        "label": "Timeout",
+        "path": "/middleware/timeout"
+      }
+    ],
+    "contrib": [
+      {
+        "id": "casbin",
+        "label": "Casbin",
+        "path": "/contrib/casbin"
+      },
+      {
+        "id": "circuitbreaker",
+        "label": "Circuit Breaker",
+        "path": "/contrib/circuitbreaker"
+      },
+      {
+        "id": "coraza",
+        "label": "Coraza",
+        "path": "/contrib/coraza"
+      },
+      {
+        "id": "fgprof",
+        "label": "Fgprof",
+        "path": "/contrib/fgprof"
+      },
+      {
+        "id": "hcaptcha",
+        "label": "HCaptcha",
+        "path": "/contrib/hcaptcha"
+      },
+      {
+        "id": "i18n",
+        "label": "I18n",
+        "path": "/contrib/i18n"
+      },
+      {
+        "id": "jwt",
+        "label": "JWT",
+        "path": "/contrib/jwt"
+      },
+      {
+        "id": "loadshed",
+        "label": "LoadShed",
+        "path": "/contrib/loadshed"
+      },
+      {
+        "id": "monitor",
+        "label": "Monitor",
+        "path": "/contrib/monitor"
+      },
+      {
+        "id": "newrelic",
+        "label": "New Relic",
+        "path": "/contrib/newrelic"
+      },
+      {
+        "id": "opa",
+        "label": "OPA",
+        "path": "/contrib/opa"
+      },
+      {
+        "id": "otel",
+        "label": "OTel",
+        "path": "/contrib/otel"
+      },
+      {
+        "id": "paseto",
+        "label": "Paseto",
+        "path": "/contrib/paseto"
+      },
+      {
+        "id": "sentry",
+        "label": "Sentry",
+        "path": "/contrib/sentry"
+      },
+      {
+        "id": "socketio",
+        "label": "Socket.io",
+        "path": "/contrib/socketio"
+      },
+      {
+        "id": "swaggerui",
+        "label": "Swagger UI",
+        "path": "/contrib/swaggerui"
+      },
+      {
+        "id": "swaggo",
+        "label": "Swaggo",
+        "path": "/contrib/swaggo"
+      },
+      {
+        "id": "testcontainers",
+        "label": "Testcontainers",
+        "path": "/contrib/testcontainers"
+      },
+      {
+        "id": "uptime",
+        "label": "Uptime",
+        "path": "/contrib/uptime"
+      },
+      {
+        "id": "websocket",
+        "label": "Websocket",
+        "path": "/contrib/websocket"
+      },
+      {
+        "id": "zap",
+        "label": "Zap",
+        "path": "/contrib/zap"
+      },
+      {
+        "id": "zerolog",
+        "label": "Zerolog",
+        "path": "/contrib/zerolog"
+      }
+    ],
+    "storage": [
+      {
+        "id": "aerospike",
+        "label": "Aerospike",
+        "path": "/storage/aerospike"
+      },
+      {
+        "id": "arangodb",
+        "label": "ArangoDB",
+        "path": "/storage/arangodb"
+      },
+      {
+        "id": "azureblob",
+        "label": "Azure Blob",
+        "path": "/storage/azureblob"
+      },
+      {
+        "id": "badger",
+        "label": "Badger",
+        "path": "/storage/badger"
+      },
+      {
+        "id": "bbolt",
+        "label": "Bbolt",
+        "path": "/storage/bbolt"
+      },
+      {
+        "id": "cassandra",
+        "label": "Cassandra",
+        "path": "/storage/cassandra"
+      },
+      {
+        "id": "clickhouse",
+        "label": "Clickhouse",
+        "path": "/storage/clickhouse"
+      },
+      {
+        "id": "cloudflarekv",
+        "label": "Cloudflare KV",
+        "path": "/storage/cloudflarekv"
+      },
+      {
+        "id": "coherence",
+        "label": "Coherence",
+        "path": "/storage/coherence"
+      },
+      {
+        "id": "couchbase",
+        "label": "Couchbase",
+        "path": "/storage/couchbase"
+      },
+      {
+        "id": "dynamodb",
+        "label": "DynamoDB",
+        "path": "/storage/dynamodb"
+      },
+      {
+        "id": "etcd",
+        "label": "Etcd",
+        "path": "/storage/etcd"
+      },
+      {
+        "id": "firestore",
+        "label": "Firestore",
+        "path": "/storage/firestore"
+      },
+      {
+        "id": "leveldb",
+        "label": "LevelDB",
+        "path": "/storage/leveldb"
+      },
+      {
+        "id": "memcache",
+        "label": "Memcache",
+        "path": "/storage/memcache"
+      },
+      {
+        "id": "memory",
+        "label": "Memory",
+        "path": "/storage/memory"
+      },
+      {
+        "id": "minio",
+        "label": "Minio",
+        "path": "/storage/minio"
+      },
+      {
+        "id": "mockstorage",
+        "label": "MockStorage",
+        "path": "/storage/mockstorage"
+      },
+      {
+        "id": "mongodb",
+        "label": "MongoDB",
+        "path": "/storage/mongodb"
+      },
+      {
+        "id": "mssql",
+        "label": "MSSQL",
+        "path": "/storage/mssql"
+      },
+      {
+        "id": "mysql",
+        "label": "MySQL",
+        "path": "/storage/mysql"
+      },
+      {
+        "id": "nats",
+        "label": "Nats",
+        "path": "/storage/nats"
+      },
+      {
+        "id": "neo4j",
+        "label": "Neo4j",
+        "path": "/storage/neo4j"
+      },
+      {
+        "id": "pebble",
+        "label": "Pebble",
+        "path": "/storage/pebble"
+      },
+      {
+        "id": "postgres",
+        "label": "Postgres",
+        "path": "/storage/postgres"
+      },
+      {
+        "id": "redis",
+        "label": "Redis",
+        "path": "/storage/redis"
+      },
+      {
+        "id": "ristretto",
+        "label": "Ristretto",
+        "path": "/storage/ristretto"
+      },
+      {
+        "id": "rueidis",
+        "label": "Rueidis",
+        "path": "/storage/rueidis"
+      },
+      {
+        "id": "s3",
+        "label": "S3",
+        "path": "/storage/s3"
+      },
+      {
+        "id": "scylladb",
+        "label": "ScyllaDb",
+        "path": "/storage/scylladb"
+      },
+      {
+        "id": "sqlite3",
+        "label": "SQLite3",
+        "path": "/storage/sqlite3"
+      },
+      {
+        "id": "surrealdb",
+        "label": "SurrealDB",
+        "path": "/storage/surrealdb"
+      },
+      {
+        "id": "testhelpers",
+        "label": "Test Helpers",
+        "path": "/storage/testhelpers"
+      },
+      {
+        "id": "valkey",
+        "label": "Valkey",
+        "path": "/storage/valkey"
+      }
+    ],
+    "template": [
+      {
+        "id": "ace",
+        "label": "Ace",
+        "path": "/template/ace"
+      },
+      {
+        "id": "amber",
+        "label": "Amber",
+        "path": "/template/amber"
+      },
+      {
+        "id": "django",
+        "label": "Django",
+        "path": "/template/django"
+      },
+      {
+        "id": "handlebars",
+        "label": "Handlebars",
+        "path": "/template/handlebars"
+      },
+      {
+        "id": "html",
+        "label": "HTML",
+        "path": "/template/html"
+      },
+      {
+        "id": "jet",
+        "label": "Jet",
+        "path": "/template/jet"
+      },
+      {
+        "id": "mustache",
+        "label": "Mustache",
+        "path": "/template/mustache"
+      },
+      {
+        "id": "pug",
+        "label": "Pug",
+        "path": "/template/pug"
+      },
+      {
+        "id": "slim",
+        "label": "Slim",
+        "path": "/template/slim"
+      }
+    ]
+  }
+}

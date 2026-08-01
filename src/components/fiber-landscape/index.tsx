@@ -1,7 +1,9 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
 import CodeBlock from "@theme/CodeBlock";
 import Link from "@docusaurus/Link";
-import { useActiveDocContext, useAllDocsData } from "@docusaurus/plugin-content-docs/client";
+import { useActiveDocContext } from "@docusaurus/plugin-content-docs/client";
+import catalogsFile from "../../data/catalogs.json";
+import type { CatalogEntry, CatalogKey, CatalogsFile } from "../../types/catalogs";
 import { nodes, type LandscapeNode } from "./nodes";
 import styles from "./styles.module.css";
 
@@ -12,7 +14,10 @@ import styles from "./styles.module.css";
 // Selecting a card lights up its connection and fills the detail panel; the
 // middleware and bind blocks are selectable themselves and light up every
 // edge that docks onto them. Hovering previews a connection. All package
-// chips come from the docs plugin global data, never from a hardcoded list.
+// chips come from the docs, never from a hardcoded list: catalogs.json is
+// generated from the docs folder by scripts/generate-catalogs.mjs and is the
+// same file the homepage renders.
+const { catalogs } = catalogsFile as CatalogsFile;
 
 type EdgeGeometry = {
     nodeKey: string;
@@ -65,58 +70,17 @@ const CHIP_DETAILS: Record<string, ChipDetail> = {
     },
 };
 
-type CatalogChip = { label: string; to: string };
-
-type GlobalDocLite = { id: string; path: string };
-type GlobalVersionLite = { name: string; isLast: boolean; docs: GlobalDocLite[] };
-
-// Reads the package catalogs from the docs plugin global data, so the chips
-// always mirror the synced docs and link to the real pages. The middleware
-// catalog comes from the docs version the reader is currently on; contrib,
-// storage, and template come from their own plugin instances. Packages are
-// recognized by their public URL (one path segment below the instance root),
-// because many upstream READMEs override the doc id via front matter.
-function useCatalogs(): Record<string, CatalogChip[]> {
-    const allDocs = useAllDocsData() as unknown as Record<
-        string,
-        { versions: GlobalVersionLite[] } | undefined
-    >;
+// The core docs are versioned, so a middleware link keeps the version the
+// reader is on. Contrib, storage, and template only serve their current
+// version, their generated paths already point at it.
+function useCatalogHref(): (catalog: CatalogKey, entry: CatalogEntry) => string {
     const { activeVersion } = useActiveDocContext(undefined) as unknown as {
-        activeVersion?: GlobalVersionLite;
+        activeVersion?: { path: string };
     };
+    const versionPath = (activeVersion?.path ?? "").replace(/\/$/, "");
 
-    const catalogs: Record<string, CatalogChip[]> = {};
-
-    if (activeVersion) {
-        catalogs.middleware = activeVersion.docs
-            .filter((doc) => doc.id.startsWith("middleware/"))
-            .map((doc) => ({ label: doc.id.slice("middleware/".length), to: doc.path }))
-            .sort((a, b) => a.label.localeCompare(b.label));
-    }
-
-    for (const key of ["contrib", "storage", "template"] as const) {
-        const versions = allDocs[key]?.versions ?? [];
-        const version = versions.find((v) => v.name === "current") ?? versions.find((v) => v.isLast);
-        if (!version) {
-            continue;
-        }
-        const pattern = new RegExp(`^(?:.*)?/${key}/([^/]+)/?$`);
-        const seen = new Set<string>();
-        catalogs[key] = version.docs
-            .map((doc) => {
-                const match = doc.path.match(pattern);
-                return match ? { label: match[1], to: doc.path } : null;
-            })
-            .filter((chip): chip is CatalogChip => {
-                if (chip === null || seen.has(chip.label)) {
-                    return false;
-                }
-                seen.add(chip.label);
-                return true;
-            })
-            .sort((a, b) => a.label.localeCompare(b.label));
-    }
-    return catalogs;
+    return (catalog, entry) =>
+        catalog === "middleware" ? `${versionPath}${entry.path}` : entry.path;
 }
 
 // Cubic bezier point at t = 0.5, used to place the edge label pills.
@@ -131,7 +95,7 @@ export default function FiberLandscape(): JSX.Element {
     const [selectedKey, setSelectedKey] = useState("core");
     const [hoverKey, setHoverKey] = useState<string | null>(null);
     const [edges, setEdges] = useState<EdgeGeometry[]>([]);
-    const catalogs = useCatalogs();
+    const catalogHref = useCatalogHref();
     const containerRef = useRef<HTMLDivElement | null>(null);
     const appRef = useRef<HTMLDivElement | null>(null);
     const cardRefs = useRef<Record<string, HTMLElement | null>>({});
@@ -325,7 +289,7 @@ export default function FiberLandscape(): JSX.Element {
     );
 
     const detailCatalogKey = chipDetail ? chipDetail.catalog : selectedNode?.catalog;
-    const detailCatalog = detailCatalogKey ? (catalogs[detailCatalogKey] ?? []) : [];
+    const detailCatalog: CatalogEntry[] = detailCatalogKey ? catalogs[detailCatalogKey] : [];
 
     return (
         <div className={styles.landscape}>
@@ -482,7 +446,11 @@ export default function FiberLandscape(): JSX.Element {
                 {detailCatalog.length > 0 ? (
                     <div className={styles.detailChips}>
                         {detailCatalog.map((chip) => (
-                            <Link key={chip.to} className={styles.chipLink} to={chip.to}>
+                            <Link
+                                key={chip.id}
+                                className={styles.chipLink}
+                                to={catalogHref(detailCatalogKey as CatalogKey, chip)}
+                            >
                                 {chip.label}
                             </Link>
                         ))}

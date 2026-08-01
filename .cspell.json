@@ -73,6 +73,7 @@
   ],
   "ignorePaths": [
     "src/components/route-playground/match-vectors.json",
+    "src/data/catalogs.json",
     "**/*.svg",
     "**/*.png",
     "**/*.jpg",
