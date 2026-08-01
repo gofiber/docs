@@ -9,6 +9,8 @@
 # Generated files
 .docusaurus
 .cache-loader
+# Package catalogs, written from the docs folder by scripts/generate-catalogs.mjs
+/src/data/catalogs.json
 
 # Misc
 .DS_Store

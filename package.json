@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
+    "generate:catalogs": "node scripts/generate-catalogs.js",
     "start": "docusaurus start",
     "preview:docs": "npm run build:docs && docusaurus serve",
     "preview:home": "npm run build:home && docusaurus serve",
@@ -14,7 +15,7 @@
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "npm run generate:catalogs && tsc --noEmit",
     "test:matcher": "node --test src/components/route-playground/matcher.test.mts",
     "check": "npm run typecheck && npm run test:matcher && npm run build:docs && npm run build:home",
     "write-translations": "docusaurus write-translations",

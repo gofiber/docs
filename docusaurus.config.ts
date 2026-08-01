@@ -2,6 +2,13 @@ import type { Config, Plugin, PluginConfig, PluginModule } from '@docusaurus/typ
 import type { Options } from '@docusaurus/preset-classic';
 import { themes } from 'prism-react-renderer';
 
+// src/data/catalogs.json is derived from the docs folder and not tracked in
+// git. Writing it here covers every docusaurus command (start, build, serve)
+// in one place, before webpack resolves the import. `npm run typecheck` does
+// not load this config and has its own hook.
+const { generateCatalogs } = require('./scripts/generate-catalogs');
+generateCatalogs();
+
 const lightCodeTheme = themes.github;
 const darkCodeTheme = themes.dracula;
 
