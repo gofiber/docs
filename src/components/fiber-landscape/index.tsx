@@ -24,14 +24,17 @@ type EdgeGeometry = {
 };
 
 // Core building blocks; the ones with an id are docking targets for edges
-// and selectable for their own detail view.
-const CORE_CHIPS: { id: "bind" | "middleware" | null; label: string }[] = [
+// and selectable for their own detail view. A chip with a catalog gets the
+// catalog size prefixed to its label, so the count can never go stale.
+type CoreChip = { id: "bind" | "middleware" | null; label: string; catalog?: "middleware" };
+
+const CORE_CHIPS: CoreChip[] = [
     { id: null, label: "Router" },
     { id: null, label: "fiber.Ctx" },
     { id: "bind", label: "Bind & Validation" },
     { id: null, label: "HTTP Client" },
     { id: null, label: "Hooks" },
-    { id: "middleware", label: "30+ Middleware" },
+    { id: "middleware", label: "Middleware", catalog: "middleware" },
 ];
 
 type ChipDetail = {
@@ -278,6 +281,11 @@ export default function FiberLandscape(): JSX.Element {
               ? styles.edgeFoundation
               : styles.edgeExtension;
 
+    const chipText = (chip: CoreChip) => {
+        const catalog = chip.catalog ? catalogs[chip.catalog] : undefined;
+        return catalog && catalog.length > 0 ? `${catalog.length} ${chip.label}` : chip.label;
+    };
+
     const badgeText = (node: LandscapeNode) => {
         const catalog = node.catalog ? catalogs[node.catalog] : undefined;
         if (node.badgeNoun && catalog && catalog.length > 0) {
@@ -382,11 +390,11 @@ export default function FiberLandscape(): JSX.Element {
                                     aria-pressed={selectedKey === `chip:${chip.id}`}
                                     onClick={() => select(`chip:${chip.id}`)}
                                 >
-                                    {chip.label}
+                                    {chipText(chip)}
                                 </button>
                             ) : (
                                 <span key={chip.label} className={styles.blockChip}>
-                                    {chip.label}
+                                    {chipText(chip)}
                                 </span>
                             ),
                         )}

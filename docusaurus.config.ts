@@ -16,6 +16,11 @@ function plugins(): PluginConfig[] {
 
         require.resolve('./simple-analytics-plugin'),
 
+        // Publishes the official package catalogs as global data so counts and
+        // package lists are derived from the docs instead of hardcoded. Needed
+        // in both targets: the homepage build ships without any docs plugin.
+        require.resolve('./fiber-catalogs-plugin'),
+
         'docusaurus-plugin-sass',
 
         // Suppress webpack "Critical dependency" warning from vscode-languageserver-types

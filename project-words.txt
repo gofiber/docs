@@ -41,3 +41,5 @@ expressjs
 swaggerui
 valkey
 azureblob
+clickhouse
+circuitbreaker
