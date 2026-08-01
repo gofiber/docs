@@ -4,17 +4,18 @@
 // and doc paths. Both the homepage and the ecosystem landscape read that file,
 // so counts and package lists never have to be maintained by hand.
 //
-// Runs from the pre* hooks of the start and build scripts (see package.json)
-// and uses nothing but Node builtins, so it also works before an install.
+// The output is not tracked in git. docusaurus.config.ts calls this on load,
+// which covers every docusaurus command in one place; package.json wires it
+// into the typecheck, which does not load the config. Uses nothing but node
+// builtins, so it also runs before an install.
 //
 // A package is one page directly below a catalog root; nested pages such as
 // contrib/socketio/legacy are part of their package, not packages of their own.
 
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+const fs = require('node:fs');
+const path = require('node:path');
 
-const siteDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const siteDir = path.join(__dirname, '..');
 const outFile = path.join(siteDir, 'src/data/catalogs.json');
 
 // Catalogs of one directory per package, served at /<routeBasePath>/<id>.
@@ -114,41 +115,55 @@ function readPackageFiles(root, routeBasePath) {
         .sort(byLabel);
 }
 
-const catalogs = {
-    middleware: readPackageFiles(coreMiddlewareDir(), 'middleware'),
-    ...Object.fromEntries(
-        Object.entries(DIR_CATALOGS).map(([key, { dir, routeBasePath }]) => [
-            key,
-            readPackageDirs(path.join(siteDir, dir), routeBasePath),
-        ]),
-    ),
-};
+/** Writes src/data/catalogs.json and returns the catalogs it wrote. */
+function generateCatalogs({ silent = false } = {}) {
+    const catalogs = {
+        middleware: readPackageFiles(coreMiddlewareDir(), 'middleware'),
+        ...Object.fromEntries(
+            Object.entries(DIR_CATALOGS).map(([key, { dir, routeBasePath }]) => [
+                key,
+                readPackageDirs(path.join(siteDir, dir), routeBasePath),
+            ]),
+        ),
+    };
 
-const empty = Object.keys(catalogs).filter((key) => catalogs[key].length === 0);
-if (empty.length > 0) {
-    console.error(
-        `generate-catalogs: no packages found for ${empty.join(', ')}. Are the docs synced?`,
-    );
-    process.exit(1);
+    const empty = Object.keys(catalogs).filter((key) => catalogs[key].length === 0);
+    if (empty.length > 0) {
+        throw new Error(
+            `generate-catalogs: no packages found for ${empty.join(', ')}. Are the docs synced?`,
+        );
+    }
+
+    const contents = `${JSON.stringify(
+        { generatedBy: 'scripts/generate-catalogs.js, do not edit by hand', catalogs },
+        null,
+        2,
+    )}\n`;
+
+    // Only touch the file when it actually changed, so watchers stay quiet.
+    const changed = !fs.existsSync(outFile) || fs.readFileSync(outFile, 'utf8') !== contents;
+    if (changed) {
+        fs.mkdirSync(path.dirname(outFile), { recursive: true });
+        fs.writeFileSync(outFile, contents);
+    }
+
+    if (!silent) {
+        const summary = Object.entries(catalogs)
+            .map(([key, entries]) => `${key} ${entries.length}`)
+            .join(', ');
+        console.log(`generate-catalogs: ${summary}${changed ? '' : ' (unchanged)'}`);
+    }
+
+    return catalogs;
 }
 
-const contents = `${JSON.stringify(
-    {
-        generatedBy: 'scripts/generate-catalogs.mjs, do not edit by hand',
-        catalogs,
-    },
-    null,
-    2,
-)}\n`;
+module.exports = { generateCatalogs };
 
-// Only touch the file when it actually changed, so watchers stay quiet.
-const changed = !fs.existsSync(outFile) || fs.readFileSync(outFile, 'utf8') !== contents;
-if (changed) {
-    fs.mkdirSync(path.dirname(outFile), { recursive: true });
-    fs.writeFileSync(outFile, contents);
+if (require.main === module) {
+    try {
+        generateCatalogs();
+    } catch (error) {
+        console.error(error.message);
+        process.exit(1);
+    }
 }
-
-const summary = Object.entries(catalogs)
-    .map(([key, entries]) => `${key} ${entries.length}`)
-    .join(', ');
-console.log(`generate-catalogs: ${summary}${changed ? '' : ' (unchanged)'}`);
