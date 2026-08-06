@@ -32,9 +32,36 @@
   }
 }
 
+.toolsLabel {
+  margin: 2.5rem 0 0;
+  font-size: 0.875rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+// Tool sponsors sit a tier below the paid ones, so their cards stay smaller.
+.tools {
+  gap: 1.25rem;
+  margin-top: 0.75rem;
+
+  .sponsor {
+    padding: 0.5rem;
+
+    img {
+      height: 32px;
+      max-width: 32px;
+      border-radius: 6px;
+    }
+  }
+}
+
 @media (max-width: 996px) {
   .sponsor img {
     height: 48px;
     max-width: 180px;
+  }
+
+  .tools .sponsor img {
+    height: 28px;
+    max-width: 28px;
   }
 }

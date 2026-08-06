@@ -35,6 +35,46 @@ const sponsors: Sponsor[] = [
     },
 ];
 
+// Sponsors who contribute tooling rather than money (IDE licenses, AI credits).
+// Rendered one tier down from the paid sponsors above.
+const toolSponsors: Sponsor[] = [
+    {
+        name: 'JetBrains',
+        url: 'https://www.jetbrains.com/?from=gofiber',
+        logo: 'https://github.com/JetBrains.png?size=144',
+    },
+    {
+        name: 'OpenAI',
+        url: 'https://openai.com/?utm_source=gofiber&utm_medium=sponsor&utm_content=homepage',
+        logo: 'https://github.com/openai.png?size=144',
+    },
+    {
+        name: 'Anthropic',
+        url: 'https://www.anthropic.com/?utm_source=gofiber&utm_medium=sponsor&utm_content=homepage',
+        logo: 'https://github.com/anthropics.png?size=144',
+    },
+];
+
+function SponsorLink({ sponsor }: { sponsor: Sponsor }) {
+    return (
+        <a
+            href={sponsor.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={sponsor.name}
+            className={styles.sponsor}
+        >
+            <ThemedImage
+                alt={sponsor.name}
+                sources={{
+                    light: sponsor.logo,
+                    dark: sponsor.logoDark ?? sponsor.logo,
+                }}
+            />
+        </a>
+    );
+}
+
 export default function SponsorsBlock() {
     if (sponsors.length === 0) return null;
 
@@ -55,24 +95,22 @@ export default function SponsorsBlock() {
                 </p>
                 <div className={styles.sponsors}>
                     {sponsors.map((sponsor) => (
-                        <a
-                            key={sponsor.url}
-                            href={sponsor.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            title={sponsor.name}
-                            className={styles.sponsor}
-                        >
-                            <ThemedImage
-                                alt={sponsor.name}
-                                sources={{
-                                    light: sponsor.logo,
-                                    dark: sponsor.logoDark ?? sponsor.logo,
-                                }}
-                            />
-                        </a>
+                        <SponsorLink key={sponsor.url} sponsor={sponsor} />
                     ))}
                 </div>
+                {toolSponsors.length > 0 && (
+                    <>
+                        <p className={`${shared.center} ${styles.toolsLabel}`}>
+                            <strong>Tool Sponsors</strong> - supporting Fiber with free IDE
+                            licenses and AI credits.
+                        </p>
+                        <div className={`${styles.sponsors} ${styles.tools}`}>
+                            {toolSponsors.map((sponsor) => (
+                                <SponsorLink key={sponsor.url} sponsor={sponsor} />
+                            ))}
+                        </div>
+                    </>
+                )}
             </div>
         </section>
     );
