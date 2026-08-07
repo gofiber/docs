@@ -11,6 +11,7 @@
   "v3_swagger_v1.x.x",
   "v3_socketio_v1.x.x",
   "v3_sentry_v1.x.x",
+  "v3_prometheus_v0.x.x",
   "v3_paseto_v1.x.x",
   "v3_otelfiber_v2.x.x",
   "v3_otel_v1.x.x",
