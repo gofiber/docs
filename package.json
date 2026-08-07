@@ -34,7 +34,7 @@
     "clsx": "^2.1.1",
     "docusaurus-plugin-llms": "^0.5.0",
     "docusaurus-plugin-sass": "^0.2.6",
-    "mermaid": "^11.16.0",
+    "mermaid": "^11.16.1",
     "prism-react-renderer": "^2.3.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
