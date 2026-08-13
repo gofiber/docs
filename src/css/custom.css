@@ -109,6 +109,67 @@
   height: fit-content;
 }
 
+/* Between the mobile breakpoint and ~1358px (+ scrollbar) the full navbar no
+   longer fits on one line; tighten it up in that range only. html prefix wins
+   over theme rules regardless of CSS load order (dev loads custom.css first). */
+@media (min-width: 997px) and (max-width: 1379.98px) {
+  html .navbar {
+    --ifm-navbar-item-padding-horizontal: 0.25rem;
+  }
+
+  html .navbar__item {
+    font-size: 0.875rem;
+    /* long labels (version dropdowns) must not wrap inside their item */
+    white-space: nowrap;
+  }
+
+  html .navbar__search {
+    margin-left: 4px;
+  }
+
+  /* Search collapses to its icon (same pattern the plugin uses on phones)
+     and expands on focus as a right-anchored overlay, so the row never wraps.
+     !important + static wrapper span because autocomplete.js puts inline
+     position styles on both. */
+  html .navbar__search-input:not(:focus) {
+    width: 2rem;
+    padding: 0 0 0 2rem;
+  }
+
+  html .navbar__search kbd {
+    display: none;
+  }
+
+  /* Collapsed icon must not show the clear button of a kept query */
+  html .navbar__search:not(:focus-within) button {
+    display: none;
+  }
+
+  html .navbar__search > span {
+    position: static !important;
+  }
+
+  html .navbar__search:has(.navbar__search-input:focus) {
+    width: 2rem;
+    height: 2rem;
+    box-sizing: content-box;
+  }
+
+  html .navbar__search-input:focus {
+    position: absolute !important;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12.5rem;
+    z-index: 1;
+  }
+
+  /* Narrower doc sidebar, the content column is tightest in this range */
+  html:root {
+    --doc-sidebar-width: 240px;
+  }
+}
+
 .header-github-link:hover {
   opacity: 0.6;
 }
