@@ -86,7 +86,7 @@ app.Get("/", func(c fiber.Ctx) error {
 
 ### context.Context
 
-`Ctx` implements `context.Context`. However due to [current limitations in how fasthttp](https://github.com/valyala/fasthttp/issues/965#issuecomment-777268945) works, `Deadline()`, `Done()` and `Err()` are no-ops. The `fiber.Ctx` instance is reused after the handler returns and must not be used for asynchronous operations once the handler has completed. Call [`Context`](#context) within the handler to obtain a `context.Context` that can be used outside the handler.
+`Ctx` implements `context.Context`, but as a context that can never be canceled: `Deadline()` reports no deadline, `Done()` returns `nil` and `Err()` returns `nil`, regardless of what you pass to [`SetContext`](#setcontext). The `fiber.Ctx` instance is pooled and reused after the handler returns, which is why it cannot carry cancellation of its own. Call [`Context`](#context) within the handler to obtain a real `context.Context`, and pass that to anything that is cancellation-aware or that outlives the handler.
 
 ```go title="Signature"
 func (c fiber.Ctx) Deadline() (deadline time.Time, ok bool)
@@ -103,8 +103,31 @@ func doSomething(ctx context.Context) {
 
 app.Get("/", func(c fiber.Ctx) error {
   doSomething(c)
+  return nil
 })
 ```
+
+:::caution
+Passing `c` satisfies the compiler but carries no cancellation, so a call that honors `context.Context` will never be interrupted. Derive from [`Context`](#context) and pass that instead:
+:::
+
+```go title="Example"
+app.Get("/", func(c fiber.Ctx) error {
+  ctx, cancel := context.WithTimeout(c.Context(), 5*time.Second)
+  defer cancel()
+
+  // The driver respects the 5s timeout. Passing c would never time out.
+  rows, err := db.QueryContext(ctx, "SELECT ...")
+  if err != nil {
+    return err
+  }
+  defer rows.Close()
+  // ...
+  return nil
+})
+```
+
+[`SetContext`](#setcontext) replaces what `Context()` returns for the rest of the request, so downstream middleware and handlers observe it. It does not make `c` itself cancelable.
 
 #### Value
 
@@ -243,6 +266,20 @@ app.Get("/test", func(c fiber.Ctx) error {
 
 // /test returns "/user/1"
 ```
+
+:::note
+A named route belongs to this application, so what comes back is always a path
+on this origin: a `params` value that would open an authority — `"/evil.com"`
+or `"\evil.com"` under a `/*` route — is kept as the path segment the route
+asked for. [`Route.URL`](./app.md#url) and
+[`Redirect().Route`](./redirect.md#route) return the same answer for the same
+input, so it does not matter which one puts it in a `Location` header or an
+`href`.
+
+The values themselves are still written into the path as given. Where they come
+from the request, escape them with [`url.PathEscape`](https://pkg.go.dev/net/url#PathEscape)
+if the route expects one segment per parameter.
+:::
 
 ### HasBody
 
@@ -995,6 +1032,15 @@ app.Post("/", func(c fiber.Ctx) error {
 
 Form values can be retrieved by name, the **first** value for the given key is returned.
 
+:::caution
+
+On a form request this lowercases the case-insensitive parts of the request's
+own `Content-Type`, so a value obtained earlier from `Get(HeaderContentType)` —
+which aliases those bytes unless [Immutable](./fiber.md#immutable) is set — can
+change during the call. Copy it first if you need it to outlive one.
+
+:::
+
 ```go title="Signature"
 func (c fiber.Ctx) FormValue(key string, defaultValue ...string) string
 ```
@@ -1021,6 +1067,8 @@ Make copies or use the [**`Immutable`**](./fiber.md#immutable) setting instead. 
 When the response is still **fresh** in the client's cache **true** is returned; otherwise, **false** is returned to indicate that the client cache is now stale and the full response should be sent.
 
 When a client sends the Cache-Control: no-cache request header to indicate an end-to-end reload request, `Fresh` will return false to make handling these requests transparent.
+
+`Fresh` only applies to GET and HEAD requests and returns false for any other method, since a 304 Not Modified response is only defined for those methods and RFC 9110 requires If-Modified-Since to be ignored otherwise.
 
 Read more on [https://expressjs.com/en/4x/api.html\#req.fresh](https://expressjs.com/en/4x/api.html#req.fresh)
 
@@ -1378,6 +1426,12 @@ app.Post("/", func(c fiber.Ctx) error {
 Returns a string corresponding to the HTTP method of the request: `GET`, `POST`, `PUT`, and so on.
 Optionally, you can override the method by passing a string.
 
+Method tokens are case-sensitive (RFC 9110): the override is first matched exactly against the methods registered in [`Config.RequestMethods`](./fiber.md#requestmethods), and only falls back to the uppercase form as a convenience for the standard methods (e.g. `"get"` → `GET`). An unregistered override is ignored.
+
+:::caution
+Route registration (`app.Get`, `app.Add`, …) uppercases method names before validating them, so custom methods you want to **route** must be registered in `Config.RequestMethods` in uppercase. A mixed-case entry can be set via `c.Method(...)` but cannot have routes registered for it.
+:::
+
 ```go title="Signature"
 func (c fiber.Ctx) Method(override ...string) string
 ```
@@ -1396,6 +1450,15 @@ app.Post("/override", func(c fiber.Ctx) error {
 ### MultipartForm
 
 To access multipart form entries, you can parse the binary with `MultipartForm()`. This returns a `*multipart.Form`, allowing you to access form values and files. Parsing is bounded by the app [BodyLimit](./fiber.md#bodylimit).
+
+:::caution
+
+On a form request this lowercases the case-insensitive parts of the request's
+own `Content-Type`, so a value obtained earlier from `Get(HeaderContentType)` —
+which aliases those bytes unless [Immutable](./fiber.md#immutable) is set — can
+change during the call. Copy it first if you need it to outlive one.
+
+:::
 
 ```go title="Signature"
 func (c fiber.Ctx) MultipartForm() (*multipart.Form, error)
@@ -1724,10 +1787,19 @@ The generic `Query` function supports returning the following data types based o
 Returns a struct containing the type and a slice of ranges.
 Only the canonical `bytes` unit is recognized and any optional
 whitespace around range specifiers will be ignored, as specified
-in RFC 9110.
-If none of the requested ranges are satisfiable, the method automatically
-sets the HTTP status code to **416 Range Not Satisfiable** and populates the
-`Content-Range` header with the current representation size.
+in RFC 9110. Empty list elements (e.g. `bytes=,0-5`) are ignored, though they
+still count toward `Config.MaxRanges`.
+A range with a non-numeric bound or a last position smaller than the first
+position invalidates the whole header and `ErrRangeMalformed` (carrying a
+**400 Bad Request** status) is returned, per RFC 9110.
+A grammatically valid range unit other than `bytes` (e.g. `pages=1-3`) returns
+`ErrRangeUnsupported`; RFC 9110 requires servers to **ignore** such a Range
+header, so treat this error as "serve the full representation", not as a
+failure. As a safety net the error carries a **400 Bad Request** status so
+that blindly propagating it does not surface as a 500.
+If the requested ranges are valid but none of them are satisfiable, the method
+automatically sets the HTTP status code to **416 Range Not Satisfiable** and
+populates the `Content-Range` header with the current representation size.
 
 ```go title="Signature"
 func (c fiber.Ctx) Range(size int64) (Range, error)
@@ -1848,6 +1920,19 @@ Contains the request protocol string: `http` or `https` for TLS requests.
 
 :::info
 Please use [`Config.TrustProxy`](fiber.md#trustproxy) to prevent header spoofing if your app is behind a proxy.
+:::
+
+:::note
+
+Only `http` and `https` are ever returned. When the proxy is trusted, the
+forwarding headers (`X-Forwarded-Proto`, `X-Forwarded-Protocol`,
+`X-Forwarded-Ssl`, `X-Url-Scheme`) are read, but a value naming anything else is
+ignored rather than passed through — the result is spliced into
+[`BaseURL`](#baseurl) and compared for origin equality by CSRF and
+`Redirect().Back()`, so a header announcing, say, `javascript` must not become
+part of a URL. A proxy that terminates a different protocol should send the
+scheme the client used to reach it.
+
 :::
 
 ```go title="Signature"
@@ -1971,6 +2056,8 @@ Appends the specified **value** to the HTTP response header field.
 If the header is **not** already set, it creates the header with the specified value.
 :::
 
+Empty values are skipped, since a sender must not generate empty list elements (RFC 9110).
+
 ```go title="Signature"
 func (c fiber.Ctx) Append(field string, values ...string)
 ```
@@ -2008,7 +2095,10 @@ app.Get("/", func(c fiber.Ctx) error {
 })
 ```
 
-Non-ASCII filenames are encoded using the `filename*` parameter as defined in
+The `filename` parameter is emitted as an RFC 9110 quoted-string: spaces and
+punctuation stay literal, and quotes/backslashes are escaped with a backslash
+(no URL encoding). Non-ASCII filenames additionally carry the `filename*`
+parameter as defined in
 [RFC 6266](https://www.rfc-editor.org/rfc/rfc6266) and
 [RFC 8187](https://www.rfc-editor.org/rfc/rfc8187):
 
@@ -2024,6 +2114,7 @@ app.Get("/non-ascii", func(c fiber.Ctx) error {
 
 Performs content-negotiation on the [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header. It uses [Accepts](ctx.md#accepts) to select a proper format.
 The supported content types are `text/html`, `text/plain`, `application/json`, `application/vnd.msgpack`, `application/xml`, and `application/cbor`.
+Because the representation is selected from the Accept header, `Vary: Accept` is added to the response.
 For more flexible content negotiation, use [Format](ctx.md#format).
 
 :::info
@@ -2272,8 +2363,10 @@ app.Get("/", func(c fiber.Ctx) error {
 })
 ```
 
-For filenames containing non-ASCII characters, a `filename*` parameter is added
-according to [RFC 6266](https://www.rfc-editor.org/rfc/rfc6266) and
+The `filename` parameter is emitted as an RFC 9110 quoted-string (no URL
+encoding). For filenames containing non-ASCII characters, a `filename*`
+parameter is added according to
+[RFC 6266](https://www.rfc-editor.org/rfc/rfc6266) and
 [RFC 8187](https://www.rfc-editor.org/rfc/rfc8187):
 
 ```go title="Example"
@@ -2342,7 +2435,7 @@ app.Get("/", func(c fiber.Ctx) error {
 Performs content-negotiation on the [Accept](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept) HTTP header. It uses [Accepts](ctx.md#accepts) to select a proper format from the supplied offers. A default handler can be provided by setting the `MediaType` to `"default"`. If no offers match and no default is provided, a 406 (Not Acceptable) response is sent. The Content-Type is automatically set when a handler is selected.
 
 :::info
-If the Accept header is **not** specified, the first handler will be used.
+If the Accept header is **not** specified, the first handler with a real media type will be used (entries with the `"default"` media type are skipped, since `"default"` is not a valid Content-Type value). If only a `"default"` handler is supplied, it is called without setting the Content-Type.
 :::
 
 ```go title="Signature"
@@ -2450,6 +2543,8 @@ Sends a JSON response with JSONP support. This method is identical to [JSON](ctx
 
 Override this by passing a **named string** in the method.
 
+The callback name is reduced to a JavaScript member expression: every character outside `[A-Za-z0-9_$.[]]` is dropped, so names like `window.cb`, `ns.cb[0]`, and `$.jsonp_1` pass through unchanged. Because the name is written straight into a same-origin `text/javascript` body — and JSONP callers normally take it from the query string — leaving it unfiltered would let a request supply arbitrary script for your own origin. If what survives is not a valid member expression, the default `callback` is used: `cb[0]` is emitted, `cb[0x]` is not.
+
 ```go title="Signature"
 func (c fiber.Ctx) JSONP(data any, callback ...string) error
 ```
@@ -2478,6 +2573,7 @@ app.Get("/", func(c fiber.Ctx) error {
 ### Links
 
 Joins the links followed by the property to populate the response’s [Link HTTP header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link) field.
+Quotes and backslashes in the `rel` value are escaped so the emitted quoted-string stays grammar-valid per RFC 9110.
 
 ```go title="Signature"
 func (c fiber.Ctx) Links(link ...string)
@@ -2621,6 +2717,17 @@ resources while the server prepares the full response.
 This feature requires HTTP/2 or newer. Some legacy HTTP/1.1 clients may not support sendEarlyHints.
 Early Hints (`103` responses) are supported in HTTP/2 and newer. Older HTTP/1.1 clients may ignore these interim responses or misbehave when receiving them.
 See [Enabling HTTP/2](../guide/reverse-proxy#enabling-http2) for instructions on how to use a reverse proxy (e.g. Nginx or Traefik) to enable HTTP/2 support.
+:::
+
+For requests that are not HTTP/1.1 (e.g. HTTP/1.0), no interim `103` response is
+sent — RFC 9110 forbids sending 1xx responses to HTTP/1.0 clients — but the
+`Link` headers are still included in the final response.
+
+:::caution
+Interim responses need Fiber's own server. When the app is mounted into
+`net/http` via the `adaptor` middleware, there is no client connection for
+interim responses: the `103` is silently skipped and the `Link` headers are
+still delivered on the final response.
 :::
 
 ```go title="Signature"
@@ -2973,7 +3080,7 @@ app.Get("/", func(c fiber.Ctx) error {
 Adds the given header field to the [Vary](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary) response header. This will append the header if not already listed; otherwise, it leaves it listed in the current location.
 
 :::info
-Multiple fields are **allowed**.
+Multiple fields are **allowed**. Per RFC 9110, the wildcard `"*"` is only meaningful as the sole member of the field: adding `"*"` collapses the header to a single `*`, and once `*` is present no further fields are appended.
 :::
 
 ```go title="Signature"
@@ -2990,6 +3097,8 @@ app.Get("/", func(c fiber.Ctx) error {
 
   c.Vary("Accept-Encoding", "Accept")
   // => Vary: Origin, User-Agent, Accept-Encoding, Accept
+
+  c.Vary("*") // => Vary: *
 
   // ...
 })

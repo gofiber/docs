@@ -114,6 +114,34 @@ app.Use(logger.New(logger.Config{
 }))
 ```
 
+### Logging Handler Errors
+
+The `${error}` tag reports a non-nil error returned by a downstream handler or middleware. When no error is returned, it renders `-`. A response status alone is not an error: `return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "..."})` sets `${status}` to `500`, but `${error}` remains `-`.
+
+To include an error in the log, return it and let Fiber's `ErrorHandler` create the response. The logger invokes the configured error handler before rendering the log, so a custom handler can return JSON while `${error}` keeps the original error message:
+
+```go
+app := fiber.New(fiber.Config{
+    ErrorHandler: func(c fiber.Ctx, err error) error {
+        code := fiber.StatusInternalServerError
+        if fiberErr, ok := err.(*fiber.Error); ok {
+            code = fiberErr.Code
+        }
+        return c.Status(code).JSON(fiber.Map{"error": "request failed"})
+    },
+})
+
+app.Use(logger.New(logger.Config{
+    Format: "${status} ${method} ${path} ${error}\n",
+}))
+
+app.Get("/reports", func(_ fiber.Ctx) error {
+    return fiber.NewError(fiber.StatusInternalServerError, "report generation failed")
+})
+```
+
+Register the logger before routes and downstream middleware whose returned errors it should observe. Use `${status}` when code writes a complete response directly; status codes by themselves do not populate `${error}`.
+
 ### Auto-Registered Tags
 
 Some Fiber middleware registers logger middleware tags automatically. Register the producing middleware before `logger.New()` and then use the tag in `Format`.
@@ -148,6 +176,8 @@ Auto-registered tags are access-log tags for `middleware/logger`. The same names
 ### Register Tags from Custom Middleware
 
 Third-party middleware can expose logger tags with `logger.RegisterTag` or `logger.MustRegisterTag`. Use `sync.Once` so the tag is registered once even when the middleware is initialized multiple times.
+
+A tag you register replaces the built-in renderer, so it does not inherit the [control-character scrubbing](#control-character-sanitization) the built-in tags apply. Wrap request-derived values in `logger.SanitizeValue`.
 
 ```go
 package tenantmw
@@ -189,7 +219,7 @@ app.Use(logger.New(logger.Config{
 }))
 ```
 
-Use `Config.CustomTags` when one logger instance needs a local override without changing the global tag registration:
+Use `Config.CustomTags` when one logger instance needs a local override without changing the global tag registration. These also bypass the built-in [control-character scrubbing](#control-character-sanitization) — wrap request-derived values in `logger.SanitizeValue`:
 
 ```go
 app.Use(logger.New(logger.Config{
@@ -297,6 +327,61 @@ Logger provides predefined formats that you can use by name or directly by speci
 `${bytesSent}` returns the value of the `Content-Length` response header. If the header is missing or the response is streaming (e.g., chunked encoding), the value will be `-1`. Fiber does not calculate the actual response body size for performance reasons.
 :::
 
+## The `${ips}` tag
+
+`${ips}` logs the chain the framework parsed, `Ctx.IPs()`, joined with `,`.
+Reading `X-Forwarded-For` here separately meant reading it a second way, and
+under [`DisableHeaderNormalizing`](../api/fiber.md#config) a lower-case
+`x-forwarded-for:` logged an empty chain while `Ctx.IPs()` went on returning it.
+
+It is not the list any trust decision is made from. `Ctx.IPs()` parses
+`X-Forwarded-For` unconditionally, while `Ctx.IP()` consults
+[`TrustProxy`](../api/fiber.md#config) and reads
+[`ProxyHeader`](../api/fiber.md#config), which need not be `X-Forwarded-For` at
+all — so `${ips}` and the address Fiber acted on can name different hosts.
+
+Because the entries are split and trimmed rather than echoed as sent, repeated
+`X-Forwarded-For` header lines and a single comma-joined one log identically,
+which is what [RFC 9110 §5.2](https://www.rfc-editor.org/rfc/rfc9110.html#section-5.2)
+says they are.
+
+Treat a logged chain as attacker-controlled, trusted peer or not. A proxy you
+trust appends the address it saw to whatever the client already put in
+`X-Forwarded-For`, and `Ctx.IPs()` returns every element without the
+right-to-left walk `Ctx.IP()` uses, so the entries to the left of the ones your
+own infrastructure added are still the client's to choose. Use `${ip}`, which is
+the peer address, when you need one you can rely on.
+
+## Control-Character Sanitization
+
+Values that come from the request are scrubbed before they reach the log stream: every ASCII control byte (C0 and DEL) is replaced with a space, and horizontal tab is preserved. Without this, a percent-decoded query parameter, form field, or request body containing `\r\n` could forge additional access-log lines and corrupt an audit trail.
+
+Scrubbing covers the default format as well as these tags:
+
+`${path}` `${url}` `${ua}` `${referer}` `${ip}` `${ips}` `${host}` `${scheme}` `${route}` `${body}` `${resBody}` `${reqHeaders}` `${queryParams}` `${error}` `${reqHeader:}` `${respHeader:}` `${query:}` `${form:}` `${cookie:}` `${locals:}`
+
+Tags whose values the framework controls — `${status}`, `${method}`, `${protocol}`, `${port}`, `${latency}`, `${pid}`, `${time}`, `${bytesSent}`, `${bytesReceived}` and the color tags — are written unchanged. `${method}` and `${protocol}` come from the request line, which fasthttp rejects outright if it holds a control byte.
+
+Only ASCII controls are replaced. Bytes at or above `0x80` pass through untouched, so C1 controls (U+0080–U+009F, including NEL U+0085, which some log pipelines treat as a line break) survive scrubbing. Handle those yourself if your values can carry them.
+
+:::caution
+Three paths bypass the built-in scrubbing, because each one replaces the renderer rather than wrapping it:
+
+- `Config.CustomTags`
+- `RegisterTag` / `MustRegisterTag`
+- `Config.LoggerFunc`, which replaces the rendering pipeline wholesale
+
+Anything request-derived that you write from one of these needs scrubbing. Use `logger.SanitizeValue`, which applies exactly what the built-in tags apply:
+
+```go
+logger.MustRegisterTag("tenant", func(output logger.Buffer, c fiber.Ctx, _ *logger.Data, _ string) (int, error) {
+    return output.WriteString(logger.SanitizeValue(c.Get("X-Tenant-ID")))
+})
+```
+
+`RegisterContextTag` is not on that list: it wraps your extractor rather than being one, so what the extractor returns is scrubbed on the way out — in both the access-log renderer and the `log` package one. Fiber's own context tags — `${username}`, `${api-key}`, `${csrf-token}`, `${requestid}`, `${session-id}` — are registered through it, and the middleware behind each one validates or redacts at the source as well.
+:::
+
 ## Constants
 
 ```go
@@ -306,6 +391,7 @@ const (
     TagTime              = "time"
     TagReferer           = "referer"
     TagProtocol          = "protocol"
+    TagScheme            = "scheme"
     TagPort              = "port"
     TagIP                = "ip"
     TagIPs               = "ips"
