@@ -178,10 +178,42 @@ and expire on their own.
 
 ## Snapshots and custom UI
 
-The dashboard and JSON API build a fresh `Snapshot` from the backing store on
-each request. Use Fiber's cache middleware around the uptime route if you want
-HTTP-level caching. The same snapshot payload is available at
-`UI.Path + "/api/status"` for custom dashboards.
+The dashboard and JSON API share an in-memory snapshot, limiting backing-store
+work on public status routes. It is held for one `SampleInterval`, or for the
+shortest interval any service in it is tracked at when an endpoint is probed
+faster than that, so a snapshot is never served past the point where its own
+`current_status` would have changed.
+
+If a refresh fails, the last snapshot is served with `storage.status` set to
+`degraded` and the same fixed `last_error` label the live status uses; the
+backing store's own message goes to the log rather than the public payload. A
+failed refresh restarts the interval like a successful one, so an outage cannot
+turn every request into another attempt against the unavailable store.
+
+The same snapshot payload is available at `UI.Path + "/api/status"` for custom
+dashboards.
+
+## Dashboard favicon
+
+The built-in dashboard includes an embedded favicon by default. Set
+`UI.FaviconURL` to override it with either a root-relative path served by the
+same application or an absolute HTTP(S) URL:
+
+```go
+app.Use(uptime.New(uptime.Config{
+	App:       app,
+	Store:     store,
+	ServiceID: "api",
+	UI: uptime.UIConfig{
+		FaviconURL: "/assets/favicon.svg",
+	},
+}))
+```
+
+Filesystem paths such as `./favicon.ico` are not supported directly.
+Expose a local file through a Fiber route or static handler, then configure its
+URL. Remote favicon URLs cause each dashboard visitor's browser to contact that
+remote host, so a same-origin URL is preferred for private deployments.
 
 ## Config
 
@@ -202,7 +234,7 @@ HTTP-level caching. The same snapshot payload is available at
 | IDGenerator | `uptime.IDGenerator` | Custom instance ID generator. | `nil` |
 | Store | `*fiberredis.Storage` | Fiber Redis storage instance from `github.com/gofiber/storage/redis/v3`. | Required |
 | StorageKeyPrefix | `string` | Prefix for all uptime Redis keys. | `"fiber:uptime"` |
-| UI | `uptime.UIConfig` | Dashboard copy and thresholds. Threshold values are configurable in `(0, 1]`; zero uses the defaults. | Light English UI, green at `99.9%`, yellow at `99%` |
+| UI | `uptime.UIConfig` | Dashboard copy, favicon, and thresholds. `FaviconURL` accepts a root-relative path or absolute HTTP(S) URL. Threshold values are configurable in `(0, 1]`; zero uses the defaults. | Embedded favicon, light English UI, green at `99.9%`, yellow at `99%` |
 
 ### EndpointConfig
 
