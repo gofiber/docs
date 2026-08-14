@@ -17,6 +17,30 @@ const isHome = BUILD_TARGET === 'home';
 const isDocs = BUILD_TARGET === 'docs';
 const docsUrl = 'https://docs.gofiber.io';
 
+// The search plugin re-parses the whole blog once per docs version, which at this
+// many versions is a third of the build. Same file, same result, so parse it once.
+function cacheSearchBlogParsing(): void {
+    const parsePath = '@easyops-cn/docusaurus-search-local/dist/server/server/utils/parse';
+    let parseModule: { parse: (...args: any[]) => unknown };
+    try {
+        parseModule = require(parsePath);
+    } catch {
+        throw new Error(`${parsePath} is gone: update or drop cacheSearchBlogParsing().`);
+    }
+
+    const { parse } = parseModule;
+    const cache = new Map<string, unknown>();
+    parseModule.parse = (html: string, type: string, url: string, config: unknown) => {
+        if (type !== 'blog') {
+            return parse(html, type, url, config);
+        }
+        if (!cache.has(url)) {
+            cache.set(url, parse(html, type, url, config));
+        }
+        return cache.get(url);
+    };
+}
+
 function plugins(): PluginConfig[] {
     let pluginList: PluginConfig[] = [
         require.resolve('./no-flash-color-mode-plugin'),
@@ -64,7 +88,9 @@ function plugins(): PluginConfig[] {
             homeRoot,
         ];
     }
-    
+
+    cacheSearchBlogParsing();
+
     return [
         ...pluginList,
         [

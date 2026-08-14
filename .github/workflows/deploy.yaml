@@ -53,15 +53,16 @@ jobs:
       - name: Restore build caches
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
-          path: |
-            node_modules/.cache
-            .docusaurus
-          key: docusaurus-${{ runner.os }}-node24-${{ hashFiles('package-lock.json') }}
+          # Per target: both fill their own rspack bucket, and with one shared key
+          # the job that finishes first pins the cache, leaving the other to bundle
+          # cold every run. .docusaurus is dropped, every build regenerates it.
+          path: node_modules/.cache
+          key: docusaurus-${{ runner.os }}-node24-${{ matrix.target.mode }}-${{ hashFiles('package-lock.json') }}
           restore-keys: |
-            docusaurus-${{ runner.os }}-node24-
+            docusaurus-${{ runner.os }}-node24-${{ matrix.target.mode }}-
 
       - name: Install deps
-        run: npm ci
+        run: npm ci --prefer-offline --no-audit --fund=false
 
       - name: Build (${{ matrix.target.mode }})
         env:
