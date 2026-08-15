@@ -1,7 +1,14 @@
 name: npm audit fix
 
+# Dependabot cannot open a pull request for a transitive dependency, so the
+# advisories that only npm can resolve sit unfixed until this runs. It stayed
+# dispatch-only and was never triggered, hence the schedule.
+
 on:
   workflow_dispatch:
+  schedule:
+    # Monday, after the weekly release window
+    - cron: '40 6 * * 1'
 
 permissions:
   contents: write
