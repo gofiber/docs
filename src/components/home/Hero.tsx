@@ -5,6 +5,8 @@ import shared from './shared.module.scss';
 import BrowserWindow from './BrowserWindow';
 import LatestRelease from './LatestRelease';
 
+const installCode = `go get github.com/gofiber/fiber/v3`;
+
 const exampleCode = `package main
 
 import (
@@ -53,7 +55,12 @@ export default function Hero() {
 
                 <div className={styles.heroExample}>
                     <div className={styles.codeCol}>
-                        <CodeBlock language="go">{exampleCode}</CodeBlock>
+                        <CodeBlock language="bash" title="Terminal">
+                            {installCode}
+                        </CodeBlock>
+                        <CodeBlock language="go" title="main.go">
+                            {exampleCode}
+                        </CodeBlock>
                     </div>
                     <div className={styles.arrow}>→</div>
                     <div className={styles.previewCol}>
