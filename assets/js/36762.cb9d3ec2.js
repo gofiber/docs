@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkfiber_docs=self.webpackChunkfiber_docs||[]).push([["36762"],{337089(e,c,r){r.d(c,{createArchitectureServices:()=>s.S});var s=r(245796);r(504954)}}]);
