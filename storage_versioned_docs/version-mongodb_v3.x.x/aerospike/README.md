@@ -1,0 +1,162 @@
+---
+id: aerospike
+title: Aerospike
+---
+
+![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=aerospike*)
+[![Discord](https://img.shields.io/discord/704680098577514527?style=flat&label=%F0%9F%92%AC%20discord&color=00ACD7)](https://gofiber.io/discord)
+![Test](https://img.shields.io/github/actions/workflow/status/gofiber/storage/test-aerospike.yml?label=Tests)
+
+An Aerospike client driver using `aerospike/aerospike-client-go` and [aerospike/aerospike-client-go](https://github.com/aerospike/aerospike-client-go).
+
+### Table of Contents
+
+- [Signatures](#signatures)
+- [Installation](#installation)
+- [Examples](#examples)
+- [Config](#config)
+- [Default Config](#default-config)
+
+### Signatures
+
+```go
+func New(config ...Config) Storage
+func NewFromConnection(client *aerospike.Client, config ...Config) *Storage
+func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
+func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
+func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
+func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
+func (s *Storage) Close() error
+func (s *Storage) Conn() driver.Client
+func (s *Storage) GetSchemaInfo() *SchemaInfo
+```
+
+**Note:** Aerospike has no native context support, so the context methods run the operation to completion. They do honour a context that is already cancelled or past its deadline, returning the context error without touching the storage.
+
+**Note:** `Config.Expiration` is deprecated and no longer applied. The storage interface documents an expiration of zero as no expiration, and substituting a default here meant `Set(key, value, 0)` quietly stored an entry that expired. Pass the expiration you want to `Set`.
+
+**Note:** `Reset` deletes user data only. This driver keeps its schema bookkeeping in a separate Aerospike set, derived from `SetName` as `SetName + "_fiber_schema"`, so it is untouched by the scan `Reset` runs and no key name is reserved for it. A `SetName` long enough that the derived name would exceed Aerospike's 63-byte limit is truncated and given a digest of the full name, so any `SetName` the server accepts still yields a bookkeeping set it accepts. It reports any scan or delete that failed rather than logging and carrying on, so `New` with `Reset: true` fails loudly when the store could not actually be wiped instead of starting against stale keys.
+
+### Installation
+
+Aerospike is tested on the 2 last [Go versions](https://golang.org/dl/) with support for modules. So make sure to initialize one first if you didn't do that yet:
+
+```bash
+go mod init github.com/<user>/<repo>
+```
+
+And then install the aerospike implementation:
+
+```bash
+go get github.com/gofiber/storage/aerospike
+```
+
+### Examples
+
+Import the storage package.
+
+```go
+import "github.com/gofiber/storage/aerospike"
+```
+
+You can use the following possibilities to create a storage:
+
+```go
+// Initialize default config
+store := aerospike.New()
+
+// Initialize custom config
+store := aerospike.New(aerospike.Config{
+	Hosts:             []*aerospike.Host{aerospike.NewHost("localhost", 3000)},
+	Namespace:         "test", // Default namespace
+	SetName:           "fiber",
+	Reset:             false,
+	Expiration:        1 * time.Hour,
+	SchemaVersion:     1,
+	SchemaDescription: "Default Fiber storage schema",
+	ForceSchemaUpdate: false,
+})
+```
+
+### Config
+
+```go
+type Config struct {
+	// Hosts is a list of Aerospike server hosts
+	Hosts []*aerospike.Host
+
+	// Namespace is the Aerospike namespace
+	Namespace string
+
+	// SetName is the Aerospike Set name
+	SetName string
+
+	// Reset clears any existing keys in existing Set
+	Reset bool
+
+	// Expiration was the default expiration time of entries.
+	//
+	// Deprecated: no longer applied. Zero means no expiration, and defaulting
+	// here made Set(key, value, 0) quietly store an expiring entry. Pass the
+	// expiration to Set instead.
+	Expiration time.Duration
+
+	// SchemaVersion indicates the schema version to use
+	SchemaVersion int
+
+	// SchemaDescription provides additional info about the schema
+	SchemaDescription string
+
+	// ForceSchemaUpdate forces schema update even if version matches
+	ForceSchemaUpdate bool
+
+	// Initial host connection timeout duration.  The timeout when opening a connection
+	// to the server host for the first time.
+	InitialConnectionTimeout time.Duration
+}
+```
+
+### Default Config
+Used only for optional fields
+```go
+var ConfigDefault = Config{
+	Hosts:             []*aerospike.Host{aerospike.NewHost("localhost", 3000)},
+	Namespace:         "test", // Default namespace
+	SetName:               "fiber",
+	Reset:             false,
+	Expiration:        1 * time.Hour,
+	SchemaVersion:     1,
+	SchemaDescription: "Default Fiber storage schema",
+	ForceSchemaUpdate: false,
+}
+```
+
+### Using an Existing Aerospike Connection
+If your application already holds an `*aerospike.Client`, you can build the storage on it instead of connecting a second time. Only the `Namespace`, `SetName`, `Reset` and schema options are read; the connection settings come from the client.
+
+The client stays yours to close: `Close` on a storage built this way leaves it connected, so the rest of your application keeps working. The storage itself is closed: any operation on it afterwards returns `ErrClosed`.
+
+```go
+import (
+    as "github.com/aerospike/aerospike-client-go/v8"
+    "github.com/gofiber/storage/aerospike"
+)
+
+func main() {
+    client, err := as.NewClient("127.0.0.1", 3000)
+    if err != nil {
+        panic(err)
+    }
+    defer client.Close()
+
+    store := aerospike.NewFromConnection(client, aerospike.Config{
+        Namespace: "test",
+        SetName:   "fiber_storage",
+    })
+    defer store.Close()
+}
+```

@@ -1,0 +1,174 @@
+---
+id: minio
+title: Minio
+---
+
+![Release](https://img.shields.io/github/v/tag/gofiber/storage?filter=minio*)
+[![Discord](https://img.shields.io/discord/704680098577514527?style=flat&label=%F0%9F%92%AC%20discord&color=00ACD7)](https://gofiber.io/discord)
+![Test](https://img.shields.io/github/actions/workflow/status/gofiber/storage/test-minio.yml?label=Tests)
+
+## Minio
+
+A Minio storage driver using [minio/minio-go](https://github.com/minio/minio-go).
+
+### Table of Contents
+- [Signatures](#signatures)
+- [Installation](#installation)
+- [Examples](#examples)
+- [Config](#config)
+- [Default Config](#default-config)
+
+### Signatures
+```go
+func New(config ...Config) *Storage
+func NewWithContext(ctx context.Context, config ...Config) *Storage
+func NewFromConnection(client *minio.Client, config ...Config) *Storage
+func NewFromConnectionWithContext(ctx context.Context, client *minio.Client, config ...Config) *Storage
+func (s *Storage) Get(key string) ([]byte, error)
+func (s *Storage) GetWithContext(ctx context.Context, key string) ([]byte, error)
+func (s *Storage) Set(key string, val []byte, exp time.Duration) error
+func (s *Storage) SetWithContext(ctx context.Context, key string, val []byte, exp time.Duration) error
+func (s *Storage) Delete(key string) error
+func (s *Storage) DeleteWithContext(ctx context.Context, key string) error
+func (s *Storage) Reset() error
+func (s *Storage) ResetWithContext(ctx context.Context) error
+func (s *Storage) Close() error
+func (s *Storage) CheckBucket() error
+func (s *Storage) CheckBucketWithContext(ctx context.Context) error
+func (s *Storage) CreateBucket() error
+func (s *Storage) CreateBucketWithContext(ctx context.Context) error
+func (s *Storage) RemoveBucket() error
+func (s *Storage) Conn() *minio.Client
+```
+### Installation
+Install the Minio implementation:
+```bash
+go get github.com/gofiber/storage/minio
+```
+And then run minio on Docker
+```bash
+docker run -d --restart always -p 9000:9000 -p 9001:9001 --name storage-minio --volume=minio:/var/lib/minio -e MINIO_ROOT_USER='minio-user' -e MINIO_ROOT_PASSWORD='minio-password' minio/minio server --console-address ":9001" /var/lib/minio
+```
+
+### Examples
+Import the storage package.
+```go
+import "github.com/gofiber/storage/minio"
+```
+
+You can use the following possibilities to create a storage:
+```go
+// Initialize default config
+store := minio.New()
+
+// Initialize custom config
+store := minio.New(minio.Config{
+    Bucket:   "fiber-bucket",
+    Endpoint: "localhost:9000",
+    Credentials: Credentials{
+        AccessKeyID:     "minio-user",
+        SecretAccessKey: "minio-password",
+    },
+})
+```
+
+### Config
+```go
+// Config defines the config for storage.
+type Config struct {
+    // Bucket
+    // Default fiber-bucket
+    Bucket string
+    
+    // Endpoint is a host name or an IP address
+    Endpoint string
+    
+    // Region Set this value to override region cache
+    // Optional
+    Region string
+    
+    // Token Set this value to provide x-amz-security-token (AWS S3 specific)
+    // Optional, Default is false
+    Token string
+    
+    // Secure If set to true, https is used instead of http.
+    // Default is false
+    Secure bool
+    
+    // Reset clears any existing keys in existing Bucket
+    // Optional. Default is false
+    Reset bool
+    
+    // The maximum number of times requests that encounter retryable failures should be attempted.
+    // Optional. Default is 10, same as the MinIO client.
+    MaxRetry int
+
+    // Credentials Minio access key and Minio secret key.
+    // Need to be defined
+    Credentials Credentials
+    
+    // GetObjectOptions Options for GET requests specifying additional options like encryption, If-Match
+    GetObjectOptions minio.GetObjectOptions
+    
+    // PutObjectOptions
+    // Allows user to set optional custom metadata, content headers, encryption keys and number of threads for multipart upload operation.
+    PutObjectOptions minio.PutObjectOptions
+    
+    // ListObjectsOptions Options per to list objects
+    ListObjectsOptions minio.ListObjectsOptions
+    
+    // RemoveObjectOptions Allows user to set options
+    RemoveObjectOptions minio.RemoveObjectOptions
+}
+```
+
+### Default Config
+The default configuration lacks Bucket, Region, and Endpoint which are all required and must be overwritten:
+```go
+// ConfigDefault is the default config
+var ConfigDefault = Config{
+    Bucket:              "fiber-bucket",
+    Endpoint:            "",
+    Region:              "",
+    Token:               "",
+    Secure:              false,
+    Reset:               false,
+
+    Credentials:         Credentials{},
+    GetObjectOptions:    minio.GetObjectOptions{},
+    PutObjectOptions:    minio.PutObjectOptions{},
+    ListObjectsOptions:  minio.ListObjectsOptions{},
+    RemoveObjectOptions: minio.RemoveObjectOptions{},
+}
+type Credentials struct {
+    AccessKeyID     string
+    SecretAccessKey string
+}
+```
+
+### Using an Existing Minio Connection
+If your application already holds a `*minio.Client`, you can build the storage on it instead of creating a second one. Only the `Bucket`, `Region`, `Reset` and object options are read; the endpoint and credentials come from the client.
+
+The client stays yours to manage: `Close` on a storage built this way is a no-op, so the rest of your application keeps working.
+
+```go
+import (
+    storage "github.com/gofiber/storage/minio"
+    "github.com/minio/minio-go/v7"
+    "github.com/minio/minio-go/v7/pkg/credentials"
+)
+
+func main() {
+    client, err := minio.New("localhost:9000", &minio.Options{
+        Creds: credentials.NewStaticV4("minio-user", "minio-password", ""),
+    })
+    if err != nil {
+        panic(err)
+    }
+
+    store := storage.NewFromConnection(client, storage.Config{
+        Bucket: "fiber-bucket",
+    })
+    defer store.Close()
+}
+```

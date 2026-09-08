@@ -23,6 +23,7 @@
   "mysql_v1.x.x",
   "mssql_v2.x.x",
   "mssql_v1.x.x",
+  "mongodb_v3.x.x",
   "mongodb_v2.x.x",
   "mongodb_v1.x.x",
   "mockstorage_v1.x.x",
