@@ -282,7 +282,7 @@ The second request asked for `b` and got `a`. On a search endpoint, that means o
 
 The last ordering detail is the `Accept-Query` middleware. On a hit, the cache answers from its store and never calls the handlers registered after it, and it does not replay arbitrary response headers unless you enable `StoreResponseHeaders`. My first version registered the header middleware after the cache, and the header vanished on every hit. Putting it in front fixes that.
 
-The second trap is personalization. The cache middleware refuses to store a response that sets a cookie or that answers a request carrying `Authorization`, unless the response explicitly allows shared caching, so a search behind a bearer token is not cached by default. Session cookies are a different story. Cookies are not part of the default key, and a request that merely sends a `Cookie` header is cached like any other. I checked: with a handler that returns results based on `c.Cookies("session")`, a request with Bob's session received the response cached for Alice. If your search results depend on who is asking, either add the session cookie to `KeyCookies` (one entry per user, which mostly defeats the cache) or keep those requests away from the cache entirely. The cache's own `Next` option does not do the latter: it is only consulted after a miss, to decide whether to store the new response, and an entry that already exists is still served. In my test, a cached anonymous result went to Bob even with `Next` returning `true` for requests with a session. The [skip middleware](/middleware/skip) wraps the cache and bypasses it before any lookup happens:
+The second trap is personalization. The cache middleware refuses to store a response that sets a cookie or that answers a request carrying `Authorization`, unless the response explicitly allows shared caching, so a search behind a bearer token is not cached by default. Session cookies are a different story. Cookies are not part of the default key, and a request that merely sends a `Cookie` header is cached like any other. I checked: with a handler that returns results based on `c.Cookies("session")`, a request with Bob's session received the response cached for Alice. If your search results depend on who is asking, keep those requests away from the cache. Adding the session cookie to `KeyCookies` looks like an alternative, but besides creating one entry per user it only partitions Fiber's own store: a hit goes out with `Cache-Control: public, max-age=...`, and a `Vary: Cookie` set by your handler is not replayed unless you enable `StoreResponseHeaders`. A CDN or proxy in front of the app could then share one user's results with everyone. The cache's own `Next` option is not the way to bypass it either: it is only consulted after a miss, to decide whether to store the new response, and an entry that already exists is still served. In my test, a cached anonymous result went to Bob even with `Next` returning `true` for requests with a session. The [skip middleware](/middleware/skip) wraps the cache and bypasses it before any lookup happens:
 
 ```go
 app.Use(skip.New(
@@ -294,6 +294,8 @@ app.Use(skip.New(
     },
 ))
 ```
+
+Personalized responses should then say so themselves, with `Cache-Control: private` or `no-store` set in the handler, so that no cache further down the line stores them.
 
 ## Safe Means No Side Effects
 
