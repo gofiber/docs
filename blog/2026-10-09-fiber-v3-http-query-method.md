@@ -278,11 +278,22 @@ func TestCustomKeyGeneratorWithoutBodyCollides(t *testing.T) {
 }
 ```
 
-The second request asked for `b` and got `a`. On a search endpoint, that means one user's results served for another user's filters. The cache documentation calls this out, and the fix is simple: if you write a custom generator and enable `QUERY`, include `c.Request().Body()` (or a hash of it) in the key.
+The second request asked for `b` and got `a`. On a search endpoint, that means one user's results served for another user's filters. The cache documentation calls this out. Adding the body alone is not enough, though: a custom generator replaces the whole default key, so the query string, the `KeyHeaders` and the `KeyCookies` are gone as well. A path-plus-body key would still mix up `?page=1` and `?page=2` for the same filter document. If you write your own generator, it has to cover every part of the request that changes the response, with a hash for the body. In most cases the better answer is to keep the default generator, which already handles all of that, and shape the request before the cache instead, the way `canonicalQueryBody` does.
 
 The last ordering detail is the `Accept-Query` middleware. On a hit, the cache answers from its store and never calls the handlers registered after it, and it does not replay arbitrary response headers unless you enable `StoreResponseHeaders`. My first version registered the header middleware after the cache, and the header vanished on every hit. Putting it in front fixes that.
 
-The second trap is personalization. The cache middleware refuses to store a response that sets a cookie or that answers a request carrying `Authorization`, unless the response explicitly allows shared caching, so a search behind a bearer token is not cached by default. Session cookies are a different story. Cookies are not part of the default key, and a request that merely sends a `Cookie` header is cached like any other. I checked: with a handler that returns results based on `c.Cookies("session")`, a request with Bob's session received the response cached for Alice. If your search results depend on who is asking, either add the session cookie to `KeyCookies` (one entry per user, which mostly defeats the cache) or skip caching for those routes with the `Next` option.
+The second trap is personalization. The cache middleware refuses to store a response that sets a cookie or that answers a request carrying `Authorization`, unless the response explicitly allows shared caching, so a search behind a bearer token is not cached by default. Session cookies are a different story. Cookies are not part of the default key, and a request that merely sends a `Cookie` header is cached like any other. I checked: with a handler that returns results based on `c.Cookies("session")`, a request with Bob's session received the response cached for Alice. If your search results depend on who is asking, either add the session cookie to `KeyCookies` (one entry per user, which mostly defeats the cache) or keep those requests away from the cache entirely. The cache's own `Next` option does not do the latter: it is only consulted after a miss, to decide whether to store the new response, and an entry that already exists is still served. In my test, a cached anonymous result went to Bob even with `Next` returning `true` for requests with a session. The [skip middleware](/middleware/skip) wraps the cache and bypasses it before any lookup happens:
+
+```go
+app.Use(skip.New(
+    cache.New(cache.Config{
+        Methods: []string{fiber.MethodGet, fiber.MethodHead, fiber.MethodQuery},
+    }),
+    func(c fiber.Ctx) bool {
+        return c.Cookies("session") != "" // personalized: never read or write the cache
+    },
+))
+```
 
 ## Safe Means No Side Effects
 
@@ -366,6 +377,7 @@ The router part of `QUERY` is trivial in Fiber v3. The part that deserves your a
 - [What's New: QUERY method](/whats_new#query-method-rfc-10008)
 - [Cache Middleware](/middleware/cache)
 - [CSRF Middleware](/middleware/csrf)
+- [Skip Middleware](/middleware/skip)
 - [CORS Middleware](/middleware/cors)
 - [Client REST API](/client/rest)
 - [Binding in Practice](/blog/fiber-v3-binding-in-practice)
