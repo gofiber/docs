@@ -30,11 +30,11 @@ The second row is where cancellation and deadlines are meant to live. `c.Context
 
 The third row is the one people find when they dig. fasthttp's `RequestCtx` also implements `context.Context`, and its `Done` channel does close, but only when the whole server starts shutting down. It is not a per-client signal.
 
-Why is there no per-client signal? fasthttp reads the complete request, calls your handler, and writes the response after the handler returns. Nothing reads from the socket while your code runs, so nothing can notice that the peer has gone. `net/http` keeps a background read going on the connection for exactly this purpose, which is why its request context can be canceled on disconnect. Code written for one model compiles fine in the other, which is exactly why this goes unnoticed.
+Why is there no per-client signal? fasthttp reads the complete request, calls your handler, and writes the response after the handler returns. Nothing reads from the socket while your code runs, so nothing can notice that the peer has gone. `net/http` keeps a background read going on the connection for this purpose, which is why its request context can be canceled on disconnect. Code written for one model compiles fine in the other, which is why this goes unnoticed.
 
 ## A Summary Service That Ignores Its Clients
 
-Here is the service. The `generate` function stands in for the upstream: it produces one token every 200 milliseconds and stops as soon as its context is done. That is how a well-behaved upstream client works, whether it talks to a model API, a database or another service. The two documents are short enough to read in the source, and long enough that one of them takes more than ten seconds to summarize.
+Here is the service. The `generate` function stands in for the upstream: it produces one token every 200 milliseconds and checks its context before emitting each one, so it stops at the next token boundary after cancellation. Cancellation is cooperative: a token that is already being emitted still goes out. That is how a well-behaved upstream client works, whether it talks to a model API, a database or another service. The two documents are short enough to read in the source, and long enough that one of them takes more than ten seconds to summarize.
 
 ```go
 package main
@@ -75,9 +75,12 @@ func generate(ctx context.Context, doc string, emit func(token string) error) er
     for i, tok := range tokens {
         select {
         case <-ctx.Done():
-            log.Printf("generate %s: stopped after %d of %d tokens: %v", doc, i, len(tokens), ctx.Err())
-            return ctx.Err()
         case <-time.After(200 * time.Millisecond):
+        }
+        // select picks randomly when both cases are ready, so check again.
+        if err := ctx.Err(); err != nil {
+            log.Printf("generate %s: stopped after %d of %d tokens: %v", doc, i, len(tokens), err)
+            return err
         }
         if err := emit(tok); err != nil {
             log.Printf("generate %s: stopped after %d of %d tokens: %v", doc, i+1, len(tokens), err)
@@ -124,7 +127,7 @@ func streamHandler(shutdown context.Context) sse.Handler {
         case errors.Is(err, errUnknownDocument):
             return stream.Event(sse.Event{Name: "failed", Data: "unknown document"})
         case shutdown.Err() != nil:
-            return stream.Event(sse.Event{Name: "failed", Data: "server restarting, try again"})
+            return stream.Event(sse.Event{Name: "restarting", Data: "server restarting, try again"})
         default:
             return err
         }
@@ -226,9 +229,9 @@ The interesting part is in the server log:
 2026/10/10 06:12:12 generate annual: stopped after 14 of 53 tokens: context deadline exceeded
 ```
 
-The upstream call stopped at the deadline, because `summaryHandler` passes `c.Context()` to `generate`, and `c.Context()` is now the deadline context. That is the deal with the timeout middleware: it can stop waiting for your handler, but it cannot stop your handler. If the handler ignores `c.Context()`, the client still gets its `408` after three seconds, while the goroutine keeps going until the work is done. The middleware makes that safe. Since v3.4.0 the abandoned `Ctx` goes back to the pool once the handler goroutine has returned, earlier versions kept it out of the pool for good. But under load, those orphaned goroutines are exactly the work you wanted to avoid.
+The upstream call stopped at the deadline, because `summaryHandler` passes `c.Context()` to `generate`, and `c.Context()` is now the deadline context. That is the deal with the timeout middleware: it can stop waiting for your handler, but it cannot stop your handler. If the handler ignores `c.Context()`, the client still gets its `408` after three seconds, while the goroutine keeps going until the work is done. The middleware makes that safe. Since v3.4.0 the abandoned `Ctx` goes back to the pool once the handler goroutine has returned, earlier versions kept it out of the pool for good. But under load, those orphaned goroutines are precisely the work you wanted to avoid.
 
-A few details from using it in real services. `timeout.New` wraps a final handler, so it goes on the route, not into `app.Use`, and the wrapped handler must not call `c.Next()`. Any error that `errors.Is` matches `context.DeadlineExceeded` is turned into the timeout response too, so a database driver that reports the deadline in its own words should be listed in `Config.Errors`. The default `408` response is built by the middleware itself and does not pass through your error handler; if you need your usual JSON error format, set `Config.OnTimeout`. And pick the number from the outside in: the deadline should end before your load balancer or proxy gives up on the request, otherwise the proxy returns its own error page while your handler still holds a connection to the upstream.
+A few details from using it in real services. `timeout.New` wraps a final handler, so it goes on the route, not into `app.Use`, and the wrapped handler must not call `c.Next()`. Any error for which `errors.Is(err, context.DeadlineExceeded)` is true is turned into the timeout response too, and that includes errors that wrap it, so a driver that propagates the context error needs no configuration. `Config.Errors` is only for a distinct timeout error that does not wrap `context.DeadlineExceeded`, for example a driver's own query-timeout error. The default `408` response is built by the middleware itself and does not pass through your error handler; if you need your usual JSON error format, set `Config.OnTimeout`. And pick the number from the outside in: the deadline should end before your load balancer or proxy gives up on the request, otherwise the proxy returns its own error page while your handler still holds a connection to the upstream.
 
 The same idea reaches into other packages. The session middleware gained `SaveWithContext`, `DestroyWithContext`, `RegenerateWithContext` and `ResetWithContext` in v3.4.0, so you can pass `c.Context()` and have a slow session store honor the same deadline.
 
@@ -275,7 +278,7 @@ The client received four tokens before it left. The next two writes still succee
 
 This only helps while the stream is writing. It does not help while the stream is silent: during a long time-to-first-token, while a tool call runs, or while a subscriber waits for the next message from a broker. No writes means no write errors, and the handler has no idea the client is gone.
 
-The SSE middleware covers that with heartbeat comments. Every `HeartbeatInterval`, 15 seconds by default, it writes an empty comment line, which `EventSource` ignores and which also keeps proxies from closing an idle stream. A heartbeat is a write like any other, so it fails once the client is gone and cancels `stream.Context()`. In the same test setup with a three-second interval and a handler that only waited on `stream.Context()`, the cancellation arrived nine seconds after the client hung up, on the third heartbeat. If that pattern holds in your environment, the default interval means roughly 30 to 45 seconds of upstream work after a silent client has left, depending on where in the interval the client hung up. If that is expensive, lower `HeartbeatInterval`. If you set `DisableHeartbeat`, a silent stream only learns about the disconnect when it next writes.
+The SSE middleware covers that with heartbeat comments. Every `HeartbeatInterval`, 15 seconds by default, it writes an empty comment line, which `EventSource` ignores and which also keeps proxies from closing an idle stream. A heartbeat is a write like any other, so it fails once the client is gone and cancels `stream.Context()`. In the same test setup with a three-second interval and a handler that only waited on `stream.Context()`, the cancellation arrived nine seconds after the client hung up, on the third heartbeat. If that pattern holds in your environment, the default interval means roughly 30 to 45 seconds of upstream work after a silent client has left, depending on where in the interval the client hung up. When that is expensive, lower `HeartbeatInterval`. With `DisableHeartbeat` set, a silent stream only learns about the disconnect when it next writes.
 
 ### Bounding a Stream
 
@@ -302,7 +305,7 @@ So the stream needs to learn about the shutdown. In the example, `main` creates 
 event: token
 data: region
 
-event: failed
+event: restarting
 data: server restarting, try again
 ```
 
@@ -310,7 +313,7 @@ The process exits right after that instead of waiting for the shutdown timeout. 
 
 Two things in `main` matter for this to work. `app.Listen` returns as soon as the shutdown starts, so `main` must not simply exit when `Listen` returns, or the process ends before `ShutdownWithTimeout` has drained anything. And the signal handling is done once, in `main`, instead of in each handler. You could also select on `c.RequestCtx().Done()`, which closes when the server starts shutting down, but an explicit context from `main` makes the dependency visible and is trivial to fake in a test.
 
-One reminder for the browser side. `EventSource` reconnects automatically when a stream ends, which is what you want after a restart and not what you want after a finished summary. Close the `EventSource` when the `done` event arrives, or every completed summary turns into a new request that generates it again. That is also why the example names its error event `failed` and not `error`: `EventSource` fires its own `error` event when the connection drops, and a listener for `error` would get both.
+One reminder for the browser side. `EventSource` reconnects automatically when a stream ends, which is what you want after a restart and not what you want after a finished summary. Close the `EventSource` when the `done` event arrives, or every completed summary turns into a new request that generates it again. The same goes for `failed`, which the example sends for errors that a retry cannot fix, such as an unknown document; without a `close()` the browser would request the missing document again and again. Only `restarting` is meant to be followed by a reconnect, so that is the one event where the client lets `EventSource` do its thing. The example also avoids the name `error` on purpose: `EventSource` fires its own `error` event when the connection drops, and a listener for `error` would get both.
 
 ## When the Work Should Outlive the Request
 
