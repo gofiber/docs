@@ -43,3 +43,4 @@ valkey
 azureblob
 canonicalizer
 safelisted
+fasthttputil
