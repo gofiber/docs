@@ -1,3 +1,8 @@
+<p align="center">
+  <img height="125" alt="Fiber Docs" src="https://raw.githubusercontent.com/gofiber/docs/master/.github/logo-dark.svg#gh-dark-mode-only" />
+  <img height="125" alt="Fiber Docs" src="https://raw.githubusercontent.com/gofiber/docs/master/.github/logo.svg#gh-light-mode-only" />
+</p>
+
 # Website
 
 This website is built using [Docusaurus 3](https://docusaurus.io/), a modern static website generator.
