@@ -52,7 +52,10 @@
     },
     "sockjs": {
       "uuid": "^11"
-    }
+    },
+    "minimatch@9.0.3": "^9.0.7",
+    "yaml@2.8.1": "^2.8.3",
+    "tinypool@^1.0.2": "^2.1.2"
   },
   "browserslist": {
     "production": [
