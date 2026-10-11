@@ -44,3 +44,5 @@ azureblob
 canonicalizer
 safelisted
 fasthttputil
+CGNAT
+nosniff
