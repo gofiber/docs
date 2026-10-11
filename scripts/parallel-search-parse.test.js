@@ -1,6 +1,7 @@
-// Guards the one thing parallel-search-parse.js must never get wrong: the
-// documents it hands the search plugin have to be the ones the plugin would
-// have built on its own. Run it after upgrading @easyops-cn/docusaurus-search-local.
+// Guards what parallel-search-parse.js must never get wrong: the documents it
+// hands the search plugin have to be the ones the plugin would have built on
+// its own, and the blog has to stay in the root index.
+// Run it after upgrading @easyops-cn/docusaurus-search-local.
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -10,8 +11,10 @@ const path = require('node:path');
 
 const scanModule = require('@easyops-cn/docusaurus-search-local/dist/server/server/utils/scanDocuments');
 const plain = scanModule.scanDocuments;
+const docInfosModule = require('@easyops-cn/docusaurus-search-local/dist/server/server/utils/processDocInfos');
+const plainDocInfos = docInfosModule.processDocInfos;
 
-const { parallelSearchParse } = require('./parallel-search-parse');
+const { blogInRootIndexOnly, parallelSearchParse } = require('./parallel-search-parse');
 
 const config = { ignoreCssSelectors: [], forceIgnoreNoIndex: false };
 
@@ -54,7 +57,7 @@ test('parallel parsing yields the documents the plugin builds on its own', async
     try {
         parallelSearchParse();
         assert.deepEqual(normalize(await scanModule.scanDocuments(items, config)), expected);
-        // Second pass: the blog cache is warm and must still return the same docs.
+        // Second pass: the pool is reused and must still return the same docs.
         assert.deepEqual(normalize(await scanModule.scanDocuments(items, config)), expected);
     } finally {
         console.warn = warn;
@@ -62,4 +65,39 @@ test('parallel parsing yields the documents the plugin builds on its own', async
     }
 
     assert.deepEqual(warnings, [], 'worker pool fell back to the main thread');
+});
+
+test('the blog stays in the root index only', () => {
+    const outDir = path.join(os.tmpdir(), 'build');
+    const version = (versionPath, isLast) => ({
+        path: versionPath,
+        isLast,
+        docs: [{ permalink: `${versionPath}intro` }],
+    });
+    const buildData = {
+        outDir,
+        baseUrl: '/',
+        siteConfig: {},
+        routesPaths: ['/blog/post', '/intro', '/v1/intro'],
+        plugins: [
+            {
+                name: 'docusaurus-plugin-content-docs',
+                content: { loadedVersions: [version('/', true), version('/v1/', false)] },
+            },
+        ],
+    };
+    const options = { indexDocs: true, indexBlog: true, docsRouteBasePath: [''], blogRouteBasePath: ['blog'] };
+    const typesPerIndex = (indexes) =>
+        Object.fromEntries(
+            indexes.map((index) => [path.relative(outDir, index.outDir), index.paths.map((page) => page.type)]),
+        );
+
+    // If the plugin stops repeating the blog on its own, the patch can go.
+    assert.deepEqual(typesPerIndex(plainDocInfos(buildData, options)), { '': ['blog', 'docs'], v1: ['blog', 'docs'] });
+
+    blogInRootIndexOnly();
+    assert.deepEqual(typesPerIndex(docInfosModule.processDocInfos(buildData, options)), {
+        '': ['blog', 'docs'],
+        v1: ['docs'],
+    });
 });

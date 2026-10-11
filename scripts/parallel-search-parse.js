@@ -1,15 +1,16 @@
-// The search plugin builds one index per docs version and parses the HTML for
-// each of them on the main thread, which is the single biggest block of the
-// build. Two things fix that without touching what it produces:
+// The search plugin builds one index per docs version, puts the whole blog into
+// each of them and parses the HTML on the main thread, which is the single
+// biggest block of the build. Two patches fix that:
 //
-//   - a doc lands in exactly one version, but every index also carries the blog,
-//     so the blog is parsed once per version. Parse it once and reuse it.
-//   - the pages of one index are independent, so parse them in worker threads
-//     and hand the plugin a filled cache.
+//   - blogInRootIndexOnly(): the blog stays in the root index, the one searched
+//     from the blog and from the latest docs. Older versions lose it, so a
+//     search there no longer finds blog posts.
+//   - parallelSearchParse(): the pages of one index are independent, so parse
+//     them in worker threads and hand the plugin a filled cache. This one does
+//     not change a byte of what is written.
 //
-// This patches the plugin's own parse()/scanDocuments() and lets its unchanged
-// code do the indexing, so the written indexes stay byte-for-byte the same.
-// It reaches into the package's internals: re-check it when upgrading.
+// Both patch the plugin's own functions and let its unchanged code do the
+// indexing. They reach into the package's internals: re-check them when upgrading.
 
 const os = require('node:os');
 const { Worker } = require('node:worker_threads');
@@ -89,14 +90,11 @@ function parallelSearchParse() {
     const parse = parseModule.parse;
     const scanDocuments = scanModule.scanDocuments;
 
-    // The blog is in every index, a doc only in its own, so its parse is dropped
-    // once that index is written.
-    const blogCache = new Map();
-    const docCache = new Map();
-    const cacheFor = (type) => (type === 'blog' ? blogCache : docCache);
+    // A page lands in exactly one index, so its parse is dropped once that index
+    // is written.
+    const cache = new Map();
 
     parseModule.parse = (html, type, url, config) => {
-        const cache = cacheFor(type);
         if (!cache.has(url)) {
             cache.set(url, parse(html, type, url, config));
         }
@@ -115,7 +113,7 @@ function parallelSearchParse() {
                     return worker;
                 });
 
-                const pending = items.filter((item) => !cacheFor(item.type).has(item.url));
+                const pending = items.filter((item) => !cache.has(item.url));
                 const chunks = spread(pending, pool.length);
                 const results = await Promise.all(
                     chunks.map((chunk, index) => (chunk.length ? ask(pool[index], { items: chunk, config }) : [])),
@@ -125,7 +123,7 @@ function parallelSearchParse() {
                     chunk.forEach((item, position) => {
                         const result = results[index][position];
                         if (result.ok) {
-                            cacheFor(item.type).set(item.url, result.value);
+                            cache.set(item.url, result.value);
                         }
                     });
                 });
@@ -138,9 +136,34 @@ function parallelSearchParse() {
         try {
             return await scanDocuments(items, config);
         } finally {
-            docCache.clear();
+            cache.clear();
         }
     };
 }
 
-module.exports = { parallelSearchParse };
+function blogInRootIndexOnly() {
+    let docInfos;
+    try {
+        docInfos = require(`${UTILS}processDocInfos`);
+    } catch {
+        throw new Error(`${UTILS} is gone: update or drop blogInRootIndexOnly().`);
+    }
+
+    const processDocInfos = docInfos.processDocInfos;
+
+    docInfos.processDocInfos = (buildData, config) => {
+        const indexes = processDocInfos(buildData, config);
+        const isRoot = (index) => index.outDir === buildData.outDir;
+
+        // Without a root index the blog would silently drop out of the search.
+        if (!indexes.some(isRoot)) {
+            throw new Error('The search plugin built no root index: re-check blogInRootIndexOnly().');
+        }
+
+        return indexes.map((index) =>
+            isRoot(index) ? index : { ...index, paths: index.paths.filter((page) => page.type !== 'blog') },
+        );
+    };
+}
+
+module.exports = { blogInRootIndexOnly, parallelSearchParse };

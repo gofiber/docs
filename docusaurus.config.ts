@@ -9,7 +9,7 @@ import { themes } from 'prism-react-renderer';
 const { generateCatalogs } = require('./scripts/generate-catalogs');
 generateCatalogs();
 
-const { parallelSearchParse } = require('./scripts/parallel-search-parse');
+const { blogInRootIndexOnly, parallelSearchParse } = require('./scripts/parallel-search-parse');
 
 const lightCodeTheme = themes.github;
 const darkCodeTheme = themes.dracula;
@@ -67,6 +67,7 @@ function plugins(): PluginConfig[] {
         ];
     }
 
+    blogInRootIndexOnly();
     parallelSearchParse();
 
     return [
