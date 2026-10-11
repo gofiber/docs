@@ -96,7 +96,7 @@ failed` because the name does not resolve yet.
 
 The difference that decides how you fix things is where the policy comes from. A
 `Balancer` takes `Config.SecurityPolicy` if you set it, and otherwise copies the
-package-level policy at the moment it is constructed. Every other helper has no
+package-level policy when it is constructed. Every other helper has no
 config struct and reads the package-level policy, which you change with
 `proxy.WithSecurityPolicy`, on each request. So that policy is a setting for the
 whole process.
@@ -151,6 +151,7 @@ import (
     "log"
     "mime"
     "net"
+    "net/url"
     "os"
     "strings"
     "time"
@@ -230,10 +231,16 @@ func newGateway(usersUpstream string, imageClient *fasthttp.Client) *fiber.App {
 func imageProxy(client *fasthttp.Client) fiber.Handler {
     return func(c fiber.Ctx) error {
         target := c.Query("url")
-        if !strings.HasPrefix(target, "https://") &&
-            !strings.HasPrefix(target, "http://") {
+        u, err := url.Parse(target)
+        if err != nil || (u.Scheme != "http" && u.Scheme != "https") {
             return fiber.NewError(fiber.StatusBadRequest,
                 "url must be an absolute http(s) URL")
+        }
+        // An image URL has no business carrying credentials, and refusing
+        // them here keeps them out of the logs below.
+        if u.User != nil {
+            return fiber.NewError(fiber.StatusBadRequest,
+                "url must not contain credentials")
         }
 
         // The incoming request is reused as the outgoing one, so drop
@@ -242,15 +249,18 @@ func imageProxy(client *fasthttp.Client) fiber.Handler {
         keepOnly(&c.Request().Header, fiber.HeaderAccept,
             fiber.HeaderIfNoneMatch, fiber.HeaderIfModifiedSince)
 
-        err := proxy.DoRedirects(c, target, 3, client)
+        err = proxy.DoRedirects(c, target, 3, client)
         if err != nil {
             c.Response().Reset()
             var dnsErr *net.DNSError
             switch {
             case errors.As(err, &dnsErr):
                 log.Printf("img: resolve %q: %v", target, err)
-                return fiber.NewError(fiber.StatusBadRequest,
-                    "url host does not resolve")
+                if dnsErr.IsNotFound {
+                    return fiber.NewError(fiber.StatusBadRequest,
+                        "url host does not resolve")
+                }
+                return fiber.ErrBadGateway // resolver timeout or failure
             case isPolicyError(err):
                 log.Printf("img: refused %q: %v", target, err)
                 return fiber.NewError(fiber.StatusBadRequest, "url not allowed")
@@ -263,7 +273,8 @@ func imageProxy(client *fasthttp.Client) fiber.Handler {
         keepOnly(&res.Header,
             fiber.HeaderContentType, fiber.HeaderContentLength,
             fiber.HeaderContentEncoding, fiber.HeaderETag,
-            fiber.HeaderLastModified, fiber.HeaderCacheControl)
+            fiber.HeaderLastModified, fiber.HeaderCacheControl,
+            fiber.HeaderVary)
 
         switch res.StatusCode() {
         case fiber.StatusOK:
@@ -421,11 +432,16 @@ platforms may accept it and return `127.0.0.1`, which the check then rejects as
 loopback. Either way, the request does not go out.
 
 Because a failed lookup is reported as `ErrUpstreamHostBlocked`, the handler
-first asks `errors.As` for a `*net.DNSError`. That separates a mistyped domain
-from a refused one, so users get a message they can act on. The four policy
-errors become `400`, since they mean "we will not fetch that". Everything else,
-from connection refused to an oversized body, is the remote side's fault and
-becomes a `502`.
+first asks `errors.As` for a `*net.DNSError`. A name that does not exist,
+`IsNotFound` in Go's terms, is the user's mistake and gets a `400` with a
+message they can act on. A resolver timeout or any other DNS failure is the
+gateway's problem and becomes a `502`, so clients know a retry may work. The
+four policy errors become `400`, since they mean "we will not fetch that".
+Everything else, from connection refused to an oversized body, is the remote
+side's fault and becomes a `502`. The handler also refuses URLs with credentials
+in them, such as `https://alice:secret@example.com/a.png`, before it does
+anything else. No image URL needs them, and every log line in the handler prints
+the target, so accepting them would write passwords into your logs.
 
 ## What the Policy Does Not Cover
 
@@ -449,9 +465,12 @@ as if your domain had sent them, so a `Set-Cookie` from the image host lands in
 the cookie jar for your domain.
 
 `keepOnly` handles both directions with an allowlist: `Accept` and the two
-conditional headers go out, and six headers come back. I prefer an allowlist
-over deleting `Cookie` and `Authorization` by name, because the next custom
-header your frontend adds should not leak just because nobody updated a list.
+conditional headers go out, and seven headers come back. `Vary` is one of them,
+because the request forwards `Accept`: an upstream that picks the image format
+from `Accept` says so in `Vary`, and without it a cache in front of the gateway
+could hand an AVIF to a client that asked for PNG. I prefer an allowlist over
+deleting `Cookie` and `Authorization` by name, because the next custom header
+your frontend adds should not leak just because nobody updated a list.
 `keepOnly` deletes each name exactly as the header store holds it, so it also
 works with `DisableHeaderNormalizing`. Dropping `User-Agent` has a cost: some
 image hosts answer requests without one with a `403`. If yours do, send a fixed
@@ -500,9 +519,11 @@ the process.
 Two more limits follow from how the dial check works. It validates the address
 and then calls your client's `Dial`, if you set one, with that address. A custom
 `Dial` that connects somewhere else, such as through an egress proxy, makes the
-check meaningless. And unless `DialDualStack` is set, the check skips IPv6
-addresses entirely, so an IPv6-only host is unreachable. Both behaviors come
-straight from `security.go` in v3.5.0.
+check meaningless. The validation itself covers IPv6: every resolved address,
+IPv4 or IPv6, has to pass. The dialer is a separate step, and unless
+`DialDualStack` is set, it only tries the IPv4 addresses that passed and skips
+the IPv6 ones, so an IPv6-only host is unreachable. Both behaviors come straight
+from `security.go` in v3.5.0.
 
 ## Prove It With a Test
 
@@ -594,6 +615,7 @@ func TestGateway(t *testing.T) {
         {"/img?url=http://203.0.113.10/bounce", fiber.StatusBadRequest},
         {"/img?url=http://169.254.169.254/latest/", fiber.StatusBadRequest},
         {"/img?url=http://localhost:8081/", fiber.StatusBadRequest},
+        {"/img?url=http://u:pw@203.0.113.10/cat.png", fiber.StatusBadRequest},
     }
     for _, tt := range tests {
         req := httptest.NewRequest(fiber.MethodGet, tt.path, nil)
