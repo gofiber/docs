@@ -242,6 +242,9 @@ func imageProxy(client *fasthttp.Client) fiber.Handler {
             return fiber.NewError(fiber.StatusBadRequest,
                 "url must not contain credentials")
         }
+        // Log scheme, host and path only: signed URLs carry their token in
+        // the query string.
+        logTarget := u.Scheme + "://" + u.Host + u.Path
 
         // The incoming request is reused as the outgoing one, so drop
         // everything the third party has no business seeing: cookies,
@@ -255,17 +258,17 @@ func imageProxy(client *fasthttp.Client) fiber.Handler {
             var dnsErr *net.DNSError
             switch {
             case errors.As(err, &dnsErr):
-                log.Printf("img: resolve %q: %v", target, err)
+                log.Printf("img: resolve %q: %v", logTarget, err)
                 if dnsErr.IsNotFound {
                     return fiber.NewError(fiber.StatusBadRequest,
                         "url host does not resolve")
                 }
                 return fiber.ErrBadGateway // resolver timeout or failure
             case isPolicyError(err):
-                log.Printf("img: refused %q: %v", target, err)
+                log.Printf("img: refused %q: %v", logTarget, err)
                 return fiber.NewError(fiber.StatusBadRequest, "url not allowed")
             }
-            log.Printf("img: fetch %q: %v", target, err)
+            log.Printf("img: fetch %q: %v", logTarget, err)
             return fiber.ErrBadGateway
         }
 
@@ -281,7 +284,7 @@ func imageProxy(client *fasthttp.Client) fiber.Handler {
         case fiber.StatusNotModified:
             return nil
         default:
-            log.Printf("img: %q answered %d", target, res.StatusCode())
+            log.Printf("img: %q answered %d", logTarget, res.StatusCode())
             res.Reset()
             return fiber.ErrBadGateway
         }
@@ -289,7 +292,7 @@ func imageProxy(client *fasthttp.Client) fiber.Handler {
         contentType := string(res.Header.ContentType())
         mediaType, _, err := mime.ParseMediaType(contentType)
         if err != nil || !imageTypes[mediaType] {
-            log.Printf("img: %q is %q, not an image", target, contentType)
+            log.Printf("img: %q is %q, not an image", logTarget, contentType)
             res.Reset()
             return fiber.NewError(fiber.StatusBadGateway,
                 "upstream did not return a supported image")
@@ -440,8 +443,13 @@ four policy errors become `400`, since they mean "we will not fetch that".
 Everything else, from connection refused to an oversized body, is the remote
 side's fault and becomes a `502`. The handler also refuses URLs with credentials
 in them, such as `https://alice:secret@example.com/a.png`, before it does
-anything else. No image URL needs them, and every log line in the handler prints
-the target, so accepting them would write passwords into your logs.
+anything else. No image URL needs them, and refusing them means they never reach
+a log line. The query string is the other place where secrets hide, since signed
+image URLs carry their token there, so the log lines only print scheme, host and
+path. The example accepts plain `http` because putting old `http` images on
+`https` pages is one of the main reasons image proxies exist. If you can do
+without that, accept only `https`: then the gateway never sends a signed URL to
+the image host in clear text.
 
 ## What the Policy Does Not Cover
 
@@ -615,7 +623,7 @@ func TestGateway(t *testing.T) {
         {"/img?url=http://203.0.113.10/bounce", fiber.StatusBadRequest},
         {"/img?url=http://169.254.169.254/latest/", fiber.StatusBadRequest},
         {"/img?url=http://localhost:8081/", fiber.StatusBadRequest},
-        {"/img?url=http://u:pw@203.0.113.10/cat.png", fiber.StatusBadRequest},
+        {"/img?url=http://user@203.0.113.10/cat.png", fiber.StatusBadRequest},
     }
     for _, tt := range tests {
         req := httptest.NewRequest(fiber.MethodGet, tt.path, nil)
