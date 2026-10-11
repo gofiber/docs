@@ -29,6 +29,12 @@ jobs:
           - mode: home
             repo: gofiber/website
             cname: gofiber.io
+    env:
+      # Only pushes and manual runs on the default branch publish.
+      PUBLISH: ${{ (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && (github.ref_name == 'main' || github.ref_name == 'master') }}
+    outputs:
+      # Set by the docs leg only, the home leg leaves it empty.
+      pages-artifact: ${{ steps.pages.outputs.artifact_id }}
 
     steps:
       - name: Get previous workflow status
@@ -74,8 +80,20 @@ jobs:
         run: |
           npm run build:${{ matrix.target.mode }}
 
+      # The docs go out as a Pages artifact: no push of the whole site to a branch
+      # and no second Pages build after it. publish-docs deploys it.
+      - name: Upload Pages artifact (on master)
+        id: pages
+        if: env.PUBLISH == 'true' && matrix.target.mode == 'docs'
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: ./build
+          # .well-known/security.txt has to be published too
+          include-hidden-files: true
+
+      # gofiber.io lives in another repo, which a Pages artifact cannot reach.
       - name: Deploy to ${{ matrix.target.cname }} (on master)
-        if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && (github.ref_name == 'main' || github.ref_name == 'master')
+        if: env.PUBLISH == 'true' && matrix.target.mode == 'home'
         uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
         with:
           personal_token: ${{ secrets.GH_PAGES_TOKEN }}   # PAT with Contents: Read and write on both repos
@@ -89,4 +107,28 @@ jobs:
         with:
           title: "deploy"
           description: "Docs: Build & Deploy GitHub Pages"
+          webhook: ${{ secrets.DISCORD_SECURE_CHANNEL }}
+
+  publish-docs:
+    needs: deploy
+    # !cancelled(): a failed home leg must not hold back the docs.
+    if: ${{ !cancelled() && needs.deploy.outputs.pages-artifact != '' }}
+    runs-on: blacksmith-2vcpu-ubuntu-2404
+    timeout-minutes: 15
+    # Kept out of the build job, which runs third-party install scripts.
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to docs.gofiber.io
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+      - uses: sarisia/actions-status-discord@eb045afee445dc055c18d3d90bd0f244fd062708 # v1
+        if: ${{ failure() }}
+        with:
+          title: "deploy"
+          description: "Docs: Deploy GitHub Pages"
           webhook: ${{ secrets.DISCORD_SECURE_CHANNEL }}
