@@ -140,7 +140,17 @@ curl http://localhost:3000/web
 </details>
 
 :::caution
-To define static routes using `Get`, append the wildcard (`*`) operator at the end of the route.
+To define static routes using `Get`, append the wildcard (`*`) operator at the end of the route. Under a `/static*` route the rest of the path must start at a segment boundary, so `/static-v2/app.js` or `/staticapp.js` are no longer served; only `/static` and paths below `/static/` are.
+:::
+
+:::info
+The file server resolves the path the router matched. Fiber normalizes request paths before routing (see [Path normalization](../guide/routing.md#path-normalization)), so middleware mounted on `/static/private` also guards `/static/%70rivate/secret.txt` and `/static/x/../private/secret.txt`.
+
+Escapes the router leaves encoded, such as `%20`, `%40` or `%25`, also remain encoded for file lookup. This keeps routing, including path-scoped authorization middleware, and static-file resolution on the same resource name. Consequently, `/static/hello%20world.txt` does not serve `hello world.txt`; enable [`UnescapePath`](../api/fiber.md#config) when encoded spellings should resolve to decoded file names. A path that cannot name a file inside the root is answered with `404 Not Found`: an escape that represents a slash, a backslash or a control character, a malformed escape such as `%zz`, an escape of an unreserved character, and an empty, `.` or `..` segment. So `/static/private%2Fsecret.txt` never reaches `private/secret.txt` unless `UnescapePath` decodes it for the router as well, and `/static//private/secret.txt` is not found. A stray `%` cannot forge an escape the file server would then decode: the router decodes every escape of an unreserved character when it normalizes a path, so one still in the routed path can only have been forged, and it is rejected rather than decoded a second time. `/static/%%370rivate/secret.txt` therefore never opens `private/secret.txt`. With `UnescapePath` enabled the router has already decoded every escape, so a malformed escape is an ordinary part of the name: `/static/100%zz.txt` names `100%zz.txt`.
+:::
+
+:::caution
+The file server opens the name the router matched, so it is only as strict as the filesystem underneath. On Windows a path component loses its trailing dots and spaces when it is opened, so `/static/private./secret.txt` would reach `private/secret.txt` without passing middleware mounted on `/static/private`; the file server answers such a segment with `404 Not Found` on Windows, whatever the root: an `fs.FS` may be OS-backed (`os.DirFS`) and cannot be told apart from a virtual one such as `embed.FS`, so an embedded name ending in a dot or a space is not served on Windows either. Case is a different matter: on a case-insensitive filesystem (Windows, and macOS by default) `/static/PRIVATE/secret.txt` opens `private/secret.txt`, and with [`CaseSensitive`](../api/fiber.md#config) enabled the router keeps the two apart, so middleware mounted on `/static/private` does not run. Leave `CaseSensitive` off (the default) for a static root with guarded directories, or serve it from a case-sensitive filesystem.
 :::
 
 ## Config
@@ -150,7 +160,7 @@ To define static routes using `Get`, append the wildcard (`*`) operator at the e
 | Next       | `func(fiber.Ctx) bool` | Next defines a function to skip this middleware when it returns true.                                                                              | `nil`                  |
 | FS       | `fs.FS` | FS is the file system to serve the static files from.<br /><br />You can use interfaces compatible with fs.FS like embed.FS, os.DirFS etc.                                                 | `nil`                  |
 | Compress       | `bool` | When set to true, the server tries minimizing CPU usage by caching compressed files. The middleware will compress the response using `gzip`, `brotli`, or `zstd` compression depending on the [Accept-Encoding](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Encoding) header. <br /><br />This works differently than the github.com/gofiber/compression middleware.                                                                              | `false`                  |
-| ByteRange       | `bool` | When set to true, enables byte range requests.                                                                             | `false`                  |
+| ByteRange       | `bool` | When set to true, enables byte range requests. A request for several ranges, or whose `If-Range` does not match, gets the whole file. | `false`                  |
 | Browse       | `bool` | When set to true, enables directory browsing.                                                                             | `false`                  |
 | Download       | `bool` | When set to true, enables direct download.                                                                             | `false`                  |
 | IndexNames       | `[]string` | The names of the index files for serving a directory.                                                                             | `[]string{"index.html"}`                  |
@@ -159,7 +169,9 @@ To define static routes using `Get`, append the wildcard (`*`) operator at the e
 | ModifyResponse       | `fiber.Handler` | ModifyResponse defines a function that allows you to alter the response.                                                                             | `nil`                  |
 | NotFoundHandler       | `fiber.Handler` | NotFoundHandler defines a function to handle when the path is not found.                                                                             | `nil`                  |
 
-When **Download** is enabled, the response includes a `Content-Disposition` header with the requested filename. Non-ASCII names use the `filename*` parameter as defined by [RFC 6266](https://www.rfc-editor.org/rfc/rfc6266) and [RFC 8187](https://www.rfc-editor.org/rfc/rfc8187).
+When **Download** is enabled, the response of a served file includes a `Content-Disposition` header with the requested filename, while the `Content-Type` the file server detected is kept. Non-ASCII names use the `filename*` parameter as defined by [RFC 6266](https://www.rfc-editor.org/rfc/rfc6266) and [RFC 8187](https://www.rfc-editor.org/rfc/rfc8187). A request for a missing file falls through to the next handler without the header.
+
+**MaxAge** only applies to successful responses; an error such as `416 Range Not Satisfiable` carries no `Cache-Control`. A handler registered on several routes serves each under that route's own prefix.
 
 :::info
 You can set `CacheDuration` config property to `-1` to disable caching.

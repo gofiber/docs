@@ -197,11 +197,22 @@ The order in which you declare routes matters: like Express.js, routes are match
 Place routes with variable parameters after fixed paths to avoid unintended matches.
 :::
 
+### Path normalization
+
+Before a request is matched, Fiber normalizes its path as [RFC 3986 Section 6.2.2](https://www.rfc-editor.org/rfc/rfc3986#section-6.2.2) describes:
+
+- Percent-encoded unreserved characters (letters, digits, `-`, `.`, `_` and `~`) are decoded, so `/%70rivate` is matched as `/private`. Every other escape stays encoded with uppercase hex digits, so an encoded slash (`%2F`) never splits a segment and `/a%2fb` is matched as `/a%2Fb`. A stray `%` that begins no escape is kept as sent, so `/a%zzb` is matched as `/a%zzb` and `/files/./100%` as `/files/100%`, whatever else the path holds. The one exception is a stray `%` that an escape decoded after it would complete into a new escape: it is written as `%25`, so `/%%370rivate` is matched as `/%2570rivate`, never as `/%70rivate`. With [`UnescapePath`](../api/fiber.md#config) enabled, every escape is decoded instead and a malformed escape stays as sent.
+- `.` and `..` segments are resolved, so `/static/x/../private` and `/static/./private` are both matched as `/static/private`. A `..` never climbs above the root. Empty segments are kept: `/static//private` is a different path from `/static/private`.
+
+Middleware mounted on a prefix therefore sees these spellings of a path under it, and [`c.Path()`](../api/ctx.md#path) returns the normalized path. Decoding happens exactly once: `/%2570rivate` is matched as `/%2570rivate` by default and as `/%70rivate` with `UnescapePath`, and neither becomes `/private`. Nor can a stray `%` forge an escape out of the bytes after it, so by default `c.Path()` never holds an escape of an unreserved character: the router decoded the genuine ones, and `/%%370rivate` is matched as `/%2570rivate`, never as `/%70rivate` or `/private`. Since that `%25` appears only next to a decoded escape, a route parameter holding a stray `%` comes out the same however the rest of the path is spelled: `/files/100%` and `/files/./100%` both give `c.Params("name")` the value `100%`. It is still not a path to percent-decode again: an escape the router kept, such as `%2F`, is meant to stay one, and decoding it would make `/private%2Fsecret` into `/private/secret`. [`c.OriginalURL()`](../api/ctx.md#originalurl) still returns the request target as the client sent it.
+
 ## Parameters
 
 Route parameters are dynamic segments in a path, either named or unnamed, used to capture values from the URL. Retrieve them with the [Params](../api/ctx.md#params) function using the parameter name or, for unnamed parameters, the wildcard (`*`) or plus (`+`) symbol with an index.
 
 The characters `:`, `+`, and `*` introduce parameters. Append `?` to a named segment to make it optional. `+` is a greedy, required wildcard (it must match at least one character); `*` is a greedy, optional wildcard (it can match nothing).
+
+If a named optional parameter consumes a value but later segments fail to match, Fiber can retry it as empty. Matching allows at most 16 such retries per route to bound the work for adjacent optional parameters. A route that needs more retries does not match, even if a valid assignment exists. Greedy wildcards do not participate in these retries, and a value that fails its constraint is not retried as empty.
 
 <Tabs>
 <TabItem value="named" label="Named, optional, greedy">
@@ -264,6 +275,11 @@ Escape special parameter characters with `\\` to treat them literally. This is u
 // Matches "/v1/some/resource/name:customVerb" because the colon is escaped
 app.Get(`/v1/some/resource/name\:customVerb`, func(c fiber.Ctx) error {
     return c.SendString("Hello, Community")
+})
+
+// Matches only the literal path "/*"; an escaped star is not the catch-all route
+app.Get(`/\*`, func(c fiber.Ctx) error {
+    return c.SendString("literal star")
 })
 ```
 
@@ -328,6 +344,8 @@ Constraints are matching rules, not input validation: if a value fails a constra
 | alpha             | `:name<alpha>`                   | Rick (String must consist of one or more alphabetical characters, a-z and case-insensitive) |
 | datetime          | `:dob<datetime(2006\\-01\\-02)>` | 2005-11-01                                                                                  |
 | regex(expression) | `:date<regex(\d{4}-\d{2}-\d{2})>` | 2022-08-27 (Must match regular expression)                                                  |
+
+Constraint names and arguments are always taken from the pattern as written, even with the default case-insensitive routing: `:code<regex([A-Z]{2})>` keeps matching uppercase codes only, a `datetime` layout keeps its `T` and `Z`, and a custom constraint registered under a mixed-case name is found.
 
 #### Examples
 
@@ -588,7 +606,7 @@ Pick the helper that fits: a single endpoint uses `Get`/`Post`/…; a fixed set 
 
 ## Automatic HEAD routes
 
-Fiber automatically registers a `HEAD` route for every `GET` route you add. The generated handler chain mirrors the `GET` chain, so `HEAD` requests reuse middleware, status codes, and headers while the response body is suppressed.
+Fiber automatically registers a `HEAD` route for every `GET` route you add. The generated handler chain mirrors the `GET` chain, so `HEAD` requests reuse middleware, status codes, and headers while the response body is suppressed. This covers the routes of mounted sub-apps at any nesting depth, and routes added at runtime get their `HEAD` companion when [`RebuildTree`](../api/app.md#rebuildtree) publishes them.
 
 ```go title="GET handlers automatically expose HEAD"
 app := fiber.New()

@@ -69,12 +69,14 @@ app.Use(session.New(session.Config{
     AbsoluteTimeout:   24 * time.Hour,    // Maximum session life
     Extractor:         extractors.FromCookie("__Host-session_id"),
 }))
+```
 
 Notes:
 
 - AbsoluteTimeout must be greater than or equal to IdleTimeout; otherwise, the middleware panics during configuration.
-- If CookieSameSite is set to "None", the middleware automatically forces CookieSecure=true when setting the cookie.
-```
+- CookieSameSite accepts `"Disabled"`, `"Lax"`, `"Strict"`, or `"None"` case-insensitively; other values panic during configuration.
+- If CookieSameSite is set to `"Disabled"`, the cookie omits the SameSite attribute and preserves `CookieSecure`.
+- If CookieSameSite is set to `"None"`, the middleware automatically forces `CookieSecure=true` when setting the cookie.
 
 ## Usage Patterns
 
@@ -533,6 +535,7 @@ if ok {
 - Registration must happen during application startup
 - All instances of the application must register the same types
 - Types are encoded using Go's `gob` package
+- Reading a struct back out with `Get` makes the save re-encode, even for an all-scalar struct like `User`, because every struct is treated as possibly sharing memory with the session. A request that only reads scalars or `time.Time` values writes the stored bytes back unchanged
 
 ## Migration Guide
 
@@ -640,6 +643,8 @@ sess.Store() *session.Store
 
 `FromContext` accepts a `fiber.CustomCtx`, `fiber.Ctx`, a `*fasthttp.RequestCtx`, or a `context.Context`.
 
+A session that was only read is written back to storage without being re-encoded. `Get` and `Keys` give that up when the value or key they return could share memory with the session (a map, slice, array, pointer or struct; scalars and `time.Time` are safe), because the caller could then change it in place without calling `Set`.
+
 ### Store Methods
 
 ```go
@@ -676,7 +681,7 @@ sess.SaveWithContext(ctx context.Context) error
 
 ### Session with Context (timeouts/cancellation)
 
-The `*WithContext` variants let you propagate a `context.Context` to the underlying storage call so that slow or unresponsive backends can be bounded by a deadline or cancelled. This mirrors the `Storage` and `SharedState` `WithContext` convention.
+The `*WithContext` variants let you propagate a `context.Context` to the underlying storage call so that slow or unresponsive backends can be bounded by a deadline or canceled. This mirrors the `Storage` and `SharedState` `WithContext` convention.
 
 ```go
 ctx, cancel := context.WithTimeout(context.Background(), 500*time.Millisecond)
@@ -719,7 +724,7 @@ extractors.Chain(extractors ...extractors.Extractor) extractors.Extractor
 | `AbsoluteTimeout`   | `time.Duration`             | Maximum session duration    | `0` (unlimited)                            |
 | `CookieSecure`      | `bool`                      | HTTPS only                  | `false`                                    |
 | `CookieHTTPOnly`    | `bool`                      | No JavaScript access        | `false`                                    |
-| `CookieSameSite`    | `string`                    | SameSite attribute          | `"Lax"`                                    |
+| `CookieSameSite`    | `string`                    | SameSite mode: `Disabled`, `Lax`, `Strict`, or `None` | `"Lax"`                    |
 | `CookiePath`        | `string`                    | Cookie path                 | `""`                                       |
 | `CookieDomain`      | `string`                    | Cookie domain               | `""`                                       |
 | `CookieSessionOnly` | `bool`                      | Session cookie              | `false`                                    |
