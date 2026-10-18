@@ -46,3 +46,6 @@ safelisted
 fasthttputil
 CGNAT
 nosniff
+HSTS
+HTMX
+tokenless
