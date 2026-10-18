@@ -16,9 +16,9 @@ template, every fetch wrapper and every cached page has to carry a value from
 the server back to the server, and a single gap turns into a support ticket.
 
 Browsers can tell a server where a request comes from. Every major browser
-engine now sends the `Sec-Fetch-Site` header, and Go 1.25 used it to
-add `http.CrossOriginProtection` to the standard library, a CSRF defense without
-any token. [Fiber v3.6.0](https://github.com/gofiber/fiber/releases/tag/v3.6.0)
+engine now sends the `Sec-Fetch-Site` header, and Go 1.25 used it to add
+`http.CrossOriginProtection` to the standard library, a CSRF defense without any
+token. [Fiber v3.6.0](https://github.com/gofiber/fiber/releases/tag/v3.6.0)
 brings the same check to Fiber as
 [`csrf.NewCrossOriginProtection`](/middleware/csrf#cross-origin-protection-without-tokens)
 ([#4596](https://github.com/gofiber/fiber/pull/4596)). It sets no cookie, needs
@@ -309,9 +309,9 @@ fixes.
 The dashboard lives on its own subdomain and calls the API with credentials. It
 needs two entries: `AllowOrigins` in the CORS config, so the browser lets it
 send JSON and read the response, and `TrustedOrigins`, so the cross-origin check
-lets the write through. The two middleware answer different questions. CORS controls
-what a page on another origin may read, the cross-origin check controls what it
-may change.
+lets the write through. The two middleware answer different questions. CORS
+controls what a page on another origin may read, the cross-origin check controls
+what it may change.
 
 Forgetting the second list is the typical migration bug, and local development
 hides it if your frontend dev server proxies API calls. With a proxy setting in
@@ -341,8 +341,8 @@ auto-submitted form from the identity provider's origin to your callback.
 Payment flows with 3-D Secure do the same. That `POST` is cross-site by design,
 and you cannot fix it with `TrustedOrigins` alone. When the form is reached
 through a redirect chain across several sites, the browser may send
-`Origin: null` instead of the provider's origin. That value cannot be trusted, because
-sandboxed iframes on any site send it too. The route has to be exempted.
+`Origin: null` instead of the provider's origin. That value cannot be trusted,
+because sandboxed iframes on any site send it too. The route has to be exempted.
 
 The `Next` function does that. The documentation example compares `c.Path()`,
 which works. The example ties the exemption to the route instead: the callback
@@ -420,13 +420,50 @@ both middleware run. And the report line contains the user agent and origin of
 real users. Depending on where your logs go, that may count as personal data, so
 set a retention period.
 
-After a week of traffic the log tells you what to do. Entries with an origin you
-recognize belong in `TrustedOrigins` or in an exemption. Entries from unknown
-origins are either attacks, which the tokens still stop, or clients you need to
-talk to. When the log is quiet, switch to the enforcing handler, remove
-`csrf.New`, and delete the token plumbing from your templates and fetch
-wrappers. If the handler is selected by an environment variable at startup, both
-the switch and a rollback are configuration changes rather than deploys.
+The report-only log has one blind spot. A request that carries neither
+`Sec-Fetch-Site` nor `Origin` passes the check without ever reaching
+`ErrorHandler`, so it never shows up there. That is exactly the group that loses
+protection when the tokens go: very old browsers that send no `Origin` on a form
+`POST`. Count them separately with a small middleware registered next to the
+check:
+
+```go
+// writesWithoutOrigin logs unsafe requests without Sec-Fetch-Site and Origin.
+// The cross-origin check allows them without calling ErrorHandler.
+func writesWithoutOrigin(c fiber.Ctx) error {
+    switch c.Method() {
+    case fiber.MethodGet, fiber.MethodHead, fiber.MethodOptions:
+        return c.Next()
+    }
+    site := c.Get(fiber.HeaderSecFetchSite)
+    if site == "" && c.Get(fiber.HeaderOrigin) == "" {
+        log.Printf("csrf audit: %s %s without Sec-Fetch-Site or Origin "+
+            "(User-Agent=%q)",
+            c.Method(), c.Path(), c.Get(fiber.HeaderUserAgent))
+    }
+    return c.Next()
+}
+```
+
+This log also contains your `curl` scripts, mobile apps and webhook senders,
+which is fine, since they never had a browser session to abuse. What matters are
+entries whose user agent is a browser. If you find some, those users depend on
+the tokens, and removing `csrf.New` would leave their requests unchecked.
+
+After a week of traffic both logs tell you what to do. Entries with an origin
+you recognize belong in `TrustedOrigins` or in an exemption. Entries from
+unknown origins are either attacks, which the tokens still stop, or clients you
+need to talk to. When the report-only log is quiet and the audit log shows no
+browsers, switch to the enforcing handler.
+
+Selecting the handler with an environment variable at startup makes that switch,
+and switching back, a configuration change, but only as long as `csrf.New` and
+the token plumbing are still in place. Run the enforcing check together with the
+tokens for a while. Once you remove `csrf.New` and the hidden fields, flipping
+back to `reportOnly` would leave unsafe cross-origin requests with no CSRF
+defense at all, because `reportOnly` lets everything through. From that point
+on, a rollback means redeploying the token version, so keep that commit easy to
+find.
 
 ## Pin the Policy Down in a Test
 
@@ -528,8 +565,9 @@ Old browsers come first. A browser without `Sec-Fetch-Site` falls back to the
 `Origin` comparison, and a very old one that sends no `Origin` on a form `POST`
 is let through unchecked, like any non-browser client. For a consumer site that
 group is small. If you serve kiosks, embedded devices or enterprise desktops
-that are years behind, the report-only log tells you how many such requests you
-actually get.
+that are years behind, the audit middleware from the rollout section tells you
+how many such requests you actually get. The report-only log cannot, because
+these requests never fail the check.
 
 Plain HTTP is the second case. Browsers send no Fetch Metadata to a non-secure
 origin other than `localhost`, so such a deployment depends on the
@@ -556,9 +594,15 @@ your public origin to `TrustedOrigins`.
 
 Last, some things no CSRF defense covers. State changes behind `GET` are never
 checked, so a `GET /notes/42/delete` link is as dangerous as before. An XSS bug
-on your own origin turns the attacker's script into a `same-origin` request, and
-an XSS bug on a trusted origin is just as bad. Tokens do not help there either,
-since script on the page can read them.
+on your own origin turns the attacker's script into a `same-origin` request.
+Tokens do not help there either, since script on your page can read them.
+
+An XSS bug on a trusted origin is where the two approaches differ. With the
+tokenless check, a script on `dashboard.example.com` passes because the origin
+match is the entire check. With `csrf.New`, that script still needs a valid
+token, and it can only get one if your app hands it out to that origin, for
+example through a CORS-readable endpoint that returns the token. The more
+origins you trust, the more this difference matters.
 
 ## Wrapping Up
 
