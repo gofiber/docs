@@ -144,6 +144,7 @@ import (
     "strings"
 
     "github.com/gofiber/fiber/v3"
+    "github.com/gofiber/fiber/v3/middleware/cors"
     "github.com/gofiber/fiber/v3/middleware/hostauthorization"
     "github.com/gofiber/fiber/v3/middleware/keyauth"
 )
@@ -184,6 +185,15 @@ func newApp(root *os.Root, token string, allowedOrigins []string) *fiber.App {
         ErrorHandler: hostDenied,
     }))
     app.Use(originAllowlist(allowedOrigins))
+    // Lets the trusted UI pass the preflight for its Authorization header.
+    // AllowOriginsFunc instead of AllowOrigins: an empty AllowOrigins list
+    // would allow every origin.
+    app.Use(cors.New(cors.Config{
+        AllowOriginsFunc: func(origin string) bool {
+            return slices.Contains(allowedOrigins, origin)
+        },
+        AllowHeaders: []string{fiber.HeaderAuthorization},
+    }))
 
     app.Get("/healthz", func(c fiber.Ctx) error {
         return c.SendString("ok")
@@ -288,10 +298,20 @@ directly. That request carries a perfectly valid `Host: localhost:7777`, and
 only `Origin` gives it away. The token adds a second obstacle here, because a
 cross-origin `fetch` with an `Authorization` header needs a CORS preflight. The
 `OPTIONS` request runs through the same `Use` middleware, gets the `403` from
-the `Origin` check, and the browser never sends the real request. Note that the
-check compares against a fixed list and not against `Host`, which is the
-difference to the CSRF check. During rebinding, `Origin` and `Host` agree with
-each other, and both are wrong.
+the `Origin` check, and the browser never sends the real request.
+
+A trusted UI needs that preflight to succeed, so the example adds
+[`cors.New`](/middleware/cors) behind the `Origin` check. It answers the
+`OPTIONS` request with `204 No Content`, names the origin in
+`Access-Control-Allow-Origin` and allows the `Authorization` header. Take care
+with the configuration: an empty `AllowOrigins` list allows every origin, and
+when `DEVTOOL_ORIGINS` is unset the list would be empty. `AllowOriginsFunc`
+with the same slice avoids that, because with the function set and no static
+list, an origin is only allowed when the function says so.
+
+Note that the `Origin` check compares against a fixed list and not against
+`Host`, which is the difference to the CSRF check. During rebinding, `Origin`
+and `Host` agree with each other, and both are wrong.
 
 The token comes last and protects the actual data. `crypto/rand.Text` returns
 a random string with at least 128 bits of randomness, and the keyauth
@@ -304,11 +324,13 @@ problem, but one that every file-serving helper has.
 ### Trying It
 
 Start the helper with a fixed token so the commands are reproducible, then play
-both clients with curl. curl lets you set any `Host` you like, which is
+both clients with curl from a second shell that has the same `DEVTOOL_TOKEN`
+exported. curl lets you set any `Host` you like, which is
 exactly what a rebound browser request looks like from the server's side:
 
 ```bash
-DEVTOOL_TOKEN=local-dev-token go run .
+export DEVTOOL_TOKEN=local-dev-token
+go run .
 curl -i -H 'Host: rebind.attacker.example:7777' http://127.0.0.1:7777/api/files
 ```
 
@@ -333,7 +355,7 @@ The log names the host, which is what you want to see when someone reports a
 The legitimate client uses a loopback name and the token:
 
 ```bash
-curl -s -H 'Authorization: Bearer local-dev-token' http://localhost:7777/api/files
+curl -s -H "Authorization: Bearer $DEVTOOL_TOKEN" http://localhost:7777/api/files
 ```
 
 ```text
@@ -344,7 +366,28 @@ Without the token the request gets past the host check and fails at keyauth
 with `401 Unauthorized`, a `WWW-Authenticate: Bearer realm="Restricted"` header
 and the body `missing or invalid API Key`. A request with the right token but an
 `Origin` of `http://localhost:5173` gets `{"error":"unknown origin"}`, unless
-you started the helper with `DEVTOOL_ORIGINS=http://localhost:5173`.
+you started the helper with `DEVTOOL_ORIGINS=http://localhost:5173`. With that
+setting, the browser's preflight passes:
+
+```bash
+curl -si -X OPTIONS -H 'Origin: http://localhost:5173' \
+  -H 'Access-Control-Request-Method: GET' \
+  -H 'Access-Control-Request-Headers: authorization' \
+  http://localhost:7777/api/files
+```
+
+```text
+HTTP/1.1 204 No Content
+...
+Access-Control-Allow-Origin: http://localhost:5173
+Access-Control-Allow-Methods: GET, POST, HEAD, PUT, DELETE, PATCH, QUERY
+Access-Control-Allow-Headers: Authorization
+```
+
+The real `GET` that follows carries the token and gets the file list with
+`Access-Control-Allow-Origin: http://localhost:5173`, so the UI can read it. The
+preflight test further down pins this down for both a trusted and an unknown
+origin.
 
 ## Details That Bite
 
@@ -585,6 +628,38 @@ func TestHostAndOriginPolicy(t *testing.T) {
                 t.Errorf("status = %d, want %d", resp.StatusCode, tt.wantStatus)
             }
         })
+    }
+}
+
+func TestTrustedUIPreflight(t *testing.T) {
+    root, err := os.OpenRoot(t.TempDir())
+    if err != nil {
+        t.Fatal(err)
+    }
+    defer root.Close()
+
+    app := newApp(root, "test-token", []string{"http://localhost:5173"})
+
+    for origin, want := range map[string]string{
+        "http://localhost:5173": "http://localhost:5173",
+        "http://localhost:8080": "",
+    } {
+        req := httptest.NewRequest(fiber.MethodOptions, "/api/files", nil)
+        req.Host = "localhost:7777"
+        req.Header.Set(fiber.HeaderOrigin, origin)
+        req.Header.Set(fiber.HeaderAccessControlRequestMethod, fiber.MethodGet)
+        req.Header.Set(fiber.HeaderAccessControlRequestHeaders, "authorization")
+
+        resp, err := app.Test(req)
+        if err != nil {
+            t.Fatal(err)
+        }
+        resp.Body.Close()
+        got := resp.Header.Get(fiber.HeaderAccessControlAllowOrigin)
+        if got != want {
+            t.Errorf("%s: Access-Control-Allow-Origin = %q, want %q",
+                origin, got, want)
+        }
     }
 }
 
