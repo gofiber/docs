@@ -49,3 +49,5 @@ nosniff
 HSTS
 HTMX
 tokenless
+hostauthorization
+genieacs
