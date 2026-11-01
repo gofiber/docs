@@ -77,8 +77,8 @@ Three rules make this deny by default:
    includes routes nobody named, because their name is the empty string and the
    table never contains it.
 2. At startup the app compares the table with `app.GetRoutes(true)`. Any route
-   without a policy, and any policy without a route, stops the process before it
-   listens.
+   without a policy, any policy without a route, and any name shared by routes
+   on different paths stops the process before it listens.
 3. A test runs the same comparison, so the mistake shows up in the pull request
    and not at deploy time.
 
@@ -99,6 +99,7 @@ import (
     "errors"
     "fmt"
     "log"
+    "maps"
     "slices"
     "sort"
     "strings"
@@ -186,31 +187,40 @@ func authorize(
     }
 }
 
-// checkPolicies fails when a route has no policy or a policy has no route.
+// checkPolicies fails when a route has no policy, a policy has no route,
+// or one name is shared by routes on different paths.
 func checkPolicies(app *fiber.App, rules map[string]Policy) error {
     // GetRoutes lists the routes of mounted sub-apps and the automatic
     // HEAD routes only once the app is prepared for serving. Handler
     // does that preparation now; Listen repeats it later.
     app.Handler()
 
-    var problems []string
-    seen := map[string]bool{}
+    // A set, because GET and its automatic HEAD route report the same thing.
+    problems := map[string]bool{}
+    pathOf := map[string]string{} // route name -> first path that uses it
     for _, r := range app.GetRoutes(true) {
-        seen[r.Name] = true
         if _, ok := rules[r.Name]; !ok {
-            problems = append(problems,
-                fmt.Sprintf("%s %s has no policy (name %q)", r.Method, r.Path, r.Name))
+            msg := fmt.Sprintf("%s has no policy (name %q)", r.Path, r.Name)
+            problems[msg] = true
+            continue
+        }
+        // Methods of one path (Add, All, automatic HEAD) may share a
+        // name. Different paths must not, or one inherits the other's rule.
+        if first, ok := pathOf[r.Name]; !ok {
+            pathOf[r.Name] = r.Path
+        } else if first != r.Path {
+            problems[fmt.Sprintf("name %q is used by %s and %s",
+                r.Name, first, r.Path)] = true
         }
     }
     for name := range rules {
-        if !seen[name] {
-            problems = append(problems,
-                fmt.Sprintf("policy %q matches no route", name))
+        if _, ok := pathOf[name]; !ok {
+            problems[fmt.Sprintf("policy %q matches no route", name)] = true
         }
     }
     if len(problems) > 0 {
-        sort.Strings(problems)
-        return errors.New("authz: " + strings.Join(problems, "; "))
+        list := slices.Sorted(maps.Keys(problems))
+        return errors.New("authz: " + strings.Join(list, "; "))
     }
     return nil
 }
@@ -342,7 +352,13 @@ an empty ID, so do not call it there.
 
 `checkPolicies` walks `app.GetRoutes(true)`, where `true` filters out `app.Use`
 registrations, and collects every problem instead of stopping at the first, so
-one failed start tells you everything. It calls `app.Handler()` before reading
+one failed start tells you everything. Besides missing entries it looks for a
+name that two different paths share. Fiber does not reject duplicate names at
+registration, and the middleware only sees the name, so a sensitive route that
+reuses the name of a public one would quietly run under the public rule. Several
+methods on the same path, as with `Add`, `All` or the automatic `HEAD` route,
+may share a name, because they are one endpoint as far as the policy is
+concerned. It calls `app.Handler()` before reading
 the routes, and that line is easy to drop by accident. Before the app is
 prepared for serving, `GetRoutes` does not yet contain the routes of mounted
 sub-apps or the automatic `HEAD` routes, so a sub-app route without a policy
@@ -409,7 +425,7 @@ refuses to start and lists all three problems:
 <!-- markdownlint-disable MD013 -->
 
 ```text
-authz: GET /api/admin/users has no policy (name "api.admin.users"); GET /debug/vars has no policy (name ""); policy "api.admin.user" matches no route
+authz: /api/admin/users has no policy (name "api.admin.users"); /debug/vars has no policy (name ""); policy "api.admin.user" matches no route
 ```
 
 <!-- markdownlint-enable MD013 -->
@@ -436,9 +452,9 @@ is easy to believe it does once the table looks complete.
 
 The startup check catches drift on the next deploy. A test catches it in the
 pull request that causes it. The test file below runs `checkPolicies` against
-the real app, proves that an unnamed route gets a `403` even when the caller is
-an admin, and walks an access matrix, including the automatic `HEAD` routes and
-the `404` and `405` paths.
+the real app, rejects a name that was copied onto a second path, proves that an
+unnamed route gets a `403` even when the caller is an admin, and walks an access
+matrix, including the automatic `HEAD` routes and the `404` and `405` paths.
 
 ```go
 package main
@@ -459,6 +475,18 @@ var testTokens = map[string]User{
 func TestEveryRouteHasAPolicy(t *testing.T) {
     if err := checkPolicies(newApp(testTokens), policies); err != nil {
         t.Fatal(err)
+    }
+}
+
+func TestSharedNameIsReported(t *testing.T) {
+    app := newApp(testTokens)
+    // Copy-pasted name: without the check, the export would be public.
+    app.Get("/api/export", func(c fiber.Ctx) error {
+        return c.SendString("all notes")
+    }).Name("health")
+
+    if err := checkPolicies(app, policies); err == nil {
+        t.Fatal("checkPolicies accepted one name on two paths")
     }
 }
 
@@ -539,12 +567,29 @@ because it was the shortest way to catch every subpath. The fix is to register
 such handlers as routes:
 
 ```go
-app.Get("/assets/*", static.New("./public")).Name("assets")
+app.Get("/assets/*", static.New("./public", static.Config{
+    // A miss must end here. By default static calls c.Next() and the
+    // request falls through to whatever route matches next.
+    NotFoundHandler: func(c fiber.Ctx) error {
+        return fiber.ErrNotFound
+    },
+})).Name("assets")
 ```
 
 This serves the same files, `c.Endpoint()` returns the route with the name
-`assets`, and the table can mark it public or not. A missing file under that
-prefix is then a `404` from the static middleware, after the policy ran. The
+`assets`, and the table can mark it public or not. The `NotFoundHandler` is not
+decoration. Without it, the static middleware calls `c.Next()` when a file does
+not exist, and the router continues with the next matching route. I tested that
+with `assets` marked public and an admin-only `GET /assets/export` registered
+after it: an anonymous request to `/assets/export` was authorized as `assets`,
+the static middleware found no file, fell through, and the export handler
+answered with `200`. With the `NotFoundHandler` the same request gets a `404`.
+
+The general rule behind it: `authorize` checks the endpoint the router reaches
+first, once. Any handler that calls `c.Next()` to pass the request on to a later
+route, or that changes the routing target after the check, hands the request to
+an endpoint nobody authorized. If you need that kind of fall-through, the second
+endpoint has to check again, for example with route-level middleware. The
 `GetRoutes(true)` check will not warn you about `app.Use` handlers, because it
 filters them out on purpose, so this is a rule for code review: anything that
 sends a response is a route, not a `Use`.
@@ -554,8 +599,9 @@ returns the flattened route, for example `/v2/items/:id`, and `GetRoutes` lists
 it once the app has been prepared, which is why `checkPolicies` calls
 `app.Handler()` first. The name, however, is the one given inside the sub-app,
 without any prefix from the mount, so two sub-apps can both have a route called
-`items.show`. Give each sub-app's names a prefix of its own, either by hand or
-through a group inside the sub-app, or the table cannot tell them apart.
+`items.show`. `checkPolicies` reports that, because the two routes have
+different paths, but it is better not to get there. Give each sub-app's names a
+prefix of its own, either by hand or through a group inside the sub-app.
 
 ## Details That Bite
 
@@ -566,7 +612,9 @@ routes `multi`, and they share one policy. That is fine when both methods need
 the same rule. When reading and writing need different rules, register them
 separately and give them separate names. If you prefer to keep them together,
 key the table by method and name instead of name alone. The middleware has
-`route.Method` right there.
+`route.Method` right there. That only splits the methods of one path, though.
+It does not help when two different paths carry the same name, which is why
+`checkPolicies` treats that as an error.
 
 ### Naming a Group Too Late
 
