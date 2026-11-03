@@ -38,6 +38,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [Docker + MariaDB](./docker-mariadb-clean-arch/README.md) - Dockerized MariaDB with Clean Architecture.
 - [Docker + Nginx](./docker-nginx-loadbalancer/README.md) - Load balancing with Docker and Nginx.
 - [Dummy JSON Proxy](./dummyjson/README.md) - Proxying dummy JSON data.
+- [Early Hints (HTTP 103)](./early-hints/README.md) - Demonstrating HTTP 103 Early Hints in Fiber v3 to preload critical assets before delivering the final response.
 - [Email Verification Service](./email-verification/README.md) - Email verification service with code generation and validation
 - [Entgo ORM (MySQL)](./ent-mysql/README.md) - Using Entgo ORM with MySQL
 - [Entgo Sveltekit](./entgo-sveltekit/README.md) - A full-stack Todo application built using Sveltekit, Tailwind CSS, Entgo, and SQLite.
@@ -53,6 +54,7 @@ Here you can find the most **delicious** recipes to cook delicious meals using o
 - [GORM](./gorm/README.md) - Using GORM with SQLite database.
 - [GORM MySQL](./gorm-mysql/README.md) - Using GORM with MySQL database.
 - [GORM + PostgreSQL](./gorm-postgres/README.md) - Using GORM with PostgreSQL database.
+- [GraphQL Subscriptions with gqlgen](./gqlgen/README.md) - Schema-first GraphQL with gqlgen, with queries and mutations over HTTP and subscriptions over WebSocket.
 - [Graceful shutdown](./graceful-shutdown/README.md) - Graceful shutdown of applications.
 - [GraphQL](./graphql/README.md) - Setting up a GraphQL server.
 - [gRPC](./grpc/README.md) - Using Fiber as a client to a gRPC server.
