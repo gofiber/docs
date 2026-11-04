@@ -280,6 +280,31 @@ div.reference {
   color: var(--ifm-color-emphasis-600);
 }
 
+/* BlogLayout wraps everything in a centered .container (max 1320px); docs span the window */
+html.blog-wrapper .main-wrapper > .container {
+  max-width: none;
+}
+
+/* Sidebar and TOC stop at their old size (3/12 and 2/12 of 1320px), the post column takes the rest */
+@media (min-width: 997px) {
+  html.blog-wrapper .main-wrapper > .container > .row {
+    --blog-sidebar-width: min(25%, 330px);
+    --blog-toc-width: min(100% / 6, 220px);
+  }
+
+  html.blog-wrapper .main-wrapper > .container > .row > aside.col--3 {
+    --ifm-col-width: var(--blog-sidebar-width);
+  }
+
+  html.blog-wrapper .main-wrapper > .container > .row > .col--2 {
+    --ifm-col-width: var(--blog-toc-width);
+  }
+
+  html.blog-wrapper .main-wrapper > .container > .row > main.col--7 {
+    --ifm-col-width: calc(100% - var(--blog-sidebar-width) - var(--blog-toc-width));
+  }
+}
+
 /* Blog aside headings */
 html.blog-wrapper aside.col.col--3 nav [class*='sidebarItemTitle'] {
   font-size: clamp(28px, 3.6vw, 35px);
