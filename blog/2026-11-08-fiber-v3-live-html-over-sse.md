@@ -103,8 +103,9 @@ the list. The interesting part is the block at the bottom:
 </form>
 
 <div hx-ext="sse" sse-connect="/events">
-  <div hidden sse-swap="reset" hx-target="#tickets" hx-swap="innerHTML"></div>
-  <ul id="tickets" sse-swap="ticket" hx-swap="afterbegin">
+  <div hidden sse-swap="reset" hx-target="#tickets"
+       hx-swap="innerHTML settle:0ms"></div>
+  <ul id="tickets" sse-swap="ticket" hx-swap="afterbegin settle:0ms">
     {{template "partials/tickets" .}}
   </ul>
 </div>
@@ -125,7 +126,8 @@ A single ticket is a partial, and the list is a partial that ranges over it:
 
 <!-- prettier-ignore -->
 ```html title="views/partials/ticket.html"
-<li id="ticket-{{.ID}}" sse-swap="ticket-{{.ID}}" hx-swap="outerHTML">
+<li id="ticket-{{.ID}}" sse-swap="ticket-{{.ID}}"
+    hx-swap="outerHTML settle:0ms">
   <strong>#{{.ID}}</strong> {{.Title}}
   {{- if .Agent}}
   <em>claimed by {{.Agent}}</em>
@@ -149,7 +151,22 @@ Every rendered ticket listens for an event named after itself. When an agent
 claims ticket 7, the server sends an event named `ticket-7`, and the `li` for
 ticket 7 replaces itself with the new markup. htmx processes swapped-in
 content, so a ticket that arrived through SSE registers its own listener just
-like one that came with the page. The `.empty` rule in the layout hides the
+like one that came with the page.
+
+The `settle:0ms` on all three swaps is not decoration. htmx processes new
+content, which is when a fresh `li` registers its `sse-swap` listener, only
+after the settle delay, 20 milliseconds by default. Events that arrive
+together, such as a replay or a ticket that is claimed right after it was
+opened, fall into that gap: the claim event for ticket 1 arrives before the
+`li` of ticket 1 listens for it, and nothing handles it. In a headless
+Chromium test that opened four tickets and claimed each of them right away,
+all four claims were lost with the default delay and all four arrived with
+`settle:0ms`. Worse, the browser's last event id has already moved past the
+lost claim, so the next reconnect does not bring it back either. With a settle
+delay of zero, htmx processes the new content before the next event is
+dispatched.
+
+The `.empty` rule in the layout hides the
 "No open tickets." placeholder as soon as a real ticket is inserted next to
 it.
 
@@ -460,9 +477,9 @@ func newApp() (*fiber.App, *Board) {
 
     app.Post("/tickets/:id<int>/claim", func(c fiber.Ctx) error {
         agent := strings.Clone(strings.TrimSpace(c.FormValue("agent")))
-        if agent == "" {
+        if agent == "" || utf8.RuneCountInString(agent) > 100 {
             return fiber.NewError(fiber.StatusUnprocessableEntity,
-                "agent is required")
+                "agent must be 1 to 100 characters")
         }
         id := fiber.Params[int](c, "id")
         _, err := board.Claim(id, agent)
@@ -582,32 +599,35 @@ curl -X POST -d 'agent=Ben' localhost:3000/tickets/1/claim
 The stream shows the reset with the empty list, then one event per change:
 
 ```text
-id: 1794140110404-0
+id: 1794141181250-0
 event: reset
 data: <li class="empty">No open tickets.</li>
 data:
 
-id: 1794140110404-1
+id: 1794141181250-1
 event: ticket
-data: <li id="ticket-1" sse-swap="ticket-1" hx-swap="outerHTML">
+data: <li id="ticket-1" sse-swap="ticket-1"
+data:     hx-swap="outerHTML settle:0ms">
 data:   <strong>#1</strong> Checkout returns 500
 data:   <button hx-post="/tickets/1/claim" hx-include="#agent"
 data:           hx-swap="none">Claim</button>
 data: </li>
 data:
 
-id: 1794140110404-2
+id: 1794141181250-2
 event: ticket
-data: <li id="ticket-2" sse-swap="ticket-2" hx-swap="outerHTML">
+data: <li id="ticket-2" sse-swap="ticket-2"
+data:     hx-swap="outerHTML settle:0ms">
 data:   <strong>#2</strong> &lt;img src=x onerror=alert(1)&gt;
 data:   <button hx-post="/tickets/2/claim" hx-include="#agent"
 data:           hx-swap="none">Claim</button>
 data: </li>
 data:
 
-id: 1794140110404-3
+id: 1794141181250-3
 event: ticket-1
-data: <li id="ticket-1" sse-swap="ticket-1" hx-swap="outerHTML">
+data: <li id="ticket-1" sse-swap="ticket-1"
+data:     hx-swap="outerHTML settle:0ms">
 data:   <strong>#1</strong> Checkout returns 500
 data:   <em>claimed by Mia</em>
 data: </li>
@@ -625,13 +645,14 @@ once.
 Reconnecting with the id of the second event replays only what came after it:
 
 ```bash
-curl -N -H 'Last-Event-ID: 1794140110404-2' localhost:3000/events
+curl -N -H 'Last-Event-ID: 1794141181250-2' localhost:3000/events
 ```
 
 ```text
-id: 1794140110404-3
+id: 1794141181250-3
 event: ticket-1
-data: <li id="ticket-1" sse-swap="ticket-1" hx-swap="outerHTML">
+data: <li id="ticket-1" sse-swap="ticket-1"
+data:     hx-swap="outerHTML settle:0ms">
 data:   <strong>#1</strong> Checkout returns 500
 data:   <em>claimed by Mia</em>
 data: </li>
@@ -639,7 +660,7 @@ data:
 ```
 
 An id from another process, `Last-Event-ID: 0-2` for example, gets a `reset`
-event with both tickets and the id `1794140110404-3`. Your boot prefix will
+event with both tickets and the id `1794141181250-3`. Your boot prefix will
 differ, since it is the start time of your process in Unix milliseconds.
 
 In the browser, with two windows open, a ticket created in one shows up at the
@@ -869,10 +890,12 @@ has to be longer than the heartbeat interval. The middleware sets
 behind Fiber's own compress middleware, and events still arrived as they
 were written, since each one is flushed.
 
-One detail of the htmx extension: the listener of a ticket that a reset replaced
-stays registered on the `EventSource` until an event with its name arrives, at
-which point the extension notices that the element is gone and removes it. On a
-page that stays open all day through many resets, those leftovers add up slowly.
+One detail of the htmx extension: the listener of a ticket element that was
+replaced, by a claim or by a reset, stays registered on the `EventSource` until
+an event with its name arrives, at which point the extension notices that the
+element is gone and removes it. A claim happens only once per ticket, so for
+claimed tickets that event never comes, and on a page that stays open all day
+the leftovers add up slowly.
 At the size of a support queue that is unlikely to matter, but a page with
 thousands of per-row event names would be better served by a single event name
 and out-of-band swaps.
