@@ -344,6 +344,14 @@ Logger provides predefined formats that you can use by name or directly by speci
 `${resBody}` logs nothing for a streamed response (`SendStream`, `SendStreamWriter`, and `SendFile` for a large file). Reading such a body would pull the whole stream into memory and turn the response into a buffered one — an SSE route would deliver nothing until its writer finished — so logging leaves it alone.
 :::
 
+:::tip
+`${body}` logs what `Ctx.Body()` returns, so a compressed request body is logged decoded and a `Content-Encoding` that cannot be undone logs the error text. With [`StreamRequestBody`](../api/fiber.md#streamrequestbody), `${body}` and `${form:}` read a streamed request body the handler left unread within `BodyLimit`, `${form:}` only a form body; for a larger one `${body}` logs the error message and `${form:}` searches only the query string. Unlike a call from a handler, the tags never answer such a request with `415`, `501` or `413`: the response goes out as the handler left it.
+:::
+
+:::note
+For a request the timeout middleware gave up on, `${status}`, `${bytesSent}`, `${resBody}`, `${respHeader:}` and the status column of the default format report the timeout response the client receives, not the response the timed-out handler may still be writing. Tags that read the request log nothing for such a request, since the timed-out handler may still read or change it and even fasthttp's reads change state the two would share: `${body}`, `${cookie:}`, `${form:}`, `${ips}`, `${locals:}`, `${query:}`, `${queryParams}`, `${referer}`, `${reqHeader:}`, `${reqHeaders}` and `${ua}`, and behind a trusted proxy also `${ip}`, `${host}`, `${scheme}` and the IP column of the default format. The logger returns the timeout error for such a request instead of `nil`, since the error handler does not answer it: middleware registered before the logger that skips its work on an error, such as `cache`, `compress`, `etag` or `idempotency`, then leaves the response to the timed-out handler instead of storing or rewriting it. An error-handling middleware registered before the logger receives that error too, so it should check `c.IsAbandoned()` before it writes a response.
+:::
+
 ## The `${ips}` tag
 
 `${ips}` logs the chain the framework parsed, `Ctx.IPs()`, joined with `,`.

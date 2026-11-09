@@ -142,13 +142,42 @@ curl http://localhost:3000/web
 </details>
 
 :::caution
-To define static routes using `Get`, append the wildcard (`*`) operator at the end of the route. Under a `/static*` route the rest of the path must start at a segment boundary, so `/static-v2/app.js` or `/staticapp.js` are no longer served; only `/static` and paths below `/static/` are.
+To define static routes using `Get`, append the wildcard (`*`) operator at the end of the route. Under a `/static*` or `/static+` route the rest of the path must start at a segment boundary, so `/static-v2/app.js` or `/staticapp.js` are no longer served; only `/static` and paths below `/static/` are.
+
+A route whose first parameter is a wildcard strips the text before it, as `/static*` does: under `/assets/*.js` the path `/assets/app.js` serves `app.js`. After a named parameter, a directory root takes the file name from the wildcard that ends the route: under `/:lang/*` the path `/en/app.js` serves `app.js`. A parameter there that matched an empty segment, as in `//app.js` under `/:lang?/*`, is answered with `404 Not Found`, as an empty first segment is on a root mount. A route with a named parameter and no trailing wildcard, such as `app.Use("/:tenant", ...)` or a sub-app mounted on it, does not tell where the file name starts, so a directory root serves nothing there; register it as `Get("/*", ...)` inside the sub-app instead. A root that is a single file is served on such a route.
 :::
 
 :::info
-The file server resolves the path the router matched. Fiber normalizes request paths before routing (see [Path normalization](../guide/routing.md#path-normalization)), so middleware mounted on `/static/private` also guards `/static/%70rivate/secret.txt` and `/static/x/../private/secret.txt`.
+The file server resolves the path the router matched. Fiber normalizes request paths before routing (see [Path normalization](../guide/routing.md#path-normalization)), so middleware mounted on `/static/private` also guards `/static/%70rivate/secret.txt` and `/static/x/../private/secret.txt`. With `Browse`, the title and links of a directory listing follow that path as well. On a route whose prefix holds a parameter, such as `/:lang/*`, each listing links below its own prefix, so `Browse` turns the file cache off for that route, files included, as a negative `CacheDuration` would. A routed prefix there that holds `%`, `\`, `?`, `#` or a control character is answered with `404 Not Found`, since fasthttp decodes the prefix when it writes the links and a browser drops a tab or line break from them.
 
-Escapes the router leaves encoded, such as `%20`, `%40` or `%25`, also remain encoded for file lookup. This keeps routing, including path-scoped authorization middleware, and static-file resolution on the same resource name. Consequently, `/static/hello%20world.txt` does not serve `hello world.txt`; enable [`UnescapePath`](../api/fiber.md#config) when encoded spellings should resolve to decoded file names. A path that cannot name a file inside the root is answered with `404 Not Found`: an escape that represents a slash, a backslash or a control character, a malformed escape such as `%zz`, an escape of an unreserved character, an empty, `.` or `..` segment and, for a root on the operating system's file system, a first segment that starts with a drive letter such as `C:`. So `/static/private%2Fsecret.txt` never reaches `private/secret.txt` unless `UnescapePath` decodes it for the router as well, and `/static//private/secret.txt` is not found. A stray `%` cannot forge an escape the file server would then decode: the router decodes every escape of an unreserved character when it normalizes a path, so one still in the routed path can only have been forged, and it is rejected rather than decoded a second time. `/static/%%370rivate/secret.txt` therefore never opens `private/secret.txt`. With `UnescapePath` enabled the router has already decoded every escape, so a malformed escape is an ordinary part of the name: `/static/100%zz.txt` names `100%zz.txt`.
+Escapes the router leaves encoded, such as `%20`, `%40` or `%25`, also remain encoded for file lookup. This keeps routing, including path-scoped authorization middleware, and static-file resolution on the same resource name. Consequently, `/static/hello%20world.txt` does not serve `hello world.txt`; enable [`UnescapePath`](../api/fiber.md#config) when encoded spellings should resolve to decoded file names.
+
+A path that cannot name a file inside the root is answered with `404 Not Found`:
+
+- an escape that represents a slash, a backslash or a control character, so `/static/private%2Fsecret.txt` never reaches `private/secret.txt` unless `UnescapePath` decodes it for the router as well;
+- a malformed escape such as `%zz`;
+- an escape of an unreserved character. The router decodes every one of those when it normalizes a path, so one still in the routed path can only have been forged by a stray `%`, and it is rejected rather than decoded a second time: `/static/%%370rivate/secret.txt` never opens `private/secret.txt`;
+- an empty, `.` or `..` segment, so `/static//private/secret.txt` is not found;
+- for a root on the operating system's file system, a first segment that starts with a drive letter such as `C:`.
+
+With `UnescapePath` enabled the router has already decoded every escape, so a malformed escape is an ordinary part of the name: `/static/100%zz.txt` names `100%zz.txt`.
+
+A root mount, such as `app.Use(static.New(dir))` or `app.Get("/*", static.New(dir))`, refuses a path whose first segment is empty too, whether it serves a directory or a single file. The router keeps the empty first segment of `//private/secret.txt` apart from `/private/secret.txt`, so a root mount answers it with `404 Not Found` instead of serving anything for a path that middleware mounted on `/private` never saw. That includes any spelling the router turns into such a path, such as `/.//private/secret.txt` or, with `UnescapePath` enabled, `/%2Fprivate/secret.txt`.
+
+The router reads `/static/private` and `/static/private/` as one path, and so does the file server: either spelling serves the directory's index, or a file of that name. With [`StrictRouting`](../api/fiber.md#config) enabled the router keeps the two apart and the file server follows the router, while middleware registered with `Use` on `/static/private/` still runs for `/static/private`. A directory, the mount point `/static` included, is then served for the spelling that ends in a slash only, and the other one is redirected to it with `302 Found`. A file is served for the spelling without the slash only, so `/static/secret.txt/` is answered with `404 Not Found`.
+
+A root that is a single file looks nothing up by the path, so it serves its file for every other path the route matches, whatever its spelling, and no spelling of a path can select another file. An empty segment further in is an ordinary part of a name there, as in `/web/https://example.com`.
+:::
+
+:::tip
+A client that puts a doubled slash in front of a path, such as a base URL that ends in `/` joined to a path that starts with `/`, gets `404 Not Found` from a root mount. To keep serving it, collapse the slash with the [Rewrite](./rewrite.md) middleware before any middleware that matches a path prefix runs. The middleware registered after it, one guarding `/private` included, then sees `/private/secret.txt`:
+
+```go
+app.Use(rewrite.New(rewrite.Config{
+    RuleList: []rewrite.Rule{{From: "//*", To: "/$1"}},
+}))
+```
+
 :::
 
 :::caution
@@ -165,6 +194,7 @@ The file server opens the name the router matched, so it is only as strict as th
 | ByteRange       | `bool` | When set to true, enables byte range requests. A request for several ranges, or whose `If-Range` does not match, gets the whole file. | `false`                  |
 | Browse       | `bool` | When set to true, enables directory browsing.                                                                             | `false`                  |
 | Download       | `bool` | When set to true, enables direct download.                                                                             | `false`                  |
+| AllowSymlinksOutsideRoot       | `bool` | When set to true, symbolic links that leave the root, and absolute ones, are followed. Has no effect with `FS`.                                                                             | `false`                  |
 | IndexNames       | `[]string` | The names of the index files for serving a directory.                                                                             | `[]string{"index.html"}`                  |
 | CacheDuration       | `time.Duration` | Expiration duration for inactive file handlers.<br /><br />Use a negative time.Duration to disable it.                                                                             | `10 * time.Second`                  |
 | MaxAge       | `int` | The value for the Cache-Control HTTP-header that is set on the file response. MaxAge is defined in seconds.                                                                             | `0`                  |
@@ -174,6 +204,8 @@ The file server opens the name the router matched, so it is only as strict as th
 When **Download** is enabled, the response of a served file includes a `Content-Disposition` header with the requested filename, while the `Content-Type` the file server detected is kept. Non-ASCII names use the `filename*` parameter as defined by [RFC 6266](https://www.rfc-editor.org/rfc/rfc6266) and [RFC 8187](https://www.rfc-editor.org/rfc/rfc8187). A request for a missing file falls through to the next handler without the header.
 
 **MaxAge** only applies to successful responses; an error such as `416 Range Not Satisfiable` carries no `Cache-Control`. A handler registered on several routes serves each under that route's own prefix.
+
+A root on disk must be named: `New` panics on an empty root, which would be the filesystem root, so an unset variable cannot expose every file the process can read; use `"."` for the working directory. With `FS`, an empty root is the root of that file system. A root on disk is confined: a relative symbolic link that stays inside it is followed, while one that leaves it, and an absolute link even when it points inside, is handled like a missing file. Set **AllowSymlinksOutsideRoot** when such links are intended, for example a shared asset directory or a build tool that writes absolute links. With `Compress`, the compressed copy of a file reached through a linked directory is written into that directory. A file root, and a root given through `FS`, are not confined this way.
 
 :::info
 You can set `CacheDuration` config property to `-1` to disable caching.

@@ -105,8 +105,9 @@ the `%` a second time. Turn `UnescapePath` on, or decode with
 An app with `UnescapePath` enabled decodes `%2F` before route matching, so an
 ordinary single-segment parameter holding a `/` cannot round-trip and returns
 `ErrRouteNotRepresentable`. Greedy (`*` or `+`), adjacent single-byte parameters
-and parameters with a single-byte non-slash terminator retain their existing
-slash-matching rules.
+and required parameters with a single-byte non-slash terminator retain their
+existing slash-matching rules. An optional parameter with such a terminator does
+not match a `/`, so a decoded `/` in its value returns `ErrRouteNotRepresentable`.
 Dot-containing values are also rejected when the composed path has a `.` or
 `..` segment that would be removed during normalization. Surrounding route
 constants are considered: `:name.txt` with `name="."` remains representable.
@@ -131,6 +132,8 @@ value like `/\evil.com`, which a browser resolves to `//evil.com`, is not
 mistaken for a local path. A referer that is missing, cross-origin, or
 unparsable falls back to the provided URL. If there is no fallback either,
 `Back` returns `fiber.ErrRedirectBackNoFallback`, an error with status 500.
+
+This browser-style normalization applies to the referer checked by `Back`, not to every redirect API or the fallback URL. The [HTTP client](../client/request.md#control-characters-in-redirect-targets) instead rejects upstream `Location` values containing control bytes rather than removing them and following a changed target.
 
 :::
 

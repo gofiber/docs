@@ -251,6 +251,8 @@ The pattern can contain parameters prefixed with `:`. Use [`DomainParam`](#domai
 
 Groups offer `Domain` too: `api.Domain("api.example.com")` keeps the group prefix and adds the host filter.
 
+Routes for one path registered through different `Domain` patterns stay separate routes, each with its own name and automatic `HEAD` route, even when they are registered one after another; [`c.Endpoint()`](./ctx.md#endpoint) reports a `Domain` route only for a hostname its pattern matches.
+
 Domain routing has **zero performance impact** on routes that don't use it — the hostname check is applied as a handler wrapper, not a change to the core router.
 
 :::note
@@ -617,8 +619,9 @@ the `%` a second time. Turn `UnescapePath` on, or decode with
 An app with `UnescapePath` enabled decodes `%2F` before route matching, so an
 ordinary single-segment parameter holding a `/` cannot round-trip and returns
 `ErrRouteNotRepresentable`. Greedy (`*` or `+`), adjacent single-byte parameters
-and parameters with a single-byte non-slash terminator retain their existing
-slash-matching rules.
+and required parameters with a single-byte non-slash terminator retain their
+existing slash-matching rules. An optional parameter with such a terminator does
+not match a `/`, so a decoded `/` in its value returns `ErrRouteNotRepresentable`.
 Dot-containing values are also rejected when the composed path has a `.` or
 `..` segment that would be removed during normalization. Surrounding route
 constants are considered: `:name.txt` with `name="."` remains representable.
@@ -994,6 +997,10 @@ func main() {
     }
 }
 ```
+
+A request body of unknown length, such as an `*os.File` or an `io.Pipe` reader (`httptest.NewRequest` gives it a `ContentLength` of `-1`, `http.NewRequest` one of `0`), is read and sent with its measured `Content-Length`.
+
+A request with a `TLS` state, which `httptest.NewRequest` sets for an `https://` target, is served as a TLS connection: `c.Scheme()` is `https`, `c.Secure()` is `true` and `c.RequestCtx().TLSConnectionState()` returns that state.
 
 If not provided, TestConfig is set to the following defaults:
 

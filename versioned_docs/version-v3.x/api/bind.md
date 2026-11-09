@@ -44,7 +44,7 @@ The binding sources have the following precedence:
 5. **Cookies**
 
 :::info
-The request body is only included as a binding source when the request has both a non-empty body **and** a non-empty `Content-Type` header.
+The request body is only included as a binding source when the request has both a non-empty body **and** a non-empty `Content-Type` header. Without a `Content-Type` the body is not read, so a streamed body stays available to [`BodyStream`](./ctx.md#bodystream).
 :::
 
 Each source fills only the top-level fields of `out` that are still at their zero value, so the first source in the order that provides a non-zero value for a field wins. A non-zero value you set on `out` before the call is never overwritten. A zero one counts as unset, so a source can fill it, and a zero value from an earlier source (`0`, `""`, `false`) does not stop a later source from filling the field. A nested struct, slice or map that an earlier source set, even partly, is kept as a whole, so a later source cannot fill its remaining zero fields. A configured [`StructValidator`](#validation) runs once, on the merged struct.
@@ -282,7 +282,7 @@ curl -X POST -H "Content-Type: multipart/form-data" -F "name=john" -F "pass=doe"
 ```
 
 :::info
-`Form` reads only the request body, never the query string. A `multipart/form-data` body is read with the app's [`BodyLimit`](fiber.md#bodylimit) as its size limit, which also bounds the size of a `Content-Encoding: gzip` body after decompression. A larger body fails with an error that wraps `fasthttp.ErrBodyTooLarge`.
+`Form` reads only the request body, never the query string. A `multipart/form-data` body is read with the app's [`BodyLimit`](fiber.md#bodylimit) as its size limit, which also bounds the size of a `Content-Encoding: gzip` body after decompression. A larger body fails with an error that wraps `fasthttp.ErrBodyTooLarge`, and so does a larger urlencoded body under [`StreamRequestBody`](fiber.md#streamrequestbody).
 
 On a form request, `Form` and `Body` also lowercase the case-insensitive parts of the request's own `Content-Type` (the media type and the parameter names, never the `boundary` value), so copy a value you read earlier from `Get(HeaderContentType)` if you need it to outlive the call, see [FormValue](./ctx.md#formvalue). Other body types leave the header untouched.
 :::
@@ -300,8 +300,10 @@ A form body is a flat list of key/value pairs, so structure lives in the field n
 | Indexed brackets   | `items[0][sku]=A1`           | field of a struct slice element      |
 | Dot index          | `items.0.sku=A1`             | field of a struct slice element      |
 | Mixed index/field  | `items[0].sku=A1`            | field of a struct slice element      |
+| Map key            | `attributes[color]=red`      | entry of a [map field](#map-fields)  |
+| Dot map key        | `attributes.color=red`       | entry of a [map field](#map-fields)  |
 
-Bracket and dot notation are interchangeable and can be nested to any depth:
+Bracket and dot notation are interchangeable and can be nested up to 64 segments deep (`items[0][sku]` has three). A key with more segments fails a bind into a struct with `binder.ErrKeyTooDeep`; map destinations are not limited:
 
 ```go title="Struct"
 type Address struct {
@@ -340,11 +342,41 @@ Order{
 An index only ever addresses a struct field. `colors[0]=red` and `colors.0=red` do **not** fill a `[]string`. With the default decoder the value is dropped and no error is returned; after `SetParserDecoder(ParserConfig{IgnoreUnknownKeys: false})` the same input fails with `schema: invalid path "colors.0"`. Use a repeated key or `colors[]` for slices of scalars.
 
 Indexes above 1000 are rejected: `items.1001.sku=A1` fails with `schema: index exceeds parser limit`.
+
+A struct with a slice of structs inside a slice element, or below a field that refers back to its own type (`Children []Category`, `Mother, Father *Person`), gets a slice for every element or level a key reaches, so for such a struct the keys are limited by the memory their indexes can make a bind allocate. Every index after a key's first, such as the `3` in `items[0][variants][3][sku]`, counts as its value plus one, and so does a first index that does not follow the first field name in a struct that refers back to its own type, such as the `1000` in `mother[father][phones][1000][number]`. Keys that share everything up to an index count it once, and each counted element weighs as much as the largest element of such a slice in the struct. Keys that add up to more than 8 MiB fail the bind with `binder.ErrTooManyElements`. For example, 30 lines of 50 variants of 160 bytes each, sent as `lines[l][variants][v][field]`, count 30 times 1 + 2 + ... + 50, that is 38,250 elements or about 6 MiB, and still bind. Only the key is read, so a numeric map key at such a position, such as the `2026` in `items[0][stock][2026]`, counts as well.
 :::
 
 :::note
 The struct field tag never contains the brackets or the index. `colors[]`, `colors[0]` and `colors.0` all resolve against `form:"colors"`.
 :::
+
+#### Map Fields
+
+A `map[string]T` field collects every key under its name. Everything after the field name becomes the map key, as sent: `attributes[color]` and `attributes.color` both give `color`, and `attributes[a][b]` gives `a.b`. Values are converted like any other field, so `T` can be any scalar a struct field could hold, or a slice of one. Other map fields, such as `map[string]Address`, `map[int]string`, `map[string]any`, a nested map or a pointer to a map, are skipped without an error. Query strings work the same with `query` tags.
+
+```go title="Struct"
+type Filter struct {
+    Attributes map[string]string   `form:"attributes"`
+    Tags       map[string][]string `form:"tags"`
+    Limits     map[string]int      `form:"limits"`
+}
+```
+
+```bash title="curl"
+curl -X POST http://localhost:3000/products \
+  --data "attributes[color]=red&attributes.size=m" \
+  --data "tags[sale]=yes&tags[sale]=new&limits[max]=5"
+```
+
+```go title="Result"
+Filter{
+    Attributes: map[string]string{"color": "red", "size": "m"},
+    Tags:       map[string][]string{"sale": {"yes", "new"}},
+    Limits:     map[string]int{"max": 5},
+}
+```
+
+A map of slices keeps repeated values, and splits comma-separated ones when `EnableSplittingOnParsers` is on. A map of single values keeps the last value. A value that can't be converted fails the bind with the full key in the error, such as `"limits.max"`, and a map with no matching keys is left `nil`, or fails the bind when the tag has `required`. A map that is already set is added to, not replaced, so don't pre-fill the field with a map other requests share.
 
 ### JSON
 
@@ -534,7 +566,7 @@ Run tests with the following `curl` command:
 curl "http://localhost:3000/" -H "name: john" -H "pass: doe" -H "products: shoe,hat"
 ```
 
-Header names are matched case-insensitively. A header sent on several lines, such as `-H "products: shoe" -H "products: hat"`, fills a slice with one element per line, with or without `EnableSplittingOnParsers`.
+Header names are matched case-insensitively. A header sent on several lines, such as `-H "products: shoe" -H "products: hat"`, fills a slice with one element per line, with or without `EnableSplittingOnParsers`. With `EnableSplittingOnParsers`, each line's value is also split at its commas, the spaces and tabs around each element are removed and empty elements are skipped, so `products: shoe, hat,` followed by `products: glove` gives `["shoe", "hat", "glove"]`. A value made only of empty elements, such as `products: ,`, binds as an empty value does. Quoted strings are not parsed: a comma inside one splits as well, so `"a, b"` gives two elements.
 
 ### Query
 
@@ -577,7 +609,7 @@ curl "http://localhost:3000/?name=john&pass=doe&products=shoe,hat"
 ```
 
 :::info
-`EnableSplittingOnParsers` applies to the Cookie, Form, Header, Query, and RespHeader binders. For more parser settings, please refer to [Config](fiber.md#enablesplittingonparsers)
+`EnableSplittingOnParsers` applies to the Cookie, Form, Header, Query, and RespHeader binders. The Header and RespHeader binders also remove the spaces and tabs around each element and skip empty elements (see [Header](#header)); the Cookie, Form and Query binders keep each element as written. For more parser settings, please refer to [Config](fiber.md#enablesplittingonparsers)
 :::
 
 #### Array Query Parameters
@@ -592,6 +624,7 @@ Fiber supports several formats for passing array values via query parameters. Th
 | Indexed bracket notation | `?posts[0][title]=Hello&posts[1][title]=World` | No                                  |
 | Nested bracket notation  | `?preferences[tags]=golang,api`                | No (comma splitting: **Yes**)       |
 | Dot notation             | `?user.name=Alice&posts.0.title=Hello`         | No                                  |
+| [Map key](#map-fields)   | `?attributes[color]=red&attributes.size=m`     | No (comma splitting: **Yes**)       |
 
 ##### Repeated Key
 
@@ -804,6 +837,8 @@ app.Get("/", func(c fiber.Ctx) error {
 })
 ```
 
+With `EnableSplittingOnParsers`, a response header value is split as a request header value is, see [Header](#header).
+
 ### URI
 
 This method is similar to [Body Binding](#body), but for path parameters.
@@ -859,7 +894,7 @@ app.Get("/", func(c fiber.Ctx) error {
 - `map[string]string` keeps only the **last** value of a repeated key and never splits values on commas. `map[string][]string` keeps every value and, with [`EnableSplittingOnParsers`](fiber.md#enablesplittingonparsers), splits comma-separated ones.
 - Bound keys are added to the map and replace entries of the same name. Other entries stay in place.
 - A nil map passed by value fails with `binder.ErrMapNilDestination`. Pass a pointer, such as `&m`, and Fiber allocates the map. A nil pointer to a map fails as well.
-- Only `map[string]string` and `map[string][]string` themselves are filled. A map with string or slice elements of any other type, such as `map[string][]int` or a named type like `type Headers map[string]string`, fails with `binder.ErrMapNotConvertible`. Maps with other element kinds, for example `map[string]int` or `map[string]any`, are left untouched and no error is returned.
+- Only `map[string]string` and `map[string][]string` themselves are filled. A map with string or slice elements of any other type, such as `map[string][]int` or a named type like `type Headers map[string]string`, fails with `binder.ErrMapNotConvertible`. Maps with other element kinds, for example `map[string]int` or `map[string]any`, are left untouched and no error is returned. A map field of a struct follows [Map Fields](#map-fields) instead.
 - `Query` and `Form` rewrite bracket notation to dots, so the key `filter[name]` is stored as `filter.name` and `ids[]` as `ids`.
 - File fields of a multipart form are not added to a map.
 - [`All`](#all) needs a pointer to a struct, and the [struct validator](#validation) is skipped for maps.
@@ -902,7 +937,7 @@ if err := c.Bind().All(&req); err != nil {
 
 `BindError` unwraps to the error of the decoder, so `errors.As` and `errors.Is` see through it. Fiber re-exports the types you are most likely to look for:
 
-- The Cookie, Form, Header, Query, RespHeader, and URI binders (and `Body` for form content) fail with a `fiber.MultiError`, a `map[string]error` keyed by the request key that failed. Its entries are a `fiber.ConversionError` when a value cannot be converted to the field type, a `fiber.EmptyFieldError` when a [`required`](#required-fields) key is missing or empty, and a `fiber.UnknownKeyError` for a key that names no field (only reported when `IgnoreUnknownKeys` is `false`, see [SetParserDecoder](#setparserdecoder)). Not every failure is a `MultiError`: a key with unmatched square brackets, such as `?a[=1`, is refused earlier with a plain `binder.ErrUnmatchedBrackets`, so keep a fallback for other errors.
+- The Cookie, Form, Header, Query, RespHeader, and URI binders (and `Body` for form content) fail with a `fiber.MultiError`, a `map[string]error` keyed by the request key that failed. Its entries are a `fiber.ConversionError` when a value cannot be converted to the field type, a `fiber.EmptyFieldError` when a [`required`](#required-fields) key is missing or empty, and a `fiber.UnknownKeyError` for a key that names no field (only reported when `IgnoreUnknownKeys` is `false`, see [SetParserDecoder](#setparserdecoder)). Not every failure is a `MultiError`: a key with unmatched square brackets, such as `?a[=1`, is refused earlier with a plain `binder.ErrUnmatchedBrackets`, a key of more than 64 segments with `binder.ErrKeyTooDeep`, and keys whose nested indexes add up past the [limit](#nested-and-array-form-fields) with `binder.ErrTooManyElements`, so keep a fallback for other errors.
 - With the default `JSONDecoder`, a JSON body fails with the errors of `encoding/json`: `*fiber.UnmarshalTypeError` for a value of the wrong JSON type, `*fiber.SyntaxError` for malformed JSON, and `*fiber.InvalidUnmarshalError` for a destination that is not a non-nil pointer.
 
 `Field` is taken from a `ConversionError`, `UnknownKeyError`, `EmptyFieldError`, `MultiError` (one of its keys, so any of them when several fields failed), or `UnmarshalTypeError`. For any other error it stays empty.
