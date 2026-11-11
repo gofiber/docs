@@ -13,5 +13,8 @@ jobs:
     uses: gofiber/.github/.github/workflows/dependabot-automerge.yml@main
     with:
       match_pattern: '^deploy|^actionlint /'
+      required_checks: |
+        npm: ^deploy
+        github-actions: ^deploy|^actionlint /
     secrets:
       github-token: ${{ secrets.PR_TOKEN }}
