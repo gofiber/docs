@@ -160,10 +160,12 @@ that map fields mix freely with the ordinary kind:
 package main
 
 import (
+    "errors"
     "fmt"
     "maps"
     "math"
     "slices"
+    "strconv"
     "strings"
 )
 
@@ -181,16 +183,30 @@ type ProductQuery struct {
 // pasted into SQL, so it must never come from the request.
 type rangeField struct {
     column string
-    toDB   func(float64) any // request unit to column unit
+    toDB   func(float64) (any, error) // request unit to column unit
 }
 
 var rangeFields = map[string]rangeField{
     "price":  {column: "price_cents", toDB: toCents},
-    "rating": {column: "rating", toDB: func(v float64) any { return v }},
+    "rating": {column: "rating", toDB: asIs},
 }
 
-// toCents rounds, because 19.99 * 100 is 1998.9999999999998 in float64.
-func toCents(v float64) any { return int64(math.Round(v * 100)) }
+func asIs(v float64) (any, error) { return v, nil }
+
+// toCents converts euros to whole cents. It refuses fractions of a cent
+// instead of rounding them, so neither bound can widen the filter. The
+// check reads the shortest decimal form of v ("19.99"), not v*100, which
+// is 1998.9999999999998 in float64.
+func toCents(v float64) (any, error) {
+    if math.Abs(v) > 1e9 {
+        return nil, errors.New("out of range")
+    }
+    s := strconv.FormatFloat(v, 'f', -1, 64)
+    if _, frac, ok := strings.Cut(s, "."); ok && len(frac) > 2 {
+        return nil, errors.New("at most two decimals")
+    }
+    return int64(math.Round(v * 100)), nil
+}
 
 const (
     maxAttrKeys   = 8
@@ -262,8 +278,12 @@ func buildQuery(q ProductQuery, known map[string]bool) (string, []any, error) {
             if !ok {
                 return "", nil, &FilterError{key, "unknown range field"}
             }
+            arg, err := field.toDB(bound.values[name])
+            if err != nil {
+                return "", nil, &FilterError{key, err.Error()}
+            }
             sb.WriteString(" AND " + field.column + " " + bound.op + " ?")
-            args = append(args, field.toDB(bound.values[name]))
+            args = append(args, arg)
         }
     }
 
@@ -325,10 +345,15 @@ map key is an injection hole that the old struct field could not have had,
 because with a struct field the column name was fixed in your code.
 
 Two smaller choices are worth a word. Prices arrive in euros as `float64` and
-the column holds cents, and `19.99 * 100` is `1998.9999999999998` in floating
-point, so a plain multiplication would leave out a product that costs exactly
-19.99. `toDB` rounds to whole cents. And an empty attribute value is refused,
-for reasons the section on details explains. `Clone` is not used by the
+the column holds cents. A plain multiplication goes wrong because `19.99 * 100`
+is `1998.9999999999998` in floating point, and rounding goes wrong in a
+different way: `max[price]=50.009` would become 5001 cents and let a product
+for 50.01 through. So `toCents` refuses anything with more than two decimals
+and only then rounds. It looks at the shortest decimal form of the number,
+which `strconv.FormatFloat` gives as `19.99`, because checking whether
+`v * 100` is a whole number would reject 19.99 for the same floating point
+reason. And an empty attribute value is refused, for reasons the section on
+details explains. `Clone` is not used by the
 handler, which is done with the query before it returns; it is for whoever
 later wants to log, cache or save a search.
 
@@ -451,6 +476,14 @@ exists. On a busy catalog I would cache the set for a minute and accept that
 delay.
 
 ### Trying It
+
+Put the three files into an empty directory, create a module there and pin the
+versions this post was tested with:
+
+```bash
+go mod init example.com/catalog
+go get github.com/gofiber/fiber/v3@v3.7.0 modernc.org/sqlite@v1.62.0
+```
 
 Start the app with `go run .` and send a few filters. The `-g` flag stops curl
 from treating the brackets as its own URL globbing syntax:
@@ -695,6 +728,11 @@ func TestBuildQuery(t *testing.T) {
     _, args, err = buildQuery(cheap, known)
     if err != nil || args[0] != int64(1999) {
         t.Fatalf("19.99 must become 1999 cents, got %v (%v)", args, err)
+    }
+
+    fraction := ProductQuery{Max: map[string]float64{"price": 50.009}}
+    if _, _, err := buildQuery(fraction, known); err == nil {
+        t.Fatal("a price with fractions of a cent must be rejected")
     }
 
     evil := ProductQuery{Min: map[string]float64{
