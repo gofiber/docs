@@ -163,8 +163,9 @@ cannot bill the histogram for a body it never sent. The exception is a pre-parse
 multipart form: fasthttp keeps the parsed parts — the large ones spilled to temp
 files — so reading the body back would re-marshal every uploaded file into memory
 just to size it, and the announced `Content-Length` is used instead — unless it
-exceeds `BodyLimit`, which means the body was never received in full and no
-honest size exists to record.
+exceeds `BodyLimit`, or fasthttp rejected the request unread for another reason,
+which means the body was never received in full and no honest size exists to
+record.
 
 Under `fiber.Config{StreamRequestBody: true}` request payloads are left out of
 `http_request_size_bytes` entirely. fasthttp prefetches a bounded prefix and
@@ -429,7 +430,8 @@ chain has unwound, the middleware invokes it itself when a downstream handler
 returns an error. This is what Fiber's own logger middleware does, and it is
 what allows the recorded status code and response size to match what the client
 actually received. The error is therefore consumed by this middleware and does
-not propagate to handlers mounted *before* it.
+not propagate to handlers mounted *before* it, except for a timed-out request
+(see below).
 
 That applies only to requests it records. When the middleware stands aside —
 `Next` returns true, every metric family is disabled, or the route matched a
@@ -442,6 +444,10 @@ returns). That middleware answers through fasthttp's
 `RequestCtx.TimeoutErrorWithCode`, which parks the response and installs it only
 after the whole chain has unwound, so the live response still reads `200` at the
 point metrics are taken; the middleware reads the parked one instead.
+As Fiber's logger does, the middleware returns the timeout error for such a
+request, so middleware mounted before it, such as `cache`, leaves that response
+alone; an error-handling middleware mounted before it should check
+`c.IsAbandoned()` before it writes a response.
 
 Mount `recover.New()` **after** this middleware, not before it:
 

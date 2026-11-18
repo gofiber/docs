@@ -39,6 +39,7 @@ jwtware.FromContext(ctx any) *jwt.Token    // jwt "github.com/golang-jwt/jwt/v5"
 ```
 
 `FromContext` accepts a `fiber.Ctx`, `fiber.CustomCtx`, `*fasthttp.RequestCtx`, or a standard `context.Context` (e.g. the value returned by `c.Context()` when `PassLocalsToContext` is enabled). It returns a `*jwt.Token` from `github.com/golang-jwt/jwt/v5`.
+The middleware copies the credential before parsing it, so the string `TokenProcessorFunc` receives and `Token.Raw`, as `KeyFunc` and `FromContext` see it, can be kept past the request.
 
 ## Config
 
@@ -101,7 +102,10 @@ For an overview and additional examples, see the Fiber Extractors guide:
   value you pass wins over the derived one. Configurations that leave the
   algorithm open (`KeyFunc`, `JWKSetURLs`, or a `SigningKey` without `JWTAlg`)
   are only as strict as the key material and the JWK `alg` allow, so pinning is
-  worth it.
+  worth it. When `SigningKeys` and `JWKSetURLs` are set together, a `kid` that
+  is configured is answered from `SigningKeys` alone and held to its `JWTAlg`;
+  only a `kid` that is not configured is looked up in the JWK Sets, so a key set
+  cannot replace a configured key by publishing its `kid`.
 - **`alg: none` is refused**, and keys are never read out of the token: the `jwk`,
   `jku`, `x5u` and `x5c` header parameters are ignored, per
   [RFC 8725 Sections 3.4 and 3.5](https://www.rfc-editor.org/rfc/rfc8725#section-3.4).
@@ -181,6 +185,11 @@ For an overview and additional examples, see the Fiber Extractors guide:
       return fiber.ErrUnauthorized // or c.SendStatus(fiber.StatusUnauthorized)
   },
   ```
+
+  An `ErrorHandler` that continues the chain with `c.Next()` gets no challenge
+  for a request Fiber's `timeout` middleware answered: its response is the one
+  that middleware sent, and the one on `c` stays with the handler, which may
+  still be writing it.
 - **Tokens in the URL are not stored in shared caches.** When the request URL
   carries a token - a query parameter, a form parameter (Fiber's `FormValue`
   reads the query before the body), or a route parameter - the successful

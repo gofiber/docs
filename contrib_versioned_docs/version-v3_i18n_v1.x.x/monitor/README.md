@@ -112,7 +112,11 @@ For instrumented requests that return an error, monitor invokes the
 application's configured Fiber `ErrorHandler` before recording the response.
 This makes status metrics match the response sent to the client, including
 custom error statuses. The error is therefore consumed at the monitor layer and
-does not propagate to middleware mounted before it.
+does not propagate to middleware mounted before it, except for a request Fiber's
+`timeout` middleware answered: as with Fiber's logger, that error is returned, so
+middleware mounted before monitor, such as `cache`, leaves that response alone;
+an error-handling middleware mounted before it should check `c.IsAbandoned()`
+before it writes a response.
 
 ## Config
 
@@ -227,9 +231,10 @@ established. While they are disabled, the GC Pause trend explains how to
 enable them.
 
 Snapshots are collected only when JSON is requested and are shared within the
-configured refresh TTL. The dashboard keeps at most 90 trend samples in browser
-memory and displays 60 by default. The 30/60/90 selector changes only the
-visible browser history and remembers the choice in local storage.
+configured refresh TTL, which starts when a collection finishes. The dashboard
+keeps at most 90 trend samples in browser memory and displays 60 by default.
+The 30/60/90 selector changes only the visible browser history and remembers
+the choice in local storage.
 
 The dashboard stops polling while its browser tab is hidden and refreshes as
 soon as the tab is visible again, so a forgotten tab does not keep triggering
