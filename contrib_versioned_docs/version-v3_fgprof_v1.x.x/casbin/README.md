@@ -43,10 +43,12 @@ casbin.New(config ...casbin.Config) *casbin.Middleware
 |:--------------|:--------------------------|:-----------------------------------------|:--------------------------------------------------------------|
 | ModelFilePath | `string`                  | Model file path                        | `"./model.conf"`                                                    |
 | PolicyAdapter | `persist.Adapter`         | Database adapter for policies            | `./policy.csv`                                                      |
-| Enforcer      | `*casbin.Enforcer`        | Custom casbin enforcer                   | `Middleware generated enforcer using ModelFilePath & PolicyAdapter` |
+| Enforcer      | `casbin.IEnforcer`        | Custom casbin enforcer (any `IEnforcer`, e.g. `*casbin.Enforcer`, `*casbin.SyncedEnforcer`, `*casbin.CachedEnforcer`) | `Middleware generated enforcer using ModelFilePath & PolicyAdapter` |
 | Lookup        | `func(fiber.Ctx) string`  | Look up for current subject              | `""`                                                              |
 | Unauthorized  | `func(fiber.Ctx) error`   | Response body for unauthorized responses | `Unauthorized`                                                      |
 | Forbidden     | `func(fiber.Ctx) error`   | Response body for forbidden responses    | `Forbidden`                                                         |
+
+Cached enforcers (`*casbin.CachedEnforcer`, `*casbin.SyncedCachedEnforcer`) keep answering from their cache after policies or roles change, so a revoked permission can still pass, and cached decisions never expire by default. Call `InvalidateCache()` after such changes. A request enforced before the change can still write its old result back afterward, so also call `SetExpireTime` before serving requests (it only applies to decisions cached later), or stop requests while changing policies. If policies change while requests are served, use `*casbin.SyncedCachedEnforcer` or synchronize enforcement and policy updates yourself.
 
 ### Examples
 - [Gorm Adapter](https://github.com/svcg/-fiber_casbin_demo)
