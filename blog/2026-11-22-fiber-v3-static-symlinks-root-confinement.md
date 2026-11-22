@@ -311,9 +311,11 @@ that creates them, here run in the build output before it is shipped, or the
 next release brings the absolute versions back:
 
 ```bash
-cd build/public
-ln -sfn img/icon-180.png apple-touch-icon.png
-ln -sfn img/logo.svg logo.svg
+(
+  cd build/public &&
+    ln -sfn img/icon-180.png apple-touch-icon.png &&
+    ln -sfn img/logo.svg logo.svg
+)
 ```
 
 With GNU coreutils, `ln -sr` computes the relative path for you from an
