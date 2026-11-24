@@ -59,9 +59,13 @@ length as `bytesSent` (`0` when unknown).
 For a request Fiber's `timeout` middleware answered, `GetResBody` is not
 called: `status`, `resBody`, `bytesSent`, `requestId` and `resHeaders` describe
 the response the client received, so `requestId` is empty for the default
-timeout response, which carries no `X-Request-ID`. `Skip`, `SkipField`,
-`SkipHeader`, `RedactHeader` and `GetLogger` still receive `c`, whose response a
-timed-out handler may still be writing, so they should not read it. As Fiber's
+timeout response, which carries no `X-Request-ID`. Its handler may still be
+using the request, so, as in Fiber's logger, the entry leaves out `referer`,
+`ips`, `ua`, `queryParams`, `body` and `reqHeaders`, behind a trusted proxy
+also `ip` and `host`, and `bytesReceived` is only the announced
+`Content-Length`. `Skip`, `SkipField`, `SkipHeader`, `RedactHeader` and
+`GetLogger` still receive `c`, whose request and response a timed-out handler
+may still be using, so they should read neither. As Fiber's
 logger does, the logger returns the timeout error for such a request, so middleware
 registered before it, such as `cache`, leaves that response alone. An
 error-handling middleware registered before it receives that error too, so it
@@ -70,6 +74,14 @@ before `timeout.New`: after it, the logger runs before that middleware answers.
 A multipart form that fasthttp parsed within `BodyLimit` is marshaled back for
 `body`, as in Fiber's logger; use `SkipField` to leave it out. `body` does not
 decode a `Content-Encoding`: such a body is logged as received.
+
+Zerolog hooks get `c.Context()` through `e.GetCtx()`, not `c` itself: what
+`c.SetContext` stored, such as the span of an `otel` middleware registered
+before the logger, with its cancellation and deadline, and a fallback to
+`c.Locals`. For a request the `timeout` middleware answered, the timed-out
+handler may still be using `c`, so hooks get the context `c` had when the
+logger was reached, without that fallback; `PassLocalsToContext` puts values
+such as the request ID in that context as well.
 
 ## Example
 

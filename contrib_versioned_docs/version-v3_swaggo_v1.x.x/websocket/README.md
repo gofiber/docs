@@ -112,22 +112,47 @@ func main() {
 ## Handshake rejections
 
 A request that carries neither an `Upgrade` header nor an `upgrade` token in
-`Connection` never asked to switch protocols and is answered with `426 Upgrade Required`.
+`Connection` never asked to switch protocols and is answered with `426 Upgrade Required`:
+the handler returns `fiber.ErrUpgradeRequired` itself.
 
 A request that *does* ask to upgrade but whose handshake is rejected is returned as a
-`*fiber.Error` carrying the status RFC 6455 defines for that failure, so it reaches
-the app's `ErrorHandler` like any other error and takes its body and format from
-there:
+`*websocket.UpgradeError`. It wraps a `*fiber.Error` carrying the status RFC 6455
+defines for that failure, so it reaches the app's `ErrorHandler` like any other error
+and takes its body and format from there; match it with `errors.As`, not a type
+assertion:
 
 | Reason                                                     | Status                    |
 |:-----------------------------------------------------------|:--------------------------|
 | Origin not in `Origins` (RFC 6455 section 4.2.2)            | `403 Forbidden`           |
 | Missing/blank `Sec-WebSocket-Key`, unsupported version, or only one of the `Upgrade`/`Connection` signals | `400 Bad Request` |
 | Request method is not `GET`                                 | `405 Method Not Allowed`  |
+| Earlier middleware set `Sec-WebSocket-Extensions` on the response (application extensions are unsupported) | `500 Internal Server Error` |
 
 Rejected handshakes also carry `Sec-WebSocket-Version: 13` so a client that asked for
 another version learns which one the server speaks (RFC 6455 section 4.4). Headers set
 by earlier middleware are left in place.
+
+The `Err` field of the `*websocket.UpgradeError` holds why the handshake was refused,
+usually the upgrader's [`HandshakeError`](https://pkg.go.dev/github.com/fasthttp/websocket#HandshakeError),
+such as `websocket: request origin not allowed by Upgrader.CheckOrigin`, and its
+`StatusCode()` method returns the status. `Error()` returns only the status text, so
+the reason reaches the client only if the `ErrorHandler` sends it. To log it:
+
+```go
+app := fiber.New(fiber.Config{
+    ErrorHandler: func(c fiber.Ctx, err error) error {
+        var upgradeErr *websocket.UpgradeError
+        if errors.As(err, &upgradeErr) {
+            log.Printf("websocket upgrade refused (%d): %v", upgradeErr.StatusCode(), upgradeErr.Err)
+        }
+        return fiber.DefaultErrorHandler(c, err)
+    },
+})
+```
+
+`websocket.NewUpgradeError(status, reason)` builds one, for example to test an
+`ErrorHandler` without a handshake. A zero status means none, and the error is then
+answered with `500 Internal Server Error`.
 
 ## Reads and writes
 
@@ -184,9 +209,9 @@ A handler that returns normally leaves the socket open, so it may hand the
 connection to another goroutine before returning and keep writing after. The
 `*websocket.Conn` it receives is allocated for that upgrade alone and never reused,
 so `Locals`, `Params`, `Query`, `Cookies`, `Headers` and `IP` keep answering with
-that connection's own data for as long as anything holds it. Locals of a string or
-byte-slice kind, named types such as `json.RawMessage` included, are copied at the
-upgrade, once per connection, so share a large one through a pointer. Other values
+that connection's own data for as long as anything holds it. Locals keys and values of
+a string or byte-slice kind, named types such as `json.RawMessage` included, are copied
+at the upgrade, once per connection, so share a large one through a pointer. Other values
 are kept as stored, so request strings such a value holds must be copied first (or
 taken from Fiber's getters with `Immutable` set), and objects middleware recycles
 after `c.Next()`, such as the session from `session.FromContext`, must not be passed
