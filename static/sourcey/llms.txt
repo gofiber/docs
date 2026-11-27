@@ -1,0 +1,16 @@
+# fiber
+
+## Docs
+
+- [Fiber — Express-inspired web framework for Go](https://docs.gofiber.io/sourcey/index.md): Fast, minimalist web framework built on Fasthttp. Robust routing, middleware and Next, static files, template engines, WebSocket, SSE, and a zero-allocation context API.
+- [Quickstart](https://docs.gofiber.io/sourcey/quickstart.md): Install Fiber v3, run your first Hello World server, and learn the core concepts — app, routes, handlers, Listen.
+- [Routing and context](https://docs.gofiber.io/sourcey/guides/routing-context.md): Route parameters, wildcards, optional segments, route naming, and grouping routes into chains with shared middleware.
+- [Middleware](https://docs.gofiber.io/sourcey/guides/middleware.md): The Use/Next chain, scoping middleware to a prefix, and the bundled logger and CORS middleware.
+- [Static files and error handling](https://docs.gofiber.io/sourcey/guides/static-error-handling.md): Serve a directory or a single file with the static middleware, return a custom 404, and send JSON responses.
+- [Zero allocation](https://docs.gofiber.io/sourcey/guides/zero-allocation.md): Why Fiber reuses context values across requests, the rule for keeping references, and where the performance claims come from.
+- [Migration and limits](https://docs.gofiber.io/sourcey/guides/migration-limits.md): Migrating from Fiber v2 to v3 with the Fiber CLI, the Go version floor, and the net/http and Express-style compatibility layers.
+
+## Go API
+
+- [github.com/gofiber/fiber/v3](https://docs.gofiber.io/sourcey/api/package-root.md): Package fiber is an Express inspired web framework built on top of Fasthttp, the fastest HTTP engine for Go.
+- [Go API](https://docs.gofiber.io/sourcey/api.md): Go API for github.com/gofiber/fiber/v3 across 1 package.

@@ -1,0 +1,213 @@
+{
+  "observations": [
+    {
+      "name": "repo_url",
+      "value": "https://github.com/gofiber/fiber"
+    },
+    {
+      "name": "pinned_commit",
+      "value": "0d4d872a29e844159a59b0b9f4cd7afab6ec624a"
+    },
+    {
+      "name": "pinned_commit_date",
+      "value": "2026-11-26T20:45:32Z"
+    },
+    {
+      "name": "pinned_commit_message",
+      "value": "Merge pull request #4924 from gofiber/fix/binder-idempotency"
+    },
+    {
+      "name": "license",
+      "value": "MIT"
+    },
+    {
+      "name": "license_spdx",
+      "value": "MIT"
+    },
+    {
+      "name": "adapter",
+      "value": "godoc (snapshot mode)"
+    },
+    {
+      "name": "sourcey_command_snapshot",
+      "value": "sourcey godoc -m ./fiber -p . -o ./fiber/godoc.json"
+    },
+    {
+      "name": "sourcey_command_build",
+      "value": "sourcey build -c sourcey.config.ts -o dist"
+    },
+    {
+      "name": "sourcey_config",
+      "value": "sourcey.config.ts (defineConfig; Docs tab = markdown guides, Go API tab = godoc({module: ./fiber, packages: [\".\"], mode: \"snapshot\", snapshot: ./fiber/godoc.json, sourceBasePath: https://github.com/gofiber/fiber/blob/0d4d872a29e844159a59b0b9f4cd7afab6ec624a/}); siteUrl https://docs.gofiber.io, baseUrl /sourcey/)"
+    },
+    {
+      "name": "sourcey_version",
+      "value": "3.9.5"
+    },
+    {
+      "name": "go_version_for_snapshot",
+      "value": "go1.27.4 linux/amd64"
+    },
+    {
+      "name": "page_count",
+      "value": 10
+    },
+    {
+      "name": "page_list",
+      "value": [
+        "/",
+        "/quickstart",
+        "/guides/routing-context.html",
+        "/guides/middleware.html",
+        "/guides/static-error-handling.html",
+        "/guides/zero-allocation.html",
+        "/guides/migration-limits.html",
+        "/api.html",
+        "/api/package-root.html",
+        "/404.html"
+      ]
+    },
+    {
+      "name": "api_coverage",
+      "value": {
+        "constants": 271,
+        "function_names": [
+          "AcquireBind",
+          "AcquireRedirect",
+          "Convert",
+          "DefaultErrorHandler",
+          "DomainParam",
+          "GetReqHeader",
+          "GetService",
+          "GetState",
+          "GetStateWithDefault",
+          "GetTrimmedParam",
+          "IsChild",
+          "IsMethodIdempotent",
+          "IsMethodSafe",
+          "Locals",
+          "MustGetService",
+          "MustGetState",
+          "New",
+          "NewDefaultCtx",
+          "NewError",
+          "NewErrorf",
+          "NewWithCustomCtx",
+          "Params",
+          "Query",
+          "ReleaseBind",
+          "ReleaseRedirect",
+          "RemoveEscapeChar",
+          "RemoveEscapeCharBytes",
+          "RoutePatternMatch",
+          "StoreInContext",
+          "ValueFromContext"
+        ],
+        "type_methods": 367,
+        "types": 79,
+        "type_names_sample": [
+          "App",
+          "Bind",
+          "BindError",
+          "Colors",
+          "Config",
+          "Constraint",
+          "ConstraintAnalyzer",
+          "ConstraintHandler",
+          "ConversionError",
+          "Cookie",
+          "Ctx",
+          "CustomBinder",
+          "CustomConstraint",
+          "CustomCtx",
+          "DefaultCtx",
+          "DefaultReq",
+          "DefaultRes",
+          "EmptyFieldError",
+          "Error",
+          "ErrorHandler"
+        ],
+        "variables": 64
+      }
+    },
+    {
+      "name": "coverage_notes",
+      "value": "Root package only (github.com/gofiber/fiber/v3). Subpackages middleware/*, client, addon, binder, internal are referenced in the guides but have no API reference pages in this build; documented as a gap in report.md."
+    },
+    {
+      "name": "public_url",
+      "value": "https://docs.gofiber.io/sourcey/"
+    },
+    {
+      "name": "public_url_status",
+      "value": "PENDING \u2014 not yet live. The site deploys to this URL only after the docs PR to gofiber/docs is merged (deploy.yaml publishes ./build to GitHub Pages with CNAME docs.gofiber.io on push to master). Do not treat as live until verified after merge."
+    },
+    {
+      "name": "report_url",
+      "value": "https://docs.gofiber.io/sourcey/report.md (after merge; local copy: report.md)"
+    },
+    {
+      "name": "repo_default_branch",
+      "value": "main"
+    },
+    {
+      "name": "repo_last_push",
+      "value": "2026-11-27T02:56:07Z"
+    },
+    {
+      "name": "repo_stars",
+      "value": 40335
+    },
+    {
+      "name": "runx_version",
+      "value": "runx-cli 0.11.1"
+    },
+    {
+      "name": "verification",
+      "value": {
+        "api_symbols_minimum_required": 20,
+        "api_symbols_total": 811,
+        "asset_prefix": "/sourcey/",
+        "build_exit": 0,
+        "build_pages": 10,
+        "build_time_seconds": 3.6,
+        "deploy_pipeline": "gofiber/docs .github/workflows/deploy.yaml (push to master -> Docusaurus build -> Pages artifact -> docs.gofiber.io) + docusaurus.config.ts url https://docs.gofiber.io + live static/manifest.json HTTP 200",
+        "local_checks": "10/10 pages exist with expected content (text-content checks; syntax highlighting splits raw HTML)"
+      }
+    },
+    {
+      "name": "receipt_ref",
+      "value": "runx:receipt:sha256:2a32169d5ba5d83f34ff0c38f4e3bdbb7f66052760ec6f4db53637af3e8f8ae1"
+    },
+    {
+      "name": "receipt_id",
+      "value": "sha256:2a32169d5ba5d83f34ff0c38f4e3bdbb7f66052760ec6f4db53637af3e8f8ae1"
+    },
+    {
+      "name": "receipt_run_id",
+      "value": "run_sourcey-fiber-build_01a21b13f204d0444d3dc93a"
+    },
+    {
+      "name": "receipt_skill",
+      "value": "sourcey-fiber-build (runx skill, build runner; sealed, outcome completed)"
+    },
+    {
+      "name": "receipt_file_url",
+      "value": "https://docs.gofiber.io/sourcey/receipt.json (after merge; local copy: receipt.json)"
+    },
+    {
+      "name": "receipt_public_url_intended",
+      "value": "https://runx.ai/r/2a32169d5ba5d83f34ff0c38f4e3bdbb7f66052760ec6f4db53637af3e8f8ae1"
+    },
+    {
+      "name": "receipt_public_url_status",
+      "value": "Not yet published (HTTP 404 expected at check time). Notarization needs a runx public API token via runx login (browser OAuth) and the runx CLI cannot reach api.runx.ai from this VM."
+    },
+    {
+      "name": "receipt_verify",
+      "value": "runx verify --receipt receipt.json: valid=true, digest valid, content_address valid, signature valid (issuer local), findings none, lineage unverified (single receipt cannot prove receipt-tree lineage)"
+    }
+  ],
+  "summary": "Sourcey documentation site for the gofiber/fiber Go package (github.com/gofiber/fiber/v3), generated from the pinned source commit 0d4d872a29e844159a59b0b9f4cd7afab6ec624a (26 Nov 2026, MIT). Built with Sourcey 3.9.5 using the godoc adapter in snapshot mode: a godoc.json snapshot of the root package (811 public API symbols) plus an overview, a quickstart, and five guides condensed from the project's own README at the pinned commit. The static site (10 pages) is staged for the docs PR to gofiber/docs and will publish at https://docs.gofiber.io/sourcey/ after merge; the deploy pipeline (deploy.yaml + docusaurus.config.ts url + live manifest.json 200) is verified, but the URL is NOT live yet.",
+  "receipt_ref": "runx:receipt:sha256:2a32169d5ba5d83f34ff0c38f4e3bdbb7f66052760ec6f4db53637af3e8f8ae1"
+}
