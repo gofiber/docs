@@ -1,0 +1,77 @@
+{
+  "/sourcey/index.md": {
+    "Content-Type": "text/markdown; charset=utf-8",
+    "Link": "<https://docs.gofiber.io/sourcey/>; rel=\"canonical\", <https://docs.gofiber.io/sourcey/llms.txt>; rel=\"describedby\""
+  },
+  "/sourcey/quickstart.md": {
+    "Content-Type": "text/markdown; charset=utf-8",
+    "Link": "<https://docs.gofiber.io/sourcey/quickstart.html>; rel=\"canonical\", <https://docs.gofiber.io/sourcey/llms.txt>; rel=\"describedby\""
+  },
+  "/sourcey/guides/routing-context.md": {
+    "Content-Type": "text/markdown; charset=utf-8",
+    "Link": "<https://docs.gofiber.io/sourcey/guides/routing-context.html>; rel=\"canonical\", <https://docs.gofiber.io/sourcey/llms.txt>; rel=\"describedby\""
+  },
+  "/sourcey/guides/middleware.md": {
+    "Content-Type": "text/markdown; charset=utf-8",
+    "Link": "<https://docs.gofiber.io/sourcey/guides/middleware.html>; rel=\"canonical\", <https://docs.gofiber.io/sourcey/llms.txt>; rel=\"describedby\""
+  },
+  "/sourcey/guides/static-error-handling.md": {
+    "Content-Type": "text/markdown; charset=utf-8",
+    "Link": "<https://docs.gofiber.io/sourcey/guides/static-error-handling.html>; rel=\"canonical\", <https://docs.gofiber.io/sourcey/llms.txt>; rel=\"describedby\""
+  },
+  "/sourcey/guides/zero-allocation.md": {
+    "Content-Type": "text/markdown; charset=utf-8",
+    "Link": "<https://docs.gofiber.io/sourcey/guides/zero-allocation.html>; rel=\"canonical\", <https://docs.gofiber.io/sourcey/llms.txt>; rel=\"describedby\""
+  },
+  "/sourcey/guides/migration-limits.md": {
+    "Content-Type": "text/markdown; charset=utf-8",
+    "Link": "<https://docs.gofiber.io/sourcey/guides/migration-limits.html>; rel=\"canonical\", <https://docs.gofiber.io/sourcey/llms.txt>; rel=\"describedby\""
+  },
+  "/sourcey/api/package-root.md": {
+    "Content-Type": "text/markdown; charset=utf-8",
+    "Link": "<https://docs.gofiber.io/sourcey/api/package-root.html>; rel=\"canonical\", <https://docs.gofiber.io/sourcey/llms.txt>; rel=\"describedby\""
+  },
+  "/sourcey/api.md": {
+    "Content-Type": "text/markdown; charset=utf-8",
+    "Link": "<https://docs.gofiber.io/sourcey/api.html>; rel=\"canonical\", <https://docs.gofiber.io/sourcey/llms.txt>; rel=\"describedby\""
+  },
+  "/sourcey/documents.json": {
+    "Content-Type": "application/json; charset=utf-8"
+  },
+  "/sourcey/llms.txt": {
+    "Content-Type": "text/plain; charset=utf-8"
+  },
+  "/sourcey/llms-full.txt": {
+    "Content-Type": "text/plain; charset=utf-8"
+  },
+  "/sourcey/": {
+    "Link": "<https://docs.gofiber.io/sourcey/index.md>; rel=\"alternate\"; type=\"text/markdown\", <https://docs.gofiber.io/sourcey/llms.txt>; rel=\"describedby\"; type=\"text/plain\""
+  },
+  "/sourcey/quickstart.html": {
+    "Link": "<https://docs.gofiber.io/sourcey/quickstart.md>; rel=\"alternate\"; type=\"text/markdown\", <https://docs.gofiber.io/sourcey/llms.txt>; rel=\"describedby\"; type=\"text/plain\""
+  },
+  "/sourcey/guides/routing-context.html": {
+    "Link": "<https://docs.gofiber.io/sourcey/guides/routing-context.md>; rel=\"alternate\"; type=\"text/markdown\", <https://docs.gofiber.io/sourcey/llms.txt>; rel=\"describedby\"; type=\"text/plain\""
+  },
+  "/sourcey/guides/middleware.html": {
+    "Link": "<https://docs.gofiber.io/sourcey/guides/middleware.md>; rel=\"alternate\"; type=\"text/markdown\", <https://docs.gofiber.io/sourcey/llms.txt>; rel=\"describedby\"; type=\"text/plain\""
+  },
+  "/sourcey/guides/static-error-handling.html": {
+    "Link": "<https://docs.gofiber.io/sourcey/guides/static-error-handling.md>; rel=\"alternate\"; type=\"text/markdown\", <https://docs.gofiber.io/sourcey/llms.txt>; rel=\"describedby\"; type=\"text/plain\""
+  },
+  "/sourcey/guides/zero-allocation.html": {
+    "Link": "<https://docs.gofiber.io/sourcey/guides/zero-allocation.md>; rel=\"alternate\"; type=\"text/markdown\", <https://docs.gofiber.io/sourcey/llms.txt>; rel=\"describedby\"; type=\"text/plain\""
+  },
+  "/sourcey/guides/migration-limits.html": {
+    "Link": "<https://docs.gofiber.io/sourcey/guides/migration-limits.md>; rel=\"alternate\"; type=\"text/markdown\", <https://docs.gofiber.io/sourcey/llms.txt>; rel=\"describedby\"; type=\"text/plain\""
+  },
+  "/sourcey/api/package-root.html": {
+    "Link": "<https://docs.gofiber.io/sourcey/api/package-root.md>; rel=\"alternate\"; type=\"text/markdown\", <https://docs.gofiber.io/sourcey/llms.txt>; rel=\"describedby\"; type=\"text/plain\""
+  },
+  "/sourcey/api.html": {
+    "Link": "<https://docs.gofiber.io/sourcey/api.md>; rel=\"alternate\"; type=\"text/markdown\", <https://docs.gofiber.io/sourcey/llms.txt>; rel=\"describedby\"; type=\"text/plain\""
+  },
+  "/sourcey/404.html": {
+    "Link": "<https://docs.gofiber.io/sourcey/llms.txt>; rel=\"describedby\"; type=\"text/plain\""
+  }
+}

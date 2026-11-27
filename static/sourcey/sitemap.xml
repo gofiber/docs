@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://docs.gofiber.io/sourcey/</loc></url>
+  <url><loc>https://docs.gofiber.io/sourcey/quickstart.html</loc></url>
+  <url><loc>https://docs.gofiber.io/sourcey/guides/routing-context.html</loc></url>
+  <url><loc>https://docs.gofiber.io/sourcey/guides/middleware.html</loc></url>
+  <url><loc>https://docs.gofiber.io/sourcey/guides/static-error-handling.html</loc></url>
+  <url><loc>https://docs.gofiber.io/sourcey/guides/zero-allocation.html</loc></url>
+  <url><loc>https://docs.gofiber.io/sourcey/guides/migration-limits.html</loc></url>
+  <url><loc>https://docs.gofiber.io/sourcey/api/package-root.html</loc></url>
+  <url><loc>https://docs.gofiber.io/sourcey/api.html</loc></url>
+</urlset>
