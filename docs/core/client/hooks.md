@@ -1,5 +1,6 @@
 ---
-id: hooks
+id: client-hooks
+slug: client-hooks
 title: 🎣 Hooks
 description: >-
   Hooks are used to manipulate the request/response process of the Fiber client.

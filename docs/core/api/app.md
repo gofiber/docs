@@ -15,18 +15,15 @@ Use the index to jump straight to any `App` method; filter by name or by categor
 
 ## Routing
 
-import RoutingHandler from './../partials/routing/handler.md';
-import RoutingUse from './../partials/routing/use.md';
-
 ### Route Handlers
 
-<RoutingHandler />
+<Include src="../partials/routing/handler.md" />
 
 Beyond the native `func(fiber.Ctx)` forms, Fiber also adapts Express-style, `net/http`, and `fasthttp` handlers. See [Handler types](../guide/routing.md#handler-types) in the routing guide for the full list of supported shapes.
 
 ### Use
 
-<RoutingUse />
+<Include src="../partials/routing/use.md" />
 
 ### Mounting
 

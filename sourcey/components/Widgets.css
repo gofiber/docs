@@ -1,0 +1,224 @@
+/*
+ * Shared look for the interactive docs widgets (get-started walkthrough,
+ * middleware visualizer, route playground). Monospace surfaces mirror the
+ * Prism themes configured in docusaurus.config.ts: GitHub light and Dracula
+ * dark, the same pairing route-anatomy uses.
+ */
+
+.panel {
+  margin: 1rem 0 0;
+  padding: 0.9rem 1.1rem;
+  border-radius: 10px;
+  background: #f6f8fa;
+  color: #393a34;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  overflow-x: auto;
+}
+
+[data-theme="dark"] .panel {
+  background: #282a36;
+  color: #f8f8f2;
+  border-color: var(--ifm-color-emphasis-300);
+}
+
+.placeholder {
+  margin: 0;
+  font-family: var(--ifm-font-family-base);
+  color: var(--ifm-color-emphasis-600);
+}
+
+.statusLine {
+  font-weight: 700;
+}
+
+.statusOk {
+  color: #1a7f37;
+}
+
+.statusRedirect {
+  color: #0969da;
+}
+
+.statusClientErr {
+  color: #bc4c00;
+}
+
+.statusServerErr {
+  color: #cf222e;
+}
+
+[data-theme="dark"] .statusOk {
+  color: #50fa7b;
+}
+
+[data-theme="dark"] .statusRedirect {
+  color: #8be9fd;
+}
+
+[data-theme="dark"] .statusClientErr {
+  color: #ffb86c;
+}
+
+[data-theme="dark"] .statusServerErr {
+  color: #ff5555;
+}
+
+.headers {
+  margin-top: 0.35rem;
+}
+
+.headerName {
+  color: #6f42c1;
+}
+
+[data-theme="dark"] .headerName {
+  color: #bd93f9;
+}
+
+.body {
+  margin: 0.6rem 0 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.note {
+  margin: 0.6rem 0 0;
+  font-family: var(--ifm-font-family-base);
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.badge {
+  display: inline-block;
+  min-width: 3.2em;
+  padding: 0.05rem 0.45rem;
+  border-radius: 6px;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-align: center;
+  background: var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-emphasis-800);
+}
+
+/*
+ * Simulated terminal window. Deliberately dark in both color modes, like a
+ * real terminal; the accent colors are the Dracula palette used elsewhere.
+ */
+.terminal {
+  margin-top: 0.75rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 10px;
+  background: #282a36;
+  overflow: hidden;
+}
+
+.terminalBar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: #1e1f29;
+}
+
+.terminalDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ff5f57;
+}
+
+.terminalDot:nth-child(2) {
+  background: #febc2e;
+}
+
+.terminalDot:nth-child(3) {
+  background: #28c840;
+}
+
+.terminalTitle {
+  margin-left: 6px;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.7rem;
+  color: #6272a4;
+}
+
+.terminalBody {
+  margin: 0;
+  padding: 0.9rem 1.1rem;
+  border-radius: 0;
+  background: none;
+  color: #f8f8f2;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.prompt {
+  color: #50fa7b;
+  font-weight: 700;
+}
+
+.command {
+  color: #f8f8f2;
+  font-weight: 600;
+}
+
+.termOk {
+  color: #50fa7b;
+  font-weight: 700;
+}
+
+.termRedirect {
+  color: #8be9fd;
+  font-weight: 700;
+}
+
+.termClientErr {
+  color: #ffb86c;
+  font-weight: 700;
+}
+
+.termServerErr {
+  color: #ff5555;
+  font-weight: 700;
+}
+
+.terminalHeaderName {
+  color: #bd93f9;
+}
+
+.terminalNote {
+  color: #6272a4;
+  font-style: italic;
+}
+
+.methodGet {
+  background: #dafbe1;
+  color: #1a7f37;
+}
+
+.methodPost {
+  background: #ddf4ff;
+  color: #0969da;
+}
+
+[data-theme="dark"] .methodGet {
+  background: rgba(80, 250, 123, 0.15);
+  color: #50fa7b;
+}
+
+[data-theme="dark"] .methodPost {
+  background: rgba(139, 233, 253, 0.15);
+  color: #8be9fd;
+}

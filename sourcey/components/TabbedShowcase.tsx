@@ -1,0 +1,78 @@
+import React, { useState } from "preact/compat";
+import CodeBlock from "./codeblock.ts";
+const styles = new Proxy({}, { get: (_, k) => String(k) });
+
+// TabbedShowcase is the shared shell behind the homepage "Fiber in Action"
+// box and the docs "What Can You Build?" widget: a tab list on the left (on
+// top on small screens) and a showroom panel with a description and a code
+// block. Consumers restyle the frame through the custom properties declared
+// in styles.module.css (radius, border color, shadow) via className.
+
+export type ShowcaseTab = {
+    key: string;
+    label: string;
+    icon: string;
+    description: React.ReactNode;
+    code: string;
+};
+
+export default function TabbedShowcase({
+    tabs,
+    ariaLabel,
+    className,
+}: {
+    tabs: ShowcaseTab[];
+    ariaLabel: string;
+    className?: string;
+}): JSX.Element {
+    const [active, setActive] = useState(0);
+
+    return (
+        <div className={`${styles.box} ${className ?? ""}`}>
+            <div className={styles.tabList} role="tablist" aria-label={ariaLabel}>
+                {tabs.map((tab, i) => (
+                    <button
+                        key={tab.key}
+                        type="button"
+                        role="tab"
+                        aria-selected={i === active}
+                        className={`${styles.tab} ${i === active ? styles.tabActive : ""}`}
+                        onClick={(event) => {
+                            setActive(i);
+                            // On small screens the tab list scrolls
+                            // horizontally; keep the picked tab in view.
+                            const smooth = window.matchMedia(
+                                "(prefers-reduced-motion: no-preference)",
+                            ).matches;
+                            event.currentTarget.scrollIntoView({
+                                behavior: smooth ? "smooth" : "auto",
+                                block: "nearest",
+                                inline: "nearest",
+                            });
+                        }}
+                    >
+                        <span className={styles.tabIcon} aria-hidden>
+                            {tab.icon}
+                        </span>
+                        {tab.label}
+                    </button>
+                ))}
+            </div>
+            <div className={styles.panels}>
+                {tabs.map((tab, i) => (
+                    <div
+                        key={tab.key}
+                        role="tabpanel"
+                        aria-hidden={i !== active}
+                        className={`${styles.panel} ${i === active ? styles.panelActive : ""}`}
+                    >
+                        <p className={styles.desc}>{tab.description}</p>
+                        <div className={styles.code}>
+                            <CodeBlock language="go">{tab.code}</CodeBlock>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}

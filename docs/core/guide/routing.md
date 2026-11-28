@@ -10,9 +10,6 @@ toc_max_heading_level: 4
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import RoutingHandler from './../partials/routing/handler.md';
-import RoutingUse from './../partials/routing/use.md';
-import RoutingHandlerTypes from './../partials/routing/handler-types.md';
 import RouteAnatomy from '@site/src/components/route-anatomy';
 import MiddlewareVisualizer from '@site/src/components/middleware-visualizer';
 
@@ -28,7 +25,7 @@ Want to see matching happen? Fire requests at your own route table in the intera
 
 ## Route Handlers
 
-<RoutingHandler />
+<Include src="../partials/routing/handler.md" />
 
 Here is a complete, runnable app for context:
 
@@ -561,7 +558,7 @@ See [Get vs Use vs All](#get-vs-use-vs-all) for how `Use` prefix matching differ
 
 ### Use
 
-<RoutingUse />
+<Include src="../partials/routing/use.md" />
 
 ### Adding or removing routes at runtime
 
@@ -664,4 +661,4 @@ Auto-generated `HEAD` routes participate in every router scope, including `Group
 
 ## Handler types
 
-<RoutingHandlerTypes />
+<Include src="../partials/routing/handler-types.md" />

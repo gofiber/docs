@@ -1,5 +1,6 @@
 ---
-id: welcome
+id: recipes-welcome
+slug: recipes-welcome
 title: 👋 Overview
 sidebar_position: 1
 ---

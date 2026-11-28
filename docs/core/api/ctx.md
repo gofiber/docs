@@ -3879,7 +3879,7 @@ app.Get("/early", func(c fiber.Ctx) error {
 
 Transfers the file from the given path. Sets the [Content-Type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type) response HTTP header field based on the **file** extension or format.
 
-```go title="Config" title="Config"
+```go title="Config"
 // SendFile defines configuration options when to transfer file with SendFile.
 type SendFile struct {
   // FS is the file system to serve the static files from.
@@ -3923,7 +3923,7 @@ type SendFile struct {
 }
 ```
 
-```go title="Signature" title="Signature"
+```go title="Signature"
 func (c fiber.Ctx) SendFile(file string, config ...SendFile) error
 func (r fiber.Res) SendFile(file string, config ...SendFile) error
 ```

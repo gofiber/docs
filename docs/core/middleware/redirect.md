@@ -1,5 +1,6 @@
 ---
-id: redirect
+id: middleware-redirect
+slug: middleware-redirect
 ---
 
 # Redirect
